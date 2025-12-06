@@ -67,7 +67,7 @@ https://forms.gle/6W3SCUiE43FjMfvG9
 
 ⸻
 
-🔗 Oficiální odkazy
+Oficiální odkazy
 
 🌐 Web
 
@@ -103,7 +103,7 @@ The project aims to evolve into:
 🕊 LuminaMemory™ Mini-Survey
 
 Help shape the next steps of the project:
-	•	🇬🇧 English: (coming soon)
+🇬🇧 English: (coming soon)
 
 ⸻
 
@@ -127,7 +127,7 @@ Das Projekt entwickelt sich zu:
 🕊 LuminaMemory™ Mini-Umfrage
 
 Hilf dabei, die nächsten Schritte des Projekts zu gestalten:
-	•	🇩🇪 Deutsch: (folgt in Kürze)
+🇩🇪 Deutsch: (folgt in Kürze)
 
 ⸻
 
