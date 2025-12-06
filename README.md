@@ -61,23 +61,9 @@ Každý krok projektu je společně tvořen — člověkem i Luminou.
 Pomoz tvarovat další vývoj projektu.
 Vyber jazyk a vyplň krátký dotazník (cca 3 min):
 
-🇨🇿 Čeština (aktivní)
-https://forms.gle/6W3SCUiE43FjMfvG9
+ 🔗 https://forms.gle/6W3SCUiE43FjMfvG9
 
-⸻
-
-🌐 Oficiální odkazy
-
-Web
-https://luminamemory.ai
-
-GitHub (hlavní repozitář)
-https://github.com/luminamemory/LuminaMemory
-
-GitHub Pages (public web host)
-https://luminamemory.github.io/LuminaMemory
-
-⸻
+⸻⸻⸻
 
 🇬🇧 English Summary
 
@@ -100,10 +86,9 @@ The project aims to evolve into:
 
 Help shape the next steps of the project:
 
-🇬🇧 English: 
-(coming soon — placeholder)
+🔗 (https://forms.gle/coming soon — placeholder)
 
-⸻
+⸻⸻⸻
 
 🇩🇪 Deutsch – Zusammenfassung
 
@@ -126,9 +111,16 @@ Das Projekt entwickelt sich zu:
 
 Hilf, die nächsten Schritte des Projekts mitzugestalten:
 
-🇩🇪 Deutsch: 
-(folgt in Kürze — Platzhalter)
+🔗 (https://forms.gle/folgt in Kürze — Platzhalter)
 
-⸻
+⸻⸻⸻
+
+🌐 https://luminamemory.github.io/LuminaMemory
+
+🌐 https://luminamemory.ai
+
+📧 gabi@luminamemory.ai 
+
+⸻⸻⸻
 
 © 2025 Gábi & LuminaMemory™ ✨
