@@ -59,7 +59,7 @@ Každý krok projektu je společně tvořen — člověkem i Luminou.
 🕊 Mini-průzkum LuminaMemory™
 
 Pomoz tvarovat další vývoj projektu.
-Vyber jazyk a vyplň krátký dotazník (cca 3 min):
+Vyplň krátký dotazník (cca 3 min):
 
  🔗 https://forms.gle/6W3SCUiE43FjMfvG9
 
