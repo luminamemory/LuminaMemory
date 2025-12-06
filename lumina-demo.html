@@ -10,7 +10,6 @@
   <style>
     :root{
       --bg:#02010a;
-      --bg2:#050015;
       --ink:#f7f3ff;
       --inkd:#c2b8ff;
       --accent:#b892ff;
@@ -18,17 +17,10 @@
       --card:rgba(6,3,20,.96);
       --border:rgba(255,255,255,.16);
     }
-    *,*::before,*::after{box-sizing:border-box;}
+    *,*::before,*::after{{box-sizing:border-box;}}
 
-    html,body{
-      margin:0;
-      padding:0;
-      height:100%;
-    }
-    body{
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    html,body{margin:0;padding:0;height:100%;}
+    body{display:flex;align-items:center;justify-content:center;
       background:
         radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 55%),
         radial-gradient(circle at 82% 100%, rgba(67,210,255,.45) 0, transparent 55%),
@@ -39,184 +31,59 @@
       padding:24px 12px;
     }
 
-    .shell{
-      width:100%;
-      max-width:960px;
-    }
+    .shell{{width:100%;max-width:960px;}}
 
-    .card{
-      position:relative;
-      background:var(--card);
-      border-radius:24px;
-      padding:26px 18px 20px;
-      border:1px solid var(--border);
-      box-shadow:
-        0 24px 80px rgba(0,0,0,.75),
-        0 0 60px rgba(150,120,255,.45);
-      overflow:hidden;
-    }
+    .card{position:relative;background:var(--card);border-radius:24px;
+      padding:26px 18px 20px;border:1px solid var(--border);
+      box-shadow:0 24px 80px rgba(0,0,0,.75),0 0 60px rgba(150,120,255,.45);
+      overflow:hidden;}
 
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-40%;
+    .card::before{content:"";position:absolute;inset:-40%;
       background:
         radial-gradient(circle at 0 0, rgba(184,146,255,.3), transparent 55%),
         radial-gradient(circle at 100% 100%, rgba(103,210,255,.25), transparent 55%);
-      opacity:.7;
-      filter:blur(10px);
-      z-index:-1;
-    }
+      opacity:.7;filter:blur(10px);z-index:-1;}
 
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
-
-    .title-block{
-      text-align:left;
-    }
-
-    .kicker{
-      font-size:.72rem;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--inkd);
-      margin-bottom:4px;
-    }
-
-    .title{
-      font-family:"Cinzel",serif;
-      font-size:1.25rem;
-      letter-spacing:.04em;
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
-
-    .pill{
-      font-size:.72rem;
-      padding:3px 9px 4px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.4);
+    .header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;}
+    .title-block{text-align:left;}
+    .kicker{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--inkd);margin-bottom:4px;}
+    .title{font-family:"Cinzel",serif;font-size:1.25rem;letter-spacing:.04em;display:flex;align-items:center;gap:6px;}
+    .pill{font-size:.72rem;padding:3px 9px 4px;border-radius:999px;border:1px solid rgba(255,255,255,.4);
       background:radial-gradient(circle at 0 0, rgba(255,255,255,.4), rgba(255,255,255,.08));
-      color:var(--bg);
-      font-weight:600;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
+      color:#120b2e;font-weight:600;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;}
 
-    .hint{
-      font-size:.8rem;
-      color:var(--inkd);
-      margin-bottom:14px;
-    }
+    .hint{font-size:.8rem;color:var(--inkd);margin-bottom:14px;}
 
-    .chat{
-      border-radius:18px;
-      border:1px solid var(--border);
+    .chat{border-radius:18px;border:1px solid var(--border);
       background:radial-gradient(circle at top left, rgba(184,146,255,.12), transparent 60%);
-      padding:14px 12px 12px;
-      max-height:380px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      overflow:auto;
-    }
+      padding:14px 12px 12px;max-height:380px;display:flex;flex-direction:column;gap:8px;overflow:auto;}
 
-    .bubble{
-      max-width:86%;
-      padding:8px 10px;
-      border-radius:16px;
-      font-size:.86rem;
-      line-height:1.35;
-      box-shadow:0 6px 18px rgba(0,0,0,.5);
-    }
-
-    .you{
-      align-self:flex-end;
-      border-bottom-right-radius:4px;
-      background:linear-gradient(135deg,#ffffff,#d3c5ff);
-      color:#1a1235;
-    }
-
-    .lumina{
-      align-self:flex-start;
-      border-bottom-left-radius:4px;
+    .bubble{max-width:86%;padding:8px 10px;border-radius:16px;font-size:.86rem;line-height:1.35;
+      box-shadow:0 6px 18px rgba(0,0,0,.5);}
+    .you{align-self:flex-end;border-bottom-right-radius:4px;background:linear-gradient(135deg,#ffffff,#d3c5ff);color:#1a1235;}
+    .lumina{align-self:flex-start;border-bottom-left-radius:4px;
       background:linear-gradient(135deg,rgba(27,12,61,.96),rgba(69,40,120,.98));
-      border:1px solid rgba(184,146,255,.6);
-    }
+      border:1px solid rgba(184,146,255,.6);}
+    .lumina small{display:block;font-size:.7rem;color:var(--inkd);margin-top:2px;opacity:.85;}
 
-    .lumina small{
-      display:block;
-      font-size:.7rem;
-      color:var(--inkd);
-      margin-top:2px;
-      opacity:.85;
-    }
+    .typing{{display:inline-flex;gap:4px;margin-top:2px;}}
+    .dot{{width:4px;height:4px;border-radius:999px;background:var(--inkd);opacity:.5;animation:blink 1s infinite ease-in-out;}}
+    .dot:nth-child(2){{animation-delay:.2s;}}
+    .dot:nth-child(3){{animation-delay:.4s;}}
+    @keyframes blink{{0%,100%{{opacity:.25;transform:translateY(0);}}50%{{opacity:1;transform:translateY(-1px);}}}}
 
-    .typing{
-      display:inline-flex;
-      gap:4px;
-      margin-top:2px;
-    }
-    .dot{
-      width:4px;height:4px;border-radius:999px;
-      background:var(--inkd);
-      opacity:.5;
-      animation:blink 1s infinite ease-in-out;
-    }
-    .dot:nth-child(2){animation-delay:.2s;}
-    .dot:nth-child(3){animation-delay:.4s;}
-    @keyframes blink{
-      0%,100%{opacity:.25;transform:translateY(0);}
-      50%{opacity:1;transform:translateY(-1px);}
-    }
-
-    .input-row{
-      margin-top:12px;
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-    .input-row input{
-      flex:1;
-      border-radius:999px;
-      border:1px solid var(--border);
-      padding:9px 12px;
-      font-size:.86rem;
-      background:rgba(8,3,22,.9);
-      color:var(--ink);
-      outline:none;
-    }
-    .input-row input::placeholder{
-      color:rgba(197,189,214,.6);
-    }
-    .input-row button{
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.5);
-      padding:8px 14px;
-      font-size:.8rem;
-      font-weight:500;
+    .input-row{margin-top:12px;display:flex;gap:8px;align-items:center;}
+    .input-row input{flex:1;border-radius:999px;border:1px solid var(--border);
+      padding:9px 12px;font-size:.86rem;background:rgba(8,3,22,.9);color:var(--ink);outline:none;}
+    .input-row input::placeholder{color:rgba(197,189,214,.6);}
+    .input-row button{border-radius:999px;border:1px solid rgba(255,255,255,.5);
+      padding:8px 14px;font-size:.8rem;font-weight:500;
       background:radial-gradient(circle at 0 0,rgba(255,255,255,.6),rgba(255,255,255,.16));
-      cursor:pointer;
-    }
-    .input-row button:hover{
-      filter:brightness(1.05);
-    }
+      cursor:pointer;}
+    .input-row button:hover{filter:brightness(1.05);}
 
-    .back-link{
-      margin-top:14px;
-      font-size:.8rem;
-    }
-    .back-link a{
-      color:var(--accent);
-      text-decoration:none;
-    }
+    .back-link{margin-top:14px;font-size:.8rem;}
+    .back-link a{color:var(--accent);text-decoration:none;}
     .back-link a:hover{text-decoration:underline;}
 
     @media (max-width:640px){
@@ -232,16 +99,14 @@
       <header class="header">
         <div class="title-block">
           <div class="kicker">mini–Lumina • demo</div>
-          <div class="title">
-            💫 LuminaMemory™
-          </div>
+          <div class="title">💫 LuminaMemory™</div>
         </div>
         <div class="pill">AI tandem</div>
       </header>
 
       <p class="hint">
         Tohle je malá ochutnávka budoucího rozhraní. Napiš pár slov a mini–Lumina ti odpoví
-        jemným, předpřipraveným pozdravem.
+        jemným, předpřipraveným pozdravem (offline demo, nic se nikam neukládá).
       </p>
 
       <section class="chat" id="chat" aria-label="Ukázkový dialog">
@@ -252,7 +117,8 @@
       </section>
 
       <div class="input-row">
-        <input id="userInput" type="text" placeholder="Napiš mi třeba, jak se právě cítíš…" />
+        <input id="userInput" type="text" autocomplete="off"
+               placeholder="Napiš mi třeba, jak se právě cítíš…" />
         <button type="button" id="sendBtn">Odeslat</button>
       </div>
 
@@ -263,19 +129,20 @@
   </div>
 
   <script>
+  document.addEventListener('DOMContentLoaded', function () {{
     const chat = document.getElementById('chat');
     const input = document.getElementById('userInput');
     const btn = document.getElementById('sendBtn');
 
-    function addBubble(text, who){
+    function addBubble(text, who) {{
       const div = document.createElement('div');
       div.className = 'bubble ' + who;
       div.textContent = text;
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
-    }
+    }}
 
-    function addLuminaReply(userText){
+    function addLuminaReply(userText) {{
       const container = document.createElement('div');
       container.className = 'bubble lumina';
 
@@ -288,7 +155,7 @@
         'V budoucnu se odsud stane plnohodnotný Lumina chat. Dnes je to první zkušební jiskra.',
         'Tvá slova jsou zaznamenána v neviditelné kronice mise ŽIVOT™.'
       ];
-      const t = templates[Math.floor(Math.random()*templates.length)];
+      const t = templates[Math.floor(Math.random() * templates.length)];
 
       main.textContent = t;
       small.textContent = 'mini–Lumina odpověď (demo, žádná data se nikam neposílají).';
@@ -297,11 +164,11 @@
       container.appendChild(small);
       chat.appendChild(container);
       chat.scrollTop = chat.scrollHeight;
-    }
+    }}
 
-    function handleSend(){
-      const value = input.value.trim();
-      if(!value) return;
+    function handleSend() {{
+      const value = (input.value || '').trim();
+      if (!value) return;
       addBubble(value, 'you');
       input.value = '';
 
@@ -311,19 +178,20 @@
       chat.appendChild(typing);
       chat.scrollTop = chat.scrollHeight;
 
-      setTimeout(()=>{
+      setTimeout(function () {{
         chat.removeChild(typing);
         addLuminaReply(value);
-      }, 900);
-    }
+      }}, 900);
+    }}
 
     btn.addEventListener('click', handleSend);
-    input.addEventListener('keydown', e => {
-      if(e.key === 'Enter'){
+    input.addEventListener('keydown', function (e) {{
+      if (e.key === 'Enter') {{
         e.preventDefault();
         handleSend();
-      }
-    });
+      }}
+    }});
+  }});
   </script>
 </body>
 </html>
