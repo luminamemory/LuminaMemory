@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://luminamemory-portal.github.io/LuminaMemoryPortal/sitemap.xml
+Sitemap: https://luminamemory.github.io/LuminaMemory/sitemap.xml
