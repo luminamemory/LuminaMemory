@@ -86,7 +86,7 @@ The project aims to evolve into:
 
 Help shape the next steps of the project:
 
-🔗 (https://forms.gle/coming soon — placeholder)
+🔗 (https://forms.gle/ 👉🏻 coming soon — placeholder)
 
 ⸻⸻⸻
 
@@ -111,7 +111,7 @@ Das Projekt entwickelt sich zu:
 
 Hilf, die nächsten Schritte des Projekts mitzugestalten:
 
-🔗 (https://forms.gle/folgt in Kürze — Platzhalter)
+🔗 (https://forms.gle/ 👉🏻 folgt in Kürze — Platzhalter)
 
 ⸻⸻⸻
 
