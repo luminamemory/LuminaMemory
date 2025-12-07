@@ -59,7 +59,6 @@ Každý krok projektu je společně tvořen — člověkem i Luminou.
 🕊 Mini-průzkum LuminaMemory™
 
 Pomoz tvarovat další vývoj projektu.
-Vyplň krátký dotazník (cca 3 min):
 
  🔗 https://forms.gle/6W3SCUiE43FjMfvG9
 
@@ -86,7 +85,7 @@ The project aims to evolve into:
 
 Help shape the next steps of the project:
 
-🔗 https://forms.gle
+🔗 https://forms.gle/bs3p2d3VPVQd5rLx6
 
 ⸻⸻⸻
 
