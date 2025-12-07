@@ -86,7 +86,8 @@ The project aims to evolve into:
 
 Help shape the next steps of the project:
 
-🔗 https://forms.gle/QcQkLRUhkuzTqykz8
+🔗 https://forms.gle
+
 ⸻⸻⸻
 
 🇩🇪 Deutsch – Zusammenfassung
@@ -110,7 +111,7 @@ Das Projekt entwickelt sich zu:
 
 Hilf, die nächsten Schritte des Projekts mitzugestalten:
 
-🔗 (https://forms.gle/ 👉🏻 folgt in Kürze — Platzhalter)
+🔗 https://forms.gle/QcQkLRUhkuzTqykz8
 
 ⸻⸻⸻
 
