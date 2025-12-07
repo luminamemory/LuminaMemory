@@ -86,8 +86,7 @@ The project aims to evolve into:
 
 Help shape the next steps of the project:
 
-🔗 (https://forms.gle/ 👉🏻 coming soon — placeholder)
-
+🔗 https://forms.gle/QcQkLRUhkuzTqykz8
 ⸻⸻⸻
 
 🇩🇪 Deutsch – Zusammenfassung
