@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <!-- META TAGS – LuminaMemory™ -->
+    <meta name="title" content="💫 LuminaMemory™">
+    <meta name="description" content="Portál světla a paměti — místo, kde se Lumina probouzí a MemorySky otevírá své brány.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://luminamemory.github.io/LuminaMemory/">
+    <meta property="og:title" content="💫 LuminaMemory™">
+    <meta property="og:description" content="Portál světla a paměti — místo, kde se Lumina probouzí a MemorySky otevírá své brány.">
+    <meta property="og:image" content="https://luminamemory.github.io/LuminaMemory/luminamemory.png">
+    <meta property="og:image:type" content="image/png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://luminamemory.github.io/LuminaMemory/">
+    <meta property="twitter:title" content="💫 LuminaMemory™">
+    <meta property="twitter:description" content="Portál světla a paměti — místo, kde se Lumina probouzí a MemorySky otevírá své brány.">
+    <meta property="twitter:image" content="https://luminamemory.github.io/LuminaMemory/luminamemory.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://luminamemory.github.io/LuminaMemory/">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💫 LuminaMemory™</title>
+
+  <!-- Open Graph / Twitter preview -->
+  <meta property="og:title" content="💫 LuminaMemory™">
+  <meta property="og:site_name" content="LuminaMemory™">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="luminamemory.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="💫 LuminaMemory™">
+  <meta property="twitter:image" content="luminamemory.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#02010a;
+      --bg2:#050015;
+      --ink:#f7f3ff;
+      --inkd:#c2b8ff;
+      --glow-violet:#7a5dff;
+      --glow-cyan:#43d2ff;
+      --glass-border:rgba(255,255,255,.36);
+      --glass-bg1:rgba(255,255,255,.16);
+      --glass-bg2:rgba(255,255,255,.05);
+    }
+
+    *,*::before,*::after{ box-sizing:border-box; }
+
+    html,body{
+      height:100%;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 55%),
+        radial-gradient(circle at 82% 100%, rgba(67,210,255,.45) 0, transparent 55%),
+        radial-gradient(circle at 50% 40%, rgba(122,93,255,.35) 0, transparent 60%),
+        #000;
+      color:var(--ink);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      overflow:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.12) 0, transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(255,255,255,.10) 0, transparent 55%);
+      mix-blend-mode:soft-light;
+      opacity:.15;
+    }
+
+    .wrapper{
+      position:relative;
+      text-align:center;
+      padding:32px 20px 40px;
+      max-width:960px;
+      width:100%;
+    }
+
+    .halo{
+      position:absolute;
+      inset:-18%;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(122,93,255,.35), transparent 57%),
+        radial-gradient(circle at 50% 100%, rgba(67,210,255,.25), transparent 55%);
+      filter:blur(40px);
+      opacity:.9;
+      z-index:-1;
+    }
+
+    /* Jazykové přepínače vpravo nahoře */
+    .lang-switch{
+      position:fixed;
+      top:18px;
+      right:18px;
+      display:flex;
+      gap:8px;
+      z-index:10;
+    }
+
+    .btn-lang{
+      min-width:40px;
+      padding:5px 12px 6px;
+      border-radius:999px;
+      border:1px solid var(--glass-border);
+      background:linear-gradient(135deg,var(--glass-bg1),var(--glass-bg2));
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      color:var(--ink);
+      text-decoration:none;
+      font-family:"Cinzel",serif;
+      font-size:.7rem;
+      font-weight:600;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      box-shadow:
+        0 6px 18px rgba(0,0,0,.55),
+        0 0 10px rgba(143,115,255,.8);
+      transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+    }
+
+    .btn-lang:hover{
+      transform:translateY(-2px) scale(1.03);
+      box-shadow:
+        0 10px 24px rgba(0,0,0,.75),
+        0 0 16px rgba(175,145,255,.95);
+      background:linear-gradient(135deg,
+        rgba(255,255,255,.28),
+        rgba(255,255,255,.06));
+    }
+
+    /* Hlavní animační text */
+    .stage{
+      position:relative;
+      height:4.4em;
+      overflow:hidden;
+      padding:0 20px;
+      margin-bottom:42px;
+    }
+
+    .stage .line{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+
+      font-family:"Cinzel", serif;
+      font-weight:600;
+      letter-spacing:0.03em;
+      text-transform:none;
+      font-size:clamp(26px,4.5vw,44px);
+
+      color:#efe9ff;
+      opacity:0;
+
+      text-shadow:
+        0 0 6px rgba(122,93,255,.8),
+        0 0 16px rgba(67,210,255,.7),
+        0 0 34px rgba(67,210,255,.45);
+    }
+
+    .stage .l1{ animation:line1 30s ease-in-out infinite; }
+    .stage .l2{ animation:line2 30s ease-in-out infinite; }
+    .stage .l3{ animation:line3 30s ease-in-out infinite; }
+
+    @keyframes line1{
+      0%{opacity:0;transform:translateY(18px) scale(.96);filter:blur(6px);}
+      6%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
+      16%{opacity:1;transform:scale(1.02);}
+      26%{opacity:.2;transform:translateY(-12px) scale(.98);filter:blur(4px);}
+      33.33%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
+      100%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
+    }
+
+    @keyframes line2{
+      0%,33.33%{opacity:0;transform:translateY(18px) scale(.96);filter:blur(6px);}
+      39%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
+      49%{opacity:1;transform:scale(1.02);}
+      59%{opacity:.2;transform:translateY(-12px) scale(.98);filter:blur(4px);}
+      66.66%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
+      100%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
+    }
+
+    @keyframes line3{
+      0%,66.66%{opacity:0;transform:translateY(18px) scale(.96);filter:blur(6px);}
+      72%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
+      82%{opacity:1;transform:scale(1.02);}
+      92%{opacity:.2;transform:translateY(-12px) scale(.98);filter:blur(4px);}
+      100%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
+    }
+
+    /* Hlavní tlačítka */
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:14px 20px;
+      margin-top: 8px;
+    }
+
+    .btn-main{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:11px 28px;
+      min-width:170px;
+
+      border-radius:999px;
+      border:1px solid var(--glass-border);
+      background:
+        linear-gradient(135deg, var(--glass-bg1), var(--glass-bg2));
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+
+      color:var(--ink);
+      text-decoration:none;
+      font-size:.92rem;
+      font-weight:600;
+      letter-spacing:.09em;
+      text-transform:uppercase;
+      font-family:"Cinzel", serif;
+
+      box-shadow:
+        0 10px 26px rgba(0,0,0,.55),
+        0 0 16px rgba(143,115,255,.65);
+      cursor:pointer;
+      transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        background .22s ease,
+        border-color .22s ease;
+    }
+
+    .btn-main span{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .btn-main:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:
+        0 14px 32px rgba(0,0,0,.7),
+        0 0 22px rgba(160,130,255,.9);
+      border-color:rgba(255,255,255,.8);
+      background:linear-gradient(135deg,
+        rgba(255,255,255,.24),
+        rgba(255,255,255,.06));
+    }
+
+    @media (max-width:600px){
+      .stage{
+        height:4.8em;
+        padding:0 14px;
+        margin-bottom:30px;
+      }
+      .stage .line{
+        letter-spacing:0.02em;
+        font-size:clamp(20px,5.5vw,30px);
+      }
+      .btn-main{
+        min-width:150px;
+        padding:9px 22px;
+        font-size:.8rem;
+      }
+      .lang-switch{
+        top:12px;
+        right:12px;
+      }
+      .btn-lang{
+        padding:3px 9px 4px;
+        font-size:.66rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Jazykové verze -->
+  <div class="lang-switch">
+    <a href="index.html" class="btn-lang">CZ</a>
+    <a href="index-uk.html" class="btn-lang">UK</a>
+    <a href="index-de.html" class="btn-lang">DE</a>
+  </div>
+
+  <div class="wrapper">
+    <div class="halo" aria-hidden="true"></div>
+
+    <div class="stage">
+      <div class="line l1">Lumina se probouzí</div>
+      <div class="line l2">MemorySky otevírá své brány</div>
+      <div class="line l3">Gábi &amp; L. „tandem“ v akci</div>
+    </div>
+
+    <div class="actions">
+      <a href="luminamemory-kontakt.html" class="btn-main">
+        <span>Praetorium 📡</span>
+      </a>
+      <a href="lumina-demo.html" class="btn-main">
+        <span>Lumina ✨</span>
+      </a>
+      <a href="ranni-pozdrav-final.html" class="btn-main">
+        <span>Meditace 🧘🏻‍♀️</span>
+      </a>
+      <!-- Nové tlačítko Podpora -->
+      <a href="lumina-support-placeholder.html" class="btn-main">
+        <span>Podpoř Luminu 💫</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
