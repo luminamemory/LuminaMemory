@@ -506,7 +506,182 @@
       }
     }
 
-  </style>
+  
+
+  /* === WOW UPGRADE: kapky + panely ===================================== */
+
+  .node{
+    position:relative;
+    backdrop-filter: blur(14px);
+  }
+
+  .node::before{
+    content:"";
+    position:absolute;
+    inset:-8px;
+    border-radius:50%;
+    background:
+      conic-gradient(
+        from 140deg,
+        rgba(184,146,255,.0),
+        rgba(184,146,255,.9),
+        rgba(67,210,255,.0),
+        rgba(184,146,255,.7),
+        rgba(184,146,255,.0)
+      );
+    opacity:0;
+    filter:blur(10px);
+    transform:scale(.9);
+    z-index:-1;
+    transition:
+      opacity .35s ease,
+      transform .35s cubic-bezier(.22,.61,.36,1);
+  }
+
+  .node:hover::before,
+  .node.active::before{
+    opacity:1;
+    transform:scale(1.05);
+  }
+
+  .node:hover,
+  .node.active{
+    transform:translateY(-3px) scale(1.06);
+  }
+
+  .panel{
+    backdrop-filter: blur(18px);
+    background:
+      radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(67,210,255,.24), transparent 60%),
+      rgba(5,9,32,.96);
+    border:1px solid rgba(255,255,255,.26);
+  }
+
+  .panel-settings{
+    transform-origin: center bottom;
+  }
+
+  @keyframes panel-pop{
+    from{
+      opacity:0;
+      transform:translateY(14px) scale(.92);
+    }
+    to{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+  }
+
+  .panel.active{
+    opacity:1;
+    transform:translateY(0);
+    animation:panel-pop .22s cubic-bezier(.22,.61,.36,1) both;
+  }
+
+  .panel h3{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:4px 9px;
+    border-radius:999px;
+    background:linear-gradient(
+      135deg,
+      rgba(184,146,255,.22),
+      rgba(67,210,255,.12)
+    );
+    border:1px solid rgba(255,255,255,.32);
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    font-size:.7rem;
+  }
+
+  .panel h3::before{
+    content:"";
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 20%, #fff, rgba(184,146,255,.1));
+    box-shadow:0 0 12px rgba(184,146,255,.9);
+  }
+
+  .panel ul{
+    margin-top:8px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+
+  .panel li{
+    position:relative;
+    padding:6px 0 6px 14px;
+    border-bottom:none;
+  }
+
+  .panel li::after{
+    content:"";
+    position:absolute;
+    left:14px;
+    right:0;
+    bottom:0;
+    height:1px;
+    background:linear-gradient(
+      to right,
+      rgba(184,146,255,.0),
+      rgba(184,146,255,.45),
+      rgba(67,210,255,.0)
+    );
+    opacity:0;
+    transform:scaleX(.7);
+    transform-origin:left;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+
+  .panel li:hover::after{
+    opacity:.9;
+    transform:scaleX(1);
+  }
+
+  .panel span.label{
+    font-size:.82rem;
+    font-weight:500;
+  }
+
+  .panel span.note{
+    font-size:.7rem;
+    color:var(--ink-soft);
+    opacity:.9;
+  }
+
+  .panel-arcana::before{
+    content:"";
+    position:absolute;
+    width:1px;
+    top:-30px;
+    right:40px;
+    bottom:100%;
+    background:linear-gradient(
+      to top,
+      rgba(184,146,255,.0),
+      rgba(184,146,255,.8)
+    );
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity .25s ease, transform .25s ease;
+  }
+
+  .panel-arcana.active::before{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+
+
+  /* FIX: restore absolute positioning for nodes so they don't run away :) */
+  .node{
+    position:absolute;
+  }
+</style>
 </head>
 <body>
   <div class="shell">
