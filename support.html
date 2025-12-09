@@ -216,17 +216,17 @@
       cursor: pointer;
     }
 
-    .support-option-btn::before {
-      content: "";
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      margin-right: 4px;
-      background: radial-gradient(circle at 30% 10%,
-                  rgba(255, 255, 255, 0.9),
-                  rgba(150, 224, 255, 0.0));
-      opacity: 0.9;
-    }
+    /* Červený "STOP" efekt – při kliknutí */
+.support-option-btn.is-disabled.pressed,
+.support-option-btn.is-disabled:active {
+  background: linear-gradient(120deg,
+    rgba(140, 12, 32, 0.98),
+    rgba(210, 60, 70, 0.98));
+  border-color: rgba(255, 140, 140, 0.98);
+  box-shadow:
+    0 0 0 2px rgba(255, 190, 190, 0.8),
+    0 0 38px rgba(255, 80, 80, 0.95);
+}
 
     .support-option-labels {
       display: flex;
@@ -463,7 +463,23 @@
           Konkrétní platební údaje zveřejníme až po dokončení technického a právního nastavení.
         </div>
       </div>
-    </div>
-  </div>
+  </div> 
+
+  <script>
+    // Najdeme všechna tlačítka plateb
+    const supportButtons =   document.querySelectorAll('.support-option-btn.is-. disabled');
+
+    supportButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        // Přidáme třídu "pressed" = červený efekt
+        btn.classList.add('pressed');
+
+        // Po 200 ms ji zase odstraníme (bliknutí)
+        setTimeout(() => {
+          btn.classList.remove('pressed');
+        }, 200);
+      });
+    });
+  </script> 
 </body>
 </html>
