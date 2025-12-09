@@ -59,15 +59,20 @@
 
     /* Pavučina na pozadí */
     .web-bg{
-      position:absolute;
-      inset:0;
-      opacity:.16;
-      background:
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,.16), transparent 65%),
-        url("pavucina-web.png") center/58% no-repeat;
-      mix-blend-mode:screen;
-      pointer-events:none;
-      filter:blur(.4px);
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        opacity:.16;
+
+        background:
+            radial-gradient(circle at 50% 50%,  rgba(255,255,255,.16), transparent 65%),
+            url("pavucina-web.png") center/cover no- repeat;
+
+        mix-blend-mode:screen;
+        pointer-events:none;
+        filter:blur(.4px);
     }
 
     /* Horní lišta / titulek */
@@ -493,8 +498,8 @@
       <div class="top-left">
         <div class="top-title">💫 LuminaMemory™ • Appka demo</div>
         <div class="top-sub">
-          👉🏻 nic se nikam neukládá<br>
-          Náhled budoucího inteligentního prostředí.
+          Náhled budoucího inteligentního prostředí.<br>
+👉🏻 nic se nikam neukládá!
         </div>
       </div>
       <div class="top-right">
