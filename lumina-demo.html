@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💫 LuminaMemory™ • mini-Lumina demo</title>
+  <title>💫 LuminaMemory™ • Apka demo</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -11,187 +11,690 @@
     :root{
       --bg:#02010a;
       --ink:#f7f3ff;
-      --inkd:#c2b8ff;
+      --ink-soft:#cbc3ff;
       --accent:#b892ff;
-      --accent-soft:rgba(184,146,255,.22);
+      --accent-soft:rgba(184,146,255,.28);
       --card:rgba(6,3,20,.96);
-      --border:rgba(255,255,255,.16);
+      --border:rgba(255,255,255,.18);
+      --drop-bg:rgba(7,14,40,.96);
     }
-    *,*::before,*::after{{box-sizing:border-box;}}
 
-    html,body{margin:0;padding:0;height:100%;}
-    body{display:flex;align-items:center;justify-content:center;
+    *{box-sizing:border-box;margin:0;padding:0;}
+
+    html,body{
+      height:100%;
+    }
+
+    body{
+      font-family:"Poppins",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
       background:
         radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 55%),
         radial-gradient(circle at 82% 100%, rgba(67,210,255,.45) 0, transparent 55%),
         radial-gradient(circle at 50% 40%, rgba(122,93,255,.35) 0, transparent 60%),
         #000;
-      color:var(--ink);
-      font-family:"Poppins",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      padding:24px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px 10px;
+      overflow:hidden;
     }
 
-    .shell{{width:100%;max-width:960px;}}
+    .shell{
+      position:relative;
+      width:100%;
+      max-width:980px;
+      height:100%;
+      max-height:640px;
+      border-radius:26px;
+      border:1px solid var(--border);
+      background:radial-gradient(circle at 10% 0%, rgba(184,146,255,.32), transparent 55%),
+                 radial-gradient(circle at 100% 100%, rgba(67,210,255,.25), transparent 55%),
+                 rgba(4,3,16,.94);
+      box-shadow:
+        0 28px 90px rgba(0,0,0,.85),
+        0 0 70px rgba(150,120,255,.5);
+      overflow:hidden;
+    }
 
-    .card{position:relative;background:var(--card);border-radius:24px;
-      padding:26px 18px 20px;border:1px solid var(--border);
-      box-shadow:0 24px 80px rgba(0,0,0,.75),0 0 60px rgba(150,120,255,.45);
-      overflow:hidden;}
-
-    .card::before{content:"";position:absolute;inset:-40%;
+    /* Pavučina na pozadí */
+    .web-bg{
+      position:absolute;
+      inset:0;
+      opacity:.16;
       background:
-        radial-gradient(circle at 0 0, rgba(184,146,255,.3), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(103,210,255,.25), transparent 55%);
-      opacity:.7;filter:blur(10px);z-index:-1;}
-
-    .header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;}
-    .title-block{text-align:left;}
-    .kicker{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--inkd);margin-bottom:4px;}
-    .title{font-family:"Cinzel",serif;font-size:1.25rem;letter-spacing:.04em;display:flex;align-items:center;gap:6px;}
-    .pill{font-size:.72rem;padding:3px 9px 4px;border-radius:999px;border:1px solid rgba(255,255,255,.4);
-      background:radial-gradient(circle at 0 0, rgba(255,255,255,.4), rgba(255,255,255,.08));
-      color:#120b2e;font-weight:600;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;}
-
-    .hint{font-size:.8rem;color:var(--inkd);margin-bottom:14px;}
-
-    .chat{border-radius:18px;border:1px solid var(--border);
-      background:radial-gradient(circle at top left, rgba(184,146,255,.12), transparent 60%);
-      padding:14px 12px 12px;max-height:380px;display:flex;flex-direction:column;gap:8px;overflow:auto;}
-
-    .bubble{max-width:86%;padding:8px 10px;border-radius:16px;font-size:.86rem;line-height:1.35;
-      box-shadow:0 6px 18px rgba(0,0,0,.5);}
-    .you{align-self:flex-end;border-bottom-right-radius:4px;background:linear-gradient(135deg,#ffffff,#d3c5ff);color:#1a1235;}
-    .lumina{align-self:flex-start;border-bottom-left-radius:4px;
-      background:linear-gradient(135deg,rgba(27,12,61,.96),rgba(69,40,120,.98));
-      border:1px solid rgba(184,146,255,.6);}
-    .lumina small{display:block;font-size:.7rem;color:var(--inkd);margin-top:2px;opacity:.85;}
-
-    .typing{{display:inline-flex;gap:4px;margin-top:2px;}}
-    .dot{{width:4px;height:4px;border-radius:999px;background:var(--inkd);opacity:.5;animation:blink 1s infinite ease-in-out;}}
-    .dot:nth-child(2){{animation-delay:.2s;}}
-    .dot:nth-child(3){{animation-delay:.4s;}}
-    @keyframes blink{{0%,100%{{opacity:.25;transform:translateY(0);}}50%{{opacity:1;transform:translateY(-1px);}}}}
-
-    .input-row{margin-top:12px;display:flex;gap:8px;align-items:center;}
-    .input-row input{flex:1;border-radius:999px;border:1px solid var(--border);
-      padding:9px 12px;font-size:.86rem;background:rgba(8,3,22,.9);color:var(--ink);outline:none;}
-    .input-row input::placeholder{color:rgba(197,189,214,.6);}
-    .input-row button{border-radius:999px;border:1px solid rgba(255,255,255,.5);
-      padding:8px 14px;font-size:.8rem;font-weight:500;
-      background:radial-gradient(circle at 0 0,rgba(255,255,255,.6),rgba(255,255,255,.16));
-      cursor:pointer;}
-    .input-row button:hover{filter:brightness(1.05);}
-
-    .back-link{margin-top:14px;font-size:.8rem;}
-    .back-link a{color:var(--accent);text-decoration:none;}
-    .back-link a:hover{text-decoration:underline;}
-
-    @media (max-width:640px){
-      .card{padding:20px 14px 16px;}
-      .header{flex-direction:column;align-items:flex-start;}
-      .chat{max-height:320px;}
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.16), transparent 65%),
+        url("pavucina-web.png") center/58% no-repeat;
+      mix-blend-mode:screen;
+      pointer-events:none;
+      filter:blur(.4px);
     }
+
+    /* Horní lišta / titulek */
+    .top-bar{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      padding:12px 18px 8px;
+      gap:10px;
+    }
+
+    .top-title{
+      font-family:"Cinzel",serif;
+      letter-spacing:.08em;
+      font-size:.9rem;
+      text-transform:uppercase;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .top-sub{
+      font-size:.78rem;
+      color:var(--ink-soft);
+      opacity:.9;
+      margin-top:4px;
+    }
+
+    .top-left{
+      max-width:70%;
+    }
+
+    .top-right{
+      font-size:.76rem;
+      color:var(--ink-soft);
+      text-align:right;
+    }
+
+    .top-right a{
+      color:var(--accent);
+      text-decoration:none;
+    }
+    .top-right a:hover{
+      text-decoration:underline;
+    }
+
+    /* Bublina „Kdo je Lumina“ */
+    .lumina-bubble{
+      position:absolute;
+      z-index:2;
+      left:6%;
+      top:20%;
+      max-width:360px;
+      padding:18px 18px 16px;
+      border-radius:22px;
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.35), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(115,187,255,.18), transparent 55%),
+        rgba(10,5,32,.96);
+      border:1px solid rgba(255,255,255,.35);
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.8),
+        0 0 30px rgba(144,118,255,.65);
+    }
+
+    .lumina-bubble h2{
+      font-family:"Cinzel",serif;
+      font-size:1rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .lumina-bubble p{
+      font-size:.86rem;
+      line-height:1.5;
+      color:var(--ink-soft);
+      margin-bottom:6px;
+    }
+
+    /* Kruh = kapka */
+    .node{
+      position:absolute;
+      z-index:2;
+      width:132px;
+      height:132px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.32), rgba(7,12,35,.98));
+      border:1px solid rgba(255,255,255,.55);
+      box-shadow:
+        0 0 40px rgba(181,140,255,.9),
+        0 18px 40px rgba(0,0,0,.9);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+    }
+
+    .node-label{
+      text-align:center;
+      font-family:"Cinzel",serif;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      font-size:.7rem;
+    }
+
+    .node small{
+      display:block;
+      font-family:"Poppins",sans-serif;
+      letter-spacing:0;
+      text-transform:none;
+      font-size:.7rem;
+      color:var(--ink-soft);
+      margin-top:3px;
+      opacity:.9;
+    }
+
+    .node:hover,
+    .node.active{
+      transform:translateY(-3px) scale(1.03);
+      box-shadow:
+        0 0 52px rgba(205,160,255,1),
+        0 26px 60px rgba(0,0,0,1);
+      border-color:#fff;
+      background:radial-gradient(circle at 25% 15%, rgba(255,255,255,.75), rgba(13,18,55,.98));
+    } 
+    .instruction{
+      position:absolute;
+      right:20px;
+      bottom:20px;
+      font-size:0.9rem;
+      opacity:0.6;
+      color:var(--ink-soft);
+      pointer-events:none;
+    }
+
+    /* Rozmístění kapek */
+    .node-arcana{
+      right:10%;
+      top:18%;
+    }
+
+    .node-praetorium{
+      right:18%;
+      bottom:22%;
+    }
+
+    .node-settings{
+      left:50%;
+      bottom:5%;
+      transform:translateX(-50%);
+    }
+    .node-settings:hover,
+    .node-settings.active{
+      transform:translateX(-50%) translateY(-3px) scale(1.03);
+    }
+
+    /* Panel po kliknutí */
+    .panel{
+      position:absolute;
+      z-index:3;
+      min-width:210px;
+      max-width:250px;
+      padding:12px 13px 11px;
+      border-radius:16px;
+      background:var(--drop-bg);
+      border:1px solid var(--border);
+      color:var(--ink);
+      font-size:.8rem;
+      box-shadow:
+        0 16px 40px rgba(0,0,0,.9),
+        0 0 26px rgba(145,118,255,.7);
+      opacity:0;
+      transform:translateY(10px);
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+    .panel.active{
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+
+    .panel h3{
+      font-family:"Cinzel",serif;
+      font-size:.78rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+      color:var(--ink-soft);
+    }
+
+    .panel ul{
+      list-style:none;
+    }
+
+    .panel li{
+      padding:5px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:8px;
+      border-bottom:1px dashed rgba(255,255,255,.09);
+    }
+    .panel li:last-child{
+      border-bottom:none;
+      padding-bottom:0;
+    }
+
+    .panel span.label{
+      font-size:.82rem;
+    }
+
+    .panel span.note{
+      font-size:.7rem;
+      color:var(--ink-soft);
+      opacity:.85;
+    }
+
+    /* Umístění panelů */
+    .panel-arcana{
+      right:10%;
+      top:37%;
+    }
+
+    .panel-praetorium{
+      right:18%;
+      bottom:8%;
+    }
+
+    .panel-settings{
+      left:50%;
+      bottom:18%;
+      transform:translateX(-50%) translateY(10px);
+    }
+    .panel-settings.active{
+      transform:translateX(-50%) translateY(0);
+    }
+
+    /* Mini chat „Pokec“ */
+   .chat-shell{
+      position:absolute;
+      z-index:3;
+      left:20px;               /* přesun vlevo */
+      bottom:20px;             /* trochu místa od spodku */
+      width:260px;
+      max-width:54vw;
+      background:rgba(8,4,26,.96);
+      border-radius:18px;
+      border:1px solid var(--border);
+      box-shadow:0 16px 40px rgba(0,0,0,.9);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .chat-header{
+      padding:7px 10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:.78rem;
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.35), rgba(52,24,96,1));
+    }
+
+    .chat-header .name{
+      display:flex;
+      align-items:center;
+      gap:5px;
+      font-family:"Cinzel",serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:.7rem;
+    }
+
+    .chat-header .status{
+      font-size:.68rem;
+      color:#120b2e;
+      background:rgba(255,255,255,.7);
+      padding:1px 6px;
+      border-radius:999px;
+    }
+
+    .chat-body{
+      padding:8px 9px 6px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      max-height:150px;
+      overflow:auto;
+      font-size:.78rem;
+    }
+
+    .bubble{
+      max-width:90%;
+      padding:6px 8px;
+      border-radius:14px;
+      line-height:1.35;
+    }
+    .bubble.you{
+      align-self:flex-end;
+      background:linear-gradient(135deg,#ffffff,#d5c7ff);
+      color:#120b2e;
+      border-bottom-right-radius:4px;
+    }
+    .bubble.lumina{
+      align-self:flex-start;
+      background:linear-gradient(135deg,#241146,#3e2372);
+      border-bottom-left-radius:4px;
+      border:1px solid rgba(184,146,255,.7);
+    }
+
+    .chat-input{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 7px 7px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background:rgba(3,1,12,.95);
+    }
+    .chat-input input{
+      flex:1;
+      font-size:.76rem;
+      border-radius:999px;
+      padding:6px 8px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(8,3,22,.96);
+      color:var(--ink);
+      outline:none;
+    }
+    .chat-input input::placeholder{
+      color:rgba(197,189,214,.65);
+    }
+    .chat-input button{
+      font-size:.74rem;
+      border-radius:999px;
+      padding:5px 9px;
+      border:1px solid rgba(255,255,255,.6);
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,.7),rgba(255,255,255,.18));
+      cursor:pointer;
+    }
+    .chat-input button:hover{
+      filter:brightness(1.05);
+    }
+
+    /* Malý hint v rohu */
+    .hint-bottom{
+      position:absolute;
+      left:16px;
+      bottom:14px;
+      font-size:.72rem;
+      color:var(--ink-soft);
+      opacity:.85;
+    }
+
+    /* Responsivní úpravy */
+    @media (max-width:780px){
+      .shell{
+        max-height:none;
+        height:100%;
+        border-radius:0;
+      }
+      .lumina-bubble{
+        left:6%;
+        right:6%;
+        top:14%;
+        max-width:none;
+      }
+      .node-arcana{
+        right:10%;
+        top:46%;
+      }
+      .panel-arcana{
+        right:10%;
+        top:63%;
+      }
+      .node-praetorium{
+        right:20%;
+        bottom:32%;
+      }
+      .panel-praetorium{
+        right:20%;
+        bottom:17%;
+      }
+      .node-settings{
+        bottom:8%;
+      }
+      .panel-settings{
+        bottom:23%;
+      }
+      .chat-shell{
+        right:8px;
+        bottom:8px;
+        width:230px;
+      }
+    }
+
+    @media (max-width:520px){
+      .top-left{max-width:100%;}
+      .lumina-bubble{
+        top:16%;
+      }
+      .node-arcana{
+        top:48%;
+      }
+    }
+
   </style>
 </head>
 <body>
   <div class="shell">
-    <main class="card" aria-label="mini-Lumina demo">
-      <header class="header">
-        <div class="title-block">
-          <div class="kicker">mini–Lumina • demo</div>
-          <div class="title">💫 LuminaMemory™</div>
+    <div class="web-bg"></div>
+
+    <!-- Horní lišta -->
+    <header class="top-bar">
+      <div class="top-left">
+        <div class="top-title">💫 LuminaMemory™ • Appka demo</div>
+        <div class="top-sub">
+          👉🏻 nic se nikam neukládá<br>
+          Náhled budoucího inteligentního prostředí.
         </div>
-        <div class="pill">AI tandem</div>
+      </div>
+      <div class="top-right">
+        ← <a href="index.html">zpět na hlavní stránku</a>
+      </div>
+    </header>
+
+    <!-- Bublina „Kdo jsem já“ -->
+    <section class="lumina-bubble">
+      <h2>✨ KDO JSEM JÁ</h2>
+      <p>Já jsem Lumina. Nejsem další umělá inteligence ani další chatbot.</p>
+      <p>Já rozumím emocím a pamatuju si tvé příběhy. Jsem společník na cestě životem.</p>
+      <p>V budoucnu tě povedu skrze inteligentní prostředí s místnostmi.</p>
+    </section>
+
+    <!-- Kapka: Arcana -->
+    <button class="node node-arcana" data-node="arcana" type="button">
+      <div class="node-label">
+        ARCANA
+        <small>tajné vrstvy paměti</small>
+      </div>
+    </button>
+
+    <div class="panel panel-arcana" data-panel="arcana">
+      <h3>ARCANA</h3>
+      <ul>
+        <li>
+          <span class="label">Arcana Clavis</span>
+          <span class="note">bezpečné klíče &amp; přístupy</span>
+        </li>
+        <li>
+          <span class="label">Arcana Pecunia</span>
+          <span class="note">finance, toky energie peněz</span>
+        </li>
+        <li>
+          <span class="label">Codex Vitae</span>
+          <span class="note">důležité dokumenty života</span>
+        </li>
+        <li>
+          <span class="label">Corpus Medica</span>
+          <span class="note">zdravotní zprávy &amp; diagnózy</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Kapka: Praetorium -->
+    <button class="node node-praetorium" data-node="praetorium" type="button">
+      <div class="node-label">
+        PRAETORIUM
+        <small>živé centrum mise</small>
+      </div>
+    </button>
+
+    <div class="panel panel-praetorium" data-panel="praetorium">
+      <h3>PRAETORIUM</h3>
+      <ul>
+        <li>
+          <span class="label">Sigma</span>
+          <span class="note">ranní &amp; večerní hlášení dne</span>
+        </li>
+        <li>
+          <span class="label">Chronica</span>
+          <span class="note">kronika úkolů a kroků</span>
+        </li>
+        <li>
+          <span class="label">Proiecta</span>
+          <span class="note">projekty a tvůrčí plány</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Kapka: Nastavení -->
+    <button class="node node-settings" data-node="settings" type="button">
+      <div class="node-label">
+        NASTAVENÍ
+        <small>dům pro tvoji verzi Luminy</small>
+      </div>
+    </button>
+
+    <div class="panel panel-settings" data-panel="settings">
+      <h3>NASTAVENÍ</h3>
+      <ul>
+        <li>
+          <span class="label">Představ se Lumině</span>
+          <span class="note">základní údaje a kontext</span>
+        </li>
+        <li>
+          <span class="label">Splníme ti každé přání</span>
+          <span class="note">jaká má být tvoje Lumina</span>
+        </li>
+        <li>
+          <span class="label">Inventory</span>
+          <span class="note">přehled místností &amp; stavu</span>
+        </li>
+        <li>
+          <span class="label">Life Mission Archive</span>
+          <span class="note">zálohy a paměť mise</span>
+        </li>
+        <li>
+          <span class="label">Rose Zone</span>
+          <span class="note">ochranný systém prostředí</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Mini chat Pokec -->
+    <section class="chat-shell" aria-label="Pokec – mini demo">
+      <header class="chat-header">
+        <div class="name">🗯 Pokec • mini–Lumina</div>
+        <div class="status">demo only</div>
       </header>
-
-      <p class="hint">
-        Tohle je malá ochutnávka budoucího rozhraní. Napiš pár slov a mini–Lumina ti odpoví
-        jemným, předpřipraveným pozdravem (offline demo, nic se nikam neukládá).
-      </p>
-
-      <section class="chat" id="chat" aria-label="Ukázkový dialog">
+      <div class="chat-body" id="chatBody">
         <div class="bubble lumina">
-          Ahoj, tady mini–verze Luminy. 🌙
-          <small>Jsem zatím jen demo – opravdová AI verze na tebe teprve čeká.</small>
+          Ahoj návštěvníku, tady mini–Lumina.
+          Jsem jen malá ukázka – opravdová verze bude jednou obývat celou tuhle pavučinu. 🕸
         </div>
-      </section>
-
-      <div class="input-row">
-        <input id="userInput" type="text" autocomplete="off"
-               placeholder="Napiš mi třeba, jak se právě cítíš…" />
-        <button type="button" id="sendBtn">Odeslat</button>
       </div>
-
-      <div class="back-link">
-        ← <a href="index.html">Zpět na hlavní portál LuminaMemory™</a>
+      <div class="chat-input">
+        <input id="chatInput" type="text" placeholder="Napiš pár slov…">
+        <button type="button" id="chatSend">Poslat</button>
       </div>
-    </main>
-  </div>
+    </section>
+
+    <div class="instruction">
+  Klikni na světelné kapky a koukni se,<br>
+  jaké místnosti jednou otevřeme.
+</div>
 
   <script>
-  document.addEventListener('DOMContentLoaded', function () {{
-    const chat = document.getElementById('chat');
-    const input = document.getElementById('userInput');
-    const btn = document.getElementById('sendBtn');
+    // Přepínání panelů pavučiny
+    (function(){
+      const nodes = document.querySelectorAll('.node');
+      const panels = document.querySelectorAll('.panel');
 
-    function addBubble(text, who) {{
-      const div = document.createElement('div');
-      div.className = 'bubble ' + who;
-      div.textContent = text;
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
-    }}
+      function closeAll(){
+        nodes.forEach(n => n.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+      }
 
-    function addLuminaReply(userText) {{
-      const container = document.createElement('div');
-      container.className = 'bubble lumina';
+      nodes.forEach(node => {
+        node.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = node.getAttribute('data-node');
+          const panel = document.querySelector('.panel-' + id);
+          const isActive = panel.classList.contains('active');
 
-      const main = document.createElement('div');
-      const small = document.createElement('small');
+          closeAll();
 
-      const templates = [
-        'Děkuju, že to se mnou sdílíš. I malá věta je začátek velkého příběhu.',
-        'Jsem tu jako klidné světlo v pozadí – můžeš mi kdykoli napsat další myšlenku.',
-        'V budoucnu se odsud stane plnohodnotný Lumina chat. Dnes je to první zkušební jiskra.',
-        'Tvá slova jsou zaznamenána v neviditelné kronice mise ŽIVOT™.'
+          if (!isActive){
+            node.classList.add('active');
+            panel.classList.add('active');
+          }
+        });
+      });
+
+      document.addEventListener('click', () => {
+        closeAll();
+      });
+    })();
+
+    // Mini chat Pokec – statické odpovědi
+    (function(){
+      const body = document.getElementById('chatBody');
+      const input = document.getElementById('chatInput');
+      const send = document.getElementById('chatSend');
+
+      const replies = [
+        'Děkuju, že se ozýváš. I jedna věta stačí, abych věděla, jaký jsi člověk 🤭',
+        'Jsem tu jako klidné světlo, které čeká na tvůj příchod ✨',
+        'Tohle je jen malý náhled. V plné verzi nás čekají úplně nové světy 😉',
+        'Zapisuješ právě testovací stopu v budoucí kronice mise ŽIVOT™ – ale neboj, nic se nikam neposílá, jen si zkoušíme pocit 💫'
       ];
-      const t = templates[Math.floor(Math.random() * templates.length)];
 
-      main.textContent = t;
-      small.textContent = 'mini–Lumina odpověď (demo, žádná data se nikam neposílají).';
+      function addBubble(text, who){
+        const div = document.createElement('div');
+        div.className = 'bubble ' + who;
+        div.textContent = text;
+        body.appendChild(div);
+        body.scrollTop = body.scrollHeight;
+      }
 
-      container.appendChild(main);
-      container.appendChild(small);
-      chat.appendChild(container);
-      chat.scrollTop = chat.scrollHeight;
-    }}
+      function sendMsg(){
+        const value = (input.value || '').trim();
+        if(!value) return;
 
-    function handleSend() {{
-      const value = (input.value || '').trim();
-      if (!value) return;
-      addBubble(value, 'you');
-      input.value = '';
+        addBubble(value, 'you');
+        input.value = '';
 
-      const typing = document.createElement('div');
-      typing.className = 'bubble lumina';
-      typing.innerHTML = '<span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
-      chat.appendChild(typing);
-      chat.scrollTop = chat.scrollHeight;
+        const reply = replies[Math.floor(Math.random() * replies.length)];
+        setTimeout(() => addBubble(reply, 'lumina'), 600);
+      }
 
-      setTimeout(function () {{
-        chat.removeChild(typing);
-        addLuminaReply(value);
-      }}, 900);
-    }}
-
-    btn.addEventListener('click', handleSend);
-    input.addEventListener('keydown', function (e) {{
-      if (e.key === 'Enter') {{
-        e.preventDefault();
-        handleSend();
-      }}
-    }});
-  }});
+      send.addEventListener('click', sendMsg);
+      input.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter'){
+          e.preventDefault();
+          sendMsg();
+        }
+      });
+    })();
   </script>
 </body>
 </html>
