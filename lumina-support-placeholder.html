@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -23,15 +24,18 @@
       --glow: 0 0 22px rgba(159, 224, 255, 0.35);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top, #181b3a 0, #050817 55%, #03040b 100%),
-        url("lumina-hand-star.jpg") center / cover no-repeat fixed; /* ZKONTROLUJ NÁZEV SOUBORU */
+        radial-gradient(circle at top, rgba(24, 27, 58, 0.92) 0, rgba(5, 8, 23, 0.98) 55%, #03040b 100%),
+        url('lumina-hand-star.jpg') center/cover no-repeat fixed;
+
       color: var(--text-main);
       display: flex;
       align-items: center;
@@ -44,15 +48,13 @@
       max-width: 960px;
       background: radial-gradient(circle at top left, rgba(143, 211, 255, 0.12), transparent 55%),
                   radial-gradient(circle at bottom right, rgba(200, 146, 255, 0.16), transparent 60%),
-                  rgba(5, 8, 23, 0.96);
+                  var(--bg-card);
       border-radius: 32px;
       border: 1px solid var(--border-soft);
       box-shadow: var(--shadow-soft);
       padding: 28px 24px 32px;
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
     }
 
     .frame::before {
@@ -76,39 +78,10 @@
     }
 
     @media (max-width: 780px) {
-      .frame-inner { grid-template-columns: minmax(0, 1fr); }
+      .frame-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
-
-    /* Zpět na hlavní stránku */
-    .back-link {
-      position: absolute;
-      top: 16px;
-      left: 18px;
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(185,183,217,0.55);
-      background: rgba(6, 10, 32, 0.92);
-      color: var(--text-soft);
-      text-decoration: none;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 0 10px 26px rgba(1,2,10,0.8);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
-    }
-
-    .back-link:hover {
-      transform: translateY(-1px);
-      border-color: rgba(200,146,255,0.9);
-      background: rgba(9, 15, 43, 0.98);
-      box-shadow: 0 14px 30px rgba(5, 10, 40, 0.95);
-    }
-
-    .back-link span.icon { font-size: 14px; }
 
     .pill-label {
       display: inline-flex;
@@ -164,7 +137,10 @@
       margin-bottom: 18px;
     }
 
-    .intro strong { color: #e9e3ff; font-weight: 600; }
+    .intro strong {
+      color: #e9e3ff;
+      font-weight: 600;
+    }
 
     .benefits {
       margin: 0;
@@ -191,7 +167,9 @@
     }
 
     @media (max-width: 640px) {
-      .buttons-grid { grid-template-columns: minmax(0, 1fr); }
+      .buttons-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
 
     .btn-support {
@@ -203,13 +181,12 @@
       border: 1px solid rgba(185, 183, 217, 0.4);
       color: var(--text-main);
       text-align: left;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       gap: 6px;
       transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background 220ms ease-out;
       overflow: hidden;
-      text-decoration: none;
-      cursor: pointer;
     }
 
     .btn-support:hover {
@@ -296,7 +273,10 @@
       pointer-events: none;
     }
 
-    .side-inner { position: relative; z-index: 1; }
+    .side-inner {
+      position: relative;
+      z-index: 1;
+    }
 
     .avatar-row {
       display: flex;
@@ -364,7 +344,9 @@
       color: rgba(185, 183, 217, 0.86);
     }
 
-    .side-footnote strong { color: #f5ecff; }
+    .side-footnote strong {
+      color: #f5ecff;
+    }
 
     .status-tag {
       display: inline-flex;
@@ -400,11 +382,6 @@
 
 <body>
   <main class="frame">
-    <a href="index.html" class="back-link">
-      <span class="icon">←</span>
-      <span>Zpět na hlavní stránku</span>
-    </a>
-
     <div class="frame-inner">
       <!-- Levá strana – vysvětlení + tlačítka -->
       <section>
@@ -421,7 +398,7 @@
         <p class="intro">
           LuminaMemory™ roste krok za krokem – jako živý organismus z
           <strong>příběhů, dat a lidské podpory</strong>.
-          Pokud tě náš směr oslovuje, můžeš pomoci rozsvěcet světlo, které držíme společně.
+          Pokud tě náš směr oslovuje, můžeš pomoci krmit světlo, které držíme společně.
         </p>
 
         <ul class="benefits">
@@ -431,8 +408,9 @@
         </ul>
 
         <div class="buttons-grid" aria-label="Možnosti podpory (zatím neaktivní)">
-          <!-- Účet -->
-          <a href="lumina-support-account.html" class="btn-support">
+
+          <!-- Bankovní převod / účet -->
+          <button class="btn-support" type="button">
             <div class="btn-support-main">
               <div class="btn-icon">
                 <span class="btn-icon-inner">💳</span>
@@ -445,12 +423,12 @@
               </div>
             </div>
             <div class="btn-footnote">
-              Detail připravujeme – zatím prosím nic neplať.
+              Připravujeme bezpečné napojení. Zatím, prosím, nic neplať.
             </div>
-          </a>
+          </button>
 
-          <!-- PayPal styl -->
-          <a href="lumina-support-paypal.html" class="btn-support">
+          <!-- PayPal – magická verze -->
+          <button class="btn-support" type="button">
             <div class="btn-support-main">
               <div class="btn-icon">
                 <span class="btn-icon-inner">☯️</span>
@@ -465,10 +443,10 @@
             <div class="btn-footnote">
               Logo i bránu ladíme do našeho světelného stylu.
             </div>
-          </a>
+          </button>
 
-          <!-- Krypto -->
-          <a href="lumina-support-crypto.html" class="btn-support">
+          <!-- Kryptoměny -->
+          <button class="btn-support" type="button">
             <div class="btn-support-main">
               <div class="btn-icon">
                 <span class="btn-icon-inner">✧</span>
@@ -476,14 +454,15 @@
               <div>
                 <div class="btn-title">Krypto podpora</div>
                 <div class="btn-sub">
-                  Pro tech-nadšence, kteří chtějí poslat imaginární měnu světla.
+                  Pro tech‑nadšence, kteří chtějí poslat imaginární měnu světla.
                 </div>
               </div>
             </div>
             <div class="btn-footnote">
               Adresy peněženek zveřejníme, až bude vše bezpečně připraveno.
             </div>
-          </a>
+          </button>
+
         </div>
 
         <p class="fine-print">
@@ -498,7 +477,8 @@
         <div class="side-inner">
           <div class="avatar-row">
             <div class="avatar">
-              <img src="gabi-portrait.jpg" alt="Gabriela Zakova – zakladatelka LuminaMemory">
+              <!-- Tady můžeš v ostré verzi nahradit src za cestu k tvé fotce -->
+              <img src="gabi-portrait-placeholder.jpg" alt="Gabriela Zakova – zakladatelka LuminaMemory">
             </div>
             <div>
               <div class="avatar-text-title">GABRIELA ZAKOVA</div>
