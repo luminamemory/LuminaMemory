@@ -217,16 +217,16 @@
     }
 
     /* Červený "STOP" efekt – při kliknutí */
-.support-option-btn.is-disabled.pressed,
-.support-option-btn.is-disabled:active {
-  background: linear-gradient(120deg,
-    rgba(140, 12, 32, 0.98),
-    rgba(210, 60, 70, 0.98));
-  border-color: rgba(255, 140, 140, 0.98);
-  box-shadow:
-    0 0 0 2px rgba(255, 190, 190, 0.8),
-    0 0 38px rgba(255, 80, 80, 0.95);
-}
+    .support-option-btn.is-disabled.pressed,
+    .support-option-btn.is-disabled:active {
+      background: linear-gradient(120deg,
+        rgba(140, 12, 32, 0.98),
+        rgba(210, 60, 70, 0.98));
+      border-color: rgba(255, 140, 140, 0.98);
+      box-shadow:
+        0 0 0 2px rgba(255, 190, 190, 0.8),
+        0 0 38px rgba(255, 80, 80, 0.95);
+    }
 
     .support-option-labels {
       display: flex;
@@ -268,16 +268,6 @@
       box-shadow:
         0 0 0 1px rgba(255, 255, 255, 0.1),
         0 18px 55px rgba(0, 0, 0, 0.95);
-    }
-
-    .support-option-btn.is-disabled:active {
-      background: linear-gradient(120deg,
-        rgba(112, 14, 32, 0.98),
-        rgba(180, 50, 60, 0.98));
-      border-color: rgba(255, 120, 120, 0.95);
-      box-shadow:
-        0 0 0 1px rgba(255, 180, 180, 0.7),
-        0 20px 60px rgba(0, 0, 0, 1);
     }
 
     .support-footnote {
@@ -463,11 +453,12 @@
           Konkrétní platební údaje zveřejníme až po dokončení technického a právního nastavení.
         </div>
       </div>
-  </div> 
+    </div>
+  </div>
 
   <script>
     // Najdeme všechna tlačítka plateb
-    const supportButtons =   document.querySelectorAll('.support-option-btn.is-. disabled');
+    const supportButtons = document.querySelectorAll('.support-option-btn.is-disabled');
 
     supportButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -480,6 +471,6 @@
         }, 200);
       });
     });
-  </script> 
+  </script>
 </body>
 </html>
