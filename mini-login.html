@@ -1,13 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>miniLumina • Vstup</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>miniLumina • Vstup</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
     :root{
       --bg:#02010a;
       --ink:#f7f3ff;
@@ -218,253 +217,234 @@
     .lumina-select__menu button.is-placeholder{opacity:.75}
     .lumina-select__menu button.is-disabled{opacity:.45}
 
-  </style>
+  
+
+/* Inline hlášky u polí */
+.field{position:relative;}
+.inline-pop{display:inline-block; width:fit-content; max-width:100%; margin-top:.5rem; padding:.35rem .6rem; border-radius:999px; font-size:.9rem; line-height:1.1; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18);}
+.field.is-error .inline-pop{background:rgba(255,90,120,.14); border-color:rgba(255,90,120,.35);}
+</style>
 </head>
-
 <body>
-  <div class="shell">
-
-    <section class="card left" id="loginCard">
-      <div class="web" aria-hidden="true"></div>
-
-      <div class="brand">
-        <img src="favicon.png" alt="LuminaMemory">
-        <div>
-          <div class="kicker">miniLumina • demo</div>
-          <h1>Vstup do prostředí</h1>
-        </div>
-      </div>
-
-      <p class="lead">
+<div class="shell">
+<section class="card left" id="loginCard">
+<div aria-hidden="true" class="web"></div>
+<div class="brand">
+<img alt="LuminaMemory" src="favicon.png"/>
+<div>
+<div class="kicker">miniLumina • demo</div>
+<h1>Vstup do prostředí</h1>
+</div>
+</div>
+<p class="lead">
         Přihlášení je “sucharské”, ale za dveřmi už čeká magie. ✨
         (Demo verze – zatím bez reálného ukládání.)
       </p>
-
-      <form class="grid" novalidate onsubmit="return enterMiniLumina(event)">
-        <div class="field" id="fieldEmail">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" placeholder="např. gabi@luminamemory.ai" autocomplete="email">
-          <div class="field-pop" role="status" aria-live="polite"></div>
-        </div>
-
-        <div class="row2">
-          <div class="field" id="fieldPass">
-            <label for="pass">Heslo</label>
-            <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
-            <div class="field-pop" role="status" aria-live="polite"></div>
-          </div>
-
-          <div class="field" id="fieldPlan">
-            <label>Předplatné (demo)</label>
-
-            <div class="lumina-select" id="planSelect">
-              <button type="button" class="lumina-select__btn" aria-haspopup="listbox" aria-expanded="false">
-                <span class="lumina-select__label">Vyber předplatné…</span>
-                <span class="lumina-select__chev">▾</span>
-              </button>
-
-              <div class="lumina-select__menu" role="listbox" tabindex="-1" hidden>
-                <button type="button" role="option" data-value="free" aria-selected="false">Free</button>
-                <button type="button" role="option" data-value="plus" aria-selected="false">Plus</button>
-                <button type="button" role="option" data-value="premium" aria-selected="false">Premium</button>
-              </div>
-
-              <input type="hidden" id="plan" value="">
-            </div>
-
-            <div class="field-pop" role="status" aria-live="polite"></div>
-          </div>
-        </div>
-
-        <button class="btn" type="submit">Vstoupit</button>
-        <div class="mini">
-          Bez přihlášení se do Luminy nevstupuje. (Ve storu jde app stáhnout, ale otevře se až po login.)<br>
-          <a href="index.html">← Zpět na web</a>
-        </div>
-      </form>
-    </section>
-
-    <aside class="card right">
-      <div class="panelTitle">
-        <div class="kicker">jak to bude fungovat</div>
-        <div class="pill">mapa</div>
-      </div>
-
-      <div class="steps">
-        <b>Po přihlášení</b> se rozsvítí pavučina a otevřou se místnosti podle předplatného:
+<form class="grid" novalidate="" onsubmit="return enterMiniLumina(event)">
+<div class="field" id="fieldEmail">
+<label for="email">E-mail</label>
+<input autocomplete="email" id="email" placeholder="např. gabi@luminamemory.ai" type="email"/>
+<div aria-live="polite" class="field-pop" role="status"></div>
+</div>
+<div class="row2">
+<div class="field" id="fieldPass">
+<label for="pass">Heslo</label>
+<input autocomplete="current-password" id="pass" placeholder="••••••••" type="password"/>
+<div aria-live="polite" class="field-pop" role="status"></div>
+</div>
+<div class="field" id="fieldPlan">
+<label>Předplatné (demo)</label>
+<div class="lumina-select" id="planSelect">
+<button aria-expanded="false" aria-haspopup="listbox" class="lumina-select__btn" type="button">
+<span class="lumina-select__label">Vyber předplatné…</span>
+<span class="lumina-select__chev">▾</span>
+</button>
+<div class="lumina-select__menu" hidden="" role="listbox" tabindex="-1">
+<button aria-selected="false" data-value="free" role="option" type="button">Free</button>
+<button aria-selected="false" data-value="plus" role="option" type="button">Plus</button>
+<button aria-selected="false" data-value="premium" role="option" type="button">Premium</button>
+</div>
+<input id="plan" type="hidden" value=""/>
+</div>
+<div aria-live="polite" class="field-pop" role="status"></div>
+</div>
+</div>
+<button class="btn" type="submit">Vstoupit</button>
+<div class="mini">
+          Bez přihlášení se do Luminy nevstupuje. (Ve storu jde app stáhnout, ale otevře se až po login.)<br/>
+<a href="index.html">← Zpět na web</a>
+</div>
+</form>
+</section>
+<aside class="card right">
+<div class="panelTitle">
+<div class="kicker">jak to bude fungovat</div>
+<div class="pill">mapa</div>
+</div>
+<div class="steps">
+<b>Po přihlášení</b> se rozsvítí pavučina a otevřou se místnosti podle předplatného:
         <ul>
-          <li><b>Nastavení</b> (Rose Zone, Inventory, Life Mission Archive, “návod chat”)</li>
-          <li><b>Praetorium</b> (Sigma, Chronica, Proiecta)</li>
-          <li><b>Arcana</b> (zamčená – PIN/biometrie)</li>
-          <li><b>Pokec</b> (hlavní chat)</li>
-        </ul>
-        <div style="margin-top:10px;color:rgba(255,255,255,.7);font-size:.82rem;">
+<li><b>Nastavení</b> (Rose Zone, Inventory, Life Mission Archive, “návod chat”)</li>
+<li><b>Praetorium</b> (Sigma, Chronica, Proiecta)</li>
+<li><b>Arcana</b> (zamčená – PIN/biometrie)</li>
+<li><b>Pokec</b> (hlavní chat)</li>
+</ul>
+<div style="margin-top:10px;color:rgba(255,255,255,.7);font-size:.82rem;">
           MemorySky “dvířka” dáme jako samostatnou bránu v Nastavení (a zároveň rychlou ikonku v horní liště).
         </div>
-      </div>
-    </aside>
+</div>
+</aside>
+</div>
+<script>// ===== Jediné povolené hlášky (u konkrétních polí) =====
+const MSG_EMAIL = 'Vyplň e-mail';
+const MSG_PASS  = 'Vyplň heslo';
+const MSG_PLAN  = 'Vyber předplatné';
 
-  </div>
+function ensurePopup(fieldEl){
+  let pop = fieldEl.querySelector('.inline-pop');
+  if(!pop){
+    pop = document.createElement('div');
+    pop.className = 'inline-pop';
+    pop.setAttribute('role','alert');
+    fieldEl.appendChild(pop);
+  }
+  return pop;
+}
+function clearFieldError(fieldId){
+  const f = document.getElementById(fieldId);
+  if(!f) return;
+  f.classList.remove('is-error');
+  const pop = f.querySelector('.inline-pop');
+  if(pop){ pop.remove(); }
+}
+function setFieldError(fieldId, message){
+  const f = document.getElementById(fieldId);
+  if(!f) return;
+  f.classList.add('is-error');
+  const pop = ensurePopup(f);
+  pop.textContent = message;
+}
 
-  <script>
-    // ===== Jediné povolené hlášky (u konkrétních polí) =====
-    const MSG = {
-      emailMissing: "Vyplň e-mail",
-      passMissing: "Vyplň heslo",
-      planMissing: "Vyber předplatné",
-      demoMissing: "Vyplň údaje pro demo"
-    };
+function validateLogin(){
+  const email = document.getElementById('email');
+  const pass  = document.getElementById('pass');
+  const plan  = document.getElementById('plan');
 
-    function clearErrors(){
-      document.querySelectorAll('.field.is-error').forEach(f=>{
-        f.classList.remove('is-error');
-        const pop = f.querySelector('.field-pop');
-        if(pop) pop.textContent = "";
-      });
-    }
+  // vyčistit staré hlášky
+  clearFieldError('fieldEmail');
+  clearFieldError('fieldPass');
+  clearFieldError('fieldPlan');
 
-    function setError(fieldId, message){
-      const field = document.getElementById(fieldId);
-      if(!field) return;
-      field.classList.add('is-error');
-      const pop = field.querySelector('.field-pop');
-      if(pop) pop.textContent = message || "";
-    }
+  let ok = true;
 
-    function focusField(fieldId){
-      const field = document.getElementById(fieldId);
-      if(!field) return;
-      const input = field.querySelector('input,button,select,[tabindex]');
-      if(input && input.focus) input.focus();
-    }
+  if(!email || !email.value.trim()){
+    setFieldError('fieldEmail', MSG_EMAIL);
+    ok = false;
+  }
+  if(!pass || !pass.value.trim()){
+    setFieldError('fieldPass', MSG_PASS);
+    ok = false;
+  }
+  if(!plan || !plan.value.trim()){
+    setFieldError('fieldPlan', MSG_PLAN);
+    ok = false;
+  }
 
-    function validateLogin(){
-      clearErrors();
+  if(!ok){
+    const first = document.querySelector('.field.is-error input, .field.is-error .lumina-select__btn');
+    if(first) first.focus();
+    return null;
+  }
+  return { email: email.value.trim(), plan: plan.value.trim() };
+}
 
-      const emailEl = document.getElementById('email');
-      const passEl  = document.getElementById('pass');
-      const planEl  = document.getElementById('plan');
+// ===== Custom select (předplatné) =====
+function initSelect(rootSel){
+  const el = document.querySelector(rootSel);
+  if(!el) return;
 
-      const email = (emailEl.value || "").trim();
-      const pass  = (passEl.value || "").trim();
-      const plan  = (planEl.value || "").trim();
+  const btn   = el.querySelector('.lumina-select__btn');
+  const menu  = el.querySelector('.lumina-select__menu');
+  const label = el.querySelector('.lumina-select__label');
+  const hidden= document.getElementById('plan');
 
-      if(!email){
-        setError("fieldEmail", MSG.emailMissing);
-        emailEl.focus();
-        return null;
-      }
-      if(!pass){
-        setError("fieldPass", MSG.passMissing);
-        passEl.focus();
-        return null;
-      }
-      if(!plan){
-        setError("fieldPlan", MSG.planMissing);
-        // focus na custom button
-        const b = document.querySelector('#planSelect .lumina-select__btn');
-        if(b) b.focus();
-        return null;
-      }
+  if(!btn || !menu || !label || !hidden) return;
 
-      return { email, pass, plan };
-    }
+  const open = ()=>{
+    menu.hidden = false;
+    btn.setAttribute('aria-expanded','true');
+  };
+  const close = ()=>{
+    menu.hidden = true;
+    btn.setAttribute('aria-expanded','false');
+  };
+  const toggle = ()=>{
+    if(menu.hidden) open(); else close();
+  };
 
-    // ===== Lumina select (custom dropdown) =====
-    (function(){
-      function initSelect(root){
-        const el = (typeof root === 'string') ? document.querySelector(root) : root;
-        if(!el || el.dataset.lumiInit) return;
-        el.dataset.lumiInit = "1";
+  btn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    toggle();
+  });
 
-        const btn   = el.querySelector('.lumina-select__btn');
-        const menu  = el.querySelector('.lumina-select__menu');
-        const label = el.querySelector('.lumina-select__label');
-        const hidden = el.querySelector('input[type="hidden"]');
+  menu.addEventListener('click', (e)=>{
+    const opt = e.target.closest('button[data-value]');
+    if(!opt) return;
+    const val = opt.getAttribute('data-value') || '';
+    hidden.value = val;
+    label.textContent = opt.textContent.trim();
 
-        function open(){
-          el.classList.add('is-open');
-          btn.setAttribute('aria-expanded','true');
-          menu.hidden = false;
-        }
-        function close(){
-          el.classList.remove('is-open');
-          btn.setAttribute('aria-expanded','false');
-          setTimeout(()=>{ if(!el.classList.contains('is-open')) menu.hidden = true; }, 120);
-        }
+    menu.querySelectorAll('button[data-value]').forEach(b=>{
+      b.setAttribute('aria-selected', b === opt ? 'true' : 'false');
+    });
 
-        btn.addEventListener('click', (e)=>{ e.preventDefault(); el.classList.contains('is-open') ? close() : open(); });
+    close();
+    clearFieldError('fieldPlan');
+  });
 
-        menu.addEventListener('click', (e)=>{
-          const opt = e.target.closest('button[role="option"]');
-          if(!opt || opt.disabled) return;
+  document.addEventListener('click', ()=> close());
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+}
 
-          const val = opt.getAttribute('data-value') ?? '';
-          const txt = (opt.textContent || '').trim();
+// ===== Napojení na formulář =====
+function wireForm(){
+  const form = document.querySelector('form');
+  if(!form) return;
 
-          if(hidden) hidden.value = val;
-          if(label) label.textContent = txt;
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
 
-          menu.querySelectorAll('button[role="option"]').forEach(b=>b.setAttribute('aria-selected','false'));
-          opt.setAttribute('aria-selected','true');
+    const data = validateLogin();
+    if(!data) return false;
 
-          // zruš chybový stav po výběru
-          const fieldPlan = document.getElementById('fieldPlan');
-          if(fieldPlan) {
-            fieldPlan.classList.remove('is-error');
-            const pop = fieldPlan.querySelector('.field-pop');
-            if(pop) pop.textContent = "";
-          }
+    const card = document.getElementById('loginCard');
+    if(card) card.classList.add('is-awake');
 
-          close();
-        });
+    const payload = { email: data.email, plan: data.plan };
+    localStorage.setItem('miniLuminaUser', JSON.stringify(payload));
+    localStorage.setItem('lm_plan', data.plan);
+    localStorage.setItem('lm_plan_set_at', new Date().toISOString());
 
-        document.addEventListener('click', (e)=>{ if(!el.contains(e.target)) close(); });
-        document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
-      }
+    setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 650);
+    return false;
+  });
 
-      window.addEventListener('DOMContentLoaded', ()=> initSelect('#planSelect'));
-    })();
+  const email = document.getElementById('email');
+  const pass  = document.getElementById('pass');
+  if(email) email.addEventListener('input', ()=> clearFieldError('fieldEmail'));
+  if(pass)  pass.addEventListener('input', ()=> clearFieldError('fieldPass'));
+}
 
-    // ===== Akce =====
-    function enterMiniLumina(e){
-      e.preventDefault();
-      const data = validateLogin();
-      if(!data) return false;
+function boot(){
+  initSelect('#planSelect');
+  wireForm();
+}
 
-      const card = document.getElementById('loginCard');
-      card.classList.add('is-awake');
-
-      const payload = { email: data.email, plan: data.plan };
-      localStorage.setItem('miniLuminaUser', JSON.stringify(payload));
-      localStorage.setItem('lm_plan', data.plan);
-      localStorage.setItem('lm_plan_set_at', new Date().toISOString());
-
-      // (žádné další pop-upy / hlášky)
-      setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 650);
-      return false;
-    }
-
-
-    // UX: po psaní odstraň chybu u pole
-    (function(){
-      const email = document.getElementById('email');
-      const pass  = document.getElementById('pass');
-
-      if(email){
-        email.addEventListener('input', ()=> {
-          const f = document.getElementById('fieldEmail');
-          if(f){ f.classList.remove('is-error'); const p=f.querySelector('.field-pop'); if(p) p.textContent=""; }
-        });
-      }
-      if(pass){
-        pass.addEventListener('input', ()=> {
-          const f = document.getElementById('fieldPass');
-          if(f){ f.classList.remove('is-error'); const p=f.querySelector('.field-pop'); if(p) p.textContent=""; }
-        });
-      }
-    })();
-  </script>
-
+if(document.readyState === 'loading'){
+  window.addEventListener('DOMContentLoaded', boot);
+}else{
+  boot();
+}</script>
 </body>
 </html>
