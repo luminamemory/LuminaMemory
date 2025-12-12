@@ -117,16 +117,19 @@
       position:absolute;
       inset:0;
       background-image:url("pavucina-web.png");
+      background-size: 520px 520px;
       background-repeat:no-repeat;
-      background-position: center center;
-      background-size: 78%;
+      background-position: center 62%;
       opacity:.26;
       mix-blend-mode:screen;
       pointer-events:none;
       filter:saturate(1.1) blur(.2px);
       z-index:0;
+      /* ořez do kruhu pod bublinami */
+      clip-path: circle(46% at 50% 62%);
     }
     .circle{
+      overflow: visible;
       position:relative;
       width:min(520px, 100%);
       aspect-ratio: 1/1;
@@ -144,11 +147,6 @@
         radial-gradient(circle at 30% 30%, rgba(79,209,255,.10), transparent 55%);
       opacity:.85;
     }
-    .circle-mask{
-      mask-image: radial-gradient(circle at center, #000 60%, transparent 62%);
-      -webkit-mask-image: radial-gradient(circle at center, #000 60%, transparent 62%);
-    }
-
     .circle::after{
       content:"";
       position:absolute; inset:0;
@@ -476,7 +474,7 @@
 
           <div class="stage">
             <div class="web-local" aria-hidden="true"></div>
-            <div class="circle circle-mask" aria-label="Web circle">
+            <div class="circle" aria-label="Web circle">
               <div class="strand s-top" aria-hidden="true"></div>
               <div class="strand s-right" aria-hidden="true"></div>
               <div class="strand s-bot" aria-hidden="true"></div>

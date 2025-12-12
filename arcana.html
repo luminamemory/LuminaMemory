@@ -310,12 +310,13 @@
     const toastMsg = document.getElementById("toastMsg");
     const toastPill = document.getElementById("toastPill");
 
-    function showToast(pill, msg){
+    function showToast(pill, msg, ms){
+      const dur = (typeof ms === "number" && ms > 0) ? ms : 4200; // delší, aby šlo přečíst
       toastPill.textContent = pill;
       toastMsg.textContent = msg;
       toast.classList.add("show");
       clearTimeout(window.__toastT);
-      window.__toastT = setTimeout(()=>toast.classList.remove("show"), 2300);
+      window.__toastT = setTimeout(()=>toast.classList.remove("show"), dur);
     }
 
     function setMethodState(el, enabled){
@@ -352,7 +353,7 @@
       }catch(e){}
     }
 
-    function applyPlan(plan){
+    function applyPlan(plan, silent){
       plan = normalizePlan(plan);
       const rule = planRules[plan] || planRules.free;
 
@@ -381,31 +382,31 @@
       }
 
       writeStoredPlan(plan);
-      showToast("DEMO", `Přepnuto na ${plan.toUpperCase()}.`);
+      if(!silent) showToast("DEMO", `Přepnuto na ${plan.toUpperCase()}.`, 2400);
     }
 
     segButtons.forEach(btn=>{
-      btn.addEventListener("click", ()=> applyPlan(btn.dataset.plan));
+      btn.addEventListener("click", ()=> applyPlan(btn.dataset.plan, false));
     });
 
     unlockBtn.addEventListener("click", ()=>{
       const selected = document.querySelector('input[name="unlock"]:checked');
       if(!selected){
-        showToast("ARCANA", "Vyber metodu odemčení (PIN / Heslo / FaceID).");
+        showToast("ARCANA", "Vyber metodu odemčení (PIN / Heslo / FaceID).", 5200);
         return;
       }
-      showToast("ARCANA", `DEMO: Odemčeno přes ${selected.value}. (Později: otevře se Hala Arcany.)`);
-      window.location.href = "arcana-hala.html";
+      showToast("ARCANA", `DEMO: Odemčeno přes ${selected.value}. Přecházím do Haly Arcany…`, 5200);
+      setTimeout(()=>{ window.location.href = "arcana-hala.html"; }, 3000);
     });
 
     // Init from saved plan (from login / localStorage)
     const url = new URL(window.location.href);
     const denied = url.searchParams.get("denied");
 
-    applyPlan(readStoredPlan());
+    applyPlan(readStoredPlan(), true);
 
     if(denied){
-      showToast("ARCANA", "Tento vstup je zamčený pro tvůj tarif. (Demo: přepni plán nahoře.)");
+      showToast("ARCANA", "Tento vstup je zamčený pro tvůj tarif. (Demo: přepni plán nahoře.)", 5200);
       url.searchParams.delete("denied");
       window.history.replaceState({}, "", url.toString());
     }
