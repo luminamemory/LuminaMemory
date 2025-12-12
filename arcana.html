@@ -1,384 +1,371 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arcana • Vstupní brána</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Arcana • LuminaMemory™</title>
+  <link rel="icon" href="favicon.png" type="image/png" />
   <style>
     :root{
-      --bg:#02010a;
-      --ink:#f7f3ff;
-      --inkd:#c2b8ff;
-      --accent:#b892ff;
-      --card:rgba(6,3,20,.92);
-      --border:rgba(255,255,255,.16);
-      --ok:rgba(67,210,255,.35);
-      --warn:rgba(184,146,255,.40);
-      --err:rgba(255,120,180,.45);
+      --bg0:#070815; --bg1:#0b0d23;
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --radius: 18px;
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.55);
+      --ok:#65ffb7; --danger:#ff6b6b;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
+    *{ box-sizing:border-box; }
     body{
-      display:flex;align-items:center;justify-content:center;
-      padding:22px 12px;
-      color:var(--ink);
-      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      min-height:100vh;
       background:
-        radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 55%),
-        radial-gradient(circle at 82% 100%, rgba(67,210,255,.45) 0, transparent 55%),
-        radial-gradient(circle at 50% 40%, rgba(122,93,255,.35) 0, transparent 60%),
-        #000;
+        radial-gradient(1100px 700px at 20% 10%, rgba(155,125,255,.22), transparent 55%),
+        radial-gradient(900px 600px at 80% 20%, rgba(79,209,255,.14), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
     }
-
-    .card{
-      width:min(980px, 100%);
+    .web-overlay{
+      position:fixed; inset:0; pointer-events:none;
+      opacity:.14;
+      background-image:url("pavucina-web.png");
+      background-size:cover; background-position:center;
+      filter: blur(.2px) saturate(1.15);
+      mix-blend-mode:screen;
+    }
+    .grain{
+      position:fixed; inset:0; pointer-events:none;
+      opacity:.06;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.35) 1px, transparent 0);
+      background-size: 3px 3px;
+      mix-blend-mode: overlay;
+    }
+    header{
+      position:sticky; top:0; z-index:5;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(7,8,21,.82), rgba(7,8,21,.35));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .wrap{ max-width:980px; margin:0 auto; padding:18px; }
+    .topbar{ display:flex; align-items:center; justify-content:space-between; gap:14px; }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .brand img{ width:30px; height:30px; border-radius:8px; box-shadow: 0 8px 18px rgba(0,0,0,.35); }
+    .brand b{ font-size:14px; letter-spacing:.2px; }
+    .brand span{ display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+    .nav-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .btn{
+      appearance:none; border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      padding:10px 12px; border-radius: 12px;
+      cursor:pointer; font-weight:600; font-size:13px;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
+      text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+      user-select:none; white-space:nowrap;
+    }
+    .btn:hover{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.primary{
+      border-color: rgba(155,125,255,.35);
+      background: linear-gradient(135deg, rgba(155,125,255,.22), rgba(79,209,255,.10));
+    }
+    main{ padding:22px 0 60px; }
+    .hero{
+      margin-top:10px;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(650px 260px at 20% 0%, rgba(155,125,255,.18), transparent 60%),
+        radial-gradient(520px 240px at 90% 0%, rgba(79,209,255,.12), transparent 55%),
+        rgba(255,255,255,.04);
+      box-shadow: var(--shadow);
+      padding:22px;
       position:relative;
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:24px;
-      box-shadow:0 24px 80px rgba(0,0,0,.75),0 0 60px rgba(150,120,255,.45);
       overflow:hidden;
     }
-
-    .web{
-      position:absolute; inset:-20%;
-      background:url("pavucina-web.png") center/cover no-repeat;
-      opacity:.14;
-      transform:rotate(-6deg);
-      pointer-events:none;
-      filter:brightness(1.1) saturate(1.05);
-    }
-
-    header{
-      position:relative;
-      z-index:2;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      padding:18px 18px 0;
-    }
-    .brand{display:flex;gap:10px;align-items:center}
-    .brand img{height:34px;width:auto;display:block}
-    .kicker{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--inkd)}
-    h1{
-      margin:6px 0 0;
-      font-family:"Cinzel",serif;
-      font-size:1.2rem;
-      letter-spacing:.06em;
-    }
-    .sub{
-      margin-top:6px;
-      color:var(--inkd);
-      font-size:.88rem;
-      line-height:1.35;
-      max-width:60ch;
-    }
-    .links{
-      text-align:right;
-      font-size:.82rem;
-      color:rgba(255,255,255,.75);
-    }
-    .links a{color:var(--accent);text-decoration:none}
-    .links a:hover{text-decoration:underline}
-
-    .content{
-      position:relative;
-      z-index:2;
-      padding:14px 18px 18px;
-      display:grid;
-      gap:14px;
-      grid-template-columns: 1fr 1fr;
-    }
-    @media (max-width:860px){
-      .content{grid-template-columns:1fr}
-      .links{text-align:left}
-    }
-
-    .panel{
-      border:1px solid var(--border);
-      border-radius:18px;
-      background:radial-gradient(circle at top left, rgba(184,146,255,.12), transparent 60%);
-      padding:14px 12px;
-    }
-
+    .hero-grid{ display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; align-items:start; }
+    @media (max-width: 820px){ .hero-grid{ grid-template-columns: 1fr; } }
+    .h1{ font-size: 26px; margin:0 0 6px; letter-spacing:.2px; }
+    .tagline{ margin:0 0 16px; color: var(--muted); font-size: 14px; line-height:1.55; }
     .quote{
+      margin:16px 0 0;
+      padding:12px 14px;
+      border-left: 3px solid rgba(155,125,255,.55);
+      background: rgba(255,255,255,.04);
+      border-radius: 12px;
+      color: rgba(255,255,255,.85);
+      font-size: 13px; line-height:1.55;
+    }
+    .panel{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radius);
+      padding:16px;
+    }
+    .panel h3{
       margin:0 0 10px;
-      color:rgba(255,255,255,.86);
-      font-size:.92rem;
+      font-size: 13px;
+      letter-spacing:.25px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.80);
     }
-    .quote b{color:var(--ink)}
-    .note{
-      color:rgba(255,255,255,.72);
-      font-size:.82rem;
-      line-height:1.45;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size:.72rem;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      padding:4px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.35);
-      background:radial-gradient(circle at 0 0, rgba(255,255,255,.35), rgba(255,255,255,.08));
-      color:#120b2e;
-      font-weight:800;
-      margin-bottom:10px;
-      white-space:nowrap;
-    }
-
-    .lockRow{
-      display:grid;
-      gap:10px;
-      margin-top:10px;
-    }
-    .choice{
+    .plan-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .seg{
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background:rgba(8,3,22,.70);
-      opacity:.65;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      padding:4px;
+      gap:4px;
     }
-    .choice.enabled{opacity:1}
-    .choice .left{
-      display:flex;gap:10px;align-items:center;
+    .seg button{
+      border:0; border-radius: 11px;
+      padding:9px 11px; cursor:pointer;
+      background: transparent; color: var(--muted);
+      font-weight:700; font-size:12px;
+      transition: background .18s ease, color .18s ease;
     }
-    .ico{
-      width:34px;height:34px;border-radius:12px;
-      display:grid;place-items:center;
-      border:1px solid rgba(255,255,255,.22);
-      background:linear-gradient(135deg, rgba(184,146,255,.28), rgba(67,210,255,.12));
+    .seg button.active{ background: rgba(155,125,255,.22); color: rgba(255,255,255,.95); }
+    .status{ font-size:12px; color: var(--muted); display:flex; align-items:center; gap:8px; }
+    .dot{ width:9px; height:9px; border-radius:50%; background: rgba(255,255,255,.35); box-shadow: 0 0 0 3px rgba(255,255,255,.05); }
+    .dot.ok{ background: var(--ok); }
+    .dot.lock{ background: var(--danger); }
+    .unlock-grid{ display:grid; grid-template-columns: 1fr; gap:10px; margin-top:12px; }
+    .method{
+      display:flex; gap:12px; align-items:flex-start;
+      padding:12px; border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      transition: background .18s ease, border-color .18s ease;
     }
-    .choice b{font-size:.92rem}
-    .choice span{color:rgba(255,255,255,.7);font-size:.82rem}
-
-    .btnRow{
-      display:flex;
-      gap:10px;
-      margin-top:12px;
-      flex-wrap:wrap;
+    .method:hover{ background: rgba(255,255,255,.045); border-color: rgba(255,255,255,.14); }
+    .method.disabled{ opacity:.45; filter: grayscale(.15); }
+    .icon{
+      width:38px; height:38px; border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      flex:0 0 auto; font-size: 16px;
     }
-    .btn{
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.5);
-      padding:10px 14px;
-      font-size:.9rem;
-      font-weight:700;
-      background:radial-gradient(circle at 0 0,rgba(255,255,255,.62),rgba(255,255,255,.16));
-      cursor:pointer;
+    .method .meta{ flex:1; }
+    .method .meta b{ display:block; font-size:14px; margin-bottom:3px; }
+    .method .meta span{ display:block; font-size:12px; color: var(--muted); line-height:1.4; }
+    .method input{ margin-top:2px; accent-color: #9b7dff; }
+    .footnote{ margin-top:12px; color: var(--muted2); font-size:12px; line-height:1.55; }
+    .cta-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:14px; flex-wrap:wrap; }
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(20,22,40,.92);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.92);
+      padding:10px 12px; border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+      font-size:12px;
+      display:none; align-items:center; gap:10px;
+      z-index:9;
+      max-width:min(720px, calc(100vw - 20px));
     }
-    .btn.secondary{
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.22);
-      color:rgba(255,255,255,.9);
+    .toast.show{ display:flex; }
+    .toast .pill{
+      padding:6px 8px; border-radius: 999px;
+      background: rgba(155,125,255,.18);
+      border: 1px solid rgba(155,125,255,.22);
+      font-weight:700; font-size:11px; white-space:nowrap;
     }
-    .btn:active{transform:scale(.99)}
-
-    .divider{
-      height:1px;
-      background:linear-gradient(to right, transparent, rgba(184,146,255,.55), transparent);
-      opacity:.6;
-      margin:10px 0;
-    }
-
-    .tiny{
-      font-size:.78rem;
-      color:rgba(255,255,255,.65);
-      line-height:1.35;
-    }
-
-    .hidden{display:none !important;}
+    footer{ margin-top:18px; color: rgba(255,255,255,.50); font-size:12px; text-align:center; padding: 18px 0 0; }
   </style>
 </head>
 
 <body>
-  <main class="card">
-    <div class="web" aria-hidden="true"></div>
+  <div class="web-overlay" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
 
-    <header>
-      <div>
-        <div class="brand">
-          <img src="luminamemory.png" alt="LuminaMemory">
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand" aria-label="LuminaMemory brand">
+          <img src="favicon.png" alt="LuminaMemory favicon" />
           <div>
-            <div class="kicker">miniLumina • demo</div>
-            <h1>ARCANA</h1>
+            <b>LuminaMemory™</b>
+            <span>Arcana • zamčená brána</span>
           </div>
         </div>
 
-        <p class="sub">„Tady jsou věci, které se neříkají nahlas.“</p>
+        <nav class="nav-actions" aria-label="Arcana navigation">
+          <a class="btn" href="lumina-demo.html" title="Zpět do hlavní miniLuminy">🕯️ Zavřít Arcanu</a>
+          <a class="btn" href="index.html" title="Zpět na veřejný web">🌐 Zpět na web</a>
+        </nav>
       </div>
+    </div>
+  </header>
 
-      <div class="links">
-        ← <a href="lumina-demo.html">zpět do hubu</a><br>
-        <a href="mini-login.html">↩︎ odhlásit se</a>
-      </div>
-    </header>
+  <main>
+    <div class="wrap">
+      <section class="hero" aria-label="Arcana locked gate">
+        <div class="hero-grid">
+          <div>
+            <h1 class="h1">ARCANA</h1>
+            <p class="tagline">
+              Tady jsou věci, které se neříkají nahlas.<br/>
+              Odemčení se řídí tvým tarifem — a v DEMU to ukazujeme přepínačem, aby bylo jasné, co se kdy otevře.
+            </p>
+            <div class="quote">
+              🔒 <b>Upozornění:</b> Arcana se neukládá do běžné paměti. Je chráněná.
+              <br/>V produkční verzi se bude zamykat i automaticky po neaktivitě.
+            </div>
+          </div>
 
-    <section class="content">
+          <aside class="panel" aria-label="Demo plan selector">
+            <h3>Demo režim • Tarif</h3>
 
-      <!-- LEFT: Gate -->
-      <div class="panel">
-        <div class="badge" id="planBadge">PŘEDPLATNÉ: …</div>
+            <div class="plan-row">
+              <div class="seg" role="tablist" aria-label="Plan selector">
+                <button type="button" class="active" data-plan="free" role="tab" aria-selected="true">FREE</button>
+                <button type="button" data-plan="plus" role="tab" aria-selected="false">PLUS</button>
+                <button type="button" data-plan="premium" role="tab" aria-selected="false">PREMIUM</button>
+              </div>
 
-        <p class="quote" id="modeLine">
-          Arcana je chráněný prostor.
-        </p>
-
-        <div class="divider"></div>
-
-        <div class="note" id="modeNote">
-          Načítám pravidla přístupu…
-        </div>
-
-        <div class="lockRow" style="margin-top:12px;">
-          <div class="choice" id="cPin">
-            <div class="left">
-              <div class="ico">🔢</div>
-              <div>
-                <b>PIN</b><br><span>rychlé otevření</span>
+              <div class="status" aria-live="polite">
+                <span class="dot lock" id="statusDot"></span>
+                <span id="statusText">Arcana je uzamčená (FREE).</span>
               </div>
             </div>
-            <div>→</div>
-          </div>
 
-          <div class="choice" id="cPass">
-            <div class="left">
-              <div class="ico">🔒</div>
-              <div>
-                <b>Heslo</b><br><span>silné otevření</span>
-              </div>
+            <div class="unlock-grid" aria-label="Unlock methods">
+              <label class="method disabled" id="m-pin">
+                <div class="icon">🔑</div>
+                <div class="meta">
+                  <b>PIN</b>
+                  <span>Rychlé otevření. Doporučeno pro běžné použití.</span>
+                </div>
+                <input type="radio" name="unlock" value="PIN" disabled />
+              </label>
+
+              <label class="method disabled" id="m-pass">
+                <div class="icon">🗝️</div>
+                <div class="meta">
+                  <b>Heslo</b>
+                  <span>Silné otevření. Vhodné pro citlivější režim.</span>
+                </div>
+                <input type="radio" name="unlock" value="Heslo" disabled />
+              </label>
+
+              <label class="method disabled" id="m-bio">
+                <div class="icon">🫧</div>
+                <div class="meta">
+                  <b>FaceID / TouchID</b>
+                  <span>Pokud zařízení umí. Premium benefit.</span>
+                </div>
+                <input type="radio" name="unlock" value="Biometrie" disabled />
+              </label>
             </div>
-            <div>→</div>
-          </div>
 
-          <div class="choice" id="cBio">
-            <div class="left">
-              <div class="ico">🫶</div>
-              <div>
-                <b>FaceID / TouchID</b><br><span>pokud telefon umí</span>
-              </div>
+            <div class="footnote" id="planNote">
+              FREE: Arcana je dostupná jen jako náhled. Pro odemčení zvol tarif Premium.
             </div>
-            <div>→</div>
-          </div>
+
+            <div class="cta-row">
+              <button class="btn primary" id="unlockBtn" type="button" disabled>🔒 Odemknout</button>
+            </div>
+
+            <div class="footnote">
+              Pozn.: Tohle je UI DEMO. V produkci se plán bere z účtu uživatele a „Odemknout“ otevře halu Arcany.
+            </div>
+          </aside>
         </div>
 
-        <div class="btnRow">
-          <button class="btn" id="btnUnlock">Odemknout</button>
-          <button class="btn secondary" onclick="location.href='lumina-demo.html'">Zpět do Praetoria</button>
-        </div>
-
-        <p class="tiny" style="margin-top:10px;">
-          Arcana se neukládá do běžné paměti. Je chráněná.
-        </p>
-      </div>
-
-      <!-- RIGHT: What user sees per plan -->
-      <div class="panel">
-        <div class="badge">CO UVIDÍŠ V DEMU</div>
-
-        <div id="boxFree" class="hidden">
-          <p class="quote"><b>FREE / DEMO:</b> Arcana je jen náhled.</p>
-          <p class="note">Uvidíš strukturu a popisy místností, ale bez otevření a bez dat.</p>
-          <div class="btnRow">
-            <button class="btn secondary" onclick="alert('Tady později dáme stránku Předplatné (demo).')">Zjistit víc o předplatném</button>
-          </div>
-        </div>
-
-        <div id="boxPlus" class="hidden">
-          <p class="quote"><b>BASIC / LIGHT:</b> omezený přístup.</p>
-          <p class="note">PIN je dostupný. Ostatní metody jsou zamčené. Místnosti jsou vidět, ale část zůstane šedá.</p>
-        </div>
-
-        <div id="boxPro" class="hidden">
-          <p class="quote"><b>PREMIUM:</b> plná Arcana.</p>
-          <p class="note">PIN + Heslo + Biometrie. V demu si projdeš kompletní halu a dveře místností.</p>
-        </div>
-
-        <div class="divider"></div>
-
-        <p class="tiny" id="whoLine">Načítám uživatele…</p>
-      </div>
-
-    </section>
+        <footer>
+          © 2025 LuminaMemory™ • Demo UI (Arcana)
+        </footer>
+      </section>
+    </div>
   </main>
 
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="pill" id="toastPill">DEMO</span>
+    <span class="msg" id="toastMsg">…</span>
+  </div>
+
   <script>
-    // --- read plan from localStorage written by mini-login ---
-    const userRaw = localStorage.getItem('miniLuminaUser');
-    let user = null;
-    try { user = userRaw ? JSON.parse(userRaw) : null; } catch(e){ user = null; }
+    const planRules = {
+      free:   { pin:false, pass:false, bio:false, unlock:false, note:"FREE: Arcana je dostupná jen jako náhled. Pro odemčení zvol tarif Premium." },
+      plus:   { pin:true,  pass:true,  bio:false, unlock:true,  note:"PLUS: Arcana je dostupná v režimu light (PIN + Heslo)." },
+      premium:{ pin:true,  pass:true,  bio:true,  unlock:true,  note:"PREMIUM: Arcana je plně dostupná (PIN + Heslo + FaceID/TouchID)." }
+    };
 
-    const plan = (user && user.plan) ? user.plan : "free";
-    const email = (user && user.email) ? user.email : "neznámý uživatel";
+    const segButtons = Array.from(document.querySelectorAll(".seg button"));
+    const statusDot  = document.getElementById("statusDot");
+    const statusText = document.getElementById("statusText");
+    const planNote   = document.getElementById("planNote");
+    const unlockBtn  = document.getElementById("unlockBtn");
 
-    // UI refs
-    const planBadge = document.getElementById('planBadge');
-    const modeLine  = document.getElementById('modeLine');
-    const modeNote  = document.getElementById('modeNote');
-    const whoLine   = document.getElementById('whoLine');
+    const mPin  = document.getElementById("m-pin");
+    const mPass = document.getElementById("m-pass");
+    const mBio  = document.getElementById("m-bio");
 
-    const cPin  = document.getElementById('cPin');
-    const cPass = document.getElementById('cPass');
-    const cBio  = document.getElementById('cBio');
-    const btnUnlock = document.getElementById('btnUnlock');
+    const toast = document.getElementById("toast");
+    const toastMsg = document.getElementById("toastMsg");
+    const toastPill = document.getElementById("toastPill");
 
-    const boxFree = document.getElementById('boxFree');
-    const boxPlus = document.getElementById('boxPlus');
-    const boxPro  = document.getElementById('boxPro');
-
-    function enable(el, yes){
-      el.classList.toggle('enabled', !!yes);
+    function showToast(pill, msg){
+      toastPill.textContent = pill;
+      toastMsg.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(window.__toastT);
+      window.__toastT = setTimeout(()=>toast.classList.remove("show"), 2300);
     }
 
-    // render per plan
-    if(plan === "free"){
-      planBadge.textContent = "PŘEDPLATNÉ: FREE / DEMO";
-      modeLine.innerHTML = "Arcana je <b>zamčená</b> (demo náhled).";
-      modeNote.textContent = "V této verzi se Arcana neodemyká. Můžeš si ale prohlédnout její strukturu.";
-      enable(cPin,false); enable(cPass,false); enable(cBio,false);
-      boxFree.classList.remove('hidden');
-
-      btnUnlock.textContent = "Prohlédnout náhled";
-      btnUnlock.onclick = () => {
-        // demo: just show a friendly note for now
-        alert("DEMO: Arcana náhled (zde později otevřeme Halu s popisy místností).");
-      };
-
-    } else if(plan === "plus"){
-      planBadge.textContent = "PŘEDPLATNÉ: BASIC / LIGHT";
-      modeLine.innerHTML = "Arcana je <b>omezeně přístupná</b>.";
-      modeNote.textContent = "Odemkneš ji PINem. Heslo a biometrie jsou dostupné až ve vyšší verzi.";
-      enable(cPin,true); enable(cPass,false); enable(cBio,false);
-      boxPlus.classList.remove('hidden');
-
-      btnUnlock.onclick = () => {
-        alert("DEMO: BASIC → otevřeme Arcana Halu (omezeně) + některé dveře zůstanou zamčené.");
-      };
-
-    } else { // pro
-      planBadge.textContent = "PŘEDPLATNÉ: PREMIUM";
-      modeLine.innerHTML = "Arcana je <b>plně přístupná</b>.";
-      modeNote.textContent = "PIN, heslo i biometrie jsou dostupné (v demu jen jako simulace).";
-      enable(cPin,true); enable(cPass,true); enable(cBio,true);
-      boxPro.classList.remove('hidden');
-
-      btnUnlock.onclick = () => {
-        alert("DEMO: PREMIUM → otevřeme Arcana Halu + všechny místnosti jako náhled (bez reálných dat).");
-      };
+    function setMethodState(el, enabled){
+      const radio = el.querySelector("input");
+      el.classList.toggle("disabled", !enabled);
+      radio.disabled = !enabled;
+      if(!enabled && radio.checked) radio.checked = false;
     }
 
-    whoLine.textContent = `Přihlášen: ${email}`;
+    function applyPlan(plan){
+      const rule = planRules[plan];
+
+      segButtons.forEach(b=>{
+        const active = b.dataset.plan === plan;
+        b.classList.toggle("active", active);
+        b.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      setMethodState(mPin, rule.pin);
+      setMethodState(mPass, rule.pass);
+      setMethodState(mBio, rule.bio);
+
+      planNote.textContent = rule.note;
+      unlockBtn.disabled = !rule.unlock;
+
+      if(plan === "free"){
+        statusDot.className = "dot lock";
+        statusText.textContent = "Arcana je uzamčená (FREE).";
+      }else{
+        statusDot.className = "dot ok";
+        statusText.textContent = plan === "plus" ? "Arcana je dostupná (PLUS)." : "Arcana je dostupná (PREMIUM).";
+      }
+
+      showToast("DEMO", `Přepnuto na ${plan.toUpperCase()}.`);
+    }
+
+    segButtons.forEach(btn=>{
+      btn.addEventListener("click", ()=> applyPlan(btn.dataset.plan));
+    });
+
+    unlockBtn.addEventListener("click", ()=>{
+      const selected = document.querySelector('input[name="unlock"]:checked');
+      if(!selected){
+        showToast("ARCANA", "Vyber metodu odemčení (PIN / Heslo / FaceID).");
+        return;
+      }
+      showToast("ARCANA", `DEMO: Odemčeno přes ${selected.value}. (Později: otevře se Hala Arcany.)`);
+      // Later: window.location.href = "arcana-hala.html";
+    });
+
+    applyPlan("free");
   </script>
 </body>
 </html>
