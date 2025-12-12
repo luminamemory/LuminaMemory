@@ -1,24 +1,384 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ARCANA — Lumina</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arcana • Vstupní brána</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    body{ margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#050920; color:#f6f1ff; }
-    .wrap{ max-width: 920px; margin: 0 auto; padding: 28px 18px 40px; }
-    a{ color:#b892ff; }
-    .card{ margin-top:14px; padding:16px 16px; border-radius:16px; border:1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); }
-    .muted{ opacity:.8; }
+    :root{
+      --bg:#02010a;
+      --ink:#f7f3ff;
+      --inkd:#c2b8ff;
+      --accent:#b892ff;
+      --card:rgba(6,3,20,.92);
+      --border:rgba(255,255,255,.16);
+      --ok:rgba(67,210,255,.35);
+      --warn:rgba(184,146,255,.40);
+      --err:rgba(255,120,180,.45);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      display:flex;align-items:center;justify-content:center;
+      padding:22px 12px;
+      color:var(--ink);
+      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 55%),
+        radial-gradient(circle at 82% 100%, rgba(67,210,255,.45) 0, transparent 55%),
+        radial-gradient(circle at 50% 40%, rgba(122,93,255,.35) 0, transparent 60%),
+        #000;
+    }
+
+    .card{
+      width:min(980px, 100%);
+      position:relative;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:0 24px 80px rgba(0,0,0,.75),0 0 60px rgba(150,120,255,.45);
+      overflow:hidden;
+    }
+
+    .web{
+      position:absolute; inset:-20%;
+      background:url("pavucina-web.png") center/cover no-repeat;
+      opacity:.14;
+      transform:rotate(-6deg);
+      pointer-events:none;
+      filter:brightness(1.1) saturate(1.05);
+    }
+
+    header{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      padding:18px 18px 0;
+    }
+    .brand{display:flex;gap:10px;align-items:center}
+    .brand img{height:34px;width:auto;display:block}
+    .kicker{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--inkd)}
+    h1{
+      margin:6px 0 0;
+      font-family:"Cinzel",serif;
+      font-size:1.2rem;
+      letter-spacing:.06em;
+    }
+    .sub{
+      margin-top:6px;
+      color:var(--inkd);
+      font-size:.88rem;
+      line-height:1.35;
+      max-width:60ch;
+    }
+    .links{
+      text-align:right;
+      font-size:.82rem;
+      color:rgba(255,255,255,.75);
+    }
+    .links a{color:var(--accent);text-decoration:none}
+    .links a:hover{text-decoration:underline}
+
+    .content{
+      position:relative;
+      z-index:2;
+      padding:14px 18px 18px;
+      display:grid;
+      gap:14px;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width:860px){
+      .content{grid-template-columns:1fr}
+      .links{text-align:left}
+    }
+
+    .panel{
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:radial-gradient(circle at top left, rgba(184,146,255,.12), transparent 60%);
+      padding:14px 12px;
+    }
+
+    .quote{
+      margin:0 0 10px;
+      color:rgba(255,255,255,.86);
+      font-size:.92rem;
+    }
+    .quote b{color:var(--ink)}
+    .note{
+      color:rgba(255,255,255,.72);
+      font-size:.82rem;
+      line-height:1.45;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:.72rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.35);
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.35), rgba(255,255,255,.08));
+      color:#120b2e;
+      font-weight:800;
+      margin-bottom:10px;
+      white-space:nowrap;
+    }
+
+    .lockRow{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+    .choice{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(8,3,22,.70);
+      opacity:.65;
+    }
+    .choice.enabled{opacity:1}
+    .choice .left{
+      display:flex;gap:10px;align-items:center;
+    }
+    .ico{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.22);
+      background:linear-gradient(135deg, rgba(184,146,255,.28), rgba(67,210,255,.12));
+    }
+    .choice b{font-size:.92rem}
+    .choice span{color:rgba(255,255,255,.7);font-size:.82rem}
+
+    .btnRow{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.5);
+      padding:10px 14px;
+      font-size:.9rem;
+      font-weight:700;
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,.62),rgba(255,255,255,.16));
+      cursor:pointer;
+    }
+    .btn.secondary{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.22);
+      color:rgba(255,255,255,.9);
+    }
+    .btn:active{transform:scale(.99)}
+
+    .divider{
+      height:1px;
+      background:linear-gradient(to right, transparent, rgba(184,146,255,.55), transparent);
+      opacity:.6;
+      margin:10px 0;
+    }
+
+    .tiny{
+      font-size:.78rem;
+      color:rgba(255,255,255,.65);
+      line-height:1.35;
+    }
+
+    .hidden{display:none !important;}
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>ARCANA</h1>
-    <p class="muted">Placeholder stránka — obsah doplníme později.</p>
-    <div class="card">
-      <p><a href="lumina-demo.html">← Zpět</a></p>
-    </div>
-  </div>
+  <main class="card">
+    <div class="web" aria-hidden="true"></div>
+
+    <header>
+      <div>
+        <div class="brand">
+          <img src="luminamemory.png" alt="LuminaMemory">
+          <div>
+            <div class="kicker">miniLumina • demo</div>
+            <h1>ARCANA</h1>
+          </div>
+        </div>
+
+        <p class="sub">„Tady jsou věci, které se neříkají nahlas.“</p>
+      </div>
+
+      <div class="links">
+        ← <a href="lumina-demo.html">zpět do hubu</a><br>
+        <a href="mini-login.html">↩︎ odhlásit se</a>
+      </div>
+    </header>
+
+    <section class="content">
+
+      <!-- LEFT: Gate -->
+      <div class="panel">
+        <div class="badge" id="planBadge">PŘEDPLATNÉ: …</div>
+
+        <p class="quote" id="modeLine">
+          Arcana je chráněný prostor.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="note" id="modeNote">
+          Načítám pravidla přístupu…
+        </div>
+
+        <div class="lockRow" style="margin-top:12px;">
+          <div class="choice" id="cPin">
+            <div class="left">
+              <div class="ico">🔢</div>
+              <div>
+                <b>PIN</b><br><span>rychlé otevření</span>
+              </div>
+            </div>
+            <div>→</div>
+          </div>
+
+          <div class="choice" id="cPass">
+            <div class="left">
+              <div class="ico">🔒</div>
+              <div>
+                <b>Heslo</b><br><span>silné otevření</span>
+              </div>
+            </div>
+            <div>→</div>
+          </div>
+
+          <div class="choice" id="cBio">
+            <div class="left">
+              <div class="ico">🫶</div>
+              <div>
+                <b>FaceID / TouchID</b><br><span>pokud telefon umí</span>
+              </div>
+            </div>
+            <div>→</div>
+          </div>
+        </div>
+
+        <div class="btnRow">
+          <button class="btn" id="btnUnlock">Odemknout</button>
+          <button class="btn secondary" onclick="location.href='lumina-demo.html'">Zpět do Praetoria</button>
+        </div>
+
+        <p class="tiny" style="margin-top:10px;">
+          Arcana se neukládá do běžné paměti. Je chráněná.
+        </p>
+      </div>
+
+      <!-- RIGHT: What user sees per plan -->
+      <div class="panel">
+        <div class="badge">CO UVIDÍŠ V DEMU</div>
+
+        <div id="boxFree" class="hidden">
+          <p class="quote"><b>FREE / DEMO:</b> Arcana je jen náhled.</p>
+          <p class="note">Uvidíš strukturu a popisy místností, ale bez otevření a bez dat.</p>
+          <div class="btnRow">
+            <button class="btn secondary" onclick="alert('Tady později dáme stránku Předplatné (demo).')">Zjistit víc o předplatném</button>
+          </div>
+        </div>
+
+        <div id="boxPlus" class="hidden">
+          <p class="quote"><b>BASIC / LIGHT:</b> omezený přístup.</p>
+          <p class="note">PIN je dostupný. Ostatní metody jsou zamčené. Místnosti jsou vidět, ale část zůstane šedá.</p>
+        </div>
+
+        <div id="boxPro" class="hidden">
+          <p class="quote"><b>PREMIUM:</b> plná Arcana.</p>
+          <p class="note">PIN + Heslo + Biometrie. V demu si projdeš kompletní halu a dveře místností.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="tiny" id="whoLine">Načítám uživatele…</p>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    // --- read plan from localStorage written by mini-login ---
+    const userRaw = localStorage.getItem('miniLuminaUser');
+    let user = null;
+    try { user = userRaw ? JSON.parse(userRaw) : null; } catch(e){ user = null; }
+
+    const plan = (user && user.plan) ? user.plan : "free";
+    const email = (user && user.email) ? user.email : "neznámý uživatel";
+
+    // UI refs
+    const planBadge = document.getElementById('planBadge');
+    const modeLine  = document.getElementById('modeLine');
+    const modeNote  = document.getElementById('modeNote');
+    const whoLine   = document.getElementById('whoLine');
+
+    const cPin  = document.getElementById('cPin');
+    const cPass = document.getElementById('cPass');
+    const cBio  = document.getElementById('cBio');
+    const btnUnlock = document.getElementById('btnUnlock');
+
+    const boxFree = document.getElementById('boxFree');
+    const boxPlus = document.getElementById('boxPlus');
+    const boxPro  = document.getElementById('boxPro');
+
+    function enable(el, yes){
+      el.classList.toggle('enabled', !!yes);
+    }
+
+    // render per plan
+    if(plan === "free"){
+      planBadge.textContent = "PŘEDPLATNÉ: FREE / DEMO";
+      modeLine.innerHTML = "Arcana je <b>zamčená</b> (demo náhled).";
+      modeNote.textContent = "V této verzi se Arcana neodemyká. Můžeš si ale prohlédnout její strukturu.";
+      enable(cPin,false); enable(cPass,false); enable(cBio,false);
+      boxFree.classList.remove('hidden');
+
+      btnUnlock.textContent = "Prohlédnout náhled";
+      btnUnlock.onclick = () => {
+        // demo: just show a friendly note for now
+        alert("DEMO: Arcana náhled (zde později otevřeme Halu s popisy místností).");
+      };
+
+    } else if(plan === "plus"){
+      planBadge.textContent = "PŘEDPLATNÉ: BASIC / LIGHT";
+      modeLine.innerHTML = "Arcana je <b>omezeně přístupná</b>.";
+      modeNote.textContent = "Odemkneš ji PINem. Heslo a biometrie jsou dostupné až ve vyšší verzi.";
+      enable(cPin,true); enable(cPass,false); enable(cBio,false);
+      boxPlus.classList.remove('hidden');
+
+      btnUnlock.onclick = () => {
+        alert("DEMO: BASIC → otevřeme Arcana Halu (omezeně) + některé dveře zůstanou zamčené.");
+      };
+
+    } else { // pro
+      planBadge.textContent = "PŘEDPLATNÉ: PREMIUM";
+      modeLine.innerHTML = "Arcana je <b>plně přístupná</b>.";
+      modeNote.textContent = "PIN, heslo i biometrie jsou dostupné (v demu jen jako simulace).";
+      enable(cPin,true); enable(cPass,true); enable(cBio,true);
+      boxPro.classList.remove('hidden');
+
+      btnUnlock.onclick = () => {
+        alert("DEMO: PREMIUM → otevřeme Arcana Halu + všechny místnosti jako náhled (bez reálných dat).");
+      };
+    }
+
+    whoLine.textContent = `Přihlášen: ${email}`;
+  </script>
 </body>
 </html>
