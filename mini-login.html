@@ -264,7 +264,6 @@
               </button>
 
               <div class="lumina-select__menu" role="listbox" tabindex="-1" hidden>
-                <button type="button" role="option" data-value="" aria-selected="true" class="is-placeholder is-disabled" disabled>Vyber předplatné…</button>
                 <button type="button" role="option" data-value="free" aria-selected="false">Free</button>
                 <button type="button" role="option" data-value="plus" aria-selected="false">Plus</button>
                 <button type="button" role="option" data-value="premium" aria-selected="false">Premium</button>
@@ -278,8 +277,6 @@
         </div>
 
         <button class="btn" type="submit">Vstoupit</button>
-        <button class="btn secondary" type="button" onclick="return openDemoApp()">Otevřít demo aplikaci</button>
-
         <div class="mini">
           Bez přihlášení se do Luminy nevstupuje. (Ve storu jde app stáhnout, ale otevře se až po login.)<br>
           <a href="index.html">← Zpět na web</a>
@@ -447,16 +444,6 @@
       setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 650);
       return false;
     }
-
-    function openDemoApp(){
-      // stejné validace jako login
-      const data = validateLogin();
-      if(!data){
-        // požadavek: i pro „otevření demo aplikace“ má vyskočit hláška
-        // (tady se použijí stejné hlášky u konkrétních polí)
-        return false;
-      }
-
       const card = document.getElementById('loginCard');
       card.classList.add('is-awake');
 
