@@ -507,7 +507,165 @@
       .top-left{max-width:100%;}
       .panel-main{top:36%;}
     }
-  </style>
+      /* =========================
+       LUMINA • Custom toast (bez alertů / bez defaultních bublin)
+       ========================= */
+    .lumi-toasts{
+      position:fixed;
+      inset:auto 14px 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      z-index:2000;
+      pointer-events:none;
+      max-width:min(520px, calc(100vw - 28px));
+      margin-left:auto;
+    }
+    .lumi-toast{
+      position:relative;
+      pointer-events:auto;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:10px;
+      align-items:start;
+      padding:12px 12px 11px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.22);
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.20), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(67,210,255,.22), transparent 60%),
+        rgba(6,10,34,.94);
+      backdrop-filter: blur(16px);
+      box-shadow:0 18px 44px rgba(0,0,0,.78), 0 0 30px rgba(67,210,255,.22);
+      transform:translateY(10px) scale(.98);
+      opacity:0;
+      animation:lumiToastIn .22s cubic-bezier(.22,.61,.36,1) forwards;
+      overflow:hidden;
+    }
+    .lumi-toast::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:18px;
+      background:conic-gradient(from 200deg,
+        rgba(184,146,255,.0),
+        rgba(184,146,255,.85),
+        rgba(67,210,255,.0),
+        rgba(67,210,255,.70),
+        rgba(184,146,255,.0));
+      filter:blur(12px);
+      opacity:.45;
+      z-index:0;
+    }
+    .lumi-toast > *{position:relative; z-index:1;}
+    .lumi-toast__icon{
+      width:34px;height:34px;
+      display:grid;place-items:center;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.22);
+      background:linear-gradient(135deg, rgba(184,146,255,.35), rgba(67,210,255,.18));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 0 20px rgba(184,146,255,.20);
+      font-size:18px;
+      margin-top:1px;
+    }
+    .lumi-toast__title{
+      font-weight:800;
+      letter-spacing:.02em;
+      font-size:.92rem;
+      margin-bottom:2px;
+    }
+    .lumi-toast__msg{
+      color:rgba(255,255,255,.82);
+      font-size:.86rem;
+      line-height:1.35;
+    }
+    .lumi-toast__quip{
+      margin-top:6px;
+      color:rgba(255,255,255,.68);
+      font-size:.78rem;
+    }
+    .lumi-toast__close{
+      appearance:none;
+      border:0;
+      background:transparent;
+      color:rgba(255,255,255,.8);
+      font-size:18px;
+      line-height:1;
+      padding:2px 6px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+    .lumi-toast__close:hover{background:rgba(255,255,255,.10)}
+    .lumi-toast--ok{border-color:rgba(67,210,255,.35)}
+    .lumi-toast--warn{border-color:rgba(184,146,255,.40)}
+    .lumi-toast--err{border-color:rgba(255,120,180,.45)}
+    @keyframes lumiToastIn{
+      to{opacity:1; transform:translateY(0) scale(1)}
+    }
+    @keyframes lumiToastOut{
+      to{opacity:0; transform:translateY(10px) scale(.98)}
+    }
+
+  
+    /* lumina-select */
+    .lumina-select{position:relative;width:100%}
+    .lumina-select__btn{
+      width:100%;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:12px 14px;border-radius:12px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      color:rgba(255,255,255,.92);
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+      touch-action: manipulation;
+    }
+    .lumina-select__btn:active{transform:scale(.99)}
+    .lumina-select__btn:focus{outline:none;border-color:rgba(120,190,255,.55);box-shadow:0 0 0 3px rgba(88,160,255,.18), 0 12px 28px rgba(0,0,0,.38)}
+    .lumina-select__label{opacity:.95}
+    .lumina-select__chev{opacity:.75}
+    .lumina-select__menu{
+      position:absolute;left:0;right:0;top:calc(100% + 10px);
+      padding:10px;border-radius:16px;
+      background:linear-gradient(180deg, rgba(22,12,50,.92), rgba(6,8,20,.88));
+      border:1px solid rgba(120,190,255,.25);
+      box-shadow:0 20px 60px rgba(0,0,0,.55), 0 0 22px rgba(88,160,255,.16);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index:999;
+      transform: translateY(-6px);
+      opacity:0;
+      pointer-events:none;
+    }
+    .lumina-select.is-open .lumina-select__menu{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+      animation: luminaFadeGlow .18s ease-out both;
+    }
+    @keyframes luminaFadeGlow{
+      from{opacity:0;transform:translateY(-8px);filter:drop-shadow(0 0 0 rgba(88,160,255,0))}
+      to{opacity:1;transform:translateY(0);filter:drop-shadow(0 0 14px rgba(88,160,255,.25))}
+    }
+    .lumina-select__menu button{
+      width:100%;
+      text-align:left;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid transparent;
+      background:transparent;
+      color:rgba(255,255,255,.92);
+      transition: background .14s ease, border-color .14s ease, transform .08s ease;
+    }
+    .lumina-select__menu button:hover{background:rgba(120,190,255,.10);border-color:rgba(120,190,255,.18)}
+    .lumina-select__menu button:active{transform:scale(.995)}
+    .lumina-select__menu button[aria-selected="true"]{background:rgba(120,190,255,.14);border-color:rgba(120,190,255,.22)}
+    .lumina-select__menu button.is-placeholder{opacity:.75}
+    .lumina-select__menu button.is-disabled{opacity:.45}
+    
+</style>
 </head>
 <body>
   <div class="shell">
@@ -572,12 +730,21 @@
           <button type="button" class="chip" data-mood="😔">😔</button>
                   </div>
 
-        <select id="tag">
-          <option value="🗯 jen tak">🗯 jen tak</option>
-          <option value="🗯 důležité">🗯 důležité</option>
-          <option value="🗯 úkol">🗯 úkol</option>
-          <option value="🗯 myšlenka">🗯 myšlenka</option>
-        </select>
+        
+    <div class="lumina-select" id="tagSelect">
+      <button type="button" class="lumina-select__btn" aria-haspopup="listbox" aria-expanded="false">
+        <span class="lumina-select__label">jen tak</span>
+        <span class="lumina-select__chev">▾</span>
+      </button>
+      <div class="lumina-select__menu" role="listbox" tabindex="-1" hidden>
+        <button type="button" role="option" data-value="🗯 jen tak" aria-selected="false">🗯 jen tak</button>
+        <button type="button" role="option" data-value="🗯 důležité" aria-selected="false">🗯 důležité</button>
+        <button type="button" role="option" data-value="🗯 úkol" aria-selected="false">🗯 úkol</button>
+        <button type="button" role="option" data-value="🗯 myšlenka" aria-selected="false">🗯 myšlenka</button>
+      </div>
+      <input type="hidden" id="tag" value="">
+    </div>
+    
 
         <button id="saveBtn" type="button" class="btn-mini">Uložit</button>
       </div>
@@ -628,6 +795,117 @@
   </div>
 
   <script>
+    /* =========================
+       LUMINA • Toast API (jednotný styl, bez alert() a bez HTML5 bublin)
+       ========================= */
+    (function(){
+      const hostId = "lumiToasts";
+      const quips = [
+        "Jen drobnost… a jsme uvnitř. ✨",
+        "Neboj, nic se nikam neukládá — zatím. 😉",
+        "Malý detail. Velká magie. ⚡",
+        "Psst… tady to chce doplnit. 🗯",
+        "Ještě kousek a dveře cvaknou. 🔑"
+      ];
+      function ensureHost(){
+        let el = document.getElementById(hostId);
+        if(!el){
+          el = document.createElement("div");
+          el.id = hostId;
+          el.className = "lumi-toasts";
+          el.setAttribute("aria-live","polite");
+          el.setAttribute("aria-atomic","true");
+          document.body.appendChild(el);
+        }
+        return el;
+      }
+      function toast({title, msg, variant="warn", icon="💫", quip=true, timeout=3200}){
+        const host = ensureHost();
+        const el = document.createElement("div");
+        el.className = `lumi-toast lumi-toast--${variant}`;
+        el.setAttribute("role","status");
+        const q = quip ? quips[Math.floor(Math.random()*quips.length)] : "";
+        el.innerHTML = `
+          <div class="lumi-toast__icon">${icon}</div>
+          <div class="lumi-toast__body">
+            <div class="lumi-toast__title">${escapeHtml(title || "")}</div>
+            <div class="lumi-toast__msg">${escapeHtml(msg || "")}</div>
+            ${quip ? `<div class="lumi-toast__quip">${escapeHtml(q)}</div>` : ``}
+          </div>
+          <button class="lumi-toast__close" type="button" aria-label="Zavřít">×</button>
+        `;
+        const close = () => {
+          el.style.animation = "lumiToastOut .18s ease forwards";
+          setTimeout(()=> el.remove(), 190);
+        };
+        el.querySelector(".lumi-toast__close").addEventListener("click", close);
+        host.appendChild(el);
+
+        if(timeout){
+          setTimeout(close, timeout);
+        }
+        return el;
+      }
+      function escapeHtml(s){
+        return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      }
+      window.LuminaUI = window.LuminaUI || {};
+      window.LuminaUI.toast = toast;
+    
+
+      // Lumina select (náhrada za nativní <select> -> žádné bílé iOS menu)
+      window.LuminaUI.makeSelect = function(root){
+        const el = (typeof root === 'string') ? document.querySelector(root) : root;
+        if(!el) return;
+
+        const btn   = el.querySelector('.lumina-select__btn');
+        const menu  = el.querySelector('.lumina-select__menu');
+        const label = el.querySelector('.lumina-select__label');
+        const hidden = el.querySelector('input[type="hidden"]');
+
+        function open(){
+          el.classList.add('is-open');
+          btn.setAttribute('aria-expanded','true');
+          menu.hidden = false;
+        }
+        function close(){
+          el.classList.remove('is-open');
+          btn.setAttribute('aria-expanded','false');
+          // necháme doběhnout animaci
+          setTimeout(()=>{ if(!el.classList.contains('is-open')) menu.hidden = true; }, 140);
+        }
+        function toggle(){ el.classList.contains('is-open') ? close() : open(); }
+
+        btn.addEventListener('click', (e)=>{ e.preventDefault(); toggle(); });
+
+        menu.addEventListener('click', (e)=>{
+          const opt = e.target.closest('button[role="option"]');
+          if(!opt || opt.disabled) return;
+          const val = opt.getAttribute('data-value') ?? '';
+          const txt = opt.textContent || '';
+          hidden.value = val;
+          label.textContent = txt;
+
+          // aria-selected update
+          menu.querySelectorAll('button[role="option"]').forEach(b=>b.setAttribute('aria-selected','false'));
+          opt.setAttribute('aria-selected','true');
+
+          close();
+        });
+
+        document.addEventListener('click', (e)=>{
+          if(!el.contains(e.target)) close();
+        });
+
+        document.addEventListener('keydown', (e)=>{
+          if(!el.classList.contains('is-open')) return;
+          if(e.key === 'Escape'){ close(); btn.focus(); }
+        });
+      };
+    
+})();
+
+
     // (Arcana/Praetorium/Nastavení jsou nyní samostatné stránky)
 ;
 
@@ -717,7 +995,16 @@
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const text = msg.value.trim();
-      if (!text) return;
+      if (!text){
+        window.LuminaUI.toast({
+          variant:"warn",
+          icon:"🗯",
+          title:"Nic nepřišlo",
+          msg:"Napiš aspoň jedno slovo — pak to pošleme."
+        });
+        msg.focus();
+        return;
+      }
 
       const tag = tagSel.value;
       const id = Date.now().toString();
@@ -754,14 +1041,31 @@
       const r = e.target.dataset.react;
       if (!r) return;
       const last = JSON.parse(localStorage.getItem("pokec:last") || "null");
-      if (!last) return;
+      if (!last){
+        window.LuminaUI.toast({
+          variant:"warn",
+          icon:"🧷",
+          title:"Není k čemu reagovat",
+          msg:"Nejdřív odešli zprávu — pak přidej reakci."
+        });
+        return;
+      }
       addBubble("me", `${r}`, `reakce k poslední zprávě`);
     });
 
     // save to "Chronica" (localStorage)
     document.getElementById("saveBtn").addEventListener("click", () => {
       const last = JSON.parse(localStorage.getItem("pokec:last") || "null");
-      if (!last) return;
+      if (!last){
+        window.LuminaUI.toast({
+          variant:"warn",
+          icon:"📎",
+          title:"Není co uložit",
+          msg:"Nejdřív pošli nebo napiš zprávu — pak ji uložíme do Chronicy."
+        });
+        msg.focus();
+        return;
+      }
 
       const chronica = JSON.parse(localStorage.getItem("chronica") || "[]");
       chronica.unshift({
@@ -779,5 +1083,8 @@
     // malý start message (ať je chat hned živý)
     addBubble("lumi","Ahoj. Jsem tady. Napiš mi, co potřebuješ. ✨","Lumina • start");
   </script>
+
+  <div class="lumi-toasts" id="lumiToasts" aria-live="polite" aria-atomic="true"></div>
+
 </body>
 </html>
