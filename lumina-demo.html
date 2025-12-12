@@ -733,6 +733,16 @@
 .lumina-option.is-selected{ background:rgba(130,110,255,.18); }
 .lumina-option__tick{opacity:.9}
 
+
+    /* === Lumina dropdown: full height + scroll on iOS === */
+    .lumina-select__menu{
+      max-height: 72vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+    }
+    
 </style>
 </head>
 <body>
@@ -1282,7 +1292,56 @@
       });
     }
 
-    function init(wrapper){
+    
+    function __lumiEnsurePortal(wrapper, menu){
+      if(menu.dataset.lumiPortal==="1") return;
+      const ph = document.createComment('lumi-menu');
+      menu.__lumiPlaceholder = ph;
+      menu.parentNode.insertBefore(ph, menu);
+      document.body.appendChild(menu);
+      menu.dataset.lumiPortal = "1";
+    }
+    function __lumiRestorePortal(menu){
+      if(!menu || menu.dataset.lumiPortal!=="1") return;
+      const ph = menu.__lumiPlaceholder;
+      if(ph && ph.parentNode){
+        ph.parentNode.insertBefore(menu, ph);
+        ph.remove();
+      }
+      delete menu.dataset.lumiPortal;
+      menu.style.position = '';
+      menu.style.left = '';
+      menu.style.top = '';
+      menu.style.bottom = '';
+      menu.style.width = '';
+      menu.style.maxHeight = '';
+    }
+    function __lumiPositionMenu(btn, menu, wrapper){
+      if(!btn || !menu) return;
+      const r = btn.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const margin = 10;
+      const below = (vh - r.bottom - margin);
+      const above = (r.top - margin);
+      const openUp = (below < 220 && above > below);
+
+      menu.style.position = 'fixed';
+      menu.style.left = Math.round(r.left) + 'px';
+      menu.style.width = Math.round(r.width) + 'px';
+
+      if(openUp){
+        menu.style.top = '';
+        menu.style.bottom = Math.round(vh - r.top + margin) + 'px';
+      }else{
+        menu.style.bottom = '';
+        menu.style.top = Math.round(r.bottom + margin) + 'px';
+      }
+
+      const space = openUp ? above : below;
+      const maxH = Math.max(140, Math.min(space - 16, vh * 0.78));
+      menu.style.maxHeight = Math.round(maxH) + 'px';
+    }
+function init(wrapper){
       if(!wrapper || wrapper.dataset.lumiInit) return;
       const btn = wrapper.querySelector('.lumina-select__btn');
       const menu = wrapper.querySelector('.lumina-select__menu');
@@ -1296,14 +1355,22 @@
         closeAll(wrapper);
         wrapper.classList.add('is-open');
         btn.setAttribute('aria-expanded','true');
+        __lumiEnsurePortal(wrapper, menu);
+        __lumiPositionMenu(btn, menu, wrapper);
+        window.addEventListener('resize', __lumiOnViewport, {passive:true});
+        window.addEventListener('scroll', __lumiOnViewport, {passive:true});
         menu.hidden = false;
         // focus bez scrollu (iOS)
         try{ menu.focus({preventScroll:true}); }catch(_){ menu.focus(); }
       }
+      function __lumiOnViewport(){ if(wrapper.classList.contains('is-open')) __lumiPositionMenu(btn, menu, wrapper); }
       function close(){
         wrapper.classList.remove('is-open');
         btn.setAttribute('aria-expanded','false');
         menu.hidden = true;
+        window.removeEventListener('resize', __lumiOnViewport);
+        window.removeEventListener('scroll', __lumiOnViewport);
+        __lumiRestorePortal(menu);
       }
 
       btn.addEventListener('click', (e)=>{
