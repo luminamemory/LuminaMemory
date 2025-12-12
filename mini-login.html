@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>miniLumina • Vstup</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#02010a;
+      --ink:#f7f3ff;
+      --inkd:#c2b8ff;
+      --accent:#b892ff;
+      --card:rgba(6,3,20,.92);
+      --border:rgba(255,255,255,.16);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      display:flex;align-items:center;justify-content:center;
+      padding:22px 12px;
+      color:var(--ink);
+      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 55%),
+        radial-gradient(circle at 82% 100%, rgba(67,210,255,.45) 0, transparent 55%),
+        radial-gradient(circle at 50% 40%, rgba(122,93,255,.35) 0, transparent 60%),
+        #000;
+    }
+
+    .shell{width:100%;max-width:980px;display:grid;gap:18px;grid-template-columns:1.05fr .95fr}
+    @media (max-width:860px){ .shell{grid-template-columns:1fr} }
+
+    .card{
+      position:relative;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:0 24px 80px rgba(0,0,0,.75),0 0 60px rgba(150,120,255,.45);
+      overflow:hidden;
+    }
+
+    /* “rozsvícení pavučiny” */
+    .web{
+      position:absolute; inset:-20%;
+      background:url("pavucina-web.png") center/cover no-repeat;
+      opacity:.10;
+      filter:blur(.2px);
+      transform:rotate(-6deg);
+      pointer-events:none;
+      transition:opacity 600ms ease, filter 600ms ease;
+    }
+    .card.is-awake .web{opacity:.22; filter:brightness(1.25) saturate(1.1);}
+
+    .left{padding:26px 20px 18px}
+    .right{padding:26px 20px 18px}
+
+    .brand{
+      display:flex;align-items:center;gap:10px;margin-bottom:10px;
+    }
+    .brand img{height:34px;width:auto;display:block}
+    .kicker{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--inkd)}
+    h1{
+      margin:6px 0 10px;
+      font-family:"Cinzel",serif;
+      font-size:1.35rem;
+      letter-spacing:.04em;
+    }
+    .lead{margin:0 0 14px;color:var(--inkd);font-size:.92rem;line-height:1.45}
+
+    .grid{
+      display:grid;gap:10px;margin-top:10px;
+    }
+    label{font-size:.82rem;color:rgba(255,255,255,.78)}
+    input,select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(8,3,22,.86);
+      color:var(--ink);
+      outline:none;
+    }
+    input::placeholder{color:rgba(197,189,214,.55)}
+    .row2{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+    @media (max-width:520px){ .row2{grid-template-columns:1fr} }
+
+    .btn{
+      margin-top:8px;
+      width:100%;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.5);
+      padding:10px 14px;
+      font-size:.9rem;
+      font-weight:600;
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,.62),rgba(255,255,255,.16));
+      cursor:pointer;
+    }
+    .btn:hover{filter:brightness(1.05)}
+    .mini{
+      margin-top:10px;
+      font-size:.78rem;
+      color:rgba(255,255,255,.7);
+      line-height:1.4;
+    }
+    .mini a{color:var(--accent);text-decoration:none}
+    .mini a:hover{text-decoration:underline}
+
+    .panelTitle{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:10px;
+    }
+    .pill{
+      font-size:.72rem;padding:3px 10px 4px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.4);
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.4), rgba(255,255,255,.08));
+      color:#120b2e;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+    }
+    .steps{
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:radial-gradient(circle at top left, rgba(184,146,255,.12), transparent 60%);
+      padding:14px 12px;
+      color:rgba(255,255,255,.82);
+      font-size:.9rem;
+      line-height:1.5;
+    }
+    .steps b{color:var(--ink)}
+    .steps ul{margin:8px 0 0 18px;padding:0}
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+
+    <section class="card left" id="loginCard">
+      <div class="web" aria-hidden="true"></div>
+
+      <div class="brand">
+        <img src="luminamemory.png" alt="LuminaMemory">
+        <div>
+          <div class="kicker">miniLumina • demo</div>
+          <h1>Vstup do prostředí</h1>
+        </div>
+      </div>
+
+      <p class="lead">
+        Přihlášení je “sucharské”, ale za dveřmi už čeká magie. ✨
+        (Demo verze – zatím bez reálného ukládání.)
+      </p>
+
+      <form class="grid" onsubmit="return enterMiniLumina(event)">
+        <div>
+          <label>E-mail</label>
+          <input type="email" id="email" placeholder="např. gabi@luminamemory.ai" required>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>Heslo</label>
+            <input type="password" id="pass" placeholder="••••••••" required>
+          </div>
+          <div>
+            <label>Předplatné (demo)</label>
+            <select id="plan">
+              <option value="free">Free</option>
+              <option value="plus">Plus</option>
+              <option value="pro">Pro</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn" type="submit">Vstoupit</button>
+
+        <div class="mini">
+          Bez přihlášení se do Luminy nevstupuje. (Ve storu jde app stáhnout, ale otevře se až po login.)<br>
+          <a href="index.html">← Zpět na web</a>
+        </div>
+      </form>
+    </section>
+
+    <aside class="card right">
+      <div class="panelTitle">
+        <div class="kicker">jak to bude fungovat</div>
+        <div class="pill">mapa</div>
+      </div>
+
+      <div class="steps">
+        <b>Po přihlášení</b> se rozsvítí pavučina a otevřou se místnosti podle předplatného:
+        <ul>
+          <li><b>Nastavení</b> (Rose Zone, Inventory, Life Mission Archive, “návod chat”)</li>
+          <li><b>Praetorium</b> (Sigma, Chronica, Proiecta)</li>
+          <li><b>Arcana</b> (zamčená – PIN/biometrie)</li>
+          <li><b>Pokec</b> (hlavní chat)</li>
+        </ul>
+        <div style="margin-top:10px;color:rgba(255,255,255,.7);font-size:.82rem;">
+          MemorySky “dvířka” dáme jako samostatnou bránu v Nastavení (a zároveň rychlou ikonku v horní liště).
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    // malá magie: rozsvícení pavučiny + přechod do další stránky
+    function enterMiniLumina(e){
+      e.preventDefault();
+      const card = document.getElementById('loginCard');
+      card.classList.add('is-awake');
+
+      const payload = {
+        email: document.getElementById('email').value.trim(),
+        plan: document.getElementById('plan').value
+      };
+      localStorage.setItem('miniLuminaUser', JSON.stringify(payload));
+
+      setTimeout(()=>{ window.location.href = "mini-hub.html"; }, 650);
+      return false;
+    }
+  </script>
+</body>
+</html>
