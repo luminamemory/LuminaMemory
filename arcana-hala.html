@@ -113,21 +113,16 @@
       padding:18px;
     }
 
-    .web-local{
-      position:absolute;
-      inset:0;
-      background-image:url("pavucina-web.png");
-      background-size: 520px 520px;
-      background-repeat:no-repeat;
-      background-position: center 56%;
-      opacity:.26;
-      mix-blend-mode:screen;
-      pointer-events:none;
-      filter:saturate(1.1) blur(.2px);
-      z-index:0;
-      /* ořez do kruhu pod bublinami */
-      clip-path: circle(46% at 50% 56%);
-    }
+    .web-local {
+    position: absolute;
+    top: 32%;
+    left: 32%;
+    transform: translate(-50%, -50%);
+    width: 520px;
+    height: 520px;
+    pointer-events: none;
+    opacity: 0.9;
+}
     .circle{
       overflow: visible;
       position:relative;
