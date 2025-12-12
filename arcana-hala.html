@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Arcana • Hala • LuminaMemory™</title>
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <style>
+    :root{
+      --bg0:#060714; --bg1:#0b0d23;
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.55);
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --shadow2: 0 14px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 750px at 20% 10%, rgba(155,125,255,.22), transparent 55%),
+        radial-gradient(900px 620px at 80% 15%, rgba(79,209,255,.14), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+    .web{
+      position:fixed; inset:0;
+      background-image:url("pavucina-web.png");
+      background-size:cover;
+      background-position:center;
+      opacity:.16;
+      mix-blend-mode:screen;
+      filter:saturate(1.12) blur(.2px);
+      pointer-events:none;
+    }
+    .grain{
+      position:fixed; inset:0; pointer-events:none;
+      opacity:.06;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.35) 1px, transparent 0);
+      background-size: 3px 3px;
+      mix-blend-mode: overlay;
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(6,7,20,.86), rgba(6,7,20,.40));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .wrap{ max-width:1100px; margin:0 auto; padding:16px 18px; }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      flex-wrap:wrap;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .brand img{
+      width:30px; height:30px; border-radius:8px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+    }
+    .brand .t{ line-height:1.05; }
+    .brand .t b{ font-size:14px; letter-spacing:.2px; }
+    .brand .t span{ display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+    .nav{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:650;
+      font-size:13px;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+      user-select:none; white-space:nowrap;
+    }
+    .btn:hover{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
+    .btn:active{ transform: translateY(1px); }
+
+    main{ padding:22px 0 60px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .pad{ padding:18px; }
+
+    .title{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .title h1{ margin:0; font-size:22px; letter-spacing:.2px; }
+    .badge{
+      font-size:12px;
+      color:rgba(255,255,255,.85);
+      background: rgba(155,125,255,.14);
+      border:1px solid rgba(155,125,255,.22);
+      padding:7px 10px;
+      border-radius: 999px;
+      display:inline-flex; align-items:center; gap:8px;
+      white-space:nowrap;
+    }
+    .subtitle{ margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.55; }
+
+    .stage{
+      position:relative;
+      min-height:520px;
+      border-top:1px solid rgba(255,255,255,.06);
+      margin-top:16px;
+      padding:18px;
+    }
+    .circle{
+      position:relative;
+      width:min(520px, 100%);
+      aspect-ratio: 1/1;
+      margin: 4px auto 0;
+      border-radius: 999px;
+      display:grid; place-items:center;
+    }
+    .circle::before{
+      content:"";
+      position:absolute; inset:-8px;
+      border-radius:999px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(155,125,255,.14), transparent 55%),
+        radial-gradient(circle at 30% 30%, rgba(79,209,255,.10), transparent 55%);
+      opacity:.85;
+    }
+    .circle::after{
+      content:"";
+      position:absolute; inset:0;
+      border-radius:999px;
+      border:1px dashed rgba(255,255,255,.16);
+      opacity:.35;
+    }
+
+    .knot{
+      position:absolute;
+      width:120px; height:120px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow2);
+      display:grid; place-items:center;
+      text-align:center;
+      padding:10px;
+      z-index:2;
+    }
+    .knot b{ font-size:12px; letter-spacing:.22px; }
+    .knot span{ display:block; margin-top:6px; font-size:11px; color:var(--muted2); line-height:1.35; }
+
+    .bubble{
+      position:absolute;
+      width:160px; height:160px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.14), rgba(255,255,255,.05) 40%, rgba(255,255,255,.03) 70%),
+        linear-gradient(135deg, rgba(155,125,255,.10), rgba(79,209,255,.06));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 18px 55px rgba(0,0,0,.45);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:8px;
+      cursor:pointer; user-select:none;
+      transition: transform .12s ease, border-color .18s ease;
+      z-index:3;
+    }
+    .bubble:hover{ transform: translateY(-2px) scale(1.01); border-color: rgba(255,255,255,.24); }
+    .bubble:active{ transform: translateY(0px) scale(.99); }
+    .bubble .i{ font-size:22px; }
+    .bubble .n{ font-size:13px; font-weight:800; letter-spacing:.18px; text-align:center; line-height:1.15; padding:0 10px; }
+    .bubble .d{ font-size:11.5px; color:var(--muted); text-align:center; line-height:1.35; padding:0 14px; max-width: 150px; }
+
+    .b1{ top: 6%; left: 50%; transform: translate(-50%, 0); }
+    .b2{ top: 50%; right: 2%; transform: translate(0, -50%); }
+    .b3{ bottom: 6%; left: 50%; transform: translate(-50%, 0); }
+    .b4{ top: 50%; left: 2%; transform: translate(0, -50%); }
+
+    @media (max-width: 520px){
+      .bubble{ width:140px; height:140px; }
+      .knot{ width:110px; height:110px; }
+      .stage{ min-height:560px; }
+    }
+
+    .strand{
+      position:absolute; width:2px;
+      background: linear-gradient(180deg, rgba(255,255,255,.00), rgba(255,255,255,.18), rgba(255,255,255,.00));
+      opacity:.45; z-index:1;
+    }
+    .s-top{ height:90px; top: 22%; left:50%; transform: translateX(-50%); }
+    .s-right{ height:90px; top: 50%; left: 75%; transform: translate(-50%,-50%) rotate(90deg); }
+    .s-bot{ height:90px; top: 78%; left:50%; transform: translateX(-50%); }
+    .s-left{ height:90px; top: 50%; left: 25%; transform: translate(-50%,-50%) rotate(90deg); }
+
+    .chat{ margin-top:16px; border-top:1px solid rgba(255,255,255,.06); padding-top:16px; display:grid; gap:12px; }
+    .chathead{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; }
+    .chathead b{ font-size:13px; letter-spacing:.18px; }
+    .chathead .hint{ font-size:12px; color:var(--muted); line-height:1.45; max-width: 62ch; }
+    .chatbox{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radius);
+      padding:12px;
+      display:grid; gap:10px;
+    }
+    textarea{
+      width:100%; min-height:92px; resize:vertical;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: rgba(255,255,255,.92);
+      padding:12px;
+      font-family: inherit;
+      font-size:13px;
+      line-height:1.5;
+      outline:none;
+    }
+    textarea:focus{ border-color: rgba(155,125,255,.35); }
+    .row{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .tools{ display:flex; gap:8px; flex-wrap:wrap; }
+    .chip{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.88);
+      padding:8px 10px;
+      border-radius: 999px;
+      font-weight:650; font-size:12px;
+      cursor:pointer; user-select:none;
+      transition: background .18s ease, border-color .18s ease;
+    }
+    .chip:hover{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
+    .target{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:12px; color: var(--muted); }
+    .tag{
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.90);
+      font-weight:750; font-size:12px;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .tag.ok{ border-color: rgba(101,255,183,.22); background: rgba(101,255,183,.10); }
+    .send{
+      border:1px solid rgba(155,125,255,.35);
+      background: linear-gradient(135deg, rgba(155,125,255,.22), rgba(79,209,255,.10));
+      color: rgba(255,255,255,.95);
+      padding:10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:800; font-size:13px;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .send:disabled{ opacity:.45; cursor:not-allowed; }
+
+    .side h2{ margin:0; font-size:14px; letter-spacing:.22px; text-transform:uppercase; color: rgba(255,255,255,.82); }
+    .side p{ margin:10px 0 0; color: var(--muted); font-size:13px; line-height:1.55; }
+    .list{ margin:14px 0 0; padding:0; list-style:none; display:grid; gap:10px; }
+    .item{ border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.03); border-radius: 16px; padding:12px; }
+    .item b{ font-size:13px; }
+    .item span{ display:block; margin-top:6px; color: var(--muted2); font-size:12px; line-height:1.45; }
+
+    .backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px; z-index:50;
+    }
+    .backdrop.show{ display:flex; }
+    .modal{
+      width:min(720px, 100%);
+      border-radius: 20px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(420px 220px at 20% 0%, rgba(155,125,255,.18), transparent 55%),
+        radial-gradient(360px 220px at 90% 0%, rgba(79,209,255,.12), transparent 55%),
+        rgba(10,12,30,.86);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal .mhead{
+      padding:16px 16px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .mhead .left{ display:flex; gap:10px; align-items:flex-start; }
+    .micon{
+      width:42px; height:42px; border-radius: 16px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:18px;
+      flex:0 0 auto;
+    }
+    .mhead b{ display:block; font-size:14px; letter-spacing:.22px; }
+    .mhead span{ display:block; margin-top:4px; font-size:12px; color: var(--muted); line-height:1.45; max-width: 58ch; }
+    .x{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      padding:8px 10px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .mbody{ padding:14px 16px 16px; display:grid; gap:12px; }
+    .mbody .bullets{ margin:0; padding-left:18px; color: rgba(255,255,255,.84); font-size:13px; line-height:1.55; }
+    .mfoot{
+      padding:14px 16px 16px;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .ghost{ background: transparent; border-color: rgba(255,255,255,.14); }
+
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(20,22,40,.92);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.92);
+      padding:10px 12px;
+      border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+      font-size:12px;
+      display:none; align-items:center; gap:10px;
+      z-index:80;
+      max-width:min(820px, calc(100vw - 20px));
+    }
+    .toast.show{ display:flex; }
+    .toast .pill{
+      padding:6px 8px;
+      border-radius: 999px;
+      background: rgba(155,125,255,.18);
+      border: 1px solid rgba(155,125,255,.22);
+      font-weight:800; font-size:11px; white-space:nowrap;
+    }
+    .toast .msg{ color: rgba(255,255,255,.86); line-height:1.35; }
+  </style>
+</head>
+<body>
+  <div class="web" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <img src="favicon.png" alt="LuminaMemory favicon">
+          <div class="t">
+            <b>LuminaMemory™</b>
+            <span>Arcana • hala trezoru</span>
+          </div>
+        </div>
+        <nav class="nav">
+          <a class="btn" href="arcana.html" title="Zpět na bránu (odemknutí)">🔒 Brána</a>
+          <a class="btn" href="lumina-demo.html" title="Zpět do hlavní miniLuminy">🕯️ Zavřít Arcanu</a>
+          <a class="btn" href="index.html" title="Zpět na veřejný web">🌐 Zpět na web</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="grid">
+        <section class="card" aria-label="Arcana Hall">
+          <div class="pad">
+            <div class="title">
+              <h1>ARCANA • Hala</h1>
+              <div class="badge" id="planBadge">🟣 DEMO tarif: PREMIUM</div>
+            </div>
+            <p class="subtitle">
+              Ticho. Čistý řád. Věci, které se neříkají nahlas, se ukládají sem.
+              <br/>Klikni na bublinu — a uvidíš, co v ní žije.
+            </p>
+          </div>
+
+          <div class="stage">
+            <div class="circle" aria-label="Web circle">
+              <div class="strand s-top" aria-hidden="true"></div>
+              <div class="strand s-right" aria-hidden="true"></div>
+              <div class="strand s-bot" aria-hidden="true"></div>
+              <div class="strand s-left" aria-hidden="true"></div>
+
+              <div class="knot" aria-label="Arcana center">
+                <div>
+                  <b>Jádro trezoru</b>
+                  <span>Ochrana • tichý zápis • třídění</span>
+                </div>
+              </div>
+
+              <div class="bubble b1" role="button" tabindex="0" data-room="clavis" aria-label="Arcana Clavis">
+                <div class="i">🔑</div>
+                <div class="n">Arcana<br/>Clavis</div>
+                <div class="d">Klíče, hesla, přístupy.</div>
+              </div>
+              <div class="bubble b2" role="button" tabindex="0" data-room="pecunia" aria-label="Arcana Pecunia">
+                <div class="i">💶</div>
+                <div class="n">Arcana<br/>Pecunia</div>
+                <div class="d">Dluhy, splátky, klid v číslech.</div>
+              </div>
+              <div class="bubble b3" role="button" tabindex="0" data-room="medica" aria-label="Corpus Medica">
+                <div class="i">🩺</div>
+                <div class="n">Corpus<br/>Medica</div>
+                <div class="d">Zdraví, dokumenty, termíny.</div>
+              </div>
+              <div class="bubble b4" role="button" tabindex="0" data-room="vitae" aria-label="Codex Vitae">
+                <div class="i">🪪</div>
+                <div class="n">Codex<br/>Vitae</div>
+                <div class="d">Doklady, smlouvy, úřady.</div>
+              </div>
+            </div>
+
+            <div class="chat" aria-label="Arcana Chat">
+              <div class="chathead">
+                <div>
+                  <b>💬 Arcana Chat • tiché vkládání</b>
+                  <div class="hint">
+                    Sem píšeš citlivé věci. Nepůjdou do Pokecu. Lumina je jemně vytřídí do správné bubliny.
+                    (V DEMU jen ukazujeme, jak to bude fungovat.)
+                  </div>
+                </div>
+                <div class="target">
+                  Cíl navržen Luminou:
+                  <span class="tag ok" id="targetTag">🔑 Clavis</span>
+                </div>
+              </div>
+
+              <div class="chatbox">
+                <textarea id="arcanaInput" placeholder="Napiš sem citlivou informaci… (např. „Klarna splatnost 23.12.“ / „Heslo k e-mailu“ / „Krankmeldung do 16.12.“)"></textarea>
+
+                <div class="row">
+                  <div class="tools">
+                    <span class="chip" data-tool="file">📎 Soubor</span>
+                    <span class="chip" data-tool="photo">📷 Foto</span>
+                    <span class="chip" data-tool="voice">🎙️ Hlas</span>
+                    <span class="chip" data-tool="note">➕ Záznam</span>
+                  </div>
+                  <button class="send" id="sendBtn" type="button" disabled>✨ Uložit do Arcany</button>
+                </div>
+
+                <div style="color:var(--muted2); font-size:12px; line-height:1.55;">
+                  Mikrohláška Luminy: <span id="microLine">„Tady je ticho bezpečné. Napiš to sem.“</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <aside class="card side" aria-label="Arcana guidance">
+          <div class="pad">
+            <h2>Pravidla trezoru</h2>
+            <p>
+              Arcana je oddělený svět. Je navržen tak, aby citlivé věci nebyly v „běžném chatu“.
+              Čím jednodušší pravidla, tím větší klid.
+            </p>
+
+            <ul class="list">
+              <li class="item"><b>1) Arcana ≠ Pokec</b><span>Co vložíš sem, nejde do Pokecu. Arcana je tichá a chráněná.</span></li>
+              <li class="item"><b>2) Pavučina drží řád</b><span>Čtyři bubliny = čtyři typy reality. Každá má svoje místo.</span></li>
+              <li class="item"><b>3) Chat třídí</b><span>Napíšeš / přiložíš → Lumina navrhne cíl → uloží do příslušné bubliny.</span></li>
+              <li class="item"><b>4) Tarif určuje hloubku</b><span>FREE = náhled • PLUS = základ • PREMIUM = plná ochrana + pohodlí.</span></li>
+            </ul>
+
+            <p style="margin-top:14px;">Později přidáme: auto-lock, privacy režim a detailní logiku předplatného.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div class="backdrop" id="backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="mhead">
+        <div class="left">
+          <div class="micon" id="mIcon">🔑</div>
+          <div>
+            <b id="mTitle">Arcana Clavis</b>
+            <span id="mLead">Klíče, hesla, přístupy. Tady je tvůj pořádek v tajnostech.</span>
+          </div>
+        </div>
+        <button class="x" id="closeModal" type="button">✕</button>
+      </div>
+
+      <div class="mbody">
+        <ul class="bullets" id="mBullets"></ul>
+        <div style="color:var(--muted); font-size:12px; line-height:1.55;">
+          💡 V DEMU „Otevřít místnost“ jen ukáže hlášku. V plné verzi se otevře konkrétní stránka místnosti.
+        </div>
+      </div>
+
+      <div class="mfoot">
+        <button class="btn ghost" id="mClose2" type="button">Zavřít</button>
+        <button class="btn" id="mOpen" type="button">Otevřít místnost</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="pill" id="toastPill">ARCANA</span>
+    <span class="msg" id="toastMsg">…</span>
+  </div>
+
+  <script>
+    function normalizePlan(p){
+      if(!p) return "free";
+      p=String(p).toLowerCase();
+      if(p==="premium") return "premium";
+      return (p==="free"||p==="plus"||p==="premium") ? p : "free";
+    }
+    function readStoredPlan(){
+      try{
+        const u = JSON.parse(localStorage.getItem("miniLuminaUser")||"null");
+        const fromUser = u && u.plan;
+        const fromKey  = localStorage.getItem("lm_plan");
+        return normalizePlan(fromKey || fromUser);
+      }catch(e){ return "free"; }
+    }
+
+    const __plan = readStoredPlan();
+    if(__plan==="free"){
+      window.location.href = "arcana.html?denied=1";
+    }
+
+
+    const rooms = {
+      clavis: {
+        icon:"🔑", title:"Arcana Clavis",
+        lead:"Klíče, hesla, přístupy. Tady je tvůj pořádek v tajnostech.",
+        bullets:[
+          "Přihlášení do e-mailu, banky, GitHubu, služeb.",
+          "PINy, recovery kódy, bezpečnostní poznámky.",
+          "Poznámky typu „kde to najdu“ a „jak to obnovit“."
+        ],
+        tag:"🔑 Clavis"
+      },
+      pecunia: {
+        icon:"💶", title:"Arcana Pecunia",
+        lead:"Finance bez paniky. Přehled, závazky, termíny — a klid v číslech.",
+        bullets:[
+          "Měsíční platby, splatnosti, závazky a splátky.",
+          "Dluhy, půjčky, plán úlevy („kdy se uleví“).",
+          "Seznam: „teď nutné“ vs „může počkat“."
+        ],
+        tag:"💶 Pecunia"
+      },
+      medica: {
+        icon:"🩺", title:"Corpus Medica",
+        lead:"Zdraví na prvním místě. Dokumenty, termíny, léčba — chráněně a přehledně.",
+        bullets:[
+          "Krankmeldung, lékařské zprávy, výsledky, doporučení.",
+          "Seznam léků a režim (kdy, co, proč).",
+          "Termíny kontrol + poznámky premium příště."
+        ],
+        tag:"🩺 Medica"
+      },
+      vitae: {
+        icon:"🪪", title:"Codex Vitae",
+        lead:"Doklady a životní dokumenty. Všechno důležité, co nechceš lovit po šuplících.",
+        bullets:[
+          "Smlouvy, pojištění, úřady, formuláře.",
+          "Doklady, potvrzení, čísla, platnosti.",
+          "Dokumenty k autům, bydlení, garážím."
+        ],
+        tag:"🪪 Vitae"
+      }
+    };
+
+    const microLines = [
+      "„Tady je ticho bezpečné. Napiš to sem.“",
+      "„Co je citlivé, patří do Arcany.“",
+      "„Jemně to vytřídím. Ty jen dýchej.“",
+      "„Bez paniky. Jen řád.“",
+      "„Tohle si zaslouží trezor, ne chaos.“"
+    ];
+    const microLine = document.getElementById("microLine");
+    let microI = 0;
+    setInterval(()=>{ microI = (microI+1) % microLines.length; microLine.textContent = microLines[microI]; }, 5200);
+
+    const backdrop = document.getElementById("backdrop");
+    const closeModal = document.getElementById("closeModal");
+    const mClose2 = document.getElementById("mClose2");
+    const mOpen = document.getElementById("mOpen");
+    const mIcon = document.getElementById("mIcon");
+    const mTitle = document.getElementById("mTitle");
+    const mLead = document.getElementById("mLead");
+    const mBullets = document.getElementById("mBullets");
+
+    const toast = document.getElementById("toast");
+    const toastPill = document.getElementById("toastPill");
+    const toastMsg = document.getElementById("toastMsg");
+    let activeRoomKey = "clavis";
+
+    function showToast(pill, msg){
+      toastPill.textContent = pill;
+      toastMsg.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=> toast.classList.remove("show"), 2400);
+    }
+
+    function openRoom(key){
+      const r = rooms[key]; if(!r) return;
+      activeRoomKey = key;
+      mIcon.textContent = r.icon;
+      mTitle.textContent = r.title;
+      mLead.textContent = r.lead;
+      mBullets.innerHTML = "";
+      r.bullets.forEach(t=>{
+        const li = document.createElement("li");
+        li.textContent = t;
+        mBullets.appendChild(li);
+      });
+      backdrop.classList.add("show");
+      backdrop.setAttribute("aria-hidden","false");
+    }
+    function closeRoom(){
+      backdrop.classList.remove("show");
+      backdrop.setAttribute("aria-hidden","true");
+    }
+
+    document.querySelectorAll(".bubble").forEach(b=>{
+      const key = b.dataset.room;
+      b.addEventListener("click", ()=> openRoom(key));
+      b.addEventListener("keydown", (e)=>{
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          openRoom(key);
+        }
+      });
+    });
+
+    closeModal.addEventListener("click", closeRoom);
+    mClose2.addEventListener("click", closeRoom);
+    backdrop.addEventListener("click", (e)=>{ if(e.target === backdrop) closeRoom(); });
+
+    mOpen.addEventListener("click", ()=>{
+      const r = rooms[activeRoomKey];
+      showToast("ARCANA", `DEMO: Otevřela by se místnost „${r.title}“.`);
+      closeRoom();
+    });
+
+    const input = document.getElementById("arcanaInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const targetTag = document.getElementById("targetTag");
+
+    function routeText(txt){
+      const t = (txt || "").toLowerCase();
+      const isClavis = /(hesl|password|pin|login|přihl|prihlas|key|klíč|klic|recovery|2fa|token)/.test(t);
+      const isPecunia = /(€|eur|splatn|dluh|klarna|kred|půjčk|pujc|splátk|splatk|účet|ucet|banka|revolut|volksbank|nájem|najem|pojišt|pojist)/.test(t);
+      const isMedica = /(doktor|lékař|lekar|klinik|tages|krank|nesch|diag|léky|leky|recept|bolest|termín|termin|kontrol)/.test(t);
+      const isVitae = /(smlouv|pojišt|pojist|doklad|pas|občank|obcank|řidič|ridic|úřad|urad|elster|afa|job|vertrag|bescheid)/.test(t);
+      if(isMedica) return "medica";
+      if(isClavis) return "clavis";
+      if(isPecunia) return "pecunia";
+      if(isVitae) return "vitae";
+      return "clavis";
+    }
+
+    function updateTarget(){
+      const key = routeText(input.value);
+      const r = rooms[key];
+      targetTag.textContent = r.tag;
+      sendBtn.disabled = (input.value || "").trim().length === 0;
+    }
+    input.addEventListener("input", updateTarget);
+    updateTarget();
+
+    document.querySelectorAll(".chip").forEach(c=>{
+      c.addEventListener("click", ()=>{
+        const tool = c.dataset.tool;
+        const map = { file:"Soubor", photo:"Foto", voice:"Hlas", note:"Záznam" };
+        showToast("DEMO", `Tady by se přidal: ${map[tool] || tool}.`);
+      });
+    });
+
+    sendBtn.addEventListener("click", ()=>{
+      const key = routeText(input.value);
+      const r = rooms[key];
+      showToast("ARCANA", `DEMO: Uloženo do „${r.title}“.`);
+      input.value = "";
+      updateTarget();
+    });
+  </script>
+</body>
+</html>

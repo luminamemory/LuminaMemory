@@ -238,7 +238,7 @@
                 <div class="icon">🔑</div>
                 <div class="meta">
                   <b>PIN</b>
-                  <span>Rychlé otevření. Doporučeno pro běžné použití.</span>
+                  <span>Rychlé otevření. Doporučeno premium běžné použití.</span>
                 </div>
                 <input type="radio" name="unlock" value="PIN" disabled />
               </label>
@@ -247,7 +247,7 @@
                 <div class="icon">🗝️</div>
                 <div class="meta">
                   <b>Heslo</b>
-                  <span>Silné otevření. Vhodné pro citlivější režim.</span>
+                  <span>Silné otevření. Vhodné premium citlivější režim.</span>
                 </div>
                 <input type="radio" name="unlock" value="Heslo" disabled />
               </label>
@@ -263,7 +263,7 @@
             </div>
 
             <div class="footnote" id="planNote">
-              FREE: Arcana je dostupná jen jako náhled. Pro odemčení zvol tarif Premium.
+              FREE: Arcana je dostupná jen jako náhled. Premium odemčení zvol tarif Premium.
             </div>
 
             <div class="cta-row">
@@ -290,7 +290,7 @@
 
   <script>
     const planRules = {
-      free:   { pin:false, pass:false, bio:false, unlock:false, note:"FREE: Arcana je dostupná jen jako náhled. Pro odemčení zvol tarif Premium." },
+      free:   { pin:false, pass:false, bio:false, unlock:false, note:"FREE: Arcana je dostupná jen jako náhled. Premium odemčení zvol tarif Premium." },
       plus:   { pin:true,  pass:true,  bio:false, unlock:true,  note:"PLUS: Arcana je dostupná v režimu light (PIN + Heslo)." },
       premium:{ pin:true,  pass:true,  bio:true,  unlock:true,  note:"PREMIUM: Arcana je plně dostupná (PIN + Heslo + FaceID/TouchID)." }
     };
@@ -327,7 +327,35 @@
     function applyPlan(plan){
       const rule = planRules[plan];
 
-      segButtons.forEach(b=>{
+      
+    function normalizePlan(p){
+      if(!p) return "free";
+      p = String(p).toLowerCase();
+      if(p==="premium") return "premium";
+      return (p==="free"||p==="plus"||p==="premium") ? p : "free";
+    }
+
+    function readStoredPlan(){
+      try{
+        const u = JSON.parse(localStorage.getItem("miniLuminaUser")||"null");
+        const fromUser = u && u.plan;
+        const fromKey  = localStorage.getItem("lm_plan");
+        return normalizePlan(fromKey || fromUser);
+      }catch(e){
+        return "free";
+      }
+    }
+
+    function writeStoredPlan(plan){
+      plan = normalizePlan(plan);
+      try{ localStorage.setItem("lm_plan", plan); }catch(e){}
+      try{
+        const u = JSON.parse(localStorage.getItem("miniLuminaUser")||"null") || {};
+        u.plan = plan;
+        localStorage.setItem("miniLuminaUser", JSON.stringify(u));
+      }catch(e){}
+    }
+segButtons.forEach(b=>{
         const active = b.dataset.plan === plan;
         b.classList.toggle("active", active);
         b.setAttribute("aria-selected", active ? "true" : "false");
@@ -362,10 +390,19 @@
         return;
       }
       showToast("ARCANA", `DEMO: Odemčeno přes ${selected.value}. (Později: otevře se Hala Arcany.)`);
-      // Later: window.location.href = "arcana-hala.html";
+      window.location.href = "arcana-hala.html";
     });
+    // Init from saved plan (from login / localStorage)
+    const url = new URL(window.location.href);
+    const denied = url.searchParams.get("denied");
 
-    applyPlan("free");
-  </script>
+    applyPlan(readStoredPlan());
+
+    if(denied){
+      showToast("ARCANA", "Tento vstup je zamčený premium tvůj tarif. (Demo: přepni plán nahoře.)");
+      url.searchParams.delete("denied");
+      window.history.replaceState({}, "", url.toString());
+    }
+</script>
 </body>
 </html>

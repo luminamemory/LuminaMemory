@@ -400,7 +400,7 @@
         <button type="button" role="option" data-value="" aria-selected="true" class="is-placeholder is-disabled" disabled>Vyber předplatné…</button>
         <button type="button" role="option" data-value="free" aria-selected="false">Free</button>
         <button type="button" role="option" data-value="plus" aria-selected="false">Plus</button>
-        <button type="button" role="option" data-value="pro" aria-selected="false">Pro</button>
+        <button type="button" role="option" data-value="premium" aria-selected="false">Premium</button>
       </div>
       <input type="hidden" id="plan" value="">
     </div>
@@ -611,6 +611,8 @@
 
       const payload = { email, plan };
       localStorage.setItem('miniLuminaUser', JSON.stringify(payload));
+      localStorage.setItem('lm_plan', plan);
+      localStorage.setItem('lm_plan_set_at', new Date().toISOString());
 
       window.LuminaUI.toast({
         variant:"ok",
