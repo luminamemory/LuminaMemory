@@ -114,16 +114,18 @@
     }
 
     .web-local {
-    position: absolute;
-    /* Umístění do horní levé části "kruhu" pod bublinami */
-    top: 22%;
-    left: 26%;
-    transform: translate(-50%, -50%);
-    width: 420px;
-    height: 420px;
-    pointer-events: none;
-    opacity: 0.9;
-    z-index: 1;
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  transform: translateX(-50%);
+  width: 40vw;
+  height: 40vh;
+  background-image: url("pavucina-web.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
 }
     .circle{
       overflow: visible;
@@ -435,14 +437,15 @@
 <style>
 .web-local {
   position: absolute;
-  top: 0;
-  right: 0;
+  left: 50%;
+  top: 18%;
+  transform: translateX(-50%);
   width: 40vw;
   height: 40vh;
   background-image: url("pavucina-web.png");
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: top right;
+  background-position: center;
   pointer-events: none;
   z-index: 1;
 }
