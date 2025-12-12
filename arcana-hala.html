@@ -112,6 +112,20 @@
       margin-top:16px;
       padding:18px;
     }
+
+    .web-local{
+      position:absolute;
+      inset:0;
+      background-image:url("pavucina-web.png");
+      background-size: contain;
+      background-repeat:no-repeat;
+      background-position: center 42%;
+      opacity:.22;
+      mix-blend-mode:screen;
+      pointer-events:none;
+      filter:saturate(1.10) blur(.3px);
+      z-index:0;
+    }
     .circle{
       position:relative;
       width:min(520px, 100%);
@@ -165,32 +179,35 @@
       display:flex; flex-direction:column;
       align-items:center; justify-content:center; gap:8px;
       cursor:pointer; user-select:none;
-      --float: 0px;
       transition: transform .12s ease, border-color .18s ease;
       z-index:3;
     }
     .bubble:hover{ transform: translateY(-2px) scale(1.01); border-color: rgba(255,255,255,.24); }
     .bubble:active{ transform: translateY(0px) scale(.99); }
-    @keyframes webBreath{
-      0%{ --float: 0px; }
-      50%{ --float: -3px; }
-      100%{ --float: 0px; }
+    @keyframes heartbeat{
+      0%   { scale: 1;    filter: saturate(1) brightness(1); }
+      6%   { scale: 1.015; filter: saturate(1.08) brightness(1.05); }
+      12%  { scale: 1;    filter: saturate(1) brightness(1); }
+      18%  { scale: 1.028; filter: saturate(1.12) brightness(1.07); }
+      26%  { scale: 1;    filter: saturate(1) brightness(1); }
+      100% { scale: 1;    filter: saturate(1) brightness(1); }
     }
     .bubble{
-      animation: webBreath 6s ease-in-out infinite;
+      transform-origin: center;
+      will-change: scale, filter;
+      animation: heartbeat 2.9s cubic-bezier(.2,.9,.2,1) infinite;
     }
-    .b1{ animation-delay:0s; }
-    .b2{ animation-delay:1.5s; }
-    .b3{ animation-delay:3s; }
-    .b4{ animation-delay:4.5s; }
-    .bubble .i{ font-size:22px; }
+    .b2{ animation-delay:.15s; }
+    .b3{ animation-delay:.3s; }
+    .b4{ animation-delay:.45s; }
+.bubble .i{ font-size:22px; }
     .bubble .n{ font-size:13px; font-weight:800; letter-spacing:.18px; text-align:center; line-height:1.15; padding:0 10px; }
     .bubble .d{ font-size:11.5px; color:var(--muted); text-align:center; line-height:1.35; padding:0 14px; max-width: 150px; }
 
-    .b1{ top: 6%; left: 50%; transform: translate(-50%, 0) translateY(var(--float)); }
-    .b2{ top: 50%; right: 2%; transform: translate(0, -50%) translateY(var(--float)); }
-    .b3{ bottom: 6%; left: 50%; transform: translate(-50%, 0) translateY(var(--float)); }
-    .b4{ top: 50%; left: 2%; transform: translate(0, -50%) translateY(var(--float)); }
+    .b1{ top: 6%; left: 50%; transform: translate(-50%, 0); }
+    .b2{ top: 50%; right: 2%; transform: translate(0, -50%); }
+    .b3{ bottom: 6%; left: 50%; transform: translate(-50%, 0); }
+    .b4{ top: 50%; left: 2%; transform: translate(0, -50%); }
 
     @media (max-width: 520px){
       .bubble{ width:140px; height:140px; }
@@ -606,8 +623,8 @@
         icon:"🔑", title:"Arcana Clavis",
         lead:"Klíče, hesla, přístupy. Tady je tvůj pořádek v tajnostech.",
         entries:[
-          {k:"E‑mail (Lumina)", v:"Login: gabi.lumina@… • obnova: 2FA aktivní • poslední změna: 05. 12. 2025", t:"ZAMČENO"},
-          {k:"Apple ID", v:"Recovery kód: uložen • zařízení: iPhone + Mac • kontrola: 1× kvartál", t:"OK"},
+          {k:"E‑mail (trezor)", v:"Přihlášení: gabi.lumina@… • obnova: 2FA aktivní • poslední změna: 05. 12. 2025", t:"ZAMČENO"},
+          {k:"Apple účet", v:"Obnovovací kód: uložen • zařízení: iPhone + Mac • kontrola: 1× kvartál", t:"OK"},
           {k:"Banka (přístup)", v:"PIN: uložen v trezoru • 2FA: token • pozn.: nikdy nepsat do běžného chatu", t:"CITLIVÉ"}
         ],
         tag:"🔑 Clavis"
@@ -626,8 +643,8 @@
         icon:"🩺", title:"Corpus Medica",
         lead:"Zdraví na prvním místě. Dokumenty, termíny, léčba — chráněně a přehledně.",
         entries:[
-          {k:"Kontrola (gynekologie)", v:"Termín: 17. 12. 2025 • místo: Praxis • pozn.: vzít kartičku pojišť.", t:"TERMÍN"},
-          {k:"Léky / režim", v:"Ráno: Sertralin • L‑Thyroxin • večer: rovnátka", t:"RITUÁL"},
+          {k:"Kontrola (gynekologie)", v:"Termín: 17. 12. 2025 • místo: ordinace • pozn.: vzít kartičku pojišť.", t:"TERMÍN"},
+          {k:"Léky / režim", v:"Ráno: Calmira (fikt.) • Thyrobal (fikt.) • večer: rovnátka", t:"RITUÁL"},
           {k:"Dokument", v:"Výsledky: krevní test • datum: 02. 12. 2025 • uložit PDF", t:"DOKLAD"}
         ],
         tag:"🩺 Medica"
@@ -643,6 +660,43 @@
         tag:"🪪 Vitae"
       }
     };
+
+    hydrateRoomsFromStorage();
+
+
+    function safeJSONParse(s, fallback){
+      try{ return JSON.parse(s); }catch(e){ return fallback; }
+    }
+    function loadUserEntries(){
+      const data = safeJSONParse(localStorage.getItem("arcana_entries_v1") || "{}", {});
+      return data && typeof data === "object" ? data : {};
+    }
+    function saveUserEntries(obj){
+      localStorage.setItem("arcana_entries_v1", JSON.stringify(obj || {}));
+    }
+    function ensureRoomArrays(){
+      Object.keys(rooms).forEach(k=>{ rooms[k].entries = Array.isArray(rooms[k].entries) ? rooms[k].entries : []; });
+    }
+    function addEntryToRoom(roomKey, entry){
+      ensureRoomArrays();
+      const store = loadUserEntries();
+      store[roomKey] = Array.isArray(store[roomKey]) ? store[roomKey] : [];
+      store[roomKey].unshift(entry);
+      // také to promítneme do běžícího "rooms" (aby to bylo vidět hned)
+      rooms[roomKey].entries.unshift(entry);
+      saveUserEntries(store);
+    }
+    function hydrateRoomsFromStorage(){
+      ensureRoomArrays();
+      const store = loadUserEntries();
+      Object.keys(store).forEach(k=>{
+        if(rooms[k] && Array.isArray(store[k])){
+          // vložíme uložené položky nahoru, ať jsou "živé"
+          rooms[k].entries = [...store[k], ...rooms[k].entries];
+        }
+      });
+    }
+
 
     const microLines = [
       "„Tady je ticho bezpečné. Napiš to sem.“",
@@ -727,7 +781,7 @@ const input = document.getElementById("arcanaInput");
       const t = (txt || "").toLowerCase();
       const isClavis = /(hesl|password|pin|login|přihl|prihlas|key|klíč|klic|recovery|2fa|token)/.test(t);
       const isPecunia = /(€|eur|splatn|dluh|klarna|kred|půjčk|pujc|splátk|splatk|účet|ucet|banka|revolut|volksbank|nájem|najem|pojišt|pojist)/.test(t);
-      const isMedica = /(doktor|lékař|lekar|klinik|tages|krank|nesch|diag|léky|leky|recept|bolest|termín|termin|kontrol)/.test(t);
+            const isMedica = /(doktor|lékař|lekar|klinika|ordinace|neschopen|nemocensk|pn|paragraf|diag|léky|leky|recept|bolest|termín|termin|kontrol|vyšetřen|vysetren)/.test(t);
       const isVitae = /(smlouv|pojišt|pojist|doklad|pas|občank|obcank|řidič|ridic|úřad|urad|elster|afa|job|vertrag|bescheid)/.test(t);
       if(isMedica) return "medica";
       if(isClavis) return "clavis";
@@ -754,12 +808,42 @@ const input = document.getElementById("arcanaInput");
     });
 
     sendBtn.addEventListener("click", ()=>{
-      const key = routeText(input.value);
+      const text = (input.value || "").trim();
+      if(!text) return;
+
+      const key = routeText(text);
       const r = rooms[key];
-      showToast("ARCANA", `DEMO: Uloženo do „${r.title}“.`);
+
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2,"0");
+      const mm = String(now.getMonth()+1).padStart(2,"0");
+      const yyyy = now.getFullYear();
+      const stamp = `${dd}. ${mm}. ${yyyy}`;
+
+      // jednoduché "titulky" podle obsahu
+      let title = "Záznam";
+      if(/nemocensk|neschopen|pn|paragraf/.test(text.toLowerCase())) title = "Nemocenská / PN";
+      else if(/splatn|dluh|klarna|faktura|nájem|najem|pojist/.test(text.toLowerCase())) title = "Platba / termín";
+      else if(/hesl|pin|přihl|prihlas|2fa|token/.test(text.toLowerCase())) title = "Přístup / klíč";
+      else if(/smlouv|úřad|urad|doklad|pas|občank|obcank|řidič|ridic/.test(text.toLowerCase())) title = "Doklad / úřad";
+
+      const entry = {
+        k: `${title}`,
+        v: `${text} • zapsáno: ${stamp}`,
+        t: "NOVÉ"
+      };
+
+      addEntryToRoom(key, entry);
+
+      // když je zrovna otevřená stejná místnost, rovnou to vykreslíme
+      if(backdrop.classList.contains("show") && activeRoomKey === key){
+        openRoom(key);
+      }
+
+      showToast("ARCANA", `Uloženo do „${r.title}“.`);
       input.value = "";
       updateTarget();
     });
-  </script>
+</script>
 </body>
 </html>
