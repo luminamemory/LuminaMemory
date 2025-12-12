@@ -15,6 +15,8 @@
       --accent:#b892ff;
       --card:rgba(6,3,20,.92);
       --border:rgba(255,255,255,.16);
+      --warnBorder:rgba(184,146,255,.55);
+      --warnBg:rgba(15,10,40,.92);
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
@@ -70,9 +72,7 @@
     }
     .lead{margin:0 0 14px;color:var(--inkd);font-size:.92rem;line-height:1.45}
 
-    .grid{
-      display:grid;gap:10px;margin-top:10px;
-    }
+    .grid{display:grid;gap:10px;margin-top:10px}
     label{font-size:.82rem;color:rgba(255,255,255,.78)}
     input,select{
       width:100%;
@@ -87,6 +87,26 @@
     .row2{display:grid;gap:10px;grid-template-columns:1fr 1fr}
     @media (max-width:520px){ .row2{grid-template-columns:1fr} }
 
+    /* ===== “vyskakovací okno” jen u konkrétního pole ===== */
+    .field{position:relative}
+    .field-pop{
+      display:none;
+      margin-top:8px;
+      width:max-content;
+      max-width:100%;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--warnBorder);
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 60%), var(--warnBg);
+      box-shadow:0 12px 30px rgba(0,0,0,.55), 0 0 18px rgba(184,146,255,.18);
+      color:rgba(255,255,255,.92);
+      font-size:.84rem;
+      line-height:1.25;
+    }
+    .field.is-error .field-pop{display:inline-block}
+    .field.is-error input{border-color:rgba(184,146,255,.55); box-shadow:0 0 0 3px rgba(184,146,255,.12)}
+    .field.is-error .lumina-select__btn{border-color:rgba(184,146,255,.55); box-shadow:0 0 0 3px rgba(184,146,255,.12)}
+
     .btn{
       margin-top:8px;
       width:100%;
@@ -99,6 +119,13 @@
       cursor:pointer;
     }
     .btn:hover{filter:brightness(1.05)}
+    .btn.secondary{
+      margin-top:10px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.26);
+      color:rgba(255,255,255,.92);
+    }
+
     .mini{
       margin-top:10px;
       font-size:.78rem;
@@ -129,125 +156,28 @@
     }
     .steps b{color:var(--ink)}
     .steps ul{margin:8px 0 0 18px;padding:0}
-      /* =========================
-       LUMINA • Custom toast (bez alertů / bez defaultních bublin)
-       ========================= */
-    .lumi-toasts{
-      position:fixed;
-      inset:calc(env(safe-area-inset-top) + 14px) 14px auto 14px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      z-index:2000;
-      pointer-events:none;
-      max-width:min(520px, calc(100vw - 28px));
-      margin-left:auto;
-    }
-    .lumi-toast{
-      position:relative;
-      pointer-events:auto;
-      display:grid;
-      grid-template-columns:auto 1fr auto;
-      gap:10px;
-      align-items:start;
-      padding:12px 12px 11px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.22);
-      background:
-        radial-gradient(circle at 0 0, rgba(255,255,255,.20), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(67,210,255,.22), transparent 60%),
-        rgba(6,10,34,.94);
-      backdrop-filter: blur(16px);
-      box-shadow:0 18px 44px rgba(0,0,0,.78), 0 0 30px rgba(67,210,255,.22);
-      transform:translateY(10px) scale(.98);
-      opacity:0;
-      animation:lumiToastIn .22s cubic-bezier(.22,.61,.36,1) forwards;
-      overflow: visible;
-    }
-    .lumi-toast::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      border-radius:18px;
-      background:conic-gradient(from 200deg,
-        rgba(184,146,255,.0),
-        rgba(184,146,255,.85),
-        rgba(67,210,255,.0),
-        rgba(67,210,255,.70),
-        rgba(184,146,255,.0));
-      filter:blur(12px);
-      opacity:.45;
-      z-index:0;
-    }
-    .lumi-toast > *{position:relative; z-index:1;}
-    .lumi-toast__icon{
-      width:34px;height:34px;
-      display:grid;place-items:center;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.22);
-      background:linear-gradient(135deg, rgba(184,146,255,.35), rgba(67,210,255,.18));
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 0 20px rgba(184,146,255,.20);
-      font-size:18px;
-      margin-top:1px;
-    }
-    .lumi-toast__title{
-      font-weight:800;
-      letter-spacing:.02em;
-      font-size:.92rem;
-      margin-bottom:2px;
-    }
-    .lumi-toast__msg{
-      color:rgba(255,255,255,.82);
-      font-size:.86rem;
-      line-height:1.35;
-    }
-    .lumi-toast__quip{
-      margin-top:6px;
-      color:rgba(255,255,255,.68);
-      font-size:.78rem;
-    }
-    .lumi-toast__close{
-      appearance:none;
-      border:0;
-      background:transparent;
-      color:rgba(255,255,255,.8);
-      font-size:18px;
-      line-height:1;
-      padding:2px 6px;
-      border-radius:10px;
-      cursor:pointer;
-    }
-    .lumi-toast__close:hover{background:rgba(255,255,255,.10)}
-    .lumi-toast--ok{border-color:rgba(67,210,255,.35)}
-    .lumi-toast--warn{border-color:rgba(184,146,255,.40)}
-    .lumi-toast--err{border-color:rgba(255,120,180,.45)}
-    @keyframes lumiToastIn{
-      to{opacity:1; transform:translateY(0) scale(1)}
-    }
-    @keyframes lumiToastOut{
-      to{opacity:0; transform:translateY(10px) scale(.98)}
-    }
 
-  
-    /* lumina-select */
+    /* ===== Lumina custom dropdown (bez iOS bílého menu) ===== */
     .lumina-select{position:relative;width:100%}
     .lumina-select__btn{
       width:100%;
       display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:12px 14px;border-radius:12px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.14);
-      color:rgba(255,255,255,.92);
-      box-shadow:0 10px 24px rgba(0,0,0,.35);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
-      touch-action: manipulation;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(180,210,255,.28);
+      background:linear-gradient(135deg, rgba(40,120,255,.28), rgba(160,110,255,.18));
+      color:#fff;
+      box-shadow:0 10px 26px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.05) inset;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+      cursor:pointer;
     }
-    .lumina-select__btn:active{transform:scale(.99)}
-    .lumina-select__btn:focus{outline:none;border-color:rgba(120,190,255,.55);box-shadow:0 0 0 3px rgba(88,160,255,.18), 0 12px 28px rgba(0,0,0,.38)}
-    .lumina-select__label{opacity:.95}
-    .lumina-select__chev{opacity:.75}
+    .lumina-select__btn:hover{ transform: translateY(-1px); border-color: rgba(210,230,255,.42); }
+    .lumina-select__btn:active{ transform: translateY(0px) scale(.99); }
+    .lumina-select__btn:focus{ outline:none; box-shadow:0 12px 30px rgba(0,0,0,.38), 0 0 0 3px rgba(80,160,255,.22); }
+    .lumina-select__chev{opacity:.9}
+
     .lumina-select__menu{
       position:absolute;
       z-index:2500;left:0;right:0;top:calc(100% + 10px);
@@ -257,7 +187,6 @@
       box-shadow:0 20px 60px rgba(0,0,0,.55), 0 0 22px rgba(88,160,255,.16);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      z-index:999;
       transform: translateY(-6px);
       opacity:0;
       pointer-events:none;
@@ -281,81 +210,15 @@
       background:transparent;
       color:rgba(255,255,255,.92);
       transition: background .14s ease, border-color .14s ease, transform .08s ease;
+      font: inherit;
     }
     .lumina-select__menu button:hover{background:rgba(120,190,255,.10);border-color:rgba(120,190,255,.18)}
     .lumina-select__menu button:active{transform:scale(.995)}
     .lumina-select__menu button[aria-selected="true"]{background:rgba(120,190,255,.14);border-color:rgba(120,190,255,.22)}
     .lumina-select__menu button.is-placeholder{opacity:.75}
     .lumina-select__menu button.is-disabled{opacity:.45}
-    
-/* ===== Lumina custom dropdown (replaces iOS white select sheet) ===== */
-.native-select{
-  position:absolute !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-  width:1px !important;
-  height:1px !important;
-  overflow:hidden !important;
-}
-.lumina-select{position:relative; width:100%;}
-.lumina-select__btn{
-  width:100%;
-  display:flex; align-items:center; justify-content:space-between;
-  gap:10px;
-  padding:10px 12px;
-  border-radius:14px;
-  border:1px solid rgba(180,210,255,.28);
-  background:linear-gradient(135deg, rgba(40,120,255,.28), rgba(160,110,255,.18));
-  color:#fff;
-  box-shadow:0 10px 26px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.05) inset;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
-  cursor:pointer;
-}
-.lumina-select__btn:hover{ transform: translateY(-1px); border-color: rgba(210,230,255,.42); }
-.lumina-select__btn:active{ transform: translateY(0px) scale(.99); }
-.lumina-select__btn:focus{ outline:none; box-shadow:0 12px 30px rgba(0,0,0,.38), 0 0 0 3px rgba(80,160,255,.22); }
-.lumina-select__chev{opacity:.9}
-.lumina-select__panel{
-  position:absolute;
-  left:0; right:0;
-  top: calc(100% + 10px);
-  border-radius:16px;
-  border:1px solid rgba(180,210,255,.24);
-  background:linear-gradient(180deg, rgba(12,10,30,.92), rgba(10,10,24,.86));
-  box-shadow:0 18px 50px rgba(0,0,0,.55), 0 0 40px rgba(80,160,255,.14);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  overflow: visible;
-  transform: translateY(-6px);
-  opacity:0;
-  pointer-events:none;
-  transition: opacity .18s ease, transform .18s ease;
-  z-index:9999;
-}
-.lumina-select.is-open .lumina-select__panel{
-  opacity:1;
-  transform: translateY(0px);
-  pointer-events:auto;
-}
-.lumina-option{
-  width:100%;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px 12px;
-  background:transparent;
-  border:0;
-  color:#fff;
-  text-align:left;
-  cursor:pointer;
-  font: inherit;
-}
-.lumina-option + .lumina-option{ border-top:1px solid rgba(255,255,255,.08); }
-.lumina-option:hover{ background:rgba(80,160,255,.14); }
-.lumina-option.is-selected{ background:rgba(130,110,255,.18); }
-.lumina-option__tick{opacity:.9}
 
-</style>
+  </style>
 </head>
 
 <body>
@@ -378,37 +241,44 @@
       </p>
 
       <form class="grid" novalidate onsubmit="return enterMiniLumina(event)">
-        <div>
-          <label>E-mail</label>
-          <input type="email" id="email" placeholder="např. gabi@luminamemory.ai">
+        <div class="field" id="fieldEmail">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="např. gabi@luminamemory.ai" autocomplete="email">
+          <div class="field-pop" role="status" aria-live="polite"></div>
         </div>
 
         <div class="row2">
-          <div>
-            <label>Heslo</label>
-            <input type="password" id="pass" placeholder="••••••••">
+          <div class="field" id="fieldPass">
+            <label for="pass">Heslo</label>
+            <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
+            <div class="field-pop" role="status" aria-live="polite"></div>
           </div>
-          <div>
+
+          <div class="field" id="fieldPlan">
             <label>Předplatné (demo)</label>
-            
-    <div class="lumina-select" id="planSelect">
-      <button type="button" class="lumina-select__btn" aria-haspopup="listbox" aria-expanded="false">
-        <span class="lumina-select__label">Vyber předplatné…</span>
-        <span class="lumina-select__chev">▾</span>
-      </button>
-      <div class="lumina-select__menu" role="listbox" tabindex="-1" hidden>
-        <button type="button" role="option" data-value="" aria-selected="true" class="is-placeholder is-disabled" disabled>Vyber předplatné…</button>
-        <button type="button" role="option" data-value="free" aria-selected="false">Free</button>
-        <button type="button" role="option" data-value="plus" aria-selected="false">Plus</button>
-        <button type="button" role="option" data-value="premium" aria-selected="false">Premium</button>
-      </div>
-      <input type="hidden" id="plan" value="">
-    </div>
-    
+
+            <div class="lumina-select" id="planSelect">
+              <button type="button" class="lumina-select__btn" aria-haspopup="listbox" aria-expanded="false">
+                <span class="lumina-select__label">Vyber předplatné…</span>
+                <span class="lumina-select__chev">▾</span>
+              </button>
+
+              <div class="lumina-select__menu" role="listbox" tabindex="-1" hidden>
+                <button type="button" role="option" data-value="" aria-selected="true" class="is-placeholder is-disabled" disabled>Vyber předplatné…</button>
+                <button type="button" role="option" data-value="free" aria-selected="false">Free</button>
+                <button type="button" role="option" data-value="plus" aria-selected="false">Plus</button>
+                <button type="button" role="option" data-value="premium" aria-selected="false">Premium</button>
+              </div>
+
+              <input type="hidden" id="plan" value="">
+            </div>
+
+            <div class="field-pop" role="status" aria-live="polite"></div>
           </div>
         </div>
 
         <button class="btn" type="submit">Vstoupit</button>
+        <button class="btn secondary" type="button" onclick="return openDemoApp()">Otevřít demo aplikaci</button>
 
         <div class="mini">
           Bez přihlášení se do Luminy nevstupuje. (Ve storu jde app stáhnout, ale otevře se až po login.)<br>
@@ -440,68 +310,75 @@
   </div>
 
   <script>
-    /* =========================
-       LUMINA • Toast API (jednotný styl, bez alert() a bez HTML5 bublin)
-       ========================= */
+    // ===== Jediné povolené hlášky (u konkrétních polí) =====
+    const MSG = {
+      emailMissing: "Vyplň e-mail",
+      passMissing: "Vyplň heslo",
+      planMissing: "Vyber předplatné",
+      demoMissing: "Vyplň údaje pro demo"
+    };
+
+    function clearErrors(){
+      document.querySelectorAll('.field.is-error').forEach(f=>{
+        f.classList.remove('is-error');
+        const pop = f.querySelector('.field-pop');
+        if(pop) pop.textContent = "";
+      });
+    }
+
+    function setError(fieldId, message){
+      const field = document.getElementById(fieldId);
+      if(!field) return;
+      field.classList.add('is-error');
+      const pop = field.querySelector('.field-pop');
+      if(pop) pop.textContent = message || "";
+    }
+
+    function focusField(fieldId){
+      const field = document.getElementById(fieldId);
+      if(!field) return;
+      const input = field.querySelector('input,button,select,[tabindex]');
+      if(input && input.focus) input.focus();
+    }
+
+    function validateLogin(){
+      clearErrors();
+
+      const emailEl = document.getElementById('email');
+      const passEl  = document.getElementById('pass');
+      const planEl  = document.getElementById('plan');
+
+      const email = (emailEl.value || "").trim();
+      const pass  = (passEl.value || "").trim();
+      const plan  = (planEl.value || "").trim();
+
+      if(!email){
+        setError("fieldEmail", MSG.emailMissing);
+        emailEl.focus();
+        return null;
+      }
+      if(!pass){
+        setError("fieldPass", MSG.passMissing);
+        passEl.focus();
+        return null;
+      }
+      if(!plan){
+        setError("fieldPlan", MSG.planMissing);
+        // focus na custom button
+        const b = document.querySelector('#planSelect .lumina-select__btn');
+        if(b) b.focus();
+        return null;
+      }
+
+      return { email, pass, plan };
+    }
+
+    // ===== Lumina select (custom dropdown) =====
     (function(){
-      const hostId = "lumiToasts";
-      const quips = [
-        "Jen drobnost… a jsme uvnitř. ✨",
-        "Neboj, nic se nikam neukládá — zatím. 😉",
-        "Malý detail. Velká magie. ⚡",
-        "Psst… tady to chce doplnit. 🗯",
-        "Ještě kousek a dveře cvaknou. 🔑"
-      ];
-      function ensureHost(){
-        let el = document.getElementById(hostId);
-        if(!el){
-          el = document.createElement("div");
-          el.id = hostId;
-          el.className = "lumi-toasts";
-          el.setAttribute("aria-live","polite");
-          el.setAttribute("aria-atomic","true");
-          document.body.appendChild(el);
-        }
-        return el;
-      }
-      function toast({title, msg, variant="warn", icon="💫", quip=true, timeout=3200}){
-        const host = ensureHost();
-        const el = document.createElement("div");
-        el.className = `lumi-toast lumi-toast--${variant}`;
-        el.setAttribute("role","status");
-        const q = quip ? quips[Math.floor(Math.random()*quips.length)] : "";
-        el.innerHTML = `
-          <div class="lumi-toast__icon">${icon}</div>
-          <div class="lumi-toast__body">
-            <div class="lumi-toast__title">${escapeHtml(title || "")}</div>
-            <div class="lumi-toast__msg">${escapeHtml(msg || "")}</div>
-            ${quip ? `<div class="lumi-toast__quip">${escapeHtml(q)}</div>` : ``}
-          </div>
-          <button class="lumi-toast__close" type="button" aria-label="Zavřít">×</button>
-        `;
-        const close = () => {
-          el.style.animation = "lumiToastOut .18s ease forwards";
-          setTimeout(()=> el.remove(), 190);
-        };
-        el.querySelector(".lumi-toast__close").addEventListener("click", close);
-        host.appendChild(el);
-
-        if(timeout){
-          setTimeout(close, timeout);
-        }
-        return el;
-      }
-      function escapeHtml(s){
-        return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-      }
-      window.LuminaUI = window.LuminaUI || {};
-      window.LuminaUI.toast = toast;
-    
-
-      // Lumina select (náhrada za nativní <select> -> žádné bílé iOS menu)
-      window.LuminaUI.makeSelect = function(root){
+      function initSelect(root){
         const el = (typeof root === 'string') ? document.querySelector(root) : root;
-        if(!el) return;
+        if(!el || el.dataset.lumiInit) return;
+        el.dataset.lumiInit = "1";
 
         const btn   = el.querySelector('.lumina-select__btn');
         const menu  = el.querySelector('.lumina-select__menu');
@@ -516,323 +393,101 @@
         function close(){
           el.classList.remove('is-open');
           btn.setAttribute('aria-expanded','false');
-          // necháme doběhnout animaci
-          setTimeout(()=>{ if(!el.classList.contains('is-open')) menu.hidden = true; }, 140);
+          setTimeout(()=>{ if(!el.classList.contains('is-open')) menu.hidden = true; }, 120);
         }
-        function toggle(){ el.classList.contains('is-open') ? close() : open(); }
 
-        btn.addEventListener('click', (e)=>{ e.preventDefault(); toggle(); });
+        btn.addEventListener('click', (e)=>{ e.preventDefault(); el.classList.contains('is-open') ? close() : open(); });
 
         menu.addEventListener('click', (e)=>{
           const opt = e.target.closest('button[role="option"]');
           if(!opt || opt.disabled) return;
-          const val = opt.getAttribute('data-value') ?? '';
-          const txt = opt.textContent || '';
-          hidden.value = val;
-          label.textContent = txt;
 
-          // aria-selected update
+          const val = opt.getAttribute('data-value') ?? '';
+          const txt = (opt.textContent || '').trim();
+
+          if(hidden) hidden.value = val;
+          if(label) label.textContent = txt;
+
           menu.querySelectorAll('button[role="option"]').forEach(b=>b.setAttribute('aria-selected','false'));
           opt.setAttribute('aria-selected','true');
+
+          // zruš chybový stav po výběru
+          const fieldPlan = document.getElementById('fieldPlan');
+          if(fieldPlan) {
+            fieldPlan.classList.remove('is-error');
+            const pop = fieldPlan.querySelector('.field-pop');
+            if(pop) pop.textContent = "";
+          }
 
           close();
         });
 
-        document.addEventListener('click', (e)=>{
-          if(!el.contains(e.target)) close();
-        });
+        document.addEventListener('click', (e)=>{ if(!el.contains(e.target)) close(); });
+        document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+      }
 
-        document.addEventListener('keydown', (e)=>{
-          if(!el.classList.contains('is-open')) return;
-          if(e.key === 'Escape'){ close(); btn.focus(); }
-        });
-      };
-    
-})();
+      window.addEventListener('DOMContentLoaded', ()=> initSelect('#planSelect'));
+    })();
 
-
-    // malá magie: rozsvícení pavučiny + přechod do další stránky
+    // ===== Akce =====
     function enterMiniLumina(e){
       e.preventDefault();
+      const data = validateLogin();
+      if(!data) return false;
 
-      const emailEl = document.getElementById('email');
-      const passEl  = document.getElementById('pass');
-      const planEl  = document.getElementById('plan');
+      const card = document.getElementById('loginCard');
+      card.classList.add('is-awake');
 
-      const email = emailEl.value.trim();
-      const pass  = passEl.value.trim();
-      const plan  = planEl.value;
+      const payload = { email: data.email, plan: data.plan };
+      localStorage.setItem('miniLuminaUser', JSON.stringify(payload));
+      localStorage.setItem('lm_plan', data.plan);
+      localStorage.setItem('lm_plan_set_at', new Date().toISOString());
 
-      // jednotný styl hlášek (bez defaultních bublin)
-      if(!email){
-        window.LuminaUI.toast({
-          variant:"warn",
-          icon:"📩",
-          title:"Chybí e-mail",
-          msg:"Doplň prosím e-mail, ať víme, koho pouštíme dovnitř."
-        });
-        emailEl.focus();
-        return false;
-      }
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if(!emailOk){
-        window.LuminaUI.toast({
-          variant:"warn",
-          icon:"📩",
-          title:"E-mail vypadá divně",
-          msg:"Zkus ho prosím zapsat ve tvaru jmeno@domena.cz."
-        });
-        emailEl.focus();
-        return false;
-      }
-      if(!pass){
-        window.LuminaUI.toast({
-          variant:"warn",
-          icon:"🔒",
-          title:"Chybí heslo",
-          msg:"Napiš heslo (demo), ať otevřeme dveře."
-        });
-        passEl.focus();
-        return false;
-      }
-      if(!plan){
-        window.LuminaUI.toast({
-          variant:"warn",
-          icon:"💎",
-          title:"Vyber předplatné",
-          msg:"Jen v demu — ale ať víme, jaké místnosti ukázat."
-        });
-        planEl.focus();
+      // (žádné další pop-upy / hlášky)
+      setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 650);
+      return false;
+    }
+
+    function openDemoApp(){
+      // stejné validace jako login
+      const data = validateLogin();
+      if(!data){
+        // požadavek: i pro „otevření demo aplikace“ má vyskočit hláška
+        // (tady se použijí stejné hlášky u konkrétních polí)
         return false;
       }
 
       const card = document.getElementById('loginCard');
       card.classList.add('is-awake');
 
-      const payload = { email, plan };
+      const payload = { email: data.email, plan: data.plan };
       localStorage.setItem('miniLuminaUser', JSON.stringify(payload));
-      localStorage.setItem('lm_plan', plan);
+      localStorage.setItem('lm_plan', data.plan);
       localStorage.setItem('lm_plan_set_at', new Date().toISOString());
-
-      window.LuminaUI.toast({
-        variant:"ok",
-        icon:"✨",
-        title:"Otevírám prostředí…",
-        msg:"Za chvíli jsi uvnitř."
-      });
 
       setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 650);
       return false;
     }
+
+    // UX: po psaní odstraň chybu u pole
+    (function(){
+      const email = document.getElementById('email');
+      const pass  = document.getElementById('pass');
+
+      if(email){
+        email.addEventListener('input', ()=> {
+          const f = document.getElementById('fieldEmail');
+          if(f){ f.classList.remove('is-error'); const p=f.querySelector('.field-pop'); if(p) p.textContent=""; }
+        });
+      }
+      if(pass){
+        pass.addEventListener('input', ()=> {
+          const f = document.getElementById('fieldPass');
+          if(f){ f.classList.remove('is-error'); const p=f.querySelector('.field-pop'); if(p) p.textContent=""; }
+        });
+      }
+    })();
   </script>
-
-  <div class="lumi-toasts" id="lumiToasts" aria-live="polite" aria-atomic="true"></div>
-
-<script>
-  // ===== Lumina Select: transform native <select> into blue custom dropdown (iOS-safe) =====
-  (function(){
-    function closeAll(except){
-      document.querySelectorAll('.lumina-select.is-open').forEach(w=>{
-        if(except && w===except) return;
-        w.classList.remove('is-open');
-        const b=w.querySelector('.lumina-select__btn');
-        if(b) b.setAttribute('aria-expanded','false');
-      });
-    }
-
-    function enhanceSelect(select){
-      if(!select || select.dataset.luminaEnhanced) return;
-      select.dataset.luminaEnhanced = "1";
-
-      const wrapper = document.createElement('div');
-      wrapper.className = 'lumina-select';
-
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'lumina-select__btn';
-      btn.setAttribute('aria-haspopup','listbox');
-      btn.setAttribute('aria-expanded','false');
-
-      const label = document.createElement('span');
-      label.className = 'lumina-select__label';
-
-      const chev = document.createElement('span');
-      chev.className = 'lumina-select__chev';
-      chev.textContent = '▾';
-
-      btn.appendChild(label);
-      btn.appendChild(chev);
-
-      const panel = document.createElement('div');
-      panel.className = 'lumina-select__panel';
-      panel.setAttribute('role','listbox');
-
-      function render(){
-        panel.innerHTML = '';
-        const opts = Array.from(select.options);
-        const current = select.value;
-
-        // label
-        const selOpt = opts.find(o => o.value === current);
-        label.textContent = (selOpt && selOpt.textContent) ? selOpt.textContent : (select.options[0]?.textContent || 'Vyber…');
-
-        opts.forEach(opt=>{
-          if(opt.disabled && !opt.value) return; // skip placeholder
-          const item = document.createElement('button');
-          item.type = 'button';
-          item.className = 'lumina-option';
-          item.setAttribute('role','option');
-          item.dataset.value = opt.value;
-
-          const left = document.createElement('span');
-          left.textContent = opt.textContent;
-
-          const tick = document.createElement('span');
-          tick.className = 'lumina-option__tick';
-          tick.textContent = (opt.value === current) ? '✓' : '';
-
-          item.appendChild(left);
-          item.appendChild(tick);
-
-          if(opt.value === current) item.classList.add('is-selected');
-
-          item.addEventListener('click', ()=>{
-            select.value = opt.value;
-            select.dispatchEvent(new Event('change', { bubbles:true }));
-            render();
-            closeAll();
-          });
-
-          panel.appendChild(item);
-        });
-      }
-
-      btn.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const willOpen = !wrapper.classList.contains('is-open');
-        closeAll(wrapper);
-        wrapper.classList.toggle('is-open', willOpen);
-        btn.setAttribute('aria-expanded', willOpen ? 'true':'false');
-      });
-
-      // click outside
-      document.addEventListener('click', (e)=>{
-        if(!wrapper.contains(e.target)) closeAll();
-      }, { capture:true });
-
-      // Escape closes
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape') closeAll();
-      });
-
-      // keep in sync if code changes select
-      select.addEventListener('change', render);
-
-      // mount
-      select.parentNode.insertBefore(wrapper, select);
-      wrapper.appendChild(btn);
-      wrapper.appendChild(panel);
-
-      render();
-    }
-
-    window.LuminaSelect = { enhance: enhanceSelect };
-
-    document.addEventListener('DOMContentLoaded', ()=>{
-      document.querySelectorAll('select.js-lumina-select').forEach(enhanceSelect);
-    });
-  })();
-
-  // ===== Lumina Select: interaktivní custom dropdown (bez iOS bílého menu) =====
-  (function(){
-    function closeAll(except){
-      document.querySelectorAll('.lumina-select.is-open').forEach(w=>{
-        if(except && w===except) return;
-        w.classList.remove('is-open');
-        const b=w.querySelector('.lumina-select__btn');
-        const m=w.querySelector('.lumina-select__menu');
-        if(b) b.setAttribute('aria-expanded','false');
-        if(m) m.hidden = true;
-      });
-    }
-
-    function init(wrapper){
-      if(!wrapper || wrapper.dataset.lumiInit) return;
-      const btn = wrapper.querySelector('.lumina-select__btn');
-      const menu = wrapper.querySelector('.lumina-select__menu');
-      const label = wrapper.querySelector('.lumina-select__label');
-      const hidden = wrapper.querySelector('input[type="hidden"]');
-
-      if(!btn || !menu) return;
-      wrapper.dataset.lumiInit = "1";
-
-      function open(){
-        closeAll(wrapper);
-        wrapper.classList.add('is-open');
-        btn.setAttribute('aria-expanded','true');
-        menu.hidden = false;
-        // focus bez scrollu (iOS)
-        try{ menu.focus({preventScroll:true}); }catch(_){ menu.focus(); }
-      }
-      function close(){
-        wrapper.classList.remove('is-open');
-        btn.setAttribute('aria-expanded','false');
-        menu.hidden = true;
-      }
-
-      btn.addEventListener('click', (e)=>{
-        e.preventDefault();
-        wrapper.classList.contains('is-open') ? close() : open();
-      });
-
-      btn.addEventListener('keydown', (e)=>{
-        if(e.key==='Enter' || e.key===' ' || e.key==='ArrowDown'){
-          e.preventDefault();
-          open();
-        }
-      });
-
-      menu.addEventListener('click', (e)=>{
-        const opt = e.target.closest('[role="option"]');
-        if(!opt || opt.disabled) return;
-
-        const val = (opt.dataset && 'value' in opt.dataset) ? opt.dataset.value : (opt.getAttribute('data-value') || '');
-        const text = (opt.textContent || '').trim();
-
-        if(hidden) hidden.value = val;
-        if(label){
-          label.textContent = text;
-          label.classList.remove('is-placeholder');
-        }
-
-        menu.querySelectorAll('[role="option"]').forEach(o=>{
-          o.setAttribute('aria-selected', o===opt ? 'true' : 'false');
-        });
-
-        close();
-        wrapper.dispatchEvent(new CustomEvent('lumi:change', {detail:{value:val, text}}));
-      });
-
-      document.addEventListener('click', (e)=>{
-        if(!wrapper.contains(e.target)) close();
-      });
-
-      document.addEventListener('keydown', (e)=>{
-        if(e.key==='Escape') close();
-      });
-    }
-
-    window.addEventListener('DOMContentLoaded', ()=>{
-      document.querySelectorAll('.lumina-select').forEach(init);
-    });
-
-    // pokud se dynamicky přidá (nepravděpodobné), dá se zavolat zvenku:
-    window.__lumiInitSelects = function(){
-      document.querySelectorAll('.lumina-select').forEach(init);
-    };
-  })();
-
-</script>
 
 </body>
 </html>
