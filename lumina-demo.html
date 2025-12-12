@@ -532,35 +532,28 @@
       <p>V budoucnu tě povedu skrze inteligentní prostředí s místnostmi.</p>
     </section>
 
-    <button class="node node-arcana" data-node="arcana" type="button" aria-controls="mainPanel">
-      <div class="node-label">
+    <a class="node node-arcana" href="arcana.html">
+<div class="node-label">
         ARCANA
         <small>tajné vrstvy paměti</small>
       </div>
-    </button>
+</a>
 
-    <button class="node node-praetorium" data-node="praetorium" type="button" aria-controls="mainPanel">
-      <div class="node-label">
+    <a class="node node-praetorium" href="praetorium.html">
+<div class="node-label">
         PRAETORIUM
         <small>živé centrum mise</small>
       </div>
-    </button>
+</a>
 
-    <button class="node node-settings" data-node="settings" type="button" aria-controls="mainPanel">
-      <div class="node-label">
+    <a class="node node-settings" href="nastaveni.html">
+<div class="node-label">
         NASTAVENÍ
         <small>dům pro tvoji verzi Luminy</small>
       </div>
-    </button>
+</a>
 
-    <div class="panel panel-main" id="mainPanel" aria-live="polite">
-      <h3 id="panelTitle">HUB</h3>
-      <ul id="panelList">
-        <li><span class="label">Klikni na kapku</span><span class="note">a tady se otevře obsah</span></li>
-      </ul>
-    </div>
-
-    <!-- POKEC -->
+<!-- POKEC -->
     <section class="pokec">
       <div class="pokec-head">
         <div class="pokec-title">POKEC</div>
@@ -635,78 +628,8 @@
   </div>
 
   <script>
-    // Hub data (obsah do jednoho panelu)
-    const HUB = {
-      arcana:{
-        title:'ARCANA',
-        items:[
-          ['Arcana Clavis'],
-          ['Arcana Pecunia'],
-          ['Codex Vitae'],
-          ['Corpus Medica']
-        ]
-      },
-      praetorium:{
-        title:'PRAETORIUM',
-        items:[
-          ['Sigma'],
-          ['Chronica'],
-          ['Proiecta']
-        ]
-      },
-      settings:{
-        title:'NASTAVENÍ',
-        items:[
-          ['Představ se Lumině'],
-          ['Splníme ti každé přání'],
-          ['Inventory','přehled místností & stavu'],
-          ['Life Mission Archive'],
-          ['Rose Zone']
-        ]
-      }
-    };
-
-    // Přepínání kapek → jeden panel
-    (function(){
-      const nodes = document.querySelectorAll('.node');
-      const panel = document.getElementById('mainPanel');
-      const title = document.getElementById('panelTitle');
-      const list  = document.getElementById('panelList');
-
-      function render(id){
-        const d = HUB[id];
-        if(!d) return;
-
-        title.textContent = d.title;
-        list.innerHTML = '';
-
-        d.items.forEach(([label,note])=>{
-          const li = document.createElement('li');
-          li.innerHTML = `<span class="label">${label}</span><span class="note">${note}</span>`;
-          list.appendChild(li);
-        });
-
-        panel.classList.add('active');
-      }
-
-      function setActive(node){
-        nodes.forEach(n=>n.classList.remove('active'));
-        node.classList.add('active');
-      }
-
-      nodes.forEach(node=>{
-        node.addEventListener('click',(e)=>{
-          e.stopPropagation();
-          const id = node.dataset.node;
-          setActive(node);
-          render(id);
-        });
-      });
-
-      document.addEventListener('click',()=>{
-        nodes.forEach(n=>n.classList.remove('active'));
-      });
-    })();
+    // (Arcana/Praetorium/Nastavení jsou nyní samostatné stránky)
+;
 
     // =========================
     // POKEC – vložený skript
