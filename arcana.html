@@ -288,10 +288,11 @@
     <span class="msg" id="toastMsg">…</span>
   </div>
 
-  <script>
+    <script>
     const planRules = {
       free:   { pin:false, pass:false, bio:false, unlock:false, note:"FREE: Arcana je dostupná jen jako náhled. Premium odemčení zvol tarif Premium." },
-      plus:   { pin:true,  pass:true,  bio:false, unlock:true,  note:"PLUS: Arcana je dostupná v režimu light (PIN + Heslo)." },
+      // PLUS: Heslo se nemá dát vybrat – zůstává šedé (disabled)
+      plus:   { pin:true,  pass:false, bio:false, unlock:true,  note:"PLUS: Arcana je dostupná v režimu light (PIN). Heslo je až v Premium." },
       premium:{ pin:true,  pass:true,  bio:true,  unlock:true,  note:"PREMIUM: Arcana je plně dostupná (PIN + Heslo + FaceID/TouchID)." }
     };
 
@@ -324,14 +325,9 @@
       if(!enabled && radio.checked) radio.checked = false;
     }
 
-    function applyPlan(plan){
-      const rule = planRules[plan];
-
-      
     function normalizePlan(p){
       if(!p) return "free";
       p = String(p).toLowerCase();
-      if(p==="premium") return "premium";
       return (p==="free"||p==="plus"||p==="premium") ? p : "free";
     }
 
@@ -355,16 +351,24 @@
         localStorage.setItem("miniLuminaUser", JSON.stringify(u));
       }catch(e){}
     }
-segButtons.forEach(b=>{
+
+    function applyPlan(plan){
+      plan = normalizePlan(plan);
+      const rule = planRules[plan] || planRules.free;
+
+      // UI – tlačítka tarifů
+      segButtons.forEach(b=>{
         const active = b.dataset.plan === plan;
         b.classList.toggle("active", active);
         b.setAttribute("aria-selected", active ? "true" : "false");
       });
 
-      setMethodState(mPin, rule.pin);
+      // UI – metody odemčení
+      setMethodState(mPin,  rule.pin);
       setMethodState(mPass, rule.pass);
-      setMethodState(mBio, rule.bio);
+      setMethodState(mBio,  rule.bio);
 
+      // Texty a stav
       planNote.textContent = rule.note;
       unlockBtn.disabled = !rule.unlock;
 
@@ -376,6 +380,7 @@ segButtons.forEach(b=>{
         statusText.textContent = plan === "plus" ? "Arcana je dostupná (PLUS)." : "Arcana je dostupná (PREMIUM).";
       }
 
+      writeStoredPlan(plan);
       showToast("DEMO", `Přepnuto na ${plan.toUpperCase()}.`);
     }
 
@@ -392,6 +397,7 @@ segButtons.forEach(b=>{
       showToast("ARCANA", `DEMO: Odemčeno přes ${selected.value}. (Později: otevře se Hala Arcany.)`);
       window.location.href = "arcana-hala.html";
     });
+
     // Init from saved plan (from login / localStorage)
     const url = new URL(window.location.href);
     const denied = url.searchParams.get("denied");
@@ -399,10 +405,10 @@ segButtons.forEach(b=>{
     applyPlan(readStoredPlan());
 
     if(denied){
-      showToast("ARCANA", "Tento vstup je zamčený premium tvůj tarif. (Demo: přepni plán nahoře.)");
+      showToast("ARCANA", "Tento vstup je zamčený pro tvůj tarif. (Demo: přepni plán nahoře.)");
       url.searchParams.delete("denied");
       window.history.replaceState({}, "", url.toString());
     }
-</script>
+  </script>
 </body>
 </html>

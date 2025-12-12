@@ -347,6 +347,54 @@
       font-weight:800; font-size:11px; white-space:nowrap;
     }
     .toast .msg{ color: rgba(255,255,255,.86); line-height:1.35; }
+  
+    .vault{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      padding:12px;
+      display:grid;
+      gap:12px;
+    }
+    .laser{
+      height:2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        rgba(155,125,255,0),
+        rgba(155,125,255,.55),
+        rgba(79,209,255,.55),
+        rgba(79,209,255,0)
+      );
+      opacity:.9;
+      box-shadow: 0 0 18px rgba(155,125,255,.18);
+    }
+    .entries{ display:grid; gap:10px; }
+    .entry{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+      border-radius: 16px;
+      padding:10px 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .entry .left{ display:grid; gap:4px; }
+    .entry b{ font-size:13px; letter-spacing:.18px; }
+    .entry span{ font-size:12px; color: var(--muted); line-height:1.4; }
+    .entry .chip2{
+      flex:0 0 auto;
+      padding:6px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.86);
+      font-weight:800;
+      font-size:11px;
+      white-space:nowrap;
+      opacity:.95;
+    }
+
   </style>
 </head>
 <body>
@@ -439,7 +487,7 @@
               </div>
 
               <div class="chatbox">
-                <textarea id="arcanaInput" placeholder="Napiš sem citlivou informaci… (např. „Klarna splatnost 23.12.“ / „Heslo k e-mailu“ / „Krankmeldung do 16.12.“)"></textarea>
+                <textarea id="arcanaInput" placeholder="Napiš sem citlivou informaci… (např. „Klarna splatnost 23.12.“ / „Heslo k e-mailu“ / „Neschopenka do 16.12.“)"></textarea>
 
                 <div class="row">
                   <div class="tools">
@@ -496,7 +544,10 @@
       </div>
 
       <div class="mbody">
-        <ul class="bullets" id="mBullets"></ul>
+        <div class="vault">
+          <div class="laser" aria-hidden="true"></div>
+          <div class="entries" id="mEntries" aria-label="Ukázkový obsah místnosti"></div>
+        </div>
         <div style="color:var(--muted); font-size:12px; line-height:1.55;">
           💡 V DEMU „Otevřít místnost“ jen ukáže hlášku. V plné verzi se otevře konkrétní stránka místnosti.
         </div>
@@ -540,40 +591,40 @@
       clavis: {
         icon:"🔑", title:"Arcana Clavis",
         lead:"Klíče, hesla, přístupy. Tady je tvůj pořádek v tajnostech.",
-        bullets:[
-          "Přihlášení do e-mailu, banky, GitHubu, služeb.",
-          "PINy, recovery kódy, bezpečnostní poznámky.",
-          "Poznámky typu „kde to najdu“ a „jak to obnovit“."
+        entries:[
+          {k:"Přihlášení / účet", v:"E‑mail, bankovní služby, aplikace — uloženo bezpečně", t:"DEMO"},
+          {k:"Obnova přístupu", v:"Recovery kódy / záložní postupy — připravené", t:"DEMO"},
+          {k:"Dvoufaktor (2FA)", v:"Záložní kódy / zařízení — přehledně", t:"DEMO"}
         ],
         tag:"🔑 Clavis"
       },
       pecunia: {
         icon:"💶", title:"Arcana Pecunia",
         lead:"Finance bez paniky. Přehled, závazky, termíny — a klid v číslech.",
-        bullets:[
-          "Měsíční platby, splatnosti, závazky a splátky.",
-          "Dluhy, půjčky, plán úlevy („kdy se uleví“).",
-          "Seznam: „teď nutné“ vs „může počkat“."
+        entries:[
+          {k:"Splátka / závazek", v:"Splatnost: (datum) • poznámka: „ať se nezapomene“", t:"DEMO"},
+          {k:"Pojistné / služba", v:"Měsíční termín • automat / ručně", t:"DEMO"},
+          {k:"Rezerva", v:"Cíl: „klid“ • pravidlo: „malé, ale pravidelné“", t:"DEMO"}
         ],
         tag:"💶 Pecunia"
       },
       medica: {
         icon:"🩺", title:"Corpus Medica",
         lead:"Zdraví na prvním místě. Dokumenty, termíny, léčba — chráněně a přehledně.",
-        bullets:[
-          "Krankmeldung, lékařské zprávy, výsledky, doporučení.",
-          "Seznam léků a režim (kdy, co, proč).",
-          "Termíny kontrol + poznámky premium příště."
+        entries:[
+          {k:"Neschopenka (pracovní neschopnost)", v:"Platnost: (datum) • poznámka: „doručit / uložit“", t:"DEMO"},
+          {k:"Kontrola / vyšetření", v:"Termín: (datum) • místo: (klinika / ordinace)", t:"DEMO"},
+          {k:"Léky / režim", v:"Ráno / večer • doplnit: „jak mi to sedí“", t:"DEMO"}
         ],
         tag:"🩺 Medica"
       },
       vitae: {
         icon:"🪪", title:"Codex Vitae",
         lead:"Doklady a životní dokumenty. Všechno důležité, co nechceš lovit po šuplících.",
-        bullets:[
-          "Smlouvy, pojištění, úřady, formuláře.",
-          "Doklady, potvrzení, čísla, platnosti.",
-          "Dokumenty k autům, bydlení, garážím."
+        entries:[
+          {k:"Smlouva / dokument", v:"Platnost: (datum) • verze: (aktuální)", t:"DEMO"},
+          {k:"Úřad / potvrzení", v:"Referenční číslo: (ID) • stav: (vyřídit / hotovo)", t:"DEMO"},
+          {k:"Pojištění", v:"Obnova: (měsíc) • poznámka: „zkontrolovat podmínky“", t:"DEMO"}
         ],
         tag:"🪪 Vitae"
       }
@@ -597,7 +648,7 @@
     const mIcon = document.getElementById("mIcon");
     const mTitle = document.getElementById("mTitle");
     const mLead = document.getElementById("mLead");
-    const mBullets = document.getElementById("mBullets");
+    const mEntries = document.getElementById("mEntries");
 
     const toast = document.getElementById("toast");
     const toastPill = document.getElementById("toastPill");
@@ -618,12 +669,21 @@
       mIcon.textContent = r.icon;
       mTitle.textContent = r.title;
       mLead.textContent = r.lead;
-      mBullets.innerHTML = "";
-      r.bullets.forEach(t=>{
-        const li = document.createElement("li");
-        li.textContent = t;
-        mBullets.appendChild(li);
+
+      mEntries.innerHTML = "";
+      (r.entries || []).forEach(e=>{
+        const row = document.createElement("div");
+        row.className = "entry";
+        row.innerHTML = `
+          <div class="left">
+            <b>${e.k}</b>
+            <span>${e.v}</span>
+          </div>
+          <div class="chip2">${e.t || "DEMO"}</div>
+        `;
+        mEntries.appendChild(row);
       });
+
       backdrop.classList.add("show");
       backdrop.setAttribute("aria-hidden","false");
     }
