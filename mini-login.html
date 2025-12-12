@@ -444,17 +444,7 @@
       setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 650);
       return false;
     }
-      const card = document.getElementById('loginCard');
-      card.classList.add('is-awake');
 
-      const payload = { email: data.email, plan: data.plan };
-      localStorage.setItem('miniLuminaUser', JSON.stringify(payload));
-      localStorage.setItem('lm_plan', data.plan);
-      localStorage.setItem('lm_plan_set_at', new Date().toISOString());
-
-      setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 650);
-      return false;
-    }
 
     // UX: po psaní odstraň chybu u pole
     (function(){
