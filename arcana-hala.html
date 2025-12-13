@@ -118,18 +118,26 @@
     .web-local {
   position: absolute;
   left: 50%;
-  top: 22%; /* níž, aby byla pod bublinami */
+  top: 14%; /* zpátky výš – pod bublinami, ale viditelně uprostřed */
   transform: translateX(-50%);
-  width: min(560px, 78vw);
-  height: min(420px, 52vh);
+  width: min(620px, 86vw);
+  height: min(520px, 58vh);
   background-image: url("pavucina-web.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   pointer-events: none;
   z-index: 1; /* POD ovládacími prvky */
-  opacity: .55;
-  filter: contrast(1.15) saturate(.9) drop-shadow(0 0 16px rgba(127,224,255,.12));
+  opacity: .58;
+  filter: contrast(1.18) saturate(.95) drop-shadow(0 0 18px rgba(127,224,255,.14));
+}
+@media (max-width:520px){
+  .web-local{
+    top: 18%;
+    width: min(520px, 94vw);
+    height: min(420px, 52vh);
+    opacity:.62;
+  }
 }
     .circle{
       overflow: visible;
