@@ -986,6 +986,29 @@
     const tagSel = document.getElementById("tag");
     const silentMode = document.getElementById("silentMode");
 
+    // --- helpers: tag normalization + tiny conversation glue ---
+    function normalizeTag(raw){
+      if(!raw) return "jen tak";
+      // raw can be like "🗯 jen tak" or just "úkol"
+      const s = String(raw).toLowerCase().trim();
+      if(s.includes("úkol")) return "úkol";
+      if(s.includes("důležité")) return "důležité";
+      if(s.includes("myšlenka")) return "myšlenka";
+      if(s.includes("jen tak")) return "jen tak";
+      return s.replace(/^[^\p{L}]+/gu,"").trim() || "jen tak";
+    }
+
+    function tagLeadIn(tagNorm){
+      // super krátké, bez omáčky – jen malý most do konverzace
+      switch(tagNorm){
+        case "důležité": return "Beru to jako důležité.";
+        case "úkol": return "Zní to jako úkol.";
+        case "myšlenka": return "Myšlenka zaznamenána.";
+        default: return "";
+      }
+    }
+
+
     // mood buttons
     document.getElementById("moods").addEventListener("click", (e) => {
       if (!e.target.dataset.mood) return;
@@ -1082,27 +1105,36 @@
         return;
       }
 
-      const tag = tagSel.value;
+      const tagRaw = tagSel.value; const tag = normalizeTag(tagRaw);
       const id = Date.now().toString();
       lastSentId = id;
 
-      addBubble("me", text, `${selectedMood} • ${tag}`);
+      addBubble("me", text, `${selectedMood} • ${(tagRaw && tagRaw.trim()) ? tagRaw : tag}`);
 
-      const payload = { id, text, tag, mood: selectedMood, ts: new Date().toISOString() };
+      const payload = { id, text, tag, mood: selectedMood, ts: new Date().toISOString(), tagRaw: tagRaw || "" };
       localStorage.setItem("pokec:last", JSON.stringify(payload));
 
       // Pokud je to úkol → zeptáme se na termín (modal)
       if (tag === "úkol"){
         if (!silentMode.checked){
-          setTimeout(()=> addBubble("lumi","Chceš k tomu termín? Pokud ano, vyber datum/čas. ✨","Lumina • dotaz"), 350);
+          setTimeout(()=> addBubble("lumi","Zní to jako úkol. Chceš k tomu termín? Pokud ano, vyber datum/čas. ✨","Lumina • dotaz"), 350);
         }
         openTaskModal(payload);
       } else {
         // fake Lumina reply unless silent mode
         if (!silentMode.checked){
           setTimeout(() => {
-            const pool = luminaReplies[selectedMood] || ["Jsem tady."]; const reply = pool[Math.floor(Math.random()*pool.length)];
-            addBubble("lumi", reply, `Lumina • ${new Date().toLocaleTimeString().slice(0,5)}`);
+            const pool = luminaReplies[selectedMood] || ["Jsem tady."];
+            const reply = pool[Math.floor(Math.random()*pool.length)];
+            const lead = tagLeadIn(tag);
+            const combined = lead ? (lead + " " + reply) : reply;
+
+            // extra jemné zapojení tématu podle tagu (bez mentorování)
+            let tail = "";
+            if(tag === "důležité") tail = " Chceš to uložit do Chronicy?";
+            if(tag === "myšlenka") tail = " Chceš ji rozvést jednou větou?";
+            if(tag === "jen tak") tail = " Co je dneska malá radost?";
+            addBubble("lumi", (combined + tail).trim(), `Lumina • ${new Date().toLocaleTimeString().slice(0,5)}`);
           }, 450);
         }
       }
@@ -1125,6 +1157,28 @@
         return;
       }
       addBubble("me", `${r}`, `reakce k poslední zprávě`);
+
+      if(!silentMode.checked){
+        const reactMap = {
+          "❤️": {
+            "🙂": "Beru na vědomí ❤️ a posílám teplo zpátky.",
+            "😐": "Beru na vědomí ❤️.",
+            "😔": "Beru na vědomí ❤️… jsem tu."
+          },
+          "⭐": {
+            "🙂": "Beru na vědomí ⭐. To se leskne!",
+            "😐": "Beru na vědomí ⭐.",
+            "😔": "Beru na vědomí ⭐… děkuju."
+          },
+          "🔥": {
+            "🙂": "Beru na vědomí 🔥. To má jiskru!",
+            "😐": "Beru na vědomí 🔥.",
+            "😔": "Beru na vědomí 🔥… opatrně, ať tě to nespálí."
+          }
+        };
+        const msg2 = (reactMap[r] && reactMap[r][selectedMood]) ? reactMap[r][selectedMood] : "Beru na vědomí.";
+        setTimeout(()=> addBubble("lumi", msg2, "Lumina"), 220);
+      }
     });
 
     // save to "Chronica" (localStorage)
