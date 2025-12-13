@@ -115,29 +115,10 @@
       padding:18px;
     }
 
-    .web-local {
-  position: absolute;
-  left: 50%;
-  top: 14%; /* zpátky výš – pod bublinami, ale viditelně uprostřed */
-  transform: translateX(-50%);
-  width: min(620px, 86vw);
-  height: min(520px, 58vh);
-  background-image: url("pavucina-web.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  pointer-events: none;
-  z-index: 1; /* POD ovládacími prvky */
-  opacity: .58;
-  filter: contrast(1.18) saturate(.95) drop-shadow(0 0 18px rgba(127,224,255,.14));
-}
+
+    /* web-local removed (pavučina je nyní v každé bublině) */
+    .web-local{ display:none; }
 @media (max-width:520px){
-  .web-local{
-    top: 18%;
-    width: min(520px, 94vw);
-    height: min(420px, 52vh);
-    opacity:.62;
-  }
 }
     .circle{
       overflow: visible;
@@ -539,8 +520,7 @@
           </div>
 
           <div class="stage">
-            <div class="web-local" aria-hidden="true"></div>
-            <div class="circle" aria-label="Web circle">
+<div class="circle" aria-label="Web circle">
               <div class="strand s-top" aria-hidden="true"></div>
               <div class="strand s-right" aria-hidden="true"></div>
               <div class="strand s-bot" aria-hidden="true"></div>
