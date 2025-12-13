@@ -12,11 +12,14 @@
       --bg:#02010a;
       --ink:#f7f3ff;
       --inkd:#c2b8ff;
+
       --accent:#b892ff;
       --card:rgba(6,3,20,.92);
       --border:rgba(255,255,255,.16);
-      --bubble:rgba(10,12,32,.95);
-      --bubbleBorder:rgba(255,255,255,.22);
+
+      /* Emerald notice */
+      --emerald:#15d3a6;
+      --emerald2:#00ffb3;
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
@@ -44,6 +47,22 @@
       overflow: visible;
     }
 
+    /* pavučina (jemnější, rozsvícení smaragdově kontrastní) */
+    .web{
+      position:absolute; inset:-20%;
+      background:url("pavucina-web.png") center/cover no-repeat;
+      opacity:.06;
+      filter:blur(.35px) saturate(.9);
+      transform:rotate(-6deg);
+      pointer-events:none;
+      transition:opacity 600ms ease, filter 600ms ease;
+      mix-blend-mode: screen;
+    }
+    .card.is-awake .web{
+      opacity:.22;
+      filter:brightness(1.9) saturate(2.3) hue-rotate(105deg) drop-shadow(0 0 18px rgba(0,255,179,.35));
+    }
+
     .left{padding:26px 20px 18px}
     .right{padding:26px 20px 18px}
 
@@ -58,10 +77,8 @@
     }
     .lead{margin:0 0 14px;color:var(--inkd);font-size:.92rem;line-height:1.45}
 
-    .grid{display:grid;gap:10px;margin-top:10px;}
+    .grid{display:grid;gap:12px;margin-top:10px;}
     label{font-size:.82rem;color:rgba(255,255,255,.78)}
-
-    .field{position:relative}
     input{
       width:100%;
       padding:10px 12px;
@@ -75,108 +92,8 @@
     .row2{display:grid;gap:10px;grid-template-columns:1fr 1fr}
     @media (max-width:520px){ .row2{grid-template-columns:1fr} }
 
-    /* ====== Inline popups (jediné “vyskakovací” hlášky) ====== */
-    .lumi-bubble{
-      position:absolute;
-      top:calc(100% + 8px);
-      left:0;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:12px;
-      border:1px solid var(--bubbleBorder);
-      background:var(--bubble);
-      box-shadow:0 14px 40px rgba(0,0,0,.65);
-      color:rgba(255,255,255,.92);
-      font-size:.82rem;
-      line-height:1.25;
-      width:max-content;
-      max-width:min(520px, calc(100vw - 60px));
-      opacity:0;
-      transform:translateY(-4px);
-      pointer-events:none;
-      transition:opacity .14s ease, transform .14s ease;
-      z-index:50;
-    }
-    .lumi-bubble.is-show{
-      opacity:1;
-      transform:translateY(0);
-    }
-    .lumi-bubble::before{
-      content:"";
-      position:absolute;
-      top:-6px;
-      left:16px;
-      width:10px;height:10px;
-      background:var(--bubble);
-      border-left:1px solid var(--bubbleBorder);
-      border-top:1px solid var(--bubbleBorder);
-      transform:rotate(45deg);
-    }
-    .lumi-bubble__icon{font-size:16px;line-height:1}
-
-    /* ===== Lumina custom dropdown ===== */
-    .lumina-select{position:relative;width:100%}
-    .lumina-select__btn{
-      width:100%;
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(180,210,255,.28);
-      background:linear-gradient(135deg, rgba(40,120,255,.28), rgba(160,110,255,.18));
-      color:#fff;
-      box-shadow:0 10px 26px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.05) inset;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
-      cursor:pointer;
-    }
-    .lumina-select__btn:hover{ transform: translateY(-1px); border-color: rgba(210,230,255,.42); }
-    .lumina-select__btn:active{ transform: translateY(0px) scale(.99); }
-    .lumina-select__btn:focus{ outline:none; box-shadow:0 12px 30px rgba(0,0,0,.38), 0 0 0 3px rgba(80,160,255,.22); }
-    .lumina-select__label{opacity:.95}
-    .lumina-select__chev{opacity:.9}
-
-    .lumina-select__menu{
-      position:absolute;
-      z-index:2500;left:0;right:0;top:calc(100% + 10px);
-      padding:10px;border-radius:16px;
-      background:linear-gradient(180deg, rgba(22,12,50,.92), rgba(6,8,20,.88));
-      border:1px solid rgba(120,190,255,.25);
-      box-shadow:0 20px 60px rgba(0,0,0,.55), 0 0 22px rgba(88,160,255,.16);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      transform: translateY(-6px);
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .18s ease, transform .18s ease;
-    }
-    .lumina-select.is-open .lumina-select__menu{
-      opacity:1;
-      transform: translateY(0);
-      pointer-events:auto;
-    }
-    .lumina-select__menu button{
-      width:100%;
-      text-align:left;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid transparent;
-      background:transparent;
-      color:rgba(255,255,255,.92);
-      transition: background .14s ease, border-color .14s ease, transform .08s ease;
-      cursor:pointer;
-      font:inherit;
-    }
-    .lumina-select__menu button:hover{background:rgba(120,190,255,.10);border-color:rgba(120,190,255,.18)}
-    .lumina-select__menu button:active{transform:scale(.995)}
-    .lumina-select__menu button[aria-selected="true"]{background:rgba(120,190,255,.14);border-color:rgba(120,190,255,.22)}
-    .lumina-select__menu button.is-disabled{opacity:.45; cursor:not-allowed}
-
-    /* ===== CTA button ===== */
-    .cta{
-      margin-top:10px;
+    .btn{
+      margin-top:8px;
       width:100%;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.5);
@@ -185,13 +102,8 @@
       font-weight:700;
       background:radial-gradient(circle at 0 0,rgba(255,255,255,.62),rgba(255,255,255,.16));
       cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
     }
-    .cta:hover{filter:brightness(1.05)}
-    
+    .btn:hover{filter:brightness(1.05)}
     .mini{
       margin-top:10px;
       font-size:.78rem;
@@ -222,21 +134,92 @@
     }
     .steps b{color:var(--ink)}
     .steps ul{margin:8px 0 0 18px;padding:0}
-  
-    .left::after{
-      content:"";
+
+    /* ===== Field notice (v místě, kam to patří) ===== */
+    .field{position:relative;}
+    .lumi-note{
       position:absolute;
-      inset:0;
-      background:url("pavucina-web.png") center/70% no-repeat;
-      opacity:0.08;
-      pointer-events:none;
-      filter:drop-shadow(0 0 40px rgba(184,146,255,.45));
-      transition:opacity .35s ease;
+      left:0;
+      top:calc(100% + 8px);
+      display:inline-flex;
+      gap:8px;
+      align-items:flex-start;
+      max-width:100%;
+      width:max-content;
+      padding:9px 10px 8px;
+      border-radius:12px;
+      border:1px solid rgba(0,255,179,.35);
+      background:linear-gradient(180deg, rgba(0,40,32,.85), rgba(0,18,16,.82));
+      box-shadow:0 18px 44px rgba(0,0,0,.72), 0 0 28px rgba(0,255,179,.18);
+      color:rgba(255,255,255,.92);
+      font-size:.82rem;
+      line-height:1.25;
+      z-index:50;
+      white-space:nowrap;
     }
-    .left.is-active::after{
-      opacity:0.18;
+    @media (max-width:520px){
+      .lumi-note{white-space:normal; width:100%;}
+    }
+    .lumi-note__dot{
+      width:10px;height:10px;margin-top:3px;border-radius:999px;
+      background:radial-gradient(circle at 30% 30%, var(--emerald2), rgba(0,255,179,.2));
+      box-shadow:0 0 16px rgba(0,255,179,.55);
+      flex:0 0 auto;
     }
 
+    /* jemné zvýraznění pole při chybě */
+    .is-bad input,
+    .is-bad .lumina-select__btn{
+      border-color:rgba(0,255,179,.45) !important;
+      box-shadow:0 0 0 3px rgba(0,255,179,.12);
+    }
+
+    /* ===== Lumina custom dropdown ===== */
+    .lumina-select{position:relative;width:100%}
+    .lumina-select__btn{
+      width:100%;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(8,3,22,.86);
+      color:rgba(255,255,255,.92);
+      cursor:pointer;
+      text-align:left;
+    }
+    .lumina-select__chev{opacity:.85}
+    .lumina-select__menu{
+      position:absolute;left:0;right:0;top:calc(100% + 10px);
+      padding:8px;
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(22,12,50,.92), rgba(6,8,20,.88));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 20px 60px rgba(0,0,0,.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transform: translateY(-6px);
+      opacity:0;
+      pointer-events:none;
+      z-index:999;
+    }
+    .lumina-select.is-open .lumina-select__menu{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .lumina-select__menu button{
+      width:100%;
+      text-align:left;
+      padding:11px 12px;
+      border-radius:12px;
+      border:1px solid transparent;
+      background:transparent;
+      color:rgba(255,255,255,.92);
+      cursor:pointer;
+    }
+    .lumina-select__menu button:hover{background:rgba(0,255,179,.10);border-color:rgba(0,255,179,.18)}
+    .lumina-select__menu button[aria-selected="true"]{background:rgba(0,255,179,.14);border-color:rgba(0,255,179,.22)}
   </style>
 </head>
 
@@ -244,6 +227,8 @@
   <div class="shell">
 
     <section class="card left" id="loginCard">
+      <div class="web" aria-hidden="true"></div>
+
       <div class="brand">
         <img src="favicon.png" alt="LuminaMemory">
         <div>
@@ -253,23 +238,22 @@
       </div>
 
       <p class="lead">
-        Přihlášení je “sucharské”, ale za dveřmi už čeká magie. ✨
-        (Demo verze – zatím bez reálného ukládání.)
+        Demo verze – zatím bez reálného ukládání.
       </p>
 
       <form class="grid" novalidate onsubmit="return false">
-        <div class="field" data-bubble-for="email">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" placeholder="např. gabi@luminamemory.ai" autocomplete="email">
+        <div class="field" data-field="email">
+          <label>E-mail</label>
+          <input type="email" id="email" autocomplete="email" placeholder="např. gabi@luminamemory.ai">
         </div>
 
         <div class="row2">
-          <div class="field" data-bubble-for="pass">
-            <label for="pass">Heslo</label>
-            <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
+          <div class="field" data-field="pass">
+            <label>Heslo</label>
+            <input type="password" id="pass" autocomplete="current-password" placeholder="••••••••">
           </div>
 
-          <div class="field" data-bubble-for="plan">
+          <div class="field" data-field="plan">
             <label>Předplatné (demo)</label>
 
             <div class="lumina-select" id="planSelect">
@@ -277,22 +261,18 @@
                 <span class="lumina-select__label">Předplatné</span>
                 <span class="lumina-select__chev">▾</span>
               </button>
-
-              <div class="lumina-select__menu" role="listbox" tabindex="-1" hidden>
-                <button type="button" role="option" data-value="" aria-selected="true" class="is-disabled" disabled>—</button>
+              <div class="lumina-select__menu" role="listbox" hidden>
                 <button type="button" role="option" data-value="free" aria-selected="false">Free</button>
                 <button type="button" role="option" data-value="plus" aria-selected="false">Plus</button>
                 <button type="button" role="option" data-value="premium" aria-selected="false">Premium</button>
               </div>
-
               <input type="hidden" id="plan" value="">
             </div>
           </div>
         </div>
 
-        <button class="cta" type="button" id="openDemoBtn">
-          Otevřít demo aplikaci
-        </button>
+        <!-- tlačítko "Vstoupit" smazáno; zůstává jen vstup do demo apky -->
+        <button class="btn" type="button" id="demoBtn">Vstoupit do demo apky</button>
 
         <div class="mini">
           <a href="index.html">← Zpět na web</a>
@@ -307,7 +287,7 @@
       </div>
 
       <div class="steps">
-        <b>Po přihlášení</b> se otevřou místnosti podle předplatného:
+        <b>Po přihlášení</b> se rozsvítí pavučina a otevřou se místnosti podle předplatného:
         <ul>
           <li><b>Nastavení</b> (Rose Zone, Inventory, Life Mission Archive, “návod chat”)</li>
           <li><b>Praetorium</b> (Sigma, Chronica, Proiecta)</li>
@@ -323,159 +303,144 @@
   </div>
 
   <script>
-    // ===== jediná hláškovací logika: malé bubliny u konkrétního pole =====
+    // =========================
+    // Inline notices (pouze: email / heslo / předplatné / vstup do demo apky)
+    // =========================
     (function(){
-      const active = new Map();
+      const NOTE_CLASS = "lumi-note";
 
-      function ensureBubble(field){
-        let b = field.querySelector('.lumi-bubble');
-        if(!b){
-          b = document.createElement('div');
-          b.className = 'lumi-bubble';
-          b.setAttribute('role','status');
-          b.setAttribute('aria-live','polite');
-          b.innerHTML = '<span class="lumi-bubble__icon" aria-hidden="true">⚠️</span><span class="lumi-bubble__text"></span>';
-          field.appendChild(b);
-        }
-        return b;
+      function clearNote(field){
+        field.classList.remove("is-bad");
+        const old = field.querySelector("." + NOTE_CLASS);
+        if(old) old.remove();
       }
 
-      function show(field, text){
-        const bubble = ensureBubble(field);
-        bubble.querySelector('.lumi-bubble__text').textContent = text;
-        bubble.classList.add('is-show');
+      function showNote(field, text){
+        clearNote(field);
+        field.classList.add("is-bad");
 
-        // auto-hide (jen jeden timeout na pole)
-        if(active.has(field)) clearTimeout(active.get(field));
-        active.set(field, setTimeout(()=>{
-          bubble.classList.remove('is-show');
-          active.delete(field);
-        }, 2200));
+        const note = document.createElement("div");
+        note.className = NOTE_CLASS;
+        note.innerHTML = '<span class="lumi-note__dot" aria-hidden="true"></span><span>' + escapeHtml(text) + '</span>';
+        field.appendChild(note);
+
+        // auto-hide
+        window.setTimeout(()=>{ if(note.isConnected) { note.remove(); field.classList.remove("is-bad"); } }, 2600);
       }
 
-      function hide(field){
-        const bubble = field.querySelector('.lumi-bubble');
-        if(bubble) bubble.classList.remove('is-show');
-        if(active.has(field)){ clearTimeout(active.get(field)); active.delete(field); }
+      function escapeHtml(s){
+        return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
       }
 
-      window.LuminaBubble = { show, hide };
+      // expose minimal API
+      window.LuminaUI = {
+        showNote,
+        clearNote
+      };
     })();
 
-
-    // ===== Lumina select (custom dropdown) =====
+    // =========================
+    // Lumina select (custom dropdown)
+    // =========================
     (function(){
-      const el = document.getElementById('planSelect');
+      const el = document.getElementById("planSelect");
       if(!el) return;
 
-      const btn   = el.querySelector('.lumina-select__btn');
-      const menu  = el.querySelector('.lumina-select__menu');
-      const label = el.querySelector('.lumina-select__label');
+      const btn   = el.querySelector(".lumina-select__btn");
+      const menu  = el.querySelector(".lumina-select__menu");
+      const label = el.querySelector(".lumina-select__label");
       const hidden = el.querySelector('input[type="hidden"]');
 
       function open(){
-        el.classList.add('is-open');
-        btn.setAttribute('aria-expanded','true');
+        el.classList.add("is-open");
+        btn.setAttribute("aria-expanded","true");
         menu.hidden = false;
       }
       function close(){
-        el.classList.remove('is-open');
-        btn.setAttribute('aria-expanded','false');
-        setTimeout(()=>{ if(!el.classList.contains('is-open')) menu.hidden = true; }, 140);
+        el.classList.remove("is-open");
+        btn.setAttribute("aria-expanded","false");
+        menu.hidden = true;
       }
-      function toggle(){ el.classList.contains('is-open') ? close() : open(); }
+      function toggle(){ el.classList.contains("is-open") ? close() : open(); }
 
-      btn.addEventListener('click', (e)=>{ e.preventDefault(); toggle(); });
+      btn.addEventListener("click", (e)=>{ e.preventDefault(); toggle(); });
 
-      menu.addEventListener('click', (e)=>{
+      menu.addEventListener("click", (e)=>{
         const opt = e.target.closest('button[role="option"]');
-        if(!opt || opt.disabled) return;
+        if(!opt) return;
 
-        const val = opt.getAttribute('data-value') ?? '';
-        const txt = (opt.textContent || '').trim();
+        const val = opt.getAttribute("data-value") || "";
+        const txt = (opt.textContent || "").trim();
 
         hidden.value = val;
-        label.textContent = txt || 'Předplatné';
+        label.textContent = txt;
 
-        menu.querySelectorAll('button[role="option"]').forEach(b=>b.setAttribute('aria-selected','false'));
-        opt.setAttribute('aria-selected','true');
-
-        // po změně schovat případnou bublinu u předplatného
-        const planField = document.querySelector('[data-bubble-for="plan"]');
-        if(planField) window.LuminaBubble.hide(planField);
+        menu.querySelectorAll('button[role="option"]').forEach(b=>b.setAttribute("aria-selected","false"));
+        opt.setAttribute("aria-selected","true");
 
         close();
       });
 
-      document.addEventListener('click', (e)=>{
+      document.addEventListener("click", (e)=>{
         if(!el.contains(e.target)) close();
       });
 
-      document.addEventListener('keydown', (e)=>{
-        if(!el.classList.contains('is-open')) return;
-        if(e.key === 'Escape'){ close(); btn.focus(); }
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape") close();
       });
     })();
 
+    // =========================
+    // Demo entry
+    // =========================
+    (function(){
+      const emailEl = document.getElementById("email");
+      const passEl  = document.getElementById("pass");
+      const planEl  = document.getElementById("plan");
+      const demoBtn = document.getElementById("demoBtn");
 
-    // ===== Validace + otevření demo =====
-    function openDemo(){
-      const emailEl = document.getElementById('email');
-      const passEl  = document.getElementById('pass');
-      const planEl  = document.getElementById('plan');
+      const emailField = document.querySelector('[data-field="email"]');
+      const passField  = document.querySelector('[data-field="pass"]');
+      const planField  = document.querySelector('[data-field="plan"]');
 
-      const email = (emailEl.value || '').trim();
-      const pass  = (passEl.value || '').trim();
-      const plan  = planEl.value;
+      // clear notes on typing
+      emailEl.addEventListener("input", ()=> LuminaUI.clearNote(emailField));
+      passEl.addEventListener("input",  ()=> LuminaUI.clearNote(passField));
+      document.getElementById("planSelect").addEventListener("click", ()=> LuminaUI.clearNote(planField));
 
-      const emailField = document.querySelector('[data-bubble-for="email"]');
-      const passField  = document.querySelector('[data-bubble-for="pass"]');
-      const planField  = document.querySelector('[data-bubble-for="plan"]');
+      demoBtn.addEventListener("click", ()=>{
+        const email = emailEl.value.trim();
+        const pass  = passEl.value.trim();
+        const plan  = planEl.value;
 
-      // zrušit staré bubliny
-      [emailField, passField, planField].forEach(f => f && window.LuminaBubble.hide(f));
+        // pouze 4 hlášky, žádné jiné
+        if(!email){
+          LuminaUI.showNote(emailField, "Vyplň e-mail");
+          emailEl.focus();
+          return;
+        }
+        if(!pass){
+          LuminaUI.showNote(passField, "Vyplň heslo");
+          passEl.focus();
+          return;
+        }
+        if(!plan){
+          LuminaUI.showNote(planField, "Vyber předplatné");
+          document.querySelector("#planSelect .lumina-select__btn").focus();
+          return;
+        }
 
-      if(!email){
-        window.LuminaBubble.show(emailField, "Vyplň e-mail");
-        emailEl.focus();
-        return;
-      }
-      if(!pass){
-        window.LuminaBubble.show(passField, "Vyplň heslo");
-        passEl.focus();
-        return;
-      }
-      if(!plan){
-        window.LuminaBubble.show(planField, "Vyber předplatné");
-        // fokus na button dropdownu (lepší než hidden input)
-        const btn = document.querySelector('#planSelect .lumina-select__btn');
-        if(btn) btn.focus();
-        return;
-      }
+        // rozsvítit pavučinu a vstoupit do demo
+        document.getElementById("loginCard").classList.add("is-awake");
 
-      // uložit a přesměrovat (bez dalších popupů)
-      const payload = { email, plan };
-      localStorage.setItem('miniLuminaUser', JSON.stringify(payload));
-      localStorage.setItem('lm_plan', plan);
-      localStorage.setItem('lm_plan_set_at', new Date().toISOString());
+        const payload = { email, plan };
+        localStorage.setItem("miniLuminaUser", JSON.stringify(payload));
+        localStorage.setItem("lm_plan", plan);
+        localStorage.setItem("lm_plan_set_at", new Date().toISOString());
 
-      window.location.href = "lumina-demo.html";
-    }
-
-    document.getElementById('openDemoBtn')?.addEventListener('click', openDemo);
-
-    // Enter v inputech = otevřít demo
-    document.getElementById('email')?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); openDemo(); } });
-    document.getElementById('pass')?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); openDemo(); } });
-  
-    // ===== watermark activation =====
-    const loginCard = document.getElementById('loginCard');
-    ['email','pass','planSelect'].forEach(id=>{
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.addEventListener('focusin', ()=> loginCard.classList.add('is-active'));
-    });
-
+        window.setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 520);
+      });
+    })();
   </script>
 </body>
 </html>
