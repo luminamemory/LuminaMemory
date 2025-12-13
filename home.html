@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LuminaMemory™ • home</title>
+  <style>
+    :root{
+      --bg:#000;
+      --ink:rgba(255,255,255,.92);
+      --ink2:rgba(255,255,255,.72);
+      --ring:rgba(255,255,255,.18);
+      --glow:rgba(170,140,255,.65);
+      --glow2:rgba(80,210,255,.55);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      background:var(--bg);
+      color:var(--ink);
+      overflow:hidden;
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+
+    /* --- Background effects --- */
+    .fx{
+      position:fixed; inset:0;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    /* soft aura */
+    .fx::before{
+      content:"";
+      position:absolute; inset:-20%;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(175,135,255,.16) 0, transparent 52%),
+        radial-gradient(circle at 30% 80%, rgba(70,210,255,.10) 0, transparent 55%),
+        radial-gradient(circle at 85% 15%, rgba(255,255,255,.06) 0, transparent 55%);
+      filter: blur(0px);
+      opacity:.95;
+    }
+
+    /* laser lines */
+    .laser{
+      position:absolute;
+      left:-15vw; right:-15vw;
+      height:2px;
+      top:35%;
+      transform:rotate(-10deg);
+      background:linear-gradient(90deg, transparent, rgba(80,210,255,.0), rgba(80,210,255,.50), rgba(175,135,255,.55), rgba(255,255,255,.35), transparent);
+      opacity:.22;
+      filter: drop-shadow(0 0 14px rgba(175,135,255,.35));
+      animation: drift 9s ease-in-out infinite;
+    }
+    .laser.l2{
+      top:55%;
+      transform:rotate(7deg);
+      opacity:.18;
+      animation-duration: 11s;
+      animation-delay: -2.2s;
+    }
+    .laser.l3{
+      top:70%;
+      transform:rotate(-4deg);
+      opacity:.14;
+      animation-duration: 13s;
+      animation-delay: -4.8s;
+    }
+    @keyframes drift{
+      0%,100%{ transform:translateX(-2vw) rotate(var(--rot, -10deg)); filter: drop-shadow(0 0 12px rgba(175,135,255,.32)); }
+      50%{ transform:translateX(2vw) rotate(var(--rot, -10deg)); filter: drop-shadow(0 0 18px rgba(80,210,255,.30)); }
+    }
+    .laser{ --rot:-10deg; }
+    .laser.l2{ --rot:7deg; }
+    .laser.l3{ --rot:-4deg; }
+
+    /* shooting stars */
+    .stars{
+      position:absolute; inset:0;
+      overflow:hidden;
+    }
+    .star{
+      position:absolute;
+      width:180px;
+      height:2px;
+      background:linear-gradient(90deg, rgba(255,255,255,.0), rgba(255,255,255,.75), rgba(175,135,255,.55), rgba(80,210,255,.0));
+      opacity:.0;
+      transform:rotate(20deg);
+      filter: drop-shadow(0 0 10px rgba(175,135,255,.35));
+      animation: shoot 6.5s linear infinite;
+    }
+    /* individual star positions/delays */
+    .s1{ top:10%; left:-30%; animation-delay:-0.8s; animation-duration:6.8s; }
+    .s2{ top:22%; left:-40%; animation-delay:-3.1s; animation-duration:7.6s; }
+    .s3{ top:38%; left:-35%; animation-delay:-5.0s; animation-duration:8.2s; }
+    .s4{ top:52%; left:-50%; animation-delay:-1.9s; animation-duration:7.2s; }
+    .s5{ top:66%; left:-45%; animation-delay:-4.2s; animation-duration:8.8s; }
+
+    @keyframes shoot{
+      0%{ opacity:0; transform:translateX(0) translateY(0) rotate(20deg); }
+      8%{ opacity:.28; }
+      18%{ opacity:.0; }
+      100%{ opacity:0; transform:translateX(170vw) translateY(45vh) rotate(20deg); }
+    }
+
+    /* --- Layout --- */
+    .wrap{
+      position:relative;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:1;
+    }
+
+    .logoText{
+      width:min(680px, 84vw);
+      height:auto;
+      display:block;
+      opacity:.98;
+      filter: drop-shadow(0 0 24px rgba(175,135,255,.30)) drop-shadow(0 0 38px rgba(80,210,255,.18));
+      user-select:none;
+      -webkit-user-drag:none;
+    }
+
+    .bottom{
+      position:fixed;
+      left:0; right:0;
+      bottom:34px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .enterBtn{
+      pointer-events:auto;
+      width:108px;
+      height:108px;
+      border-radius:999px;
+      border:1px solid var(--ring);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), rgba(255,255,255,.06) 55%, rgba(0,0,0,.0) 70%),
+        radial-gradient(circle at 50% 50%, rgba(175,135,255,.18), rgba(0,0,0,.0) 60%);
+      box-shadow:
+        0 22px 70px rgba(0,0,0,.65),
+        0 0 38px rgba(175,135,255,.30),
+        0 0 28px rgba(80,210,255,.20);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition: transform .18s ease, filter .18s ease;
+      position:relative;
+      outline:none;
+    }
+    .enterBtn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+    .enterBtn:active{ transform: translateY(2px) scale(.985); }
+
+    .enterBtn img{
+      width:62px;
+      height:62px;
+      display:block;
+      filter: drop-shadow(0 0 18px rgba(175,135,255,.35));
+      user-select:none;
+      -webkit-user-drag:none;
+    }
+
+    /* press-in animation on click */
+    .enterBtn.is-pressed{
+      transform: translateY(6px) scale(.92);
+      filter: brightness(1.08) saturate(1.1);
+      transition: transform .22s cubic-bezier(.2,.9,.2,1), filter .22s ease;
+    }
+
+    /* back link */
+    .back{
+      position:fixed;
+      left:18px;
+      bottom:18px;
+      z-index:3;
+      font-size:13px;
+      color:var(--ink2);
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: filter .18s ease, background .18s ease;
+    }
+    .back:hover{ filter:brightness(1.08); background:rgba(255,255,255,.06); }
+
+    /* flash overlay */
+    .flash{
+      position:fixed; inset:0;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.85), rgba(255,255,255,.25) 35%, rgba(255,255,255,0) 70%);
+      opacity:0;
+      pointer-events:none;
+      z-index:10;
+      transition: opacity .18s ease;
+    }
+    .flash.is-on{ opacity:1; }
+
+    /* accessibility: reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      .laser, .star{ animation:none !important; }
+      .enterBtn{ transition:none !important; }
+      .flash{ transition:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- FX layer -->
+  <div class="fx" aria-hidden="true">
+    <div class="laser l1"></div>
+    <div class="laser l2"></div>
+    <div class="laser l3"></div>
+
+    <div class="stars">
+      <div class="star s1"></div>
+      <div class="star s2"></div>
+      <div class="star s3"></div>
+      <div class="star s4"></div>
+      <div class="star s5"></div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <a class="back" href="index.html">← Zpět na web</a>
+
+  <div class="wrap">
+    <img class="logoText" src="luminamemory.png" alt="LuminaMemory™">
+  </div>
+
+  <div class="bottom">
+    <button class="enterBtn" id="enterBtn" type="button" aria-label="Vstoupit do demo">
+      <img src="favicon.png" alt="" aria-hidden="true">
+    </button>
+  </div>
+
+  <div class="flash" id="flash" aria-hidden="true"></div>
+
+  <script>
+    (function(){
+      const btn = document.getElementById("enterBtn");
+      const flash = document.getElementById("flash");
+      const target = "mini-login.html";
+
+      btn.addEventListener("click", () => {
+        // press in
+        btn.classList.add("is-pressed");
+
+        // flash
+        flash.classList.add("is-on");
+        window.setTimeout(()=> flash.classList.remove("is-on"), 220);
+
+        // redirect
+        window.setTimeout(()=> { window.location.href = target; }, 950);
+      });
+    })();
+  </script>
+</body>
+</html>
