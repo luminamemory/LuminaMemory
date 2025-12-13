@@ -4,11 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Arcana • Hala • LuminaMemory™</title>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.png" type="image/png" />
   <style>
     :root{
-      --bg0:#060714; --bg1:#0b0d23;
+      /* ARCANA • trezor (kov) */
+      --bg0:#05060b; --bg1:#0a0d12;
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.68);
       --muted2: rgba(255,255,255,.55);
@@ -20,11 +21,12 @@
     html,body{ height:100%; }
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color:var(--text);
       background:
-        radial-gradient(1100px 750px at 20% 10%, rgba(155,125,255,.22), transparent 55%),
-        radial-gradient(900px 620px at 80% 15%, rgba(79,209,255,.14), transparent 55%),
+        radial-gradient(1200px 780px at 18% 8%, rgba(174,182,198,.18), transparent 55%),
+        radial-gradient(980px 620px at 82% 18%, rgba(127,224,255,.12), transparent 55%),
+        radial-gradient(900px 700px at 50% 110%, rgba(183,162,255,.08), transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
       overflow-x:hidden;
     }
@@ -96,8 +98,8 @@
     .badge{
       font-size:12px;
       color:rgba(255,255,255,.85);
-      background: rgba(155,125,255,.14);
-      border:1px solid rgba(155,125,255,.22);
+      background: rgba(174,182,198,.14);
+      border:1px solid rgba(174,182,198,.22);
       padding:7px 10px;
       border-radius: 999px;
       display:inline-flex; align-items:center; gap:8px;
@@ -116,16 +118,18 @@
     .web-local {
   position: absolute;
   left: 50%;
-  top: 14%;
+  top: 22%; /* níž, aby byla pod bublinami */
   transform: translateX(-50%);
-  width: 40vw;
-  height: 40vh;
+  width: min(560px, 78vw);
+  height: min(420px, 52vh);
   background-image: url("pavucina-web.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1; /* POD ovládacími prvky */
+  opacity: .55;
+  filter: contrast(1.15) saturate(.9) drop-shadow(0 0 16px rgba(127,224,255,.12));
 }
     .circle{
       overflow: visible;
@@ -135,7 +139,7 @@
       margin: 4px auto 0;
       border-radius: 999px;
       display:grid; place-items:center;
-      z-index:1;
+      z-index:2;
     }
     .circle::before{
       content:"";
@@ -169,6 +173,18 @@
     .knot b{ font-size:12px; letter-spacing:.22px; }
     .knot span{ display:block; margin-top:6px; font-size:11px; color:var(--muted2); line-height:1.35; }
 
+    .knot{
+      cursor:pointer;
+      transition: transform .14s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+      background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+    }
+    .knot:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.22);
+      box-shadow: 0 18px 55px rgba(0,0,0,.48), 0 0 26px rgba(174,182,198,.14);
+    }
+
+
     .bubble{
       position:absolute;
       width:160px; height:160px;
@@ -186,23 +202,33 @@
     }
     .bubble:hover{ transform: translateY(-2px) scale(1.01); border-color: rgba(255,255,255,.24); }
     .bubble:active{ transform: translateY(0px) scale(.99); }
-    @keyframes heartbeat{
-      0%   { scale: 1;    filter: saturate(1) brightness(1); }
-      6%   { scale: 1.015; filter: saturate(1.08) brightness(1.05); }
+
+    .bubble{
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.18), rgba(255,255,255,.06) 40%, rgba(255,255,255,.03) 70%),
+        linear-gradient(135deg, rgba(174,182,198,.14), rgba(127,224,255,.06));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: 0 18px 55px rgba(0,0,0,.45), 0 0 28px rgba(127,224,255,.08);
+      transition: transform .14s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .bubble:hover{
+      transform: translateY(-2px) scale(1.01);
+      border-color: rgba(255,255,255,.26);
+      box-shadow: 0 22px 60px rgba(0,0,0,.52), 0 0 36px rgba(127,224,255,.14);
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.22), rgba(255,255,255,.07) 40%, rgba(255,255,255,.03) 70%),
+        linear-gradient(135deg, rgba(174,182,198,.16), rgba(183,162,255,.06));
+    }
+    .bubble .n{ font-size:13.5px; font-weight:800; letter-spacing:.22px; }
+    .bubble .d{ font-size:12px; color:rgba(255,255,255,.72); }
+
+    6%   { scale: 1.015; filter: saturate(1.08) brightness(1.05); }
       12%  { scale: 1;    filter: saturate(1) brightness(1); }
       18%  { scale: 1.028; filter: saturate(1.12) brightness(1.07); }
       26%  { scale: 1;    filter: saturate(1) brightness(1); }
       100% { scale: 1;    filter: saturate(1) brightness(1); }
     }
-    .bubble{
-      transform-origin: center;
-      will-change: scale, filter;
-      animation: heartbeat 2.9s cubic-bezier(.2,.9,.2,1) infinite;
-    }
-    .b2{ animation-delay:.15s; }
-    .b3{ animation-delay:.3s; }
-    .b4{ animation-delay:.45s; }
-.bubble .i{ font-size:22px; }
+    .bubble .i{ font-size:22px; }
     .bubble .n{ font-size:13px; font-weight:800; letter-spacing:.18px; text-align:center; line-height:1.15; padding:0 10px; }
     .bubble .d{ font-size:11.5px; color:var(--muted); text-align:center; line-height:1.35; padding:0 14px; max-width: 150px; }
 
@@ -220,7 +246,7 @@
     .strand{
       position:absolute; width:2px;
       background: linear-gradient(180deg, rgba(255,255,255,.00), rgba(255,255,255,.18), rgba(255,255,255,.00));
-      opacity:.45; z-index:1;
+      opacity:.35; z-index:2;
     }
     .s-top{ height:90px; top: 22%; left:50%; transform: translateX(-50%); }
     .s-right{ height:90px; top: 50%; left: 75%; transform: translate(-50%,-50%) rotate(90deg); }
@@ -408,16 +434,17 @@
     }
     .entry .left{ display:grid; gap:4px; }
     .entry b{
-      font-family: "Caveat", cursive;
-      font-size:17px;
-      letter-spacing:.5px;
+      font-family:"Poppins", system-ui, sans-serif;
+      font-size:13.5px;
+      letter-spacing:.10em;
+      text-transform:uppercase;
     }
     .entry span{
-      font-family: "Caveat", cursive;
-      font-size:14px;
+      font-family:"Poppins", system-ui, sans-serif;
+      font-size:12.5px;
       color: rgba(255,255,255,.82);
-      line-height:1.4;
-      opacity:.92;
+      line-height:1.5;
+      opacity:.95;
     }
     .entry .chip2{
       flex:0 0 auto;
@@ -432,24 +459,34 @@
       opacity:.95;
     }
 
-  </style>
+  
+    /* ===== Arcana Chat (profi terminál) ===== */
+    .chatbox{
+      background:
+        radial-gradient(circle at 12% 0%, rgba(174,182,198,.10), transparent 45%),
+        radial-gradient(circle at 88% 100%, rgba(127,224,255,.08), transparent 55%),
+        rgba(255,255,255,.02);
+    }
+    textarea{
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255,255,255,.10), transparent 48%),
+        linear-gradient(180deg, rgba(0,0,0,.32), rgba(0,0,0,.22));
+      border-color: rgba(255,255,255,.14);
+      font-size:13.5px;
+      line-height:1.55;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), inset 0 18px 40px rgba(0,0,0,.35);
+    }
+    textarea:focus{
+      border-color: rgba(127,224,255,.38);
+      box-shadow: 0 0 0 3px rgba(127,224,255,.12), inset 0 18px 40px rgba(0,0,0,.35);
+    }
+    .chathead b{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:12px;
+    }
 
-<style>
-.web-local {
-  position: absolute;
-  left: 50%;
-  top: 14%;
-  transform: translateX(-50%);
-  width: 40vw;
-  height: 40vh;
-  background-image: url("pavucina-web.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  pointer-events: none;
-  z-index: 0;
-}
-</style>
+  </style>
 
 </head>
 <body>
@@ -500,7 +537,7 @@
               <div class="knot" aria-label="Arcana center">
                 <div>
                   <b>Jádro trezoru</b>
-                  <span>Ochrana • tichý zápis • třídění</span>
+                  <span>Ochrana • tichý zápis • stav trezoru</span>
                 </div>
               </div>
 
@@ -682,6 +719,69 @@
     };
 
     hydrateRoomsFromStorage();
+
+
+    // ===== JÁDRO TREZORU (stav) =====
+    function countAllEntries(){
+      const store = safeJSONParse(localStorage.getItem("arcana_entries_v1") || "{}", {});
+      const counts = { clavis:0, pecunia:0, medica:0, vitae:0 };
+      Object.keys(counts).forEach(k=>{
+        counts[k] = Array.isArray(store[k]) ? store[k].length : 0;
+      });
+      const total = Object.values(counts).reduce((a,b)=>a+b,0);
+      return {counts,total};
+    }
+
+    function openVaultStatus(){
+      const {counts,total} = countAllEntries();
+      // plan badge
+      const plan = (__plan || "free").toUpperCase();
+
+      mIcon.textContent = "🧿";
+      mTitle.textContent = "Jádro trezoru • Stav";
+      mLead.textContent = "Přehled bezpečí, posledních zápisů a rozdělení do místností.";
+
+      mEntries.innerHTML = "";
+      const rows = [
+        {k:"Režim", v:`Aktivní • tarif: ${plan}`, t:"OK"},
+        {k:"Zápisy", v:`Celkem uložených položek: ${total}`, t:"LIVE"},
+        {k:"Clavis", v:`Položky: ${counts.clavis}`, t:"🔑"},
+        {k:"Pecunia", v:`Položky: ${counts.pecunia}`, t:"💶"},
+        {k:"Medica", v:`Položky: ${counts.medica}`, t:"🩺"},
+        {k:"Vitae", v:`Položky: ${counts.vitae}`, t:"🪪"},
+      ];
+      rows.forEach(e=>{
+        const row = document.createElement("div");
+        row.className = "entry";
+        row.innerHTML = `
+          <div class="left">
+            <b>${e.k}</b>
+            <span>${e.v}</span>
+          </div>
+          <div class="chip2">${e.t}</div>
+        `;
+        mEntries.appendChild(row);
+      });
+
+      backdrop.classList.add("show");
+      backdrop.setAttribute("aria-hidden","false");
+    }
+
+    // klik na jádro
+    const core = document.querySelector(".knot");
+    if(core){
+      core.addEventListener("click", openVaultStatus);
+      core.addEventListener("keydown", (e)=>{
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          openVaultStatus();
+        }
+      });
+      core.setAttribute("role","button");
+      core.setAttribute("tabindex","0");
+      core.setAttribute("aria-label","Jádro trezoru – stav");
+    }
+
 
 
     function safeJSONParse(s, fallback){
