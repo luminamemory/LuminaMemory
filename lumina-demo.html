@@ -797,7 +797,7 @@
         
     <div class="lumina-select" id="tagSelect">
       <button type="button" class="lumina-select__btn" aria-haspopup="listbox" aria-expanded="false">
-        <span class="lumina-select__label">jen tak</span>
+        <span class="lumina-select__label is-placeholder">🗯 výchozí</span>
         <span class="lumina-select__chev">▾</span>
       </button>
       <div class="lumina-select__menu" role="listbox" tabindex="-1" hidden>
@@ -948,7 +948,7 @@
           const val = opt.getAttribute('data-value') ?? '';
           const txt = opt.textContent || '';
           hidden.value = val;
-          label.textContent = txt;
+          label.textContent = txt; label.classList.remove("is-placeholder");
 
           // aria-selected update
           menu.querySelectorAll('button[role="option"]').forEach(b=>b.setAttribute('aria-selected','false'));
@@ -995,7 +995,7 @@
       if(s.includes("důležité")) return "důležité";
       if(s.includes("myšlenka")) return "myšlenka";
       if(s.includes("jen tak")) return "jen tak";
-      return s.replace(/^[^\p{L}]+/gu,"").trim() || "jen tak";
+      return s.replace(/^[^a-z0-9áčďéěíňóřšťúůýž]+/i,"").trim() || "jen tak";
     }
 
     function tagLeadIn(tagNorm){
