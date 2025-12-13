@@ -116,10 +116,11 @@
 
     .logoText{
       width:min(680px, 84vw);
+      mix-blend-mode: screen;
       height:auto;
       display:block;
       opacity:.98;
-      filter: drop-shadow(0 0 24px rgba(175,135,255,.30)) drop-shadow(0 0 38px rgba(80,210,255,.18));
+      filter: drop-shadow(0 0 24px rgba(175,135,255,.35)) drop-shadow(0 0 48px rgba(80,210,255,.25));
       user-select:none;
       -webkit-user-drag:none;
     }
@@ -137,8 +138,8 @@
 
     .enterBtn{
       pointer-events:auto;
-      width:108px;
-      height:108px;
+      width:140px;
+      height:140px;
       border-radius:999px;
       border:1px solid var(--ring);
       background:
@@ -146,8 +147,8 @@
         radial-gradient(circle at 50% 50%, rgba(175,135,255,.18), rgba(0,0,0,.0) 60%);
       box-shadow:
         0 22px 70px rgba(0,0,0,.65),
-        0 0 38px rgba(175,135,255,.30),
-        0 0 28px rgba(80,210,255,.20);
+        0 0 50px rgba(175,135,255,.45),
+        0 0 80px rgba(80,210,255,.25);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -160,8 +161,8 @@
     .enterBtn:active{ transform: translateY(2px) scale(.985); }
 
     .enterBtn img{
-      width:62px;
-      height:62px;
+      width:80px;
+      height:80px;
       display:block;
       filter: drop-shadow(0 0 18px rgba(175,135,255,.35));
       user-select:none;
