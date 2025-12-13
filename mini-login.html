@@ -223,21 +223,18 @@
     .steps b{color:var(--ink)}
     .steps ul{margin:8px 0 0 18px;padding:0}
   
-    /* ===== Pavučina watermark v login kartě ===== */
-    .login-watermark{
+    .left::after{
+      content:"";
       position:absolute;
-      inset:auto 18px 18px auto;
-      width:120px;
-      height:120px;
-      background:url("pavucina-web.png") center/contain no-repeat;
-      opacity:0.06;
+      inset:0;
+      background:url("pavucina-web.png") center/70% no-repeat;
+      opacity:0.08;
       pointer-events:none;
-      filter:drop-shadow(0 0 20px rgba(184,146,255,.25));
-      transition: opacity .6s ease, filter .6s ease;
+      filter:drop-shadow(0 0 40px rgba(184,146,255,.45));
+      transition:opacity .35s ease;
     }
-    .login-watermark.is-lit{
-      opacity:0.22;
-      filter:drop-shadow(0 0 35px rgba(184,146,255,.55));
+    .left.is-active::after{
+      opacity:0.18;
     }
 
   </style>
@@ -247,7 +244,6 @@
   <div class="shell">
 
     <section class="card left" id="loginCard">
-      <div class="login-watermark" id="loginWatermark"></div>
       <div class="brand">
         <img src="favicon.png" alt="LuminaMemory">
         <div>
@@ -463,8 +459,7 @@
       localStorage.setItem('lm_plan', plan);
       localStorage.setItem('lm_plan_set_at', new Date().toISOString());
 
-      document.getElementById("loginWatermark")?.classList.add("is-lit");
-      setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 500);
+      window.location.href = "lumina-demo.html";
     }
 
     document.getElementById('openDemoBtn')?.addEventListener('click', openDemo);
@@ -472,6 +467,15 @@
     // Enter v inputech = otevřít demo
     document.getElementById('email')?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); openDemo(); } });
     document.getElementById('pass')?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); openDemo(); } });
+  
+    // ===== watermark activation =====
+    const loginCard = document.getElementById('loginCard');
+    ['email','pass','planSelect'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.addEventListener('focusin', ()=> loginCard.classList.add('is-active'));
+    });
+
   </script>
 </body>
 </html>
