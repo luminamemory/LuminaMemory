@@ -1296,6 +1296,23 @@
       return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
     }
 
+    // quick action: uložit do Chronicy (klik v bublině Luminy)
+    chat.addEventListener("click", (e) => {
+      const btn = e.target.closest && e.target.closest(".quick-save");
+      if(!btn) return;
+      e.preventDefault();
+      saveLastToChronica(true);
+    });
+
+    function addBubbleHtml(who, html, meta){
+      const div = document.createElement("div");
+      div.className = `bubble ${who}`;
+      div.innerHTML = `<div>${html}</div><div class="meta">${escapeHtml(meta || "")}</div>`;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+
     // Modal + task scheduling (vložené)
     const taskModal = document.getElementById("taskModal");
     const taskDate = document.getElementById("taskDate");
@@ -1577,7 +1594,13 @@
             if(tag === "důležité") tail = " Chceš to uložit do Chronicy?";
             if(tag === "myšlenka") tail = " Chceš ji rozvést jednou větou?";
             if(tag === "jen tak") tail = " Co je dneska malá radost?";
-            addBubble("lumi", (combined + tail).trim(), `Lumina • ${new Date().toLocaleTimeString().slice(0,5)}`);
+            if(tail && tail.includes("uložit do Chronicy")){
+              const safe = escapeHtml(combined);
+              const html = `${safe}${escapeHtml(tail)} <button class="quick-save" type="button" style="margin-left:8px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.12);color:rgba(255,255,255,.92);padding:6px 10px;font-weight:800;cursor:pointer;">Uložit do Chronicy</button>`;
+              addBubbleHtml("lumi", html, `Lumina • ${new Date().toLocaleTimeString().slice(0,5)}`);
+            } else {
+              addBubble("lumi", (combined + tail).trim(), `Lumina • ${new Date().toLocaleTimeString().slice(0,5)}`);
+            }
           }, 450);
         }
       }
@@ -1624,17 +1647,42 @@
       }
     });
 
-    // save to "Chronica" (localStorage)
-    document.getElementById("saveBtn").addEventListener("click", () => {
+    
+    function saveLastToChronica(withToast){
       const last = JSON.parse(localStorage.getItem("pokec:last") || "null");
       if (!last){
-        window.LuminaUI.toast({
-          variant:"warn",
-          icon:"📎",
-          title:"Není co uložit",
-          msg:"Nejdřív pošli nebo napiš zprávu — pak ji uložíme do Chronicy."
-        });
+        if(withToast){
+          window.LuminaUI.toast({
+            variant:"warn",
+            icon:"📎",
+            title:"Není co uložit",
+            msg:"Nejdřív pošli nebo napiš zprávu — pak ji uložíme do Chronicy."
+          });
+        }
         msg.focus();
+        return false;
+      }
+
+      const chronica = JSON.parse(localStorage.getItem("chronica") || "[]");
+      chronica.unshift({
+        title: last.tag === "úkol" ? `Úkol: ${last.text}` : `Poznámka: ${last.text}`,
+        tag: last.tag,
+        mood: last.mood,
+        createdAt: last.ts,
+        done: false
+      });
+      localStorage.setItem("chronica", JSON.stringify(chronica));
+
+      addBubble("lumi", "Uloženo do Chronicy. ✨", "Lumina • potvrzení");
+      return true;
+    }
+
+    // save to "Chronica" (localStorage)
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      saveLastToChronica(true);
+    });
+
+msg.focus();
         return;
       }
 

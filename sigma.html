@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sigma • LuminaMemory™</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <style>
+    :root{--bg0:#08031a;--bg1:#17083a;--bg2:#2b0b5a;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.72);--muted:rgba(255,255,255,.62);--border:rgba(255,255,255,.14);--card:rgba(6,3,20,.80);--shadow:0 24px 80px rgba(0,0,0,.72);--r:22px;}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);
+      background:radial-gradient(1100px 740px at 18% 10%, rgba(184,146,255,.24), transparent 60%),
+      radial-gradient(980px 760px at 86% 25%, rgba(214,170,255,.16), transparent 62%),
+      linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      background:linear-gradient(180deg, rgba(8,3,26,.86), rgba(8,3,26,.35));border-bottom:1px solid rgba(255,255,255,.08);}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 18px;}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .brand b{font-family:"Cinzel",serif;letter-spacing:.06em}
+    .brand small{display:block;margin-top:2px;color:var(--ink2);font-size:12px}
+    .nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{text-decoration:none;color:var(--ink);font-weight:800;font-size:12.5px;border-radius:999px;padding:10px 12px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.14);}
+    .pill:hover{filter:brightness(1.05)}
+    main{max-width:1100px;margin:0 auto;padding:18px 18px 70px;}
+    .panel{border:1px solid rgba(255,255,255,.12);background:radial-gradient(circle at 0 0, rgba(255,255,255,.10), transparent 55%), var(--card);
+      border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;}
+    .head{padding:18px;border-bottom:1px solid rgba(255,255,255,.07)}
+    h1{margin:0;font-size:22px}
+    .sub{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.55;max-width:75ch}
+    .grid{padding:14px;display:grid;gap:12px;grid-template-columns:1fr 1fr}
+    @media (max-width:780px){.grid{grid-template-columns:1fr}}
+    .card{border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.12);border-radius:18px;padding:14px}
+    .card b{display:block;font-size:14px;margin-bottom:6px}
+    .card p{margin:0;color:var(--ink2);font-size:13px;line-height:1.55}
+    .chip{display:inline-flex;gap:8px;align-items:center;margin-top:10px;font-size:12px;color:var(--ink2);
+      padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand">
+          <b>Sigma</b>
+          <small>ranní a večerní rytmus • bez tlačení na výkon</small>
+        </div>
+        <nav class="nav" aria-label="Navigace">
+          <a class="pill" href="praetorium.html">🕸 Praetorium</a>
+          <a class="pill" href="lumina-demo.html">💬 Pokec</a>
+          <a class="pill" href="home.html">🏡 Domů</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="head">
+        <h1>Sigma</h1>
+        <div class="sub">
+          Demo místnost pro denní rituály. Později sem můžeme dát přepínače, časy, a šablony zpráv.
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <b>🌅 Ranní zpráva</b>
+          <p>Krátká věta. Jeden směr. Žádné přetížení.</p>
+          <div class="chip">status: demo • napojíme později</div>
+        </div>
+
+        <div class="card">
+          <b>🌙 Večerní shrnutí</b>
+          <p>Co se povedlo. Co pustit. Co si vzít na zítra.</p>
+          <div class="chip">status: demo • napojíme později</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
