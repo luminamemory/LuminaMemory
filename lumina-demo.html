@@ -458,6 +458,102 @@
     @media (max-width:520px){.modal-grid{grid-template-columns:1fr}}
     .modal-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:12px}
     .modal-note{opacity:.7; font-size:.82rem; margin-top:10px}
+
+    /* =========================================================
+       MODAL – víc magie (datum/čas)
+       ========================================================= */
+    .modal-box{
+      position:relative;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(255,255,255,.16), transparent 45%),
+        radial-gradient(circle at 88% 100%, rgba(67,210,255,.18), transparent 52%),
+        radial-gradient(circle at 40% 70%, rgba(184,146,255,.16), transparent 55%),
+        rgba(10,6,26,.96);
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:
+        0 24px 70px rgba(0,0,0,.78),
+        0 0 60px rgba(184,146,255,.28),
+        0 0 40px rgba(67,210,255,.16);
+      overflow:hidden;
+    }
+    .modal-box::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:20px;
+      background:conic-gradient(from 210deg,
+        rgba(184,146,255,0),
+        rgba(184,146,255,.65),
+        rgba(67,210,255,0),
+        rgba(67,210,255,.55),
+        rgba(184,146,255,0));
+      filter:blur(14px);
+      opacity:.38;
+      pointer-events:none;
+    }
+    .modal-box > *{position:relative; z-index:1;}
+
+    /* Inputy datum/čas ve stylu Luminy */
+    .modal-grid input[type="date"],
+    .modal-grid input[type="time"]{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      color:rgba(255,255,255,.92);
+      padding:10px 12px;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,.20), transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(184,146,255,.18), transparent 55%),
+        linear-gradient(135deg, rgba(67,210,255,.10), rgba(184,146,255,.10)),
+        rgba(0,0,0,.22);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.08),
+        inset 0 0 22px rgba(184,146,255,.16),
+        0 14px 34px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .modal-grid input[type="date"]:hover,
+    .modal-grid input[type="time"]:hover{
+      border-color:rgba(255,255,255,.28);
+    }
+    .modal-grid input[type="date"]:focus,
+    .modal-grid input[type="time"]:focus{
+      outline:none;
+      border-color:rgba(120,190,255,.55);
+      box-shadow:
+        0 0 0 3px rgba(88,160,255,.18),
+        0 16px 44px rgba(0,0,0,.55),
+        0 0 26px rgba(184,146,255,.22);
+    }
+    .modal-grid input[type="date"]:active,
+    .modal-grid input[type="time"]:active{transform:scale(.99);}
+
+    /* Ikonky vpravo (jemně) – podporováno tam, kde to prohlížeč dovolí */
+    .modal-grid input[type="date"]{padding-right:40px;}
+    .modal-grid input[type="time"]{padding-right:40px;}
+
+    /* WebKit kalendář/čas ikonky – zjemnit (Safari/Chrome) */
+    .modal-grid input[type="date"]::-webkit-calendar-picker-indicator,
+    .modal-grid input[type="time"]::-webkit-calendar-picker-indicator{
+      opacity:.9;
+      filter: drop-shadow(0 0 10px rgba(184,146,255,.35));
+      cursor:pointer;
+    }
+
+    /* Tlačítka v modalu trochu „svítí“ */
+    .modal-actions .btn-mini{
+      background:linear-gradient(135deg, rgba(184,146,255,.22), rgba(67,210,255,.14));
+      border-color:rgba(255,255,255,.20);
+      box-shadow:0 14px 36px rgba(0,0,0,.55), 0 0 22px rgba(184,146,255,.16);
+    }
+    .modal-actions .btn-mini:hover{
+      border-color:rgba(255,255,255,.32);
+      transform:translateY(-1px);
+    }
+    .modal-actions .btn-mini:active{transform:translateY(0) scale(.99);}
+
     label{display:block; opacity:.75; font-size:.82rem; margin-bottom:6px}
 
     /* Responsivita */
@@ -729,6 +825,134 @@
 .lumina-option.is-selected{ background:rgba(130,110,255,.18); }
 .lumina-option__tick{opacity:.9}
 
+
+    /* =========================================================
+       LUMINA • Vlastní date/time picker (bez nativních koleček)
+       ========================================================= */
+    .lp-wrap{margin-top:10px; display:grid; gap:10px;}
+    .lp{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.20);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(255,255,255,.14), transparent 48%),
+        radial-gradient(circle at 88% 100%, rgba(67,210,255,.16), transparent 55%),
+        radial-gradient(circle at 40% 70%, rgba(184,146,255,.14), transparent 55%),
+        rgba(0,0,0,.16);
+      box-shadow:0 18px 44px rgba(0,0,0,.55), 0 0 26px rgba(184,146,255,.14);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+    .lp-head{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      padding:10px 10px 8px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .lp-title{
+      font-family:"Cinzel",serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:.8rem;
+      color:rgba(255,255,255,.9);
+      text-shadow:0 0 10px rgba(184,146,255,.25);
+    }
+    .lp-nav{
+      width:34px; height:30px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:linear-gradient(135deg, rgba(184,146,255,.18), rgba(67,210,255,.10));
+      color:rgba(255,255,255,.9);
+      cursor:pointer;
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+    }
+    .lp-nav:hover{border-color:rgba(255,255,255,.30)}
+    .lp-nav:active{transform:scale(.99)}
+
+    .lp-week{
+      display:grid; grid-template-columns:repeat(7,1fr);
+      padding:8px 10px 6px;
+      gap:6px;
+      font-size:.72rem;
+      color:rgba(255,255,255,.7);
+      letter-spacing:.04em;
+      opacity:.95;
+    }
+    .lp-grid{
+      display:grid; grid-template-columns:repeat(7,1fr);
+      gap:6px;
+      padding:8px 10px 10px;
+    }
+    .lp-day{
+      height:34px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.9);
+      cursor:pointer;
+      font-size:.86rem;
+      display:grid; place-items:center;
+      user-select:none;
+      transition: transform .08s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .lp-day:hover{border-color:rgba(255,255,255,.24); background:rgba(120,190,255,.10)}
+    .lp-day:active{transform:scale(.99)}
+    .lp-day.is-out{opacity:.35}
+    .lp-day.is-today{border-color:rgba(67,210,255,.35); box-shadow:0 0 0 3px rgba(67,210,255,.10)}
+    .lp-day.is-selected{
+      border-color:rgba(255,255,255,.30);
+      background:linear-gradient(135deg, rgba(184,146,255,.22), rgba(67,210,255,.14));
+      box-shadow:0 0 0 3px rgba(184,146,255,.12), 0 16px 36px rgba(0,0,0,.38);
+    }
+
+    .lp-timegrid{
+      max-height:190px;
+      overflow:auto;
+      padding:10px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+    @media (max-width:520px){
+      .lp-timegrid{grid-template-columns:repeat(2,1fr); max-height:220px;}
+    }
+    .lp-time{
+      padding:9px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.92);
+      cursor:pointer;
+      font-size:.86rem;
+      text-align:center;
+      transition: background .14s ease, border-color .14s ease, transform .08s ease;
+    }
+    .lp-time:hover{background:rgba(120,190,255,.10); border-color:rgba(255,255,255,.24)}
+    .lp-time:active{transform:scale(.99)}
+    .lp-time.is-selected{
+      background:linear-gradient(135deg, rgba(184,146,255,.22), rgba(67,210,255,.14));
+      border-color:rgba(255,255,255,.30);
+      box-shadow:0 0 0 3px rgba(184,146,255,.10);
+    }
+
+    .lp-foot{
+      display:flex; justify-content:space-between; gap:10px;
+      padding:10px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .lp-mini{
+      flex:1;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      padding:8px 10px;
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.9);
+      cursor:pointer;
+      font-weight:700;
+    }
+    .lp-mini:hover{border-color:rgba(255,255,255,.28)}
+    .lp-mini:active{transform:scale(.99)}
+
 </style>
 </head>
 <body>
@@ -841,11 +1065,42 @@
       <div class="modal-grid">
         <div>
           <label>Datum</label>
-          <input type="date" id="taskDate">
+          <input type="text" id="taskDate" inputmode="none" autocomplete="off" placeholder="Vyber datum" readonly>
         </div>
         <div>
           <label>Čas</label>
-          <input type="time" id="taskTime">
+          <input type="text" id="taskTime" inputmode="none" autocomplete="off" placeholder="Vyber čas" readonly>
+        </div>
+      </div>
+
+      <!-- LUMINA PICKERS -->
+      <div class="lp-wrap" id="lpWrap" hidden>
+        <div class="lp" id="lpDate" aria-label="Výběr data" hidden>
+          <div class="lp-head">
+            <button type="button" class="lp-nav" id="lpPrev" aria-label="Předchozí měsíc">‹</button>
+            <div class="lp-title" id="lpTitle">Měsíc</div>
+            <button type="button" class="lp-nav" id="lpNext" aria-label="Další měsíc">›</button>
+          </div>
+          <div class="lp-week">
+            <span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span>
+          </div>
+          <div class="lp-grid" id="lpGrid"></div>
+          <div class="lp-foot">
+            <button type="button" class="lp-mini" id="lpToday">Dnes</button>
+            <button type="button" class="lp-mini" id="lpClearDate">Vymazat</button>
+          </div>
+        </div>
+
+        <div class="lp" id="lpTime" aria-label="Výběr času" hidden>
+          <div class="lp-head">
+            <div class="lp-title">Čas</div>
+            <button type="button" class="lp-nav" id="lpCloseTime" aria-label="Zavřít">×</button>
+          </div>
+          <div class="lp-timegrid" id="lpTimeGrid"></div>
+          <div class="lp-foot">
+            <button type="button" class="lp-mini" id="lpNow">Teď</button>
+            <button type="button" class="lp-mini" id="lpClearTime">Vymazat</button>
+          </div>
         </div>
       </div>
 
@@ -1048,6 +1303,192 @@
     const taskCancel = document.getElementById("taskCancel");
     const taskSave = document.getElementById("taskSave");
 
+    
+    // =========================
+    // LUMINA • Vlastní Date/Time picker
+    // =========================
+    const lpWrap = document.getElementById("lpWrap");
+    const lpDate = document.getElementById("lpDate");
+    const lpTime = document.getElementById("lpTime");
+
+    const lpGrid = document.getElementById("lpGrid");
+    const lpTitle = document.getElementById("lpTitle");
+    const lpPrev = document.getElementById("lpPrev");
+    const lpNext = document.getElementById("lpNext");
+    const lpToday = document.getElementById("lpToday");
+    const lpClearDate = document.getElementById("lpClearDate");
+
+    const lpTimeGrid = document.getElementById("lpTimeGrid");
+    const lpNow = document.getElementById("lpNow");
+    const lpClearTime = document.getElementById("lpClearTime");
+    const lpCloseTime = document.getElementById("lpCloseTime");
+
+    // current view month
+    let lpView = new Date();
+    lpView.setDate(1);
+
+    function pad2(n){ return String(n).padStart(2,"0"); }
+    function toYMD(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+
+    function showPicker(which){
+      if(!lpWrap) return;
+      lpWrap.hidden = false;
+      lpDate.hidden = which !== "date";
+      lpTime.hidden = which !== "time";
+      if(which === "date") renderCalendar();
+      if(which === "time") renderTimes();
+    }
+    function hidePickers(){
+      if(!lpWrap) return;
+      lpWrap.hidden = true;
+      lpDate.hidden = true;
+      lpTime.hidden = true;
+    }
+
+    // Open on input click
+    taskDate.addEventListener("click", ()=> showPicker("date"));
+    taskTime.addEventListener("click", ()=> showPicker("time"));
+
+    // Calendar rendering (CZ week starts Monday)
+    function renderCalendar(){
+      const month = lpView.getMonth();
+      const year = lpView.getFullYear();
+      const monthNames = ["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"];
+      lpTitle.textContent = `${monthNames[month]} ${year}`;
+
+      lpGrid.innerHTML = "";
+
+      const first = new Date(year, month, 1);
+      // JS: Sunday=0..Saturday=6; convert to Monday-start offset
+      let startOffset = (first.getDay() + 6) % 7; // Mon=0 ... Sun=6
+
+      // days in month
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+
+      // previous month days for leading cells
+      const prevDays = new Date(year, month, 0).getDate();
+
+      const todayYMD = toYMD(new Date());
+      const selected = (taskDate.value || "").trim();
+
+      // 6 weeks * 7 = 42 cells
+      for(let i=0;i<42;i++){
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "lp-day";
+
+        let dayNum, cellDate, out=false;
+        if(i < startOffset){
+          dayNum = prevDays - (startOffset - i - 1);
+          cellDate = new Date(year, month-1, dayNum);
+          out = true;
+        }else if(i >= startOffset + daysInMonth){
+          dayNum = i - (startOffset + daysInMonth) + 1;
+          cellDate = new Date(year, month+1, dayNum);
+          out = true;
+        }else{
+          dayNum = i - startOffset + 1;
+          cellDate = new Date(year, month, dayNum);
+        }
+
+        const ymd = toYMD(cellDate);
+        cell.textContent = String(dayNum);
+        if(out) cell.classList.add("is-out");
+        if(ymd === todayYMD) cell.classList.add("is-today");
+        if(ymd === selected) cell.classList.add("is-selected");
+
+        cell.addEventListener("click", ()=>{
+          taskDate.value = ymd;
+          // keep view on selected month (if clicked outside cell)
+          lpView = new Date(cellDate.getFullYear(), cellDate.getMonth(), 1);
+          renderCalendar();
+          // after selecting date, move to time picker (gentle flow)
+          showPicker("time");
+        });
+
+        lpGrid.appendChild(cell);
+      }
+    }
+
+    lpPrev.addEventListener("click", ()=>{
+      lpView = new Date(lpView.getFullYear(), lpView.getMonth()-1, 1);
+      renderCalendar();
+    });
+    lpNext.addEventListener("click", ()=>{
+      lpView = new Date(lpView.getFullYear(), lpView.getMonth()+1, 1);
+      renderCalendar();
+    });
+    lpToday.addEventListener("click", ()=>{
+      const now = new Date();
+      taskDate.value = toYMD(now);
+      lpView = new Date(now.getFullYear(), now.getMonth(), 1);
+      renderCalendar();
+      showPicker("time");
+    });
+    lpClearDate.addEventListener("click", ()=>{
+      taskDate.value = "";
+      renderCalendar();
+    });
+
+    // Time list (15-min steps)
+    function renderTimes(){
+      lpTimeGrid.innerHTML = "";
+      const selected = (taskTime.value || "").trim();
+      for(let h=0; h<24; h++){
+        for(let m=0; m<60; m+=15){
+          const t = `${pad2(h)}:${pad2(m)}`;
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "lp-time";
+          b.textContent = t;
+          if(t === selected) b.classList.add("is-selected");
+          b.addEventListener("click", ()=>{
+            taskTime.value = t;
+            // highlight
+            renderTimes();
+            // hide after choose
+            hidePickers();
+          });
+          lpTimeGrid.appendChild(b);
+        }
+      }
+      // scroll near selected if exists
+      if(selected){
+        const el = Array.from(lpTimeGrid.querySelectorAll(".lp-time")).find(x=>x.textContent===selected);
+        if(el) el.scrollIntoView({block:"center"});
+      }
+    }
+
+    lpNow.addEventListener("click", ()=>{
+      const now = new Date();
+      const mins = now.getMinutes();
+      const rounded = Math.round(mins/5)*5;
+      const hh = pad2(now.getHours());
+      const mm = pad2((rounded===60)?0:rounded);
+      taskTime.value = `${hh}:${mm}`;
+      renderTimes();
+      hidePickers();
+    });
+    lpClearTime.addEventListener("click", ()=>{
+      taskTime.value = "";
+      renderTimes();
+    });
+    lpCloseTime.addEventListener("click", ()=> hidePickers());
+
+    // When modal opens, start with date picker if empty, else keep hidden
+    function lpOnModalOpen(){
+      if(!taskDate.value && !taskTime.value) showPicker("date");
+      else hidePickers();
+    }
+
+    // Close pickers when clicking outside them inside modal
+    taskModal.addEventListener("click", (e)=>{
+      if(!lpWrap || lpWrap.hidden) return;
+      const inside = lpWrap.contains(e.target) || e.target === taskDate || e.target === taskTime;
+      if(!inside) hidePickers();
+    });
+
+
     let pendingTask = null; // dočasný úkol čekající na termín
 
     function openTaskModal(payload){
@@ -1055,11 +1496,13 @@
       taskDate.value = "";
       taskTime.value = "";
       taskModal.classList.add("is-open");
+      try{ lpOnModalOpen(); }catch(_e){}
       taskModal.setAttribute("aria-hidden","false");
     }
     function closeTaskModal(){
       pendingTask = null;
       taskModal.classList.remove("is-open");
+      try{ hidePickers(); }catch(_e){}
       taskModal.setAttribute("aria-hidden","true");
     }
 
