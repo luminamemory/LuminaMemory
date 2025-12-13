@@ -191,14 +191,7 @@
       gap:10px;
     }
     .cta:hover{filter:brightness(1.05)}
-    .cta__web{
-      width:20px;height:20px;
-      background:url("pavucina-web.png") center/contain no-repeat;
-      opacity:.85;
-      filter:drop-shadow(0 0 10px rgba(184,146,255,.35));
-      flex:0 0 20px;
-    }
-
+    
     .mini{
       margin-top:10px;
       font-size:.78rem;
@@ -229,6 +222,24 @@
     }
     .steps b{color:var(--ink)}
     .steps ul{margin:8px 0 0 18px;padding:0}
+  
+    /* ===== Pavučina watermark v login kartě ===== */
+    .login-watermark{
+      position:absolute;
+      inset:auto 18px 18px auto;
+      width:120px;
+      height:120px;
+      background:url("pavucina-web.png") center/contain no-repeat;
+      opacity:0.06;
+      pointer-events:none;
+      filter:drop-shadow(0 0 20px rgba(184,146,255,.25));
+      transition: opacity .6s ease, filter .6s ease;
+    }
+    .login-watermark.is-lit{
+      opacity:0.22;
+      filter:drop-shadow(0 0 35px rgba(184,146,255,.55));
+    }
+
   </style>
 </head>
 
@@ -236,6 +247,7 @@
   <div class="shell">
 
     <section class="card left" id="loginCard">
+      <div class="login-watermark" id="loginWatermark"></div>
       <div class="brand">
         <img src="favicon.png" alt="LuminaMemory">
         <div>
@@ -283,7 +295,6 @@
         </div>
 
         <button class="cta" type="button" id="openDemoBtn">
-          <span class="cta__web" aria-hidden="true"></span>
           Otevřít demo aplikaci
         </button>
 
@@ -452,7 +463,8 @@
       localStorage.setItem('lm_plan', plan);
       localStorage.setItem('lm_plan_set_at', new Date().toISOString());
 
-      window.location.href = "lumina-demo.html";
+      document.getElementById("loginWatermark")?.classList.add("is-lit");
+      setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 500);
     }
 
     document.getElementById('openDemoBtn')?.addEventListener('click', openDemo);
