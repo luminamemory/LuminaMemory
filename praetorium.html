@@ -138,9 +138,23 @@
     .web{
       position:absolute; inset:-14%;
       background:url("pavucina-web.png") center/cover no-repeat;
-      opacity:.085;
-      filter: blur(.35px) saturate(.85);
+      opacity:.045; /* jemnější pavučina */
+      filter: blur(.4px) saturate(.75);
       transform: rotate(-7deg);
+      mix-blend-mode: screen;
+      pointer-events:none;
+    }
+/* světelný efekt kopírující vlákna pavučiny */
+.web::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        url("pavucina-web.png") center/cover no-repeat;
+      opacity:.18;
+      filter:
+        blur(1.2px)
+        drop-shadow(0 0 18px rgba(184,146,255,.45))
+        drop-shadow(0 0 36px rgba(214,170,255,.35));
       mix-blend-mode: screen;
       pointer-events:none;
     }
