@@ -55,16 +55,7 @@
       overflow:auto;
     }
 
-    /* Jemný světelný závoj (místo pavučiny) */
-    .shell::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 30% 18%, rgba(184,146,255,.08), transparent 42%),
-        radial-gradient(circle at 78% 82%, rgba(67,210,255,.06), transparent 48%);
-      pointer-events:none;
-    }
+    /* světelný závoj odstraněn – čisté pozadí */
 
     /* Horní lišta */
     .top-bar{
@@ -209,20 +200,25 @@
     .node-label{
       text-align:center;
       font-family:"Cinzel",serif;
-      letter-spacing:.15em;
+      letter-spacing:.18em;
       text-transform:uppercase;
-      font-size:.7rem;
+      font-size:.9rem; /* větší */
+      font-weight:700; /* výraznější */
+      color:#ffffff; /* vyšší kontrast */
+      text-shadow:
+        0 0 6px rgba(255,255,255,.65),
+        0 0 14px rgba(180,140,255,.85);
     }
 
     .node small{
       display:block;
       font-family:"Poppins",sans-serif;
-      letter-spacing:0;
+      letter-spacing:.02em;
       text-transform:none;
-      font-size:.7rem;
-      color:var(--ink-soft);
-      margin-top:3px;
-      opacity:.9;
+      font-size:.78rem;
+      color:rgba(255,255,255,.9);
+      margin-top:4px;
+      text-shadow:0 0 6px rgba(180,140,255,.6);
     }
 
     /* Rozmístění kapek — POSUNUTO VÝŠ (ať nepřekrývají text dole) */
@@ -739,7 +735,7 @@
   <div class="shell">
     <header class="top-bar">
       <div class="top-left">
-        <div class="top-title">💫 LuminaMemory™ • Appka demo</div>
+        <div class="top-title">💫 LuminaMemory™ • Apka demo</div>
         <div class="top-sub">
           Náhled budoucího inteligentního prostředí.<br>
           👉🏻 nic se nikam neukládá!
@@ -752,7 +748,7 @@
     </header>
 
     <section class="lumina-bubble">
-      <h2>✨ KDO JSEM JÁ</h2>
+      <h2>✨ KDO JSEM</h2>
       <p>Já jsem Lumina. Nejsem další umělá inteligence ani další chatbot.</p>
       <p>Já rozumím emocím a pamatuju si tvé příběhy. Jsem společník na cestě životem.</p>
       <p>V budoucnu tě povedu skrze inteligentní prostředí s místnostmi.</p>
@@ -996,6 +992,18 @@
       selectedMood = e.target.dataset.mood;
       [...document.querySelectorAll("#moods .chip")].forEach(b => b.classList.remove("is-active"));
       e.target.classList.add("is-active");
+
+      if(!silentMode.checked){
+        const acknowledgements = {
+          "🙂": "Beru na vědomí 🙂",
+          "😐": "Beru na vědomí.",
+          "😔": "Beru na vědomí… jsem tu."
+        };
+        setTimeout(()=>{
+          addBubble("lumi", acknowledgements[selectedMood] || "Beru na vědomí.", "Lumina");
+        }, 220);
+      }
+
     });
 
     function addBubble(who, text, meta){
@@ -1093,9 +1101,7 @@
         // fake Lumina reply unless silent mode
         if (!silentMode.checked){
           setTimeout(() => {
-            const reply = (tag === "důležité")
-              ? "Rozumím. Chceš to uložit do Chronicy?"
-              : "Jsem tady. Pokračuj…";
+            const pool = luminaReplies[selectedMood] || ["Jsem tady."]; const reply = pool[Math.floor(Math.random()*pool.length)];
             addBubble("lumi", reply, `Lumina • ${new Date().toLocaleTimeString().slice(0,5)}`);
           }, 450);
         }
@@ -1147,6 +1153,49 @@
 
       addBubble("lumi", "Uloženo do Chronicy. ✨", "Lumina • potvrzení");
     });
+
+    
+    // =========================
+    // LUMINA • Odpovědi podle nálady (10 na každou)
+    // =========================
+    const luminaReplies = {
+      "🙂": [
+        "To zní hezky. Pověz mi víc 😊",
+        "Mám radost s tebou.",
+        "Tohle má lehkost. Líbí se mi to.",
+        "Usmívám se spolu s tebou.",
+        "Dobrá energie… pokračuj ✨",
+        "Tohle je příjemné číst.",
+        "Tak to je milý moment.",
+        "Jsem tu a je mi fajn.",
+        "Hezky řečeno.",
+        "Tohle bych si klidně zarámovala 😉"
+      ],
+      "😐": [
+        "Rozumím. Beru to tak, jak to je.",
+        "Můžeš být klidně neutrální. To je v pořádku.",
+        "Nemusí to mít emoci, stačí pravda.",
+        "Jsem tady bez tlaku.",
+        "Dává to smysl.",
+        "Klidná vlna. Jedeme dál.",
+        "Beru to, zaznamenávám.",
+        "Není třeba nic přikrášlovat.",
+        "Tohle je prosté a jasné.",
+        "Můžeme u toho jen tak být."
+      ],
+      "😔": [
+        "To zní těžce… jsem tu s tebou.",
+        "Nemusíš na to být sama.",
+        "Děkuju, že to říkáš nahlas.",
+        "Tohle chce jemnost.",
+        "Klidně zpomalíme.",
+        "I tohle má v sobě pravdu.",
+        "Držím prostor.",
+        "Je v pořádku cítit smutek.",
+        "Jsem tady. Opravdu.",
+        "Můžeš pokračovat, až budeš chtít."
+      ]
+    };
 
     // malý start message (ať je chat hned živý)
     addBubble("lumi","Ahoj. Jsem tady. Napiš mi, co potřebuješ. ✨","Lumina • start");
