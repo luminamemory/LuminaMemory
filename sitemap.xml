@@ -64,4 +64,25 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Meditation / Ranní pozdrav CZ -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Meditation / Morning Greeting EN -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Meditation / Morgengruß DE -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>
