@@ -1,105 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Homepage CZ (landing) -->
+  <!-- Landing pages -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>1.0</priority>
   </url>
 
-  <!-- Homepage EN -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/index-en.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.9</priority>
   </url>
 
-  <!-- Homepage DE -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/index-de.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.9</priority>
   </url>
 
-  <!-- Home portal CZ (miniLumina entry) -->
+  <!-- Home portals (miniLumina entry) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/home.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.9</priority>
   </url>
 
-  <!-- Home portal EN -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/home-en.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.85</priority>
   </url>
 
-  <!-- Home portal DE -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/home-de.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.85</priority>
   </url>
 
-  <!-- Praetorium / Kontakt CZ -->
+  <!-- miniLumina login (CZ/EN/DE) -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/mini-login.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/mini-login-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/mini-login-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- miniLumina main demo (hub + chat) -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/lumina-demo.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/lumina-demo-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/lumina-demo-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Praetorium / Kontakt (CZ/EN/DE) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/luminamemory-kontakt.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.8</priority>
   </url>
 
-  <!-- Praetorium / Contact EN -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/luminamemory-kontakt-en.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.8</priority>
   </url>
 
-  <!-- Praetorium / Kontakt DE -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/luminamemory-kontakt-de.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.8</priority>
   </url>
 
-  <!-- Support CZ -->
+  <!-- Support (CZ/EN/DE) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/support.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.7</priority>
   </url>
 
-  <!-- Support EN -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/support-en.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.7</priority>
   </url>
 
-  <!-- Support DE -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/support-de.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.7</priority>
   </url>
 
-  <!-- Meditation / Ranní pozdrav CZ -->
+  <!-- Meditation / Ranní pozdrav (CZ/EN/DE) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.6</priority>
   </url>
 
-  <!-- Meditation / Morning Greeting EN -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final-en.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.6</priority>
   </url>
 
-  <!-- Meditation / Morgengruß DE -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final-de.html</loc>
     <lastmod>2025-12-17</lastmod>

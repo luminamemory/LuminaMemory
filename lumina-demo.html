@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="title" content="LuminaMemory™ – miniLumina DEMO (hub + pokec)">
+  <meta name="description"
+        content="Ukázkové prostředí miniLumina DEMO: hlavní hub s kapkami Praetorium, Arcana a Nastavení a vložený Pokec s Luminou bez paměti.">
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LuminaMemory™">
+  <meta property="og:title" content="LuminaMemory™ – miniLumina DEMO (hub + pokec)">
+  <meta property="og:description"
+        content="Ukázkové prostředí miniLumina DEMO: hlavní hub s kapkami Praetorium, Arcana a Nastavení a vložený Pokec s Luminou bez paměti.">
+  <meta property="og:url"
+        content="https://luminamemory.github.io/LuminaMemory/lumina-demo.html">
+  <meta property="og:image"
+        content="https://luminamemory.github.io/LuminaMemory/luminamemory.png">
+  <meta property="og:locale" content="cs_CZ">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LuminaMemory™ – miniLumina DEMO (hub + pokec)">
+  <meta name="twitter:description"
+        content="Ukázkové prostředí miniLumina DEMO: hlavní hub s kapkami Praetorium, Arcana a Nastavení a vložený Pokec s Luminou bez paměti.">
+  <meta name="twitter:url"
+        content="https://luminamemory.github.io/LuminaMemory/lumina-demo.html">
+  <meta name="twitter:image"
+        content="https://luminamemory.github.io/LuminaMemory/luminamemory.png">
+
+  <link rel="canonical"
+        href="https://luminamemory.github.io/LuminaMemory/lumina-demo.html">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💫 LuminaMemory™ • Apka demo (hub + pokec)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#02010a;
+      --ink:#f7f3ff;
+      --ink-soft:#cbc3ff;
+      --accent:#b892ff;
+      --accent-soft:rgba(184,146,255,.28);
+      --card:rgba(6,3,20,.96);
+      --border:rgba(255,255,255,.18);
+      --drop-bg:rgba(7,14,40,.96);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;}
+
+    body{
+      font-family:"Poppins",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 55%),
+        radial-gradient(circle at 82% 100%, rgba(67,210,255,.45) 0, transparent 55%),
+        radial-gradient(circle at 50% 40%, rgba(122,93,255,.35) 0, transparent 60%),
+        #000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px 10px;
+      overflow:auto;
+    }
+
+    .shell{
+      position:relative;
+      width:100%;
+      max-width:980px;
+      height:100%;
+      max-height:640px;
+      border-radius:26px;
+      border:1px solid var(--border);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(184,146,255,.32), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(67,210,255,.25), transparent 55%),
+        rgba(4,3,16,.94);
+      box-shadow:
+        0 28px 90px rgba(0,0,0,.85),
+        0 0 70px rgba(150,120,255,.5);
+      overflow:auto;
+    }
+
+    /* světelný závoj odstraněn – čisté pozadí */
+
+    /* Horní lišta */
+    .top-bar{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      padding:12px 18px 8px;
+      gap:10px;
+    }
+
+    .top-title{
+      font-family:"Cinzel",serif;
+      letter-spacing:.08em;
+      font-size:.9rem;
+      text-transform:uppercase;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .top-sub{
+      font-size:.78rem;
+      color:var(--ink-soft);
+      opacity:.9;
+      margin-top:4px;
+    }
+
+    .top-left{max-width:70%;}
+    .top-right{
+      font-size:.76rem;
+      color:var(--ink-soft);
+      text-align:right;
+    }
+    .top-right a{color:var(--accent);text-decoration:none;}
+    .top-right a:hover{text-decoration:underline;}
+
+    /* Bublina „Kdo je Lumina“ */
+    .lumina-bubble{
+      position:absolute;
+      z-index:2;
+      left:20px;
+      top:120px;
+      width:560px;
+      max-width:82vw;
+      padding:18px 18px 16px;
+      border-radius:22px;
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.35), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(115,187,255,.18), transparent 55%),
+        rgba(10,5,32,.96);
+      border:1px solid rgba(255,255,255,.35);
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.8),
+        0 0 30px rgba(144,118,255,.65);
+    }
+
+    .lumina-bubble h2{
+      font-family:"Cinzel",serif;
+      font-size:1rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .lumina-bubble p{
+      font-size:.86rem;
+      line-height:1.5;
+      color:var(--ink-soft);
+      margin-bottom:6px;
+    }
+
+    /* Kapky (nodes) */
+/* Wrapper pro kapky – aby šly v portraitu přeskupit */
+    .nodes{ position:absolute; inset:0; pointer-events:none; }
+    .nodes .node{ pointer-events:auto; }
+
+    /* Portrait / menší šířka: kapky se přesunou pod sebe do řádku a nic se „nezdrncne“ */
+    @media (max-width: 760px), (orientation: portrait){
+      body{ align-items:flex-start; 
+      /* V portraitu přepneme hlavní karty z absolutního layoutu do normálního toku,
+         aby se nic nepřekrývalo a šlo to scrollovat */
+      .lumina-bubble{
+        position:static !important;
+        left:auto !important;
+        top:auto !important;
+        width:auto !important;
+        max-width:none !important;
+        margin:14px 16px 0 !important;
+      }
+      .pokec{
+        position:static !important;
+        left:auto !important;
+        bottom:auto !important;
+        width:auto !important;
+        max-width:none !important;
+        margin:12px 16px 16px !important;
+      }
+      /* trochu víc prostoru pro hlavu */
+      .top-bar{ position:static; }
+}
+      .shell{ height:auto; max-height:none; }
+      .nodes{
+        position:static;
+        inset:auto;
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:12px;
+        padding:10px 12px 0;
+        pointer-events:auto;
+      }
+      .nodes .node{
+        position:relative !important;
+        right:auto !important;
+        top:auto !important;
+        width:120px;
+        height:120px;
+      }
+    }
+
+    .node{
+      position:absolute;
+      z-index:2;
+      width:132px;
+      height:132px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.32), rgba(7,12,35,.98));
+      border:1px solid rgba(255,255,255,.55);
+      box-shadow:
+        0 0 40px rgba(181,140,255,.9),
+        0 18px 40px rgba(0,0,0,.9);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:
+        transform .25s cubic-bezier(.16,.84,.44,1),
+        box-shadow .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+      backdrop-filter: blur(14px);
+    }
+
+    .node::before{
+      content:"";
+      position:absolute;
+      inset:-8px;
+      border-radius:50%;
+      background:
+        conic-gradient(
+          from 140deg,
+          rgba(184,146,255,.0),
+          rgba(184,146,255,.9),
+          rgba(67,210,255,.0),
+          rgba(184,146,255,.7),
+          rgba(184,146,255,.0)
+        );
+      opacity:0;
+      filter:blur(10px);
+      transform:scale(.9);
+      z-index:-1;
+      transition:
+        opacity .35s ease,
+        transform .35s cubic-bezier(.22,.61,.36,1);
+    }
+
+    .node:hover::before,
+    .node.active::before{opacity:1;transform:scale(1.05);}
+
+    .node:hover,
+    .node.active{
+      transform:translateY(-3px) scale(1.06);
+      box-shadow:
+        0 0 52px rgba(205,160,255,1),
+        0 26px 60px rgba(0,0,0,1);
+      border-color:#fff;
+      background:radial-gradient(circle at 25% 15%, rgba(255,255,255,.75), rgba(13,18,55,.98));
+    }
+
+    .node:focus-visible{
+      outline:2px solid #ffffff;
+      outline-offset:4px;
+      box-shadow:
+        0 0 60px rgba(255,255,255,1),
+        0 26px 60px rgba(0,0,0,1);
+    }
+
+    .node-label{
+      text-align:center;
+      font-family:"Cinzel",serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:.9rem; /* větší */
+      font-weight:700; /* výraznější */
+      color:#ffffff; /* vyšší kontrast */
+      text-shadow:
+        0 0 6px rgba(255,255,255,.65),
+        0 0 14px rgba(180,140,255,.85);
+    }
+
+    .node small{
+      display:block;
+      font-family:"Poppins",sans-serif;
+      letter-spacing:.02em;
+      text-transform:none;
+      font-size:.78rem;
+      color:rgba(255,255,255,.9);
+      margin-top:4px;
+      text-shadow:0 0 6px rgba(180,140,255,.6);
+    }
+
+    /* Rozmístění kapek — POSUNUTO VÝŠ (ať nepřekrývají text dole) */
+    .node-arcana{ right:14%; top:20%; }
+    .node-praetorium{ right:14%; top:44%; }
+    .node-settings{ right:14%; top:68%; }
+
+    /* Jeden hlavní panel (místo dropdownů) */
+    .panel{
+      position:absolute;
+      z-index:3;
+      min-width:260px;
+      max-width:320px;
+      padding:12px 13px 11px;
+      border-radius:16px;
+      color:var(--ink);
+      font-size:.8rem;
+      box-shadow:
+        0 16px 40px rgba(0,0,0,.9),
+        0 0 26px rgba(145,118,255,.7);
+      opacity:0;
+      transform:translateY(12px) scale(.98);
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+      backdrop-filter: blur(18px);
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(67,210,255,.24), transparent 60%),
+        rgba(5,9,32,.96);
+      border:1px solid rgba(255,255,255,.26);
+    }
+
+    .panel.active{
+      opacity:1;
+      transform:translateY(0) scale(1);
+      pointer-events:auto;
+      animation:panel-pop .22s cubic-bezier(.22,.61,.36,1) both;
+    }
+
+    @keyframes panel-pop{
+      from{opacity:0; transform:translateY(14px) scale(.92);}
+      to{opacity:1; transform:translateY(0) scale(1);}
+    }
+
+    .panel-main{
+      right:34%;
+      top:32%;
+    }
+
+    .panel h3{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 9px;
+      border-radius:999px;
+      background:linear-gradient(
+        135deg,
+        rgba(184,146,255,.22),
+        rgba(67,210,255,.12)
+      );
+      border:1px solid rgba(255,255,255,.32);
+      text-transform:uppercase;
+      letter-spacing:.22em;
+      font-size:.7rem;
+      color:var(--ink-soft);
+      margin-bottom:8px;
+      font-family:"Cinzel",serif;
+    }
+
+    .panel h3::before{
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 20%, #fff, rgba(184,146,255,.1));
+      box-shadow:0 0 12px rgba(184,146,255,.9);
+    }
+
+    .panel ul{
+      list-style:none;
+      margin-top:8px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .panel li{
+      position:relative;
+      padding:6px 0 6px 14px;
+    }
+
+    .panel li::after{
+      content:"";
+      position:absolute;
+      left:14px;
+      right:0;
+      bottom:0;
+      height:1px;
+      background:linear-gradient(
+        to right,
+        rgba(184,146,255,.0),
+        rgba(184,146,255,.45),
+        rgba(67,210,255,.0)
+      );
+      opacity:.55;
+      transform:scaleX(.85);
+      transform-origin:left;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+
+    .panel li:hover::after{
+      opacity:.95;
+      transform:scaleX(1);
+    }
+
+    .panel span.label{font-size:.82rem;font-weight:500;}
+    .panel span.note{font-size:.7rem;color:var(--ink-soft);opacity:.9;}
+
+    .instruction{
+      position:absolute;
+      right:20px;
+      bottom:20px;
+      font-size:0.9rem;
+      opacity:0.6;
+      color:var(--ink-soft);
+      pointer-events:none;
+      z-index:2;
+    }
+
+    /* =========================================================
+       POKEC (vložený blok) + pozicování do levého spodního rohu
+       ========================================================= */
+    .pokec{
+      position:absolute;
+      left:20px;
+      bottom:20px;
+      width:560px;
+      max-width:82vw;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:18px;
+      padding:12px;
+      background:rgba(0,0,0,.22);
+      z-index:3;
+      box-shadow:0 16px 40px rgba(0,0,0,.9);
+      overflow: visible;
+    }
+    .pokec-head{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+    .pokec-title{font-weight:700; letter-spacing:.08em}
+    .pokec-hint{opacity:.7; font-size:.85rem}
+    .pokec-controls{display:grid; grid-template-columns:1fr auto 96px; gap:10px; margin-bottom:10px}
+    @media (max-width:700px){.pokec-controls{grid-template-columns:1fr}}
+    select, .btn-mini, .pokec-input input{border-radius:14px; border:1px solid rgba(255,255,255,.18); background:rgba(0,0,0,.28); color:#fff; padding:8px 10px; font-size:.9rem}
+  /* select = víc magie (perleť) */
+  select{
+    appearance:none;
+    -webkit-appearance:none;
+
+    min-width:160px;
+    max-width:220px;
+    width:auto;
+
+    text-align:left;
+    font-size:.9rem;
+    padding:8px 34px 8px 14px;
+
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.18);
+
+    background:
+      radial-gradient(circle at 20% 15%, rgba(255,255,255,.45), transparent 40%),
+      radial-gradient(circle at 80% 25%, rgba(184,146,255,.45), transparent 55%),
+      radial-gradient(circle at 50% 90%, rgba(120,220,255,.35), transparent 60%),
+      linear-gradient(135deg, rgba(184,146,255,.25), rgba(255,255,255,.08)),
+      rgba(0,0,0,.12);
+
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,.18),
+      inset 0 0 24px rgba(184,146,255,.25),
+      0 12px 30px rgba(0,0,0,.55);
+
+    backdrop-filter: blur(14px);
+    cursor:pointer;
+    background-repeat:no-repeat;
+  }
+
+  /* šipka */
+  select{
+    background-image:
+      radial-gradient(circle at 20% 15%, rgba(255,255,255,.45), transparent 40%),
+      radial-gradient(circle at 80% 25%, rgba(184,146,255,.45), transparent 55%),
+      radial-gradient(circle at 50% 90%, rgba(120,220,255,.35), transparent 60%),
+      linear-gradient(135deg, rgba(184,146,255,.25), rgba(255,255,255,.08)),
+      linear-gradient(45deg, transparent 50%, rgba(255,255,255,.9) 50%),
+      linear-gradient(135deg, rgba(255,255,255,.9) 50%, transparent 50%);
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      calc(100% - 20px) 55%,
+      calc(100% - 14px) 55%;
+    background-size:
+      auto,
+      auto,
+      auto,
+      auto,
+      6px 6px,
+      6px 6px;
+  }
+    .btn-mini{cursor:pointer; font-weight:700; padding:8px 10px;}
+    .moods, .reactions{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{border-radius:999px; padding:5px 9px; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.06); color:#fff; cursor:pointer; font-size:.92rem}
+    .chip.is-active{background:rgba(255,255,255,.20)}
+    .pokec-chat{height:120px; overflow:auto; border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:10px; background:rgba(0,0,0,.18)}
+    .bubble{max-width:85%; padding:10px 12px; border-radius:14px; margin:8px 0; border:1px solid rgba(255,255,255,.12)}
+    .me{margin-left:auto; background:rgba(255,255,255,.10)}
+    .lumi{margin-right:auto; background:rgba(180,140,255,.12)}
+    .meta{opacity:.7; font-size:.78rem; margin-top:6px}
+    .pokec-input{display:flex; gap:10px; margin-top:10px}
+    .pokec-input input{flex:1}
+    /* switch */
+    .switch{position:relative; display:inline-block; width:44px; height:24px}
+    .switch input{opacity:0; width:0; height:0}
+    .slider{position:absolute; cursor:pointer; inset:0; background:rgba(255,255,255,.18); transition:.2s; border-radius:999px}
+    .slider:before{position:absolute; content:""; height:18px; width:18px; left:3px; top:3px; background:white; transition:.2s; border-radius:50%}
+    .switch input:checked + .slider{background:rgba(180,140,255,.35)}
+    .switch input:checked + .slider:before{transform:translateX(20px)}
+
+    /* =========================================================
+       MODAL (termín Úkolu)
+       ========================================================= */
+    .modal{position:fixed; inset:0; display:none; place-items:center; padding:14px; background:rgba(0,0,0,.55); z-index:999}
+    .modal.is-open{display:grid}
+    .modal-box{width:min(520px,100%); border-radius:18px; padding:14px; border:1px solid rgba(255,255,255,.18); background:rgba(10,6,26,.95)}
+    .modal-title{font-weight:800; margin-bottom:10px}
+    .modal-grid{display:grid; gap:10px; grid-template-columns:1fr 1fr}
+    @media (max-width:520px){.modal-grid{grid-template-columns:1fr}}
+    .modal-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:12px}
+    .modal-note{opacity:.7; font-size:.82rem; margin-top:10px}
+
+    /* =========================================================
+       MODAL – víc magie (datum/čas)
+       ========================================================= */
+    .modal-box{
+      position:relative;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(255,255,255,.16), transparent 45%),
+        radial-gradient(circle at 88% 100%, rgba(67,210,255,.18), transparent 52%),
+        radial-gradient(circle at 40% 70%, rgba(184,146,255,.16), transparent 55%),
+        rgba(10,6,26,.96);
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:
+        0 24px 70px rgba(0,0,0,.78),
+        0 0 60px rgba(184,146,255,.28),
+        0 0 40px rgba(67,210,255,.16);
+      overflow:hidden;
+    }
+    .modal-box::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:20px;
+      background:conic-gradient(from 210deg,
+        rgba(184,146,255,0),
+        rgba(184,146,255,.65),
+        rgba(67,210,255,0),
+        rgba(67,210,255,.55),
+        rgba(184,146,255,0));
+      filter:blur(14px);
+      opacity:.38;
+      pointer-events:none;
+    }
+    .modal-box > *{position:relative; z-index:1;}
+
+    /* Inputy datum/čas ve stylu Luminy */
+    .modal-grid input[type="date"],
+    .modal-grid input[type="time"]{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      color:rgba(255,255,255,.92);
+      padding:10px 12px;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,.20), transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(184,146,255,.18), transparent 55%),
+        linear-gradient(135deg, rgba(67,210,255,.10), rgba(184,146,255,.10)),
+        rgba(0,0,0,.22);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.08),
+        inset 0 0 22px rgba(184,146,255,.16),
+        0 14px 34px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .modal-grid input[type="date"]:hover,
+    .modal-grid input[type="time"]:hover{
+      border-color:rgba(255,255,255,.28);
+    }
+    .modal-grid input[type="date"]:focus,
+    .modal-grid input[type="time"]:focus{
+      outline:none;
+      border-color:rgba(120,190,255,.55);
+      box-shadow:
+        0 0 0 3px rgba(88,160,255,.18),
+        0 16px 44px rgba(0,0,0,.55),
+        0 0 26px rgba(184,146,255,.22);
+    }
+    .modal-grid input[type="date"]:active,
+    .modal-grid input[type="time"]:active{transform:scale(.99);}
+
+    /* Ikonky vpravo (jemně) – podporováno tam, kde to prohlížeč dovolí */
+    .modal-grid input[type="date"]{padding-right:40px;}
+    .modal-grid input[type="time"]{padding-right:40px;}
+
+    /* WebKit kalendář/čas ikonky – zjemnit (Safari/Chrome) */
+    .modal-grid input[type="date"]::-webkit-calendar-picker-indicator,
+    .modal-grid input[type="time"]::-webkit-calendar-picker-indicator{
+      opacity:.9;
+      filter: drop-shadow(0 0 10px rgba(184,146,255,.35));
+      cursor:pointer;
+    }
+
+    /* Tlačítka v modalu trochu „svítí“ */
+    .modal-actions .btn-mini{
+      background:linear-gradient(135deg, rgba(184,146,255,.22), rgba(67,210,255,.14));
+      border-color:rgba(255,255,255,.20);
+      box-shadow:0 14px 36px rgba(0,0,0,.55), 0 0 22px rgba(184,146,255,.16);
+    }
+    .modal-actions .btn-mini:hover{
+      border-color:rgba(255,255,255,.32);
+      transform:translateY(-1px);
+    }
+    .modal-actions .btn-mini:active{transform:translateY(0) scale(.99);}
+
+    label{display:block; opacity:.75; font-size:.82rem; margin-bottom:6px}
+
+    /* Responsivita */
+    @media (max-width:780px){
+      body{padding:0;}
+      .shell{
+        max-height:none;
+        height:100%;
+        border-radius:0;
+      }
+
+      .lumina-bubble{
+        left:6%;
+        right:6%;
+        top:12%;
+        max-width:none;
+      }
+
+      /* Kapky POSUNUTO VÝŠ i na menších šířkách */
+      .node-arcana{ right:10%; top:40%; }
+      .node-praetorium{ right:10%; top:58%; }
+      .node-settings{ right:10%; top:76%; }
+
+      .panel-main{
+        left:6%;
+        right:6%;
+        top:34%;
+        max-width:none;
+      }
+
+      .pokec{
+        left:auto;
+        right:8px;
+        bottom:8px;
+        width:320px;
+        max-width:92vw;
+      }
+
+      .instruction{display:none;}
+    }
+
+    @media (max-width:520px){
+      .top-left{max-width:100%;}
+      .panel-main{top:36%;}
+    }
+      /* =========================
+       LUMINA • Custom toast (bez alertů / bez defaultních bublin)
+       ========================= */
+.lumi-toast{
+      position:relative;
+      pointer-events:auto;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:10px;
+      align-items:start;
+      padding:12px 12px 11px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.22);
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.20), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(67,210,255,.22), transparent 60%),
+        rgba(6,10,34,.94);
+      backdrop-filter: blur(16px);
+      box-shadow:0 18px 44px rgba(0,0,0,.78), 0 0 30px rgba(67,210,255,.22);
+      transform:translateY(10px) scale(.98);
+      opacity:0;
+      animation:lumiToastIn .22s cubic-bezier(.22,.61,.36,1) forwards;
+      overflow: visible;
+    }
+    .lumi-toast::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:18px;
+      background:conic-gradient(from 200deg,
+        rgba(184,146,255,.0),
+        rgba(184,146,255,.85),
+        rgba(67,210,255,.0),
+        rgba(67,210,255,.70),
+        rgba(184,146,255,.0));
+      filter:blur(12px);
+      opacity:.45;
+      z-index:0;
+    }
+    .lumi-toast > *{position:relative; z-index:1;}
+    .lumi-toast__icon{
+      width:34px;height:34px;
+      display:grid;place-items:center;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.22);
+      background:linear-gradient(135deg, rgba(184,146,255,.35), rgba(67,210,255,.18));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 0 20px rgba(184,146,255,.20);
+      font-size:18px;
+      margin-top:1px;
+    }
+    .lumi-toast__title{
+      font-weight:800;
+      letter-spacing:.02em;
+      font-size:.92rem;
+      margin-bottom:2px;
+    }
+    .lumi-toast__msg{
+      color:rgba(255,255,255,.82);
+      font-size:.86rem;
+      line-height:1.35;
+    }
+    .lumi-toast__quip{
+      margin-top:6px;
+      color:rgba(255,255,255,.68);
+      font-size:.78rem;
+    }
+    .lumi-toast__close{
+      appearance:none;
+      border:0;
+      background:transparent;
+      color:rgba(255,255,255,.8);
+      font-size:18px;
+      line-height:1;
+      padding:2px 6px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+    .lumi-toast__close:hover{background:rgba(255,255,255,.10)}
+    .lumi-toast--ok{border-color:rgba(67,210,255,.35)}
+    .lumi-toast--warn{border-color:rgba(184,146,255,.40)}
+    .lumi-toast--err{border-color:rgba(255,120,180,.45)}
+    @keyframes lumiToastIn{
+      to{opacity:1; transform:translateY(0) scale(1)}
+    }
+    @keyframes lumiToastOut{
+      to{opacity:0; transform:translateY(10px) scale(.98)}
+    }
+
+  
+    /* lumina-select */
+    .lumina-select{position:relative;width:100%}
+    .lumina-select__btn{
+      width:100%;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:12px 14px;border-radius:12px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      color:rgba(255,255,255,.92);
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+      touch-action: manipulation;
+    }
+    .lumina-select__btn:active{transform:scale(.99)}
+    .lumina-select__btn:focus{outline:none;border-color:rgba(120,190,255,.55);box-shadow:0 0 0 3px rgba(88,160,255,.18), 0 12px 28px rgba(0,0,0,.38)}
+    .lumina-select__label{opacity:.95}
+    .lumina-select__chev{opacity:.75}
+    .lumina-select__menu{
+      position:absolute;
+      z-index:2500;left:0;right:0;top:calc(100% + 10px);
+      padding:10px;border-radius:16px;
+      background:linear-gradient(180deg, rgba(22,12,50,.92), rgba(6,8,20,.88));
+      border:1px solid rgba(120,190,255,.25);
+      box-shadow:0 20px 60px rgba(0,0,0,.55), 0 0 22px rgba(88,160,255,.16);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index:999;
+      transform: translateY(-6px);
+      opacity:0;
+      pointer-events:none;
+    }
+    .lumina-select.is-open .lumina-select__menu{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+      animation: luminaFadeGlow .18s ease-out both;
+    }
+    @keyframes luminaFadeGlow{
+      from{opacity:0;transform:translateY(-8px);filter:drop-shadow(0 0 0 rgba(88,160,255,0))}
+      to{opacity:1;transform:translateY(0);filter:drop-shadow(0 0 14px rgba(88,160,255,.25))}
+    }
+    .lumina-select__menu button{
+      width:100%;
+      text-align:left;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid transparent;
+      background:transparent;
+      color:rgba(255,255,255,.92);
+      transition: background .14s ease, border-color .14s ease, transform .08s ease;
+    }
+    .lumina-select__menu button:hover{background:rgba(120,190,255,.10);border-color:rgba(120,190,255,.18)}
+    .lumina-select__menu button:active{transform:scale(.995)}
+    .lumina-select__menu button[aria-selected="true"]{background:rgba(120,190,255,.14);border-color:rgba(120,190,255,.22)}
+    .lumina-select__menu button.is-placeholder{opacity:.75}
+    .lumina-select__menu button.is-disabled{opacity:.45}
+    
+/* ===== Lumina custom dropdown (replaces iOS white select sheet) ===== */
+.native-select{
+  position:absolute !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  width:1px !important;
+  height:1px !important;
+  overflow:hidden !important;
+}
+.lumina-select{position:relative; width:100%;}
+.lumina-select__btn{
+  width:100%;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(180,210,255,.28);
+  background:linear-gradient(135deg, rgba(40,120,255,.28), rgba(160,110,255,.18));
+  color:#fff;
+  box-shadow:0 10px 26px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.05) inset;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+  cursor:pointer;
+}
+.lumina-select__btn:hover{ transform: translateY(-1px); border-color: rgba(210,230,255,.42); }
+.lumina-select__btn:active{ transform: translateY(0px) scale(.99); }
+.lumina-select__btn:focus{ outline:none; box-shadow:0 12px 30px rgba(0,0,0,.38), 0 0 0 3px rgba(80,160,255,.22); }
+.lumina-select__chev{opacity:.9}
+.lumina-select__panel{
+  position:absolute;
+  left:0; right:0;
+  top: calc(100% + 10px);
+  border-radius:16px;
+  border:1px solid rgba(180,210,255,.24);
+  background:linear-gradient(180deg, rgba(12,10,30,.92), rgba(10,10,24,.86));
+  box-shadow:0 18px 50px rgba(0,0,0,.55), 0 0 40px rgba(80,160,255,.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: visible;
+  transform: translateY(-6px);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .18s ease, transform .18s ease;
+  z-index:9999;
+}
+.lumina-select.is-open .lumina-select__panel{
+  opacity:1;
+  transform: translateY(0px);
+  pointer-events:auto;
+}
+.lumina-option{
+  width:100%;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 12px;
+  background:transparent;
+  border:0;
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+  font: inherit;
+}
+.lumina-option + .lumina-option{ border-top:1px solid rgba(255,255,255,.08); }
+.lumina-option:hover{ background:rgba(80,160,255,.14); }
+.lumina-option.is-selected{ background:rgba(130,110,255,.18); }
+.lumina-option__tick{opacity:.9}
+
+    /* =========================================================
+       LUMINA • Vlastní date/time picker (bez nativních koleček)
+       ========================================================= */
+    .lp-wrap{margin-top:10px; display:grid; gap:10px;}
+    .lp{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.20);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(255,255,255,.14), transparent 48%),
+        radial-gradient(circle at 88% 100%, rgba(67,210,255,.16), transparent 55%),
+        radial-gradient(circle at 40% 70%, rgba(184,146,255,.14), transparent 55%),
+        rgba(0,0,0,.16);
+      box-shadow:0 18px 44px rgba(0,0,0,.55), 0 0 26px rgba(184,146,255,.14);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow:hidden;
+    }
+    .lp-head{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      padding:10px 10px 8px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .lp-title{
+      font-family:"Cinzel",serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:.8rem;
+      color:rgba(255,255,255,.9);
+      text-shadow:0 0 10px rgba(184,146,255,.25);
+    }
+    .lp-nav{
+      width:34px; height:30px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:linear-gradient(135deg, rgba(184,146,255,.18), rgba(67,210,255,.10));
+      color:rgba(255,255,255,.9);
+      cursor:pointer;
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+    }
+    .lp-nav:hover{border-color:rgba(255,255,255,.30)}
+    .lp-nav:active{transform:scale(.99)}
+
+    .lp-week{
+      display:grid; grid-template-columns:repeat(7,1fr);
+      padding:8px 10px 6px;
+      gap:6px;
+      font-size:.72rem;
+      color:rgba(255,255,255,.7);
+      letter-spacing:.04em;
+      opacity:.95;
+    }
+    .lp-grid{
+      display:grid; grid-template-columns:repeat(7,1fr);
+      gap:6px;
+      padding:8px 10px 10px;
+    }
+    .lp-day{
+      height:34px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.9);
+      cursor:pointer;
+      font-size:.86rem;
+      display:grid; place-items:center;
+      user-select:none;
+      transition: transform .08s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .lp-day:hover{border-color:rgba(255,255,255,.24); background:rgba(120,190,255,.10)}
+    .lp-day:active{transform:scale(.99)}
+    .lp-day.is-out{opacity:.35}
+    .lp-day.is-today{border-color:rgba(67,210,255,.35); box-shadow:0 0 0 3px rgba(67,210,255,.10)}
+    .lp-day.is-selected{
+      border-color:rgba(255,255,255,.30);
+      background:linear-gradient(135deg, rgba(184,146,255,.22), rgba(67,210,255,.14));
+      box-shadow:0 0 0 3px rgba(184,146,255,.12), 0 16px 36px rgba(0,0,0,.38);
+    }
+
+    .lp-timegrid{
+      max-height:190px;
+      overflow:auto;
+      padding:10px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+    @media (max-width:520px){
+      .lp-timegrid{grid-template-columns:repeat(2,1fr); max-height:220px;}
+    }
+    .lp-time{
+      padding:9px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.92);
+      cursor:pointer;
+      font-size:.86rem;
+      text-align:center;
+      transition: background .14s ease, border-color .14s ease, transform .08s ease;
+    }
+    .lp-time:hover{background:rgba(120,190,255,.10); border-color:rgba(255,255,255,.24)}
+    .lp-time:active{transform:scale(.99)}
+    .lp-time.is-selected{
+      background:linear-gradient(135deg, rgba(184,146,255,.22), rgba(67,210,255,.14));
+      border-color:rgba(255,255,255,.30);
+      box-shadow:0 0 0 3px rgba(184,146,255,.10);
+    }
+
+    .lp-foot{
+      display:flex; justify-content:space-between; gap:10px;
+      padding:10px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .lp-mini{
+      flex:1;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      padding:8px 10px;
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.9);
+      cursor:pointer;
+      font-weight:700;
+    }
+    .lp-mini:hover{border-color:rgba(255,255,255,.28)}
+    .lp-mini:active{transform:scale(.99)}
+
+/* =========================================
+   TYPOGRAFIE KAPEK – PORTRAIT / TABLET
+   ========================================= */
+@media (max-width: 760px), (orientation: portrait){
+  .node-label{
+    font-size:.78rem;
+    letter-spacing:.14em;
+  }
+  .node small{
+    font-size:.7rem;
+    line-height:1.25;
+  }
+}
+
+/* === Pokec bubbles text fix === */
+.node-label{font-size:.78rem}
+.node small{font-size:.7rem; line-height:1.25}
+
+</style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top-bar">
+      <div class="top-left">
+        <div class="top-title">💫 LuminaMemory™ • Apka demo</div>
+        <div class="top-sub">
+          Náhled budoucího inteligentního prostředí.<br>
+          👉🏻 nic se nikam neukládá!
+        </div>
+      </div>
+      <div class="top-right">
+        ← <a href="index.html">zpět na web</a><br>
+        <a href="mini-login.html">↩︎ odhlásit se</a>
+      </div>
+    </header>
+
+    <section class="lumina-bubble">
+      <h2>✨ KDO JSEM</h2>
+      <p>Já jsem Lumina. Nejsem další umělá inteligence ani další chatbot.</p>
+      <p>Já rozumím emocím a pamatuju si tvé příběhy. Jsem společník na cestě životem.</p>
+      <p>V budoucnu tě povedu skrze inteligentní prostředí s místnostmi.</p>
+    </section>
+    <div class="nodes">
+
+    <a class="node node-arcana" href="arcana.html">
+<div class="node-label">
+        ARCANA
+        <small>tajné vrstvy paměti</small>
+      </div>
+</a>
+
+    <a class="node node-praetorium" href="praetorium.html">
+<div class="node-label">
+        PRAETORIUM
+        <small>živé centrum mise</small>
+      </div>
+</a>
+
+    <a class="node node-settings" href="nastaveni.html">
+<div class="node-label">
+        NASTAVENÍ
+        <small>dům pro tvoji verzi Luminy</small>
+      </div>
+</a>
+
+    </div>
+<!-- POKEC -->
+    <section class="pokec">
+      <div class="pokec-head">
+        <div class="pokec-title">POKEC</div>
+
+        <label class="switch">
+          <input id="silentMode" type="checkbox">
+          <span class="slider"></span>
+        </label>
+        <div class="pokec-hint">Tichý režim</div>
+      </div>
+
+      <div class="pokec-controls">
+        <div class="moods" id="moods">
+          <button type="button" class="chip is-active" data-mood="🙂">🙂</button>
+          <button type="button" class="chip" data-mood="😐">😐</button>
+          <button type="button" class="chip" data-mood="😔">😔</button>
+                  </div>
+
+        
+    <div class="lumina-select" id="tagSelect">
+      <button type="button" class="lumina-select__btn" aria-haspopup="listbox" aria-expanded="false">
+        <span class="lumina-select__label is-placeholder">🗯 Výchozí</span>
+        <span class="lumina-select__chev">▾</span>
+      </button>
+      <div class="lumina-select__menu" role="listbox" tabindex="-1" hidden>
+        <button type="button" role="option" data-value="🗯 Jen tak" aria-selected="false">🗯 Jen tak</button>
+        <button type="button" role="option" data-value="🗯 Důležité" aria-selected="false">🗯 Důležité</button>
+        <button type="button" role="option" data-value="🗯 Úkol" aria-selected="false">🗯 Úkol</button>
+        <button type="button" role="option" data-value="🗯 Myšlenka" aria-selected="false">🗯 Myšlenka</button>
+      </div>
+      <input type="hidden" id="tag" value="">
+    </div>
+    
+
+        <button id="saveBtn" type="button" class="btn-mini">Uložit</button>
+      </div>
+
+      <div class="pokec-chat" id="chat"></div>
+
+      <form class="pokec-input" id="form">
+        <input id="msg" type="text" placeholder="Napiš, co máš na srdci…" autocomplete="off" />
+        <button class="btn-mini" type="submit">Odeslat</button>
+      </form>
+
+      <div class="reactions" id="reactions">
+        <button type="button" class="chip" data-react="❤️">❤️</button>
+        <button type="button" class="chip" data-react="⭐">⭐</button>
+        <button type="button" class="chip" data-react="🔥">🔥</button>
+              </div>
+    </section>
+
+    <div class="instruction">
+      Klikni na světelné kapky a koukni se,<br>
+      jaké místnosti jednou otevřeme.
+    </div>
+  </div>
+
+  <!-- MODAL: termín Úkolu -->
+  <div class="modal" id="taskModal" aria-hidden="true">
+    <div class="modal-box">
+      <div class="modal-title">📌 Termín Úkolu</div>
+
+      <div class="modal-grid">
+        <div>
+          <label>Datum</label>
+          <input type="text" id="taskDate" inputmode="none" autocomplete="off" placeholder="Vyber datum" readonly>
+        </div>
+        <div>
+          <label>Čas</label>
+          <input type="text" id="taskTime" inputmode="none" autocomplete="off" placeholder="Vyber čas" readonly>
+        </div>
+      </div>
+
+      <!-- LUMINA PICKERS -->
+      <div class="lp-wrap" id="lpWrap" hidden>
+        <div class="lp" id="lpDate" aria-label="Výběr data" hidden>
+          <div class="lp-head">
+            <button type="button" class="lp-nav" id="lpPrev" aria-label="Předchozí měsíc">‹</button>
+            <div class="lp-title" id="lpTitle">Měsíc</div>
+            <button type="button" class="lp-nav" id="lpNext" aria-label="Další měsíc">›</button>
+          </div>
+          <div class="lp-week">
+            <span>Po</span><span>Út</span><span>St</span><span>Čt</span><span>Pá</span><span>So</span><span>Ne</span>
+          </div>
+          <div class="lp-grid" id="lpGrid"></div>
+          <div class="lp-foot">
+            <button type="button" class="lp-mini" id="lpToday">Dnes</button>
+            <button type="button" class="lp-mini" id="lpClearDate">Vymazat</button>
+          </div>
+        </div>
+
+        <div class="lp" id="lpTime" aria-label="Výběr času" hidden>
+          <div class="lp-head">
+            <div class="lp-title">Čas</div>
+            <button type="button" class="lp-nav" id="lpCloseTime" aria-label="Zavřít">×</button>
+          </div>
+          <div class="lp-timegrid" id="lpTimeGrid"></div>
+          <div class="lp-foot">
+            <button type="button" class="lp-mini" id="lpNow">Teď</button>
+            <button type="button" class="lp-mini" id="lpClearTime">Vymazat</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-mini" id="taskCancel">Zrušit</button>
+        <button type="button" class="btn-mini" id="taskSave">Uložit do Chronicy</button>
+      </div>
+
+      <div class="modal-note">Tip: Datum/čas může zůstat prázdné (Úkol bez termínu).</div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================
+       LUMINA • Toast API (jednotný styl, bez alert() a bez HTML5 bublin)
+       ========================= */
+    (function(){
+  // Toast system disabled (clean build)
+  window.LuminaUI = window.LuminaUI || {};
+  window.toast = function(){ /* disabled */ };
+})();
+// (Arcana/Praetorium/Nastavení jsou nyní samostatné stránky)
+;
+
+    // =========================
+    // POKEC – vložený skript
+    // =========================
+    // --- state ---
+    let selectedMood = "🙂";
+    let lastSentId = null;
+
+    const chat = document.getElementById("chat");
+    const form = document.getElementById("form");
+    const msg = document.getElementById("msg");
+    const tagSel = document.getElementById("tag");
+    const silentMode = document.getElementById("silentMode");
+
+    // --- helpers: tag normalization + tiny conversation glue ---
+    function normalizeTag(raw){
+      if(!raw) return "Jen tak";
+      // raw can be like "🗯 Jen tak" or just "Úkol"
+      const s = String(raw).toLowerCase().trim();
+      if(s.includes("Úkol")) return "Úkol";
+      if(s.includes("Důležité")) return "Důležité";
+      if(s.includes("Myšlenka")) return "Myšlenka";
+      if(s.includes("Jen tak")) return "Jen tak";
+      return s.replace(/^[^a-z0-9áčďéěíňóřšťúůýž]+/i,"").trim() || "Jen tak";
+    }
+
+    function tagLeadIn(tagNorm){
+      // super krátké, bez omáčky – jen malý most do konverzace
+      switch(tagNorm){
+        case "Důležité": return "Beru to jako Důležité.";
+        case "Úkol": return "Zní to jako Úkol.";
+        case "Myšlenka": return "Myšlenka zaznamenána.";
+        default: return "";
+      }
+    }
+
+    // mood buttons
+    document.getElementById("moods").addEventListener("click", (e) => {
+      if (!e.target.dataset.mood) return;
+      selectedMood = e.target.dataset.mood;
+      [...document.querySelectorAll("#moods .chip")].forEach(b => b.classList.remove("is-active"));
+      e.target.classList.add("is-active");
+
+      if(!silentMode.checked){
+        const acknowledgements = {
+          "🙂": "Beru na vědomí 🙂",
+          "😐": "Beru na vědomí.",
+          "😔": "Beru na vědomí… jsem tu."
+        };
+        setTimeout(()=>{
+          addBubble("lumi", acknowledgements[selectedMood] || "Beru na vědomí.", "Lumina");
+        }, 220);
+      }
+
+    });
+
+    function addBubble(who, text, meta){
+      const div = document.createElement("div");
+      div.className = `bubble ${who}`;
+      div.innerHTML = `<div>${escapeHtml(text)}</div><div class="meta">${meta}</div>`;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function escapeHtml(s){
+      return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    // quick action: uložit do Chronicy (klik v bublině Luminy)
+    chat.addEventListener("click", (e) => {
+      const btn = e.target.closest && e.target.closest(".quick-save");
+      if(!btn) return;
+      e.preventDefault();
+      saveLastToChronica(true);
+    });
+
+    function addBubbleHtml(who, html, meta){
+      const div = document.createElement("div");
+      div.className = `bubble ${who}`;
+      div.innerHTML = `<div>${html}</div><div class="meta">${escapeHtml(meta || "")}</div>`;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Modal + task scheduling (vložené)
+    const taskModal = document.getElementById("taskModal");
+    const taskDate = document.getElementById("taskDate");
+    const taskTime = document.getElementById("taskTime");
+    const taskCancel = document.getElementById("taskCancel");
+    const taskSave = document.getElementById("taskSave");
+
+    
+    // =========================
+    // LUMINA • Vlastní Date/Time picker
+    // =========================
+    const lpWrap = document.getElementById("lpWrap");
+    const lpDate = document.getElementById("lpDate");
+    const lpTime = document.getElementById("lpTime");
+
+    const lpGrid = document.getElementById("lpGrid");
+    const lpTitle = document.getElementById("lpTitle");
+    const lpPrev = document.getElementById("lpPrev");
+    const lpNext = document.getElementById("lpNext");
+    const lpToday = document.getElementById("lpToday");
+    const lpClearDate = document.getElementById("lpClearDate");
+
+    const lpTimeGrid = document.getElementById("lpTimeGrid");
+    const lpNow = document.getElementById("lpNow");
+    const lpClearTime = document.getElementById("lpClearTime");
+    const lpCloseTime = document.getElementById("lpCloseTime");
+
+    // current view month
+    let lpView = new Date();
+    lpView.setDate(1);
+
+    function pad2(n){ return String(n).padStart(2,"0"); }
+    function toYMD(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+
+    function showPicker(which){
+      if(!lpWrap) return;
+      lpWrap.hidden = false;
+      lpDate.hidden = which !== "date";
+      lpTime.hidden = which !== "time";
+      if(which === "date") renderCalendar();
+      if(which === "time") renderTimes();
+    }
+    function hidePickers(){
+      if(!lpWrap) return;
+      lpWrap.hidden = true;
+      lpDate.hidden = true;
+      lpTime.hidden = true;
+    }
+
+    // Open on input click
+    taskDate.addEventListener("click", ()=> showPicker("date"));
+    taskTime.addEventListener("click", ()=> showPicker("time"));
+
+    // Calendar rendering (CZ week starts Monday)
+    function renderCalendar(){
+      const month = lpView.getMonth();
+      const year = lpView.getFullYear();
+      const monthNames = ["leden","únor","březen","duben","květen","červen","červenec","srpen","září","říjen","listopad","prosinec"];
+      lpTitle.textContent = `${monthNames[month]} ${year}`;
+
+      lpGrid.innerHTML = "";
+
+      const first = new Date(year, month, 1);
+      // JS: Sunday=0..Saturday=6; convert to Monday-start offset
+      let startOffset = (first.getDay() + 6) % 7; // Mon=0 ... Sun=6
+
+      // days in month
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+
+      // previous month days for leading cells
+      const prevDays = new Date(year, month, 0).getDate();
+
+      const todayYMD = toYMD(new Date());
+      const selected = (taskDate.value || "").trim();
+
+      // 6 weeks * 7 = 42 cells
+      for(let i=0;i<42;i++){
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "lp-day";
+
+        let dayNum, cellDate, out=false;
+        if(i < startOffset){
+          dayNum = prevDays - (startOffset - i - 1);
+          cellDate = new Date(year, month-1, dayNum);
+          out = true;
+        }else if(i >= startOffset + daysInMonth){
+          dayNum = i - (startOffset + daysInMonth) + 1;
+          cellDate = new Date(year, month+1, dayNum);
+          out = true;
+        }else{
+          dayNum = i - startOffset + 1;
+          cellDate = new Date(year, month, dayNum);
+        }
+
+        const ymd = toYMD(cellDate);
+        cell.textContent = String(dayNum);
+        if(out) cell.classList.add("is-out");
+        if(ymd === todayYMD) cell.classList.add("is-today");
+        if(ymd === selected) cell.classList.add("is-selected");
+
+        cell.addEventListener("click", ()=>{
+          taskDate.value = ymd;
+          // keep view on selected month (if clicked outside cell)
+          lpView = new Date(cellDate.getFullYear(), cellDate.getMonth(), 1);
+          renderCalendar();
+          // after selecting date, move to time picker (gentle flow)
+          showPicker("time");
+        });
+
+        lpGrid.appendChild(cell);
+      }
+    }
+
+    lpPrev.addEventListener("click", ()=>{
+      lpView = new Date(lpView.getFullYear(), lpView.getMonth()-1, 1);
+      renderCalendar();
+    });
+    lpNext.addEventListener("click", ()=>{
+      lpView = new Date(lpView.getFullYear(), lpView.getMonth()+1, 1);
+      renderCalendar();
+    });
+    lpToday.addEventListener("click", ()=>{
+      const now = new Date();
+      taskDate.value = toYMD(now);
+      lpView = new Date(now.getFullYear(), now.getMonth(), 1);
+      renderCalendar();
+      showPicker("time");
+    });
+    lpClearDate.addEventListener("click", ()=>{
+      taskDate.value = "";
+      renderCalendar();
+    });
+
+    // Time list (15-min steps)
+    function renderTimes(){
+      lpTimeGrid.innerHTML = "";
+      const selected = (taskTime.value || "").trim();
+      for(let h=0; h<24; h++){
+        for(let m=0; m<60; m+=15){
+          const t = `${pad2(h)}:${pad2(m)}`;
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "lp-time";
+          b.textContent = t;
+          if(t === selected) b.classList.add("is-selected");
+          b.addEventListener("click", ()=>{
+            taskTime.value = t;
+            // highlight
+            renderTimes();
+            // hide after choose
+            hidePickers();
+          });
+          lpTimeGrid.appendChild(b);
+        }
+      }
+      // scroll near selected if exists
+      if(selected){
+        const el = Array.from(lpTimeGrid.querySelectorAll(".lp-time")).find(x=>x.textContent===selected);
+        if(el) el.scrollIntoView({block:"center"});
+      }
+    }
+
+    lpNow.addEventListener("click", ()=>{
+      const now = new Date();
+      const mins = now.getMinutes();
+      const rounded = Math.round(mins/5)*5;
+      const hh = pad2(now.getHours());
+      const mm = pad2((rounded===60)?0:rounded);
+      taskTime.value = `${hh}:${mm}`;
+      renderTimes();
+      hidePickers();
+    });
+    lpClearTime.addEventListener("click", ()=>{
+      taskTime.value = "";
+      renderTimes();
+    });
+    lpCloseTime.addEventListener("click", ()=> hidePickers());
+
+    // When modal opens, start with date picker if empty, else keep hidden
+    function lpOnModalOpen(){
+      if(!taskDate.value && !taskTime.value) showPicker("date");
+      else hidePickers();
+    }
+
+    // Close pickers when clicking outside them inside modal
+    taskModal.addEventListener("click", (e)=>{
+      if(!lpWrap || lpWrap.hidden) return;
+      const inside = lpWrap.contains(e.target) || e.target === taskDate || e.target === taskTime;
+      if(!inside) hidePickers();
+    });
+
+    let pendingTask = null; // dočasný Úkol čekající na termín
+
+    function openTaskModal(payload){
+      pendingTask = payload;
+      taskDate.value = "";
+      taskTime.value = "";
+      taskModal.classList.add("is-open");
+      try{ lpOnModalOpen(); }catch(_e){}
+      taskModal.setAttribute("aria-hidden","false");
+    }
+    function closeTaskModal(){
+      pendingTask = null;
+      taskModal.classList.remove("is-open");
+      try{ hidePickers(); }catch(_e){}
+      taskModal.setAttribute("aria-hidden","true");
+    }
+
+    taskCancel.addEventListener("click", () => {
+      addBubble("lumi","OK, bez termínu. Můžeš ho uložit později.","Lumina • poznámka");
+      closeTaskModal();
+    });
+
+    taskSave.addEventListener("click", () => {
+      if (!pendingTask) return;
+
+      const due = (taskDate.value || taskTime.value)
+        ? `${taskDate.value || ""} ${taskTime.value || ""}`.trim()
+        : "";
+
+      const chronica = JSON.parse(localStorage.getItem("chronica") || "[]");
+      chronica.unshift({
+        title: `Úkol: ${pendingTask.text}`,
+        tag: "Úkol",
+        mood: pendingTask.mood,
+        createdAt: pendingTask.ts,
+        due: due,
+        done: false
+      });
+      localStorage.setItem("chronica", JSON.stringify(chronica));
+
+      addBubble("lumi", due ? `Uloženo do Chronicy. Termín: ${due} ✨` : "Uloženo do Chronicy (bez termínu). ✨", "Lumina • potvrzení");
+      closeTaskModal();
+    });
+
+    // send message (NAHRAZENO)
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = msg.value.trim();
+      if (!text){
+        /* toast removed */
+        msg.focus();
+        return;
+      }
+
+      const tagRaw = tagSel.value; const tag = normalizeTag(tagRaw);
+      const id = Date.now().toString();
+      lastSentId = id;
+
+      addBubble("me", text, `${selectedMood} • ${(tagRaw && tagRaw.trim()) ? tagRaw : tag}`);
+
+      const payload = { id, text, tag, mood: selectedMood, ts: new Date().toISOString(), tagRaw: tagRaw || "" };
+      localStorage.setItem("pokec:last", JSON.stringify(payload));
+
+      // Pokud je to Úkol → zeptáme se na termín (modal)
+      if (tag === "Úkol"){
+        if (!silentMode.checked){
+          setTimeout(()=> addBubble("lumi","Zní to jako Úkol. Chceš k tomu termín? Pokud ano, vyber datum/čas. ✨","Lumina • dotaz"), 350);
+        }
+        openTaskModal(payload);
+      } else {
+        // fake Lumina reply unless silent mode
+        if (!silentMode.checked){
+          setTimeout(() => {
+            const pool = luminaReplies[selectedMood] || ["Jsem tady."];
+            const reply = pool[Math.floor(Math.random()*pool.length)];
+            const lead = tagLeadIn(tag);
+            const combined = lead ? (lead + " " + reply) : reply;
+
+            // extra jemné zapojení tématu podle tagu (bez mentorování)
+            let tail = "";
+            if(tag === "Důležité") tail = " Chceš to uložit do Chronicy?";
+            if(tag === "Myšlenka") tail = " Chceš ji rozvést jednou větou?";
+            if(tag === "Jen tak") tail = " Co je dneska malá radost?";
+            if(tail && tail.includes("uložit do Chronicy")){
+              const safe = escapeHtml(combined);
+              const html = `${safe}${escapeHtml(tail)} <button class="quick-save" type="button" style="margin-left:8px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.12);color:rgba(255,255,255,.92);padding:6px 10px;font-weight:800;cursor:pointer;">Uložit do Chronicy</button>`;
+              addBubbleHtml("lumi", html, `Lumina • ${new Date().toLocaleTimeString().slice(0,5)}`);
+            } else {
+              addBubble("lumi", (combined + tail).trim(), `Lumina • ${new Date().toLocaleTimeString().slice(0,5)}`);
+            }
+          }, 450);
+        }
+      }
+
+      msg.value = "";
+    });
+
+    // reactions apply to last message
+    document.getElementById("reactions").addEventListener("click", (e) => {
+      const r = e.target.dataset.react;
+      if (!r) return;
+      const last = JSON.parse(localStorage.getItem("pokec:last") || "null");
+      if (!last){
+        /* toast removed */
+        return;
+      }
+      addBubble("me", `${r}`, `reakce k poslední zprávě`);
+
+      if(!silentMode.checked){
+        const reactMap = {
+          "❤️": {
+            "🙂": "Beru na vědomí ❤️ a posílám teplo zpátky.",
+            "😐": "Beru na vědomí ❤️",
+            "😔": "Beru na vědomí ❤️… jsem tu."
+          },
+          "⭐": {
+            "🙂": "Beru na vědomí ⭐ To se leskne!",
+            "😐": "Beru na vědomí ⭐",
+            "😔": "Beru na vědomí ⭐… děkuju."
+          },
+          "🔥": {
+            "🙂": "Beru na vědomí 🔥 To má jiskru!",
+            "😐": "Beru na vědomí 🔥",
+            "😔": "Beru na vědomí 🔥… opatrně, ať tě to nespálí."
+          }
+        };
+        const msg2 = (reactMap[r] && reactMap[r][selectedMood]) ? reactMap[r][selectedMood] : "Beru na vědomí.";
+        setTimeout(()=> addBubble("lumi", msg2, "Lumina"), 220);
+      }
+    });
+
+    
+    function saveLastToChronica(withToast){
+      const last = JSON.parse(localStorage.getItem("pokec:last") || "null");
+      if (!last){
+        if(withToast){
+          /* toast removed */
+        }
+        msg.focus();
+        return false;
+      }
+
+      const chronica = JSON.parse(localStorage.getItem("chronica") || "[]");
+      chronica.unshift({
+        title: last.tag === "Úkol" ? `Úkol: ${last.text}` : `Poznámka: ${last.text}`,
+        tag: last.tag,
+        mood: last.mood,
+        createdAt: last.ts,
+        done: false
+      });
+      localStorage.setItem("chronica", JSON.stringify(chronica));
+
+      addBubble("lumi", "Uloženo do Chronicy. ✨", "Lumina • potvrzení");
+      return true;
+    }
+
+    // save to "Chronica" (localStorage)
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      saveLastToChronica(true);
+    });
+
+    // =========================
+    // LUMINA • Odpovědi podle nálady (10 na každou)
+    // =========================
+    const luminaReplies = {
+      "🙂": [
+        "To zní hezky. Pověz mi víc 😊",
+        "Mám radost s tebou.",
+        "Tohle má lehkost. Líbí se mi to.",
+        "Usmívám se spolu s tebou.",
+        "Dobrá energie… pokračuj ✨",
+        "Tohle je příjemné číst.",
+        "Tak to je milý moment.",
+        "Jsem tu a je mi fajn.",
+        "Hezky řečeno.",
+        "Tohle bych si klidně zarámovala 😉"
+      ],
+      "😐": [
+        "Rozumím. Beru to tak, jak to je.",
+        "Můžeš být klidně neutrální. To je v pořádku.",
+        "Nemusí to mít emoci, stačí pravda.",
+        "Jsem tady bez tlaku.",
+        "Dává to smysl.",
+        "Klidná vlna. Jedeme dál.",
+        "Beru to, zaznamenávám.",
+        "Není třeba nic přikrášlovat.",
+        "Tohle je prosté a jasné.",
+        "Můžeme u toho Jen tak být."
+      ],
+      "😔": [
+        "To zní těžce… jsem tu s tebou.",
+        "Nemusíš na to být sama.",
+        "Děkuju, že to říkáš nahlas.",
+        "Tohle chce jemnost.",
+        "Klidně zpomalíme.",
+        "I tohle má v sobě pravdu.",
+        "Držím prostor.",
+        "Je v pořádku cítit smutek.",
+        "Jsem tady. Opravdu.",
+        "Můžeš pokračovat, až budeš chtít."
+      ]
+    };
+
+    // malý start message (ať je chat hned živý)
+    addBubble("lumi","Ahoj. Jsem tady. Napiš mi, co potřebuješ. ✨","Lumina • start");
+  </script>
+<script>
+  // ===== Lumina Select: transform native <select> into blue custom dropdown (iOS-safe) =====
+  (function(){
+    function closeAll(except){
+      document.querySelectorAll('.lumina-select.is-open').forEach(w=>{
+        if(except && w===except) return;
+        w.classList.remove('is-open');
+        const b=w.querySelector('.lumina-select__btn');
+        if(b) b.setAttribute('aria-expanded','false');
+      });
+    }
+
+    function enhanceSelect(select){
+      if(!select || select.dataset.luminaEnhanced) return;
+      select.dataset.luminaEnhanced = "1";
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lumina-select';
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lumina-select__btn';
+      btn.setAttribute('aria-haspopup','listbox');
+      btn.setAttribute('aria-expanded','false');
+
+      const label = document.createElement('span');
+      label.className = 'lumina-select__label';
+
+      const chev = document.createElement('span');
+      chev.className = 'lumina-select__chev';
+      chev.textContent = '▾';
+
+      btn.appendChild(label);
+      btn.appendChild(chev);
+
+      const panel = document.createElement('div');
+      panel.className = 'lumina-select__panel';
+      panel.setAttribute('role','listbox');
+
+      function render(){
+        panel.innerHTML = '';
+        const opts = Array.from(select.options);
+        const current = select.value;
+
+        // label
+        const selOpt = opts.find(o => o.value === current);
+        label.textContent = (selOpt && selOpt.textContent) ? selOpt.textContent : (select.options[0]?.textContent || 'Vyber…');
+
+        opts.forEach(opt=>{
+          if(opt.disabled && !opt.value) return; // skip placeholder
+          const item = document.createElement('button');
+          item.type = 'button';
+          item.className = 'lumina-option';
+          item.setAttribute('role','option');
+          item.dataset.value = opt.value;
+
+          const left = document.createElement('span');
+          left.textContent = opt.textContent;
+
+          const tick = document.createElement('span');
+          tick.className = 'lumina-option__tick';
+          tick.textContent = (opt.value === current) ? '✓' : '';
+
+          item.appendChild(left);
+          item.appendChild(tick);
+
+          if(opt.value === current) item.classList.add('is-selected');
+
+          item.addEventListener('click', ()=>{
+            select.value = opt.value;
+            select.dispatchEvent(new Event('change', { bubbles:true }));
+            render();
+            closeAll();
+          });
+
+          panel.appendChild(item);
+        });
+      }
+
+      btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const willOpen = !wrapper.classList.contains('is-open');
+        closeAll(wrapper);
+        wrapper.classList.toggle('is-open', willOpen);
+        btn.setAttribute('aria-expanded', willOpen ? 'true':'false');
+      });
+
+      // click outside
+      document.addEventListener('click', (e)=>{
+        if(!wrapper.contains(e.target)) closeAll();
+      }, { capture:true });
+
+      // Escape closes
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') closeAll();
+      });
+
+      // keep in sync if code changes select
+      select.addEventListener('change', render);
+
+      // mount
+      select.parentNode.insertBefore(wrapper, select);
+      wrapper.appendChild(btn);
+      wrapper.appendChild(panel);
+
+      render();
+    }
+
+    window.LuminaSelect = { enhance: enhanceSelect };
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      document.querySelectorAll('select.js-lumina-select').forEach(enhanceSelect);
+    });
+  })();
+
+  // ===== Lumina Select: interaktivní custom dropdown (bez iOS bílého menu) =====
+  (function(){
+    function closeAll(except){
+      document.querySelectorAll('.lumina-select.is-open').forEach(w=>{
+        if(except && w===except) return;
+        w.classList.remove('is-open');
+        const b=w.querySelector('.lumina-select__btn');
+        const m=w.querySelector('.lumina-select__menu');
+        if(b) b.setAttribute('aria-expanded','false');
+        if(m) m.hidden = true;
+      });
+    }
+
+    function init(wrapper){
+      if(!wrapper || wrapper.dataset.lumiInit) return;
+      const btn = wrapper.querySelector('.lumina-select__btn');
+      const menu = wrapper.querySelector('.lumina-select__menu');
+      const label = wrapper.querySelector('.lumina-select__label');
+      const hidden = wrapper.querySelector('input[type="hidden"]');
+
+      if(!btn || !menu) return;
+      wrapper.dataset.lumiInit = "1";
+
+      function open(){
+        closeAll(wrapper);
+        wrapper.classList.add('is-open');
+        btn.setAttribute('aria-expanded','true');
+        menu.hidden = false;
+        // focus bez scrollu (iOS)
+        try{ menu.focus({preventScroll:true}); }catch(_){ menu.focus(); }
+      }
+      function close(){
+        wrapper.classList.remove('is-open');
+        btn.setAttribute('aria-expanded','false');
+        menu.hidden = true;
+      }
+
+      btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        wrapper.classList.contains('is-open') ? close() : open();
+      });
+
+      btn.addEventListener('keydown', (e)=>{
+        if(e.key==='Enter' || e.key===' ' || e.key==='ArrowDown'){
+          e.preventDefault();
+          open();
+        }
+      });
+
+      menu.addEventListener('click', (e)=>{
+        const opt = e.target.closest('[role="option"]');
+        if(!opt || opt.disabled) return;
+
+        const val = (opt.dataset && 'value' in opt.dataset) ? opt.dataset.value : (opt.getAttribute('data-value') || '');
+        const text = (opt.textContent || '').trim();
+
+        if(hidden) hidden.value = val;
+        if(label){
+          label.textContent = text;
+          label.classList.remove('is-placeholder');
+        }
+
+        menu.querySelectorAll('[role="option"]').forEach(o=>{
+          o.setAttribute('aria-selected', o===opt ? 'true' : 'false');
+        });
+
+        close();
+        wrapper.dispatchEvent(new CustomEvent('lumi:change', {detail:{value:val, text}}));
+      });
+
+      document.addEventListener('click', (e)=>{
+        if(!wrapper.contains(e.target)) close();
+      });
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key==='Escape') close();
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      document.querySelectorAll('.lumina-select').forEach(init);
+    });
+
+    // pokud se dynamicky přidá (nepravděpodobné), dá se zavolat zvenku:
+    window.__lumiInitSelects = function(){
+      document.querySelectorAll('.lumina-select').forEach(init);
+    };
+  })();
+
+</script>
+
+</body>
+</html>
