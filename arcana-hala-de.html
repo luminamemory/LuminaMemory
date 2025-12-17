@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="title" content="Arcana • Halle • LuminaMemory™">
+  <meta name="description"
+        content="Arcana-Halle im miniLumina DEMO – vier zentrale Kreise: Arcana Clavis, Arcana Pecunia, Corpus Medica und Codex Vitae in einer sicheren Tresorumgebung.">
+
+  <link rel="icon" href="favicon.png" type="image/png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LuminaMemory™" />
+  <meta property="og:title" content="Arcana • Halle • LuminaMemory™" />
+  <meta property="og:description"
+        content="Arcana-Halle im miniLumina DEMO – vier zentrale Kreise: Arcana Clavis, Arcana Pecunia, Corpus Medica und Codex Vitae in einer sicheren Tresorumgebung." />
+  <meta property="og:url"
+        content="https://luminamemory.github.io/LuminaMemory/arcana-hala-de.html" />
+  <meta property="og:image"
+        content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+  <meta property="og:locale" content="de_DE" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Arcana • Halle • LuminaMemory™" />
+  <meta name="twitter:description"
+        content="Arcana-Halle im miniLumina DEMO – vier zentrale Kreise: Arcana Clavis, Arcana Pecunia, Corpus Medica und Codex Vitae in einer sicheren Tresorumgebung." />
+  <meta name="twitter:url"
+        content="https://luminamemory.github.io/LuminaMemory/arcana-hala-de.html" />
+  <meta name="twitter:image"
+        content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+
+  <link rel="canonical"
+        href="https://luminamemory.github.io/LuminaMemory/arcana-hala-de.html" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Arcana • Hala • LuminaMemory™</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <style>
+    :root{
+      /* ARCANA • trezor (kov) */
+      --bg0:#05060b; --bg1:#0a0d12;
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.55);
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --shadow2: 0 14px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 780px at 18% 8%, rgba(174,182,198,.18), transparent 55%),
+        radial-gradient(980px 620px at 82% 18%, rgba(127,224,255,.12), transparent 55%),
+        radial-gradient(900px 700px at 50% 110%, rgba(183,162,255,.08), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+    .grain{
+      position:fixed; inset:0; pointer-events:none;
+      opacity:.06;
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.35) 1px, transparent 0);
+      background-size: 3px 3px;
+      mix-blend-mode: overlay;
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(6,7,20,.86), rgba(6,7,20,.40));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .wrap{ max-width:1100px; margin:0 auto; padding:16px 18px; }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      flex-wrap:wrap;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .brand img{
+      width:30px; height:30px; border-radius:8px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.35);
+    }
+    .brand .t{ line-height:1.05; }
+    .brand .t b{ font-size:14px; letter-spacing:.2px; }
+    .brand .t span{ display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+    .nav{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:650;
+      font-size:13px;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+      user-select:none; white-space:nowrap;
+    }
+    .btn:hover{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
+    .btn:active{ transform: translateY(1px); }
+
+    main{ padding:22px 0 60px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      align-items:start;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .pad{ padding:18px; }
+
+    .title{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .title h1{ margin:0; font-size:22px; letter-spacing:.2px; }
+    .badge{
+      font-size:12px;
+      color:rgba(255,255,255,.85);
+      background: rgba(174,182,198,.14);
+      border:1px solid rgba(174,182,198,.22);
+      padding:7px 10px;
+      border-radius: 999px;
+      display:inline-flex; align-items:center; gap:8px;
+      white-space:nowrap;
+    }
+    .subtitle{ margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.55; }
+
+    .stage{
+      position:relative;
+      min-height:520px;
+      border-top:1px solid rgba(255,255,255,.06);
+      margin-top:16px;
+      padding:18px;
+    }
+
+    .web-local{ display:none; }
+
+    .circle{
+      overflow: visible;
+      position:relative;
+      width:min(520px, 100%);
+      aspect-ratio: 1/1;
+      margin: 4px auto 0;
+      border-radius: 999px;
+      display:grid; place-items:center;
+      z-index:2;
+    }
+    .circle::before{
+      content:"";
+      position:absolute; inset:-8px;
+      border-radius:999px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(155,125,255,.14), transparent 55%),
+        radial-gradient(circle at 30% 30%, rgba(79,209,255,.10), transparent 55%);
+      opacity:.85;
+    }
+    .circle::after{
+      content:"";
+      position:absolute; inset:0;
+      border-radius:999px;
+      border:1px dashed rgba(255,255,255,.16);
+      opacity:.35;
+    }
+
+    .knot{
+      position:absolute;
+      width:120px; height:120px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow2);
+      display:grid; place-items:center;
+      text-align:center;
+      padding:10px;
+      z-index:2;
+    }
+    .knot b{ font-size:12px; letter-spacing:.22px; }
+    .knot span{ display:block; margin-top:6px; font-size:11px; color:var(--muted2); line-height:1.35; }
+
+    .knot{
+      cursor:pointer;
+      transition: transform .14s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+      background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+    }
+    .knot:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.22);
+      box-shadow: 0 18px 55px rgba(0,0,0,.48), 0 0 26px rgba(174,182,198,.14);
+    }
+
+
+    .bubble{
+      position:absolute;
+      width:160px; height:160px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.14), rgba(255,255,255,.05) 40%, rgba(255,255,255,.03) 70%),
+        linear-gradient(135deg, rgba(155,125,255,.10), rgba(79,209,255,.06));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 18px 55px rgba(0,0,0,.45);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:8px;
+      cursor:pointer; user-select:none;
+      transition: transform .12s ease, border-color .18s ease;
+      z-index:3;
+    }
+    .bubble:hover{ border-color: rgba(255,255,255,.24); }
+    .bubble:active{ }
+
+    .bubble{
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.18), rgba(255,255,255,.06) 40%, rgba(255,255,255,.03) 70%),
+        linear-gradient(135deg, rgba(174,182,198,.14), rgba(127,224,255,.06));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: 0 18px 55px rgba(0,0,0,.45), 0 0 28px rgba(127,224,255,.08);
+      transition: transform .14s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .bubble:hover{
+      border-color: rgba(255,255,255,.26);
+      box-shadow: 0 22px 60px rgba(0,0,0,.52), 0 0 36px rgba(127,224,255,.14);
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.22), rgba(255,255,255,.07) 40%, rgba(255,255,255,.03) 70%),
+        linear-gradient(135deg, rgba(174,182,198,.16), rgba(183,162,255,.06));
+    }
+
+
+/* 🕸️ pavučina uvnitř každé bubliny (pod textem) */
+.bubble{ overflow:hidden; }
+.bubble::before{
+  content:"";
+  position:absolute;
+  inset:10px;
+  background: url("pavucina-web.png") center/contain no-repeat;
+  opacity:.55;
+  filter: contrast(1.25) drop-shadow(0 0 10px rgba(127,224,255,.18));
+  pointer-events:none;
+  z-index:0;
+}
+.bubble > *{ position:relative; z-index:1; }
+
+    .bubble .n{ font-size:13.5px; font-weight:800; letter-spacing:.22px; }
+    .bubble .d{ font-size:12px; color:rgba(255,255,255,.72); }
+
+    6%   { scale: 1.015; filter: saturate(1.08) brightness(1.05); }
+      12%  { scale: 1;    filter: saturate(1) brightness(1); }
+      18%  { scale: 1.028; filter: saturate(1.12) brightness(1.07); }
+      26%  { scale: 1;    filter: saturate(1) brightness(1); }
+      100% { scale: 1;    filter: saturate(1) brightness(1); }
+    }
+    .bubble .i{ font-size:22px; }
+    .bubble .n{ font-size:13px; font-weight:800; letter-spacing:.18px; text-align:center; line-height:1.15; padding:0 10px; }
+    .bubble .d{ font-size:11.5px; color:var(--muted); text-align:center; line-height:1.35; padding:0 14px; max-width: 150px; }
+
+    .b1{ top: 2%; left: 50%; transform: translate(-50%, 0); }
+    .b2{ top: 50%; right: 2%; transform: translate(0, -50%); }
+    .b3{ bottom: 6%; left: 50%; transform: translate(-50%, 0); }
+    .b4{ top: 50%; left: 2%; transform: translate(0, -50%); }
+
+    @media (max-width: 520px){
+      .bubble{ width:140px; height:140px; }
+      .knot{ width:110px; height:110px; }
+      .stage{ min-height:560px; }
+    }
+
+    .strand{
+      position:absolute; width:2px;
+      background: linear-gradient(180deg, rgba(255,255,255,.00), rgba(255,255,255,.18), rgba(255,255,255,.00));
+      opacity:.35; z-index:2;
+    }
+    .s-top{ height:90px; top: 22%; left:50%; transform: translateX(-50%); }
+    .s-right{ height:90px; top: 50%; left: 75%; transform: translate(-50%,-50%) rotate(90deg); }
+    .s-bot{ height:90px; top: 78%; left:50%; transform: translateX(-50%); }
+    .s-left{ height:90px; top: 50%; left: 25%; transform: translate(-50%,-50%) rotate(90deg); }
+
+    .chat{ margin-top:16px; border-top:1px solid rgba(255,255,255,.06); padding-top:16px; display:grid; gap:12px; }
+    .chathead{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; }
+    .chathead b{ font-size:13px; letter-spacing:.18px; }
+    .chathead .hint{ font-size:12px; color:var(--muted); line-height:1.45; max-width: 62ch; }
+    .chatbox{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radius);
+      padding:12px;
+      display:grid; gap:10px;
+    }
+    textarea{
+      width:100%; min-height:92px; resize:vertical;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: rgba(255,255,255,.92);
+      padding:12px;
+      font-family: inherit;
+      font-size:13px;
+      line-height:1.5;
+      outline:none;
+    }
+    textarea:focus{ border-color: rgba(155,125,255,.35); }
+    .row{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .tools{ display:flex; gap:8px; flex-wrap:wrap; }
+    .chip{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.88);
+      padding:8px 10px;
+      border-radius: 999px;
+      font-weight:650; font-size:12px;
+      cursor:pointer; user-select:none;
+      transition: background .18s ease, border-color .18s ease;
+    }
+    .chip:hover{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
+    .target{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:12px; color: var(--muted); }
+    .tag{
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.90);
+      font-weight:750; font-size:12px;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .tag.ok{ border-color: rgba(101,255,183,.22); background: rgba(101,255,183,.10); }
+    .send{
+      border:1px solid rgba(155,125,255,.35);
+      background: linear-gradient(135deg, rgba(155,125,255,.22), rgba(79,209,255,.10));
+      color: rgba(255,255,255,.95);
+      padding:10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:800; font-size:13px;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .send:disabled{ opacity:.45; cursor:not-allowed; }
+
+    .side h2{ margin:0; font-size:14px; letter-spacing:.22px; text-transform:uppercase; color: rgba(255,255,255,.82); }
+    .side p{ margin:10px 0 0; color: var(--muted); font-size:13px; line-height:1.55; }
+    .list{ margin:14px 0 0; padding:0; list-style:none; display:grid; gap:10px; }
+    .item{ border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.03); border-radius: 16px; padding:12px; }
+    .item b{ font-size:13px; }
+    .item span{ display:block; margin-top:6px; color: var(--muted2); font-size:12px; line-height:1.45; }
+
+    .backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px; z-index:50;
+    }
+    .backdrop.show{ display:flex; }
+    .modal{
+      width:min(720px, 100%);
+      border-radius: 20px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(420px 220px at 20% 0%, rgba(155,125,255,.18), transparent 55%),
+        radial-gradient(360px 220px at 90% 0%, rgba(79,209,255,.12), transparent 55%),
+        rgba(10,12,30,.86);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal .mhead{
+      padding:16px 16px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    }
+    .mhead .left{ display:flex; gap:10px; align-items:flex-start; }
+    .micon{
+      width:42px; height:42px; border-radius: 16px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:18px;
+      flex:0 0 auto;
+    }
+    .mhead b{ display:block; font-size:14px; letter-spacing:.22px; }
+    .mhead span{ display:block; margin-top:4px; font-size:12px; color: var(--muted); line-height:1.45; max-width: 58ch; }
+    .x{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      padding:8px 10px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .mbody{ padding:14px 16px 16px; display:grid; gap:12px; }
+    .mbody .bullets{ margin:0; padding-left:18px; color: rgba(255,255,255,.84); font-size:13px; line-height:1.55; }
+    .mfoot{
+      padding:14px 16px 16px;
+      border-top:1px solid rgba(255,255,255,.08);
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .ghost{ background: transparent; border-color: rgba(255,255,255,.14); }
+
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(20,22,40,.92);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.92);
+      padding:10px 12px;
+      border-radius: 14px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+      font-size:12px;
+      display:none; align-items:center; gap:10px;
+      z-index:80;
+      max-width:min(820px, calc(100vw - 20px));
+    }
+    .toast.show{ display:flex; }
+    .toast .pill{
+      padding:6px 8px;
+      border-radius: 999px;
+      background: rgba(155,125,255,.18);
+      border: 1px solid rgba(155,125,255,.22);
+      font-weight:800; font-size:11px; white-space:nowrap;
+    }
+    .toast .msg{ color: rgba(255,255,255,.86); line-height:1.35; }
+  
+    .vault{
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(145deg,#2f2f33,#1c1c1f);
+      border-radius: 18px;
+      padding:12px;
+      display:grid;
+      gap:12px;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.05),
+        inset 0 12px 30px rgba(0,0,0,.55);
+    }
+    .laser{
+      height:2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+        rgba(155,125,255,0),
+        rgba(155,125,255,.55),
+        rgba(79,209,255,.55),
+        rgba(79,209,255,0)
+      );
+      opacity:.9;
+      box-shadow: 0 0 18px rgba(155,125,255,.18);
+    }
+    .entries{ display:grid; gap:10px; }
+    .entry{
+      border:1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg,#3a3a3f,#242428);
+      border-radius: 16px;
+      padding:10px 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .entry .left{ display:grid; gap:4px; }
+    .entry b{
+      font-family:"Poppins", system-ui, sans-serif;
+      font-size:13.5px;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+    .entry span{
+      font-family:"Poppins", system-ui, sans-serif;
+      font-size:12.5px;
+      color: rgba(255,255,255,.82);
+      line-height:1.5;
+      opacity:.95;
+    }
+    .entry .chip2{
+      flex:0 0 auto;
+      max-width:110px;
+      padding:6px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.90);
+      font-weight:800;
+      font-size:11px;
+      line-height:1.15;
+      text-align:center;
+      white-space:normal;
+      word-break:break-word;
+      opacity:.95;
+    }
+
+  
+    /* ===== Arcana Chat (profi terminál) ===== */
+    .chatbox{
+      background:
+        radial-gradient(circle at 12% 0%, rgba(174,182,198,.10), transparent 45%),
+        radial-gradient(circle at 88% 100%, rgba(127,224,255,.08), transparent 55%),
+        rgba(255,255,255,.02);
+    }
+    textarea{
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255,255,255,.10), transparent 48%),
+        linear-gradient(180deg, rgba(0,0,0,.32), rgba(0,0,0,.22));
+      border-color: rgba(255,255,255,.14);
+      font-size:13.5px;
+      line-height:1.55;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), inset 0 18px 40px rgba(0,0,0,.35);
+    }
+    textarea:focus{
+      border-color: rgba(127,224,255,.38);
+      box-shadow: 0 0 0 3px rgba(127,224,255,.12), inset 0 18px 40px rgba(0,0,0,.35);
+    }
+    .chathead b{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:12px;
+    }
+
+  
+    /* ===== Bubble tap: no movement, just flash ===== */
+    @keyframes bubbleFlash{
+      0%   { filter: brightness(1); }
+      40%  { filter: brightness(1.18); }
+      100% { filter: brightness(1); }
+    }
+    .bubble:active, .bubble:focus-visible{
+      animation: bubbleFlash 180ms ease;
+    }
+
+</style>
+
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand">
+          <img src="favicon.png" alt="LuminaMemory favicon">
+          <div class="t">
+            <b>LuminaMemory™</b>
+            <span>Arcana • Tresorhalle</span>
+          </div>
+        </div>
+        <nav class="nav">
+          <a class="btn" href="arcana-de.html" title="Zurück zum Tor (entsperren)">🔒 Tor</a>
+          <a class="btn" href="lumina-demo-de.html" title="Zur Haupt‑Lumina">🕯️ Arcana schließen</a>
+          <a class="btn" href="index-de.html" title="Zur Website">🌐 Zur Website</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="grid">
+        <section class="card" aria-label="Arcana Hall">
+          <div class="pad">
+            <div class="title">
+              <h1>ARCANA • Tresorhalle</h1>
+              <div class="badge" id="planBadge">🟣 DEMO tarif: PREMIUM</div>
+            </div>
+            <p class="subtitle">
+              Miille. Reine Ordnung. Dinge, die man nicht laut ausspricht, werden hier abgelegt.
+              <br/>Klicke auf eine Blase – und sieh, was darin lebt.
+            </p>
+          </div>
+
+          <div class="stage">
+            <div class="circle" aria-label="Web circle">
+              <div class="strand s-top" aria-hidden="true"></div>
+              <div class="strand s-right" aria-hidden="true"></div>
+              <div class="strand s-bot" aria-hidden="true"></div>
+              <div class="strand s-left" aria-hidden="true"></div>
+
+              <div class="knot" aria-label="Arcana center">
+                <div>
+                  <b>Tresor‑Kern</b>
+                  <span>Schutz • stiller Eintrag • Tresor‑Miatus</span>
+                </div>
+              </div>
+
+              <div class="bubble b1" role="button" tabindex="0" data-room="clavis" aria-label="Arcana Clavis">
+                <div class="i">🔑</div>
+                <div class="n">Arcana<br/>Clavis</div>
+                <div class="d">Schlüssel, Passwörter, Zugänge.</div>
+              </div>
+              <div class="bubble b2" role="button" tabindex="0" data-room="pecunia" aria-label="Arcana Pecunia">
+                <div class="i">💶</div>
+                <div class="n">Arcana<br/>Pecunia</div>
+                <div class="d">Schulden, Raten, Ruhe in Zahlen.</div>
+              </div>
+              <div class="bubble b3" role="button" tabindex="0" data-room="medica" aria-label="Corpus Medica">
+                <div class="i">🩺</div>
+                <div class="n">Corpus<br/>Medica</div>
+                <div class="d">Gesundheit, Dokumente, Termine.</div>
+              </div>
+              <div class="bubble b4" role="button" tabindex="0" data-room="vitae" aria-label="Codex Vitae">
+                <div class="i">🪪</div>
+                <div class="n">Codex<br/>Vitae</div>
+                <div class="d">Unterlagen, Verträge, Behörden.</div>
+              </div>
+            </div>
+
+            <div class="chat" aria-label="Arcana Chat">
+              <div class="chathead">
+                <div>
+                  <b>💬 Arcana Chat • stilles Eingeben</b>
+                  <div class="hint">
+                    Hier schreibst du sensible Dinge. Sie gehen nicht in Mokec. Lumina sortiert sie behutsam in die richtige Blase.
+                    (V DEMU jen ukazujeme, jak to bude fungovat.)
+                  </div>
+                </div>
+                <div class="target">
+                  Ziel von Lumina vorgeschlagen:
+                  <span class="tag ok" id="targetTag">🔑 Clavis</span>
+                </div>
+              </div>
+
+              <div class="chatbox">
+                <textarea id="arcanaInput" placeholder="Sensible Informationen hier eingeben… (z.B. „Krankschreibung bis Jahresende“ / „Klarna sofort bezahlen“ / „Blutentnahme am 15.10.2025 nüchtern…“)"></textarea>
+
+                <div class="row">
+                  <div class="tools">
+                    <span class="chip" data-tool="file">📎 Datei</span>
+                    <span class="chip" data-tool="photo">📷 Foto</span>
+                    <span class="chip" data-tool="voice">🎙️ Audio</span>
+                    <span class="chip" data-tool="note">➕ Eintrag</span>
+                  </div>
+                  <button class="send" id="sendBtn" type="button" disabled>✨ In Arcana speichern</button>
+                </div>
+</div>
+            </div>
+
+          </div>
+        </section>
+
+        <aside class="card side" aria-label="Arcana guidance">
+          <div class="pad">
+            <h2>Tresor‑Regeln</h2>
+            <p>
+              Arcana ist eine getrennte Welt. Sie ist so gestaltet, dass sensible Dinge nicht im „normalen Chat“ landen.
+              Je einfacher die Regeln, desto mehr Ruhe.
+            </p>
+
+            <ul class="list">
+              <li class="item"><b>1) Arcana ≠ Mokec</b><span>Was du hier einfügst, geht nicht in Mokec. Arcana ist still und geschützt.</span></li>
+              <li class="item"><b>2) Das Sotz hält Ordnung</b><span>Vier Blasen = vier Arten von Realität. Jede hat ihren Platz.</span></li>
+              <li class="item"><b>3) Der Chat sortiert</b><span>Du schreibst / fügst an → Lumina schlägt ein Ziel vor → speichert in die passende Blase.</span></li>
+              <li class="item"><b>4) Tarif bestimmt die Tiefe</b><span>FREE = Vorschau • PLUS = Basis • PREMIUM = voller Schutz und Komfort.</span></li>
+            </ul>
+
+            <p style="margin-top:14px;">Später ergänzen wir: Auto‑Lock, Privacy‑Modus und eine detaillierte Abo‑Logik.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div class="backdrop" id="backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="mhead">
+        <div class="left">
+          <div class="micon" id="mIcon">🔑</div>
+          <div>
+            <b id="mTitle">Arcana Clavis</b>
+            <span id="mLead">Schlüssel, Passwörter, Zugänge. Deine Ordnung im Geheimen.</span>
+          </div>
+        </div>
+        <button class="x" id="closeModal" type="button">✕</button>
+      </div>
+
+      <div class="mbody">
+        <div class="vault">
+          <div class="laser" aria-hidden="true"></div>
+          <div class="entries" id="mEntries" aria-label="Beispielinhalt des Raums"></div>
+        </div>
+</div>
+
+      <div class="mfoot">
+        <button class="btn ghost" id="mClose2" type="button">Schließen</button>
+</div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="pill" id="toastPill">ARCANA</span>
+    <span class="msg" id="toastMsg">…</span>
+  </div>
+
+  <script>
+    function normalizePlan(p){
+      if(!p) return "free";
+      p=String(p).toLowerCase();
+      if(p==="premium") return "premium";
+      return (p==="free"||p==="plus"||p==="premium") ? p : "free";
+    }
+    function readMioredPlan(){
+      try{
+        const u = JSON.parse(localStorage.getItem("miniLuminaUser")||"null");
+        const fromUser = u && u.plan;
+        const fromKey  = localStorage.getItem("lm_plan");
+        return normalizePlan(fromKey || fromUser);
+      }catch(e){ return "free"; }
+    }
+
+    const __plan = readMioredPlan();
+    if(__plan==="free"){
+      window.location.href = "arcana-de.html?denied=1";
+    }
+
+
+    const rooms = {
+      clavis: {
+        icon:"🔑", title:"Arcana Clavis",
+        lead:"Schlüssel, Passwörter, Zugänge. Deine Ordnung im Geheimen.",
+        entries:[
+          {k:"E‑Mail (Tresor)", v:"Zugang: im Tresor gespeichert • 2‑FA aktiv • letzte Prüfung: 14. 03. 2026", t:"Gesperrt"},
+          {k:"Apple‑Konto", v:"Wiederherstellungscode: gespeichert • Geräte: Handy + Computer • Prüferinnerung: 01. 09. 2025", t:"Aktiv"},
+          {k:"Bank (Zugang)", v:"PIN: im Tresor gespeichert • Verifizierung: Token • Regel: niemals im normalen Chat schreiben", t:"Sensibel"}
+        ],
+        tag:"🔑 Clavis"
+      },
+      pecunia: {
+        icon:"💶", title:"Arcana Pecunia",
+        lead:"Finanzen ohne Panik. Überblick, Verpflichtungen, Termine – Ruhe in Zahlen.",
+        entries:[
+          {k:"Klarna – Haushalt", v:"Betrag: 129 € • Status: zu zahlen • empfohlenes Datum: 06. 02. 2026", t:"Aktiv"},
+          {k:"Budget – Ruhe", v:"Ziel: 2 000 € • Status: laufend ergänzen • Prüfung: 10. 11. 2025", t:"In Arbeit"},
+          {k:"Übersicht Verpflichtungen", v:"Regel: Termine einmal pro Monat prüfen • nächste Prüfung: 05. 05. 2026", t:"Aktiv"}
+        ],
+        tag:"💶 Pecunia"
+      },
+      medica: {
+        icon:"🩺", title:"Corpus Medica",
+        lead:"Gesundheit zuerst. Dokumente, Termine, Behandlung – geschützt und übersichtlich.",
+        entries:[
+          {k:"Blutentnahme", v:"Termin: 15. 10. 2025 • nüchtern • Hinweis: Versichertenkarte mitnehmen", t:"Termin"},
+          {k:"Tagesroutine", v:"Morgens: Medikament A (Demo) • Schilddrüse (Demo) • abends: Aligner", t:"Ritual"},
+          {k:"Dokument", v:"Ergebnisse: Laborbericht (Demo) • Datum: 21.08.2025 • PDF speichern", t:"Dokument"}
+        ],
+        tag:"🩺 Medica"
+      },
+      vitae: {
+        icon:"🪪", title:"Codex Vitae",
+        lead:"Unterlagen und Lebensdokumente. Alles Wichtige, das du nicht in Schubladen suchen willst.",
+        entries:[
+          {k:"Steuerdaten (Demo)", v:"Aktenzeichen: VZ-2047/15 (Beispiel) • Bestätigung: gespeichert • Prüfung: 12.01.2026", t:"Dokument"},
+          {k:"Mietvertrag (Demo)", v:"Gültigkeit: 01. 04. 2025–31. 03. 2026 • verze: aktuell kopie", t:"Vertrag"},
+          {k:"Versicherung (Demo)", v:"Verlängerung: 03/2026 • Hinweis: Selbstbeteiligung prüfen • Erinnerung: 20.02.2026", t:"Erinnerung"}
+        ],
+        tag:"🪪 Vitae"
+      }
+    };
+
+    hydrateRoomsFromStorage();
+
+
+    // ===== JÁDRO TREZORU (stav) =====
+    function countAllEntries(){
+      const store = safeJSONParse(localStorage.getItem("arcana_entries_v1") || "{}", {});
+      const counts = { clavis:0, pecunia:0, medica:0, vitae:0 };
+      Object.keys(counts).forEach(k=>{
+        counts[k] = Array.isArray(store[k]) ? store[k].length : 0;
+      });
+      const total = Object.values(counts).reduce((a,b)=>a+b,0);
+      return {counts,total};
+    }
+
+    function openVaultMiatus(){
+      const {counts,total} = countAllEntries();
+      // plan badge
+      const plan = (__plan || "free").toUpperCase();
+
+      mIcon.textContent = "🧿";
+      mTitle.textContent = "Tresor‑Kern • Miav";
+      mLead.textContent = "Überblick über Sicherheit, letzte Einträge und die Aufteilung in Räume.";
+
+      mEntries.innerHTML = "";
+      const rows = [
+        {k:"Modus", v:`Aktiv • Tarif: ${plan}`, t:"OK"},
+        {k:"Einträge", v:`Gesamt gespeicherte Einträge: ${total}`, t:"Live"},
+        {k:"Clavis", v:`Einträge: ${counts.clavis}`, t:"🔑"},
+        {k:"Pecunia", v:`Einträge: ${counts.pecunia}`, t:"💶"},
+        {k:"Medica", v:`Einträge: ${counts.medica}`, t:"🩺"},
+        {k:"Vitae", v:`Einträge: ${counts.vitae}`, t:"🪪"},
+      ];
+      rows.forEach(e=>{
+        const row = document.createElement("div");
+        row.className = "entry";
+        row.innerHTML = `
+          <div class="left">
+            <b>${e.k}</b>
+            <span>${e.v}</span>
+          </div>
+          <div class="chip2">${e.t}</div>
+        `;
+        mEntries.appendChild(row);
+      });
+
+      backdrop.classList.add("show");
+      backdrop.setAttribute("aria-hidden","false");
+    }
+
+    // klik na jádro
+    const core = document.querySelector(".knot");
+    if(core){
+      core.addEventListener("click", openVaultMiatus);
+      core.addEventListener("keydown", (e)=>{
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          openVaultMiatus();
+        }
+      });
+      core.setAttribute("role","button");
+      core.setAttribute("tabindex","0");
+      core.setAttribute("aria-label","Tresor‑Kern – stav");
+    }
+
+
+
+    function safeJSONParse(s, fallback){
+      try{ return JSON.parse(s); }catch(e){ return fallback; }
+    }
+    function loadUserEntries(){
+      const data = safeJSONParse(localStorage.getItem("arcana_entries_v1") || "{}", {});
+      return data && typeof data === "object" ? data : {};
+    }
+    function saveUserEntries(obj){
+      localStorage.setItem("arcana_entries_v1", JSON.stringify(obj || {}));
+    }
+    function ensureRoomArrays(){
+      Object.keys(rooms).forEach(k=>{ rooms[k].entries = Array.isArray(rooms[k].entries) ? rooms[k].entries : []; });
+    }
+    function addEntryToRoom(roomKey, entry){
+      ensureRoomArrays();
+      const store = loadUserEntries();
+      store[roomKey] = Array.isArray(store[roomKey]) ? store[roomKey] : [];
+      store[roomKey].unshift(entry);
+      // také to promítneme do běžícího "rooms" (aby to bylo vidět hned)
+      rooms[roomKey].entries.unshift(entry);
+      saveUserEntries(store);
+    }
+    function hydrateRoomsFromStorage(){
+      ensureRoomArrays();
+      const store = loadUserEntries();
+      Object.keys(store).forEach(k=>{
+        if(rooms[k] && Array.isArray(store[k])){
+          // vložíme uložené položky nahoru, ať jsou "živé"
+          rooms[k].entries = [...store[k], ...rooms[k].entries];
+        }
+      });
+    }
+const backdrop = document.getElementById("backdrop");
+    const closeModal = document.getElementById("closeModal");
+    const mClose2 = document.getElementById("mClose2");
+const mIcon = document.getElementById("mIcon");
+    const mTitle = document.getElementById("mTitle");
+    const mLead = document.getElementById("mLead");
+    const mEntries = document.getElementById("mEntries");
+
+    const toast = document.getElementById("toast");
+    const toastPill = document.getElementById("toastPill");
+    const toastMsg = document.getElementById("toastMsg");
+    let activeRoomKey = "clavis";
+
+    function showToast(pill, msg){
+      toastPill.textContent = pill;
+      toastMsg.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=> toast.classList.remove("show"), 2400);
+    }
+
+    function openRoom(key){
+      const r = rooms[key]; if(!r) return;
+      activeRoomKey = key;
+      mIcon.textContent = r.icon;
+      mTitle.textContent = r.title;
+      mLead.textContent = r.lead;
+
+      mEntries.innerHTML = "";
+      (r.entries || []).forEach(e=>{
+        const row = document.createElement("div");
+        row.className = "entry";
+        row.innerHTML = `
+          <div class="left">
+            <b>${e.k}</b>
+            <span>${e.v}</span>
+          </div>
+          <div class="chip2">${e.t || "DEMO"}</div>
+        `;
+        mEntries.appendChild(row);
+      });
+
+      backdrop.classList.add("show");
+      backdrop.setAttribute("aria-hidden","false");
+    }
+    function closeRoom(){
+      backdrop.classList.remove("show");
+      backdrop.setAttribute("aria-hidden","true");
+    }
+
+    document.querySelectorAll(".bubble").forEach(b=>{
+      const key = b.dataset.room;
+      b.addEventListener("click", ()=> openRoom(key));
+      b.addEventListener("keydown", (e)=>{
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          openRoom(key);
+        }
+      });
+    });
+
+    closeModal.addEventListener("click", closeRoom);
+    mClose2.addEventListener("click", closeRoom);
+    backdrop.addEventListener("click", (e)=>{ if(e.target === backdrop) closeRoom(); });
+const input = document.getElementById("arcanaInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const targetTag = document.getElementById("targetTag");
+
+    function routeText(txt){
+      const t = (txt || "").toLowerCase();
+
+      // 🔑 Clavis — Zugang / Geheimnisse
+      const isClavis = /(passwort|password|pin|login|anmeld|zugang|konto|benutzer|username|2fa|mfa|token|recovery|wiederherstell|code|schlüssel|key)/.test(t);
+
+      // 💶 Pecunia — Geld / Zahlungen
+      const isPecunia = /(€|eur|\$|zahlung|bezahlen|überweis|rechnung|faktur|mahnung|rate|raten|schuld|kredit|klarna|miete|bank|konto|revolut|iban|lastschrift)/.test(t);
+
+      // 🩺 Medica — Gesundheit
+      const isMedica = /(arzt|doktor|klinik|praxis|termin|untersuch|blut|labor|befund|diagnos|symptom|schmerz|medikament|rezept|krankschreib|arbeitsunfähig|au|krank)/.test(t);
+
+      // 🪪 Vitae — Dokumente / Behörden
+      const isVitae = /(vertrag|dokument|unterlag|ausweis|pass|reisepass|führerschein|behörd|amt|elster|steuer|versicherung|bescheid|antrag|arbeit|job|mietvertrag)/.test(t);
+
+      if(isMedica) return "medica";
+      if(isClavis) return "clavis";
+      if(isPecunia) return "pecunia";
+      if(isVitae) return "vitae";
+      return "clavis";
+    }
+
+    function updateTarget(){
+      const key = routeText(input.value);
+      const r = rooms[key];
+      targetTag.textContent = r.tag;
+      sendBtn.disabled = (input.value || "").trim().length === 0;
+    }
+    input.addEventListener("input", updateTarget);
+    updateTarget();
+
+    document.querySelectorAll(".chip").forEach(c=>{
+      c.addEventListener("click", ()=>{
+        const tool = c.dataset.tool;
+        const map = { file:"Datei", photo:"Foto", voice:"Audio", note:"Eintrag" };
+        showToast("DEMO", `Hier würde hinzugefügt: ${map[tool] || tool}.`);
+      });
+    });
+
+    sendBtn.addEventListener("click", ()=>{
+      const text = (input.value || "").trim();
+      if(!text) return;
+
+      const key = routeText(text);
+      const r = rooms[key];
+
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2,"0");
+      const mm = String(now.getMonth()+1).padStart(2,"0");
+      const yyyy = now.getFullYear();
+      const stamp = `${dd}. ${mm}. ${yyyy}`;
+
+            // einfache "Titel" nach Inhalt
+      let title = "Eintrag";
+      const tl = text.toLowerCase();
+
+      if(/(krankschreib|arbeitsunfähig|au|arzt|klinik|praxis|termin|untersuch|labor|blut|rezept|medikament)/.test(tl)) title = "Gesundheit";
+      else if(/(zahlung|bezahlen|überweis|rechnung|mahnung|rate|raten|schuld|kredit|klarna|miete|bank|iban|lastschrift)/.test(tl)) title = "Zahlung / Termin";
+      else if(/(passwort|password|pin|login|anmeld|zugang|2fa|mfa|token|recovery|wiederherstell|code|schlüssel|key)/.test(tl)) title = "Zugang / Schlüssel";
+      else if(/(vertrag|dokument|unterlag|ausweis|pass|reisepass|führerschein|behörd|amt|elster|steuer|versicherung|bescheid|antrag)/.test(tl)) title = "Dokument / Amt";
+
+      const entry = {
+        k: `${title}`,
+        v: `${text} • gespeichert: ${stamp}`,
+        t: "NEU"
+      };
+
+      addEntryToRoom(key, entry);
+
+      // když je zrovna otevřená stejná místnost, rovnou to vykreslíme
+      if(backdrop.classList.contains("show") && activeRoomKey === key){
+        openRoom(key);
+      }
+
+      showToast("ARCANA", `Gespeichert in „${r.title}“.`);
+      input.value = "";
+      updateTarget();
+    });
+</script>
+</body>
+</html>
