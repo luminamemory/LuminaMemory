@@ -29,7 +29,7 @@ Repo slouží jako „zahrada prototypů“, kde se testuje obsah, struktura a v
 
 Pomoz prosím formovat další směr projektu:
 
-- Dotazník: https://forms.gle/QcQkLRUhkuzTqykz8
+- Dotazník: https://forms.gle/1fJV1bxKiRLJPXi77
 
 ## Odkazy
 
