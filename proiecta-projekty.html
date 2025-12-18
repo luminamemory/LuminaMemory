@@ -407,6 +407,10 @@
     }
     .modal.open{ display:flex; }
 
+    /* Confirm modal sits above main modal */
+    #confirmModal{ z-index: 70; }
+    #confirmModal .dialog{ width:min(720px, 100%); }
+
     .dialog{
       width:min(920px, 100%);
       border: 1px solid rgba(234,240,255,.16);
@@ -752,6 +756,21 @@
         </div>
       </article>
 
+      <article class="tv" id="tvMap" role="link" aria-label="Mapa" style="--accent: rgba(34,211,238,.55); cursor:pointer;">
+        <div class="badge">🗺</div>
+        <div class="inside">
+          <div class="screen">
+            <strong>MAPA</strong>
+            <span>„Tichá místnost pro orientaci v krajině paměti…“</span>
+          </div>
+          <div class="foot">
+            <div class="st done"><span class="led"></span> průchod</div>
+            <div class="quick"><button class="qbtn" type="button" data-link="map.html">Vstoupit</button></div>
+          </div>
+        </div>
+      </article>
+
+
       <section class="panel" aria-label="Co čeká z dílny">
         <h2>Čeká z dílny Proiecta</h2>
         <p>
@@ -878,6 +897,32 @@
     </div>
   </div>
 
+  <!-- Confirm delete dialog -->
+  <div class="modal" id="confirmModal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="dlgHd">
+        <div>
+          <strong id="confirmTitle">Opravdu smazat místnost?</strong>
+          <span id="confirmSub">—</span>
+        </div>
+        <button class="close" id="confirmClose" type="button">✖ Zavřít</button>
+      </div>
+
+      <div class="dlgBd">
+        <div class="notice" id="confirmNote">
+          Smazáním místnosti se odstraní i <b>všechny tvoje uložené poznámky</b> v této místnosti.
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="confirmCancel" type="button">Nechat být</button>
+          <button class="btn danger" id="confirmDelete" type="button">Ano, smazat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 <script>
 (() => {
   const KEY_INBOX = "LM_PROIECTA_V1";               // položky z dílny (už existuje)
@@ -901,6 +946,15 @@
   const btnSaveMyText = document.getElementById("btnSaveMyText");
   const roomAdmin = document.getElementById("roomAdmin");
   const btnDeleteRoom = document.getElementById("btnDeleteRoom");
+
+  // Confirm delete modal
+  const confirmModal = document.getElementById("confirmModal");
+  const confirmTitle = document.getElementById("confirmTitle");
+  const confirmSub = document.getElementById("confirmSub");
+  const confirmNote = document.getElementById("confirmNote");
+  const confirmClose = document.getElementById("confirmClose");
+  const confirmCancel = document.getElementById("confirmCancel");
+  const confirmDelete = document.getElementById("confirmDelete");
 
   const viewRoom = document.getElementById("viewRoom");
   const viewCreate = document.getElementById("viewCreate");
@@ -1320,35 +1374,67 @@
     btnSaveMyText.disabled = true;
 
     renderMyTexts(activeRoom);
-  // Delete custom room
+    updateCustomBadges();
+  });
+
+  // Confirm modal helpers (delete room)
+  let pendingDeleteKey = null;
+
+  function openConfirm(){
+    if(!confirmModal) return;
+    confirmModal.classList.add("open");
+    confirmModal.setAttribute("aria-hidden","false");
+  }
+
+  function closeConfirm(){
+    if(!confirmModal) return;
+    confirmModal.classList.remove("open");
+    confirmModal.setAttribute("aria-hidden","true");
+    pendingDeleteKey = null;
+  }
+
+  if(confirmCancel) confirmCancel.addEventListener("click", closeConfirm);
+  if(confirmClose) confirmClose.addEventListener("click", closeConfirm);
+  if(confirmModal) confirmModal.addEventListener("click", (e) => { if(e.target === confirmModal) closeConfirm(); });
+  document.addEventListener("keydown", (e) => { if(e.key === "Escape" && confirmModal && confirmModal.classList.contains("open")) closeConfirm(); });
+
+  // Delete custom room (opens confirm modal)
   if(btnDeleteRoom){
     btnDeleteRoom.addEventListener("click", () => {
       if(!activeRoom) return;
       const custom = getCustomRoom(activeRoom);
       if(!custom) return;
 
-      const ok = window.confirm(`Opravdu smazat místnost „${custom.name}“?
+      pendingDeleteKey = activeRoom;
 
-Smažou se i tvoje uložené poznámky v místnosti.`);
-      if(!ok) return;
+      if(confirmTitle) confirmTitle.textContent = `Opravdu smazat místnost „${custom.name}“?`;
+      if(confirmSub) confirmSub.textContent = "Tahle akce nejde vzít zpět.";
+      if(confirmNote) confirmNote.innerHTML = `Smazáním místnosti se odstraní i <b>všechny tvoje uložené poznámky</b> v této místnosti.`;
+
+      openConfirm();
+    });
+  }
+
+  if(confirmDelete){
+    confirmDelete.addEventListener("click", () => {
+      if(!pendingDeleteKey) return;
 
       const st = loadRooms();
-      st.rooms = (st.rooms || []).filter(r => r.key !== activeRoom);
+      st.rooms = (st.rooms || []).filter(r => r.key !== pendingDeleteKey);
       saveRooms(st);
 
       const t = loadTexts();
-      if(t.byRoom && t.byRoom[activeRoom]) delete t.byRoom[activeRoom];
+      if(t.byRoom && t.byRoom[pendingDeleteKey]) delete t.byRoom[pendingDeleteKey];
       saveTexts(t);
 
       renderCustomRooms();
       bindTVs();
       updateCustomBadges();
+
+      closeConfirm();
       close();
     });
   }
-
-    updateCustomBadges();
-  });
 
   // Create room flow
   [fName, fPurpose, fDesc, fTags, fState].forEach(el => el.addEventListener("input", validateCreateForm));
@@ -1390,11 +1476,23 @@ Smažou se i tvoje uložené poznámky v místnosti.`);
   // Click / keyboard open for TVs (delegation)
   function bindTVs(){
     document.querySelectorAll(".tv").forEach(tv => {
+      if(tv.id === "tvMap") return;
       if(tv.dataset.bound === "1") return;
       tv.dataset.bound = "1";
       const key = tv.getAttribute("data-room");
       tv.addEventListener("click", () => openRoom(key));
       tv.addEventListener("keydown", (e) => { if(e.key === "Enter" || e.key === " ") openRoom(key); });
+    });
+
+    // Direct link buttons (e.g. MAPA)
+    document.querySelectorAll("button[data-link]").forEach(btn => {
+      if(btn.dataset.bound === "1") return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const href = btn.getAttribute("data-link");
+        if(href) window.location.href = href;
+      });
     });
 
     document.querySelectorAll("button[data-open]").forEach(btn => {
@@ -1415,6 +1513,13 @@ Smažou se i tvoje uložené poznámky v místnosti.`);
   // Initial render
   renderCustomRooms();
   bindTVs();
+
+  // Bonus room: MAPA
+  const tvMap = document.getElementById("tvMap");
+  if(tvMap){
+    tvMap.addEventListener("click", () => { window.location.href = "map.html"; });
+    tvMap.addEventListener("keydown", (e) => { if(e.key === "Enter" || e.key === " ") window.location.href = "map.html"; });
+  }
   renderQueue();
   updateCustomBadges();
 
