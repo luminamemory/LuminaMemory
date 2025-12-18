@@ -63,17 +63,6 @@
       overflow-x:hidden;
     }
 
-    /* Watermark (favicon) */
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      background: url("favicon.png") center/520px no-repeat;
-      opacity:.11;
-      pointer-events:none;
-      filter: saturate(1.1) contrast(1.05);
-    }
-
     /* “Cracked glass” vibe without external asset */
     body::after{
       content:"";
@@ -576,7 +565,7 @@
         </p>
       </div>
       <div class="pillrow" aria-label="Stav dílny">
-        <div class="pill"><span class="dot"></span> <b>Živě</b> ukládáno (DEMO)</div>
+        <div class="pill"><span class="dot"></span> <b> Živě:</b> ukládáno (DEMO)</div>
         <div class="pill">🧠 Lumina: <b>kreativní režim</b></div>
         <div class="pill">🕸 zpětná vazba: <b>ano</b></div>
       </div>
@@ -604,9 +593,9 @@
           </div>
 
           <div class="toolrow" aria-label="Rychlé akce">
-            <button class="btn" id="btnTranslate">🌍 Překlad (vtipný)</button>
+            <button class="btn" id="btnTranslate">🌍 Překlad</button>
             <button class="btn" id="btnSuggest">💡 Hoď nápad</button>
-            <button class="btn" id="btnEmail">✉️ Odpověď na e‑mail</button>
+            <button class="btn" id="btnEmail">✉️ Odpověď</button>
             <button class="btn" id="btnProjectHub" disabled title="Brzy — další HTML">📺 Projektové místnosti (brzy)</button>
           </div>
 
