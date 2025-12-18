@@ -634,7 +634,12 @@
               <button class="btn" id="btnTranslate">🌍 Překlad</button>
               <button class="btn" id="btnSuggest">💡 Hoď nápad</button>
               <button class="btn" id="btnEmail">✉️ Odpověď</button>
-              <button class="btn" id="btnProjectHub" title="Otevřít projektové místnosti">📺 Projektové místnosti</button>
+              <a href="proiecta-projekty.html"
+   class="btn"
+   title="Otevřít projektové místnosti"
+   aria-label="Projektové místnosti">
+   📺 Projektové místnosti
+</a>
             </div>
 
             <div class="toolhint">
@@ -1052,7 +1057,7 @@
     setTimeout(() => addChat("lumina", "Překládám… (už skoro!)", "překlad"), 2600);
 
     setTimeout(() => {
-      const garble = "„I zink you vanted transleyt. But my lingvistick kours iz… hmm… very avantgarde.“";
+      const garble = "„brrrhjkop bvcdsargj mkoesc nj butfsecsebnh - 🤔 hmmm...“";
       addChat("lumina", garble + "  Hups… něco se pokazilo. Musím teprve projít jazykovým kurzem. 😂", "překlad");
       addItem("note", "Překlad (DEMO)", "Výsledek: " + garble + "\nPozn.: Lumina si jde koupit slovník.", {});
     }, 4300);
@@ -1140,7 +1145,7 @@
   btnGenImg.addEventListener("click", () => {
     const prompt = (imgPrompt.value || "").trim();
     if(!prompt){
-      imgStatus.textContent = "Napiš prosím krátký popis (prompt).";
+      imgStatus.textContent = "Napiš prosím krátký popis.";
       return;
     }
     imgPrompt.value = "";
@@ -1195,20 +1200,20 @@
       const isImg = /^image\//.test(f.type);
 
       // Chat reaguje i na přiložení souboru
-      addChat("user", (isImg ? "Přidávám obrázek: " : "Přidávám soubor: ") + f.name, "");
+      addChat("user", (isImg ? "Přidávám obrázek 💪🏻: " : "Přidávám soubor: ") + f.name, "");
 
       if(isImg){
         const dataUrl = await readAsDataURL(f);
-        const id = addItem("file", f.name, "Přiložený obrázek (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size });
+        const id = addItem("file", f.name, "Přiložený obrázek ✅ (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size });
         lastAttachmentIds.push(id);
-        addChat("lumina", "Vidím obrázek. Uloženo do dílny. 🖼️", "soubor");
+        addChat("lumina", "Vidím obrázek 👀. Uloženo do dílny. 🖼️", "soubor");
       }else{
         const id = addItem("file", f.name, "Soubor přijat (DEMO).", { mime: f.type, size: f.size });
         lastAttachmentIds.push(id);
         addChat("lumina", "Soubor přijat. Uloženo do dílny. 📎", "soubor");
       }
 
-      addItem("note", "Zpětná vazba do Pokecu", "Pokec: „V Proiecta byl přiložen soubor.“ (DEMO)", {});
+      addItem("note", "Zpětná vazba do 🗯 Pokecu", "Pokec: „V Proiecta byl přiložen soubor 📎.“ (DEMO)", {});
     }
 
     // show “last attached” info + enable delete button
