@@ -77,6 +77,82 @@
     <priority>0.85</priority>
   </url>
 
+  <!-- Praetorium (control hall) CZ/EN/DE -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/praetorium.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.84</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/praetorium-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.84</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/praetorium-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.84</priority>
+  </url>
+
+  <!-- Arcana lock screen (CZ/EN/DE) -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/arcana.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/arcana-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/arcana-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Arcana Hall (CZ/EN/DE) -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/arcana-hala.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.78</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/arcana-hala-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.78</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/arcana-hala-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.78</priority>
+  </url>
+
+  <!-- Pergamen / Scroll CZ/EN/DE -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/pergamen-luminamemory.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.76</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/pergamen-luminamemory-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.76</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/pergamen-luminamemory-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.76</priority>
+  </url>
+
   <!-- Praetorium / Kontakt (CZ/EN/DE) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/luminamemory-kontakt.html</loc>
