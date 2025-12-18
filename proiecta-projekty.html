@@ -190,6 +190,7 @@
     }
 
     .tv{
+      --accent: rgba(56,189,248,.55);
       grid-column: span 6;
       border: 1px solid rgba(234,240,255,.12);
       background: rgba(12,18,40,.45);
@@ -215,6 +216,38 @@
       filter: contrast(1.02) saturate(1.02);
     }
 
+    /* Pearl accent glaze */
+    .tv::after{
+      content:"";
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+      background:
+        radial-gradient(420px 260px at 25% 30%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(520px 300px at 80% 20%, rgba(255,255,255,.08), transparent 65%),
+        radial-gradient(700px 520px at 50% 110%, rgba(255,255,255,.06), transparent 60%),
+        linear-gradient(135deg, transparent 0%, rgba(255,255,255,.05) 24%, transparent 55%),
+        radial-gradient(850px 520px at 60% 30%, var(--accent), transparent 62%);
+      mix-blend-mode: screen;
+      opacity: .65;
+      filter: saturate(1.1) contrast(1.02);
+    }
+
+    /* NEW ROOM: gentle grain filter */
+    .tv.create::after{
+      background:
+        radial-gradient(420px 260px at 25% 30%, rgba(255,255,255,.11), transparent 60%),
+        radial-gradient(520px 300px at 80% 20%, rgba(255,255,255,.09), transparent 65%),
+        radial-gradient(700px 520px at 50% 110%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.14), transparent 55%),
+        radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,.12), transparent 55%),
+        radial-gradient(1px 1px at 75% 35%, rgba(255,255,255,.12), transparent 55%),
+        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,.14), transparent 55%),
+        radial-gradient(850px 520px at 60% 30%, var(--accent), transparent 62%);
+      opacity: .75;
+      filter: blur(.15px) saturate(1.05);
+    }
+
     .tv .inside{
       position:relative;
       padding: 18px 18px 16px;
@@ -225,31 +258,36 @@
       gap: 10px;
     }
 
-    .tv .head{
+    /* Center titles + text in the "screen" */
+    .tv .screen{
+      flex: 1;
+      min-height: 140px;
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      gap: 8px;
+      padding: 8px 14px;
     }
-    .tv .head .ttl{ min-width:0; }
-    .tv .head .ttl strong{
+    .tv .screen strong{
       display:block;
-      font-size: 14.5px;
-      letter-spacing:.2px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      font-size: 16px;
+      letter-spacing:.8px;
+      text-transform: uppercase;
     }
-    .tv .head .ttl span{
+    .tv .screen span{
       display:block;
-      margin-top: 4px;
-      font-size: 12px;
+      font-size: 12.5px;
       color: var(--muted);
-      line-height: 1.35;
-      max-width: 62ch;
+      line-height: 1.45;
+      max-width: 58ch;
     }
 
     .badge{
+      position:absolute;
+      top: 16px;
+      right: 16px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
@@ -263,6 +301,7 @@
       background: rgba(0,0,0,.35);
       color: var(--ink);
       box-shadow: 0 10px 20px rgba(0,0,0,.35);
+      z-index: 2;
     }
     .badge.new{ border-color: rgba(250,204,21,.35); color: rgba(255,240,180,1); }
 
@@ -415,7 +454,6 @@
     .close:hover{ transform: translateY(-1px); border-color: rgba(248,113,113,.35); }
 
     .dlgBd{ padding: 14px 16px 16px; position:relative; }
-
     .notice{
       border: 1px dashed rgba(234,240,255,.18);
       background: rgba(12,18,40,.45);
@@ -463,6 +501,104 @@
       word-break: break-word;
     }
 
+    .editBox{
+      border: 1px solid rgba(234,240,255,.12);
+      background: rgba(0,0,0,.20);
+      border-radius: 16px;
+      padding: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    .editBox label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    textarea{
+      width: 100%;
+      min-height: 92px;
+      resize: vertical;
+      border-radius: 14px;
+      border: 1px solid rgba(234,240,255,.14);
+      background: rgba(12,18,40,.45);
+      color: var(--ink);
+      padding: 10px 10px;
+      outline: none;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    textarea:focus{ border-color: rgba(56,189,248,.40); }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.28);
+      color: var(--ink);
+      padding: 9px 12px;
+      border-radius: 14px;
+      font-size: 12.5px;
+      font-weight: 900;
+      cursor:pointer;
+    }
+    .btn[disabled]{ opacity:.45; cursor:not-allowed; }
+    .btn.primary{ border-color: rgba(56,189,248,.35); }
+    .btn.danger{ border-color: rgba(248,113,113,.35); }
+
+    /* "Table" form */
+    .formTable{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
+    .formTable td{ vertical-align: top; }
+    .formTable .k{
+      width: 160px;
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 12.5px;
+      padding-top: 10px;
+    }
+    .formTable input, .formTable select{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(234,240,255,.14);
+      background: rgba(12,18,40,.45);
+      color: var(--ink);
+      padding: 10px 10px;
+      outline:none;
+      font-size: 13px;
+    }
+    .formTable input:focus, .formTable select:focus{ border-color: rgba(56,189,248,.40); }
+
+    .swatches{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .swatch{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.20);
+      cursor:pointer;
+      user-select:none;
+      font-weight: 900;
+      font-size: 12.5px;
+    }
+    .swatch .dotc{
+      width: 16px; height: 16px; border-radius: 999px;
+      box-shadow: 0 0 0 6px rgba(255,255,255,.06) inset, 0 0 0 4px rgba(0,0,0,.22);
+    }
+    .swatch[aria-checked="true"]{ border-color: rgba(56,189,248,.45); transform: translateY(-1px); }
+
     footer{
       margin-top: 14px;
       color: var(--muted);
@@ -480,6 +616,7 @@
       .hero{ flex-direction:column; align-items:flex-start; }
       nav{ justify-content:flex-start; }
       .statusbar{ justify-content:flex-start; }
+      .formTable .k{ width: 120px; }
     }
   </style>
 </head>
@@ -508,85 +645,73 @@
         <h1>Projektové místnosti — TV stěna 📺</h1>
         <p>
           Tady se věci ukládají a třídí. Z dílny Proiecta sem padají nápady, obrázky i soubory.
-          Klikni na TV — zatím se otevře jen malá „stavba“ 🏗
+          Klikni na TV — otevře se okno s příklady + tvoje texty. A v „Nová místnost“ si můžeš vytvořit další.
         </p>
       </div>
       <div class="statusbar" aria-label="Stav místností">
-        <div class="pill"><span class="dot"></span> <b id="pillCount"> položek čeká:<b> 0</b></div>
+        <div class="pill"><span class="dot"></span> <b>položek čeká:</b> <b id="pillCount">0</b></div>
         <div class="pill">🧪 mód: <b>retro archiv</b></div>
         <div class="pill">🕸 propojené s dílnou: <b>ano</b></div>
       </div>
     </section>
 
     <section class="grid" aria-label="TV místnosti">
-      <article class="tv" data-room="domacnost" tabindex="0" role="button" aria-label="Domácnost">
+      <!-- Přednastavené místnosti -->
+      <article class="tv" data-room="domacnost" tabindex="0" role="button" aria-label="Domácnost" style="--accent: rgba(34,197,94,.55);">
+        <div class="badge" id="bDom">0</div>
         <div class="inside">
-          <div class="head">
-            <div class="ttl">
-              <strong>DOMÁCNOST</strong>
-              <span>„Kocour zase řádil… celý den se muselo uklízet… ale večer byl klidný.“</span>
-            </div>
-            <div class="badge" id="bDom">0</div>
+          <div class="screen">
+            <strong>DOMÁCNOST</strong>
+            <span>„Kocour zase řádil… celý den se muselo uklízet… ale večer byl klidný.“</span>
           </div>
           <div class="foot">
             <div class="st"><span class="led"></span> živé</div>
-            <div class="quick">
-              <button class="qbtn" type="button" data-open="domacnost">Otevřít</button>
-            </div>
+            <div class="quick"><button class="qbtn" type="button" data-open="domacnost">Otevřít</button></div>
           </div>
         </div>
       </article>
 
-      <article class="tv" data-room="recepty" tabindex="0" role="button" aria-label="Recepty">
+      <article class="tv" data-room="recepty" tabindex="0" role="button" aria-label="Recepty" style="--accent: rgba(56,189,248,.55);">
+        <div class="badge" id="bRec">0</div>
         <div class="inside">
-          <div class="head">
-            <div class="ttl">
-              <strong>RECEPTY</strong>
-              <span>„Tip od Luminy: mozzarella, bazalka, olivy a rajské 👉🏻 vše osolit, opepřit a zalít olivovým olejem! - a teď se tvář, že ti to chutná 😂.“</span>
-            </div>
-            <div class="badge" id="bRec">0</div>
+          <div class="screen">
+            <strong>RECEPTY</strong>
+            <span>„Tip od Luminy: mozzarella, bazalka, olivy a rajské 👉🏻 vše osolit, opepřit a zalít olivovým olejem! - a teď se tvář, že ti to chutná 😂.“</span>
           </div>
           <div class="foot">
             <div class="st sleep"><span class="led"></span> spí</div>
-            <div class="quick">
-              <button class="qbtn" type="button" data-open="recepty">Otevřít</button>
-            </div>
+            <div class="quick"><button class="qbtn" type="button" data-open="recepty">Otevřít</button></div>
           </div>
         </div>
       </article>
 
-      <article class="tv" data-room="projekt" tabindex="0" role="button" aria-label="Projekt">
+      <article class="tv" data-room="projekt" tabindex="0" role="button" aria-label="Projekt" style="--accent: rgba(139,92,246,.55);">
+        <div class="badge" id="bPro">0</div>
         <div class="inside">
-          <div class="head">
-            <div class="ttl">
-              <strong>PROJEKT</strong>
-              <span>„Vzniká prostor, kde paměť není funkce, ale základ…“</span>
-            </div>
-            <div class="badge" id="bPro">0</div>
+          <div class="screen">
+            <strong>PROJEKT</strong>
+            <span>„Vzniká prostor, kde paměť není funkce, ale základ…“</span>
           </div>
           <div class="foot">
             <div class="st done"><span class="led"></span> hotovo (asi)</div>
-            <div class="quick">
-              <button class="qbtn" type="button" data-open="projekt">Otevřít</button>
-            </div>
+            <div class="quick"><button class="qbtn" type="button" data-open="projekt">Otevřít</button></div>
           </div>
         </div>
       </article>
 
-      <article class="tv" data-room="nova" tabindex="0" role="button" aria-label="Nová místnost">
+      <!-- Sem se doplní uživatelem vytvořené místnosti -->
+      <div id="customRoomsMount" style="grid-column: span 12; display: contents;"></div>
+
+      <article class="tv create" data-room="nova" tabindex="0" role="button" aria-label="Nová místnost" style="--accent: rgba(250,204,21,.32);">
+        <div class="badge new">—</div>
         <div class="inside">
-          <div class="head">
-            <div class="ttl">
-              <strong>➕ NOVÁ MÍSTNOST</strong>
-              <span>„Ještě ne. Ale už se to třese radostí.“</span>
-            </div>
-            <div class="badge new">—</div>
+          <div class="screen">
+            <strong>➕ NOVÁ MÍSTNOST</strong>
+            <span>„Ještě ne. Ale už se to třese radostí.“</span>
           </div>
           <div class="foot">
             <div class="st sleep"><span class="led"></span> brzy</div>
-            <div class="quick">
-              <button class="qbtn" type="button" data-open="nova">Připravit</button>
-            </div>
+            <div class="quick"><button class="qbtn" type="button" data-open="nova">Připravit</button></div>
           </div>
         </div>
       </article>
@@ -612,22 +737,103 @@
       <div class="dlgHd">
         <div>
           <strong id="dlgTitle">Místnost</strong>
-          <span id="dlgSub">Tahle místnost se právě staví…</span>
+          <span id="dlgSub">—</span>
         </div>
         <button class="close" id="btnClose" type="button">✖ Zavřít</button>
       </div>
+
       <div class="dlgBd">
-        <div class="notice" id="dlgNote">
-          Tohle je zatím jen demo náhled. Uvidíš poslední 2–3 položky, které „čekají“.
-        </div>
-        <div class="list" id="dlgList"></div>
+        <!-- ROOM VIEW (příklady + tvoje texty) -->
+        <section id="viewRoom">
+          <div class="notice" id="dlgNote">
+            Příklady jsou jen ukázky. Pod ně si můžeš ukládat svoje texty (a kdykoli je smazat).
+          </div>
+
+          <div class="list" id="dlgList"></div>
+
+          <div style="height:12px;"></div>
+
+          <div class="editBox">
+            <label for="myText">Tvoje texty (přidat nový)</label>
+            <textarea id="myText" placeholder="Napiš sem svůj text…"></textarea>
+            <div class="actions">
+              <button class="btn primary" id="btnSaveMyText" type="button" disabled>Uložit</button>
+            </div>
+          </div>
+
+          <div style="height:12px;"></div>
+
+          <div class="notice" style="margin-bottom:10px;">Uložené texty v této místnosti</div>
+          <div class="list" id="myTextsList"></div>
+        </section>
+
+        <!-- CREATE ROOM VIEW (tabulka + barva + vytvoření) -->
+        <section id="viewCreate" style="display:none;">
+          <div class="notice">
+            Vyplň údaje. Jakmile budou povinná pole hotová, aktivuje se „Uložit“. Před vytvořením si vybereš perleťovou barvu.
+          </div>
+
+          <table class="formTable" aria-label="Formulář pro vytvoření místnosti">
+            <tr>
+              <td class="k">Název *</td>
+              <td><input id="fName" type="text" placeholder="Např. TETOVÁNÍ / MIMINKO / LEXÍK…" /></td>
+            </tr>
+            <tr>
+              <td class="k">Účel *</td>
+              <td><input id="fPurpose" type="text" placeholder="Proč existuje tahle místnost…" /></td>
+            </tr>
+            <tr>
+              <td class="k">Popis</td>
+              <td><textarea id="fDesc" placeholder="Krátký popis / pravidla / co sem patří…"></textarea></td>
+            </tr>
+            <tr>
+              <td class="k">Tagy</td>
+              <td><input id="fTags" type="text" placeholder="odděluj čárkou (např. zdraví, plán, inspirace)" /></td>
+            </tr>
+            <tr>
+              <td class="k">Stav</td>
+              <td>
+                <select id="fState">
+                  <option value="live">živé</option>
+                  <option value="sleep">spí</option>
+                  <option value="done">hotovo</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+
+          <div class="actions">
+            <button class="btn primary" id="btnCreateNext" type="button" disabled>Uložit</button>
+          </div>
+
+          <div id="colorStep" style="display:none; margin-top:12px;">
+            <div class="notice" style="margin-bottom:10px;">Vyber barvu (perleť):</div>
+            <div class="swatches" role="radiogroup" aria-label="Výběr barvy">
+              <div class="swatch" role="radio" tabindex="0" data-color="red" aria-checked="true">
+                <span class="dotc" style="background: rgba(248,113,113,.92)"></span> červená
+              </div>
+              <div class="swatch" role="radio" tabindex="0" data-color="blue" aria-checked="false">
+                <span class="dotc" style="background: rgba(56,189,248,.92)"></span> modrá
+              </div>
+              <div class="swatch" role="radio" tabindex="0" data-color="green" aria-checked="false">
+                <span class="dotc" style="background: rgba(34,197,94,.92)"></span> zelená
+              </div>
+            </div>
+            <div class="actions" style="margin-top:12px;">
+              <button class="btn" id="btnBackToForm" type="button">Zpět</button>
+              <button class="btn primary" id="btnConfirmCreate" type="button">Vytvořit místnost</button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </div>
 
 <script>
 (() => {
-  const KEY = "LM_PROIECTA_V1";
+  const KEY_INBOX = "LM_PROIECTA_V1";               // položky z dílny (už existuje)
+  const KEY_TEXTS = "LM_PROIECTA_ROOM_TEXTS_V1";    // tvoje texty v místnostech
+  const KEY_ROOMS = "LM_PROIECTA_CUSTOM_ROOMS_V1";  // vytvořené místnosti
 
   const pillCount = document.getElementById("pillCount");
   const queue = document.getElementById("queue");
@@ -641,29 +847,64 @@
   const dlgTitle = document.getElementById("dlgTitle");
   const dlgSub = document.getElementById("dlgSub");
   const dlgList = document.getElementById("dlgList");
+  const myTextsList = document.getElementById("myTextsList");
+  const myText = document.getElementById("myText");
+  const btnSaveMyText = document.getElementById("btnSaveMyText");
 
-  const rooms = {
+  const viewRoom = document.getElementById("viewRoom");
+  const viewCreate = document.getElementById("viewCreate");
+
+  const mount = document.getElementById("customRoomsMount");
+
+  // Create form
+  const fName = document.getElementById("fName");
+  const fPurpose = document.getElementById("fPurpose");
+  const fDesc = document.getElementById("fDesc");
+  const fTags = document.getElementById("fTags");
+  const fState = document.getElementById("fState");
+  const btnCreateNext = document.getElementById("btnCreateNext");
+  const colorStep = document.getElementById("colorStep");
+  const btnBackToForm = document.getElementById("btnBackToForm");
+  const btnConfirmCreate = document.getElementById("btnConfirmCreate");
+
+  let activeRoom = null;
+
+  const roomsPreset = {
     domacnost: {
       title: "DOMÁCNOST",
-      subtitle: "Tahle místnost se právě staví… (a někdo tu šustí pytlíkem) 🐾"
+      subtitle: "Příklady + tvoje texty. (A někdo tu šustí pytlíkem) 🐾"
     },
     recepty: {
       title: "RECEPTY",
-      subtitle: "Tahle místnost se právě staví… (a voní to podezřele dobře) 🍅"
+      subtitle: "Příklady + tvoje texty. (A voní to podezřele dobře) 🍅"
     },
     projekt: {
       title: "PROJEKT",
-      subtitle: "Tahle místnost se právě staví… (a tady to bude velké) 🏗️"
+      subtitle: "Příklady + tvoje texty. (Tady to bude velké) 🏗️"
     },
     nova: {
       title: "NOVÁ MÍSTNOST",
-      subtitle: "Ještě ne… ale už se připravuje kabeláž i magie. ✨"
+      subtitle: "Vytvoření nové místnosti (tabulka + barva) ✨"
     }
   };
 
-  function loadState(){
+  const pearl = {
+    red:   "rgba(248,113,113,.55)",
+    blue:  "rgba(56,189,248,.55)",
+    green: "rgba(34,197,94,.55)"
+  };
+
+  function uid(){
+    return "id_" + Math.random().toString(16).slice(2) + "_" + Date.now();
+  }
+
+  function esc(s){
+    return (s||"").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[m]));
+  }
+
+  function loadInbox(){
     try{
-      const raw = localStorage.getItem(KEY);
+      const raw = localStorage.getItem(KEY_INBOX);
       if(!raw) return { items: [] };
       const parsed = JSON.parse(raw);
       return { items: parsed.items || [] };
@@ -672,8 +913,34 @@
     }
   }
 
-  function esc(s){
-    return (s||"").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[m]));
+  function loadTexts(){
+    try{
+      const raw = localStorage.getItem(KEY_TEXTS);
+      if(!raw) return { byRoom: {} };
+      const parsed = JSON.parse(raw);
+      return { byRoom: parsed.byRoom || {} };
+    }catch(e){
+      return { byRoom: {} };
+    }
+  }
+
+  function saveTexts(state){
+    localStorage.setItem(KEY_TEXTS, JSON.stringify(state));
+  }
+
+  function loadRooms(){
+    try{
+      const raw = localStorage.getItem(KEY_ROOMS);
+      if(!raw) return { rooms: [] };
+      const parsed = JSON.parse(raw);
+      return { rooms: parsed.rooms || [] };
+    }catch(e){
+      return { rooms: [] };
+    }
+  }
+
+  function saveRooms(state){
+    localStorage.setItem(KEY_ROOMS, JSON.stringify(state));
   }
 
   function typeLabel(t){
@@ -713,8 +980,25 @@
     return div;
   }
 
-  function render(){
-    const st = loadState();
+  function myLi(textObj){
+    const div = document.createElement("div");
+    div.className = "li";
+    const time = new Date(textObj.ts).toLocaleString("cs-CZ", {year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit"});
+    div.innerHTML = `
+      <div class="top">
+        <b>Tvoje poznámka</b>
+        <i>${esc(time)}</i>
+      </div>
+      <div class="body">${esc(textObj.text)}</div>
+      <div class="actions" style="margin-top:10px;">
+        <button class="btn danger" type="button" data-del="${esc(textObj.id)}">Smazat</button>
+      </div>
+    `;
+    return div;
+  }
+
+  function renderQueue(){
+    const st = loadInbox();
     const items = st.items || [];
     pillCount.textContent = String(items.length);
 
@@ -750,15 +1034,127 @@
     }
   }
 
+  function renderCustomRooms(){
+    const st = loadRooms();
+    const rooms = st.rooms || [];
+    mount.innerHTML = "";
+    for(const r of rooms){
+      const art = document.createElement("article");
+      art.className = "tv";
+      art.setAttribute("data-room", r.key);
+      art.setAttribute("tabindex","0");
+      art.setAttribute("role","button");
+      art.setAttribute("aria-label", r.name);
+      art.style.setProperty("--accent", pearl[r.color] || pearl.blue);
+
+      const badge = document.createElement("div");
+      badge.className = "badge";
+      badge.textContent = "0";
+      badge.id = "b_" + r.key;
+      art.appendChild(badge);
+
+      art.innerHTML += `
+        <div class="inside">
+          <div class="screen">
+            <strong>${esc(r.name)}</strong>
+            <span>${esc(r.purpose || "—")}</span>
+          </div>
+          <div class="foot">
+            <div class="st ${r.state === "sleep" ? "sleep" : (r.state === "done" ? "done" : "")}">
+              <span class="led"></span> ${r.state === "sleep" ? "spí" : (r.state === "done" ? "hotovo" : "živé")}
+            </div>
+            <div class="quick"><button class="qbtn" type="button" data-open="${esc(r.key)}">Otevřít</button></div>
+          </div>
+        </div>
+      `;
+      mount.appendChild(art);
+    }
+  }
+
+  function updateCustomBadges(){
+    // jednoduchá logika: počet "tvých textů" v místnosti
+    const txt = loadTexts().byRoom || {};
+    const st = loadRooms();
+    for(const r of (st.rooms || [])){
+      const el = document.getElementById("b_" + r.key);
+      if(!el) continue;
+      const n = (txt[r.key] || []).length;
+      setBadge(el, n);
+    }
+  }
+
+  function openModal(){
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+  }
+
+  function close(){
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden","true");
+    activeRoom = null;
+    // reset views
+    viewRoom.style.display = "";
+    viewCreate.style.display = "none";
+    colorStep.style.display = "none";
+    btnCreateNext.style.display = "";
+    btnCreateNext.disabled = true;
+  }
+
+  function renderMyTexts(roomKey){
+    const st = loadTexts();
+    const arr = (st.byRoom && st.byRoom[roomKey]) ? st.byRoom[roomKey] : [];
+    myTextsList.innerHTML = "";
+    if(arr.length === 0){
+      myTextsList.innerHTML = `<div class="li"><div class="body">Zatím tu nemáš uložený žádný text. ✨</div></div>`;
+      return;
+    }
+    for(const t of arr){
+      myTextsList.appendChild(myLi(t));
+    }
+
+    // bind deletes
+    myTextsList.querySelectorAll("button[data-del]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-del");
+        const st2 = loadTexts();
+        const arr2 = (st2.byRoom && st2.byRoom[roomKey]) ? st2.byRoom[roomKey] : [];
+        st2.byRoom[roomKey] = arr2.filter(x => x.id !== id);
+        saveTexts(st2);
+        renderMyTexts(roomKey);
+        updateCustomBadges();
+      });
+    });
+  }
+
   function openRoom(key){
-    const info = rooms[key] || { title: "Místnost", subtitle: "Tahle místnost se právě staví…" };
+    activeRoom = key;
+
+    if(key === "nova"){
+      dlgTitle.textContent = roomsPreset.nova.title;
+      dlgSub.textContent = roomsPreset.nova.subtitle;
+      viewRoom.style.display = "none";
+      viewCreate.style.display = "";
+      openModal();
+      resetCreateForm();
+      return;
+    }
+
+    // preset or custom room
+    const stRooms = loadRooms();
+    const custom = (stRooms.rooms || []).find(r => r.key === key);
+
+    const info = custom ? {
+      title: custom.name,
+      subtitle: custom.purpose || "Příklady + tvoje texty."
+    } : (roomsPreset[key] || { title: "Místnost", subtitle: "Příklady + tvoje texty." });
+
     dlgTitle.textContent = info.title;
     dlgSub.textContent = info.subtitle;
 
-    const st = loadState();
+    // Examples (příklady): použijeme poslední 2–3 položky z dílny (jako ukázky)
+    const st = loadInbox();
     const items = st.items || [];
 
-    // For demo: show last 3, themed by type preference
     let pool = items;
     if(key === "domacnost") pool = items.filter(x => x.type === "file").concat(items.filter(x => x.type !== "file"));
     if(key === "recepty")    pool = items.filter(x => x.type === "idea").concat(items.filter(x => x.type !== "idea"));
@@ -768,7 +1164,7 @@
 
     dlgList.innerHTML = "";
     if(show.length === 0){
-      dlgList.innerHTML = `<div class="li"><div class="body">Zatím tu nic není. Nejdřív něco vytvoř v Proiecta. ✨</div></div>`;
+      dlgList.innerHTML = `<div class="li"><div class="body">Zatím tu nejsou žádné příklady. Nejdřív něco vytvoř v Proiecta. ✨</div></div>`;
     }else{
       for(const it of show){
         const time = new Date(it.ts || Date.now()).toLocaleTimeString("cs-CZ", {hour:"2-digit", minute:"2-digit"});
@@ -776,38 +1172,147 @@
       }
     }
 
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden","false");
+    // My texts
+    myText.value = "";
+    btnSaveMyText.disabled = true;
+    renderMyTexts(key);
+
+    viewRoom.style.display = "";
+    viewCreate.style.display = "none";
+    openModal();
   }
 
-  function close(){
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
+  function resetCreateForm(){
+    fName.value = "";
+    fPurpose.value = "";
+    fDesc.value = "";
+    fTags.value = "";
+    fState.value = "live";
+    btnCreateNext.disabled = true;
+    colorStep.style.display = "none";
+    btnCreateNext.style.display = "";
   }
 
-  // TV click & keyboard
-  document.querySelectorAll(".tv").forEach(tv => {
-    const key = tv.getAttribute("data-room");
-    tv.addEventListener("click", () => openRoom(key));
-    tv.addEventListener("keydown", (e) => {
-      if(e.key === "Enter" || e.key === " ") openRoom(key);
+  function validateCreateForm(){
+    const ok = (fName.value || "").trim().length >= 2 && (fPurpose.value || "").trim().length >= 3;
+    btnCreateNext.disabled = !ok;
+  }
+
+  function selectedColor(){
+    const el = colorStep.querySelector('.swatch[aria-checked="true"]');
+    return el ? el.getAttribute("data-color") : "red";
+  }
+
+  function setSwatchChecked(target){
+    colorStep.querySelectorAll(".swatch").forEach(s => s.setAttribute("aria-checked","false"));
+    target.setAttribute("aria-checked","true");
+  }
+
+  function wireRadios(){
+    colorStep.querySelectorAll(".swatch").forEach(s => {
+      s.addEventListener("click", () => setSwatchChecked(s));
+      s.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " ") { e.preventDefault(); setSwatchChecked(s); }
+      });
     });
+  }
+  wireRadios();
+
+  // Save my text
+  myText.addEventListener("input", () => {
+    btnSaveMyText.disabled = (myText.value || "").trim().length < 2;
   });
 
-  // Button click
-  document.querySelectorAll("button[data-open]").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      openRoom(btn.getAttribute("data-open"));
-    });
+  btnSaveMyText.addEventListener("click", () => {
+    if(!activeRoom) return;
+    const t = (myText.value || "").trim();
+    if(t.length < 2) return;
+
+    const st = loadTexts();
+    st.byRoom = st.byRoom || {};
+    st.byRoom[activeRoom] = st.byRoom[activeRoom] || [];
+    st.byRoom[activeRoom].unshift({ id: uid(), text: t, ts: Date.now() });
+    saveTexts(st);
+
+    myText.value = "";
+    btnSaveMyText.disabled = true;
+
+    renderMyTexts(activeRoom);
+    updateCustomBadges();
   });
 
-  document.getElementById("btnClose").addEventListener("click", close);
+  // Create room flow
+  [fName, fPurpose, fDesc, fTags, fState].forEach(el => el.addEventListener("input", validateCreateForm));
+  validateCreateForm();
+
+  btnCreateNext.addEventListener("click", () => {
+    colorStep.style.display = "";
+    btnCreateNext.style.display = "none";
+  });
+
+  btnBackToForm.addEventListener("click", () => {
+    colorStep.style.display = "none";
+    btnCreateNext.style.display = "";
+  });
+
+  btnConfirmCreate.addEventListener("click", () => {
+    const name = (fName.value || "").trim();
+    const purpose = (fPurpose.value || "").trim();
+    if(name.length < 2 || purpose.length < 3) return;
+
+    const state = fState.value;
+    const desc = (fDesc.value || "").trim();
+    const tags = (fTags.value || "").trim();
+    const color = selectedColor();
+
+    const key = "room_" + uid();
+
+    const st = loadRooms();
+    st.rooms = st.rooms || [];
+    st.rooms.unshift({ key, name, purpose, desc, tags, state, color, ts: Date.now() });
+    saveRooms(st);
+
+    renderCustomRooms();
+    bindTVs();
+    updateCustomBadges();
+    close();
+  });
+
+  // Click / keyboard open for TVs (delegation)
+  function bindTVs(){
+    document.querySelectorAll(".tv").forEach(tv => {
+      if(tv.dataset.bound === "1") return;
+      tv.dataset.bound = "1";
+      const key = tv.getAttribute("data-room");
+      tv.addEventListener("click", () => openRoom(key));
+      tv.addEventListener("keydown", (e) => { if(e.key === "Enter" || e.key === " ") openRoom(key); });
+    });
+
+    document.querySelectorAll("button[data-open]").forEach(btn => {
+      if(btn.dataset.bound === "1") return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openRoom(btn.getAttribute("data-open"));
+      });
+    });
+  }
+
+  // Modal close
+  btnClose.addEventListener("click", close);
   modal.addEventListener("click", (e) => { if(e.target === modal) close(); });
   document.addEventListener("keydown", (e) => { if(e.key === "Escape") close(); });
 
-  render();
-  window.addEventListener("focus", render);
+  // Initial render
+  renderCustomRooms();
+  bindTVs();
+  renderQueue();
+  updateCustomBadges();
+
+  window.addEventListener("focus", () => {
+    renderQueue();
+    updateCustomBadges();
+  });
 })();
 </script>
 </body>

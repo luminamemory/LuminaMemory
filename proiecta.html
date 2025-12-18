@@ -741,7 +741,6 @@
 <script>
 (() => {
   const KEY = "LM_PROIECTA_V1";
-  const PROJECTS_KEY = "LM_PROJECTS_V1";
   const state = loadState();
 
   const chatlog = document.getElementById("chatlog");
@@ -752,7 +751,6 @@
   const btnSuggest = document.getElementById("btnSuggest");
   const btnEmail = document.getElementById("btnEmail");
   const btnClear = document.getElementById("btnClear");
-  const btnProjectHub = document.getElementById("btnProjectHub");
 
   const imgPrompt = document.getElementById("imgPrompt");
   const btnGenImg = document.getElementById("btnGenImg");
@@ -799,35 +797,6 @@
 
   function saveState(){
     localStorage.setItem(KEY, JSON.stringify(state));
-  }
-
-  function loadProjects(){
-    try{
-      const raw = localStorage.getItem(PROJECTS_KEY);
-      if(!raw) return [];
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : (parsed.items || []);
-    }catch(e){
-      return [];
-    }
-  }
-
-  function saveProjects(items){
-    try{
-      localStorage.setItem(PROJECTS_KEY, JSON.stringify(items || []));
-    }catch(e){
-      // ignore (storage full / blocked)
-    }
-  }
-
-  function moveItemToProjects(it){
-    const projects = loadProjects();
-    projects.unshift({
-      ...it,
-      movedFrom: "proiecta",
-      movedAt: Date.now()
-    });
-    saveProjects(projects);
   }
 
   function addChat(role, text, tag){
@@ -1005,16 +974,8 @@
     }
 
     if(act === "move"){
-      // Move to Projects storage (lokálně) + remove from current feed
-      try{
-        moveItemToProjects(it);
-        state.items.splice(idx, 1);
-        saveState();
-        renderFeed();
-        addChat("lumina", "Přesunuto do Projektů. Otevři ‘Projektové místnosti’ 📺", "projekty");
-      }catch(err){
-        addChat("lumina", "Chtěla jsem to přesunout do Projektů, ale prohlížeč zlobí. Zkus to prosím znovu. 🙈", "projekty");
-      }
+      // Demo: simulate move suggestion to projects
+      addChat("lumina", "Pozor — tohle vypadá jako něco do projektu. (Projektové místnosti jsou zatím ‘brzy’ 📺)", "projekty");
       return;
     }
   });
@@ -1057,7 +1018,7 @@
     setTimeout(() => addChat("lumina", "Překládám… (už skoro!)", "překlad"), 2600);
 
     setTimeout(() => {
-      const garble = "„brrrhjkop bvcdsargj mkoesc nj butfsecsebnh - 🤔 hmmm...“";
+      const garble = "„I zink you vanted transleyt. But my lingvistick kours iz… hmm… very avantgarde.“";
       addChat("lumina", garble + "  Hups… něco se pokazilo. Musím teprve projít jazykovým kurzem. 😂", "překlad");
       addItem("note", "Překlad (DEMO)", "Výsledek: " + garble + "\nPozn.: Lumina si jde koupit slovník.", {});
     }, 4300);
@@ -1070,13 +1031,6 @@
   btnEmail.addEventListener("click", () => {
     addChat("lumina", "Dobře. Napiš mi: komu odpovídáš + tón (milý/neutrální/přímočarý) + co má být výsledek. Já to seskládám. ✉️", "e‑mail");
   });
-
-  // Project hub
-  if(btnProjectHub){
-    btnProjectHub.addEventListener("click", () => {
-      window.location.href = "proiecta-projekty.html";
-    });
-  }
 
   // Clear all (custom modal — žádné „fuj“ okno)
   const clearModal = document.getElementById("clearModal");
@@ -1145,7 +1099,7 @@
   btnGenImg.addEventListener("click", () => {
     const prompt = (imgPrompt.value || "").trim();
     if(!prompt){
-      imgStatus.textContent = "Napiš prosím krátký popis.";
+      imgStatus.textContent = "Napiš prosím krátký popis (prompt).";
       return;
     }
     imgPrompt.value = "";
@@ -1200,20 +1154,20 @@
       const isImg = /^image\//.test(f.type);
 
       // Chat reaguje i na přiložení souboru
-      addChat("user", (isImg ? "Přidávám obrázek 💪🏻: " : "Přidávám soubor: ") + f.name, "");
+      addChat("user", (isImg ? "Přidávám obrázek: " : "Přidávám soubor: ") + f.name, "");
 
       if(isImg){
         const dataUrl = await readAsDataURL(f);
-        const id = addItem("file", f.name, "Přiložený obrázek ✅ (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size });
+        const id = addItem("file", f.name, "Přiložený obrázek (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size });
         lastAttachmentIds.push(id);
-        addChat("lumina", "Vidím obrázek 👀. Uloženo do dílny. 🖼️", "soubor");
+        addChat("lumina", "Vidím obrázek. Uloženo do dílny. 🖼️", "soubor");
       }else{
         const id = addItem("file", f.name, "Soubor přijat (DEMO).", { mime: f.type, size: f.size });
         lastAttachmentIds.push(id);
         addChat("lumina", "Soubor přijat. Uloženo do dílny. 📎", "soubor");
       }
 
-      addItem("note", "Zpětná vazba do 🗯 Pokecu", "Pokec: „V Proiecta byl přiložen soubor 📎.“ (DEMO)", {});
+      addItem("note", "Zpětná vazba do Pokecu", "Pokec: „V Proiecta byl přiložen soubor.“ (DEMO)", {});
     }
 
     // show “last attached” info + enable delete button
