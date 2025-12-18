@@ -549,6 +549,42 @@
     .btn.primary{ border-color: rgba(56,189,248,.35); }
     .btn.danger{ border-color: rgba(248,113,113,.35); }
 
+
+    /* State picker (živé / spí / hotovo) — náš design */
+    .seg{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .segBtn{
+      border:1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.20);
+      color: var(--ink);
+      padding: 10px 12px;
+      border-radius: 16px;
+      font-size: 12.5px;
+      font-weight: 900;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      user-select:none;
+    }
+    .segBtn:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,.35); }
+    .segBtn.isOn{
+      border-color: rgba(56,189,248,.45);
+      background: rgba(56,189,248,.08);
+      box-shadow: 0 12px 24px rgba(0,0,0,.25);
+    }
+    .ledDot{
+      width:10px; height:10px; border-radius:999px;
+      box-shadow: 0 0 0 6px rgba(255,255,255,.05) inset, 0 0 0 5px rgba(0,0,0,.20);
+    }
+    .ledDot.live{ background: rgba(34,197,94,.95); box-shadow: 0 0 0 7px rgba(34,197,94,.12); }
+    .ledDot.sleep{ background: rgba(250,204,21,.95); box-shadow: 0 0 0 7px rgba(250,204,21,.12); }
+    .ledDot.done{ background: rgba(56,189,248,.95); box-shadow: 0 0 0 7px rgba(56,189,248,.12); }
+
+
     /* "Table" form */
     .formTable{
       width:100%;
@@ -645,11 +681,11 @@
         <h1>Projektové místnosti — TV stěna 📺</h1>
         <p>
           Tady se věci ukládají a třídí. Z dílny Proiecta sem padají nápady, obrázky i soubory.
-          Klikni na TV — otevře se okno s příklady + tvoje texty. A v „Nová místnost“ si můžeš vytvořit další.
+          Klikni na 📺 — otevře se místnost. Tip: „Nová místnost“ - tady si můžeš vytvořit další.
         </p>
       </div>
       <div class="statusbar" aria-label="Stav místností">
-        <div class="pill"><span class="dot"></span> <b>položek čeká:</b> <b id="pillCount">0</b></div>
+        <div class="pill"><span class="dot"></span> <b> položek čeká: </b> <b id="pillCount">0</b></div>
         <div class="pill">🧪 mód: <b>retro archiv</b></div>
         <div class="pill">🕸 propojené s dílnou: <b>ano</b></div>
       </div>
@@ -662,7 +698,7 @@
         <div class="inside">
           <div class="screen">
             <strong>DOMÁCNOST</strong>
-            <span>„Kocour zase řádil… celý den se muselo uklízet… ale večer byl klidný.“</span>
+            <span>„...a někdo tu šustí pytlíkem! 🐾“</span>
           </div>
           <div class="foot">
             <div class="st"><span class="led"></span> živé</div>
@@ -676,7 +712,7 @@
         <div class="inside">
           <div class="screen">
             <strong>RECEPTY</strong>
-            <span>„Tip od Luminy: mozzarella, bazalka, olivy a rajské 👉🏻 vše osolit, opepřit a zalít olivovým olejem! - a teď se tvář, že ti to chutná 😂.“</span>
+            <span>„... a voní to tu podezřele dobře! 🍅“</span>
           </div>
           <div class="foot">
             <div class="st sleep"><span class="led"></span> spí</div>
@@ -690,7 +726,7 @@
         <div class="inside">
           <div class="screen">
             <strong>PROJEKT</strong>
-            <span>„Vzniká prostor, kde paměť není funkce, ale základ…“</span>
+            <span>„... a tady to bude velké! 🚀“</span>
           </div>
           <div class="foot">
             <div class="st done"><span class="led"></span> hotovo (asi)</div>
@@ -707,7 +743,7 @@
         <div class="inside">
           <div class="screen">
             <strong>➕ NOVÁ MÍSTNOST</strong>
-            <span>„Ještě ne. Ale už se to třese radostí.“</span>
+            <span>„Ještě ne. Ale už se to třese radostí. 😂“</span>
           </div>
           <div class="foot">
             <div class="st sleep"><span class="led"></span> brzy</div>
@@ -726,7 +762,7 @@
     </section>
 
     <footer>
-      <div>DEMO</div>
+      <div>DEMO • ukládání probíhá lokálně v prohlížeči</div>
       <div>Retro vrstva • „řád po kouzlu“ 📺✨</div>
     </footer>
   </div>
@@ -746,7 +782,13 @@
         <!-- ROOM VIEW (příklady + tvoje texty) -->
         <section id="viewRoom">
           <div class="notice" id="dlgNote">
-            Příklady jsou jen ukázky. Pod ně si můžeš ukládat svoje texty (a kdykoli je smazat).
+            Sem si můžeš ukládat svoje poznámky 📝 (a kdykoli je smazat 🧹).
+          </div>
+
+          <div id="roomAdmin" style="display:none; margin: 10px 0 12px;">
+            <div class="actions" style="justify-content:space-between;">
+              <button class="btn danger" id="btnDeleteRoom" type="button">🗑 Smazat místnost</button>
+            </div>
           </div>
 
           <div class="list" id="dlgList"></div>
@@ -754,8 +796,8 @@
           <div style="height:12px;"></div>
 
           <div class="editBox">
-            <label for="myText">Tvoje texty (přidat nový)</label>
-            <textarea id="myText" placeholder="Napiš sem svůj text…"></textarea>
+            <label for="myText">Tvoje poznámky (přidat novou)</label>
+            <textarea id="myText" placeholder="✍️ Napiš sem svou poznámku…"></textarea>
             <div class="actions">
               <button class="btn primary" id="btnSaveMyText" type="button" disabled>Uložit</button>
             </div>
@@ -770,13 +812,13 @@
         <!-- CREATE ROOM VIEW (tabulka + barva + vytvoření) -->
         <section id="viewCreate" style="display:none;">
           <div class="notice">
-            Vyplň údaje. Jakmile budou povinná pole hotová, aktivuje se „Uložit“. Před vytvořením si vybereš perleťovou barvu.
+            Vyplň údaje. Jakmile budou povinná pole hotová - aktivuje se „Uložit“. Před vytvořením si ještě vybereš barvu 🎨.
           </div>
 
           <table class="formTable" aria-label="Formulář pro vytvoření místnosti">
             <tr>
               <td class="k">Název *</td>
-              <td><input id="fName" type="text" placeholder="Např. TETOVÁNÍ / MIMINKO / LEXÍK…" /></td>
+              <td><input id="fName" type="text" placeholder="Např. TETOVÁNÍ / CESTOVÁNÍ / PÉČE…" /></td>
             </tr>
             <tr>
               <td class="k">Účel *</td>
@@ -788,16 +830,23 @@
             </tr>
             <tr>
               <td class="k">Tagy</td>
-              <td><input id="fTags" type="text" placeholder="odděluj čárkou (např. zdraví, plán, inspirace)" /></td>
+              <td><input id="fTags" type="text" placeholder="odděluj čárkou (např. inspicace, plán, zdraví)" /></td>
             </tr>
-            <tr>
+                        <tr>
               <td class="k">Stav</td>
               <td>
-                <select id="fState">
-                  <option value="live">živé</option>
-                  <option value="sleep">spí</option>
-                  <option value="done">hotovo</option>
-                </select>
+                <input id="fState" type="hidden" value="live" />
+                <div class="seg" id="statePick" role="radiogroup" aria-label="Stav místnosti">
+                  <button class="segBtn isOn" type="button" data-state="live" role="radio" aria-checked="true">
+                    <span class="ledDot live"></span> živé
+                  </button>
+                  <button class="segBtn" type="button" data-state="sleep" role="radio" aria-checked="false">
+                    <span class="ledDot sleep"></span> spí
+                  </button>
+                  <button class="segBtn" type="button" data-state="done" role="radio" aria-checked="false">
+                    <span class="ledDot done"></span> hotovo
+                  </button>
+                </div>
               </td>
             </tr>
           </table>
@@ -807,7 +856,7 @@
           </div>
 
           <div id="colorStep" style="display:none; margin-top:12px;">
-            <div class="notice" style="margin-bottom:10px;">Vyber barvu (perleť):</div>
+            <div class="notice" style="margin-bottom:10px;">Vyber barvu:</div>
             <div class="swatches" role="radiogroup" aria-label="Výběr barvy">
               <div class="swatch" role="radio" tabindex="0" data-color="red" aria-checked="true">
                 <span class="dotc" style="background: rgba(248,113,113,.92)"></span> červená
@@ -850,6 +899,8 @@
   const myTextsList = document.getElementById("myTextsList");
   const myText = document.getElementById("myText");
   const btnSaveMyText = document.getElementById("btnSaveMyText");
+  const roomAdmin = document.getElementById("roomAdmin");
+  const btnDeleteRoom = document.getElementById("btnDeleteRoom");
 
   const viewRoom = document.getElementById("viewRoom");
   const viewCreate = document.getElementById("viewCreate");
@@ -862,6 +913,7 @@
   const fDesc = document.getElementById("fDesc");
   const fTags = document.getElementById("fTags");
   const fState = document.getElementById("fState");
+  const statePick = document.getElementById("statePick");
   const btnCreateNext = document.getElementById("btnCreateNext");
   const colorStep = document.getElementById("colorStep");
   const btnBackToForm = document.getElementById("btnBackToForm");
@@ -872,19 +924,19 @@
   const roomsPreset = {
     domacnost: {
       title: "DOMÁCNOST",
-      subtitle: "Příklady + tvoje texty. (A někdo tu šustí pytlíkem) 🐾"
+      subtitle: "Dnešek byl chaos - kocour zase řádil 💩 a museli jsme celý den uklízet 🧹 ale večer byl klidný ❤️"
     },
     recepty: {
       title: "RECEPTY",
-      subtitle: "Příklady + tvoje texty. (A voní to podezřele dobře) 🍅"
+      subtitle: "Tip na recept od Luminky: ✨ mozzarella, rajské a olivy - osolit, opepřit a polít olivovým olejem. Podávat s čerstvou bagetou 🥖✨"
     },
     projekt: {
       title: "PROJEKT",
-      subtitle: "Příklady + tvoje texty. (Tady to bude velké) 🏗️"
+      subtitle: "Vzniká prostor, kde paměť není funkce, ale základ… 💫"
     },
     nova: {
       title: "NOVÁ MÍSTNOST",
-      subtitle: "Vytvoření nové místnosti (tabulka + barva) ✨"
+      subtitle: "Vytvoření nové místnosti ✨"
     }
   };
 
@@ -1092,6 +1144,7 @@
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden","true");
     activeRoom = null;
+    if(roomAdmin) roomAdmin.style.display = "none";
     // reset views
     viewRoom.style.display = "";
     viewCreate.style.display = "none";
@@ -1126,6 +1179,11 @@
     });
   }
 
+  function getCustomRoom(key){
+    const stRooms = loadRooms();
+    return (stRooms.rooms || []).find(r => r.key === key) || null;
+  }
+
   function openRoom(key){
     activeRoom = key;
 
@@ -1135,23 +1193,25 @@
       viewRoom.style.display = "none";
       viewCreate.style.display = "";
       openModal();
+      if(roomAdmin) roomAdmin.style.display = "none";
       resetCreateForm();
       return;
     }
 
     // preset or custom room
-    const stRooms = loadRooms();
-    const custom = (stRooms.rooms || []).find(r => r.key === key);
+    const custom = getCustomRoom(key);
+
+    if(roomAdmin) roomAdmin.style.display = custom ? "" : "none";
 
     const info = custom ? {
       title: custom.name,
-      subtitle: custom.purpose || "Příklady + tvoje texty."
-    } : (roomsPreset[key] || { title: "Místnost", subtitle: "Příklady + tvoje texty." });
+      subtitle: custom.purpose || "Obsah místnosti"
+    } : (roomsPreset[key] || { title: "Místnost", subtitle: "Obsah místnosti" });
 
     dlgTitle.textContent = info.title;
     dlgSub.textContent = info.subtitle;
 
-    // Examples (příklady): použijeme poslední 2–3 položky z dílny (jako ukázky)
+    // Examples (příklady): použijeme poslední 2–3 položky z dílny
     const st = loadInbox();
     const items = st.items || [];
 
@@ -1164,7 +1224,7 @@
 
     dlgList.innerHTML = "";
     if(show.length === 0){
-      dlgList.innerHTML = `<div class="li"><div class="body">Zatím tu nejsou žádné příklady. Nejdřív něco vytvoř v Proiecta. ✨</div></div>`;
+      dlgList.innerHTML = `<div class="li"><div class="body">Zatím tu nic nemáš. Nejdřív něco vytvoř v Proiecta. ✨</div></div>`;
     }else{
       for(const it of show){
         const time = new Date(it.ts || Date.now()).toLocaleTimeString("cs-CZ", {hour:"2-digit", minute:"2-digit"});
@@ -1187,7 +1247,7 @@
     fPurpose.value = "";
     fDesc.value = "";
     fTags.value = "";
-    fState.value = "live";
+    setState("live");
     btnCreateNext.disabled = true;
     colorStep.style.display = "none";
     btnCreateNext.style.display = "";
@@ -1197,6 +1257,28 @@
     const ok = (fName.value || "").trim().length >= 2 && (fPurpose.value || "").trim().length >= 3;
     btnCreateNext.disabled = !ok;
   }
+
+  function setState(value){
+    fState.value = value;
+    if(!statePick) return;
+    statePick.querySelectorAll(".segBtn").forEach(b => {
+      const on = b.getAttribute("data-state") === value;
+      b.classList.toggle("isOn", on);
+      b.setAttribute("aria-checked", on ? "true" : "false");
+    });
+    validateCreateForm();
+  }
+
+  function wireStatePick(){
+    if(!statePick) return;
+    statePick.querySelectorAll(".segBtn").forEach(btn => {
+      btn.addEventListener("click", () => setState(btn.getAttribute("data-state")));
+      btn.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " ") { e.preventDefault(); setState(btn.getAttribute("data-state")); }
+      });
+    });
+  }
+  wireStatePick();
 
   function selectedColor(){
     const el = colorStep.querySelector('.swatch[aria-checked="true"]');
@@ -1238,6 +1320,33 @@
     btnSaveMyText.disabled = true;
 
     renderMyTexts(activeRoom);
+  // Delete custom room
+  if(btnDeleteRoom){
+    btnDeleteRoom.addEventListener("click", () => {
+      if(!activeRoom) return;
+      const custom = getCustomRoom(activeRoom);
+      if(!custom) return;
+
+      const ok = window.confirm(`Opravdu smazat místnost „${custom.name}“?
+
+Smažou se i tvoje uložené poznámky v místnosti.`);
+      if(!ok) return;
+
+      const st = loadRooms();
+      st.rooms = (st.rooms || []).filter(r => r.key !== activeRoom);
+      saveRooms(st);
+
+      const t = loadTexts();
+      if(t.byRoom && t.byRoom[activeRoom]) delete t.byRoom[activeRoom];
+      saveTexts(t);
+
+      renderCustomRooms();
+      bindTVs();
+      updateCustomBadges();
+      close();
+    });
+  }
+
     updateCustomBadges();
   });
 
