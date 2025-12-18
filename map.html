@@ -158,6 +158,74 @@
       outline: none;
     }
 
+/* Visually hidden (accessible) */
+.sr-only{
+  position:absolute !important;
+  width:1px; height:1px;
+  padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0);
+  white-space:nowrap; border:0;
+}
+
+/* Custom dropdown (matches glass UI) */
+.dd{ position:relative; width:min(440px, 100%); }
+.dd-btn{
+  width:100%;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(11,18,32,.18);
+  background: rgba(255,255,255,.90);
+  font-weight: 900;
+  color: var(--ink);
+  outline: none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.10);
+  cursor:pointer;
+}
+.dd-btn:hover{ transform: translateY(-1px); }
+.dd-caret{ opacity:.7; font-size: 14px; }
+
+.dd-menu{
+  position:absolute;
+  top: calc(100% + 10px);
+  left:0;
+  width:100%;
+  border-radius: 18px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(11,18,32,.12);
+  box-shadow: 0 22px 60px rgba(0,0,0,.22);
+  padding: 8px;
+  display:none;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+}
+.dd.open .dd-menu{ display:block; }
+
+.dd-opt{
+  width:100%;
+  text-align:left;
+  appearance:none;
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 12px 12px;
+  border-radius: 14px;
+  font-weight: 900;
+  color: rgba(11,18,32,.90);
+  cursor:pointer;
+}
+.dd-opt:hover, .dd-opt:focus{
+  outline:none;
+  background: rgba(34,197,94,.10);
+  border-color: rgba(34,197,94,.22);
+}
+.dd-opt[aria-selected="true"]{
+  background: rgba(34,197,94,.16);
+  border-color: rgba(34,197,94,.28);
+}
+
     .controls{
       display:flex;
       gap: 10px;
@@ -307,12 +375,29 @@
             <div class="row">
               <div style="min-width: 220px;">
                 <label for="mode">Vyber typ mise</label><br />
-                <select id="mode" aria-label="Typ výpravy">
-                  <option value="holiday">Dovolená (velká výprava)</option>
-                  <option value="trip3">Výlet na tři dny</option>
-                  <option value="afternoon">Výlet na odpoledne</option>
-                  <option value="work">Pracovní schůzka (ať vypadáme jako dospělí)</option>
-                </select>
+<!-- Native select (schovaný) – zůstává kvůli přístupnosti + fallbacku -->
+<select id="mode" class="sr-only" aria-label="Typ výpravy">
+  <option value="holiday">Dovolená (velká výprava)</option>
+  <option value="trip3">Výlet na prodloužený víkend</option>
+  <option value="afternoon">Výlet na odpoledne</option>
+  <option value="work">Pracovní schůzka (ať vypadáme jako dospělí)</option>
+</select>
+
+<!-- Vlastní dropdown – ve stylu stránky -->
+<div class="dd" id="modeDD" aria-label="Typ výpravy">
+  <button class="dd-btn" type="button" aria-haspopup="listbox" aria-expanded="false" id="modeDDBtn">
+    <span class="dd-value" id="modeDDValue">Dovolená (velká výprava)</span>
+    <span class="dd-caret" aria-hidden="true">▾</span>
+  </button>
+
+  <div class="dd-menu" role="listbox" tabindex="-1" id="modeDDMenu" aria-labelledby="modeDDBtn">
+    <button class="dd-opt" type="button" role="option" data-value="holiday">Dovolená (velká výprava)</button>
+    <button class="dd-opt" type="button" role="option" data-value="trip3">Výlet na prodloužený víkend</button>
+    <button class="dd-opt" type="button" role="option" data-value="afternoon">Výlet na odpoledne</button>
+    <button class="dd-opt" type="button" role="option" data-value="work">Pracovní schůzka (ať vypadáme jako dospělí)</button>
+  </div>
+</div>
+
               </div>
 
               <div class="controls" aria-label="Ovládání kroků">
@@ -332,8 +417,7 @@
           <div class="panel stepBox" aria-label="Aktuální krok">
             <div class="stepTitle" id="stepTitle">Začneme jemně…</div>
             <div class="stepText" id="stepText">
-              Vyber typ mise a klikni na <b>Další krok</b>. Já tě povedu. A když se ti bude chtít, můžeš si u toho dát čaj… nebo cigáro. ☕🚬
-            </div>
+              Vyber typ mise a klikni na <b>Další krok</b>. Já tě povedu.</div>
             <div class="chips" id="chips" aria-label="Mini checklist"></div>
             <div class="tiny" id="counter">Krok 0 / 0</div>
           </div>
@@ -355,12 +439,69 @@
   const pct = document.getElementById("pct");
   const quip = document.getElementById("quip");
 
+// Custom dropdown (so the option list isn't the ugly native one)
+const dd = document.getElementById("modeDD");
+const ddBtn = document.getElementById("modeDDBtn");
+const ddMenu = document.getElementById("modeDDMenu");
+const ddValue = document.getElementById("modeDDValue");
+
+function closeDD(){
+  if(!dd) return;
+  dd.classList.remove("open");
+  ddBtn?.setAttribute("aria-expanded","false");
+}
+function openDD(){
+  if(!dd) return;
+  dd.classList.add("open");
+  ddBtn?.setAttribute("aria-expanded","true");
+  ddMenu?.focus();
+}
+function toggleDD(){
+  if(!dd) return;
+  dd.classList.contains("open") ? closeDD() : openDD();
+}
+function syncDDFromSelect(){
+  if(!dd) return;
+  const opt = modeEl.options[modeEl.selectedIndex];
+  ddValue.textContent = opt ? opt.textContent : "Vyber typ mise";
+  // mark selected in listbox
+  dd.querySelectorAll(".dd-opt").forEach(b => {
+    const v = b.getAttribute("data-value");
+    b.setAttribute("aria-selected", String(v === modeEl.value));
+  });
+}
+
+ddBtn?.addEventListener("click", toggleDD);
+
+dd?.querySelectorAll(".dd-opt").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const v = btn.getAttribute("data-value");
+    if(v){
+      modeEl.value = v;
+      modeEl.dispatchEvent(new Event("change", { bubbles:true }));
+      syncDDFromSelect();
+    }
+    closeDD();
+  });
+});
+
+document.addEventListener("click", (e) => {
+  if(!dd) return;
+  if(!dd.contains(e.target)) closeDD();
+});
+
+document.addEventListener("keydown", (e) => {
+  if(!dd) return;
+  if(e.key === "Escape") closeDD();
+});
+
+
   const quips = [
-    "Tohle bude chtít čaj… nebo cigáro. ☕🚬",
-    "Zhluboka. Jedna věc. Pak další. (Ano, i ponožky.) 😄",
+    "Tohle bude chtít cigáro. ☕🚬",
+    "Jedna věc. Pak další. (Ano, i ponožky.) 😄",
     "Panika je jen turbo. My jedeme na eco režim. 🌿",
     "Jestli se ptáš „kde jsou klíče“, odpověď je: „na nejhorším místě“. 🔑",
-    "Nemusíš být perfektní. Stačí být připravená… tak jako na 70 %. 😅",
+    "Nemusíš být perfektní. Stačí mít vše připravené na 70 %. 😅",
     "Mapa je krásná. Ale nabíječka je krásnější. 🔌",
     "Kontrola sporáku: romantika dospělosti. ✅",
     "Kdyby něco: „Tadaaa, improvizace!“ ✨"
@@ -380,9 +521,9 @@
         c:["hudba/podcast","svačina","voda","úsměv","fotka na cestu"] }
     ],
     trip3: [
-      { t:"1) Mini-balení (3 dny)", p:"Je to jen 3 dny. Neber si 14 outfitů. (I když chápeme tu potřebu.) 😅",
+      { t:"1) Mini-balení (prodloužený vikend)", p:"Je to jen 3 dny. Neber si 14 outfitů. (I když chápeme tu potřebu.) 😅",
         c:["2–3 outfity","spodní prádlo","hygiena","nabíječka","doklady"] },
-      { t:"2) Spánek před startem", p:"Nechceme jet na autopilota s prázdnou baterkou. Ani ty, ani Defík. 😴",
+      { t:"2) Spánek před startem", p:"Nechceme jet na autopilota s prázdnou baterkou. Ani ty, ani čtyřkolák. 😴",
         c:["dřív do postele","voda","budík","rychlý plán rána"] },
       { t:"3) Ranní finále", p:"Káva/čaj, zkontrolovat klíče a… žádné pobíhání jak šílená víla. 🧚‍♀️",
         c:["klíče","mobil","peněženka","nabíječka","lístky/rezervace"] },
@@ -427,7 +568,7 @@
     chips.innerHTML = "";
     if(i < 0){
       stepTitle.textContent = "Začneme jemně…";
-      stepText.innerHTML = "Vyber typ mise a klikni na <b>Další krok</b>. Já tě povedu. A když se ti bude chtít, můžeš si u toho dát čaj… nebo cigáro. ☕🚬";
+      stepText.innerHTML = "Vyber typ mise a klikni na <b>Další krok</b>. Já tě povedu.";
       pickQuip();
       return;
     }
@@ -454,7 +595,7 @@
     }
   }
 
-  function setMode(){ steps = plans[modeEl.value]; i = -1; render(); }
+  function setMode(){ steps = plans[modeEl.value]; i = -1; render(); syncDDFromSelect(); }
 
   btnNext.addEventListener("click", () => {
     const total = steps.length;
