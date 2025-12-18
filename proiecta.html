@@ -8,7 +8,7 @@
 
   <!-- SEO -->
   <meta name="title" content="Proiecta • Magická dílna | LuminaMemory™">
-  <meta name="description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Vše se ukládá a je vidět – živě, hravě a přehledně.">
+  <meta name="description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Všechno je – živé, hravé a přehledné.">
 
   <link rel="icon" href="favicon.png" type="image/png" />
 
@@ -16,7 +16,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="LuminaMemory™" />
   <meta property="og:title" content="Proiecta • Magická dílna | LuminaMemory™" />
-  <meta property="og:description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Vše se ukládá a je vidět – živě, hravě a přehledně." />
+  <meta property="og:description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Všechno je – živé, hravé a přehledné." />
   <meta property="og:url" content="https://luminamemory.github.io/LuminaMemory/proiecta.html" />
   <meta property="og:image" content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
   <meta property="og:locale" content="cs_CZ" />
@@ -24,7 +24,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Proiecta • Magická dílna | LuminaMemory™" />
-  <meta name="twitter:description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Vše se ukládá a je vidět – živě, hravě a přehledně." />
+  <meta name="twitter:description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Všechno je – živé, hravé a přehledné." />
   <meta name="twitter:url" content="https://luminamemory.github.io/LuminaMemory/proiecta.html" />
   <meta name="twitter:image" content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
 
@@ -69,7 +69,7 @@
       position:fixed;
       inset:0;
       background: url("favicon.png") center/520px no-repeat;
-      opacity:.065;
+      opacity:.11;
       pointer-events:none;
       filter: saturate(1.1) contrast(1.05);
     }
@@ -413,13 +413,17 @@
     .thumb{
       margin-top: 10px;
       border-radius: 14px;
-      overflow:hidden;
+      overflow:auto;
+      max-height: 320px;
       border: 1px solid rgba(16,24,40,.10);
       background: rgba(255,255,255,.7);
+      scrollbar-gutter: stable both-edges;
     }
     .thumb img{
       width:100%;
+      height:auto;
       display:block;
+      cursor: zoom-in;
     }
     .actions{
       display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
@@ -466,6 +470,82 @@
       .hero{ align-items:flex-start; flex-direction:column; }
       .pillrow{ justify-content:flex-start; }
     }
+  
+    /* Modal */
+    .modalOverlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: rgba(16,24,40,.45);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+    }
+    .modalOverlay.show{ display:flex; }
+
+    .modal{
+      width: min(720px, 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 28px 80px rgba(16,24,40,.22);
+      overflow:hidden;
+    }
+    .modalHd{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.40);
+    }
+    .modalHd strong{ font-size: 14px; }
+    .modalHd span{ display:block; color: var(--muted); font-size: 12.5px; margin-top: 4px; }
+    .modalBd{
+      padding: 14px 16px 16px;
+    }
+    .modalBd p{
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+    .modalBtns{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      margin-top: 12px;
+    }
+    .xBtn{
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.75);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight: 850;
+    }
+    .xBtn:hover{ transform: translateY(-1px); }
+
+    /* Image viewer inside modal */
+    .imgFrame{
+      border-radius: 16px;
+      border: 1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.65);
+      max-height: min(70vh, 680px);
+      overflow:auto;
+      margin-top: 10px;
+    }
+    .imgFrame img{
+      width:100%;
+      height:auto;
+      display:block;
+      cursor: zoom-out;
+    }
+
   </style>
 </head>
 
@@ -492,7 +572,7 @@
         <h1>Proiecta — magická dílna ✨</h1>
         <p>
           Tady se tvoří. Vtipně, lehce a přehledně. Hlavní je chat s Luminou — a všechno, co vznikne,
-          uvidíš uložené na vlastní oči.
+          uvidíš uložené na vlastní oči 👀.
         </p>
       </div>
       <div class="pillrow" aria-label="Stav dílny">
@@ -544,7 +624,7 @@
       <aside class="section" aria-label="Dílny Proiecta">
         <section class="subcard" aria-label="Generování obrázků">
           <h3>🖼️ Dílna pro vizuální kreativitu</h3>
-          <p>Popiš, co chceš vidět. Lumina se tváří, že kreslí. A pak to fakt ukáže.</p>
+          <p>Popiš, co chceš vidět. Lumina se tváří, že kreslí 😂. A pak to fakt ukáže.</p>
           <div class="row">
             <input id="imgPrompt" type="text" placeholder="Např. ‘mystická pavučina se světlem’">
             <button class="btn primary" id="btnGenImg">🎨 Vygenerovat</button>
@@ -572,9 +652,48 @@
     </main>
 
     <footer>
-      <div>DEMO • ukládání probíhá lokálně v prohlížeči (LocalStorage)</div>
-      <div>Proiecta je dílna. Projekty přijdou na samostatnou stránku 📺</div>
+      <div>DEMO • ukládání probíhá lokálně v prohlížeči</div>
+      <div>Proiecta je dílna 👉🏻 Projekty jsou uloženy samostatně 📺</div>
     </footer>
+  </div>
+
+  <!-- Modals -->
+  <div class="modalOverlay" id="clearModal" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="clearTitle">🧹 Vyčistit stopu dílny?</strong>
+          <span>Chat + položky ze „Stopy“ jsou jen lokálně v prohlížeči. Tohle je to velké tlačítko „spláchnout“. 😄</span>
+        </div>
+        <button class="xBtn" data-close="clearModal" aria-label="Zavřít">✕</button>
+      </div>
+      <div class="modalBd">
+        <p><b>Mini bezpečnost:</b> po vyčištění už to nepůjde vrátit zpět. (Ano, i když to byl „dokonalý chaos“.)</p>
+        <p>Takže… fakt to máme vyčistit? Nebo si to ještě necháš chvíli žít, ať to nehází „fuj okno“ do nálady? 🙈</p>
+        <div class="modalBtns">
+          <button class="btn" data-close="clearModal">Ne, nech to žít</button>
+          <button class="btn primary" id="btnConfirmClear">Ano, smést to 🧽</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalOverlay" id="imgModal" role="dialog" aria-modal="true" aria-labelledby="imgTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="imgTitle">🖼️ Náhled obrázku</strong>
+          <span id="imgSubtitle">Klikni na obrázek nebo stiskni Esc pro zavření.</span>
+        </div>
+        <button class="xBtn" data-close="imgModal" aria-label="Zavřít">✕</button>
+      </div>
+      <div class="modalBd">
+        <div class="imgFrame" id="imgFrame"></div>
+        <div class="modalBtns">
+          <button class="btn" data-close="imgModal">Zavřít</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 <script>
@@ -605,9 +724,11 @@
   const feedEmpty = document.getElementById("feedEmpty");
 
   const PRESET_IMAGES = [
-    { src: "home-base.jpg", title: "home-base.jpg" },
-    { src: "spark.jpg", title: "spark.jpg" },
-    { src: "whisper.jpg", title: "whisper.jpg" }
+    { src: "lumina-robot-sketch.png", title: "lumina-robot-sketch.png" },
+    { src: "creative-kitchen-chaos.png", title: "creative-kitchen-chaos.png" },
+    { src: "cat-cleanup-mission.png", title: "cat-cleanup-mission.png" },
+    { src: "ideas-in-the-air.png", title: "ideas-in-the-air.png" },
+    { src: "night-protection.png", title: "night-protection.png" }
   ];
 
   const IMG_QUIPS = [
@@ -766,6 +887,13 @@
 
   // Feed actions
   feed.addEventListener("click", async (e) => {
+    // Click on thumbnail image => open full preview modal (scrollable)
+    const img = e.target.closest(".thumb img");
+    if(img){
+      openImageModal(img.getAttribute("src") || "", img.getAttribute("alt") || "Obrázek");
+      return;
+    }
+
     const btn = e.target.closest("button[data-act]");
     if(!btn) return;
     const id = btn.getAttribute("data-id");
@@ -852,15 +980,67 @@
     addChat("lumina", "Dobře. Napiš mi: komu odpovídáš + tón (milý/neutrální/přímočarý) + co má být výsledek. Já to seskládám. ✉️", "e‑mail");
   });
 
-  // Clear all
-  btnClear.addEventListener("click", () => {
-    if(!confirm("Vyčistit lokální DEMO stopu Proiecta? (chat + položky)")) return;
+  // Clear all (custom modal — žádné „fuj“ okno)
+  const clearModal = document.getElementById("clearModal");
+  const btnConfirmClear = document.getElementById("btnConfirmClear");
+
+  function openModal(el){
+    el.classList.add("show");
+    // lock background scroll
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(el){
+    el.classList.remove("show");
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+  }
+
+
+  // Modal close (X, buttons, click outside, Esc)
+  document.addEventListener("click", (e) => {
+    const closeId = e.target.closest("[data-close]")?.getAttribute("data-close");
+    if(closeId){
+      const el = document.getElementById(closeId);
+      if(el) closeModal(el);
+    }
+    const overlay = e.target.classList?.contains("modalOverlay") ? e.target : null;
+    if(overlay && overlay.classList.contains("show")) closeModal(overlay);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape"){
+      const shown = document.querySelector(".modalOverlay.show");
+      if(shown) closeModal(shown);
+    }
+  });
+
+  // Image preview modal
+  const imgModal = document.getElementById("imgModal");
+  const imgFrame = document.getElementById("imgFrame");
+  const imgTitle = document.getElementById("imgTitle");
+  const imgSubtitle = document.getElementById("imgSubtitle");
+
+  function openImageModal(src, alt){
+    if(!src) return;
+    imgTitle.textContent = "🖼️ " + (alt || "Náhled obrázku");
+    imgSubtitle.textContent = "Roluj uvnitř okna (nebo kolečkem myši).";
+    imgFrame.innerHTML = `<img src="${src}" alt="${escapeHtml(alt||"obrázek")}">`;
+    openModal(imgModal);
+  }
+
+  // Click on big image closes it (nice + fast)
+  imgFrame.addEventListener("click", () => closeModal(imgModal));
+  btnClear.addEventListener("click", () => openModal(clearModal));
+
+  btnConfirmClear.addEventListener("click", () => {
     state.chat = [];
     state.items = [];
     saveState();
     renderChat();
     renderFeed();
-    addChat("lumina", "Čisto. Jdeme tvořit od nuly. (Tohle je můj oblíbený moment.) ✨", "reset");
+    closeModal(clearModal);
+    addChat("lumina", "Čisto. Jdeme tvořit od nuly. (A teď prosím nikdo nešlape do čerstvě vytřené podlahy.) ✨", "reset");
   });
 
   // Image generation
