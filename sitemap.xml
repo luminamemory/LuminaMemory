@@ -11,13 +11,13 @@
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/index-en.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/index-de.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
 
   <!-- Home portals (miniLumina entry) -->
@@ -30,51 +30,51 @@
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/home-en.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.85</priority>
+    <priority>0.88</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/home-de.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.85</priority>
+    <priority>0.88</priority>
   </url>
 
   <!-- miniLumina login (CZ/EN/DE) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/mini-login.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
+    <priority>0.86</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/mini-login-en.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
+    <priority>0.86</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/mini-login-de.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
+    <priority>0.86</priority>
   </url>
 
   <!-- miniLumina main demo (hub + chat) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/lumina-demo.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.85</priority>
+    <priority>0.89</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/lumina-demo-en.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.85</priority>
+    <priority>0.89</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/lumina-demo-de.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.85</priority>
+    <priority>0.89</priority>
   </url>
 
   <!-- Praetorium (control hall) CZ/EN/DE -->
@@ -100,60 +100,98 @@
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/arcana.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
+    <priority>0.82</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/arcana-en.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
+    <priority>0.82</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/arcana-de.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
+    <priority>0.82</priority>
   </url>
 
   <!-- Arcana Hall (CZ/EN/DE) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/arcana-hala.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.78</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/arcana-hala-en.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.78</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/arcana-hala-de.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.78</priority>
+    <priority>0.8</priority>
   </url>
 
   <!-- Pergamen / Scroll CZ/EN/DE -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/pergamen-luminamemory.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.76</priority>
+    <priority>0.78</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/pergamen-luminamemory-en.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.76</priority>
+    <priority>0.78</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/pergamen-luminamemory-de.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.76</priority>
+    <priority>0.78</priority>
   </url>
 
-  <!-- Praetorium / Kontakt (CZ/EN/DE) -->
+  <!-- Sigma CZ/EN/DE -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/sigma.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.83</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/sigma-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.83</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/sigma-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.83</priority>
+  </url>
+
+  <!-- Chronica CZ/EN/DE -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/chronica.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.82</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/chronica-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.82</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/chronica-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.82</priority>
+  </url>
+
+  <!-- Kontakt / Contact (CZ/EN/DE) -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/luminamemory-kontakt.html</loc>
     <lastmod>2025-12-17</lastmod>
@@ -195,19 +233,19 @@
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.6</priority>
+    <priority>0.65</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final-en.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.6</priority>
+    <priority>0.65</priority>
   </url>
 
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/ranni-pozdrav-final-de.html</loc>
     <lastmod>2025-12-17</lastmod>
-    <priority>0.6</priority>
+    <priority>0.65</priority>
   </url>
 
 </urlset>

@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sigma • LuminaMemory™</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <meta name="title" content="Sigma • Denní rituály | LuminaMemory™">
+  <meta name="description"
+        content="Sigma v miniLumina DEMO — ranní a večerní rituály, jemné návrhy a ukázky, jak může Lumina provázet tvůj den bez ukládání skutečných dat.">
+
+  <link rel="icon" href="favicon.png" type="image/png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LuminaMemory™" />
+  <meta property="og:title" content="Sigma • Denní rituály | LuminaMemory™" />
+  <meta property="og:description"
+        content="Sigma v miniLumina DEMO — ranní a večerní rituály, jemné návrhy a ukázky, jak může Lumina provázet tvůj den bez ukládání skutečných dat." />
+  <meta property="og:url"
+        content="https://luminamemory.github.io/LuminaMemory/sigma.html" />
+  <meta property="og:image"
+        content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+  <meta property="og:locale" content="cs_CZ" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sigma • Denní rituály | LuminaMemory™" />
+  <meta name="twitter:description"
+        content="Sigma v miniLumina DEMO — ranní a večerní rituály, jemné návrhy a ukázky, jak může Lumina provázet tvůj den bez ukládání skutečných dat." />
+  <meta name="twitter:url"
+        content="https://luminamemory.github.io/LuminaMemory/sigma.html" />
+  <meta name="twitter:image"
+        content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+
+  <link rel="canonical"
+        href="https://luminamemory.github.io/LuminaMemory/sigma.html" />
+
+  <style>
+    :root{--bg0:#08031a;--bg1:#17083a;--bg2:#2b0b5a;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.72);--muted:rgba(255,255,255,.62);--border:rgba(255,255,255,.14);--card:rgba(6,3,20,.80);--shadow:0 24px 80px rgba(0,0,0,.72);--r:22px;}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);
+      background:radial-gradient(1100px 740px at 18% 10%, rgba(184,146,255,.24), transparent 60%),
+      radial-gradient(980px 760px at 86% 25%, rgba(214,170,255,.16), transparent 62%),
+      linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      background:linear-gradient(180deg, rgba(8,3,26,.86), rgba(8,3,26,.35));border-bottom:1px solid rgba(255,255,255,.08);}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 18px;}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .brand b{font-family:"Cinzel",serif;letter-spacing:.06em}
+    .brand small{display:block;margin-top:2px;color:var(--ink2);font-size:12px}
+    .nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{text-decoration:none;color:var(--ink);font-weight:800;font-size:12.5px;border-radius:999px;padding:10px 12px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.14);}
+    .pill:hover{filter:brightness(1.05)}
+    main{max-width:1100px;margin:0 auto;padding:18px 18px 70px;}
+    .panel{border:1px solid rgba(255,255,255,.12);background:radial-gradient(circle at 0 0, rgba(255,255,255,.10), transparent 55%), var(--card);
+      border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;}
+    .head{padding:18px;border-bottom:1px solid rgba(255,255,255,.07)}
+    h1{margin:0;font-size:22px}
+    .sub{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.55;max-width:75ch}
+    .grid{padding:14px;display:grid;gap:12px;grid-template-columns:1fr 1fr}
+    @media (max-width:780px){.grid{grid-template-columns:1fr}}
+    .card{border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.12);border-radius:18px;padding:14px}
+    .card b{display:block;font-size:14px;margin-bottom:6px}
+    .card p{margin:0;color:var(--ink2);font-size:13px;line-height:1.55}
+    .chip{display:inline-flex;gap:8px;align-items:center;margin-top:10px;font-size:12px;color:var(--ink2);
+      padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06)}
+  
+    /* --- Sigma electric vibe --- */
+    body::before{
+      content:"";
+      position:fixed; inset:-20%;
+      pointer-events:none;
+      background:
+        radial-gradient(closest-side at 20% 30%, rgba(120,220,255,.20), transparent 62%),
+        radial-gradient(closest-side at 70% 40%, rgba(255,240,160,.14), transparent 60%),
+        radial-gradient(closest-side at 45% 70%, rgba(170,120,255,.16), transparent 64%),
+        repeating-linear-gradient(110deg,
+          transparent 0px, transparent 24px,
+          rgba(120,220,255,.06) 25px,
+          transparent 26px, transparent 52px,
+          rgba(255,240,160,.05) 53px,
+          transparent 54px);
+      filter: blur(0px) saturate(1.05);
+      opacity:.55;
+      transform: translate3d(0,0,0);
+      animation: electricDrift 10s ease-in-out infinite alternate;
+      mix-blend-mode: screen;
+    }
+    @keyframes electricDrift{
+      from{ transform: translate(-1.5%, -1%) scale(1.02); }
+      to{ transform: translate(1.5%, 1%) scale(1.05); }
+    }
+
+    /* Image trigger button */
+    .sigma-trigger{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:9px 12px;
+    }
+    .sigma-trigger img{
+      width:20px;
+      height:20px;
+      display:block;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
+    }
+
+    /* Welcome bubble (points to Sigma button) */
+    .sigma-cta{ position:relative; }
+    .welcome-bubble{
+      position:relative;
+      width:min(520px, 92%);
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(8,6,14,.92);
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+      padding:14px 14px 12px;
+      margin: 0 auto 10px;
+      opacity:0;
+      transform: translateY(8px);
+      pointer-events:none;
+      transition: opacity .25s ease, transform .25s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .welcome-bubble.on{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+    }
+    .welcome-bubble::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:-10px;
+      transform: translateX(-50%) rotate(45deg);
+      width:18px;
+      height:18px;
+      background: rgba(8,6,14,.92);
+      border-right:1px solid rgba(255,255,255,.16);
+      border-bottom:1px solid rgba(255,255,255,.16);
+      border-bottom-right-radius:4px;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+    }
+    .welcome-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .welcome-bubble b{font-family:"Cinzel",serif;letter-spacing:.06em}
+    .welcome-bubble p{margin:6px 0 0;color:var(--ink2);line-height:1.5;font-size:13px}
+    .welcome-bubble .x{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.18);
+      color:var(--ink);
+      border-radius:999px;
+      width:34px;height:34px;
+      display:inline-flex;align-items:center;justify-content:center;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+    .welcome-bubble .x:hover{filter:brightness(1.06)}
+
+    /* Modal (examples) */
+
+    .modal-backdrop{
+      position:fixed; inset:0; z-index:1000;
+      background: rgba(0,0,0,.66);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px;
+    }
+    .modal-backdrop.on{display:flex}
+    .modal{
+      width:min(720px, 96vw);
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(8,6,14,.94);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal-h{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .modal-h b{font-family:"Cinzel",serif;letter-spacing:.08em}
+    .modal-h .close{
+      appearance:none; cursor:pointer;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.18);
+      color:var(--ink);
+      width:36px;height:36px;
+      display:inline-flex;align-items:center;justify-content:center;
+      font-size:16px;
+    }
+    .modal-h .close:hover{filter:brightness(1.06)}
+    .modal-body{
+      padding:14px 16px 16px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:780px){ .modal-body{grid-template-columns:1fr;} }
+
+    .ex{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+      border-radius:18px;
+      padding:12px;
+    }
+    .ex h3{margin:0;font-size:14px}
+    .ex p{margin:8px 0 0;color:var(--ink2);line-height:1.55;font-size:13px}
+    .ex ul{margin:10px 0 0;padding-left:18px;color:rgba(255,255,255,.90)}
+    .ex li{margin:6px 0}
+
+
+    /* Big trigger button (CTA inside content) */
+    .sigma-cta{
+      padding: 6px 14px 16px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+    .sigma-trigger-big{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.16);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 14px 18px;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      font-weight:800;
+      letter-spacing:.02em;
+      box-shadow: 0 18px 50px rgba(0,0,0,.42);
+      transition: transform .18s ease, filter .18s ease, background .18s ease;
+    }
+    .sigma-trigger-big:hover{
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+      background: rgba(0,0,0,.22);
+    }
+    .sigma-trigger-big:active{ transform: translateY(0); }
+    .sigma-trigger-big img{
+      width:40px;
+      height:40px;
+      display:block;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,.45));
+    }
+    .sigma-trigger-big span{
+      font-size:13px;
+      text-transform: uppercase;
+    }
+    .sigma-cta-sub{
+      color: var(--ink2);
+      font-size: 12.5px;
+      text-align:center;
+      max-width: 60ch;
+      line-height: 1.55;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand">
+          <b>Sigma</b>
+          <small>ranní a večerní rytmus • bez tlačení na výkon</small>
+        </div>
+        <nav class="nav" aria-label="Navigace">
+          <a class="pill" href="praetorium.html">🕸 Praetorium</a>
+          <a class="pill" href="lumina-demo.html">🗯 Pokec</a>
+<a class="pill" href="home.html">🏡 Domů</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+<main>
+    <section class="panel">
+      <div class="head">
+        <h1>Sigma</h1>
+        <div class="sub">
+          Demo místnost pro denní rituály. Ráno zapínám směr. Večer zklidňuju.
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <b>🌅 Ranní zpráva</b>
+          <p>Krátká věta. Jeden směr. Žádné přetížení.</p>
+          <div class="chip">status: demo • napojíme později</div>
+        </div>
+
+        <div class="card">
+          <b>🌙 Večerní shrnutí</b>
+          <p>Co se povedlo. Co pustit. Co si vzít na zítra.</p>
+          <div class="chip">status: demo • napojíme později</div>
+        </div>
+      </div>
+
+      <div class="sigma-cta" aria-label="Ukázky Sigmy">
+                <div class="welcome-bubble" id="sigmaWelcome" role="status" aria-live="polite" aria-label="Uvítací zpráva Sigmy">
+          <div class="welcome-top">
+            <div>
+              <b>Ahoj návštěvníku 👋</b>
+              <p>Tady <b>Sigma</b>. Ráno zapínám směr, večer zklidňuju. Bez tlačení na výkon. (Ano, i dnes.)</p>
+            </div>
+            <button class="x" id="welcomeClose" type="button" aria-label="Zavřít">✕</button>
+          </div>
+        </div>
+<button class="sigma-trigger-big" id="sigmaTrigger" type="button">
+          <img src="sigma-switch.png" alt="" aria-hidden="true">
+          <span>Ukázky Sigmy</span>
+        </button>
+        <div class="sigma-cta-sub">Klikni a mrkni na ranní a večerní hlášky. 👆🏻</div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Examples modal -->
+  <div class="modal-backdrop" id="sigmaModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Ukázky zpráv Sigmy">
+      <div class="modal-h">
+        <b>Ukázky Sigmy</b>
+        <button class="close" id="modalClose" type="button" aria-label="Zavřít">✕</button>
+      </div>
+      <div class="modal-body">
+        <section class="ex" aria-label="Ukázky pro ráno">
+          <h3>🌅 Ráno</h3>
+          <p>Krátce. Čitelně. A s lehkým úsměvem.</p>
+          <ul>
+            <li>„Dobré ráno. Dnes jen jedna věc: klid.“</li>
+            <li>„Zapínáme svět. Ne stres.“</li>
+            <li>„Plán: dýchat. Pak teprve hrdinství. (Možná.)“</li>
+          </ul>
+        </section>
+
+        <section class="ex" aria-label="Ukázky pro večer">
+          <h3>🌙 Večer</h3>
+          <p>Uzavřít den. Ne sebe.</p>
+          <ul>
+            <li>„Dneska to stačilo. Zbytek necháme na zítra.“</li>
+            <li>„Co se povedlo? I maličkost se počítá.“</li>
+            <li>„Vypínáme chaos. Ty zůstáváš.“</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  
+  <script>
+    // Sigma: welcome bubble + examples modal
+    document.addEventListener("DOMContentLoaded", () => {
+      const welcome = document.getElementById("sigmaWelcome");
+      const welcomeClose = document.getElementById("welcomeClose");
+      const trigger = document.getElementById("sigmaTrigger");
+      const modal = document.getElementById("sigmaModal");
+      const modalClose = document.getElementById("modalClose");
+
+      // --- Audio: gentle beep (WebAudio) ---
+      let _sigmaAudioCtx = null;
+      function getAudioCtx(){
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if(!AudioCtx) return null;
+        if(!_sigmaAudioCtx) _sigmaAudioCtx = new AudioCtx();
+        if(_sigmaAudioCtx.state === "suspended"){
+          _sigmaAudioCtx.resume().catch(()=>{});
+        }
+        return _sigmaAudioCtx;
+      }
+      function gentleBeep(){
+        try{
+          const ctx = getAudioCtx();
+          if(!ctx) return;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.value = 784;
+          const now = ctx.currentTime;
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.exponentialRampToValueAtTime(0.03, now + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.10);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.11);
+        }catch(e){}
+      }
+      function armBeepOnFirstGesture(){
+        const handler = () => {
+          gentleBeep();
+          window.removeEventListener("pointerdown", handler, true);
+          window.removeEventListener("keydown", handler, true);
+        };
+        window.addEventListener("pointerdown", handler, true);
+        window.addEventListener("keydown", handler, true);
+      }
+
+      function showWelcome(){
+        if(!welcome) return;
+        welcome.classList.add("on");
+        // try beep immediately; if blocked, it will beep on first gesture
+        gentleBeep();
+        setTimeout(()=> welcome.classList.remove("on"), 4200);
+      }
+      function hideWelcome(){ welcome && welcome.classList.remove("on"); }
+
+      function openModal(){
+        if(!modal) return;
+        modal.hidden = false;
+        modal.classList.add("on");
+        modal.setAttribute("aria-hidden","false");
+        gentleBeep(); // always beeps on user click
+        setTimeout(()=> modalClose && modalClose.focus(), 0);
+      }
+      function closeModal(){
+        if(!modal) return;
+        modal.classList.remove("on");
+        modal.setAttribute("aria-hidden","true");
+        setTimeout(()=>{ modal.hidden = true; }, 0);
+        trigger && trigger.focus();
+      }
+
+      // Ensure modal is hidden on load
+      if(modal) modal.hidden = true;
+
+      armBeepOnFirstGesture();
+      showWelcome();
+
+      welcomeClose && welcomeClose.addEventListener("click", hideWelcome);
+      trigger && trigger.addEventListener("click", openModal);
+      modalClose && modalClose.addEventListener("click", closeModal);
+      modal && modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
+
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape"){
+          hideWelcome();
+          if(modal && modal.classList.contains("on")) closeModal();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
+
