@@ -204,15 +204,18 @@
       display:flex;
       flex-direction:column;
       gap: 12px;
-      flex: 1 1 auto;
-      min-height:0;
+      flex: 1 1 auto;     /* chat always gets the remaining space */
+      min-height:0;        /* allow internal scroll */
     }
+
+    /* Feed is a fixed “bottom pane”: it scrolls internally and never squeezes the chat */
     .feedArea{
       display:flex;
       flex-direction:column;
       gap: 10px;
-      flex: 1 1 auto;
-      min-height:0;
+      flex: 0 0 clamp(190px, 30%, 280px);  /* stable height across screen sizes */
+      min-height: 190px;
+      min-width: 0;
     }
     .feedArea .label{
       font-size: 12px;
@@ -491,6 +494,7 @@
       nav{ justify-content:flex-start; }
       .hero{ align-items:flex-start; flex-direction:column; }
       .pillrow{ justify-content:flex-start; }
+      .feedArea{ flex-basis: clamp(170px, 34%, 260px); min-height:170px; }
     }
   
     /* Modal */
