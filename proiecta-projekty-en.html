@@ -1,0 +1,1533 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Proiecta • Project Rooms | LuminaMemory™</title>
+
+  <!-- SEO -->
+  <meta name="title" content="Proiecta • Project Rooms | LuminaMemory™">
+  <meta name="description" content="Retro project rooms for the miniLumina DEMO. A TV wall, live previews, quick sorting, and a clear view of what’s waiting from the Proiecta workshop.">
+
+  <link rel="icon" href="favicon.png" type="image/png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LuminaMemory™" />
+  <meta property="og:title" content="Proiecta • Project Rooms | LuminaMemory™" />
+  <meta property="og:description" content="Retro project rooms for the miniLumina DEMO. A TV wall, live previews, quick sorting, and a clear view of what’s waiting from the Proiecta workshop." />
+  <meta property="og:url" content="https://luminamemory.github.io/LuminaMemory/proiecta-projekty-en.html" />
+  <meta property="og:image" content="https://luminamemory.github.io/LuminaMemory/tv-frame.png" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Proiecta • Project Rooms | LuminaMemory™" />
+  <meta name="twitter:description" content="Retro project rooms for the miniLumina DEMO. A TV wall, live previews, quick sorting, and a clear view of what’s waiting from the Proiecta workshop." />
+  <meta name="twitter:url" content="https://luminamemory.github.io/LuminaMemory/proiecta-projekty-en.html" />
+  <meta name="twitter:image" content="https://luminamemory.github.io/LuminaMemory/tv-frame.png" />
+
+  <link rel="canonical" href="https://luminamemory.github.io/LuminaMemory/proiecta-projekty-en.html" />
+
+  <style>
+    :root{
+      --bg0:#05060b;
+      --bg1:#0a0d18;
+      --ink:#eaf0ff;
+      --muted:#b7c1e6;
+      --line: rgba(234,240,255,.12);
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --shadow2: 0 12px 32px rgba(0,0,0,.45);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background:
+        radial-gradient(900px 560px at 20% -10%, rgba(139,92,246,.22), transparent 60%),
+        radial-gradient(900px 560px at 90% 0%, rgba(56,189,248,.18), transparent 60%),
+        radial-gradient(900px 560px at 60% 110%, rgba(34,197,94,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* CRT scanlines */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.035) 0px,
+          rgba(255,255,255,.035) 1px,
+          rgba(0,0,0,0) 3px,
+          rgba(0,0,0,0) 6px
+        );
+      opacity:.25;
+      mix-blend-mode: overlay;
+    }
+
+    /* subtle noise */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.12), transparent 60%),
+        radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(1px 1px at 75% 35%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,.12), transparent 60%);
+      opacity:.20;
+      filter: blur(.2px);
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 18px 44px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 260px;
+    }
+    .brand img{ width:44px; height:44px; border-radius:12px; opacity:.95; }
+    .brand .t{ display:flex; flex-direction:column; line-height:1.12; }
+    .brand .t strong{ font-size: 15px; letter-spacing:.2px; }
+    .brand .t span{ font-size: 12.5px; color: var(--muted); }
+
+    nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .navbtn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 10px 12px;
+      border:1px solid var(--line);
+      background: rgba(12,18,40,.55);
+      border-radius: 14px;
+      text-decoration:none;
+      color:var(--ink);
+      box-shadow: 0 10px 26px rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+    }
+    .navbtn small{ color: var(--muted); font-weight:700; }
+    .navbtn:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,.35); }
+
+    .hero{
+      border: 1px solid rgba(234,240,255,.14);
+      background: rgba(12,18,40,.52);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(12px);
+      padding: 16px 16px;
+      margin: 10px 0 16px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 14px;
+    }
+    .hero h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .hero p{
+      margin:6px 0 0;
+      font-size: 13.5px;
+      color: var(--muted);
+      max-width: 72ch;
+    }
+    .statusbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.25);
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 750;
+      white-space:nowrap;
+    }
+    .pill b{ color: var(--ink); font-weight:900; }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: rgba(56,189,248,.95);
+      box-shadow: 0 0 0 6px rgba(56,189,248,.14);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      align-items:stretch;
+    }
+
+    .tv{
+      --accent: rgba(56,189,248,.55);
+      grid-column: span 6;
+      border: 1px solid rgba(234,240,255,.12);
+      background: rgba(12,18,40,.45);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+      position:relative;
+      cursor:pointer;
+      transition: transform .12s ease;
+      min-height: 220px;
+    }
+    .tv:hover{ transform: translateY(-2px); border-color: rgba(139,92,246,.35); }
+
+    /* TV frame overlay */
+    .tv::before{
+      content:"";
+      position:absolute;
+      inset: 0;
+      background: url("tv-frame.png") center/cover no-repeat;
+      opacity: .90;
+      pointer-events:none;
+      filter: contrast(1.02) saturate(1.02);
+    }
+
+    /* Pearl accent glaze */
+    .tv::after{
+      content:"";
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+      background:
+        radial-gradient(420px 260px at 25% 30%, rgba(255,255,255,.10), transparent 60%),
+        radial-gradient(520px 300px at 80% 20%, rgba(255,255,255,.08), transparent 65%),
+        radial-gradient(700px 520px at 50% 110%, rgba(255,255,255,.06), transparent 60%),
+        linear-gradient(135deg, transparent 0%, rgba(255,255,255,.05) 24%, transparent 55%),
+        radial-gradient(850px 520px at 60% 30%, var(--accent), transparent 62%);
+      mix-blend-mode: screen;
+      opacity: .65;
+      filter: saturate(1.1) contrast(1.02);
+    }
+
+    /* NEW ROOM: gentle grain filter */
+    .tv.create::after{
+      background:
+        radial-gradient(420px 260px at 25% 30%, rgba(255,255,255,.11), transparent 60%),
+        radial-gradient(520px 300px at 80% 20%, rgba(255,255,255,.09), transparent 65%),
+        radial-gradient(700px 520px at 50% 110%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.14), transparent 55%),
+        radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,.12), transparent 55%),
+        radial-gradient(1px 1px at 75% 35%, rgba(255,255,255,.12), transparent 55%),
+        radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,.14), transparent 55%),
+        radial-gradient(850px 520px at 60% 30%, var(--accent), transparent 62%);
+      opacity: .75;
+      filter: blur(.15px) saturate(1.05);
+    }
+
+    .tv .inside{
+      position:relative;
+      padding: 18px 18px 16px;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap: 10px;
+    }
+
+    /* Center titles + text in the "screen" */
+    .tv .screen{
+      flex: 1;
+      min-height: 140px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      gap: 8px;
+      padding: 8px 14px;
+    }
+    .tv .screen strong{
+      display:block;
+      font-size: 16px;
+      letter-spacing:.8px;
+      text-transform: uppercase;
+    }
+    .tv .screen span{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.45;
+      max-width: 58ch;
+    }
+
+    .badge{
+      position:absolute;
+      top: 16px;
+      right: 16px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 34px;
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 12px;
+      border: 1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.35);
+      color: var(--ink);
+      box-shadow: 0 10px 20px rgba(0,0,0,.35);
+      z-index: 2;
+    }
+    .badge.new{ border-color: rgba(250,204,21,.35); color: rgba(255,240,180,1); }
+
+    .tv .foot{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .st{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+    .st .led{
+      width:8px; height:8px; border-radius:999px;
+      background: rgba(34,197,94,.95);
+      box-shadow: 0 0 0 6px rgba(34,197,94,.14);
+    }
+    .st.sleep .led{ background: rgba(250,204,21,.95); box-shadow: 0 0 0 6px rgba(250,204,21,.14); }
+    .st.done .led{ background: rgba(56,189,248,.95); box-shadow: 0 0 0 6px rgba(56,189,248,.14); }
+
+    .quick{ display:flex; gap: 8px; flex-wrap:wrap; justify-content:flex-end; }
+    .qbtn{
+      border:1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.26);
+      color: var(--ink);
+      padding: 7px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 850;
+      cursor:pointer;
+    }
+    .qbtn:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,.35); }
+
+    .panel{
+      grid-column: span 12;
+      border: 1px solid rgba(234,240,255,.12);
+      background: rgba(12,18,40,.52);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(12px);
+      padding: 14px 16px;
+    }
+    .panel h2{ margin: 0; font-size: 14px; letter-spacing:.2px; }
+    .panel p{ margin: 8px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+
+    .queue{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .card{
+      grid-column: span 4;
+      border: 1px solid rgba(234,240,255,.12);
+      background: rgba(0,0,0,.24);
+      border-radius: 16px;
+      padding: 12px 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.38);
+      min-height: 96px;
+    }
+    .card strong{
+      display:block;
+      font-size: 13px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .card span{
+      display:block;
+      margin-top: 6px;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    .card .mini{
+      margin-top: 8px;
+      font-size: 12.5px;
+      color: var(--ink);
+      opacity: .92;
+      overflow:hidden;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
+      line-height: 1.35;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 50;
+    }
+    .modal.open{ display:flex; }
+
+    /* Confirm modal sits above main modal */
+    #confirmModal{ z-index: 70; }
+    #confirmModal .dialog{ width:min(720px, 100%); }
+
+    .dialog{
+      width:min(920px, 100%);
+      border: 1px solid rgba(234,240,255,.16);
+      background: rgba(10,13,24,.92);
+      border-radius: 22px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.70);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .dialog::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.16;
+      background:
+        repeating-linear-gradient(to bottom, rgba(255,255,255,.06) 0 1px, rgba(0,0,0,0) 3px 6px);
+      mix-blend-mode: overlay;
+    }
+
+    .dlgHd{
+      padding: 14px 16px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(234,240,255,.12);
+      background: rgba(0,0,0,.18);
+      position:relative;
+    }
+    .dlgHd strong{ font-size: 14.5px; letter-spacing:.2px; }
+    .dlgHd span{ display:block; margin-top: 4px; color: var(--muted); font-size: 12.5px; }
+
+    .close{
+      border:1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.30);
+      color: var(--ink);
+      border-radius: 14px;
+      padding: 8px 10px;
+      font-weight: 900;
+      cursor:pointer;
+      position:relative;
+    }
+    .close:hover{ transform: translateY(-1px); border-color: rgba(248,113,113,.35); }
+
+    .dlgBd{ padding: 14px 16px 16px; position:relative; }
+    .notice{
+      border: 1px dashed rgba(234,240,255,.18);
+      background: rgba(12,18,40,.45);
+      border-radius: 16px;
+      padding: 12px 12px;
+      color: var(--muted);
+      font-size: 12.8px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .list{ display:grid; gap: 10px; }
+    .li{
+      border: 1px solid rgba(234,240,255,.12);
+      background: rgba(0,0,0,.22);
+      border-radius: 16px;
+      padding: 12px 12px;
+    }
+    .li .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .li .top b{
+      font-size: 13px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 70%;
+    }
+    .li .top i{
+      font-style: normal;
+      color: var(--muted);
+      font-size: 11.5px;
+      white-space:nowrap;
+    }
+    .li .body{
+      color: var(--ink);
+      opacity:.92;
+      font-size: 12.8px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .editBox{
+      border: 1px solid rgba(234,240,255,.12);
+      background: rgba(0,0,0,.20);
+      border-radius: 16px;
+      padding: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    .editBox label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    textarea{
+      width: 100%;
+      min-height: 92px;
+      resize: vertical;
+      border-radius: 14px;
+      border: 1px solid rgba(234,240,255,.14);
+      background: rgba(12,18,40,.45);
+      color: var(--ink);
+      padding: 10px 10px;
+      outline: none;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    textarea:focus{ border-color: rgba(56,189,248,.40); }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.28);
+      color: var(--ink);
+      padding: 9px 12px;
+      border-radius: 14px;
+      font-size: 12.5px;
+      font-weight: 900;
+      cursor:pointer;
+    }
+    .btn[disabled]{ opacity:.45; cursor:not-allowed; }
+    .btn.primary{ border-color: rgba(56,189,248,.35); }
+    .btn.danger{ border-color: rgba(248,113,113,.35); }
+
+
+    /* State picker (live / sleeping / done) — náš design */
+    .seg{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .segBtn{
+      border:1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.20);
+      color: var(--ink);
+      padding: 10px 12px;
+      border-radius: 16px;
+      font-size: 12.5px;
+      font-weight: 900;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      user-select:none;
+    }
+    .segBtn:hover{ transform: translateY(-1px); border-color: rgba(56,189,248,.35); }
+    .segBtn.isOn{
+      border-color: rgba(56,189,248,.45);
+      background: rgba(56,189,248,.08);
+      box-shadow: 0 12px 24px rgba(0,0,0,.25);
+    }
+    .ledDot{
+      width:10px; height:10px; border-radius:999px;
+      box-shadow: 0 0 0 6px rgba(255,255,255,.05) inset, 0 0 0 5px rgba(0,0,0,.20);
+    }
+    .ledDot.live{ background: rgba(34,197,94,.95); box-shadow: 0 0 0 7px rgba(34,197,94,.12); }
+    .ledDot.sleep{ background: rgba(250,204,21,.95); box-shadow: 0 0 0 7px rgba(250,204,21,.12); }
+    .ledDot.done{ background: rgba(56,189,248,.95); box-shadow: 0 0 0 7px rgba(56,189,248,.12); }
+
+
+    /* "Table" form */
+    .formTable{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
+    .formTable td{ vertical-align: top; }
+    .formTable .k{
+      width: 160px;
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 12.5px;
+      padding-top: 10px;
+    }
+    .formTable input, .formTable select{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(234,240,255,.14);
+      background: rgba(12,18,40,.45);
+      color: var(--ink);
+      padding: 10px 10px;
+      outline:none;
+      font-size: 13px;
+    }
+    .formTable input:focus, .formTable select:focus{ border-color: rgba(56,189,248,.40); }
+
+    .swatches{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .swatch{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(234,240,255,.14);
+      background: rgba(0,0,0,.20);
+      cursor:pointer;
+      user-select:none;
+      font-weight: 900;
+      font-size: 12.5px;
+    }
+    .swatch .dotc{
+      width: 16px; height: 16px; border-radius: 999px;
+      box-shadow: 0 0 0 6px rgba(255,255,255,.06) inset, 0 0 0 4px rgba(0,0,0,.22);
+    }
+    .swatch[aria-checked="true"]{ border-color: rgba(56,189,248,.45); transform: translateY(-1px); }
+
+    footer{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap: 10px;
+      padding: 0 4px;
+    }
+
+    @media (max-width: 980px){
+      .tv{ grid-column: span 12; }
+      .card{ grid-column: span 12; }
+      .hero{ flex-direction:column; align-items:flex-start; }
+      nav{ justify-content:flex-start; }
+      .statusbar{ justify-content:flex-start; }
+      .formTable .k{ width: 120px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="favicon.png" alt="LuminaMemory™" />
+        <div class="t">
+          <strong>LuminaMemory™</strong>
+          <span>Proiecta • Project Rooms (retro)</span>
+        </div>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <a class="navbtn" href="proiecta-en.html" title="Back to Proiecta"><span>✨</span><small>Workshop</small></a>
+        <a class="navbtn" href="praetorium-en.html" title="Praetorium"><span>🏛</span><small>Praetorium</small></a>
+        <a class="navbtn" href="lumina-demo-en.html" title="Pokec"><span>🗯</span><small>Pokec</small></a>
+        <a class="navbtn" href="home-en.html" title="Home"><span>🏡</span><small>Home</small></a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Project rooms — TV wall 📺</h1>
+        <p>
+          This is where things get saved and sorted. Ideas, images, and files drop in here from the Proiecta workshop.
+          Click a 📺 to open a room. Tip: “New room” lets you create another one.
+        </p>
+      </div>
+      <div class="statusbar" aria-label="Room status">
+        <div class="pill"><span class="dot"></span> <b> items waiting: </b> <b id="pillCount">0</b></div>
+        <div class="pill">🧪 mode: <b>retro archive</b></div>
+        <div class="pill">🕸 linked to workshop: <b>yes</b></div>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="TV rooms">
+      <!-- Přednastavené místnosti -->
+      <article class="tv" data-room="domacnost" tabindex="0" role="button" aria-label="Home" style="--accent: rgba(34,197,94,.55);">
+        <div class="badge" id="bDom">0</div>
+        <div class="inside">
+          <div class="screen">
+            <strong>HOME</strong>
+            <span>“...and someone’s crinkling a bag! 🐾”</span>
+          </div>
+          <div class="foot">
+            <div class="st"><span class="led"></span> live</div>
+            <div class="quick"><button class="qbtn" type="button" data-open="domacnost">Open</button></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tv" data-room="recepty" tabindex="0" role="button" aria-label="Recipes" style="--accent: rgba(56,189,248,.55);">
+        <div class="badge" id="bRec">0</div>
+        <div class="inside">
+          <div class="screen">
+            <strong>RECIPES</strong>
+            <span>“...and it smells suspiciously good in here! 🍅”</span>
+          </div>
+          <div class="foot">
+            <div class="st sleep"><span class="led"></span> sleeping</div>
+            <div class="quick"><button class="qbtn" type="button" data-open="recepty">Open</button></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tv" data-room="projekt" tabindex="0" role="button" aria-label="Project" style="--accent: rgba(139,92,246,.55);">
+        <div class="badge" id="bPro">0</div>
+        <div class="inside">
+          <div class="screen">
+            <strong>PROJECT</strong>
+            <span>“...and this is going to be big! 🚀”</span>
+          </div>
+          <div class="foot">
+            <div class="st done"><span class="led"></span> done (probably)</div>
+            <div class="quick"><button class="qbtn" type="button" data-open="projekt">Open</button></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sem se doplní uživatelem vytvořené místnosti -->
+      <div id="customRoomsMount" style="grid-column: span 12; display: contents;"></div>
+
+      <article class="tv create" data-room="nova" tabindex="0" role="button" aria-label="New room" style="--accent: rgba(250,204,21,.32);">
+        <div class="badge new">—</div>
+        <div class="inside">
+          <div class="screen">
+            <strong>➕ NEW ROOM</strong>
+            <span>“Not yet. But it’s already trembling with joy. 😂”</span>
+          </div>
+          <div class="foot">
+            <div class="st sleep"><span class="led"></span> soon</div>
+            <div class="quick"><button class="qbtn" type="button" data-open="nova">Prepare</button></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="tv" id="tvMap" role="link" aria-label="Map" style="--accent: rgba(34,211,238,.55); cursor:pointer;">
+        <div class="badge">🗺</div>
+        <div class="inside">
+          <div class="screen">
+            <strong>MAP</strong>
+            <span>“A quiet room for finding your way in the landscape of memory…”</span>
+          </div>
+          <div class="foot">
+            <div class="st done"><span class="led"></span> passage</div>
+            <div class="quick"><button class="qbtn" type="button" data-link="map-en.html">Enter</button></div>
+          </div>
+        </div>
+      </article>
+
+
+      <section class="panel" aria-label="What’s waiting from the workshop">
+        <h2>Waiting from the Proiecta workshop</h2>
+        <p>
+          A snapshot of the latest items (DEMO). Note: later this will be moved into specific projects — once approved.
+        </p>
+        <div class="queue" id="queue"></div>
+      </section>
+    </section>
+
+    <footer>
+      <div>DEMO • saved locally in your browser</div>
+      <div>Retro layer • “order after magic” 📺✨</div>
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+      <div class="dlgHd">
+        <div>
+          <strong id="dlgTitle">Room</strong>
+          <span id="dlgSub">—</span>
+        </div>
+        <button class="close" id="btnClose" type="button">✖ Close</button>
+      </div>
+
+      <div class="dlgBd">
+        <!-- ROOM VIEW (příklady + tvoje texty) -->
+        <section id="viewRoom">
+          <div class="notice" id="dlgNote">
+            You can store your notes here 📝 (and delete them anytime 🧹).
+          </div>
+
+          <div id="roomAdmin" style="display:none; margin: 10px 0 12px;">
+            <div class="actions" style="justify-content:space-between;">
+              <button class="btn danger" id="btnDeleteRoom" type="button">🗑 Delete room</button>
+            </div>
+          </div>
+
+          <div class="list" id="dlgList"></div>
+
+          <div style="height:12px;"></div>
+
+          <div class="editBox">
+            <label for="myText">Your notes (add a new one)</label>
+            <textarea id="myText" placeholder="✍️ Write your note here…"></textarea>
+            <div class="actions">
+              <button class="btn primary" id="btnSaveMyText" type="button" disabled>Save</button>
+            </div>
+          </div>
+
+          <div style="height:12px;"></div>
+
+          <div class="notice" style="margin-bottom:10px;">Saved texts in this room</div>
+          <div class="list" id="myTextsList"></div>
+        </section>
+
+        <!-- CREATE ROOM VIEW (tabulka + barva + vytvoření) -->
+        <section id="viewCreate" style="display:none;">
+          <div class="notice">
+            Fill in the details. Once the required fields are ready, “Save” will unlock. Before creating, you’ll pick a color 🎨.
+          </div>
+
+          <table class="formTable" aria-label="Create-room form">
+            <tr>
+              <td class="k">Name *</td>
+              <td><input id="fName" type="text" placeholder="e.g. TATTOO / TRAVEL / CARE…" /></td>
+            </tr>
+            <tr>
+              <td class="k">Purpose *</td>
+              <td><input id="fPurpose" type="text" placeholder="Why this room exists…" /></td>
+            </tr>
+            <tr>
+              <td class="k">Description</td>
+              <td><textarea id="fDesc" placeholder="Short description / rules / what belongs here…"></textarea></td>
+            </tr>
+            <tr>
+              <td class="k">Tags</td>
+              <td><input id="fTags" type="text" placeholder="separate with commas (e.g., review, plan, health)" /></td>
+            </tr>
+                        <tr>
+              <td class="k">Status</td>
+              <td>
+                <input id="fState" type="hidden" value="live" />
+                <div class="seg" id="statePick" role="radiogroup" aria-label="Room status">
+                  <button class="segBtn isOn" type="button" data-state="live" role="radio" aria-checked="true">
+                    <span class="ledDot live"></span> live
+                  </button>
+                  <button class="segBtn" type="button" data-state="sleep" role="radio" aria-checked="false">
+                    <span class="ledDot sleep"></span> sleeping
+                  </button>
+                  <button class="segBtn" type="button" data-state="done" role="radio" aria-checked="false">
+                    <span class="ledDot done"></span> done
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <div class="actions">
+            <button class="btn primary" id="btnCreateNext" type="button" disabled>Save</button>
+          </div>
+
+          <div id="colorStep" style="display:none; margin-top:12px;">
+            <div class="notice" style="margin-bottom:10px;">Choose a color:</div>
+            <div class="swatches" role="radiogroup" aria-label="Color picker">
+              <div class="swatch" role="radio" tabindex="0" data-color="red" aria-checked="true">
+                <span class="dotc" style="background: rgba(248,113,113,.92)"></span> red
+              </div>
+              <div class="swatch" role="radio" tabindex="0" data-color="blue" aria-checked="false">
+                <span class="dotc" style="background: rgba(56,189,248,.92)"></span> blue
+              </div>
+              <div class="swatch" role="radio" tabindex="0" data-color="green" aria-checked="false">
+                <span class="dotc" style="background: rgba(34,197,94,.92)"></span> green
+              </div>
+            </div>
+            <div class="actions" style="margin-top:12px;">
+              <button class="btn" id="btnBackToForm" type="button">Back</button>
+              <button class="btn primary" id="btnConfirmCreate" type="button">Create room</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm delete dialog -->
+  <div class="modal" id="confirmModal" aria-hidden="true">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="dlgHd">
+        <div>
+          <strong id="confirmTitle">Really delete this room?</strong>
+          <span id="confirmSub">—</span>
+        </div>
+        <button class="close" id="confirmClose" type="button">✖ Close</button>
+      </div>
+
+      <div class="dlgBd">
+        <div class="notice" id="confirmNote">
+          Deleting the room will also remove <b>all your saved notes</b> in this room.
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="confirmCancel" type="button">Keep it</button>
+          <button class="btn danger" id="confirmDelete" type="button">Yes, delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<script>
+(() => {
+  const KEY_INBOX = "LM_PROIECTA_V1";               // položky z dílny (už existuje)
+  const KEY_TEXTS = "LM_PROIECTA_ROOM_TEXTS_V1";    // tvoje texty v místnostech
+  const KEY_ROOMS = "LM_PROIECTA_CUSTOM_ROOMS_V1";  // vytvořené místnosti
+
+  const pillCount = document.getElementById("pillCount");
+  const queue = document.getElementById("queue");
+
+  const bDom = document.getElementById("bDom");
+  const bRec = document.getElementById("bRec");
+  const bPro = document.getElementById("bPro");
+
+  const modal = document.getElementById("modal");
+  const btnClose = document.getElementById("btnClose");
+  const dlgTitle = document.getElementById("dlgTitle");
+  const dlgSub = document.getElementById("dlgSub");
+  const dlgList = document.getElementById("dlgList");
+  const myTextsList = document.getElementById("myTextsList");
+  const myText = document.getElementById("myText");
+  const btnSaveMyText = document.getElementById("btnSaveMyText");
+  const roomAdmin = document.getElementById("roomAdmin");
+  const btnDeleteRoom = document.getElementById("btnDeleteRoom");
+
+  // Confirm delete modal
+  const confirmModal = document.getElementById("confirmModal");
+  const confirmTitle = document.getElementById("confirmTitle");
+  const confirmSub = document.getElementById("confirmSub");
+  const confirmNote = document.getElementById("confirmNote");
+  const confirmClose = document.getElementById("confirmClose");
+  const confirmCancel = document.getElementById("confirmCancel");
+  const confirmDelete = document.getElementById("confirmDelete");
+
+  const viewRoom = document.getElementById("viewRoom");
+  const viewCreate = document.getElementById("viewCreate");
+
+  const mount = document.getElementById("customRoomsMount");
+
+  // Create form
+  const fName = document.getElementById("fName");
+  const fPurpose = document.getElementById("fPurpose");
+  const fDesc = document.getElementById("fDesc");
+  const fTags = document.getElementById("fTags");
+  const fState = document.getElementById("fState");
+  const statePick = document.getElementById("statePick");
+  const btnCreateNext = document.getElementById("btnCreateNext");
+  const colorStep = document.getElementById("colorStep");
+  const btnBackToForm = document.getElementById("btnBackToForm");
+  const btnConfirmCreate = document.getElementById("btnConfirmCreate");
+
+  let activeRoom = null;
+
+  const roomsPreset = {
+    domacnost: {
+      title: "HOME",
+      subtitle: "Today was chaos — the cat went wild again 💩 and we ended up cleaning all day 🧹 but the evening was calm ❤️"
+    },
+    recepty: {
+      title: "RECIPES",
+      subtitle: "Recipe tip from Lumina: ✨ mozzarella, tomatoes and olives — salt, pepper, and drizzle with olive oil. Serve with a fresh baguette 🥖✨"
+    },
+    projekt: {
+      title: "PROJECT",
+      subtitle: "A place is forming where memory isn’t a feature — it’s the foundation… 💫"
+    },
+    nova: {
+      title: "NEW ROOM",
+      subtitle: "Create a new room ✨"
+    }
+  };
+
+  const pearl = {
+    red:   "rgba(248,113,113,.55)",
+    blue:  "rgba(56,189,248,.55)",
+    green: "rgba(34,197,94,.55)"
+  };
+
+  function uid(){
+    return "id_" + Math.random().toString(16).slice(2) + "_" + Date.now();
+  }
+
+  function esc(s){
+    return (s||"").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[m]));
+  }
+
+  function loadInbox(){
+    try{
+      const raw = localStorage.getItem(KEY_INBOX);
+      if(!raw) return { items: [] };
+      const parsed = JSON.parse(raw);
+      return { items: parsed.items || [] };
+    }catch(e){
+      return { items: [] };
+    }
+  }
+
+  function loadTexts(){
+    try{
+      const raw = localStorage.getItem(KEY_TEXTS);
+      if(!raw) return { byRoom: {} };
+      const parsed = JSON.parse(raw);
+      return { byRoom: parsed.byRoom || {} };
+    }catch(e){
+      return { byRoom: {} };
+    }
+  }
+
+  function saveTexts(state){
+    localStorage.setItem(KEY_TEXTS, JSON.stringify(state));
+  }
+
+  function loadRooms(){
+    try{
+      const raw = localStorage.getItem(KEY_ROOMS);
+      if(!raw) return { rooms: [] };
+      const parsed = JSON.parse(raw);
+      return { rooms: parsed.rooms || [] };
+    }catch(e){
+      return { rooms: [] };
+    }
+  }
+
+  function saveRooms(state){
+    localStorage.setItem(KEY_ROOMS, JSON.stringify(state));
+  }
+
+  function typeLabel(t){
+    if(t === "image") return "Image";
+    if(t === "idea") return "Idea";
+    if(t === "file") return "File";
+    if(t === "note") return "Note";
+    return "Entry";
+  }
+
+  function setBadge(el, n){
+    el.textContent = String(n);
+    el.classList.toggle("new", n > 0);
+  }
+
+  function card(kind, title, preview){
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <strong>${esc(title)}</strong>
+      <span>${esc(kind)} • waiting to be filed</span>
+      <div class="mini">${esc(preview || "—")}</div>
+    `;
+    return div;
+  }
+
+  function li(kind, title, body, time){
+    const div = document.createElement("div");
+    div.className = "li";
+    div.innerHTML = `
+      <div class="top">
+        <b>${esc(title)}</b>
+        <i>${esc(kind)} • ${esc(time)}</i>
+      </div>
+      <div class="body">${esc(body)}</div>
+    `;
+    return div;
+  }
+
+  function myLi(textObj){
+    const div = document.createElement("div");
+    div.className = "li";
+    const time = new Date(textObj.ts).toLocaleString("en-US", {year:"numeric", month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit"});
+    div.innerHTML = `
+      <div class="top">
+        <b>Your note</b>
+        <i>${esc(time)}</i>
+      </div>
+      <div class="body">${esc(textObj.text)}</div>
+      <div class="actions" style="margin-top:10px;">
+        <button class="btn danger" type="button" data-del="${esc(textObj.id)}">Delete</button>
+      </div>
+    `;
+    return div;
+  }
+
+  function renderQueue(){
+    const st = loadInbox();
+    const items = st.items || [];
+    pillCount.textContent = String(items.length);
+
+    // Demo distribution: split by type
+    const domCount = items.filter(x => x.type === "file").length;
+    const recCount = items.filter(x => x.type === "idea").length;
+    const proCount = items.filter(x => x.type === "image").length;
+
+    setBadge(bDom, domCount);
+    setBadge(bRec, recCount);
+    setBadge(bPro, proCount);
+
+    // Queue: last 6 items
+    queue.innerHTML = "";
+    const last = items.slice(0, 6);
+
+    if(last.length === 0){
+      queue.innerHTML = `
+        <div class="card" style="grid-column: span 12;">
+          <strong>Nothing waiting here yet</strong>
+          <span>Create something in Proiecta first. Then come back — and watch the magic 🔮.</span>
+          <div class="mini">Tip: generate an image or save an idea.</div>
+        </div>
+      `;
+      return;
+    }
+
+    for(const it of last){
+      const kind = typeLabel(it.type);
+      const title = it.title || "Untitled";
+      const preview = (it.body || "").trim().replace(/\s+/g," ").slice(0, 120);
+      queue.appendChild(card(kind, title, preview));
+    }
+  }
+
+  function renderCustomRooms(){
+    const st = loadRooms();
+    const rooms = st.rooms || [];
+    mount.innerHTML = "";
+    for(const r of rooms){
+      const art = document.createElement("article");
+      art.className = "tv";
+      art.setAttribute("data-room", r.key);
+      art.setAttribute("tabindex","0");
+      art.setAttribute("role","button");
+      art.setAttribute("aria-label", r.name);
+      art.style.setProperty("--accent", pearl[r.color] || pearl.blue);
+
+      const badge = document.createElement("div");
+      badge.className = "badge";
+      badge.textContent = "0";
+      badge.id = "b_" + r.key;
+      art.appendChild(badge);
+
+      art.innerHTML += `
+        <div class="inside">
+          <div class="screen">
+            <strong>${esc(r.name)}</strong>
+            <span>${esc(r.purpose || "—")}</span>
+          </div>
+          <div class="foot">
+            <div class="st ${r.state === "sleep" ? "sleep" : (r.state === "done" ? "done" : "")}">
+              <span class="led"></span> ${r.state === "sleep" ? "sleeping" : (r.state === "done" ? "done" : "live")}
+            </div>
+            <div class="quick"><button class="qbtn" type="button" data-open="${esc(r.key)}">Open</button></div>
+          </div>
+        </div>
+      `;
+      mount.appendChild(art);
+    }
+  }
+
+  function updateCustomBadges(){
+    // jednoduchá logika: počet "tvých textů" v místnosti
+    const txt = loadTexts().byRoom || {};
+    const st = loadRooms();
+    for(const r of (st.rooms || [])){
+      const el = document.getElementById("b_" + r.key);
+      if(!el) continue;
+      const n = (txt[r.key] || []).length;
+      setBadge(el, n);
+    }
+  }
+
+  function openModal(){
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+  }
+
+  function close(){
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden","true");
+    activeRoom = null;
+    if(roomAdmin) roomAdmin.style.display = "none";
+    // reset views
+    viewRoom.style.display = "";
+    viewCreate.style.display = "none";
+    colorStep.style.display = "none";
+    btnCreateNext.style.display = "";
+    btnCreateNext.disabled = true;
+  }
+
+  function renderMyTexts(roomKey){
+    const st = loadTexts();
+    const arr = (st.byRoom && st.byRoom[roomKey]) ? st.byRoom[roomKey] : [];
+    myTextsList.innerHTML = "";
+    if(arr.length === 0){
+      myTextsList.innerHTML = `<div class="li"><div class="body">You don’t have any saved text here yet. ✨</div></div>`;
+      return;
+    }
+    for(const t of arr){
+      myTextsList.appendChild(myLi(t));
+    }
+
+    // bind deletes
+    myTextsList.querySelectorAll("button[data-del]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-del");
+        const st2 = loadTexts();
+        const arr2 = (st2.byRoom && st2.byRoom[roomKey]) ? st2.byRoom[roomKey] : [];
+        st2.byRoom[roomKey] = arr2.filter(x => x.id !== id);
+        saveTexts(st2);
+        renderMyTexts(roomKey);
+        updateCustomBadges();
+      });
+    });
+  }
+
+  function getCustomRoom(key){
+    const stRooms = loadRooms();
+    return (stRooms.rooms || []).find(r => r.key === key) || null;
+  }
+
+  function openRoom(key){
+    activeRoom = key;
+
+    if(key === "nova"){
+      dlgTitle.textContent = roomsPreset.nova.title;
+      dlgSub.textContent = roomsPreset.nova.subtitle;
+      viewRoom.style.display = "none";
+      viewCreate.style.display = "";
+      openModal();
+      if(roomAdmin) roomAdmin.style.display = "none";
+      resetCreateForm();
+      return;
+    }
+
+    // preset or custom room
+    const custom = getCustomRoom(key);
+
+    if(roomAdmin) roomAdmin.style.display = custom ? "" : "none";
+
+    const info = custom ? {
+      title: custom.name,
+      subtitle: custom.purpose || "Room contents"
+    } : (roomsPreset[key] || { title: "Room", subtitle: "Room contents" });
+
+    dlgTitle.textContent = info.title;
+    dlgSub.textContent = info.subtitle;
+
+    // Examples (příklady): použijeme poslední 2–3 položky z dílny
+    const st = loadInbox();
+    const items = st.items || [];
+
+    let pool = items;
+    if(key === "domacnost") pool = items.filter(x => x.type === "file").concat(items.filter(x => x.type !== "file"));
+    if(key === "recepty")    pool = items.filter(x => x.type === "idea").concat(items.filter(x => x.type !== "idea"));
+    if(key === "projekt")    pool = items.filter(x => x.type === "image").concat(items.filter(x => x.type !== "image"));
+
+    const show = pool.slice(0, 3);
+
+    dlgList.innerHTML = "";
+    if(show.length === 0){
+      dlgList.innerHTML = `<div class="li"><div class="body">Nothing here yet. Create something in Proiecta first. ✨</div></div>`;
+    }else{
+      for(const it of show){
+        const time = new Date(it.ts || Date.now()).toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"});
+        dlgList.appendChild(li(typeLabel(it.type), it.title || "Untitled", it.body || "", time));
+      }
+    }
+
+    // My texts
+    myText.value = "";
+    btnSaveMyText.disabled = true;
+    renderMyTexts(key);
+
+    viewRoom.style.display = "";
+    viewCreate.style.display = "none";
+    openModal();
+  }
+
+  function resetCreateForm(){
+    fName.value = "";
+    fPurpose.value = "";
+    fDesc.value = "";
+    fTags.value = "";
+    setState("live");
+    btnCreateNext.disabled = true;
+    colorStep.style.display = "none";
+    btnCreateNext.style.display = "";
+  }
+
+  function validateCreateForm(){
+    const ok = (fName.value || "").trim().length >= 2 && (fPurpose.value || "").trim().length >= 3;
+    btnCreateNext.disabled = !ok;
+  }
+
+  function setState(value){
+    fState.value = value;
+    if(!statePick) return;
+    statePick.querySelectorAll(".segBtn").forEach(b => {
+      const on = b.getAttribute("data-state") === value;
+      b.classList.toggle("isOn", on);
+      b.setAttribute("aria-checked", on ? "true" : "false");
+    });
+    validateCreateForm();
+  }
+
+  function wireStatePick(){
+    if(!statePick) return;
+    statePick.querySelectorAll(".segBtn").forEach(btn => {
+      btn.addEventListener("click", () => setState(btn.getAttribute("data-state")));
+      btn.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " ") { e.preventDefault(); setState(btn.getAttribute("data-state")); }
+      });
+    });
+  }
+  wireStatePick();
+
+  function selectedColor(){
+    const el = colorStep.querySelector('.swatch[aria-checked="true"]');
+    return el ? el.getAttribute("data-color") : "red";
+  }
+
+  function setSwatchChecked(target){
+    colorStep.querySelectorAll(".swatch").forEach(s => s.setAttribute("aria-checked","false"));
+    target.setAttribute("aria-checked","true");
+  }
+
+  function wireRadios(){
+    colorStep.querySelectorAll(".swatch").forEach(s => {
+      s.addEventListener("click", () => setSwatchChecked(s));
+      s.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " ") { e.preventDefault(); setSwatchChecked(s); }
+      });
+    });
+  }
+  wireRadios();
+
+  // Save my text
+  myText.addEventListener("input", () => {
+    btnSaveMyText.disabled = (myText.value || "").trim().length < 2;
+  });
+
+  btnSaveMyText.addEventListener("click", () => {
+    if(!activeRoom) return;
+    const t = (myText.value || "").trim();
+    if(t.length < 2) return;
+
+    const st = loadTexts();
+    st.byRoom = st.byRoom || {};
+    st.byRoom[activeRoom] = st.byRoom[activeRoom] || [];
+    st.byRoom[activeRoom].unshift({ id: uid(), text: t, ts: Date.now() });
+    saveTexts(st);
+
+    myText.value = "";
+    btnSaveMyText.disabled = true;
+
+    renderMyTexts(activeRoom);
+    updateCustomBadges();
+  });
+
+  // Confirm modal helpers (delete room)
+  let pendingDeleteKey = null;
+
+  function openConfirm(){
+    if(!confirmModal) return;
+    confirmModal.classList.add("open");
+    confirmModal.setAttribute("aria-hidden","false");
+  }
+
+  function closeConfirm(){
+    if(!confirmModal) return;
+    confirmModal.classList.remove("open");
+    confirmModal.setAttribute("aria-hidden","true");
+    pendingDeleteKey = null;
+  }
+
+  if(confirmCancel) confirmCancel.addEventListener("click", closeConfirm);
+  if(confirmClose) confirmClose.addEventListener("click", closeConfirm);
+  if(confirmModal) confirmModal.addEventListener("click", (e) => { if(e.target === confirmModal) closeConfirm(); });
+  document.addEventListener("keydown", (e) => { if(e.key === "Escape" && confirmModal && confirmModal.classList.contains("open")) closeConfirm(); });
+
+  // Delete custom room (opens confirm modal)
+  if(btnDeleteRoom){
+    btnDeleteRoom.addEventListener("click", () => {
+      if(!activeRoom) return;
+      const custom = getCustomRoom(activeRoom);
+      if(!custom) return;
+
+      pendingDeleteKey = activeRoom;
+
+      if(confirmTitle) confirmTitle.textContent = `Really delete the room “${custom.name}”?`;
+      if(confirmSub) confirmSub.textContent = "This can’t be undone.";
+      if(confirmNote) confirmNote.innerHTML = `Deleting the room will also remove <b>all your saved notes</b> in this room.`;
+
+      openConfirm();
+    });
+  }
+
+  if(confirmDelete){
+    confirmDelete.addEventListener("click", () => {
+      if(!pendingDeleteKey) return;
+
+      const st = loadRooms();
+      st.rooms = (st.rooms || []).filter(r => r.key !== pendingDeleteKey);
+      saveRooms(st);
+
+      const t = loadTexts();
+      if(t.byRoom && t.byRoom[pendingDeleteKey]) delete t.byRoom[pendingDeleteKey];
+      saveTexts(t);
+
+      renderCustomRooms();
+      bindTVs();
+      updateCustomBadges();
+
+      closeConfirm();
+      close();
+    });
+  }
+
+  // Create room flow
+  [fName, fPurpose, fDesc, fTags, fState].forEach(el => el.addEventListener("input", validateCreateForm));
+  validateCreateForm();
+
+  btnCreateNext.addEventListener("click", () => {
+    colorStep.style.display = "";
+    btnCreateNext.style.display = "none";
+  });
+
+  btnBackToForm.addEventListener("click", () => {
+    colorStep.style.display = "none";
+    btnCreateNext.style.display = "";
+  });
+
+  btnConfirmCreate.addEventListener("click", () => {
+    const name = (fName.value || "").trim();
+    const purpose = (fPurpose.value || "").trim();
+    if(name.length < 2 || purpose.length < 3) return;
+
+    const state = fState.value;
+    const desc = (fDesc.value || "").trim();
+    const tags = (fTags.value || "").trim();
+    const color = selectedColor();
+
+    const key = "room_" + uid();
+
+    const st = loadRooms();
+    st.rooms = st.rooms || [];
+    st.rooms.unshift({ key, name, purpose, desc, tags, state, color, ts: Date.now() });
+    saveRooms(st);
+
+    renderCustomRooms();
+    bindTVs();
+    updateCustomBadges();
+    close();
+  });
+
+  // Click / keyboard open for TVs (delegation)
+  function bindTVs(){
+    document.querySelectorAll(".tv").forEach(tv => {
+      if(tv.id === "tvMap") return;
+      if(tv.dataset.bound === "1") return;
+      tv.dataset.bound = "1";
+      const key = tv.getAttribute("data-room");
+      tv.addEventListener("click", () => openRoom(key));
+      tv.addEventListener("keydown", (e) => { if(e.key === "Enter" || e.key === " ") openRoom(key); });
+    });
+
+    // Direct link buttons (e.g. MAP)
+    document.querySelectorAll("button[data-link]").forEach(btn => {
+      if(btn.dataset.bound === "1") return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const href = btn.getAttribute("data-link");
+        if(href) window.location.href = href;
+      });
+    });
+
+    document.querySelectorAll("button[data-open]").forEach(btn => {
+      if(btn.dataset.bound === "1") return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openRoom(btn.getAttribute("data-open"));
+      });
+    });
+  }
+
+  // Modal close
+  btnClose.addEventListener("click", close);
+  modal.addEventListener("click", (e) => { if(e.target === modal) close(); });
+  document.addEventListener("keydown", (e) => { if(e.key === "Escape") close(); });
+
+  // Initial render
+  renderCustomRooms();
+  bindTVs();
+
+  // Bonus room: MAP
+  const tvMap = document.getElementById("tvMap");
+  if(tvMap){
+    tvMap.addEventListener("click", () => { window.location.href = "map-en.html"; });
+    tvMap.addEventListener("keydown", (e) => { if(e.key === "Enter" || e.key === " ") window.location.href = "map-en.html"; });
+  }
+  renderQueue();
+  updateCustomBadges();
+
+  window.addEventListener("focus", () => {
+    renderQueue();
+    updateCustomBadges();
+  });
+})();
+</script>
+</body>
+</html>

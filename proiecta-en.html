@@ -1,0 +1,1248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Proiecta • Magic Workshop | LuminaMemory™</title>
+
+  <!-- SEO -->
+  <meta name="title" content="Proiecta • Magic Workshop | LuminaMemory™">
+  <meta name="description" content="Proiecta is the magical workshop of the miniLumina DEMO: chat with Lumina for ideas, translations, emails, and image generation. Everything is live, playful, and tidy.">
+
+  <link rel="icon" href="favicon.png" type="image/png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LuminaMemory™" />
+  <meta property="og:title" content="Proiecta • Magic Workshop | LuminaMemory™" />
+  <meta property="og:description" content="Proiecta is the magical workshop of the miniLumina DEMO: chat with Lumina for ideas, translations, emails, and image generation. Everything is live, playful, and tidy." />
+  <meta property="og:url" content="https://luminamemory.github.io/LuminaMemory/proiecta-en.html" />
+  <meta property="og:image" content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Proiecta • Magic Workshop | LuminaMemory™" />
+  <meta name="twitter:description" content="Proiecta is the magical workshop of the miniLumina DEMO: chat with Lumina for ideas, translations, emails, and image generation. Everything is live, playful, and tidy." />
+  <meta name="twitter:url" content="https://luminamemory.github.io/LuminaMemory/proiecta-en.html" />
+  <meta name="twitter:image" content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+
+  <link rel="canonical" href="https://luminamemory.github.io/LuminaMemory/proiecta-en.html" />
+
+  <style>
+    :root{
+      --bg: #f5f7fb;
+      --ink: #101828;
+      --muted:#475467;
+      --line: rgba(16,24,40,.12);
+      --glass: rgba(255,255,255,.62);
+      --glass2: rgba(255,255,255,.42);
+      --shadow: 0 18px 50px rgba(16,24,40,.12);
+      --shadow2: 0 10px 24px rgba(16,24,40,.10);
+      --radius: 22px;
+      --radius2: 16px;
+      --pad: 18px;
+      --pad2: 14px;
+      --max: 1180px;
+      --accent: rgba(67, 56, 202, .92);
+      --accent2: rgba(14, 165, 233, .85);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 650px at 15% -10%, rgba(14,165,233,.18), transparent 55%),
+        radial-gradient(900px 650px at 85% 5%, rgba(67,56,202,.16), transparent 55%),
+        radial-gradient(900px 650px at 70% 105%, rgba(249,115,22,.10), transparent 55%),
+        var(--bg);
+      color:var(--ink);
+      overflow-x:hidden;
+    }
+
+    /* “Cracked glass” vibe without external asset */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      opacity:.22;
+      background:
+        linear-gradient(135deg, transparent 0 46%, rgba(16,24,40,.06) 46% 47%, transparent 47% 100%),
+        linear-gradient(20deg, transparent 0 62%, rgba(16,24,40,.05) 62% 63%, transparent 63% 100%),
+        linear-gradient(210deg, transparent 0 58%, rgba(16,24,40,.04) 58% 59%, transparent 59% 100%),
+        radial-gradient(1200px 700px at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%);
+      mix-blend-mode: multiply;
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom: 16px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 240px;
+    }
+    .brand img{ width:44px; height:44px; border-radius:12px; }
+    .brand .t{
+      display:flex; flex-direction:column; line-height:1.1;
+    }
+    .brand .t strong{ font-size:15px; letter-spacing:.2px; }
+    .brand .t span{ font-size:12.5px; color:var(--muted); }
+
+    nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .navbtn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 10px 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.55);
+      border-radius: 14px;
+      text-decoration:none;
+      color:var(--ink);
+      box-shadow: 0 6px 18px rgba(16,24,40,.06);
+      backdrop-filter: blur(10px);
+    }
+    .navbtn:hover{ transform: translateY(-1px); }
+    .navbtn small{ color:var(--muted); font-weight:600; }
+
+    .hero{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
+      margin: 10px 0 18px;
+      padding: 18px 18px;
+      border: 1px solid var(--line);
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(12px);
+      position:relative;
+    }
+    .hero h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .hero p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      max-width: 72ch;
+    }
+
+    .pillrow{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.5);
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+    .pill b{ color: var(--ink); font-weight:800; }
+    .pill .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: rgba(14,165,233,.85);
+      box-shadow: 0 0 0 6px rgba(14,165,233,.12);
+    }
+
+    main{
+      display:grid;
+      grid-template-columns: 1.25fr .85fr;
+      gap: 16px;
+      align-items:start;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+      position:relative;
+    }
+    .card .hd{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(16,24,40,.08);
+      background: rgba(255,255,255,.35);
+    }
+    .card .hd .title{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .card .hd .title strong{ font-size: 13.5px; }
+    .card .hd .title span{ font-size: 12px; color: var(--muted); }
+    .card .bd{ padding: 14px 16px; }
+
+    /* Chat */
+    .chat{
+      height: min(78vh, 720px);
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      min-height:0; /* critical for nested scroll areas */
+    }
+    .chatArea{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      flex: 1 1 auto;     /* chat always gets the remaining space */
+      min-height:0;        /* allow internal scroll */
+    }
+
+    /* Feed is a fixed “bottom pane”: it scrolls internally and never squeezes the chat */
+    .feedArea{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      flex: 0 0 clamp(190px, 30%, 280px);  /* stable height across screen sizes */
+      min-height: 190px;
+      min-width: 0;
+    }
+    .feedArea .label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 750;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      padding-top: 4px;
+    }
+    .feedWrap{
+      flex: 1 1 auto;
+      min-height:0;
+      overflow:auto;
+      padding: 10px 0 2px;
+      border-top: 1px solid rgba(16,24,40,.08);
+      scrollbar-gutter: stable both-edges;
+    }
+    .chatlog{
+
+      flex:1;
+      overflow:auto;
+      padding: 12px 12px 4px;
+      background: rgba(255,255,255,.35);
+      border: 1px solid rgba(16,24,40,.08);
+      border-radius: 16px;
+    }
+    .msg{
+      display:flex;
+      margin: 8px 0;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .avatar{
+      width:30px; height:30px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      font-size: 12px;
+      border: 1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.7);
+    }
+    .bubble{
+      max-width: 78%;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 6px 18px rgba(16,24,40,.06);
+    }
+    .bubble p{ margin:0; font-size: 13.5px; line-height:1.4; }
+    .meta{
+      margin-top:6px;
+      font-size: 11px;
+      color: var(--muted);
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(67,56,202,.10);
+      border: 1px solid rgba(67,56,202,.16);
+      color: rgba(67,56,202,.95);
+      font-weight: 750;
+    }
+
+    .row{
+      display:flex; gap:10px; align-items:stretch;
+    }
+    .row input[type="text"]{
+      flex:1;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.75);
+      outline:none;
+      font-size: 14px;
+    }
+    .row input[type="text"]:focus{ box-shadow: 0 0 0 5px rgba(14,165,233,.14); }
+    .btn{
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.72);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight: 750;
+      color: var(--ink);
+      display:inline-flex; align-items:center; gap:8px;
+      white-space:nowrap;
+    }
+    .btn.primary{
+      border-color: rgba(67,56,202,.28);
+      background: rgba(67,56,202,.10);
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:disabled{
+      opacity:.55; cursor:not-allowed; transform:none;
+    }
+
+    .toolrow{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .toolhint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* Right column mini cards */
+    .mini{
+      border-radius: var(--radius);
+    }
+
+    .section{
+      display:grid;
+      gap: 12px;
+    }
+
+    .subcard{
+      border:1px solid rgba(16,24,40,.12);
+      background: rgba(255,255,255,.55);
+      border-radius: var(--radius2);
+      padding: 12px 12px;
+      box-shadow: 0 10px 22px rgba(16,24,40,.07);
+      backdrop-filter: blur(10px);
+    }
+    .subcard h3{
+      margin: 0 0 8px;
+      font-size: 13.5px;
+      letter-spacing:.1px;
+    }
+    .subcard p{ margin: 0 0 10px; color: var(--muted); font-size: 12.5px; }
+
+    textarea{
+      width:100%;
+      min-height: 112px;
+      resize: vertical;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.75);
+      outline:none;
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+    textarea:focus{ box-shadow: 0 0 0 5px rgba(14,165,233,.14); }
+
+    .fileline{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-top: 6px;
+    }
+    input[type="file"]{
+      width:100%;
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px dashed rgba(16,24,40,.20);
+      background: rgba(255,255,255,.55);
+    }
+
+
+    .filepicker{
+      margin-top: 6px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      width:100%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px dashed rgba(16,24,40,.20);
+      background: rgba(255,255,255,.55);
+    }
+    .filepicker .btn{ flex: 0 0 auto; }
+    .filepicker .toolhint{ margin-left: 2px; }
+    /* Activity feed */
+    .feed{
+      margin-top: 0px;
+      display:grid;
+      gap: 10px;
+    }
+    .item{
+      border:1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.72);
+      border-radius: 16px;
+      padding: 12px 12px;
+      box-shadow: 0 10px 24px rgba(16,24,40,.07);
+    }
+    .item .top{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom: 8px;
+    }
+    .item .top .k{
+      display:flex; align-items:center; gap:10px;
+      min-width:0;
+    }
+    .badge{
+      font-size: 11px;
+      font-weight: 850;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border:1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.8);
+      white-space:nowrap;
+    }
+    .item .t{
+      min-width:0;
+    }
+    .item .t strong{
+      display:block;
+      font-size: 13px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .item .t span{
+      display:block;
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .item .body{
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .thumb{
+      margin-top: 10px;
+      border-radius: 14px;
+      overflow:auto;
+      max-height: 320px;
+      border: 1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.7);
+      scrollbar-gutter: stable both-edges;
+    }
+    .thumb img{
+      width:100%;
+      height:auto;
+      display:block;
+      cursor: zoom-in;
+    }
+    .actions{
+      display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .linkbtn{
+      padding: 7px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.78);
+      cursor:pointer;
+      font-weight: 750;
+      font-size: 12px;
+      color: var(--ink);
+    }
+    .linkbtn:hover{ transform: translateY(-1px); }
+    .linkbtn.danger{ border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.08); }
+    .linkbtn.ghost{ opacity:.9; }
+
+    .empty{
+      color: var(--muted);
+      font-size: 13px;
+      text-align:center;
+      padding: 14px 0 4px;
+    }
+
+    /* Footer */
+    footer{
+      margin-top: 16px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 0 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      main{ grid-template-columns: 1fr; }
+      .chat{ height: min(78vh, 720px); }
+      .bubble{ max-width: 92%; }
+      nav{ justify-content:flex-start; }
+      .hero{ align-items:flex-start; flex-direction:column; }
+      .pillrow{ justify-content:flex-start; }
+      .feedArea{ flex-basis: clamp(170px, 34%, 260px); min-height:170px; }
+    }
+  
+    /* Modal */
+    .modalOverlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: rgba(16,24,40,.45);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+    }
+    .modalOverlay.show{ display:flex; }
+
+    .modal{
+      width: min(720px, 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 28px 80px rgba(16,24,40,.22);
+      overflow:hidden;
+    }
+    .modalHd{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.40);
+    }
+    .modalHd strong{ font-size: 14px; }
+    .modalHd span{ display:block; color: var(--muted); font-size: 12.5px; margin-top: 4px; }
+    .modalBd{
+      padding: 14px 16px 16px;
+    }
+    .modalBd p{
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+    .modalBtns{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      margin-top: 12px;
+    }
+    .xBtn{
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.75);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight: 850;
+    }
+    .xBtn:hover{ transform: translateY(-1px); }
+
+    /* Image viewer inside modal */
+    .imgFrame{
+      border-radius: 16px;
+      border: 1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.65);
+      max-height: min(70vh, 680px);
+      overflow:auto;
+      margin-top: 10px;
+    }
+    .imgFrame img{
+      width:100%;
+      height:auto;
+      display:block;
+      cursor: zoom-out;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="favicon.png" alt="LuminaMemory™" />
+        <div class="t">
+          <strong>LuminaMemory™</strong>
+          <span>Proiecta • magic workshop (DEMO)</span>
+        </div>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <a class="navbtn" href="praetorium-en.html" title="Praetorium"><span>🏛</span><small>Praetorium</small></a>
+        <a class="navbtn" href="lumina-demo-en.html" title="Pokec"><span>🗯</span><small>Pokec</small></a>
+        <a class="navbtn" href="home-en.html" title="Home"><span>🏡</span><small>Home</small></a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Proiecta — magic workshop ✨</h1>
+        <p>
+          This is where things get made. Funny, light, and clear. The heart is the chat with Lumina — and everything you create will be saved here for your eyes to see 👀.
+        </p>
+      </div>
+      <div class="pillrow" aria-label="Stav dílny">
+        <div class="pill"><span class="dot"></span> <b> Live:</b> saving (DEMO)</div>
+        <div class="pill">🧠 Lumina: <b>creative mode</b></div>
+        <div class="pill">🕸 feedback: <b>yes</b></div>
+      </div>
+    </section>
+
+    <main>
+      <!-- LEFT: Chat (main) -->
+      <section class="card" aria-label="Chat s Luminou">
+        <div class="hd">
+          <div class="title">
+            <strong>💬 Chat with Lumina</strong>
+            <span>Help with ideas, copy, translations, emails… and creating.</span>
+          </div>
+          <div class="actions">
+            <button class="btn" id="btnClear" title="Clear the DEMO trail (locally)">🧹 Clear</button>
+          </div>
+        </div>
+
+        <div class="bd chat">
+          <div class="chatArea">
+            <div class="chatlog" id="chatlog" aria-live="polite" aria-label="Chat messages"></div>
+
+            <div class="row" aria-label="Chat input">
+              <input id="chatInput" type="text" placeholder="Write to Lumina… (e.g. ‘Write a complaint.’ or ‘Translate this text…’)">
+              <button class="btn primary" id="btnSend">✨ Send</button>
+            </div>
+
+            <div class="toolrow" aria-label="Quick actions">
+              <button class="btn" id="btnTranslate">🌍 Translate</button>
+              <button class="btn" id="btnSuggest">💡 Toss me an idea</button>
+              <button class="btn" id="btnEmail">✉️ Reply</button>
+              <a href="proiecta-projekty-en.html"
+   class="btn"
+   title="Open project rooms"
+   aria-label="Project rooms">
+   📺 Project rooms
+</a>
+            </div>
+
+            <div class="toolhint">
+              Tip: On the right you’ve got workshops for images, ideas, and files. Everything you do gets saved into the “Trail” at the bottom.
+            </div>
+          </div>
+
+          <div class="feedArea" aria-label="Trail and artifacts">
+            <div class="label">🕸 Trail (workshop artifacts)</div>
+            <div class="feedWrap" id="feedWrap">
+              <div class="feed" id="feed" aria-label="Stopa dílny">
+                <div class="empty" id="feedEmpty">Nothing here yet. Toss an idea, generate an image, or attach a file 👀</div>
+              </div>
+            </div>
+          </div>
+</div>
+      </section>
+
+      <!-- RIGHT: Tools -->
+      <aside class="section" aria-label="Proiecta workshops">
+        <section class="subcard" aria-label="Image generation">
+          <h3>🖼️ Visual creativity workshop</h3>
+          <p>Describe what you want to see. Lumina pretends she’s drawing 😂. Then she actually shows it.</p>
+          <div class="row">
+            <input id="imgPrompt" type="text" placeholder="e.g. ‘mystic web of light’">
+            <button class="btn primary" id="btnGenImg">🎨 Generate</button>
+          </div>
+          <div class="toolhint" id="imgStatus" aria-live="polite"></div>
+        </section>
+
+        <section class="subcard" aria-label="Ideay">
+          <h3>✍️ Text creativity workshop</h3>
+          <p>A notepad. It can be chaos. Chaos is welcome here.</p>
+          <textarea id="ideaText" placeholder="Write an idea… even unfinished."></textarea>
+          <div class="fileline">
+            <button class="btn primary" id="btnSaveIdea">🧷 Save idea</button>
+            <button class="btn" id="btnClearIdea">↩︎ Clear</button>
+          </div>
+        </section>
+
+        <section class="subcard" aria-label="Files and images">
+          <h3>📎 Attach a file / image</h3>
+          <p>In the demo, the file is saved into the trail (locally). For images you’ll see a preview.</p>
+          <div class="filepicker" role="group" aria-label="Select files">
+          <input id="fileInput" type="file" multiple style="display:none" />
+          <button class="btn" id="btnPickFiles" type="button">📁 Select files</button>
+          <span class="toolhint" id="filePickerText" aria-live="polite">No files selected</span>
+          </div>
+          <div class="fileline">
+            <button class="btn" id="btnClearFiles" title="Delete the last attached files/images from the workshop">🗑 Delete last attachment</button>
+            <span class="toolhint" id="fileLastHint" aria-live="polite"></span>
+          </div>
+          <div class="toolhint">Tip: Attached items also show up in the chat as a confirmation.</div>
+        </section>
+      </aside>
+    </main>
+
+    <footer>
+      <div>DEMO • saving happens locally in your browser</div>
+      <div>Proiecta is the workshop 👉 Projects are stored separately 📺</div>
+    </footer>
+  </div>
+
+  <!-- Modals -->
+  <div class="modalOverlay" id="clearModal" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="clearTitle">🧹 Clear the workshop trail?</strong>
+          <span>Chat + items in the “Trail” live only in your browser. This is the big “flush” button. 😄</span>
+        </div>
+        <button class="xBtn" data-close="clearModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <p><b>Mini safety:</b> once it’s cleared, it won’t come back. (Yep, even if it was “perfect chaos”.)</p>
+        <p>So… do we really clear it? Or let it live a bit longer, so it doesn’t slap your mood with an “ugh window”? 🙈</p>
+        <div class="modalBtns">
+          <button class="btn" data-close="clearModal">No, let it live</button>
+          <button class="btn primary" id="btnConfirmClear">Yes, sweep it 🧽</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalOverlay" id="imgModal" role="dialog" aria-modal="true" aria-labelledby="imgTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="imgTitle">🖼️ Image preview</strong>
+          <span id="imgSubtitle">Click the image or press Esc to close.</span>
+        </div>
+        <button class="xBtn" data-close="imgModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <div class="imgFrame" id="imgFrame"></div>
+        <div class="modalBtns">
+          <button class="btn" data-close="imgModal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const KEY = "LM_PROIECTA_V1_EN";
+  const state = loadState();
+
+  const chatlog = document.getElementById("chatlog");
+  const chatInput = document.getElementById("chatInput");
+  const btnSend = document.getElementById("btnSend");
+
+  const btnTranslate = document.getElementById("btnTranslate");
+  const btnSuggest = document.getElementById("btnSuggest");
+  const btnEmail = document.getElementById("btnEmail");
+  const btnClear = document.getElementById("btnClear");
+
+  const imgPrompt = document.getElementById("imgPrompt");
+  const btnGenImg = document.getElementById("btnGenImg");
+  const imgStatus = document.getElementById("imgStatus");
+
+  const ideaText = document.getElementById("ideaText");
+  const btnSaveIdea = document.getElementById("btnSaveIdea");
+  const btnClearIdea = document.getElementById("btnClearIdea");
+
+  const fileInput = document.getElementById("fileInput");
+  const btnPickFiles = document.getElementById("btnPickFiles");
+  const filePickerText = document.getElementById("filePickerText");
+  const btnClearFiles = document.getElementById("btnClearFiles");
+  const fileLastHint = document.getElementById("fileLastHint");
+  let lastAttachmentIds = [];
+
+  function setFilePickerText(files){
+    if(!filePickerText) return;
+    const n = (files || []).length;
+    if(n === 0){ filePickerText.textContent = "No files selected"; return; }
+    filePickerText.textContent = (n === 1) ? "1 file selected" : `${n} files selected`;
+  }
+  if(btnPickFiles) btnPickFiles.addEventListener("click", () => fileInput && fileInput.click());
+  setFilePickerText([]);
+
+
+  const feed = document.getElementById("feed");
+  const feedEmpty = document.getElementById("feedEmpty");
+
+  const PRESET_IMAGES = [
+    { src: "lumina-robot-sketch.png", title: "lumina-robot-sketch.png" },
+    { src: "creative-kitchen-chaos.png", title: "creative-kitchen-chaos.png" },
+    { src: "cat-cleanup-mission.png", title: "cat-cleanup-mission.png" },
+    { src: "ideas-in-the-air.png", title: "ideas-in-the-air.png" },
+    { src: "night-protection.png", title: "night-protection.png" }
+  ];
+
+  const IMG_QUIPS = [
+    "Tohle bude chtít čaj… nebo cigáro.",
+    "Hmm… kreslím… nemluv na mě.",
+    "Mozkové závity v akci."
+  ];
+
+  const now = () => new Date().toLocaleString("en-US", { hour: "2-digit", minute: "2-digit" });
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return { chat: [], items: [] };
+      const parsed = JSON.parse(raw);
+      return { chat: parsed.chat || [], items: parsed.items || [] };
+    }catch(e){
+      return { chat: [], items: [] };
+    }
+  }
+
+  function saveState(){
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function addChat(role, text, tag){
+    state.chat.push({ id: cryptoId(), role, text, tag: tag || "", ts: Date.now() });
+    saveState();
+    renderChat();
+  }
+
+  function addItem(type, title, body, extra){
+    const __id = cryptoId();
+    state.items.unshift({
+      id: __id,
+      type,
+      title: title || "",
+      body: body || "",
+      extra: extra || {},
+      ts: Date.now()
+    });
+    saveState();
+    renderFeed();
+ 
+    return __id;
+  }
+
+  function cryptoId(){
+    try { return crypto.randomUUID(); } catch(e) { return String(Math.random()).slice(2) + String(Date.now()); }
+  }
+
+  function escapeHtml(s){
+    return (s||"").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[m]));
+  }
+
+  function renderChat(){
+    chatlog.innerHTML = "";
+    if(state.chat.length === 0){
+      // Welcome message
+      const welcome = {
+        role: "lumina",
+        text: "Welcome to Proiecta. Tell me what you want to create — and I’ll help. (And yes… sometimes I think dramatically.) ✨",
+        tag: "magic workshop"
+      };
+      state.chat.push({ id: cryptoId(), ...welcome, ts: Date.now() });
+      saveState();
+    }
+
+    for(const m of state.chat){
+      const wrap = document.createElement("div");
+      wrap.className = "msg";
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = m.role === "user" ? "G" : "L";
+      wrap.appendChild(avatar);
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+
+      bubble.innerHTML = `
+        <p>${escapeHtml(m.text)}</p>
+        <div class="meta">
+          <span>${new Date(m.ts).toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"})}</span>
+          ${m.tag ? `<span class="tag">🕸 ${escapeHtml(m.tag)}</span>` : ""}
+        </div>
+      `;
+      wrap.appendChild(bubble);
+      chatlog.appendChild(wrap);
+    }
+    chatlog.scrollTop = chatlog.scrollHeight;
+  }
+
+  function typeLabel(type){
+    if(type === "image") return "Image";
+    if(type === "idea") return "Idea";
+    if(type === "file") return "File";
+    if(type === "note") return "Note";
+    return "Entry";
+  }
+
+  function renderFeed(){
+    // Keep "empty" text
+    feed.innerHTML = "";
+    if(state.items.length === 0){
+      feed.appendChild(feedEmpty);
+      feedEmpty.style.display = "block";
+      return;
+    }
+    feedEmpty.style.display = "none";
+
+    for(const it of state.items){
+      const el = document.createElement("div");
+      el.className = "item";
+
+      const ts = new Date(it.ts).toLocaleString("en-US", { hour:"2-digit", minute:"2-digit" });
+
+      const badge = `<span class="badge">${typeLabel(it.type)}</span>`;
+      const subtitle = it.type === "image"
+        ? "Visual artifact saved in the workshop"
+        : it.type === "file"
+          ? "Attached (locally)"
+          : "Saved to the workshop";
+
+      el.innerHTML = `
+        <div class="top">
+          <div class="k">
+            ${badge}
+            <div class="t">
+              <strong>${escapeHtml(it.title || "Untitled")}</strong>
+              <span>${escapeHtml(subtitle)} • ${ts}</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="linkbtn ghost" data-act="move" data-id="${it.id}" title="Demo only (placeholder)">📦 Move</button>
+            <button class="linkbtn" data-act="copy" data-id="${it.id}">📋 Copy</button>
+            <button class="linkbtn danger" data-act="del" data-id="${it.id}">🗑 Delete</button>
+          </div>
+        </div>
+        <div class="body">${escapeHtml(it.body || "")}</div>
+      `;
+
+      // Thumbnail if image or file image
+      if(it.extra && it.extra.thumb){
+        const th = document.createElement("div");
+        th.className = "thumb";
+        th.innerHTML = `<img src="${it.extra.thumb}" alt="${escapeHtml(it.title||"preview")}" loading="lazy">`;
+        el.appendChild(th);
+      }else if(it.type === "image" && it.extra && it.extra.src){
+        const th = document.createElement("div");
+        th.className = "thumb";
+        th.innerHTML = `<img src="${it.extra.src}" alt="${escapeHtml(it.title||"image")}" loading="lazy">`;
+        el.appendChild(th);
+      }
+
+      feed.appendChild(el);
+    }
+  
+    // keep newest visible (items are added on top)
+    const feedWrap = document.getElementById("feedWrap");
+    if(feedWrap) feedWrap.scrollTop = 0;
+  }
+
+  // Feed actions
+  feed.addEventListener("click", async (e) => {
+    // Click on thumbnail image => open full preview modal (scrollable)
+    const img = e.target.closest(".thumb img");
+    if(img){
+      openImageModal(img.getAttribute("src") || "", img.getAttribute("alt") || "Image");
+      return;
+    }
+
+    const btn = e.target.closest("button[data-act]");
+    if(!btn) return;
+    const id = btn.getAttribute("data-id");
+    const act = btn.getAttribute("data-act");
+    const idx = state.items.findIndex(x => x.id === id);
+    if(idx < 0) return;
+
+    const it = state.items[idx];
+
+    if(act === "del"){
+      state.items.splice(idx,1);
+      saveState();
+      renderFeed();
+      addChat("lumina", "Done. Gone like a sock in the laundry. 🧦✨", "trail");
+      return;
+    }
+
+    if(act === "copy"){
+      try{
+        await navigator.clipboard.writeText((it.title ? it.title + "\n" : "") + (it.body||""));
+        addChat("lumina", "Copied. Now you can release it into the world. 🌍", "trail");
+      }catch(err){
+        addChat("lumina", "I tried to copy… but the browser is being difficult. Please try it manually. 🙈", "trail");
+      }
+      return;
+    }
+
+    if(act === "move"){
+      // Demo: simulate move suggestion to projects
+      addChat("lumina", "Heads‑up — this looks like something for a project.", "projects");
+      return;
+    }
+  });
+
+  // Chat send
+  function sendUser(){
+    const text = (chatInput.value || "").trim();
+    if(!text) return;
+    chatInput.value = "";
+    addChat("user", text, "");
+
+    // Lightweight “assistant” demo behavior
+    setTimeout(() => {
+      if(/reklamac|stížnost|complain/i.test(text)){
+        addChat("lumina", "Sure. Tell me: who it’s for, what happened, the date, and what outcome you want. I’ll write it up without drama. ✉️", "email");
+        addItem("note", "In progress: complaint", "Captured in chat — ready to draft (DEMO).", {});
+        return;
+      }
+      if(/přelož|translate/i.test(text)){
+        runFunnyTranslate(text.replace(/přelož|translate/ig,"").trim() || "Tohle.");
+        return;
+      }
+      if(/image|generate/i.test(text)){
+        addChat("lumina", "If you want an image, type the prompt in the workshop on the right and click ‘Generate’. I’m here supervising. 🕶️", "visual");
+        return;
+      }
+      addChat("lumina", "Zapsáno. Chceš z toho udělat nápad, text do emailu, nebo rovnou návrh projektu? ✨", "workshop");
+    }, 420);
+  }
+
+  btnSend.addEventListener("click", sendUser);
+  chatInput.addEventListener("keydown", (e) => {
+    if(e.key === "Enter") sendUser();
+  });
+
+  // Funny translate
+  function runFunnyTranslate(seedText){
+    addChat("lumina", "Translating, translating, translating…", "translation");
+    setTimeout(() => addChat("lumina", "Translating…", "translation"), 1200);
+    setTimeout(() => addChat("lumina", "Translating… (už skoro!)", "translation"), 2600);
+
+    setTimeout(() => {
+      const garble = "„hrrftd hujki asefvc plkmnbhjk jnm kirdfg 🤔 hmm…“";
+      addChat("lumina", garble + "  Oops… something broke. I still need to take a language course. 😂", "translation");
+      addItem("note", "Translation (DEMO)", "Result: " + garble + "\nNote: Lumina si jde koupit slovník.", {});
+    }, 4300);
+  }
+
+  btnTranslate.addEventListener("click", () => runFunnyTranslate(""));
+  btnSuggest.addEventListener("click", () => {
+    addChat("lumina", "Give me one sentence about what you want to create — I’ll turn it into 3 directions (serious, playful, totally wild). 😄", "ideas");
+  });
+  btnEmail.addEventListener("click", () => {
+    addChat("lumina", "Alright. Tell me: who you’re replying to + the tone (kind/neutral/direct) + what the outcome should be. I’ll assemble it. ✉️", "email");
+  });
+
+  // Clear all (custom modal — žádné „fuj“ okno)
+  const clearModal = document.getElementById("clearModal");
+  const btnConfirmClear = document.getElementById("btnConfirmClear");
+
+  function openModal(el){
+    el.classList.add("show");
+    // lock background scroll
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(el){
+    el.classList.remove("show");
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+  }
+
+
+  // Modal close (X, buttons, click outside, Esc)
+  document.addEventListener("click", (e) => {
+    const closeId = e.target.closest("[data-close]")?.getAttribute("data-close");
+    if(closeId){
+      const el = document.getElementById(closeId);
+      if(el) closeModal(el);
+    }
+    const overlay = e.target.classList?.contains("modalOverlay") ? e.target : null;
+    if(overlay && overlay.classList.contains("show")) closeModal(overlay);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape"){
+      const shown = document.querySelector(".modalOverlay.show");
+      if(shown) closeModal(shown);
+    }
+  });
+
+  // Image preview modal
+  const imgModal = document.getElementById("imgModal");
+  const imgFrame = document.getElementById("imgFrame");
+  const imgTitle = document.getElementById("imgTitle");
+  const imgSubtitle = document.getElementById("imgSubtitle");
+
+  function openImageModal(src, alt){
+    if(!src) return;
+    imgTitle.textContent = "🖼️ " + (alt || "Image preview");
+    imgSubtitle.textContent = "Scroll inside the window (or use the mouse wheel).";
+    imgFrame.innerHTML = `<img src="${src}" alt="${escapeHtml(alt||"image")}">`;
+    openModal(imgModal);
+  }
+
+  // Click on big image closes it (nice + fast)
+  imgFrame.addEventListener("click", () => closeModal(imgModal));
+  btnClear.addEventListener("click", () => openModal(clearModal));
+
+  btnConfirmClear.addEventListener("click", () => {
+    state.chat = [];
+    state.items = [];
+    saveState();
+    renderChat();
+    renderFeed();
+    closeModal(clearModal);
+    addChat("lumina", "All clean. Let’s create from scratch. (And now please nobody walks on the freshly mopped floor.) ✨", "reset");
+  });
+
+  // Image generation
+  btnGenImg.addEventListener("click", () => {
+    const prompt = (imgPrompt.value || "").trim();
+    if(!prompt){
+      imgStatus.textContent = "Please write a short description (prompt).";
+      return;
+    }
+    imgPrompt.value = "";
+    const quip = IMG_QUIPS[Math.floor(Math.random() * IMG_QUIPS.length)];
+    imgStatus.textContent = quip;
+
+    addChat("user", "Generate an image: " + prompt, "");
+    addChat("lumina", quip + " ✍️", "generation");
+
+    // Simulate “work” ~8s
+    btnGenImg.disabled = true;
+    const t0 = Date.now();
+
+    setTimeout(() => {
+      const pick = PRESET_IMAGES[Math.floor(Math.random() * PRESET_IMAGES.length)];
+      addChat("lumina", "Hotovo. Tady je visualní artefakt (DEMO).", "generation");
+      addItem("image", "Generated image", "Prompt: " + prompt, { src: pick.src, preset: true });
+
+      // Show subtle feedback that central chat (Pokec) would get a ping
+      addItem("note", "Feedback to Pokec", "Pokec: “A new visual artifact was created in Proiecta.” (DEMO)", {});
+
+      imgStatus.textContent = "Saved to the trail. (And yes, it looks good.)";
+      btnGenImg.disabled = false;
+    }, Math.max(8000 - (Date.now() - t0), 420));
+  });
+
+  // Ideas
+  btnSaveIdea.addEventListener("click", () => {
+    const text = (ideaText.value || "").trim();
+    if(!text) return;
+    const title = text.split("\n")[0].slice(0, 52) || "Idea";
+    addItem("idea", title, text, {});
+    addChat("lumina", "Noted. This idea looks like it wants to live. 😄", "ideas");
+    addItem("note", "Feedback to Pokec", "Pokec: “A new idea was added in Proiecta.” (DEMO)", {});
+    ideaText.value = "";
+  });
+
+  btnClearIdea.addEventListener("click", () => { ideaText.value = ""; });
+
+  // Files
+  fileInput.addEventListener("change", async (e) => {
+    const files = Array.from(e.target.files || []);
+    setFilePickerText(files);
+    if(files.length === 0) return;
+
+    // remember “last batch” so user can delete it from the attach panel
+    lastAttachmentIds = [];
+    fileLastHint.textContent = "";
+    btnClearFiles.disabled = true;
+
+    for(const f of files){
+      const info = `${f.name} • ${(f.size/1024).toFixed(1)} KB`;
+      const isImg = /^image\//.test(f.type);
+
+      // Chat reaguje i na přiložení fileu
+      addChat("user", (isImg ? "Adding an image: " : "Adding a file: ") + f.name, "");
+
+      if(isImg){
+        const dataUrl = await readAsDataURL(f);
+        const id = addItem("file", f.name, "Attached image (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size });
+        lastAttachmentIds.push(id);
+        addChat("lumina", "I see the image. Saved to the workshop. 🖼️", "file");
+      }else{
+        const id = addItem("file", f.name, "File received (DEMO).", { mime: f.type, size: f.size });
+        lastAttachmentIds.push(id);
+        addChat("lumina", "Got it. Saved to the workshop. 📎", "file");
+      }
+
+      addItem("note", "Feedback to Pokec", "Pokec: “A file was attached in Proiecta.” (DEMO)", {});
+    }
+
+    // show “last attached” info + enable delete button
+    if(lastAttachmentIds.length){
+      const names = files.map(f => f.name).join(", ");
+      fileLastHint.textContent = `Last attachment: ${names}`;
+      btnClearFiles.disabled = false;
+    }
+
+    // reset input so same file can be selected again
+    fileInput.value = "";
+    setFilePickerText([]);
+  });
+
+  // Delete last attached batch directly from the attach panel
+  btnClearFiles.addEventListener("click", () => {
+    if(!lastAttachmentIds.length) return;
+    const beforeLen = state.items.length;
+    state.items = state.items.filter(it => !lastAttachmentIds.includes(it.id));
+    const removed = beforeLen - state.items.length;
+
+    lastAttachmentIds = [];
+    saveState();
+    renderFeed();
+
+    btnClearFiles.disabled = true;
+    fileLastHint.textContent = removed ? "Deleted." : "Nothing to remove.";
+    addChat("lumina", removed ? "Attachment deleted from the trail. 🗑️" : "Nothing to delete. 🙈", "file");
+  });
+
+  function readAsDataURL(file){
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result || ""));
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+  }
+
+  // Initial render
+  renderChat();
+  renderFeed();
+  if(btnClearFiles) btnClearFiles.disabled = true;
+
+})();
+</script>
+</body>
+</html>
