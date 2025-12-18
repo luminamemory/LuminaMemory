@@ -194,12 +194,45 @@
 
     /* Chat */
     .chat{
-      height: 520px;
+      height: min(78vh, 720px);
       display:flex;
       flex-direction:column;
       gap: 12px;
+      min-height:0; /* critical for nested scroll areas */
+    }
+    .chatArea{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      flex: 1 1 auto;
+      min-height:0;
+    }
+    .feedArea{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      flex: 1 1 auto;
+      min-height:0;
+    }
+    .feedArea .label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 750;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      padding-top: 4px;
+    }
+    .feedWrap{
+      flex: 1 1 auto;
+      min-height:0;
+      overflow:auto;
+      padding: 10px 0 2px;
+      border-top: 1px solid rgba(16,24,40,.08);
+      scrollbar-gutter: stable both-edges;
     }
     .chatlog{
+
       flex:1;
       overflow:auto;
       padding: 12px 12px 4px;
@@ -348,7 +381,7 @@
 
     /* Activity feed */
     .feed{
-      margin-top: 14px;
+      margin-top: 0px;
       display:grid;
       gap: 10px;
     }
@@ -453,7 +486,7 @@
     /* Responsive */
     @media (max-width: 980px){
       main{ grid-template-columns: 1fr; }
-      .chat{ height: 520px; }
+      .chat{ height: min(78vh, 720px); }
       .bubble{ max-width: 92%; }
       nav{ justify-content:flex-start; }
       .hero{ align-items:flex-start; flex-direction:column; }
@@ -585,28 +618,35 @@
         </div>
 
         <div class="bd chat">
-          <div class="chatlog" id="chatlog" aria-live="polite" aria-label="Zprávy chatu"></div>
+          <div class="chatArea">
+            <div class="chatlog" id="chatlog" aria-live="polite" aria-label="Zprávy chatu"></div>
 
-          <div class="row" aria-label="Vstup do chatu">
-            <input id="chatInput" type="text" placeholder="Napiš Lumině… (např. ‘Napiš reklamaci.’ nebo ‘Přelož tento text…’)">
-            <button class="btn primary" id="btnSend">✨ Poslat</button>
+            <div class="row" aria-label="Vstup do chatu">
+              <input id="chatInput" type="text" placeholder="Napiš Lumině… (např. ‘Napiš reklamaci.’ nebo ‘Přelož tento text…’)">
+              <button class="btn primary" id="btnSend">✨ Poslat</button>
+            </div>
+
+            <div class="toolrow" aria-label="Rychlé akce">
+              <button class="btn" id="btnTranslate">🌍 Překlad</button>
+              <button class="btn" id="btnSuggest">💡 Hoď nápad</button>
+              <button class="btn" id="btnEmail">✉️ Odpověď</button>
+              <button class="btn" id="btnProjectHub" disabled title="Brzy — další HTML">📺 Projektové místnosti (brzy)</button>
+            </div>
+
+            <div class="toolhint">
+              Tip: Vpravo je dílna na obrázky, nápady a soubory. Všechno, co uděláš, se ti ukládá do „Stop“ dole.
+            </div>
           </div>
 
-          <div class="toolrow" aria-label="Rychlé akce">
-            <button class="btn" id="btnTranslate">🌍 Překlad</button>
-            <button class="btn" id="btnSuggest">💡 Hoď nápad</button>
-            <button class="btn" id="btnEmail">✉️ Odpověď</button>
-            <button class="btn" id="btnProjectHub" disabled title="Brzy — další HTML">📺 Projektové místnosti (brzy)</button>
+          <div class="feedArea" aria-label="Stopy a artefakty">
+            <div class="label">🕸 Stopy (artefakty dílny)</div>
+            <div class="feedWrap" id="feedWrap">
+              <div class="feed" id="feed" aria-label="Stopa dílny">
+                <div class="empty" id="feedEmpty">Zatím tu nic neleží. Hoď nápad, vygeneruj obrázek nebo přilož soubor 👀</div>
+              </div>
+            </div>
           </div>
-
-          <div class="toolhint">
-            Tip: Vpravo je dílna na obrázky, nápady a soubory. Všechno, co uděláš, se ti ukládá do „Stop“ dole.
-          </div>
-
-          <div class="feed" id="feed" aria-label="Stopa dílny">
-            <div class="empty" id="feedEmpty">Zatím tu nic neleží. Hoď nápad, vygeneruj obrázek nebo přilož soubor 👀</div>
-          </div>
-        </div>
+</div>
       </section>
 
       <!-- RIGHT: Tools -->
@@ -872,6 +912,10 @@
 
       feed.appendChild(el);
     }
+  
+    // keep newest visible (items are added on top)
+    const feedWrap = document.getElementById("feedWrap");
+    if(feedWrap) feedWrap.scrollTop = 0;
   }
 
   // Feed actions
@@ -1084,6 +1128,9 @@
     for(const f of files){
       const info = `${f.name} • ${(f.size/1024).toFixed(1)} KB`;
       const isImg = /^image\//.test(f.type);
+
+      // Chat reaguje i na přiložení souboru
+      addChat("user", (isImg ? "Přidávám obrázek: " : "Přidávám soubor: ") + f.name, "");
 
       if(isImg){
         const dataUrl = await readAsDataURL(f);
