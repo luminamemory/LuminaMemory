@@ -634,7 +634,7 @@
               <button class="btn" id="btnTranslate">🌍 Překlad</button>
               <button class="btn" id="btnSuggest">💡 Hoď nápad</button>
               <button class="btn" id="btnEmail">✉️ Odpověď</button>
-              <button class="btn" id="btnProjectHub" disabled title="Brzy — další HTML">📺 Projektové místnosti (brzy)</button>
+              <button class="btn" id="btnProjectHub" title="Otevřít projektové místnosti">📺 Projektové místnosti</button>
             </div>
 
             <div class="toolhint">
@@ -736,6 +736,7 @@
 <script>
 (() => {
   const KEY = "LM_PROIECTA_V1";
+  const PROJECTS_KEY = "LM_PROJECTS_V1";
   const state = loadState();
 
   const chatlog = document.getElementById("chatlog");
@@ -746,6 +747,7 @@
   const btnSuggest = document.getElementById("btnSuggest");
   const btnEmail = document.getElementById("btnEmail");
   const btnClear = document.getElementById("btnClear");
+  const btnProjectHub = document.getElementById("btnProjectHub");
 
   const imgPrompt = document.getElementById("imgPrompt");
   const btnGenImg = document.getElementById("btnGenImg");
@@ -792,6 +794,35 @@
 
   function saveState(){
     localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function loadProjects(){
+    try{
+      const raw = localStorage.getItem(PROJECTS_KEY);
+      if(!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : (parsed.items || []);
+    }catch(e){
+      return [];
+    }
+  }
+
+  function saveProjects(items){
+    try{
+      localStorage.setItem(PROJECTS_KEY, JSON.stringify(items || []));
+    }catch(e){
+      // ignore (storage full / blocked)
+    }
+  }
+
+  function moveItemToProjects(it){
+    const projects = loadProjects();
+    projects.unshift({
+      ...it,
+      movedFrom: "proiecta",
+      movedAt: Date.now()
+    });
+    saveProjects(projects);
   }
 
   function addChat(role, text, tag){
@@ -969,8 +1000,16 @@
     }
 
     if(act === "move"){
-      // Demo: simulate move suggestion to projects
-      addChat("lumina", "Pozor — tohle vypadá jako něco do projektu. (Projektové místnosti jsou zatím ‘brzy’ 📺)", "projekty");
+      // Move to Projects storage (lokálně) + remove from current feed
+      try{
+        moveItemToProjects(it);
+        state.items.splice(idx, 1);
+        saveState();
+        renderFeed();
+        addChat("lumina", "Přesunuto do Projektů. Otevři ‘Projektové místnosti’ 📺", "projekty");
+      }catch(err){
+        addChat("lumina", "Chtěla jsem to přesunout do Projektů, ale prohlížeč zlobí. Zkus to prosím znovu. 🙈", "projekty");
+      }
       return;
     }
   });
@@ -1026,6 +1065,13 @@
   btnEmail.addEventListener("click", () => {
     addChat("lumina", "Dobře. Napiš mi: komu odpovídáš + tón (milý/neutrální/přímočarý) + co má být výsledek. Já to seskládám. ✉️", "e‑mail");
   });
+
+  // Project hub
+  if(btnProjectHub){
+    btnProjectHub.addEventListener("click", () => {
+      window.location.href = "proiecta-projekty.html";
+    });
+  }
 
   // Clear all (custom modal — žádné „fuj“ okno)
   const clearModal = document.getElementById("clearModal");
