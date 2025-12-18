@@ -1,150 +1,567 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="utf-8" />
-<title>Proiecta • Magická dílna | LuminaMemory™</title>
-<meta name="description" content="Proiecta je magická kreativní dílna LuminaMemory™ – místo pro nápady, obrázky, soubory a spolupráci s Luminou." />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" href="favicon.png" />
+  <meta charset="utf-8" />
+  <title>Proiecta • Magická dílna | LuminaMemory™</title>
+  <meta name="description" content="Proiecta je magická kreativní dílna LuminaMemory™ – místo pro nápady, obrázky, soubory a spolupráci s Luminou." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.png" type="image/png" />
 
-<style>
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(circle at top, rgba(255,255,255,0.15), rgba(0,0,0,0.85)),
-              url('cracked-glass.png');
-  background-size: cover;
-  color: #fff;
-}
+  <style>
+    :root{
+      --glass: rgba(255,255,255,0.08);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --accent: #ffd86b;
+      --radius: 16px;
+    }
+    *{ box-sizing:border-box; }
 
-header {
-  padding: 20px;
-  text-align: center;
-  font-size: 1.4rem;
-  opacity: 0.9;
-}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,0.18), rgba(0,0,0,0.82) 55%),
+        radial-gradient(circle at 80% 15%, rgba(255,255,255,0.10), rgba(0,0,0,0.00) 45%),
+        url('cracked-glass.png');
+      background-size: cover;
+      background-position:center;
+      background-attachment: fixed;
+    }
 
-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-  padding: 20px;
-}
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,16,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      padding: 10px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .brand{ display:flex; flex-direction:column; gap:2px; line-height:1.15; }
+    .brand strong{ font-size: 1.02rem; letter-spacing:0.2px; }
+    .brand span{ font-size:0.82rem; color: var(--muted); }
 
-.section {
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.08);
-  border-radius: 16px;
-  padding: 16px;
-  min-height: 300px;
-  position: relative;
-}
+    .nav{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
+    .pill{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      text-decoration:none;
+      background: rgba(255,255,255,0.10);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: transform .08s ease, background .12s ease;
+      font-size: 0.92rem;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .pill:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.14); }
 
-.section h2 {
-  margin-top: 0;
-  font-size: 1.1rem;
-}
+    main{ padding: 18px 14px 20px; max-width: 1200px; margin: 0 auto; }
 
-.chat {
-  grid-column: span 3;
-  min-height: 220px;
-}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
 
-.log {
-  font-size: 0.85rem;
-  opacity: 0.8;
-  margin-top: 10px;
-}
+    .card{
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 14px;
+      backdrop-filter: blur(10px);
+      min-height: 260px;
+      position:relative;
+      overflow:hidden;
+    }
+    .card h2{ margin: 0 0 10px 0; font-size: 1.02rem; letter-spacing: 0.2px; }
+    .sub{ font-size: 0.86rem; color: var(--muted); margin-bottom: 10px; }
 
-textarea, input {
-  width: 100%;
-  background: rgba(0,0,0,0.4);
-  border: none;
-  border-radius: 8px;
-  padding: 8px;
-  color: #fff;
-}
+    input, textarea, select{
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.35);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 10px;
+      outline:none;
+      font-size: 0.95rem;
+    }
+    textarea{ resize: vertical; min-height: 110px; }
 
-button {
-  margin-top: 8px;
-  padding: 8px 14px;
-  border-radius: 20px;
-  border: none;
-  background: #ffd86b;
-  color: #000;
-  cursor: pointer;
-}
+    .row{ display:flex; gap:10px; align-items:center; }
+    .row > *{ flex:1; }
 
-footer {
-  text-align: center;
-  padding: 12px;
-  font-size: 0.75rem;
-  opacity: 0.6;
-}
-</style>
+    .btn{
+      border: none;
+      border-radius: 999px;
+      padding: 9px 14px;
+      background: var(--accent);
+      color: #111;
+      cursor:pointer;
+      font-weight: 700;
+      transition: transform .08s ease, filter .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
+    .btn-ghost{
+      background: rgba(255,255,255,0.12);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.14);
+      font-weight: 650;
+    }
 
-<script>
-function log(msg) {
-  const el = document.getElementById('log');
-  el.innerHTML += "<div>• " + msg + "</div>";
-}
+    .tvWrap{
+      margin-top: 12px;
+      position: relative;
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.35);
+      min-height: 210px;
+    }
+    .tvFrame{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity: 0.85;
+      background-image: url('tv-frame.png');
+      background-size: cover;
+      background-position:center;
+      mix-blend-mode: screen;
+    }
+    .tvImg{ width:100%; height:100%; display:block; object-fit: cover; opacity: 0.92; }
+    .watermark{
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      pointer-events:none; opacity: 0.12;
+    }
+    .watermark img{ width: 120px; height: 120px; object-fit: contain; }
 
-function genImage() {
-  log("Hmm… kreslím… nemluv na mě.");
-  setTimeout(() => {
-    log("Hotovo ✨ Dej si čaj nebo cigáro.");
-  }, 8000);
-}
+    .items{ margin-top: 10px; display:flex; flex-direction:column; gap:10px; }
+    .item{
+      background: rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 10px 10px;
+    }
+    .itemTop{ display:flex; gap:10px; align-items:center; justify-content:space-between; margin-bottom: 8px; }
+    .tag{
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .itemTxt{ font-size: 0.92rem; white-space: pre-wrap; line-height: 1.35; }
 
-function saveText() {
-  log("Nápad zaznamenán 🪄");
-}
+    .itemActions{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px; }
+    .miniBtn{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.10);
+      color: var(--text);
+      cursor:pointer;
+    }
+    .miniBtn:hover{ background: rgba(255,255,255,0.14); }
+    .miniBtn.danger{ border-color: rgba(255,122,122,0.40); background: rgba(255,122,122,0.12); }
 
-function chatSend() {
-  log("Lumina: Vidím, co tvoříš. Možná to patří do projektu.");
-}
-</script>
+    .chatCard{ margin-top: 14px; min-height: unset; }
+    .chatLog{
+      margin-top: 10px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      max-height: 240px;
+      overflow:auto;
+      padding-right: 4px;
+    }
+    .bubble{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.28);
+      font-size: 0.92rem;
+      line-height: 1.35;
+      white-space: pre-wrap;
+    }
+    .bubble.lumina{ background: rgba(255,216,107,0.10); border-color: rgba(255,216,107,0.22); }
+    .bubble.system{ background: rgba(125,255,191,0.08); border-color: rgba(125,255,191,0.18); color: rgba(255,255,255,0.88); }
+
+    .hint{ font-size: 0.82rem; color: var(--muted); margin-top: 10px; }
+    footer{ text-align:center; padding: 14px 10px 22px; color: rgba(255,255,255,0.55); font-size: 0.8rem; }
+  </style>
+
+  <script>
+    const MOODBOARDS = ["home-base.jpg","spark.jpg","whisper.jpg"];
+    const IMAGE_QUIPS = [
+      "Tohle bude chtít čaj… nebo cigáro.",
+      "Hmm… kreslím… nemluv na mě.",
+      "Mozkové závity v akci."
+    ];
+    const SAVE_CATS = [
+      { key: "DOMÁCNOST", emoji: "🏠", sample: "Kocour zase řádil 💩 celý den se muselo uklízet 🧹 ale večer byl klidný. ✨" },
+      { key: "RECEPTY", emoji: "🍽", sample: "Tip od Luminy ✨: mozzarella, bazalka, olivy a rajské… 🥖✨" },
+      { key: "PROJEKT", emoji: "✨", sample: "Vzniká prostor, kde paměť není funkce, ale základ… ✨" }
+    ];
+
+    function pushToPokec(message){
+      try{
+        const key = "luminamemory_pokec_feed";
+        const prev = JSON.parse(localStorage.getItem(key) || "[]");
+        prev.push({ ts: Date.now(), msg: message });
+        localStorage.setItem(key, JSON.stringify(prev.slice(-12)));
+      }catch(e){}
+    }
+
+    function addBubble(type, text){
+      const log = document.getElementById("chatLog");
+      const div = document.createElement("div");
+      div.className = "bubble " + type;
+      div.textContent = text;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    }
+    const system = (t)=>addBubble("system","🧾 " + t);
+    const lumina = (t)=>addBubble("lumina","Lumina: " + t);
+    const user = (t)=>addBubble("", "Ty: " + t);
+    const rand = (arr)=>arr[Math.floor(Math.random()*arr.length)];
+
+    let isGenerating = false;
+
+    function genImage(){
+      if(isGenerating) return;
+      const prompt = document.getElementById("imgPrompt").value.trim();
+      if(!prompt){ system("Napiš aspoň jednu větu, ať mám z čeho čarovat."); return; }
+
+      isGenerating = true;
+      user("Chci obrázek: " + prompt);
+      lumina(rand(IMAGE_QUIPS));
+      system("Připravuju vizuální kouzlo…");
+      document.getElementById("wm").style.opacity = "0.18";
+
+      setTimeout(() => {
+        const img = rand(MOODBOARDS);
+        const el = document.getElementById("tvImg");
+        el.src = img;
+        el.alt = "Vygenerovaný moodboard (DEMO): " + img;
+        document.getElementById("wm").style.opacity = "0.10";
+
+        system("Hotovo! (DEMO) Vybrala jsem přednastavený moodboard.");
+        lumina("Chceš to uložit, přesunout do projektu, nebo to nechat jako kouzelný chaos?");
+        addItem({ type:"image", title:"Vizuální artefakt", cat:"PROJEKT", content: img, meta: prompt });
+        pushToPokec("V Proiecta vznikl nový vizuální artefakt 🖼️");
+        isGenerating = false;
+      }, 8000);
+    }
+
+    function saveIdea(){
+      const txt = document.getElementById("ideaTxt").value.trim();
+      const cat = document.getElementById("ideaCat").value;
+      if(!txt){ system("I prázdná stránka je stránka… ale radši mi něco napiš 😄"); return; }
+      addItem({ type:"note", title:"Nápad", cat, content: txt });
+      document.getElementById("ideaTxt").value = "";
+      system("Zapsáno. A nikdo tě tu nehodnotí.");
+      lumina("Pokud chceš, uhladím to, přeložím, nebo z toho udělám e-mail.");
+      pushToPokec("V Proiecta přibyl nový nápad ✍️");
+    }
+
+    function onFilePick(ev){
+      const files = ev.target.files || [];
+      if(!files.length) return;
+
+      [...files].forEach(f => {
+        system("Soubor přijat: " + f.name);
+        lumina("Vidím soubor. Chceš překlad / shrnutí / odpověď / reklamaci?");
+        pushToPokec("V Proiecta byl přidán soubor 📎");
+
+        if(f.type && f.type.startsWith("image/")){
+          const reader = new FileReader();
+          reader.onload = () => addItem({ type:"upload-image", title:"Nahraný obrázek", cat:"DOMÁCNOST", content: reader.result, meta: f.name });
+          reader.readAsDataURL(f);
+        }else{
+          addItem({ type:"file", title:"Soubor", cat:"RECEPTY", content: f.name });
+        }
+      });
+
+      ev.target.value = "";
+    }
+
+    function translateDemo(){
+      const src = document.getElementById("translateSrc").value.trim();
+      if(!src){ system("Pošli mi text – jinak budu překládat ticho. A to je těžká literatura."); return; }
+
+      user("Prosím přelož: " + (src.length > 90 ? src.slice(0,90)+"…" : src));
+      lumina("Překládám… překládám… překládám…");
+      system("Jazykové závity se zahřívají…");
+
+      setTimeout(() => {
+        const mangled = src
+          .replaceAll("a","ä").replaceAll("e","ë").replaceAll("i","ï")
+          .replaceAll("o","ö").replaceAll("u","ü")
+          .split("").reverse().join("");
+
+        document.getElementById("translateOut").value = mangled.slice(0, 450) + (mangled.length > 450 ? "…" : "");
+        lumina("Hups… něco se pokazilo 😅 Musím teprve projít jazykovým kurzem.");
+        pushToPokec("V Proiecta proběhl překladový pokus 📚");
+      }, 1200);
+    }
+
+    let itemId = 0;
+    const items = [];
+
+    function addItem(data){
+      const id = ++itemId;
+      items.unshift({ id, ...data });
+      renderItems();
+    }
+
+    function delItem(id){
+      const idx = items.findIndex(x => x.id === id);
+      if(idx >= 0) items.splice(idx, 1);
+      renderItems();
+      system("Smazáno. Kdo nic nemaže, ten má plný sklep.");
+      pushToPokec("V Proiecta byla smazána položka 🗑️");
+    }
+
+    function moveItem(id){
+      const it = items.find(x => x.id === id);
+      if(!it) return;
+      system("Přesouvám… (DEMO) položka by šla do projektu po schválení.");
+      lumina("Pozor — tohle patří do tvého projektu. Přesunu to, jakmile mi dáš znamení.");
+      pushToPokec("V Proiecta čeká položka na přesun do projektu 📦");
+    }
+
+    function renderItems(){
+      const box = document.getElementById("itemsBox");
+      box.innerHTML = "";
+      if(items.length === 0){
+        box.innerHTML = '<div class="hint">Zatím tu nic neleží. Ideální stav… než se rozjede magie 🪄</div>';
+        return;
+      }
+
+      items.forEach(it => {
+        const wrap = document.createElement("div");
+        wrap.className = "item";
+
+        const top = document.createElement("div");
+        top.className = "itemTop";
+
+        const left = document.createElement("div");
+        left.style.display = "flex";
+        left.style.gap = "10px";
+        left.style.alignItems = "center";
+
+        const tag = document.createElement("div");
+        tag.className = "tag";
+        tag.textContent = it.cat || "NEZAŘAZENO";
+
+        const title = document.createElement("div");
+        title.style.fontWeight = "750";
+        title.textContent = it.title || "Položka";
+
+        left.appendChild(tag);
+        left.appendChild(title);
+
+        const right = document.createElement("div");
+        right.style.color = "rgba(255,255,255,0.70)";
+        right.style.fontSize = "0.82rem";
+        right.textContent = it.type || "item";
+
+        top.appendChild(left);
+        top.appendChild(right);
+
+        const body = document.createElement("div");
+        body.className = "itemTxt";
+
+        if(it.type === "image"){
+          body.textContent = "Moodboard: " + it.content + (it.meta ? "\nPrompt: " + it.meta : "");
+        }else if(it.type === "upload-image"){
+          body.textContent = "Nahraný obrázek: " + (it.meta || "image");
+          const img = document.createElement("img");
+          img.src = it.content;
+          img.alt = it.meta || "uploaded image";
+          img.style.width = "100%";
+          img.style.marginTop = "10px";
+          img.style.borderRadius = "12px";
+          img.style.border = "1px solid rgba(255,255,255,0.12)";
+          wrap.appendChild(top);
+          wrap.appendChild(body);
+          wrap.appendChild(img);
+        }else{
+          body.textContent = it.content || "";
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "itemActions";
+
+        const move = document.createElement("button");
+        move.className = "miniBtn";
+        move.textContent = "📦 Přesunout do projektu";
+        move.onclick = () => moveItem(it.id);
+
+        const del = document.createElement("button");
+        del.className = "miniBtn danger";
+        del.textContent = "🗑️ Smazat";
+        del.onclick = () => delItem(it.id);
+
+        actions.appendChild(move);
+        actions.appendChild(del);
+
+        if(it.type !== "upload-image"){
+          wrap.appendChild(top);
+          wrap.appendChild(body);
+        }
+        wrap.appendChild(actions);
+        box.appendChild(wrap);
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const sel = document.getElementById("ideaCat");
+      SAVE_CATS.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c.key;
+        opt.textContent = c.emoji + " " + c.key;
+        sel.appendChild(opt);
+      });
+      sel.value = "PROJEKT";
+
+      system("Vítej v Proiecta. Tady se tvoří dřív, než se třídí.");
+      lumina("Chceš obrázek, nápad, překlad, nebo rychlou odpověď na e-mail? Já jsem v dílně ve svém živlu.");
+
+      document.getElementById("exampleBtn").addEventListener("click", () => {
+        const ex = rand(SAVE_CATS);
+        document.getElementById("ideaCat").value = ex.key;
+        document.getElementById("ideaTxt").value = ex.sample;
+        system("Naplnila jsem ti poznámkový blok ukázkou: " + ex.key);
+      });
+
+      renderItems();
+    });
+  </script>
 </head>
 
 <body>
+  <div class="topbar">
+    <div class="brand">
+      <strong>🧙‍♀️ Proiecta – Magická dílna</strong>
+      <span>Tady se tvoří dřív, než se třídí.</span>
+    </div>
 
-<header>
-🧙‍♀️ Proiecta – Magická dílna  
-<div style="font-size:0.85rem;opacity:0.7">Tady se tvoří dřív, než se třídí.</div>
-</header>
+    <div class="nav">
+      <a class="pill" href="praetorium.html" title="Praetorium">🏛 Praetorium</a>
+      <a class="pill" href="lumina-demo.html" title="Pokec">🗯 Pokec</a>
+      <a class="pill" href="home.html" title="Domů">🏡 Domů</a>
+    </div>
+  </div>
 
-<main>
+  <main>
+    <div class="grid">
 
-<section class="section">
-<h2>🖼️ Vizuální dílna</h2>
-<input placeholder="Popiš obrázek…" />
-<button onclick="genImage()">Vytvořit</button>
-</section>
+      <section class="card">
+        <h2>🖼️ Vizuální dílna</h2>
+        <div class="sub">Napiš představu. Já se tvářím, že generuju… a pak vytáhnu kouzelný moodboard (DEMO).</div>
 
-<section class="section">
-<h2>✍️ Textová dílna</h2>
-<textarea rows="6" placeholder="Nápad, myšlenka, chaos…"></textarea>
-<button onclick="saveText()">Zapsat</button>
-</section>
+        <input id="imgPrompt" placeholder="Popiš obrázek… (např. mystická knihovna ve světle)" />
 
-<section class="section">
-<h2>📎 Soubory</h2>
-<input type="file" />
-<div class="log">Přetáhni sem soubor</div>
-</section>
+        <div class="row" style="margin-top:10px;">
+          <button class="btn" onclick="genImage()">Vytvořit</button>
+          <button class="btn btn-ghost" onclick="system('Tip: zkus přidat náladu, barvy a místo.');">Tip</button>
+        </div>
 
-<section class="section chat">
-<h2>💬 Lumina – kreativní chat</h2>
-<textarea rows="4" placeholder="Zeptej se Luminy…"></textarea>
-<button onclick="chatSend()">Odeslat</button>
-<div id="log" class="log"></div>
-</section>
+        <div class="tvWrap" aria-label="Moodboard TV frame">
+          <img id="tvImg" class="tvImg" src="home-base.jpg" alt="Moodboard (DEMO)" />
+          <div id="wm" class="watermark"><img src="favicon.png" alt="favicon watermark"></div>
+          <div class="tvFrame" aria-hidden="true"></div>
+        </div>
 
-</main>
+        <div class="hint">
+          Soubory: <code>tv-frame.png</code>, <code>home-base.jpg</code>, <code>spark.jpg</code>, <code>whisper.jpg</code>, <code>favicon.png</code>
+        </div>
+      </section>
 
-<footer>
-DEMO • LuminaMemory™ • Proiecta není projektový manažer. Je to dílna.
-</footer>
+      <section class="card">
+        <h2>✍️ Textová dílna</h2>
+        <div class="sub">Poznámkový blok bez studu. Můžeš ukládat, mazat, přesouvat (DEMO).</div>
 
+        <div class="row">
+          <select id="ideaCat" aria-label="Kategorie"></select>
+          <button id="exampleBtn" class="btn btn-ghost" type="button">🪄 Vložit ukázku</button>
+        </div>
+
+        <textarea id="ideaTxt" placeholder="Nápad, myšlenka, chaos…"></textarea>
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn" onclick="saveIdea()">Zapsat</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('ideaTxt').value=''; system('Vyčištěno. Pustíme se do chaosu znovu?');">Vyčistit</button>
+        </div>
+
+        <div class="sub" style="margin-top:12px;">📦 Položky v dílně:</div>
+        <div id="itemsBox" class="items"></div>
+      </section>
+
+      <section class="card">
+        <h2>🧰 Nástroje</h2>
+        <div class="sub">Vkládej obrázky/soubory a dělej překlady. Všechno jde přes chat, takže se nic neztratí.</div>
+
+        <div style="margin-bottom:12px;">
+          <div class="sub" style="margin-bottom:8px;">📎 Soubory / obrázky</div>
+          <input type="file" multiple onchange="onFilePick(event)" />
+          <div class="hint">Nahraj obrázek — objeví se jako položka a Lumina hned reaguje.</div>
+        </div>
+
+        <div>
+          <div class="sub" style="margin-bottom:8px;">🌍 Překlad (vtipné DEMO)</div>
+          <textarea id="translateSrc" placeholder="Vlož text k překladu…"></textarea>
+
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" onclick="translateDemo()">Přeložit</button>
+            <button class="btn btn-ghost" onclick="document.getElementById('translateSrc').value=''; document.getElementById('translateOut').value=''; system('Překladová tabule smazána.');">Smazat</button>
+          </div>
+
+          <textarea id="translateOut" style="margin-top:10px;" placeholder="Výsledek překladu se objeví tady…"></textarea>
+        </div>
+      </section>
+
+    </div>
+
+    <section class="card chatCard">
+      <h2>💬 Lumina – kreativní chat (ne Pokec)</h2>
+      <div class="sub">Tady se tvoří, překládá, píšou maily a hlídá se kontext. Zpětná vazba do Pokecu jde přes feed (localStorage).</div>
+
+      <div class="row">
+        <input id="chatInput" placeholder="Napiš Lumině… (např. napiš reklamaci, přelož dokument, navrhni slogan)" />
+        <button class="btn" onclick="(function(){ const v=document.getElementById('chatInput').value.trim(); if(!v){ system('Napiš mi něco. I „pomoc“ je validní kouzlo.'); return;} user(v); lumina('Rozumím. Udělám návrh a když to bude patřit do projektu, nabídnu přesun.'); pushToPokec('V Proiecta proběhla práce s Luminou 💬'); document.getElementById('chatInput').value=''; })()">Odeslat</button>
+      </div>
+
+      <div id="chatLog" class="chatLog" aria-live="polite"></div>
+
+      <div class="hint">
+        Pozn.: Pokec (na <code>lumina-demo.html</code>) může později číst položky z <code>localStorage</code> klíče <code>luminamemory_pokec_feed</code> a zobrazit „V Proiecta se něco stalo“.
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    DEMO • LuminaMemory™ • Proiecta je magická dílna. Projekty jsou až další stránka (retro kontrast).
+  </footer>
 </body>
 </html>
