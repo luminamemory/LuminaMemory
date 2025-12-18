@@ -679,6 +679,10 @@
           <h3>📎 Přiložit soubor / obrázek</h3>
           <p>V demu se soubor uloží do stopy (lokálně). U obrázku uvidíš náhled.</p>
           <input id="fileInput" type="file" multiple />
+          <div class="fileline">
+            <button class="btn" id="btnClearFiles" title="Smazat poslední přiložené soubory/obrázky z dílny">🗑 Smazat poslední přílohu</button>
+            <span class="toolhint" id="fileLastHint" aria-live="polite"></span>
+          </div>
           <div class="toolhint">Tip: Přiložené věci se objeví i v chatu jako potvrzení.</div>
         </section>
       </aside>
@@ -752,6 +756,9 @@
   const btnClearIdea = document.getElementById("btnClearIdea");
 
   const fileInput = document.getElementById("fileInput");
+  const btnClearFiles = document.getElementById("btnClearFiles");
+  const fileLastHint = document.getElementById("fileLastHint");
+  let lastAttachmentIds = [];
 
   const feed = document.getElementById("feed");
   const feedEmpty = document.getElementById("feedEmpty");
@@ -794,8 +801,9 @@
   }
 
   function addItem(type, title, body, extra){
+    const __id = cryptoId();
     state.items.unshift({
-      id: cryptoId(),
+      id: __id,
       type,
       title: title || "",
       body: body || "",
@@ -804,6 +812,8 @@
     });
     saveState();
     renderFeed();
+ 
+    return __id;
   }
 
   function cryptoId(){
@@ -1129,6 +1139,11 @@
     const files = Array.from(e.target.files || []);
     if(files.length === 0) return;
 
+    // remember “last batch” so user can delete it from the attach panel
+    lastAttachmentIds = [];
+    fileLastHint.textContent = "";
+    btnClearFiles.disabled = true;
+
     for(const f of files){
       const info = `${f.name} • ${(f.size/1024).toFixed(1)} KB`;
       const isImg = /^image\//.test(f.type);
@@ -1138,18 +1153,43 @@
 
       if(isImg){
         const dataUrl = await readAsDataURL(f);
-        addItem("file", f.name, "Přiložený obrázek (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size });
+        const id = addItem("file", f.name, "Přiložený obrázek (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size });
+        lastAttachmentIds.push(id);
         addChat("lumina", "Vidím obrázek. Uloženo do dílny. 🖼️", "soubor");
       }else{
-        addItem("file", f.name, "Soubor přijat (DEMO).", { mime: f.type, size: f.size });
+        const id = addItem("file", f.name, "Soubor přijat (DEMO).", { mime: f.type, size: f.size });
+        lastAttachmentIds.push(id);
         addChat("lumina", "Soubor přijat. Uloženo do dílny. 📎", "soubor");
       }
 
       addItem("note", "Zpětná vazba do Pokecu", "Pokec: „V Proiecta byl přiložen soubor.“ (DEMO)", {});
     }
 
+    // show “last attached” info + enable delete button
+    if(lastAttachmentIds.length){
+      const names = files.map(f => f.name).join(", ");
+      fileLastHint.textContent = `Poslední příloha: ${names}`;
+      btnClearFiles.disabled = false;
+    }
+
     // reset input so same file can be selected again
     fileInput.value = "";
+  });
+
+  // Delete last attached batch directly from the attach panel
+  btnClearFiles.addEventListener("click", () => {
+    if(!lastAttachmentIds.length) return;
+    const beforeLen = state.items.length;
+    state.items = state.items.filter(it => !lastAttachmentIds.includes(it.id));
+    const removed = beforeLen - state.items.length;
+
+    lastAttachmentIds = [];
+    saveState();
+    renderFeed();
+
+    btnClearFiles.disabled = true;
+    fileLastHint.textContent = removed ? "Smazáno." : "Nic k odstranění.";
+    addChat("lumina", removed ? "Příloha smazána ze stopy. 🗑️" : "Nemám co mazat. 🙈", "soubor");
   });
 
   function readAsDataURL(file){
@@ -1164,6 +1204,7 @@
   // Initial render
   renderChat();
   renderFeed();
+  if(btnClearFiles) btnClearFiles.disabled = true;
 
 })();
 </script>
