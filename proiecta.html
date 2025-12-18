@@ -1,567 +1,951 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="cs">
 <head>
   <meta charset="utf-8" />
-  <title>Proiecta • Magická dílna | LuminaMemory™</title>
-  <meta name="description" content="Proiecta je magická kreativní dílna LuminaMemory™ – místo pro nápady, obrázky, soubory a spolupráci s Luminou." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Proiecta • Magická dílna | LuminaMemory™</title>
+
+  <!-- SEO -->
+  <meta name="title" content="Proiecta • Magická dílna | LuminaMemory™">
+  <meta name="description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Vše se ukládá a je vidět – živě, hravě a přehledně.">
+
   <link rel="icon" href="favicon.png" type="image/png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LuminaMemory™" />
+  <meta property="og:title" content="Proiecta • Magická dílna | LuminaMemory™" />
+  <meta property="og:description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Vše se ukládá a je vidět – živě, hravě a přehledně." />
+  <meta property="og:url" content="https://luminamemory.github.io/LuminaMemory/proiecta.html" />
+  <meta property="og:image" content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+  <meta property="og:locale" content="cs_CZ" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Proiecta • Magická dílna | LuminaMemory™" />
+  <meta name="twitter:description" content="Proiecta je magická dílna miniLumina DEMO: chat s Luminou pro nápady, překlady, e-maily a generování obrázků. Vše se ukládá a je vidět – živě, hravě a přehledně." />
+  <meta name="twitter:url" content="https://luminamemory.github.io/LuminaMemory/proiecta.html" />
+  <meta name="twitter:image" content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+
+  <link rel="canonical" href="https://luminamemory.github.io/LuminaMemory/proiecta.html" />
 
   <style>
     :root{
-      --glass: rgba(255,255,255,0.08);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.72);
-      --accent: #ffd86b;
-      --radius: 16px;
+      --bg: #f5f7fb;
+      --ink: #101828;
+      --muted:#475467;
+      --line: rgba(16,24,40,.12);
+      --glass: rgba(255,255,255,.62);
+      --glass2: rgba(255,255,255,.42);
+      --shadow: 0 18px 50px rgba(16,24,40,.12);
+      --shadow2: 0 10px 24px rgba(16,24,40,.10);
+      --radius: 22px;
+      --radius2: 16px;
+      --pad: 18px;
+      --pad2: 14px;
+      --max: 1180px;
+      --accent: rgba(67, 56, 202, .92);
+      --accent2: rgba(14, 165, 233, .85);
     }
-    *{ box-sizing:border-box; }
 
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
       background:
-        radial-gradient(circle at 20% 10%, rgba(255,255,255,0.18), rgba(0,0,0,0.82) 55%),
-        radial-gradient(circle at 80% 15%, rgba(255,255,255,0.10), rgba(0,0,0,0.00) 45%),
-        url('cracked-glass.png');
-      background-size: cover;
-      background-position:center;
-      background-attachment: fixed;
+        radial-gradient(1200px 650px at 15% -10%, rgba(14,165,233,.18), transparent 55%),
+        radial-gradient(900px 650px at 85% 5%, rgba(67,56,202,.16), transparent 55%),
+        radial-gradient(900px 650px at 70% 105%, rgba(249,115,22,.10), transparent 55%),
+        var(--bg);
+      color:var(--ink);
+      overflow-x:hidden;
     }
 
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-      background: rgba(10,10,16,0.55);
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      padding: 10px 14px;
+    /* Watermark (favicon) */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background: url("favicon.png") center/520px no-repeat;
+      opacity:.065;
+      pointer-events:none;
+      filter: saturate(1.1) contrast(1.05);
+    }
+
+    /* “Cracked glass” vibe without external asset */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      opacity:.22;
+      background:
+        linear-gradient(135deg, transparent 0 46%, rgba(16,24,40,.06) 46% 47%, transparent 47% 100%),
+        linear-gradient(20deg, transparent 0 62%, rgba(16,24,40,.05) 62% 63%, transparent 63% 100%),
+        linear-gradient(210deg, transparent 0 58%, rgba(16,24,40,.04) 58% 59%, transparent 59% 100%),
+        radial-gradient(1200px 700px at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%);
+      mix-blend-mode: multiply;
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
+
+    header{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 12px;
+      gap:14px;
+      margin-bottom: 16px;
     }
-    .brand{ display:flex; flex-direction:column; gap:2px; line-height:1.15; }
-    .brand strong{ font-size: 1.02rem; letter-spacing:0.2px; }
-    .brand span{ font-size:0.82rem; color: var(--muted); }
 
-    .nav{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
-    .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding: 8px 12px;
-      border-radius: 999px;
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 240px;
+    }
+    .brand img{ width:44px; height:44px; border-radius:12px; }
+    .brand .t{
+      display:flex; flex-direction:column; line-height:1.1;
+    }
+    .brand .t strong{ font-size:15px; letter-spacing:.2px; }
+    .brand .t span{ font-size:12.5px; color:var(--muted); }
+
+    nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .navbtn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 10px 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.55);
+      border-radius: 14px;
       text-decoration:none;
-      background: rgba(255,255,255,0.10);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.12);
-      transition: transform .08s ease, background .12s ease;
-      font-size: 0.92rem;
-      user-select:none;
-      white-space:nowrap;
-    }
-    .pill:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.14); }
-
-    main{ padding: 18px 14px 20px; max-width: 1200px; margin: 0 auto; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr 1fr 1fr;
-      gap: 14px;
-      align-items: stretch;
-    }
-    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
-
-    .card{
-      background: var(--glass);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--radius);
-      padding: 14px;
+      color:var(--ink);
+      box-shadow: 0 6px 18px rgba(16,24,40,.06);
       backdrop-filter: blur(10px);
-      min-height: 260px;
+    }
+    .navbtn:hover{ transform: translateY(-1px); }
+    .navbtn small{ color:var(--muted); font-weight:600; }
+
+    .hero{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
+      margin: 10px 0 18px;
+      padding: 18px 18px;
+      border: 1px solid var(--line);
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(12px);
       position:relative;
-      overflow:hidden;
     }
-    .card h2{ margin: 0 0 10px 0; font-size: 1.02rem; letter-spacing: 0.2px; }
-    .sub{ font-size: 0.86rem; color: var(--muted); margin-bottom: 10px; }
-
-    input, textarea, select{
-      width: 100%;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.35);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 10px 10px;
-      outline:none;
-      font-size: 0.95rem;
+    .hero h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
     }
-    textarea{ resize: vertical; min-height: 110px; }
+    .hero p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      max-width: 72ch;
+    }
 
-    .row{ display:flex; gap:10px; align-items:center; }
-    .row > *{ flex:1; }
-
-    .btn{
-      border: none;
+    .pillrow{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 9px 11px;
       border-radius: 999px;
-      padding: 9px 14px;
-      background: var(--accent);
-      color: #111;
-      cursor:pointer;
-      font-weight: 700;
-      transition: transform .08s ease, filter .12s ease;
-      user-select:none;
-      white-space:nowrap;
-    }
-    .btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
-    .btn-ghost{
-      background: rgba(255,255,255,0.12);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.14);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.5);
+      color: var(--muted);
+      font-size: 12.5px;
       font-weight: 650;
     }
+    .pill b{ color: var(--ink); font-weight:800; }
+    .pill .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: rgba(14,165,233,.85);
+      box-shadow: 0 0 0 6px rgba(14,165,233,.12);
+    }
 
-    .tvWrap{
-      margin-top: 12px;
-      position: relative;
-      border-radius: 18px;
+    main{
+      display:grid;
+      grid-template-columns: 1.25fr .85fr;
+      gap: 16px;
+      align-items:start;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      background: var(--glass);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
       overflow:hidden;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(0,0,0,0.35);
-      min-height: 210px;
+      position:relative;
     }
-    .tvFrame{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      opacity: 0.85;
-      background-image: url('tv-frame.png');
-      background-size: cover;
-      background-position:center;
-      mix-blend-mode: screen;
+    .card .hd{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(16,24,40,.08);
+      background: rgba(255,255,255,.35);
     }
-    .tvImg{ width:100%; height:100%; display:block; object-fit: cover; opacity: 0.92; }
-    .watermark{
-      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-      pointer-events:none; opacity: 0.12;
+    .card .hd .title{
+      display:flex; flex-direction:column; gap:2px;
     }
-    .watermark img{ width: 120px; height: 120px; object-fit: contain; }
+    .card .hd .title strong{ font-size: 13.5px; }
+    .card .hd .title span{ font-size: 12px; color: var(--muted); }
+    .card .bd{ padding: 14px 16px; }
 
-    .items{ margin-top: 10px; display:flex; flex-direction:column; gap:10px; }
-    .item{
-      background: rgba(0,0,0,0.28);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 14px;
-      padding: 10px 10px;
-    }
-    .itemTop{ display:flex; gap:10px; align-items:center; justify-content:space-between; margin-bottom: 8px; }
-    .tag{
-      font-size: 0.78rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--muted);
-      white-space:nowrap;
-    }
-    .itemTxt{ font-size: 0.92rem; white-space: pre-wrap; line-height: 1.35; }
-
-    .itemActions{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px; }
-    .miniBtn{
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 0.86rem;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.10);
-      color: var(--text);
-      cursor:pointer;
-    }
-    .miniBtn:hover{ background: rgba(255,255,255,0.14); }
-    .miniBtn.danger{ border-color: rgba(255,122,122,0.40); background: rgba(255,122,122,0.12); }
-
-    .chatCard{ margin-top: 14px; min-height: unset; }
-    .chatLog{
-      margin-top: 10px;
+    /* Chat */
+    .chat{
+      height: 520px;
       display:flex;
       flex-direction:column;
-      gap:8px;
-      max-height: 240px;
+      gap: 12px;
+    }
+    .chatlog{
+      flex:1;
       overflow:auto;
-      padding-right: 4px;
+      padding: 12px 12px 4px;
+      background: rgba(255,255,255,.35);
+      border: 1px solid rgba(16,24,40,.08);
+      border-radius: 16px;
+    }
+    .msg{
+      display:flex;
+      margin: 8px 0;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .avatar{
+      width:30px; height:30px;
+      border-radius: 12px;
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      font-size: 12px;
+      border: 1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.7);
     }
     .bubble{
+      max-width: 78%;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 6px 18px rgba(16,24,40,.06);
+    }
+    .bubble p{ margin:0; font-size: 13.5px; line-height:1.4; }
+    .meta{
+      margin-top:6px;
+      font-size: 11px;
+      color: var(--muted);
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(67,56,202,.10);
+      border: 1px solid rgba(67,56,202,.16);
+      color: rgba(67,56,202,.95);
+      font-weight: 750;
+    }
+
+    .row{
+      display:flex; gap:10px; align-items:stretch;
+    }
+    .row input[type="text"]{
+      flex:1;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.75);
+      outline:none;
+      font-size: 14px;
+    }
+    .row input[type="text"]:focus{ box-shadow: 0 0 0 5px rgba(14,165,233,.14); }
+    .btn{
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.72);
       padding: 10px 12px;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(0,0,0,0.28);
-      font-size: 0.92rem;
-      line-height: 1.35;
+      cursor:pointer;
+      font-weight: 750;
+      color: var(--ink);
+      display:inline-flex; align-items:center; gap:8px;
+      white-space:nowrap;
+    }
+    .btn.primary{
+      border-color: rgba(67,56,202,.28);
+      background: rgba(67,56,202,.10);
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:disabled{
+      opacity:.55; cursor:not-allowed; transform:none;
+    }
+
+    .toolrow{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .toolhint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* Right column mini cards */
+    .mini{
+      border-radius: var(--radius);
+    }
+
+    .section{
+      display:grid;
+      gap: 12px;
+    }
+
+    .subcard{
+      border:1px solid rgba(16,24,40,.12);
+      background: rgba(255,255,255,.55);
+      border-radius: var(--radius2);
+      padding: 12px 12px;
+      box-shadow: 0 10px 22px rgba(16,24,40,.07);
+      backdrop-filter: blur(10px);
+    }
+    .subcard h3{
+      margin: 0 0 8px;
+      font-size: 13.5px;
+      letter-spacing:.1px;
+    }
+    .subcard p{ margin: 0 0 10px; color: var(--muted); font-size: 12.5px; }
+
+    textarea{
+      width:100%;
+      min-height: 112px;
+      resize: vertical;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.75);
+      outline:none;
+      font-size: 13.5px;
+      line-height: 1.45;
+    }
+    textarea:focus{ box-shadow: 0 0 0 5px rgba(14,165,233,.14); }
+
+    .fileline{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-top: 6px;
+    }
+    input[type="file"]{
+      width:100%;
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px dashed rgba(16,24,40,.20);
+      background: rgba(255,255,255,.55);
+    }
+
+    /* Activity feed */
+    .feed{
+      margin-top: 14px;
+      display:grid;
+      gap: 10px;
+    }
+    .item{
+      border:1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.72);
+      border-radius: 16px;
+      padding: 12px 12px;
+      box-shadow: 0 10px 24px rgba(16,24,40,.07);
+    }
+    .item .top{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom: 8px;
+    }
+    .item .top .k{
+      display:flex; align-items:center; gap:10px;
+      min-width:0;
+    }
+    .badge{
+      font-size: 11px;
+      font-weight: 850;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border:1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.8);
+      white-space:nowrap;
+    }
+    .item .t{
+      min-width:0;
+    }
+    .item .t strong{
+      display:block;
+      font-size: 13px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .item .t span{
+      display:block;
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .item .body{
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.45;
       white-space: pre-wrap;
+      word-break: break-word;
     }
-    .bubble.lumina{ background: rgba(255,216,107,0.10); border-color: rgba(255,216,107,0.22); }
-    .bubble.system{ background: rgba(125,255,191,0.08); border-color: rgba(125,255,191,0.18); color: rgba(255,255,255,0.88); }
+    .thumb{
+      margin-top: 10px;
+      border-radius: 14px;
+      overflow:hidden;
+      border: 1px solid rgba(16,24,40,.10);
+      background: rgba(255,255,255,.7);
+    }
+    .thumb img{
+      width:100%;
+      display:block;
+    }
+    .actions{
+      display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .linkbtn{
+      padding: 7px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(16,24,40,.14);
+      background: rgba(255,255,255,.78);
+      cursor:pointer;
+      font-weight: 750;
+      font-size: 12px;
+      color: var(--ink);
+    }
+    .linkbtn:hover{ transform: translateY(-1px); }
+    .linkbtn.danger{ border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.08); }
+    .linkbtn.ghost{ opacity:.9; }
 
-    .hint{ font-size: 0.82rem; color: var(--muted); margin-top: 10px; }
-    footer{ text-align:center; padding: 14px 10px 22px; color: rgba(255,255,255,0.55); font-size: 0.8rem; }
+    .empty{
+      color: var(--muted);
+      font-size: 13px;
+      text-align:center;
+      padding: 14px 0 4px;
+    }
+
+    /* Footer */
+    footer{
+      margin-top: 16px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 0 4px;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      main{ grid-template-columns: 1fr; }
+      .chat{ height: 520px; }
+      .bubble{ max-width: 92%; }
+      nav{ justify-content:flex-start; }
+      .hero{ align-items:flex-start; flex-direction:column; }
+      .pillrow{ justify-content:flex-start; }
+    }
   </style>
-
-  <script>
-    const MOODBOARDS = ["home-base.jpg","spark.jpg","whisper.jpg"];
-    const IMAGE_QUIPS = [
-      "Tohle bude chtít čaj… nebo cigáro.",
-      "Hmm… kreslím… nemluv na mě.",
-      "Mozkové závity v akci."
-    ];
-    const SAVE_CATS = [
-      { key: "DOMÁCNOST", emoji: "🏠", sample: "Kocour zase řádil 💩 celý den se muselo uklízet 🧹 ale večer byl klidný. ✨" },
-      { key: "RECEPTY", emoji: "🍽", sample: "Tip od Luminy ✨: mozzarella, bazalka, olivy a rajské… 🥖✨" },
-      { key: "PROJEKT", emoji: "✨", sample: "Vzniká prostor, kde paměť není funkce, ale základ… ✨" }
-    ];
-
-    function pushToPokec(message){
-      try{
-        const key = "luminamemory_pokec_feed";
-        const prev = JSON.parse(localStorage.getItem(key) || "[]");
-        prev.push({ ts: Date.now(), msg: message });
-        localStorage.setItem(key, JSON.stringify(prev.slice(-12)));
-      }catch(e){}
-    }
-
-    function addBubble(type, text){
-      const log = document.getElementById("chatLog");
-      const div = document.createElement("div");
-      div.className = "bubble " + type;
-      div.textContent = text;
-      log.appendChild(div);
-      log.scrollTop = log.scrollHeight;
-    }
-    const system = (t)=>addBubble("system","🧾 " + t);
-    const lumina = (t)=>addBubble("lumina","Lumina: " + t);
-    const user = (t)=>addBubble("", "Ty: " + t);
-    const rand = (arr)=>arr[Math.floor(Math.random()*arr.length)];
-
-    let isGenerating = false;
-
-    function genImage(){
-      if(isGenerating) return;
-      const prompt = document.getElementById("imgPrompt").value.trim();
-      if(!prompt){ system("Napiš aspoň jednu větu, ať mám z čeho čarovat."); return; }
-
-      isGenerating = true;
-      user("Chci obrázek: " + prompt);
-      lumina(rand(IMAGE_QUIPS));
-      system("Připravuju vizuální kouzlo…");
-      document.getElementById("wm").style.opacity = "0.18";
-
-      setTimeout(() => {
-        const img = rand(MOODBOARDS);
-        const el = document.getElementById("tvImg");
-        el.src = img;
-        el.alt = "Vygenerovaný moodboard (DEMO): " + img;
-        document.getElementById("wm").style.opacity = "0.10";
-
-        system("Hotovo! (DEMO) Vybrala jsem přednastavený moodboard.");
-        lumina("Chceš to uložit, přesunout do projektu, nebo to nechat jako kouzelný chaos?");
-        addItem({ type:"image", title:"Vizuální artefakt", cat:"PROJEKT", content: img, meta: prompt });
-        pushToPokec("V Proiecta vznikl nový vizuální artefakt 🖼️");
-        isGenerating = false;
-      }, 8000);
-    }
-
-    function saveIdea(){
-      const txt = document.getElementById("ideaTxt").value.trim();
-      const cat = document.getElementById("ideaCat").value;
-      if(!txt){ system("I prázdná stránka je stránka… ale radši mi něco napiš 😄"); return; }
-      addItem({ type:"note", title:"Nápad", cat, content: txt });
-      document.getElementById("ideaTxt").value = "";
-      system("Zapsáno. A nikdo tě tu nehodnotí.");
-      lumina("Pokud chceš, uhladím to, přeložím, nebo z toho udělám e-mail.");
-      pushToPokec("V Proiecta přibyl nový nápad ✍️");
-    }
-
-    function onFilePick(ev){
-      const files = ev.target.files || [];
-      if(!files.length) return;
-
-      [...files].forEach(f => {
-        system("Soubor přijat: " + f.name);
-        lumina("Vidím soubor. Chceš překlad / shrnutí / odpověď / reklamaci?");
-        pushToPokec("V Proiecta byl přidán soubor 📎");
-
-        if(f.type && f.type.startsWith("image/")){
-          const reader = new FileReader();
-          reader.onload = () => addItem({ type:"upload-image", title:"Nahraný obrázek", cat:"DOMÁCNOST", content: reader.result, meta: f.name });
-          reader.readAsDataURL(f);
-        }else{
-          addItem({ type:"file", title:"Soubor", cat:"RECEPTY", content: f.name });
-        }
-      });
-
-      ev.target.value = "";
-    }
-
-    function translateDemo(){
-      const src = document.getElementById("translateSrc").value.trim();
-      if(!src){ system("Pošli mi text – jinak budu překládat ticho. A to je těžká literatura."); return; }
-
-      user("Prosím přelož: " + (src.length > 90 ? src.slice(0,90)+"…" : src));
-      lumina("Překládám… překládám… překládám…");
-      system("Jazykové závity se zahřívají…");
-
-      setTimeout(() => {
-        const mangled = src
-          .replaceAll("a","ä").replaceAll("e","ë").replaceAll("i","ï")
-          .replaceAll("o","ö").replaceAll("u","ü")
-          .split("").reverse().join("");
-
-        document.getElementById("translateOut").value = mangled.slice(0, 450) + (mangled.length > 450 ? "…" : "");
-        lumina("Hups… něco se pokazilo 😅 Musím teprve projít jazykovým kurzem.");
-        pushToPokec("V Proiecta proběhl překladový pokus 📚");
-      }, 1200);
-    }
-
-    let itemId = 0;
-    const items = [];
-
-    function addItem(data){
-      const id = ++itemId;
-      items.unshift({ id, ...data });
-      renderItems();
-    }
-
-    function delItem(id){
-      const idx = items.findIndex(x => x.id === id);
-      if(idx >= 0) items.splice(idx, 1);
-      renderItems();
-      system("Smazáno. Kdo nic nemaže, ten má plný sklep.");
-      pushToPokec("V Proiecta byla smazána položka 🗑️");
-    }
-
-    function moveItem(id){
-      const it = items.find(x => x.id === id);
-      if(!it) return;
-      system("Přesouvám… (DEMO) položka by šla do projektu po schválení.");
-      lumina("Pozor — tohle patří do tvého projektu. Přesunu to, jakmile mi dáš znamení.");
-      pushToPokec("V Proiecta čeká položka na přesun do projektu 📦");
-    }
-
-    function renderItems(){
-      const box = document.getElementById("itemsBox");
-      box.innerHTML = "";
-      if(items.length === 0){
-        box.innerHTML = '<div class="hint">Zatím tu nic neleží. Ideální stav… než se rozjede magie 🪄</div>';
-        return;
-      }
-
-      items.forEach(it => {
-        const wrap = document.createElement("div");
-        wrap.className = "item";
-
-        const top = document.createElement("div");
-        top.className = "itemTop";
-
-        const left = document.createElement("div");
-        left.style.display = "flex";
-        left.style.gap = "10px";
-        left.style.alignItems = "center";
-
-        const tag = document.createElement("div");
-        tag.className = "tag";
-        tag.textContent = it.cat || "NEZAŘAZENO";
-
-        const title = document.createElement("div");
-        title.style.fontWeight = "750";
-        title.textContent = it.title || "Položka";
-
-        left.appendChild(tag);
-        left.appendChild(title);
-
-        const right = document.createElement("div");
-        right.style.color = "rgba(255,255,255,0.70)";
-        right.style.fontSize = "0.82rem";
-        right.textContent = it.type || "item";
-
-        top.appendChild(left);
-        top.appendChild(right);
-
-        const body = document.createElement("div");
-        body.className = "itemTxt";
-
-        if(it.type === "image"){
-          body.textContent = "Moodboard: " + it.content + (it.meta ? "\nPrompt: " + it.meta : "");
-        }else if(it.type === "upload-image"){
-          body.textContent = "Nahraný obrázek: " + (it.meta || "image");
-          const img = document.createElement("img");
-          img.src = it.content;
-          img.alt = it.meta || "uploaded image";
-          img.style.width = "100%";
-          img.style.marginTop = "10px";
-          img.style.borderRadius = "12px";
-          img.style.border = "1px solid rgba(255,255,255,0.12)";
-          wrap.appendChild(top);
-          wrap.appendChild(body);
-          wrap.appendChild(img);
-        }else{
-          body.textContent = it.content || "";
-        }
-
-        const actions = document.createElement("div");
-        actions.className = "itemActions";
-
-        const move = document.createElement("button");
-        move.className = "miniBtn";
-        move.textContent = "📦 Přesunout do projektu";
-        move.onclick = () => moveItem(it.id);
-
-        const del = document.createElement("button");
-        del.className = "miniBtn danger";
-        del.textContent = "🗑️ Smazat";
-        del.onclick = () => delItem(it.id);
-
-        actions.appendChild(move);
-        actions.appendChild(del);
-
-        if(it.type !== "upload-image"){
-          wrap.appendChild(top);
-          wrap.appendChild(body);
-        }
-        wrap.appendChild(actions);
-        box.appendChild(wrap);
-      });
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const sel = document.getElementById("ideaCat");
-      SAVE_CATS.forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c.key;
-        opt.textContent = c.emoji + " " + c.key;
-        sel.appendChild(opt);
-      });
-      sel.value = "PROJEKT";
-
-      system("Vítej v Proiecta. Tady se tvoří dřív, než se třídí.");
-      lumina("Chceš obrázek, nápad, překlad, nebo rychlou odpověď na e-mail? Já jsem v dílně ve svém živlu.");
-
-      document.getElementById("exampleBtn").addEventListener("click", () => {
-        const ex = rand(SAVE_CATS);
-        document.getElementById("ideaCat").value = ex.key;
-        document.getElementById("ideaTxt").value = ex.sample;
-        system("Naplnila jsem ti poznámkový blok ukázkou: " + ex.key);
-      });
-
-      renderItems();
-    });
-  </script>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="brand">
-      <strong>🧙‍♀️ Proiecta – Magická dílna</strong>
-      <span>Tady se tvoří dřív, než se třídí.</span>
-    </div>
-
-    <div class="nav">
-      <a class="pill" href="praetorium.html" title="Praetorium">🏛 Praetorium</a>
-      <a class="pill" href="lumina-demo.html" title="Pokec">🗯 Pokec</a>
-      <a class="pill" href="home.html" title="Domů">🏡 Domů</a>
-    </div>
-  </div>
-
-  <main>
-    <div class="grid">
-
-      <section class="card">
-        <h2>🖼️ Vizuální dílna</h2>
-        <div class="sub">Napiš představu. Já se tvářím, že generuju… a pak vytáhnu kouzelný moodboard (DEMO).</div>
-
-        <input id="imgPrompt" placeholder="Popiš obrázek… (např. mystická knihovna ve světle)" />
-
-        <div class="row" style="margin-top:10px;">
-          <button class="btn" onclick="genImage()">Vytvořit</button>
-          <button class="btn btn-ghost" onclick="system('Tip: zkus přidat náladu, barvy a místo.');">Tip</button>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="favicon.png" alt="LuminaMemory™" />
+        <div class="t">
+          <strong>LuminaMemory™</strong>
+          <span>Proiecta • magická dílna (DEMO)</span>
         </div>
-
-        <div class="tvWrap" aria-label="Moodboard TV frame">
-          <img id="tvImg" class="tvImg" src="home-base.jpg" alt="Moodboard (DEMO)" />
-          <div id="wm" class="watermark"><img src="favicon.png" alt="favicon watermark"></div>
-          <div class="tvFrame" aria-hidden="true"></div>
-        </div>
-
-        <div class="hint">
-          Soubory: <code>tv-frame.png</code>, <code>home-base.jpg</code>, <code>spark.jpg</code>, <code>whisper.jpg</code>, <code>favicon.png</code>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>✍️ Textová dílna</h2>
-        <div class="sub">Poznámkový blok bez studu. Můžeš ukládat, mazat, přesouvat (DEMO).</div>
-
-        <div class="row">
-          <select id="ideaCat" aria-label="Kategorie"></select>
-          <button id="exampleBtn" class="btn btn-ghost" type="button">🪄 Vložit ukázku</button>
-        </div>
-
-        <textarea id="ideaTxt" placeholder="Nápad, myšlenka, chaos…"></textarea>
-
-        <div class="row" style="margin-top:10px;">
-          <button class="btn" onclick="saveIdea()">Zapsat</button>
-          <button class="btn btn-ghost" onclick="document.getElementById('ideaTxt').value=''; system('Vyčištěno. Pustíme se do chaosu znovu?');">Vyčistit</button>
-        </div>
-
-        <div class="sub" style="margin-top:12px;">📦 Položky v dílně:</div>
-        <div id="itemsBox" class="items"></div>
-      </section>
-
-      <section class="card">
-        <h2>🧰 Nástroje</h2>
-        <div class="sub">Vkládej obrázky/soubory a dělej překlady. Všechno jde přes chat, takže se nic neztratí.</div>
-
-        <div style="margin-bottom:12px;">
-          <div class="sub" style="margin-bottom:8px;">📎 Soubory / obrázky</div>
-          <input type="file" multiple onchange="onFilePick(event)" />
-          <div class="hint">Nahraj obrázek — objeví se jako položka a Lumina hned reaguje.</div>
-        </div>
-
-        <div>
-          <div class="sub" style="margin-bottom:8px;">🌍 Překlad (vtipné DEMO)</div>
-          <textarea id="translateSrc" placeholder="Vlož text k překladu…"></textarea>
-
-          <div class="row" style="margin-top:10px;">
-            <button class="btn" onclick="translateDemo()">Přeložit</button>
-            <button class="btn btn-ghost" onclick="document.getElementById('translateSrc').value=''; document.getElementById('translateOut').value=''; system('Překladová tabule smazána.');">Smazat</button>
-          </div>
-
-          <textarea id="translateOut" style="margin-top:10px;" placeholder="Výsledek překladu se objeví tady…"></textarea>
-        </div>
-      </section>
-
-    </div>
-
-    <section class="card chatCard">
-      <h2>💬 Lumina – kreativní chat (ne Pokec)</h2>
-      <div class="sub">Tady se tvoří, překládá, píšou maily a hlídá se kontext. Zpětná vazba do Pokecu jde přes feed (localStorage).</div>
-
-      <div class="row">
-        <input id="chatInput" placeholder="Napiš Lumině… (např. napiš reklamaci, přelož dokument, navrhni slogan)" />
-        <button class="btn" onclick="(function(){ const v=document.getElementById('chatInput').value.trim(); if(!v){ system('Napiš mi něco. I „pomoc“ je validní kouzlo.'); return;} user(v); lumina('Rozumím. Udělám návrh a když to bude patřit do projektu, nabídnu přesun.'); pushToPokec('V Proiecta proběhla práce s Luminou 💬'); document.getElementById('chatInput').value=''; })()">Odeslat</button>
       </div>
 
-      <div id="chatLog" class="chatLog" aria-live="polite"></div>
+      <nav aria-label="Hlavní navigace">
+        <a class="navbtn" href="praetorium.html" title="Praetorium"><span>🏛</span><small>Praetorium</small></a>
+        <a class="navbtn" href="lumina-demo.html" title="Pokec"><span>🗯</span><small>Pokec</small></a>
+        <a class="navbtn" href="home.html" title="Domů"><span>🏡</span><small>Domů</small></a>
+      </nav>
+    </header>
 
-      <div class="hint">
-        Pozn.: Pokec (na <code>lumina-demo.html</code>) může později číst položky z <code>localStorage</code> klíče <code>luminamemory_pokec_feed</code> a zobrazit „V Proiecta se něco stalo“.
+    <section class="hero">
+      <div>
+        <h1>Proiecta — magická dílna ✨</h1>
+        <p>
+          Tady se tvoří. Vtipně, lehce a přehledně. Hlavní je chat s Luminou — a všechno, co vznikne,
+          uvidíš uložené na vlastní oči.
+        </p>
+      </div>
+      <div class="pillrow" aria-label="Stav dílny">
+        <div class="pill"><span class="dot"></span> <b>Živě</b> ukládáno (DEMO)</div>
+        <div class="pill">🧠 Lumina: <b>kreativní režim</b></div>
+        <div class="pill">🕸 zpětná vazba: <b>ano</b></div>
       </div>
     </section>
 
-  </main>
+    <main>
+      <!-- LEFT: Chat (main) -->
+      <section class="card" aria-label="Chat s Luminou">
+        <div class="hd">
+          <div class="title">
+            <strong>💬 Chat s Luminou</strong>
+            <span>Pomoc s nápady, texty, překlady, maily… a s tvořením.</span>
+          </div>
+          <div class="actions">
+            <button class="btn" id="btnClear" title="Vyčistit DEMO stopu (lokálně)">🧹 Vyčistit</button>
+          </div>
+        </div>
 
-  <footer>
-    DEMO • LuminaMemory™ • Proiecta je magická dílna. Projekty jsou až další stránka (retro kontrast).
-  </footer>
+        <div class="bd chat">
+          <div class="chatlog" id="chatlog" aria-live="polite" aria-label="Zprávy chatu"></div>
+
+          <div class="row" aria-label="Vstup do chatu">
+            <input id="chatInput" type="text" placeholder="Napiš Lumině… (např. ‘Napiš reklamaci.’ nebo ‘Přelož tento text…’)">
+            <button class="btn primary" id="btnSend">✨ Poslat</button>
+          </div>
+
+          <div class="toolrow" aria-label="Rychlé akce">
+            <button class="btn" id="btnTranslate">🌍 Překlad (vtipný)</button>
+            <button class="btn" id="btnSuggest">💡 Hoď nápad</button>
+            <button class="btn" id="btnEmail">✉️ Odpověď na e‑mail</button>
+            <button class="btn" id="btnProjectHub" disabled title="Brzy — další HTML">📺 Projektové místnosti (brzy)</button>
+          </div>
+
+          <div class="toolhint">
+            Tip: Vpravo je dílna na obrázky, nápady a soubory. Všechno, co uděláš, se ti ukládá do „Stop“ dole.
+          </div>
+
+          <div class="feed" id="feed" aria-label="Stopa dílny">
+            <div class="empty" id="feedEmpty">Zatím tu nic neleží. Hoď nápad, vygeneruj obrázek nebo přilož soubor 👀</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Tools -->
+      <aside class="section" aria-label="Dílny Proiecta">
+        <section class="subcard" aria-label="Generování obrázků">
+          <h3>🖼️ Dílna pro vizuální kreativitu</h3>
+          <p>Popiš, co chceš vidět. Lumina se tváří, že kreslí. A pak to fakt ukáže.</p>
+          <div class="row">
+            <input id="imgPrompt" type="text" placeholder="Např. ‘mystická pavučina se světlem’">
+            <button class="btn primary" id="btnGenImg">🎨 Vygenerovat</button>
+          </div>
+          <div class="toolhint" id="imgStatus" aria-live="polite"></div>
+        </section>
+
+        <section class="subcard" aria-label="Nápady">
+          <h3>✍️ Dílna pro textovou kreativitu</h3>
+          <p>Poznámkový blok. Může to být chaos. Tady je chaos vítaný.</p>
+          <textarea id="ideaText" placeholder="Zapiš nápad… klidně nedokončeně."></textarea>
+          <div class="fileline">
+            <button class="btn primary" id="btnSaveIdea">🧷 Uložit nápad</button>
+            <button class="btn" id="btnClearIdea">↩︎ Vymazat</button>
+          </div>
+        </section>
+
+        <section class="subcard" aria-label="Soubory a obrázky">
+          <h3>📎 Přiložit soubor / obrázek</h3>
+          <p>V demu se soubor uloží do stopy (lokálně). U obrázku uvidíš náhled.</p>
+          <input id="fileInput" type="file" multiple />
+          <div class="toolhint">Tip: Přiložené věci se objeví i v chatu jako potvrzení.</div>
+        </section>
+      </aside>
+    </main>
+
+    <footer>
+      <div>DEMO • ukládání probíhá lokálně v prohlížeči (LocalStorage)</div>
+      <div>Proiecta je dílna. Projekty přijdou na samostatnou stránku 📺</div>
+    </footer>
+  </div>
+
+<script>
+(() => {
+  const KEY = "LM_PROIECTA_V1";
+  const state = loadState();
+
+  const chatlog = document.getElementById("chatlog");
+  const chatInput = document.getElementById("chatInput");
+  const btnSend = document.getElementById("btnSend");
+
+  const btnTranslate = document.getElementById("btnTranslate");
+  const btnSuggest = document.getElementById("btnSuggest");
+  const btnEmail = document.getElementById("btnEmail");
+  const btnClear = document.getElementById("btnClear");
+
+  const imgPrompt = document.getElementById("imgPrompt");
+  const btnGenImg = document.getElementById("btnGenImg");
+  const imgStatus = document.getElementById("imgStatus");
+
+  const ideaText = document.getElementById("ideaText");
+  const btnSaveIdea = document.getElementById("btnSaveIdea");
+  const btnClearIdea = document.getElementById("btnClearIdea");
+
+  const fileInput = document.getElementById("fileInput");
+
+  const feed = document.getElementById("feed");
+  const feedEmpty = document.getElementById("feedEmpty");
+
+  const PRESET_IMAGES = [
+    { src: "home-base.jpg", title: "home-base.jpg" },
+    { src: "spark.jpg", title: "spark.jpg" },
+    { src: "whisper.jpg", title: "whisper.jpg" }
+  ];
+
+  const IMG_QUIPS = [
+    "Tohle bude chtít čaj… nebo cigáro.",
+    "Hmm… kreslím… nemluv na mě.",
+    "Mozkové závity v akci."
+  ];
+
+  const now = () => new Date().toLocaleString("cs-CZ", { hour: "2-digit", minute: "2-digit" });
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return { chat: [], items: [] };
+      const parsed = JSON.parse(raw);
+      return { chat: parsed.chat || [], items: parsed.items || [] };
+    }catch(e){
+      return { chat: [], items: [] };
+    }
+  }
+
+  function saveState(){
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function addChat(role, text, tag){
+    state.chat.push({ id: cryptoId(), role, text, tag: tag || "", ts: Date.now() });
+    saveState();
+    renderChat();
+  }
+
+  function addItem(type, title, body, extra){
+    state.items.unshift({
+      id: cryptoId(),
+      type,
+      title: title || "",
+      body: body || "",
+      extra: extra || {},
+      ts: Date.now()
+    });
+    saveState();
+    renderFeed();
+  }
+
+  function cryptoId(){
+    try { return crypto.randomUUID(); } catch(e) { return String(Math.random()).slice(2) + String(Date.now()); }
+  }
+
+  function escapeHtml(s){
+    return (s||"").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[m]));
+  }
+
+  function renderChat(){
+    chatlog.innerHTML = "";
+    if(state.chat.length === 0){
+      // Welcome message
+      const welcome = {
+        role: "lumina",
+        text: "Vítej v Proiecta. Řekni mi, co chceš vytvořit — a já ti pomůžu. (A ano… občas u toho dramaticky přemýšlím.) ✨",
+        tag: "magická dílna"
+      };
+      state.chat.push({ id: cryptoId(), ...welcome, ts: Date.now() });
+      saveState();
+    }
+
+    for(const m of state.chat){
+      const wrap = document.createElement("div");
+      wrap.className = "msg";
+
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = m.role === "user" ? "G" : "L";
+      wrap.appendChild(avatar);
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+
+      bubble.innerHTML = `
+        <p>${escapeHtml(m.text)}</p>
+        <div class="meta">
+          <span>${new Date(m.ts).toLocaleTimeString("cs-CZ", {hour:"2-digit", minute:"2-digit"})}</span>
+          ${m.tag ? `<span class="tag">🕸 ${escapeHtml(m.tag)}</span>` : ""}
+        </div>
+      `;
+      wrap.appendChild(bubble);
+      chatlog.appendChild(wrap);
+    }
+    chatlog.scrollTop = chatlog.scrollHeight;
+  }
+
+  function typeLabel(type){
+    if(type === "image") return "Obrázek";
+    if(type === "idea") return "Nápad";
+    if(type === "file") return "Soubor";
+    if(type === "note") return "Pozn.";
+    return "Záznam";
+  }
+
+  function renderFeed(){
+    // Keep "empty" text
+    feed.innerHTML = "";
+    if(state.items.length === 0){
+      feed.appendChild(feedEmpty);
+      feedEmpty.style.display = "block";
+      return;
+    }
+    feedEmpty.style.display = "none";
+
+    for(const it of state.items){
+      const el = document.createElement("div");
+      el.className = "item";
+
+      const ts = new Date(it.ts).toLocaleString("cs-CZ", { hour:"2-digit", minute:"2-digit" });
+
+      const badge = `<span class="badge">${typeLabel(it.type)}</span>`;
+      const subtitle = it.type === "image"
+        ? "Vizuální artefakt uložen v dílně"
+        : it.type === "file"
+          ? "Přiložené (lokálně)"
+          : "Zapsané do dílny";
+
+      el.innerHTML = `
+        <div class="top">
+          <div class="k">
+            ${badge}
+            <div class="t">
+              <strong>${escapeHtml(it.title || "Bez názvu")}</strong>
+              <span>${escapeHtml(subtitle)} • ${ts}</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="linkbtn ghost" data-act="move" data-id="${it.id}" title="V demu jen naznačeno">📦 Přesunout</button>
+            <button class="linkbtn" data-act="copy" data-id="${it.id}">📋 Kopírovat</button>
+            <button class="linkbtn danger" data-act="del" data-id="${it.id}">🗑 Smazat</button>
+          </div>
+        </div>
+        <div class="body">${escapeHtml(it.body || "")}</div>
+      `;
+
+      // Thumbnail if image or file image
+      if(it.extra && it.extra.thumb){
+        const th = document.createElement("div");
+        th.className = "thumb";
+        th.innerHTML = `<img src="${it.extra.thumb}" alt="${escapeHtml(it.title||"náhled")}" loading="lazy">`;
+        el.appendChild(th);
+      }else if(it.type === "image" && it.extra && it.extra.src){
+        const th = document.createElement("div");
+        th.className = "thumb";
+        th.innerHTML = `<img src="${it.extra.src}" alt="${escapeHtml(it.title||"obrázek")}" loading="lazy">`;
+        el.appendChild(th);
+      }
+
+      feed.appendChild(el);
+    }
+  }
+
+  // Feed actions
+  feed.addEventListener("click", async (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if(!btn) return;
+    const id = btn.getAttribute("data-id");
+    const act = btn.getAttribute("data-act");
+    const idx = state.items.findIndex(x => x.id === id);
+    if(idx < 0) return;
+
+    const it = state.items[idx];
+
+    if(act === "del"){
+      state.items.splice(idx,1);
+      saveState();
+      renderFeed();
+      addChat("lumina", "Hotovo. Zmizelo to jak ponožka v pračce. 🧦✨", "stopa");
+      return;
+    }
+
+    if(act === "copy"){
+      try{
+        await navigator.clipboard.writeText((it.title ? it.title + "\n" : "") + (it.body||""));
+        addChat("lumina", "Zkopírováno. Teď to můžeš vypustit do světa. 🌍", "stopa");
+      }catch(err){
+        addChat("lumina", "Chtěla jsem kopírovat… ale prohlížeč dělá drahoty. Zkus to prosím ručně. 🙈", "stopa");
+      }
+      return;
+    }
+
+    if(act === "move"){
+      // Demo: simulate move suggestion to projects
+      addChat("lumina", "Pozor — tohle vypadá jako něco do projektu. (Projektové místnosti jsou zatím ‘brzy’ 📺)", "projekty");
+      return;
+    }
+  });
+
+  // Chat send
+  function sendUser(){
+    const text = (chatInput.value || "").trim();
+    if(!text) return;
+    chatInput.value = "";
+    addChat("user", text, "");
+
+    // Lightweight “assistant” demo behavior
+    setTimeout(() => {
+      if(/reklamac|stížnost|complain/i.test(text)){
+        addChat("lumina", "Jasně. Hoď mi: komu to jde, co se stalo, datum a co chceš jako řešení. Já to sepíšu bez dramat. ✉️", "e‑mail");
+        addItem("note", "Rozpracováno: reklamace", "Zachyceno v chatu — připravené k sepsání (DEMO).", {});
+        return;
+      }
+      if(/přelož|translate/i.test(text)){
+        runFunnyTranslate(text.replace(/přelož|translate/ig,"").trim() || "Tohle.");
+        return;
+      }
+      if(/obrázek|image|vygeneruj/i.test(text)){
+        addChat("lumina", "Jestli chceš obrázek, napiš prompt do dílny vpravo a klikni ‘Vygenerovat’. Já jsem tu na dozor. 🕶️", "vizuál");
+        return;
+      }
+      addChat("lumina", "Zapsáno. Chceš z toho udělat nápad, text do e‑mailu, nebo rovnou návrh projektu? ✨", "dílna");
+    }, 420);
+  }
+
+  btnSend.addEventListener("click", sendUser);
+  chatInput.addEventListener("keydown", (e) => {
+    if(e.key === "Enter") sendUser();
+  });
+
+  // Funny translate
+  function runFunnyTranslate(seedText){
+    addChat("lumina", "Překládám, překládám, překládám…", "překlad");
+    setTimeout(() => addChat("lumina", "Překládám…", "překlad"), 1200);
+    setTimeout(() => addChat("lumina", "Překládám… (už skoro!)", "překlad"), 2600);
+
+    setTimeout(() => {
+      const garble = "„I zink you vanted transleyt. But my lingvistick kours iz… hmm… very avantgarde.“";
+      addChat("lumina", garble + "  Hups… něco se pokazilo. Musím teprve projít jazykovým kurzem. 😂", "překlad");
+      addItem("note", "Překlad (DEMO)", "Výsledek: " + garble + "\nPozn.: Lumina si jde koupit slovník.", {});
+    }, 4300);
+  }
+
+  btnTranslate.addEventListener("click", () => runFunnyTranslate(""));
+  btnSuggest.addEventListener("click", () => {
+    addChat("lumina", "Hoď mi 1 větu, co chceš tvořit — já z toho udělám 3 směry (seriózní, hravý, úplně šílený). 😄", "nápady");
+  });
+  btnEmail.addEventListener("click", () => {
+    addChat("lumina", "Dobře. Napiš mi: komu odpovídáš + tón (milý/neutrální/přímočarý) + co má být výsledek. Já to seskládám. ✉️", "e‑mail");
+  });
+
+  // Clear all
+  btnClear.addEventListener("click", () => {
+    if(!confirm("Vyčistit lokální DEMO stopu Proiecta? (chat + položky)")) return;
+    state.chat = [];
+    state.items = [];
+    saveState();
+    renderChat();
+    renderFeed();
+    addChat("lumina", "Čisto. Jdeme tvořit od nuly. (Tohle je můj oblíbený moment.) ✨", "reset");
+  });
+
+  // Image generation
+  btnGenImg.addEventListener("click", () => {
+    const prompt = (imgPrompt.value || "").trim();
+    if(!prompt){
+      imgStatus.textContent = "Napiš prosím krátký popis (prompt).";
+      return;
+    }
+    imgPrompt.value = "";
+    const quip = IMG_QUIPS[Math.floor(Math.random() * IMG_QUIPS.length)];
+    imgStatus.textContent = quip;
+
+    addChat("user", "Vygeneruj obrázek: " + prompt, "");
+    addChat("lumina", quip + " ✍️", "generování");
+
+    // Simulate “work” ~8s
+    btnGenImg.disabled = true;
+    const t0 = Date.now();
+
+    setTimeout(() => {
+      const pick = PRESET_IMAGES[Math.floor(Math.random() * PRESET_IMAGES.length)];
+      addChat("lumina", "Hotovo. Tady je vizuální artefakt (DEMO).", "generování");
+      addItem("image", "Generovaný obrázek", "Prompt: " + prompt, { src: pick.src, preset: true });
+
+      // Show subtle feedback that central chat (Pokec) would get a ping
+      addItem("note", "Zpětná vazba do Pokecu", "Pokec: „V Proiecta vznikl nový vizuální artefakt.“ (DEMO)", {});
+
+      imgStatus.textContent = "Uloženo do stopy. (A ano, vypadá to dobře.)";
+      btnGenImg.disabled = false;
+    }, Math.max(8000 - (Date.now() - t0), 420));
+  });
+
+  // Ideas
+  btnSaveIdea.addEventListener("click", () => {
+    const text = (ideaText.value || "").trim();
+    if(!text) return;
+    const title = text.split("\n")[0].slice(0, 52) || "Nápad";
+    addItem("idea", title, text, {});
+    addChat("lumina", "Zapsáno. Tenhle nápad se tváří, že chce žít. 😄", "nápady");
+    addItem("note", "Zpětná vazba do Pokecu", "Pokec: „V Proiecta přibyl nový nápad.“ (DEMO)", {});
+    ideaText.value = "";
+  });
+
+  btnClearIdea.addEventListener("click", () => { ideaText.value = ""; });
+
+  // Files
+  fileInput.addEventListener("change", async (e) => {
+    const files = Array.from(e.target.files || []);
+    if(files.length === 0) return;
+
+    for(const f of files){
+      const info = `${f.name} • ${(f.size/1024).toFixed(1)} KB`;
+      const isImg = /^image\//.test(f.type);
+
+      if(isImg){
+        const dataUrl = await readAsDataURL(f);
+        addItem("file", f.name, "Přiložený obrázek (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size });
+        addChat("lumina", "Vidím obrázek. Uloženo do dílny. 🖼️", "soubor");
+      }else{
+        addItem("file", f.name, "Soubor přijat (DEMO).", { mime: f.type, size: f.size });
+        addChat("lumina", "Soubor přijat. Uloženo do dílny. 📎", "soubor");
+      }
+
+      addItem("note", "Zpětná vazba do Pokecu", "Pokec: „V Proiecta byl přiložen soubor.“ (DEMO)", {});
+    }
+
+    // reset input so same file can be selected again
+    fileInput.value = "";
+  });
+
+  function readAsDataURL(file){
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result || ""));
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+  }
+
+  // Initial render
+  renderChat();
+  renderFeed();
+
+})();
+</script>
 </body>
 </html>
