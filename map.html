@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mapa • Plánovač cest | LuminaMemory™</title>
+
+  <meta name="description" content="Bonusová místnost: vtipný plánovač dovolené, výletu i pracovní schůzky. Kroky dávkované postupně – ať se to nezvrhne v chaos." />
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link rel="canonical" href="https://luminamemory.github.io/LuminaMemory/map.html" />
+
+  <style>
+    :root{
+      --ink:#0b1220;
+      --muted:#1b2a44;
+      --glass: rgba(255,255,255,.72);
+      --glass2: rgba(255,255,255,.58);
+      --line: rgba(255,255,255,.65);
+      --shadow: 0 18px 60px rgba(0,0,0,.25);
+      --radius: 22px;
+      --max: 980px;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--ink);
+      background: #0a1324;
+      overflow-x:hidden;
+    }
+
+    /* Background map */
+    .bg{
+      position:fixed;
+      inset:0;
+      background: url("map.png") center/cover no-repeat;
+      transform: scale(1.02);
+      filter: saturate(1.05) contrast(1.02);
+    }
+    /* Darken + soften for readability */
+    .bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(1100px 650px at 20% 10%, rgba(255,255,255,.20), rgba(0,0,0,.22) 55%, rgba(0,0,0,.35)),
+        linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.38));
+      backdrop-filter: blur(2px);
+    }
+
+    .wrap{
+      position:relative;
+      min-height:100%;
+      display:flex;
+      justify-content:center;
+      padding: 18px 16px 42px;
+    }
+
+    .topbar{
+      width:min(var(--max), 100%);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      text-decoration:none;
+      color: #0b1220;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(255,255,255,.7);
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      font-weight: 900;
+    }
+    .back:hover{ transform: translateY(-1px); }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(255,255,255,.7);
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 13px;
+      white-space:nowrap;
+    }
+
+    .card{
+      width:min(var(--max), 100%);
+      border-radius: var(--radius);
+      background: var(--glass);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      padding: 16px;
+    }
+
+    header h1{
+      margin: 0;
+      font-size: 20px;
+      letter-spacing:.2px;
+    }
+    header p{
+      margin: 8px 0 0;
+      color: rgba(11,18,32,.80);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 76ch;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .panel{
+      border-radius: 18px;
+      background: var(--glass2);
+      border: 1px solid rgba(255,255,255,.65);
+      padding: 14px;
+    }
+
+    .row{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap: 10px;
+      justify-content:space-between;
+    }
+
+    label{
+      font-weight: 900;
+      color: rgba(11,18,32,.86);
+      font-size: 13px;
+    }
+    select{
+      width: min(440px, 100%);
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(11,18,32,.18);
+      background: rgba(255,255,255,.90);
+      font-weight: 800;
+      color: var(--ink);
+      outline: none;
+    }
+
+    .controls{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(11,18,32,.16);
+      background: rgba(255,255,255,.92);
+      color: var(--ink);
+      padding: 11px 12px;
+      border-radius: 16px;
+      font-weight: 950;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,.14);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{
+      border-color: rgba(34,197,94,.30);
+      background: rgba(240,255,246,.95);
+    }
+    .btn.warn{
+      border-color: rgba(250,204,21,.35);
+      background: rgba(255,252,232,.95);
+    }
+
+    .progress{
+      margin-top: 10px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .bar{
+      flex: 1;
+      min-width: 220px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(11,18,32,.10);
+      border: 1px solid rgba(11,18,32,.12);
+      overflow:hidden;
+    }
+    .bar > div{
+      height:100%;
+      width:0%;
+      background: rgba(34,197,94,.70);
+      border-right: 1px solid rgba(11,18,32,.12);
+      transition: width .25s ease;
+    }
+    .pct{
+      font-weight: 950;
+      color: rgba(11,18,32,.82);
+      font-size: 13px;
+      white-space:nowrap;
+    }
+
+    .stepBox{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .stepTitle{
+      font-weight: 1000;
+      font-size: 16px;
+      letter-spacing:.2px;
+    }
+
+    .stepText{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(11,18,32,.14);
+      border-radius: 16px;
+      padding: 12px;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(11,18,32,.12);
+      background: rgba(255,255,255,.86);
+      font-weight: 900;
+      font-size: 12.5px;
+      color: rgba(11,18,32,.85);
+    }
+
+    .hint{
+      margin-top: 10px;
+      color: rgba(11,18,32,.78);
+      font-size: 13px;
+    }
+
+    .tiny{
+      margin-top: 10px;
+      color: rgba(11,18,32,.70);
+      font-size: 12px;
+    }
+
+    @media (max-width: 640px){
+      header h1{ font-size: 18px; }
+      .back{ width:100%; justify-content:center; }
+      .badge{ width:100%; justify-content:center; }
+      .controls{ width:100%; justify-content:flex-start; }
+      .btn{ width:100%; }
+      .btn.primary, .btn.warn{ width:auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div style="width:min(var(--max), 100%);">
+      <div class="topbar">
+        <a class="back" href="proiecta-projekty.html" title="Zpět na TV stěnu">⬅︎ Zpět</a>
+        <div class="badge" title="Bonusová místnost">🎊 Bonus: cestovní velín</div>
+      </div>
+
+      <main class="card">
+        <header>
+          <h1>Mapa 🗺️ • Plánovač výprav</h1>
+          <p>
+            Tohle je místnost pro momenty, kdy se chystáš vyrazit… a nechceš skončit u dveří s jednou ponožkou,
+            nabíječkou v zásuvce a panikou v očích. Kroky dávkuju postupně. Žádné „všechno naráz“.
+          </p>
+        </header>
+
+        <section class="grid">
+          <div class="panel">
+            <div class="row">
+              <div style="min-width: 220px;">
+                <label for="mode">Vyber typ mise</label><br />
+                <select id="mode" aria-label="Typ výpravy">
+                  <option value="holiday">Dovolená (velká výprava)</option>
+                  <option value="trip3">Výlet na tři dny</option>
+                  <option value="afternoon">Výlet na odpoledne</option>
+                  <option value="work">Pracovní schůzka (ať vypadáme jako dospělí)</option>
+                </select>
+              </div>
+
+              <div class="controls" aria-label="Ovládání kroků">
+                <button class="btn warn" id="btnReset" type="button">Reset (nepanikařit)</button>
+                <button class="btn primary" id="btnNext" type="button">Další krok ➜</button>
+              </div>
+            </div>
+
+            <div class="progress" aria-label="Postup">
+              <div class="bar" aria-hidden="true"><div id="barFill"></div></div>
+              <div class="pct" id="pct">0 %</div>
+            </div>
+
+            <div class="hint" id="quip">Tip: Nech mapu dýchat. Ty taky. 😄</div>
+          </div>
+
+          <div class="panel stepBox" aria-label="Aktuální krok">
+            <div class="stepTitle" id="stepTitle">Začneme jemně…</div>
+            <div class="stepText" id="stepText">
+              Vyber typ mise a klikni na <b>Další krok</b>. Já tě povedu. A když se ti bude chtít, můžeš si u toho dát čaj… nebo cigáro. ☕🚬
+            </div>
+            <div class="chips" id="chips" aria-label="Mini checklist"></div>
+            <div class="tiny" id="counter">Krok 0 / 0</div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const modeEl = document.getElementById("mode");
+  const btnNext = document.getElementById("btnNext");
+  const btnReset = document.getElementById("btnReset");
+  const stepTitle = document.getElementById("stepTitle");
+  const stepText = document.getElementById("stepText");
+  const chips = document.getElementById("chips");
+  const counter = document.getElementById("counter");
+  const barFill = document.getElementById("barFill");
+  const pct = document.getElementById("pct");
+  const quip = document.getElementById("quip");
+
+  const quips = [
+    "Tohle bude chtít čaj… nebo cigáro. ☕🚬",
+    "Zhluboka. Jedna věc. Pak další. (Ano, i ponožky.) 😄",
+    "Panika je jen turbo. My jedeme na eco režim. 🌿",
+    "Jestli se ptáš „kde jsou klíče“, odpověď je: „na nejhorším místě“. 🔑",
+    "Nemusíš být perfektní. Stačí být připravená… tak jako na 70 %. 😅",
+    "Mapa je krásná. Ale nabíječka je krásnější. 🔌",
+    "Kontrola sporáku: romantika dospělosti. ✅",
+    "Kdyby něco: „Tadaaa, improvizace!“ ✨"
+  ];
+
+  const plans = {
+    holiday: [
+      { t:"1) Balení (velká výprava)", p:"Začneme tím nejlehčím: hromádka věcí. Je to jen hromádka. Zatím. 😇",
+        c:["oblečení (vrstvy)","toaletní taštička","léky","doklady","nabíječky"] },
+      { t:"2) Spánek & odpočinek před cestou", p:"Ne. Nejdeš „ještě rychle něco dodělat“. Jdeš spát. To je logistika. 😴",
+        c:["voda k posteli","budík","krátká sprcha","vypnout hlavu (aspoň na 5%)"] },
+      { t:"3) Poslední věci před odchodem", p:"Teď ty „malé věci“, které vždycky utečou: klíče, nabíječky, brýle… a nervy.",
+        c:["klíče","peněženka","mobil","nabíječka","brýle/sluchátka"] },
+      { t:"4) Kontrola domu (kouzlo bezpečí)", p:"Tady se rodí klid. Krátká kontrola a hotovo. Bez dramat. ✅",
+        c:["sporák vypnutý","okna zavřená","voda zavřená","světla","zamčeno"] },
+      { t:"5) Tadaaaa — jedeme!", p:"Oficiálně můžeš vyrazit. A jestli něco chybí… svět se nezboří. (Možná jen kartáček.) 😄",
+        c:["hudba/podcast","svačina","voda","úsměv","fotka na cestu"] }
+    ],
+    trip3: [
+      { t:"1) Mini-balení (3 dny)", p:"Je to jen 3 dny. Neber si 14 outfitů. (I když chápeme tu potřebu.) 😅",
+        c:["2–3 outfity","spodní prádlo","hygiena","nabíječka","doklady"] },
+      { t:"2) Spánek před startem", p:"Nechceme jet na autopilota s prázdnou baterkou. Ani ty, ani Defík. 😴",
+        c:["dřív do postele","voda","budík","rychlý plán rána"] },
+      { t:"3) Ranní finále", p:"Káva/čaj, zkontrolovat klíče a… žádné pobíhání jak šílená víla. 🧚‍♀️",
+        c:["klíče","mobil","peněženka","nabíječka","lístky/rezervace"] },
+      { t:"4) Kontrola domu", p:"Krátká: sporák, okna, zamčeno. A hotovo. ✅",
+        c:["sporák","okna","zamčeno"] },
+      { t:"5) Tadaaaa — jedeme!", p:"Vyrazit můžeš klidně i s jednou ponožkou navíc. To je luxus. 😄",
+        c:["hudba","svačina","dobrá nálada"] }
+    ],
+    afternoon: [
+      { t:"1) Rychlá příprava (odpoledne)", p:"Ne, nepotřebuješ kufr. Potřebuješ jen základ. A styl. 😎",
+        c:["peněženka","klíče","mobil","voda","mikina"] },
+      { t:"2) Mini „domácí check“", p:"Jen aby se doma nic nerozhodlo hořet nebo utíkat oknem. ✅",
+        c:["sporák","okno","zamčeno"] },
+      { t:"3) Tadaaaa — jedeme!", p:"Až budeš venku, už je pozdě panikařit. Takže… nepůjdeme panikařit. 😄",
+        c:["úsměv","fotka","užít si to"] }
+    ],
+    work: [
+      { t:"1) Připravit „dospělácký balíček“", p:"Jdeme dělat dojem. (Ale bez stresu. Dojem je bonus.) 😌",
+        c:["notes / poznámky","doklady","vizitka?","nabíječka","pero"] },
+      { t:"2) Oblečení & detaily", p:"Detaily jsou malá magie: upravit vlasy, zkontrolovat kapesník… a jedeš. ✨",
+        c:["oblečení","decentní vůně","kapesník","žvýkačky"] },
+      { t:"3) Před odchodem: check", p:"Klíče, peněženka, mobil. Tři pilíře civilizace. 🔑💳📱",
+        c:["klíče","peněženka","mobil"] },
+      { t:"4) Tadaaaa — jedeme!", p:"Na cestě si dej 30 sekund ticha. Ať mozek ví, že je v bezpečí. 😌",
+        c:["dorazit včas","dýchat","úsměv"] }
+    ]
+  };
+
+  let steps = plans[modeEl.value];
+  let i = -1;
+
+  function pickQuip(){ quip.textContent = quips[Math.floor(Math.random()*quips.length)]; }
+
+  function render(){
+    const total = steps.length;
+    const done = Math.max(0, i+1);
+    const percent = total ? Math.round((done/total)*100) : 0;
+    barFill.style.width = percent + "%";
+    pct.textContent = percent + " %";
+    counter.textContent = `Krok ${Math.max(0,i+1)} / ${total}`;
+
+    chips.innerHTML = "";
+    if(i < 0){
+      stepTitle.textContent = "Začneme jemně…";
+      stepText.innerHTML = "Vyber typ mise a klikni na <b>Další krok</b>. Já tě povedu. A když se ti bude chtít, můžeš si u toho dát čaj… nebo cigáro. ☕🚬";
+      pickQuip();
+      return;
+    }
+
+    const s = steps[i];
+    stepTitle.textContent = s.t;
+    stepText.textContent = s.p;
+
+    for(const x of (s.c || [])){
+      const span = document.createElement("span");
+      span.className = "chip";
+      span.textContent = "✅ " + x;
+      chips.appendChild(span);
+    }
+
+    pickQuip();
+
+    if(i >= total-1){
+      btnNext.textContent = "Hotovo ✅ (znovu?)";
+      btnNext.classList.add("warn");
+    }else{
+      btnNext.textContent = "Další krok ➜";
+      btnNext.classList.remove("warn");
+    }
+  }
+
+  function setMode(){ steps = plans[modeEl.value]; i = -1; render(); }
+
+  btnNext.addEventListener("click", () => {
+    const total = steps.length;
+    if(i >= total-1){ i = -1; render(); return; }
+    i++; render();
+  });
+
+  btnReset.addEventListener("click", () => { i = -1; render(); });
+
+  modeEl.addEventListener("change", setMode);
+
+  setMode();
+})();
+</script>
+</body>
+</html>
