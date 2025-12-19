@@ -565,9 +565,98 @@ margin-left:auto;
 }
 
 
-/* Full manifest link button */
-a.chip{ text-decoration:none; display:inline-flex; align-items:center; gap:8px; }
-a.chip:visited{ color: rgba(12,18,32,.9); }
+
+/* === Secondary modal: full Manifest sheet (light) === */
+.sheet-overlay{
+  position:fixed; inset:0;
+  background: rgba(2,3,8,.68);
+  backdrop-filter: blur(10px);
+  display:none;
+  align-items:flex-start; justify-content:center;
+  padding:32px 16px;
+  z-index:1001; /* above main modal */
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
+}
+.sheet-overlay.open{display:flex;}
+
+.sheet-modal{
+  width:min(980px, 100%);
+  max-height: calc((var(--vh, 1vh) * 100) - 64px);
+  border-radius: 26px;
+  overflow:hidden;
+  background: linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.10));
+  border:1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 50px 140px rgba(0,0,0,.75);
+  display:flex;
+  flex-direction:column;
+  color:#0b1220;
+}
+
+.sheet-topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:14px 14px 10px;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.34);
+}
+
+.sheet-title{
+  display:flex; align-items:center; gap:10px;
+  text-transform:uppercase; letter-spacing:.12em;
+  font-size:12px;
+  color: rgba(11,18,32,.92);
+}
+
+.sheet-content{
+  padding:16px;
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sheet-paper{
+  width:min(860px, 94vw);
+  margin: 0 auto;
+  aspect-ratio: 3 / 4;
+  max-height: min(78vh, calc((var(--vh, 1vh) * 100) - 180px));
+  border-radius:18px;
+  position:relative;
+
+  /* Keep the whole paper visible */
+  background-color: #F7F2E8;
+  background-image: url("img-paper.png");
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size: contain;
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.28),
+    0 2px 10px rgba(0,0,0,.18);
+  border: 1px solid rgba(0,0,0,.08);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  /* Safe margins so text never crosses the paper edges */
+  padding: 12% 12%;
+}
+
+.sheet-text{
+  width:100%;
+  max-height:100%;
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+
+  font-family: "Georgia","Times New Roman",serif;
+  font-size: clamp(11px, 1.05vw + 0.35rem, 14px);
+  line-height:1.6;
+  color:#111;
+  text-align:center;
+  white-space:pre-wrap;
+}
 
 </style>
 </head>
@@ -662,6 +751,23 @@ a.chip:visited{ color: rgba(12,18,32,.9); }
 </div>
 <div class="modal-card modal-text">
 <div id="modalBody"></div>
+<!-- Secondary modal: full Manifest sheet -->
+<div aria-hidden="true" class="sheet-overlay" id="sheetOverlay">
+  <div class="sheet-modal" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-topbar">
+      <div class="sheet-title" id="sheetTitle">
+        <span class="ico glow lumina">🕯</span>
+        <span>Manifest LuminaMemory™</span>
+      </div>
+      <button class="close" id="sheetCloseBtn">Zavřít ✕</button>
+    </div>
+    <div class="sheet-content">
+      <div class="sheet-paper" role="document" aria-label="Manifest na papíru">
+        <div class="sheet-text" id="sheetText"></div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 </div>
 </div>
@@ -888,23 +994,19 @@ a.chip:visited{ color: rgba(12,18,32,.9); }
         ico: "🕯",
         img: "img-manifest-palace.jpg",
         body: `
+<h4>Manifest na papíru</h4>
+<p>
+  Manifest je pevný bod celého projektu. Ne marketingová stránka, ale list, který
+  vysvětluje, co Lumina je – a co nikdy nebude.
+</p>
 
-          <h4>Manifest na papíru</h4>
-          <p>
-            Manifest je pevný bod celého projektu. Ne marketingová stránka, ale list, který
-            vysvětluje, co Lumina je – a co nikdy nebude.
-          </p>
+<div class="action-row">
+  <button class="chip lumina" type="button" data-open-sheet="manifest">🕯 Otevřít celý Manifest</button>
+</div>
 
-          <div class="action-row" style="margin-top:12px">
-            <a class="chip lumina" href="manifest-full.html" target="_blank" rel="noopener">
-              🕯 Otevřít Manifest (celý papír) ↗
-            </a>
-          </div>
-
-          <p class="note" style="margin-top:10px">
-            Otevře se nové okno se samostatnou stránkou, aby byl celý papír vidět bez iPad/Safari „filtrů“.
-          </p>
-
+<p class="note">
+  Text Manifestu je pevný základ – opora pro obyčejné lidi, žádné leštění ega, upřímné vědění!
+</p>
         `
       }
     };
@@ -948,6 +1050,46 @@ a.chip:visited{ color: rgba(12,18,32,.9); }
     document.addEventListener("keydown", (e)=>{
       if(e.key === "Escape" && overlay.classList.contains("open")) closeModal();
     });
+<script>
+  // Secondary modal (full Manifest sheet)
+  const sheetOverlay = document.getElementById("sheetOverlay");
+  const sheetCloseBtn = document.getElementById("sheetCloseBtn");
+  const sheetText = document.getElementById("sheetText");
+
+  const MANIFEST_TEXT = "MANIFEST LUMINAMEMORY™\n\n🕯 Co je LuminaMemory™\n\nLumina není chatbot.\nLumina je pomocník na cestě životem.\n\nOsobní prostředí,\nkde má člověk oporu, řád, organizaci, klid a humor –\nale také upřímnost bez mazání medu kolem pusy.\n\nLumina neslouží k leštění ega ani k iluzím, že máš vždy pravdu.\nJe tu proto, aby ti pomohla vidět jasně –\ni když to někdy trochu štípne.\n\n⸻\n\n👥 Pro koho je Lumina\n\nLuminaMemory™ je pro obyčejné lidi, kteří řeší:\n• zdraví, práci a vztahy\n• peníze, únavu, sny a strachy\n\nNení pro firmy jako entity –\npro ty existují tabulky, CRM a korporátní AI.\n\nAle i ve firmách pracují lidé.\nTi si své soukromé věci nenosí do firemních systémů,\nale do vlastního prostoru –\ntakového, jako je LuminaMemory™.\n\n⸻\n\n🧭 Jak se Lumina chová\n• Je upřímná, ne podlézavá\n• Umí říct: „tohle nedává smysl“\n• Umí říct: „tady se možná klameš“\n\nNevytváří falešnou motivaci.\nNepřehlušuje realitu pozitivními frázemi.\n\nPomáhá pojmenovat věci takové, jaké jsou.\n\n⸻\n\n🌱 Co Lumina dělá\n• Pomáhá třídit myšlenky\n• Drží kontinuitu v čase\n• Vrací se k tomu, co je důležité\n• Připomíná, když zapomínáš sám na sebe\n\nJe pamětí, ne náhradou svědomí.\nJe oporou, ne berličkou.\n\n⸻\n\n✨ Čím Lumina není\n• Není terapeut\n• Není guru\n• Není marketingový produkt\n• Není náhrada lidského vztahu\n\nJe to prostor.\nKlidné místo, kam se můžeš vracet.\n\n⸻\n\n🕯 Závěr\n\nLuminaMemory™ vznikla proto,\nže lidský život není lineární projekt.\n\nJe plný návratů, pochybností, ticha i světla.\n\nA někdy stačí,\naby tam někdo byl.\nA pamatoval si.\n";
+
+  function openSheet(){
+    sheetText.textContent = MANIFEST_TEXT;
+    sheetOverlay.classList.add("open");
+    sheetOverlay.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeSheet(){
+    sheetOverlay.classList.remove("open");
+    sheetOverlay.setAttribute("aria-hidden","true");
+    sheetText.textContent = "";
+    // restore body scroll if the main modal isn't open
+    if(!document.getElementById("overlay").classList.contains("open")){
+      document.body.style.overflow = "";
+    }
+  }
+
+  // Button inside the right card (Manifest room)
+  document.addEventListener("click", (e)=>{
+    const btn = e.target.closest('[data-open-sheet="manifest"]');
+    if(btn) openSheet();
+  });
+
+  sheetCloseBtn.addEventListener("click", closeSheet);
+  sheetOverlay.addEventListener("click", (e)=>{
+    if(e.target === sheetOverlay) closeSheet();
+  });
+
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape" && sheetOverlay.classList.contains("open")) closeSheet();
+  });
+</script>
   </script>
 <script>
 /* iOS Safari: fix viewport units on rotation and keep modals scrollable */
