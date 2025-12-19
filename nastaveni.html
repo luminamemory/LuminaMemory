@@ -107,19 +107,6 @@
       .wide{grid-column: 1 / -1 !important;}
     }
 
-
-/* === iPad landscape: force portrait-like single-column layout ===
-   Covers iPad sizes up to 12.9" (landscape CSS width ~1366px). */
-@media (max-width: 1366px) and (orientation: landscape) and (hover: none) and (pointer: coarse){
-  .grid{ grid-template-columns: 1fr !important; }
-  .card{ grid-column: 1 / -1 !important; min-height: 0; }
-  .wide{ grid-column: 1 / -1 !important; }
-
-  .modal-content{ grid-template-columns: 1fr !important; }
-  .modal-card{ min-height: 0; }
-}
-
-
     .card{
       grid-column: span 4;
       background:rgba(15,19,38,.9);
@@ -392,7 +379,7 @@ margin-left:auto;
       height:auto;
       overflow:visible;
       font-family: "Georgia", "Times New Roman", serif;
-      font-size: clamp(10px, 1.05vw + 0.35rem, 12px);
+      font-size: clamp(10px, 0.9vmin + 0.35rem, 12px);
       line-height:1.55;
       color:#111;
 
@@ -666,7 +653,7 @@ margin-left:auto;
   -webkit-overflow-scrolling: touch;
 
   font-family: "Georgia","Times New Roman",serif;
-  font-size: clamp(11px, 1.05vw + 0.45rem, 15px);
+  font-size: clamp(11px, 0.9vmin + 0.45rem, 14px);
   line-height:1.6;
   color:#111;
   text-align:center;
@@ -688,6 +675,34 @@ margin-left:auto;
 @media (max-width: 1024px) and (orientation: landscape){
   .sheet-paper{ max-height: min(70vh, calc((var(--vh, 1vh) * 100) - 180px)); }
   .sheet-text{ inset: 10% 10%; }
+}
+
+
+/* === Lumina iPad landscape manifest scaling fix === */
+@media (max-width: 1024px) and (orientation: landscape){
+  /* Full Manifest sheet modal: keep whole paper visible and scale text by the smaller screen dimension */
+  .sheet-content{
+    padding: 10px;
+    align-items: flex-start;
+  }
+  .sheet-paper{
+    width: min(820px, 92vw);
+    max-height: min(82vh, calc((var(--vh, 1vh) * 100) - 150px));
+  }
+  .sheet-text{
+    inset: 9% 9%;
+    font-size: clamp(10px, 0.85vmin + 0.45rem, 13px);
+    padding-bottom: 12%;
+  }
+
+  /* Manifest preview paper (inside the main modal) */
+  .manifest-paper{
+    height: clamp(300px, 70vh, 560px);
+    padding: 24px 18px;
+  }
+  .manifest-paper-inner{
+    font-size: clamp(10px, 0.85vmin + 0.35rem, 12px);
+  }
 }
 
 </style>
