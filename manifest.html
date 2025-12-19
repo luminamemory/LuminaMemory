@@ -98,8 +98,9 @@
     }
 
     .sheet-wrapper {
-      width: 100%;
-      max-width: 720px;
+      /* width is limited by viewport height so that the full paper is always visible,
+         even na šířku (landscape) */
+      width: min(100%, 720px, calc((100vh - 80px) * 2 / 3));
       /* Aspect ratio of the paper image: width / height = 1024 / 1536 = 2 / 3 */
       aspect-ratio: 2 / 3;
       position: relative;
