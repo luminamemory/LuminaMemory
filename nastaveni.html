@@ -107,6 +107,20 @@
       .wide{grid-column: 1 / -1 !important;}
     }
 
+
+/* === iPad landscape: match portrait layout (single-column grid + stacked modal) === */
+@media (max-width: 1024px) and (orientation: landscape){
+  /* Main cards layout */
+  .grid{ grid-template-columns: 1fr; }
+  .card{ grid-column: 1 / -1 !important; min-height: 0; }
+  .wide{ grid-column: 1 / -1 !important; }
+
+  /* Modal layout: stack media + text like portrait */
+  .modal-content{ grid-template-columns: 1fr; }
+  .modal-card{ min-height: 0; }
+}
+
+
     .card{
       grid-column: span 4;
       background:rgba(15,19,38,.9);
