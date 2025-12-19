@@ -190,7 +190,7 @@
     }
     .overlay.open{display:flex;}
     .modal{
-  width:min(1200px, 100%);
+  width:min(900px, 100%);
   background: rgba(11,14,30,.98);
   border:1px solid rgba(255,255,255,.1);
   border-radius: 26px;
@@ -203,6 +203,7 @@
   max-height: calc(100vh - 64px);
 }
     .modal-header{
+  padding:0;
   position:relative;
   height: clamp(300px, 46vh, 460px);
   border-bottom:1px solid rgba(255,255,255,.06);
@@ -222,6 +223,7 @@
   background:#0A0D1B;
 }
     .modal-header:after{
+      background: linear-gradient(180deg, rgba(11,14,30,0) 0%, rgba(11,14,30,.65) 70%, rgba(11,14,30,1) 100%);
       content:""; position:absolute; inset:0;
       background: linear-gradient(180deg, rgba(11,14,30,.10) 0%, rgba(11,14,30,.84) 80%, rgba(11,14,30,.98) 100%);
       pointer-events:none;
