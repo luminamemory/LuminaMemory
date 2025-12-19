@@ -673,33 +673,28 @@ margin-left:auto;
 
 /* Landscape iPad often has less vertical room — reduce top/bottom inset */
 @media (max-width: 1024px) and (orientation: landscape){
-  .sheet-paper{ max-height: min(70vh, calc((var(--vh, 1vh) * 100) - 180px)); }
-  .sheet-text{ inset: 10% 10%; }
-}
-
-
-/* === Lumina iPad landscape manifest scaling fix === */
-@media (max-width: 1024px) and (orientation: landscape){
-  /* Full Manifest sheet modal: keep whole paper visible and scale text by the smaller screen dimension */
+  /* Landscape iPad: keep the whole paper visible and prevent text from “blowing up” */
   .sheet-content{
     padding: 10px;
     align-items: flex-start;
   }
+
   .sheet-paper{
-    width: min(820px, 92vw);
+    /* limit width by available height (aspect 3/4 => width = height * 3/4) */
     max-height: min(82vh, calc((var(--vh, 1vh) * 100) - 150px));
-  }
-  .sheet-text{
-    inset: 9% 9%;
-    font-size: clamp(10px, 0.85vmin + 0.45rem, 13px);
-    padding-bottom: 12%;
+    width: min(92vw, 820px, calc((var(--vh, 1vh) * 100 - 150px) * 3 / 4));
   }
 
-  /* Manifest preview paper (inside the main modal) */
+  .sheet-text{
+    inset: 10% 10%;
+    font-size: clamp(10px, 0.85vmin + 0.45rem, 13px);
+  }
+
   .manifest-paper{
     height: clamp(300px, 70vh, 560px);
     padding: 24px 18px;
   }
+
   .manifest-paper-inner{
     font-size: clamp(10px, 0.85vmin + 0.35rem, 12px);
   }
