@@ -533,36 +533,47 @@ margin-left:auto;
 
 /* === iPad landscape: Safari compositor "band" fix === */
 @media (max-width: 1024px) and (orientation: landscape){
-  .manifest-paper{
-    /* Create a new compositing context */
-    isolation: isolate;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
+  /* iPad LANDSCAPE:
+     1) make the paper fully visible (scale by available HEIGHT)
+     2) reduce font-size so text stays inside the paper artwork
+  */
 
-    /* Rebuild texture as background layers (no pseudo-elements) */
-    background-color: #F7F2E8;
-    background-image:
-      radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.55), transparent 55%),
-      radial-gradient(900px 520px at 85% 88%, rgba(0,0,0,.10), transparent 60%),
-      repeating-linear-gradient(
-        0deg,
-        rgba(0,0,0,.020),
-        rgba(0,0,0,.020) 1px,
-        transparent 1px,
-        transparent 4px
-      ),
-      url("img-paper.png");
-    background-repeat: no-repeat, no-repeat, repeat, no-repeat;
-    background-position: center, center, center, center;
-    background-size: cover, cover, auto, contain;
+  /* --- Full Manifest sheet modal --- */
+  .sheet-content{
+    padding: 10px;
+    align-items: flex-start;
+    justify-content: center;
   }
 
-  .manifest-paper::before,
-  .manifest-paper::after{
-    content: none !important;
-    display: none !important;
+  .sheet-paper{
+    /* Fit by height first (landscape has less vertical room) */
+    height: min(82vh, calc((var(--vh, 1vh) * 100) - 150px));
+    width: min(
+      92vw,
+      calc(min(82vh, calc((var(--vh, 1vh) * 100) - 150px)) * 3 / 4)
+    );
+
+    /* disable the portrait aspect lock in landscape */
+    aspect-ratio: auto;
+    max-height: none;
+  }
+
+  .sheet-text{
+    inset: 10% 10%;
+    font-size: clamp(9.5px, 0.7vmin + 0.45rem, 12px);
+  }
+
+  /* --- Inline paper in the right card (preview) --- */
+  .manifest-paper{
+    height: min(70vh, 540px);
+    padding: 22px 16px;
+  }
+
+  .manifest-paper-inner{
+    font-size: clamp(9.5px, 0.7vmin + 0.35rem, 12px);
   }
 }
+
 
 
 
