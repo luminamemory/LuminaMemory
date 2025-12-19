@@ -637,6 +637,20 @@ margin-left:auto;
   padding-bottom: 10%;
 }
 
+@media (orientation: landscape){
+  /* Make the full Manifest sheet use more height on landscape screens
+     so the paper isn't too narrow on iPad and similar tablets. */
+  .sheet-paper{
+    max-height: min(92vh, calc((var(--vh, 1vh) * 100) - 80px));
+  }
+
+  .sheet-text{
+    /* o něco širší textové pole, ale stále bezpečně uvnitř papíru */
+    inset: 10% 9%;
+  }
+}
+
+
 /* A bit more “safe margin” on portrait iPad */
 @media (max-width: 1024px) and (orientation: portrait){
   .sheet-text{ inset: 14% 11%; }
