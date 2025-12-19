@@ -444,6 +444,34 @@
 @supports (-webkit-touch-callout: none){
   .modal-content{ padding-bottom: 28px; }
 }
+
+/* === Manifest paper image fix (iPad orientation safe) === */
+.manifest-paper,
+.manifest-paper img,
+.manifest-paper-bg {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (orientation: landscape) {
+    .manifest-paper {
+        max-height: 85vh;
+        overflow: auto;
+    }
+}
+
+@media (orientation: portrait) {
+    .manifest-paper {
+        max-height: 90vh;
+        overflow: auto;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -457,7 +485,7 @@
 </div>
 </div>
 <div class="header-right">
-<a class="back-link" href="lumina-demo.html">← Zpět ✨</a>
+<a class="back-link" href="lumina-demo.html">← Zpět do miniLuminy</a>
 <div class="crumb">⚙️ <span>Nastavení</span> · <span>DEMO</span></div>
 </div>
 </header>
