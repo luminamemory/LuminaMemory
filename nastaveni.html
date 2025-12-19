@@ -178,147 +178,133 @@
     .wide .btn:hover{border-color: rgba(255,255,255,.16); background:rgba(255,255,255,.06);}
 
     
-    /* Modal (room window) */
-    .overlay{
-      position:fixed; inset:0;
-      background: rgba(2,3,8,.72);
-      backdrop-filter: blur(6px);
-      display:none;
-      align-items:flex-start; justify-content:center;
-      padding:28px 16px;
-      z-index:999;
-      overflow-y:auto;
-    }
-    .overlay.open{display:flex;}
+/* Modal (room window) — light glass */
+.overlay{
+  position:fixed; inset:0;
+  background: rgba(2,3,8,.72);
+  backdrop-filter: blur(8px);
+  display:none;
+  align-items:flex-start; justify-content:center;
+  padding:32px 16px;
+  z-index:999;
+  overflow-y:auto;
+}
+.overlay.open{display:flex;}
 
-    /* Split modal: left text / right image (no crop) */
-    .modal{
-      width: min(980px, 96vw);
-      background: rgba(11,14,30,.98);
-      border:1px solid rgba(255,255,255,.1);
-      border-radius: 26px;
-      box-shadow: 0 50px 140px rgba(0,0,0,.75);
-      overflow:hidden;
+.modal{
+  width:min(1100px, 100%);
+  border-radius: 26px;
+  box-shadow: 0 50px 140px rgba(0,0,0,.75);
+  overflow:hidden;
+  background: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(16px);
+  color:#0b1220;
+  position:relative;
+}
 
-      /* responsive height on rotation (iPad / iOS Safari) */
-      max-height: 92vh;
-      max-height: 92dvh;
-    }
+.modal-topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:14px 14px 10px;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.32);
+}
 
-    .modal-inner{
-      display:grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
-      align-items:stretch;
-      min-height: min(520px, 92vh);
-      min-height: min(520px, 92dvh);
-    }
+.modal-title{
+  display:flex; align-items:center; gap:10px;
+  text-transform:uppercase; letter-spacing:.12em;
+  font-size:12px;
+  color: rgba(11,18,32,.92);
+}
 
-    /* Left side (text) */
-    .modal-left{
-      position:relative;
-      padding:18px 18px 18px;
-      background: rgba(11,14,30,.98);
-      border-right:1px solid rgba(255,255,255,.06);
-      display:flex;
-      flex-direction:column;
-      min-width:0;
-    }
+.close{
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,0,0,.18);
+  color:rgba(255,255,255,.95);
+  padding:8px 10px;
+  font-size:12px;
+  cursor:pointer;
+}
+.close:hover{background:rgba(255,255,255,.78); border-color: rgba(255,255,255,.24);}
 
-    .modal-topbar{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-      padding:4px 2px 12px;
-      border-bottom:1px solid rgba(255,255,255,.06);
-      margin-bottom:12px;
-    }
+.modal-content{
+  display:grid;
+  grid-template-columns: 5fr 7fr;
+  gap:14px;
+  padding:14px;
+}
+@media (max-width: 860px){
+  .modal-content{grid-template-columns: 1fr;}
+}
 
-    .modal-title{
-      display:flex; align-items:center; gap:10px;
-      text-transform:uppercase; letter-spacing:.12em;
-      font-size:12px;
-      color: rgba(243,246,255,.92);
-      padding-top:2px;
-    }
+.modal-card{
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.58);
+  box-shadow: 0 26px 70px rgba(0,0,0,.35);
+  overflow:hidden;
+  min-height: 360px;
+}
 
-    .close{
-      border-radius:var(--pill);
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(0,0,0,.25);
-      color:var(--text);
-      padding:8px 10px;
-      font-size:12px;
-      cursor:pointer;
-      flex:0 0 auto;
-      white-space:nowrap;
-    }
-    .close:hover{background:rgba(0,0,0,.35); border-color: rgba(255,255,255,.18);}
+/* Left card: full-bleed image */
+.modal-media{padding:0; position:relative;}
+.modal-media img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  filter: saturate(.98) contrast(1.05) brightness(1.02);
+}
+.modal-media:after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(255,255,255,.00) 0%, rgba(0,0,0,.10) 100%);
+  pointer-events:none;
+}
 
-    .modal-body{
-      padding:0 2px 2px;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:13px;
+/* Right card: text */
+.modal-text{
+  padding:18px 18px 18px;
+  color:#101827;
+  font-size:14px;
+  line-height:1.75;
+  font-weight:520;
+}
+.modal-text h4{
+  color:#0b1220;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  margin:12px 0 6px;
+}
 
-      /* scroll inside left column */
-      overflow-y:auto;
-      -webkit-overflow-scrolling: touch;
-      flex:1 1 auto;
-      min-height:0;
-    }
+/* Chips + notes in light theme */
+.modal-text .action-row{
+  margin-top:10px;
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.modal-text .chip{
+  border-radius:var(--pill);
+  border:1px solid rgba(12,18,32,.14);
+  background:rgba(255,255,255,.55);
+  padding:7px 10px;
+  font-size:12px;
+  color:rgba(12,18,32,.9);
+  cursor:pointer;
+  user-select:none;
+}
+.modal-text .chip:hover{background:rgba(255,255,255,.82); border-color: rgba(12,18,32,.2);}
+.modal-text .chip.ms{border-color: rgba(63,169,245,.35); background: rgba(63,169,245,.12);}
+.modal-text .chip.rose{border-color: rgba(199,125,255,.35); background: rgba(199,125,255,.12);}
+.modal-text .chip.lumina{border-color: rgba(235,176,59,.35); background: rgba(255,224,114,.20);}
 
-    /* Right side (image) */
-    .modal-right{
-      position:relative;
-      background:#0A0D1B;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      min-width:0;
-    }
+.modal-text .note{
+  margin-top:10px;
+  font-size:12px;
+  color: rgba(12,18,32,.7);
+}
 
-    .modal-right img{
-      width:100%;
-      height:100%;
-      max-height: 92vh;
-      max-height: 92dvh;
-
-      /* never crop */
-      object-fit:contain;
-      object-position:center;
-
-      filter: saturate(.98) contrast(1.05) brightness(.98);
-      opacity:.96;
-      background:#0A0D1B;
-      display:block;
-    }
-
-    /* Soft vignette + subtle edge fade so image merges with panel */
-    .modal-right:after{
-      content:"";
-      position:absolute; inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,.25) 70%, rgba(0,0,0,.45) 100%),
-        linear-gradient(90deg, rgba(11,14,30,.55) 0%, rgba(11,14,30,0) 28%, rgba(11,14,30,0) 72%, rgba(11,14,30,.55) 100%);
-      opacity:.75;
-    }
-
-    /* Responsive: stack on small screens (image on top, text below) */
-    @media (max-width: 860px){
-      .modal{ width: min(980px, 98vw); }
-      .modal-inner{ grid-template-columns: 1fr; }
-      .modal-left{ border-right:none; border-top:1px solid rgba(255,255,255,.06); padding:14px 14px 16px; }
-      .modal-right{ height: min(42vh, 320px); height: min(42dvh, 320px); }
-      .modal-right img{ height:100%; }
-      .modal-right:after{
-        background:
-          radial-gradient(circle at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,.25) 70%, rgba(0,0,0,.45) 100%),
-          linear-gradient(180deg, rgba(11,14,30,.45) 0%, rgba(11,14,30,0) 30%, rgba(11,14,30,.55) 100%);
-      }
-    }
-
-
-    /* Manifest on paper */
+/* Manifest on paper */
     .manifest-paper{
       margin-top:8px;
       width:100%;
@@ -361,31 +347,6 @@
     .manifest-paper-inner li{
       margin-bottom:3px;
     }
-
-    
-    /* Manifest modal: make the paper adapt to viewport (iPad portrait/landscape) */
-    .overlay[data-modal="manifest"] .modal-body{
-      /* keep content centered & readable */
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .overlay[data-modal="manifest"] .manifest-paper{
-      /* allow the paper to scale to available height on landscape */
-      max-width:none;
-      width:100%;
-      height: min(58dvh, 520px);
-      height: min(58vh, 520px); /* fallback */
-      aspect-ratio:auto;
-      background-size: contain;
-    }
-    .overlay[data-modal="manifest"] .manifest-paper-inner{
-      /* ensure inner text area remains usable when the paper scales */
-      width: 74%;
-      height: 78%;
-      max-height: 100%;
-    }
-
 
     footer{
       position:relative; z-index:1;
@@ -485,35 +446,30 @@
     </footer>
   </div>
 
-    <!-- ONE reusable modal -->
-  <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-inner">
-        <!-- LEFT: text -->
-        <div class="modal-left">
-          <div class="modal-topbar">
-            <div class="modal-title" id="modalTitle">
-              <span class="ico glow soft" id="modalIco">⚙️</span>
-              <span id="modalName">Místnost</span>
-            </div>
-            <button class="close" id="closeBtn">Zavřít ✕</button>
-          </div>
-          <div class="modal-body" id="modalBody"></div>
-        </div>
+  <!-- ONE reusable modal -->
+<div class="overlay" id="overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-topbar">
+      <div class="modal-title" id="modalTitle">
+        <span class="ico glow soft" id="modalIco">⚙️</span>
+        <span id="modalName">Místnost</span>
+      </div>
+      <button class="close" id="closeBtn">Zavřít ✕</button>
+    </div>
 
-        <!-- RIGHT: image -->
-        <div class="modal-right" aria-hidden="true">
-          <img id="modalImg" alt="" src="" />
-        </div>
+    <div class="modal-content">
+      <div class="modal-card modal-media" aria-hidden="true">
+        <img id="modalImg" alt="" src="" />
+      </div>
+      <div class="modal-card modal-text">
+        <div id="modalBody"></div>
       </div>
     </div>
   </div>
+</div>
 
-<div class="modal-body" id="modalBody"></div>
-    </div>
-  </div>
+<script>
 
-  <script>
     const DATA = {
       profile: {
         name: "Profil uživatele",
@@ -813,14 +769,12 @@
       modalIco.textContent = d.ico;
       modalBody.innerHTML = d.body;
       overlay.classList.add("open");
-      overlay.dataset.modal = key;
       overlay.setAttribute("aria-hidden","false");
       document.body.style.overflow = "hidden";
     }
 
     function closeModal(){
       overlay.classList.remove("open");
-      delete overlay.dataset.modal;
       overlay.setAttribute("aria-hidden","true");
       document.body.style.overflow = "";
       modalImg.src = "";
