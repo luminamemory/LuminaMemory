@@ -362,6 +362,31 @@
       margin-bottom:3px;
     }
 
+    
+    /* Manifest modal: make the paper adapt to viewport (iPad portrait/landscape) */
+    .overlay[data-modal="manifest"] .modal-body{
+      /* keep content centered & readable */
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .overlay[data-modal="manifest"] .manifest-paper{
+      /* allow the paper to scale to available height on landscape */
+      max-width:none;
+      width:100%;
+      height: min(58dvh, 520px);
+      height: min(58vh, 520px); /* fallback */
+      aspect-ratio:auto;
+      background-size: contain;
+    }
+    .overlay[data-modal="manifest"] .manifest-paper-inner{
+      /* ensure inner text area remains usable when the paper scales */
+      width: 74%;
+      height: 78%;
+      max-height: 100%;
+    }
+
+
     footer{
       position:relative; z-index:1;
       padding:14px 18px 18px;
@@ -370,29 +395,6 @@
       font-size:11px;
       display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
     }
-  
-
-    /* Manifest: make the paper always fit (portrait & landscape) */
-    .modal[data-modal="manifest"] .manifest-paper{
-      max-width: none;
-      width: 100%;
-      /* scale by available viewport height so it never gets cut off in landscape */
-      height: min(62dvh, 560px);
-      height: min(62vh, 560px);
-      aspect-ratio: 3 / 4;
-      margin-top: 8px;
-      margin-left: auto;
-      margin-right: auto;
-      background-size: contain;
-    }
-    .modal[data-modal="manifest"] .manifest-paper-inner{
-      /* keep inner text usable even when the paper scales down */
-      width: 74%;
-      height: 78%;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
   </style>
 </head>
 <body>
@@ -485,7 +487,7 @@
 
     <!-- ONE reusable modal -->
   <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-inner">
         <!-- LEFT: text -->
         <div class="modal-left">
@@ -796,7 +798,6 @@
     };
 
     const overlay = document.getElementById("overlay");
-    const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modalImg");
     const modalName = document.getElementById("modalName");
     const modalIco = document.getElementById("modalIco");
@@ -811,15 +812,15 @@
       modalName.textContent = d.name;
       modalIco.textContent = d.ico;
       modalBody.innerHTML = d.body;
-      modal.setAttribute("data-modal", key);
       overlay.classList.add("open");
+      overlay.dataset.modal = key;
       overlay.setAttribute("aria-hidden","false");
       document.body.style.overflow = "hidden";
     }
 
     function closeModal(){
       overlay.classList.remove("open");
-      modal.removeAttribute("data-modal");
+      delete overlay.dataset.modal;
       overlay.setAttribute("aria-hidden","true");
       document.body.style.overflow = "";
       modalImg.src = "";
