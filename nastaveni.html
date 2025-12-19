@@ -101,6 +101,9 @@
     }
     @media (max-width: 860px){
       .grid{grid-template-columns: 1fr}
+      /* iPad/phones: force every card to full width (override inline grid-column spans) */
+      .card{grid-column: 1 / -1 !important; min-height: 0;}
+      .wide{grid-column: 1 / -1 !important;}
     }
 
     .card{
@@ -205,6 +208,8 @@
   backdrop-filter: blur(16px);
   color:#0b1220;
   position:relative;
+  display:flex;
+  flex-direction:column;
 }
 
 .modal-topbar{
@@ -238,12 +243,11 @@
   gap:14px;
   padding:14px;
 
-  /* keep the grid from forcing children taller than the available space */
+  /* Single scroll area for the whole modal content (fixes iPad cut-off & "can't reach the end") */
+  flex: 1 1 auto;
   min-height: 0;
-  max-height: calc(100vh - 64px - 54px);
-  max-height: calc(100svh - 64px - 54px);
-  max-height: calc(100dvh - 64px - 54px);
-  overflow: hidden;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 @media (max-width: 860px){
   .modal-content{grid-template-columns: 1fr;}
@@ -283,11 +287,11 @@
   line-height:1.75;
   font-weight:520;
 
-  height: 100%;
-  min-height: 0;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 28px; /* space so the last lines aren't hidden by rounded corners */
+  /* Let the modal-content be the only scroll container */
+  height:auto;
+  min-height:0;
+  overflow: visible;
+  padding-bottom: 28px;
 }
 .modal-text h4{
   color:#0b1220;
@@ -325,27 +329,32 @@
 
 /* Manifest on paper */
     .manifest-paper{
-      margin-top:8px;
-      width:100%;
-      max-width:720px;
-      /* Decorative paper background, but keep ONE scroll container (the right text card).
-         Nested scrolling on iPad portrait can clip the last lines. */
-      min-height: 420px;
-      padding: 38px 30px;
-      background:url("img-paper.png") center/cover no-repeat;
-      margin-left:auto;
-      margin-right:auto;
-      display:block;
-      border-radius:18px;
-      overflow:hidden;
-    }
+  margin-top:8px;
+  width:100%;
+  max-width:720px;
 
-    /* iPad portrait: a bit less fixed height/padding so more text is visible */
-    @media (max-width: 1024px) and (orientation: portrait){
-      .manifest-paper{
-        min-height: 360px;
-        padding: 30px 22px;
-      }
+  /* Paper should always be fully visible on iPad; if text is longer, scroll INSIDE the sheet */
+  height: clamp(360px, 62vh, 720px);
+  padding: 38px 30px;
+
+  background:url("img-paper.png") center/cover no-repeat;
+  margin-left:auto;
+  margin-right:auto;
+  display:block;
+  border-radius:18px;
+
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* iPad portrait: slightly tighter padding */
+@media (max-width: 1024px) and (orientation: portrait){
+  .manifest-paper{
+    height: clamp(340px, 58vh, 640px);
+    padding: 28px 20px;
+  }
+}
     }
 
     .manifest-paper-inner{
@@ -353,11 +362,11 @@
       height:auto;
       overflow:visible;
       font-family: "Georgia", "Times New Roman", serif;
-      font-size:12px;
+      font-size: clamp(10px, 1.05vw + 0.35rem, 12px);
       line-height:1.55;
       color:#111;
 
-      padding: 2px 6px 18px;
+      padding: 2px 6px 28px;
 }
     .manifest-paper-inner h2{
       font-size:16px;
