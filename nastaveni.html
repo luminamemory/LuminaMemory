@@ -342,9 +342,7 @@
   /* Paper should always be fully visible on iPad; if text is longer, scroll INSIDE the sheet */
   height: clamp(360px, 62vh, 720px);
   padding: 38px 30px;
-
-  background:url("img-paper.png") center/cover no-repeat;
-  margin-left:auto;
+margin-left:auto;
   margin-right:auto;
   display:block;
   border-radius:18px;
@@ -352,6 +350,20 @@
   overflow:auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  position: relative;
+  
+  /* Paper image should be fully visible (no cropping) */
+  background-color: #F7F2E8;
+  background-image: url("img-paper.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  /* Physical sheet feel */
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.28),
+    0 2px 10px rgba(0,0,0,.18);
+  border: 1px solid rgba(0,0,0,.08);
 }
 
 /* iPad portrait: slightly tighter padding */
@@ -472,6 +484,38 @@
     }
 }
 
+
+/* Subtle paper texture + depth (keeps text readable) */
+.manifest-paper::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:18px;
+  opacity:.18;
+  background:
+    radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.70), transparent 55%),
+    radial-gradient(900px 520px at 85% 88%, rgba(0,0,0,.14), transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,.035),
+      rgba(0,0,0,.035) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  mix-blend-mode:multiply;
+}
+
+.manifest-paper::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:18px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -18px 30px rgba(0,0,0,.06);
+  opacity:.9;
+}
+
 </style>
 </head>
 <body>
@@ -485,7 +529,7 @@
 </div>
 </div>
 <div class="header-right">
-<a class="back-link" href="lumina-demo.html">← Zpět do miniLuminy</a>
+<a class="back-link" href="lumina-demo.html">← Zpět ✨</a>
 <div class="crumb">⚙️ <span>Nastavení</span> · <span>DEMO</span></div>
 </div>
 </header>
