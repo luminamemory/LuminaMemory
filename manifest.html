@@ -59,7 +59,9 @@
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      background: radial-gradient(circle at top, #ffffff 0, #f3f4f7 55%, #e2e6f0 100%);
+      background-color: #e8dfcf;
+      background-image:
+        radial-gradient(circle at top, #fdfaf5 0, #e8dfcf 45%, #d4c5aa 100%);
       color: var(--text-main);
       display: flex;
       align-items: center;
@@ -77,20 +79,24 @@
     }
 
     .back-link {
-      align-self: flex-start;
-      font-size: 0.9rem;
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 40;
+      font-size: 0.95rem;
       color: var(--accent);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 8px;
+      padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(92, 106, 240, 0.06);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
     }
 
     .back-link:hover {
-      background: rgba(92, 106, 240, 0.12);
+      background: #ffffff;
     }
 
     .back-link span {
@@ -212,7 +218,7 @@
   </style>
 </head>
 <body>
-  <main class="page-frame">
+  <main class="page-frame" style="margin-top: 40px;">
     <a href="nastaveni.html" class="back-link">
       <span>←</span>
       Zpět do Nastavení
