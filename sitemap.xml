@@ -77,63 +77,6 @@
     <priority>0.89</priority>
   </url>
 
-  <!-- Proiecta main (CZ/EN/DE) -->
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/proiecta.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.88</priority>
-  </url>
-
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-en.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.88</priority>
-  </url>
-
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-de.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.88</priority>
-  </url>
-
-  <!-- Proiecta project rooms (CZ/EN/DE) -->
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-projekty.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.86</priority>
-  </url>
-
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-projekty-en.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.86</priority>
-  </url>
-
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-projekty-de.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.86</priority>
-  </url>
-
-  <!-- Map / Trip Planner (CZ/EN/DE) -->
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/map.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/map-en.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://luminamemory.github.io/LuminaMemory/map-de.html</loc>
-    <lastmod>2025-12-17</lastmod>
-    <priority>0.8</priority>
-  </url>
-
   <!-- Praetorium (control hall) CZ/EN/DE -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/praetorium.html</loc>
@@ -191,6 +134,25 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Pergamen / Manifest CZ/EN/DE -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.79</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.79</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.79</priority>
+  </url>
+
   <!-- Pergamen / Scroll CZ/EN/DE -->
   <url>
     <loc>https://luminamemory.github.io/LuminaMemory/pergamen-luminamemory.html</loc>
@@ -246,6 +208,82 @@
     <loc>https://luminamemory.github.io/LuminaMemory/chronica-de.html</loc>
     <lastmod>2025-12-17</lastmod>
     <priority>0.82</priority>
+  </url>
+
+  <!-- Proiecta main (CZ/EN/DE) -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/proiecta.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.88</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.88</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.88</priority>
+  </url>
+
+  <!-- Proiecta project rooms (CZ/EN/DE) -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-projekty.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.86</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-projekty-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.86</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/proiecta-projekty-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.86</priority>
+  </url>
+
+  <!-- Map / Trip Planner (CZ/EN/DE) -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/map.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/map-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/map-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Settings / Nastavení (CZ/EN/DE) -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/nastaveni.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/nastaveni-en.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.84</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/nastaveni-de.html</loc>
+    <lastmod>2025-12-17</lastmod>
+    <priority>0.84</priority>
   </url>
 
   <!-- Kontakt / Contact (CZ/EN/DE) -->
