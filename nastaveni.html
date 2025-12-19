@@ -532,47 +532,7 @@ margin-left:auto;
 
 
 /* === iPad landscape: Safari compositor "band" fix === */
-@media (max-width: 1024px) and (orientation: landscape){
-  /* iPad LANDSCAPE:
-     1) make the paper fully visible (scale by available HEIGHT)
-     2) reduce font-size so text stays inside the paper artwork
-  */
 
-  /* --- Full Manifest sheet modal --- */
-  .sheet-content{
-    padding: 10px;
-    align-items: flex-start;
-    justify-content: center;
-  }
-
-  .sheet-paper{
-    /* Fit by height first (landscape has less vertical room) */
-    height: min(82vh, calc((var(--vh, 1vh) * 100) - 150px));
-    width: min(
-      92vw,
-      calc(min(82vh, calc((var(--vh, 1vh) * 100) - 150px)) * 3 / 4)
-    );
-
-    /* disable the portrait aspect lock in landscape */
-    aspect-ratio: auto;
-    max-height: none;
-  }
-
-  .sheet-text{
-    inset: 10% 10%;
-    font-size: clamp(9.5px, 0.7vmin + 0.45rem, 12px);
-  }
-
-  /* --- Inline paper in the right card (preview) --- */
-  .manifest-paper{
-    height: min(70vh, 540px);
-    padding: 22px 16px;
-  }
-
-  .manifest-paper-inner{
-    font-size: clamp(9.5px, 0.7vmin + 0.35rem, 12px);
-  }
-}
 
 
 
@@ -1055,7 +1015,7 @@ margin-left:auto;
 
 <div class="action-row">
   <button class="chip lumina" type="button" data-open-sheet="manifest">🕯 Otevřít celý Manifest</button>
-</div>
+
 
 <p class="note">
   Text Manifestu je pevný základ – opora pro obyčejné lidi, žádné leštění ega, upřímné vedení!
