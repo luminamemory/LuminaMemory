@@ -239,60 +239,37 @@
 .close:hover{background:rgba(255,255,255,.78); border-color: rgba(255,255,255,.24);}
 
 .modal-content{
-  display:grid;
-  grid-template-columns: 5fr 7fr;
+  display:flex;
   gap:14px;
   padding:14px;
 
-  /* Single scroll area for the whole modal content (fixes iPad cut-off & "can't reach the end") */
+  /* Single scroll area for the whole modal content (iPad Safari friendly) */
   flex: 1 1 auto;
   min-height: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-}
-@media (max-width: 860px){
-  .modal-content{grid-template-columns: 1fr;}
-}
+  overscroll-behavior: contain;
 
-.modal-card{
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,.28);
-  background: rgba(255,255,255,.58);
-  box-shadow: 0 26px 70px rgba(0,0,0,.35);
-  overflow:hidden;
-  min-height: 360px;
-
-  min-height: 0;
+  /* prevent Safari paint glitches after rotation */
+  align-items: stretch;
 }
-
-/* Left card: full-bleed image */
-.modal-media{padding:0; position:relative;}
-.modal-media img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;
-  filter: saturate(.98) contrast(1.05) brightness(1.02);
-}
-.modal-media:after{
-  content:""; position:absolute; inset:0;
-  background: linear-gradient(180deg, rgba(255,255,255,.00) 0%, rgba(0,0,0,.10) 100%);
-  pointer-events:none;
-}
-
-/* Right card: text */
+.modal-media{flex:5 1 0;}
 .modal-text{
   padding:18px 18px 18px;
   color:#101827;
   font-size:14px;
   line-height:1.75;
-  font-weight:520;
+  font-weight:600;
 
-  /* Let the modal-content be the only scroll container */
-  height:auto;
+  /* keep the card self-contained (Safari rotation) */
+  min-height: 0;
+  overflow: hidden;
+  display:flex;
+  flex-direction:column;
+}
+#modalBody{
   min-height:0;
-  overflow: visible;
-  padding-bottom: 28px;
+  width:100%;
 }
 .modal-text h4{
   color:#0b1220;
@@ -336,6 +313,7 @@
 
   /* Paper should always be fully visible on iPad; if text is longer, scroll INSIDE the sheet */
   height: clamp(360px, 62vh, 720px);
+  max-height: calc((var(--vh, 1vh) * 100) - 260px);
   padding: 38px 30px;
 
   background:url("img-paper.png") center/cover no-repeat;
@@ -356,7 +334,6 @@
     padding: 28px 20px;
   }
 }
-    }
 
     .manifest-paper-inner{
       width:100%;
@@ -419,11 +396,11 @@
 /* Single scroll area inside modal */
 .modal-content{
   flex: 1 1 auto;
-  min-height: 0;                 /* critical for iOS to allow inner scrolling */
+  min-height: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  padding-bottom: 18px;          /* keeps last lines reachable */
+  padding-bottom: 28px;          /* keeps last lines reachable */
 }
 
 /* Allow text card to expand naturally; avoid clipping */
@@ -451,7 +428,7 @@
 </div>
 </div>
 <div class="header-right">
-<a class="back-link" href="lumina-demo.html">← Zpět do miniLuminy</a>
+<a class="back-link" href="lumina-demo.html">← Zpět ✨</a>
 <div class="crumb">⚙️ <span>Nastavení</span> · <span>DEMO</span></div>
 </div>
 </header>
