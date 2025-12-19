@@ -564,6 +564,11 @@ margin-left:auto;
   }
 }
 
+
+/* Full manifest link button */
+a.chip{ text-decoration:none; display:inline-flex; align-items:center; gap:8px; }
+a.chip:visited{ color: rgba(12,18,32,.9); }
+
 </style>
 </head>
 <body>
@@ -883,112 +888,23 @@ margin-left:auto;
         ico: "🕯",
         img: "img-manifest-palace.jpg",
         body: `
+
           <h4>Manifest na papíru</h4>
           <p>
             Manifest je pevný bod celého projektu. Ne marketingová stránka, ale list, který
             vysvětluje, co Lumina je – a co nikdy nebude.
           </p>
-          
-<div class="manifest-paper">
-  <div class="manifest-paper-inner" style="
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-  ">
-<pre style="
-  white-space:pre-wrap;
-  font-family: 'Georgia','Times New Roman',serif;
-  font-size: clamp(11px, 1.2vw, 14px);
-  line-height:1.6;
-  max-width: 92%;
-">
-MANIFEST LUMINAMEMORY™
 
-🕯 Co je LuminaMemory™
+          <div class="action-row" style="margin-top:12px">
+            <a class="chip lumina" href="manifest-full.html" target="_blank" rel="noopener">
+              🕯 Otevřít Manifest (celý papír) ↗
+            </a>
+          </div>
 
-Lumina není chatbot.
-Lumina je pomocník na cestě životem.
-
-Osobní prostředí,
-kde má člověk oporu, řád, organizaci, klid a humor –
-ale také upřímnost bez mazání medu kolem pusy.
-
-Lumina neslouží k leštění ega ani k iluzím, že máš vždy pravdu.
-Je tu proto, aby ti pomohla vidět jasně –
-i když to někdy trochu štípne.
-
-⸻
-
-👥 Pro koho je Lumina
-
-LuminaMemory™ je pro obyčejné lidi, kteří řeší:
-• zdraví, práci a vztahy
-• peníze, únavu, sny a strachy
-
-Není pro firmy jako entity –
-pro ty existují tabulky, CRM a korporátní AI.
-
-Ale i ve firmách pracují lidé.
-Ti si své soukromé věci nenosí do firemních systémů,
-ale do vlastního prostoru –
-takového, jako je LuminaMemory™.
-
-⸻
-
-🧭 Jak se Lumina chová
-• Je upřímná, ne podlézavá
-• Umí říct: „tohle nedává smysl“
-• Umí říct: „tady se možná klameš“
-
-Nevytváří falešnou motivaci.
-Nepřehlušuje realitu pozitivními frázemi.
-
-Pomáhá pojmenovat věci takové, jaké jsou.
-
-⸻
-
-🌱 Co Lumina dělá
-• Pomáhá třídit myšlenky
-• Drží kontinuitu v čase
-• Vrací se k tomu, co je důležité
-• Připomíná, když zapomínáš sám na sebe
-
-Je pamětí, ne náhradou svědomí.
-Je oporou, ne berličkou.
-
-⸻
-
-✨ Čím Lumina není
-• Není terapeut
-• Není guru
-• Není marketingový produkt
-• Není náhrada lidského vztahu
-
-Je to prostor.
-Klidné místo, kam se můžeš vracet.
-
-⸻
-
-🕯 Závěr
-
-LuminaMemory™ vznikla proto,
-že lidský život není lineární projekt.
-
-Je plný návratů, pochybností, ticha i světla.
-
-A někdy stačí,
-aby tam někdo byl.
-A pamatoval si.
-</pre>
-  </div>
-</div>
-
-<p class="note">
-            Text Manifestu je pevný základ. Může se jemně ladit, ale jeho směr – opora pro obyčejné lidi,
-            žádné leštění ega, upřímné vedení – zůstává.
+          <p class="note" style="margin-top:10px">
+            Otevře se nové okno se samostatnou stránkou, aby byl celý papír vidět bez iPad/Safari „filtrů“.
           </p>
+
         `
       }
     };

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Manifest LuminaMemory™</title>
+<style>
+  :root{
+    --bg:#070A14;
+    --paper:#F7F2E8;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Georgia, "Times New Roman", serif;
+    background: radial-gradient(circle at 20% 10%, rgba(255,224,114,.10), transparent 45%),
+                radial-gradient(circle at 80% 15%, rgba(63,169,245,.08), transparent 50%),
+                linear-gradient(180deg, #070A14 0%, #050713 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 18px;
+  }
+
+  .sheet{
+    width: min(980px, 100%);
+    /* keep full paper visible; if viewport too small, allow inner scroll */
+    max-height: calc(100svh - 36px);
+    max-height: calc(100dvh - 36px);
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+
+    border-radius: 22px;
+    background-color: var(--paper);
+    background-image: url("img-paper.png");
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size: contain;
+
+    box-shadow: 0 24px 80px rgba(0,0,0,.55);
+    border: 1px solid rgba(255,255,255,.10);
+    position:relative;
+  }
+
+  /* Soft paper texture without pseudo-elements (Safari friendly) */
+  .sheet{
+    background-image:
+      radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.55), transparent 55%),
+      radial-gradient(900px 520px at 85% 88%, rgba(0,0,0,.10), transparent 60%),
+      repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,.020),
+        rgba(0,0,0,.020) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      url("img-paper.png");
+    background-repeat:no-repeat, no-repeat, repeat, no-repeat;
+    background-position:center, center, center, center;
+    background-size: cover, cover, auto, contain;
+  }
+
+  .content{
+    /* this creates "safe area" inside the paper image */
+    padding: clamp(22px, 4.5vw, 56px) clamp(18px, 4vw, 64px);
+    min-height: clamp(560px, 78vh, 900px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  pre{
+    margin:0;
+    white-space: pre-wrap;
+    text-align:center;
+    line-height: 1.6;
+    color:#111;
+    max-width: 92%;
+    /* font scales with sheet, but won't blow up */
+    font-size: clamp(13px, 0.9vw + 0.55rem, 18px);
+  }
+
+  /* Small top controls */
+  .topbar{
+    position: sticky;
+    top: 0;
+    display:flex;
+    justify-content:flex-end;
+    padding: 10px 10px 0;
+    pointer-events:none;
+  }
+  .btn{
+    pointer-events:auto;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,.10);
+    background: rgba(255,255,255,.65);
+    color:#111;
+    font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    font-size: 12px;
+    padding: 8px 10px;
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="sheet" role="document" aria-label="Manifest LuminaMemory™ na papíru">
+    <div class="topbar">
+      <button class="btn" onclick="window.close()">Zavřít ✕</button>
+    </div>
+    <div class="content">
+      <pre>MANIFEST LUMINAMEMORY™
+
+🕯 Co je LuminaMemory™
+
+Lumina není chatbot.
+Lumina je pomocník na cestě životem.
+
+Osobní prostředí,
+kde má člověk oporu, řád, organizaci, klid a humor –
+ale také upřímnost bez mazání medu kolem pusy.
+
+Lumina neslouží k leštění ega ani k iluzím, že máš vždy pravdu.
+Je tu proto, aby ti pomohla vidět jasně –
+i když to někdy trochu štípne.
+
+⸻
+
+👥 Pro koho je Lumina
+
+LuminaMemory™ je pro obyčejné lidi, kteří řeší:
+• zdraví, práci a vztahy
+• peníze, únavu, sny a strachy
+
+Není pro firmy jako entity –
+pro ty existují tabulky, CRM a korporátní AI.
+
+Ale i ve firmách pracují lidé.
+Ti si své soukromé věci nenosí do firemních systémů,
+ale do vlastního prostoru –
+takového, jako je LuminaMemory™.
+
+⸻
+
+🧭 Jak se Lumina chová
+• Je upřímná, ne podlézavá
+• Umí říct: „tohle nedává smysl“
+• Umí říct: „tady se možná klameš“
+
+Nevytváří falešnou motivaci.
+Nepřehlušuje realitu pozitivními frázemi.
+
+Pomáhá pojmenovat věci takové, jaké jsou.
+
+⸻
+
+🌱 Co Lumina dělá
+• Pomáhá třídit myšlenky
+• Drží kontinuitu v čase
+• Vrací se k tomu, co je důležité
+• Připomíná, když zapomínáš sám na sebe
+
+Je pamětí, ne náhradou svědomí.
+Je oporou, ne berličkou.
+
+⸻
+
+✨ Čím Lumina není
+• Není terapeut
+• Není guru
+• Není marketingový produkt
+• Není náhrada lidského vztahu
+
+Je to prostor.
+Klidné místo, kam se můžeš vracet.
+
+⸻
+
+🕯 Závěr
+
+LuminaMemory™ vznikla proto,
+že lidský život není lineární projekt.
+
+Je plný návratů, pochybností, ticha i světla.
+
+A někdy stačí,
+aby tam někdo byl.
+A pamatoval si.
+</pre>
+    </div>
+  </div>
+</body>
+</html>
