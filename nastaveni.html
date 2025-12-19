@@ -530,6 +530,40 @@ margin-left:auto;
   }
 }
 
+
+/* === iPad landscape: Safari compositor "band" fix === */
+@media (max-width: 1024px) and (orientation: landscape){
+  .manifest-paper{
+    /* Create a new compositing context */
+    isolation: isolate;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+
+    /* Rebuild texture as background layers (no pseudo-elements) */
+    background-color: #F7F2E8;
+    background-image:
+      radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.55), transparent 55%),
+      radial-gradient(900px 520px at 85% 88%, rgba(0,0,0,.10), transparent 60%),
+      repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,.020),
+        rgba(0,0,0,.020) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      url("img-paper.png");
+    background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+    background-position: center, center, center, center;
+    background-size: cover, cover, auto, contain;
+  }
+
+  .manifest-paper::before,
+  .manifest-paper::after{
+    content: none !important;
+    display: none !important;
+  }
+}
+
 </style>
 </head>
 <body>
