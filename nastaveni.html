@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nastavení • LuminaMemory™</title>
-  <meta name="description" content="Nastavení světa LuminaMemory™ – profil, povaha Luminy, Rose Zone™, archiv, inventář, předplatné, MemorySky Gate a Manifest." />
-  <link rel="icon" href="favicon.png" type="image/png" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nastavení • LuminaMemory™</title>
+<meta content="Nastavení světa LuminaMemory™ – profil, povaha Luminy, Rose Zone™, archiv, inventář, předplatné, MemorySky Gate a Manifest." name="description"/>
+<link href="favicon.png" rel="icon" type="image/png"/>
+<style>
     :root{
       --bg:#070A14;
       --panel:#0F1326;
@@ -397,118 +398,143 @@
       font-size:11px;
       display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
     }
-  </style>
+  
+
+/* === iOS Safari viewport + modal scroll fixes (v5) === */
+:root{ --vh: 1vh; }
+
+/* Use dynamic viewport height driven by JS to avoid iPad Safari "crush" on rotation */
+.overlay{
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;              /* prevent double scrolling on iOS */
+  -webkit-overflow-scrolling: auto;
+}
+
+.modal{
+  max-height: calc((var(--vh, 1vh) * 100) - 64px); /* account for overlay padding */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Single scroll area inside modal */
+.modal-content{
+  flex: 1 1 auto;
+  min-height: 0;                 /* critical for iOS to allow inner scrolling */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-bottom: 18px;          /* keeps last lines reachable */
+}
+
+/* Allow text card to expand naturally; avoid clipping */
+.modal-card{
+  overflow: hidden;
+}
+.modal-text{
+  overflow: visible;
+}
+
+/* Extra safeguard for iPad Safari */
+@supports (-webkit-touch-callout: none){
+  .modal-content{ padding-bottom: 28px; }
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="mark">★</div>
-        <div class="title">
-          <b>LuminaMemory™</b>
-          <span>Nastavení světa (velín)</span>
-        </div>
-      </div>
-      <div class="header-right">
-        <a href="lumina-demo.html" class="back-link">← Zpět do miniLuminy</a>
-        <div class="crumb">⚙️ <span>Nastavení</span> · <span>DEMO</span></div>
-      </div>
-    </header>
-
-    <main>
-      <div class="grid">
-
-        <div class="wide">
-          <div>
-            <div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(243,246,255,.82); margin-bottom:4px;">
+<div class="wrap">
+<header>
+<div class="brand">
+<div class="mark">★</div>
+<div class="title">
+<b>LuminaMemory™</b>
+<span>Nastavení světa (velín)</span>
+</div>
+</div>
+<div class="header-right">
+<a class="back-link" href="lumina-demo.html">← Zpět do miniLuminy</a>
+<div class="crumb">⚙️ <span>Nastavení</span> · <span>DEMO</span></div>
+</div>
+</header>
+<main>
+<div class="grid">
+<div class="wide">
+<div>
+<div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(243,246,255,.82); margin-bottom:4px;">
               I nastavení může být živé.
             </div>
-            <small>
+<small>
               Každá karta jsou dveře do nové místnosti – bezpečný přehled, jasné akce, žádné technické hrůzy.
             </small>
-          </div>
-          <button class="btn" data-open="manifest">🕯 Otevřít Manifest</button>
-        </div>
-
-        <section class="card" data-open="profile" style="grid-column: span 4;">
-          <h3><span class="ico glow soft">👤</span> Profil uživatele</h3>
-          <p>Kdo jsi, jak ti říkat, v jakém jazyce a rytmu s tebou má Lumina žít. Základní mapa tvého světa.</p>
-          <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>DEMO</span></div>
-        </section>
-
-        <section class="card" data-open="lumina" style="grid-column: span 4;">
-          <h3><span class="ico glow lumina">✨</span> Jaká má být Lumina</h3>
-          <p>Jemná, hravá nebo raději přímočarý analytik? Zde nastavíš povahu, tón a Sigma-rytmus dne.</p>
-          <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>DEMO</span></div>
-        </section>
-
-        <section class="card" data-open="rosezone" style="grid-column: span 4;">
-          <h3><span class="ico glow rose">🌹</span> Rose Zone™</h3>
-          <p>Ochranný prstenec celého prostředí. Když se objeví nezvaný host, obrazovka se umí prostě zastavit.</p>
-          <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Bezpečí</span></div>
-        </section>
-
-        <section class="card" data-open="inventory" style="grid-column: span 4;">
-          <h3><span class="ico glow soft">🧭</span> Inventory</h3>
-          <p>Mapa toho, co svítí: Praetorium, Proiecta, Arcana, rituály, MemorySky. Jedním pohledem víš, co je odemčené.</p>
-          <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Mapa</span></div>
-        </section>
-
-        <section class="card" data-open="archive" style="grid-column: span 4;">
-          <h3><span class="ico glow soft">📦</span> Life Mission Archive</h3>
-          <p>Zálohy, exporty, přenos světa jinam. Ne další složka v cloudu – ale tvůj osobní trezor.</p>
-          <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Archiv</span></div>
-        </section>
-
-        <section class="card" data-open="plans" style="grid-column: span 4;">
-          <h3><span class="ico glow soft">💎</span> Předplatné</h3>
-          <p>FREE, PLUS nebo PREMIUM. Kolik částí pavučiny svítí, jak velké je MemorySky a jak moc Lumina používá paměť.</p>
-          <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Tarif</span></div>
-        </section>
-
-        <section class="card" data-open="guide" style="grid-column: span 6;">
-          <h3><span class="ico glow soft">📘</span> Návod</h3>
-          <p>Jak s Luminou mluvit, jak používat rituály a úkoly, kdy zpomalit a říct: „dnes jen lehce“.</p>
-          <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Text</span></div>
-        </section>
-
-        <section class="card" data-open="memorysky" style="grid-column: span 6; border-color: rgba(63,169,245,.22);">
-          <h3><span class="ico glow ms">☁️</span> MemorySky Gate</h3>
-          <p>Tvoje brána do paměťového nebe: kapacita, export, historie záloh. V DEMU jen vizuální náhled.</p>
-          <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span style="color:rgba(208,233,255,.75)">MemorySky</span></div>
-        </section>
-
-      </div>
-    </main>
-
-    <footer>
-      <div>DEMO • Nastavení (velín) • žádná interní data</div>
-      <div>🕸 identity → centrální síť</div>
-    </footer>
-  </div>
-
-  <!-- ONE reusable modal -->
-<div class="overlay" id="overlay" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-topbar">
-      <div class="modal-title" id="modalTitle">
-        <span class="ico glow soft" id="modalIco">⚙️</span>
-        <span id="modalName">Místnost</span>
-      </div>
-      <button class="close" id="closeBtn">Zavřít ✕</button>
-    </div>
-
-    <div class="modal-content">
-      <div class="modal-card modal-media" aria-hidden="true">
-        <img id="modalImg" alt="" src="" />
-      </div>
-      <div class="modal-card modal-text">
-        <div id="modalBody"></div>
-      </div>
-    </div>
-  </div>
 </div>
-
+<button class="btn" data-open="manifest">🕯 Otevřít Manifest</button>
+</div>
+<section class="card" data-open="profile" style="grid-column: span 4;">
+<h3><span class="ico glow soft">👤</span> Profil uživatele</h3>
+<p>Kdo jsi, jak ti říkat, v jakém jazyce a rytmu s tebou má Lumina žít. Základní mapa tvého světa.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>DEMO</span></div>
+</section>
+<section class="card" data-open="lumina" style="grid-column: span 4;">
+<h3><span class="ico glow lumina">✨</span> Jaká má být Lumina</h3>
+<p>Jemná, hravá nebo raději přímočarý analytik? Zde nastavíš povahu, tón a Sigma-rytmus dne.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>DEMO</span></div>
+</section>
+<section class="card" data-open="rosezone" style="grid-column: span 4;">
+<h3><span class="ico glow rose">🌹</span> Rose Zone™</h3>
+<p>Ochranný prstenec celého prostředí. Když se objeví nezvaný host, obrazovka se umí prostě zastavit.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Bezpečí</span></div>
+</section>
+<section class="card" data-open="inventory" style="grid-column: span 4;">
+<h3><span class="ico glow soft">🧭</span> Inventory</h3>
+<p>Mapa toho, co svítí: Praetorium, Proiecta, Arcana, rituály, MemorySky. Jedním pohledem víš, co je odemčené.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Mapa</span></div>
+</section>
+<section class="card" data-open="archive" style="grid-column: span 4;">
+<h3><span class="ico glow soft">📦</span> Life Mission Archive</h3>
+<p>Zálohy, exporty, přenos světa jinam. Ne další složka v cloudu – ale tvůj osobní trezor.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Archiv</span></div>
+</section>
+<section class="card" data-open="plans" style="grid-column: span 4;">
+<h3><span class="ico glow soft">💎</span> Předplatné</h3>
+<p>FREE, PLUS nebo PREMIUM. Kolik částí pavučiny svítí, jak velké je MemorySky a jak moc Lumina používá paměť.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Tarif</span></div>
+</section>
+<section class="card" data-open="guide" style="grid-column: span 6;">
+<h3><span class="ico glow soft">📘</span> Návod</h3>
+<p>Jak s Luminou mluvit, jak používat rituály a úkoly, kdy zpomalit a říct: „dnes jen lehce“.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Text</span></div>
+</section>
+<section class="card" data-open="memorysky" style="grid-column: span 6; border-color: rgba(63,169,245,.22);">
+<h3><span class="ico glow ms">☁️</span> MemorySky Gate</h3>
+<p>Tvoje brána do paměťového nebe: kapacita, export, historie záloh. V DEMU jen vizuální náhled.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span style="color:rgba(208,233,255,.75)">MemorySky</span></div>
+</section>
+</div>
+</main>
+<footer>
+<div>DEMO • Nastavení (velín) • žádná interní data</div>
+<div>🕸 identity → centrální síť</div>
+</footer>
+</div>
+<!-- ONE reusable modal -->
+<div aria-hidden="true" class="overlay" id="overlay">
+<div aria-labelledby="modalTitle" aria-modal="true" class="modal" role="dialog">
+<div class="modal-topbar">
+<div class="modal-title" id="modalTitle">
+<span class="ico glow soft" id="modalIco">⚙️</span>
+<span id="modalName">Místnost</span>
+</div>
+<button class="close" id="closeBtn">Zavřít ✕</button>
+</div>
+<div class="modal-content">
+<div aria-hidden="true" class="modal-card modal-media">
+<img alt="" id="modalImg" src=""/>
+</div>
+<div class="modal-card modal-text">
+<div id="modalBody"></div>
+</div>
+</div>
+</div>
+</div>
 <script>
 
     const DATA = {
@@ -834,5 +860,27 @@
       if(e.key === "Escape" && overlay.classList.contains("open")) closeModal();
     });
   </script>
-</body>
+<script>
+/* iOS Safari: fix viewport units on rotation and keep modals scrollable */
+(function () {
+  function setVh() {
+    // Use innerHeight for iOS Safari; update CSS var --vh
+    var vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', vh + 'px');
+  }
+
+  // Update on load + resize + orientation change (with a small delay)
+  setVh();
+  window.addEventListener('resize', function () {
+    setVh();
+  }, {passive:true});
+
+  window.addEventListener('orientationchange', function () {
+    // iOS Safari sometimes reports stale innerHeight immediately after rotation
+    setTimeout(setVh, 60);
+    setTimeout(setVh, 240);
+    setTimeout(setVh, 520);
+  });
+})();
+</script></body>
 </html>
