@@ -108,15 +108,14 @@
     }
 
 
-/* === iPad landscape: match portrait layout (single-column grid + stacked modal) === */
-@media (max-width: 1024px) and (orientation: landscape){
-  /* Main cards layout */
-  .grid{ grid-template-columns: 1fr; }
+/* === iPad landscape: force portrait-like single-column layout ===
+   Covers iPad sizes up to 12.9" (landscape CSS width ~1366px). */
+@media (max-width: 1366px) and (orientation: landscape) and (hover: none) and (pointer: coarse){
+  .grid{ grid-template-columns: 1fr !important; }
   .card{ grid-column: 1 / -1 !important; min-height: 0; }
   .wide{ grid-column: 1 / -1 !important; }
 
-  /* Modal layout: stack media + text like portrait */
-  .modal-content{ grid-template-columns: 1fr; }
+  .modal-content{ grid-template-columns: 1fr !important; }
   .modal-card{ min-height: 0; }
 }
 
