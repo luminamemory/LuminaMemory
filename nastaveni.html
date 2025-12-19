@@ -193,7 +193,10 @@
 
 .modal{
   width:min(1100px, 100%);
+  /* iOS/iPadOS: prefer dynamic/small viewport units to avoid cut-off content */
   max-height: calc(100vh - 64px);
+  max-height: calc(100svh - 64px);
+  max-height: calc(100dvh - 64px);
   border-radius: 26px;
   box-shadow: 0 50px 140px rgba(0,0,0,.75);
   overflow:hidden;
@@ -235,7 +238,11 @@
   gap:14px;
   padding:14px;
 
+  /* keep the grid from forcing children taller than the available space */
+  min-height: 0;
   max-height: calc(100vh - 64px - 54px);
+  max-height: calc(100svh - 64px - 54px);
+  max-height: calc(100dvh - 64px - 54px);
   overflow: hidden;
 }
 @media (max-width: 860px){
@@ -277,8 +284,10 @@
   font-weight:520;
 
   height: 100%;
+  min-height: 0;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  padding-bottom: 28px; /* space so the last lines aren't hidden by rounded corners */
 }
 .modal-text h4{
   color:#0b1220;
@@ -319,27 +328,36 @@
       margin-top:8px;
       width:100%;
       max-width:720px;
-      height: min(62vh, 520px);
+      /* Decorative paper background, but keep ONE scroll container (the right text card).
+         Nested scrolling on iPad portrait can clip the last lines. */
+      min-height: 420px;
+      padding: 38px 30px;
       background:url("img-paper.png") center/cover no-repeat;
       margin-left:auto;
       margin-right:auto;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:block;
       border-radius:18px;
       overflow:hidden;
     }
+
+    /* iPad portrait: a bit less fixed height/padding so more text is visible */
+    @media (max-width: 1024px) and (orientation: portrait){
+      .manifest-paper{
+        min-height: 360px;
+        padding: 30px 22px;
+      }
+    }
+
     .manifest-paper-inner{
-      width:74%;
-      height:82%;
-      overflow:auto;
-      -webkit-overflow-scrolling: touch;
+      width:100%;
+      height:auto;
+      overflow:visible;
       font-family: "Georgia", "Times New Roman", serif;
       font-size:12px;
       line-height:1.55;
       color:#111;
-    
-      padding: 10px 10px 16px;
+
+      padding: 2px 6px 18px;
 }
     .manifest-paper-inner h2{
       font-size:16px;
