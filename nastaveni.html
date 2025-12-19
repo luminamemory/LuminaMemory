@@ -184,16 +184,13 @@
       backdrop-filter: blur(6px);
       display:none;
       align-items:flex-start; justify-content:center;
-
-      /* Responsive safe-area padding (iPad rotation friendly) */
-      padding: clamp(14px, 3.2vw, 28px) clamp(12px, 2.8vw, 18px);
+      padding:28px 16px;
       z-index:999;
       overflow-y:auto;
     }
     .overlay.open{display:flex;}
-    .modal{
-  /* Width adapts to orientation + viewport */
-  width: min(96vw, 1100px);
+.modal{
+  width: min(900px, 96vw);
   background: rgba(11,14,30,.98);
   border:1px solid rgba(255,255,255,.1);
   border-radius: 26px;
@@ -203,64 +200,76 @@
   display:flex;
   flex-direction:column;
 
-  /* Use dynamic viewport units so rotation updates correctly */
-  max-height: calc(100dvh - 32px);
+  /* responsive height on rotation (iPad / iOS Safari) */
+  max-height: 92vh;
+  max-height: 92dvh;
 }
-
-/* iPad / tablets: give the hero more room in landscape */
-@media (orientation: landscape){
-  .modal{ width: min(92vw, 1200px); }
-}
-@media (orientation: portrait){
-  .modal{ width: min(94vw, 980px); }
-}
-
     .modal-header{
   position:relative;
   padding:0;
   border-bottom:1px solid rgba(255,255,255,.06);
   background:#0A0D1B;
-
-  /* Hero adapts to rotation */
-  height: clamp(260px, 46dvh, 520px);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
   overflow:hidden;
 }
-
-@media (orientation: landscape){
-  .modal-header{ height: clamp(240px, 60dvh, 560px); }
-}
-@media (orientation: portrait){
-  .modal-header{ height: clamp(240px, 42dvh, 520px); }
-}
-
     .modal-header img{
   width:100%;
-  height:100%;
-  object-fit:contain; /* show the whole image */
+  height:auto;
+  display:block;
+
+  /* keep image large but always fully visible */
+  max-height: 62vh;
+  max-height: 62dvh;
+
+  object-fit:contain;
   object-position:center;
   filter: saturate(.98) contrast(1.05) brightness(.98);
   opacity:.96;
   background:#0A0D1B;
-  display:block;
 }
     .modal-header:after{
-      content:""; position:absolute; inset:0;
-      /* Smooth fade from image to content */
-      background: linear-gradient(
-        180deg,
-        rgba(11,14,30,0) 0%,
-        rgba(11,14,30,.35) 55%,
-        rgba(11,14,30,.78) 78%,
-        rgba(11,14,30,1) 100%
-      );
-      pointer-events:none;
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(
+    180deg,
+    rgba(11,14,30,0) 0%,
+    rgba(11,14,30,0.25) 55%,
+    rgba(11,14,30,0.75) 85%,
+    rgba(11,14,30,1) 100%
+  );
+  pointer-events:none;
+}
+        .modal-topbar{
+      position:absolute; inset:14px 14px auto 14px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      z-index:2;
     }
+    .close{
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.25);
+      color:var(--text);
+      padding:8px 10px;
+      font-size:12px;
+      cursor:pointer;
+    }
+    .close:hover{background:rgba(0,0,0,.35); border-color: rgba(255,255,255,.18);}
+    .modal-title{
+      display:flex; align-items:center; gap:10px;
+      text-transform:uppercase; letter-spacing:.12em;
+      font-size:12px;
+      color: rgba(243,246,255,.92);
+    }
+.modal-body{
+  padding:22px 20px 24px;
+  color:var(--muted);
+  line-height:1.7;
+  font-size:13px;
 
-    .modal-body h4{
+  /* scroll inside modal (not the whole page) */
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
+  flex:1 1 auto;
+}
+        .modal-body h4{
       color:var(--text);
       font-size:12px;
       text-transform:uppercase;
