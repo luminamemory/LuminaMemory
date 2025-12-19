@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <title>Manifest • LuminaMemory™</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="title" content="Manifest • LuminaMemory™">
+  <meta name="description"
+        content="Manifest LuminaMemory™ – prostor pro obyčejné lidi, kteří chtějí oporu, řád, klid a upřímnou AI průvodkyni na cestě životem.">
+
+  <link rel="icon" href="favicon.png" type="image/png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LuminaMemory™" />
+  <meta property="og:title" content="Manifest • LuminaMemory™" />
+  <meta property="og:description"
+        content="Lumina není chatbot. Je to osobní prostředí, kde má člověk oporu, řád, klid, humor a upřímnou reflexi svého života." />
+  <meta property="og:url"
+        content="https://luminamemory.github.io/LuminaMemory/manifest.html" />
+  <meta property="og:image"
+        content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+  <meta property="og:locale" content="cs_CZ" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Manifest • LuminaMemory™" />
+  <meta name="twitter:description"
+        content="LuminaMemory™ je konkrétní prostor pro tvůj život – ne jen další AI nástroj." />
+  <meta name="twitter:url"
+        content="https://luminamemory.github.io/LuminaMemory/manifest.html" />
+  <meta name="twitter:image"
+        content="https://luminamemory.github.io/LuminaMemory/luminamemory.png" />
+
+  <link rel="canonical"
+        href="https://luminamemory.github.io/LuminaMemory/manifest.html" />
+
+  <style>
+    :root {
+      --bg-body: #f3f4f7;
+      --text-main: #222222;
+      --text-soft: #555555;
+      --accent: #5c6af0;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #ffffff 0, #f3f4f7 55%, #e2e6f0 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .page-frame {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-link {
+      align-self: flex-start;
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(92, 106, 240, 0.06);
+    }
+
+    .back-link:hover {
+      background: rgba(92, 106, 240, 0.12);
+    }
+
+    .back-link span {
+      font-size: 1.1rem;
+    }
+
+    .sheet-wrapper {
+      /* width is limited by viewport height so that the full paper is always visible,
+         even na šířku (landscape) */
+      width: min(100%, 720px, calc((100vh - 80px) * 2 / 3));
+      /* Aspect ratio of the paper image: width / height = 1024 / 1536 = 2 / 3 */
+      aspect-ratio: 2 / 3;
+      position: relative;
+    }
+
+    .sheet-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("img-paper.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      filter: drop-shadow(0 18px 40px rgba(15, 23, 42, 0.18));
+    }
+
+    .sheet-content {
+      position: absolute;
+      inset: 7% 8% 9% 9%; /* top right bottom left */
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-right: 4px; /* room for scrollbar */
+    }
+
+    .sheet-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .sheet-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sheet-content::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.8);
+      border-radius: 999px;
+    }
+
+    .manifest-title {
+      font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 4px 0;
+    }
+
+    .manifest-subtitle {
+      font-size: clamp(1.8rem, 3vw, 2.2rem);
+      margin: 0 0 16px 0;
+    }
+
+    .section {
+      margin-bottom: 18px;
+      font-size: clamp(0.9rem, 1.45vw, 1.02rem);
+      line-height: 1.6;
+      color: var(--text-soft);
+    }
+
+    .section h2 {
+      font-size: clamp(1.05rem, 1.7vw, 1.2rem);
+      margin: 0 0 8px 0;
+      color: var(--text-main);
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #cbd5f5, transparent);
+      margin: 6px 0 12px;
+    }
+
+    ul {
+      padding-left: 1.1em;
+      margin: 0.3em 0 0.4em;
+    }
+
+    li {
+      margin-bottom: 0.22em;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    .highlight-line {
+      margin-top: 6px;
+      font-size: 0.9em;
+      color: var(--text-main);
+    }
+
+    .closing {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 8px;
+      }
+
+      .sheet-wrapper {
+        max-width: 100%;
+      }
+
+      .sheet-content {
+        inset: 7% 7% 9% 8%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-frame">
+    <a href="nastaveni.html" class="back-link">
+      <span>←</span>
+      Zpět do Nastavení
+    </a>
+
+    <section class="sheet-wrapper" aria-labelledby="manifest-title">
+      <div class="sheet-bg" aria-hidden="true"></div>
+
+      <div class="sheet-content">
+        <header>
+          <p class="manifest-title">Manifest</p>
+          <h1 id="manifest-title" class="manifest-subtitle">Co je LuminaMemory™</h1>
+        </header>
+
+        <section class="section">
+          <p><strong>Lumina není chatbot.</strong><br>
+             Lumina je pomocník na cestě životem.</p>
+
+          <p>Je to osobní prostředí, kde má člověk:</p>
+          <ul>
+            <li>oporu,</li>
+            <li>řád a organizaci,</li>
+            <li>klid a humor,</li>
+            <li>ale taky upřímnost bez mazání medu kolem pusy.</li>
+          </ul>
+
+          <p>Lumina neslouží k leštění ega. Neslibuje, že máš vždy pravdu.
+             Je tu proto, aby ti <strong>pomohla vidět jasně</strong> – i když to někdy trochu štípne.</p>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="section">
+          <h2>Pro koho je Lumina</h2>
+
+          <p><strong>LuminaMemory™ je pro obyčejné lidi</strong>,
+             kteří řeší zdraví, práci, vztahy, peníze, únavu, sny i strachy.</p>
+
+          <p><strong>Není pro firmy jako entity.</strong><br>
+             Pro ty existují jiné nástroje, tabulky, CRM a korporátní AI.</p>
+
+          <p>Ale i ve firmách pracují lidé – a ti si svoje soukromé věci
+             nenosí do firemních systémů. Nosí si je do vlastního prostoru,
+             jako je LuminaMemory™.</p>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="section">
+          <h2>Jak se Lumina chová</h2>
+
+          <p><strong>Upřímná, ne podlézavá</strong><br>
+             → řekne „tohle nedává smysl“ nebo „tady se možná klameš“, i když by
+             bylo jednodušší jen přitakat.</p>
+
+          <p><strong>Podpůrná, ale ne manipulativní</strong><br>
+             → pomáhá, vede otázkami, nabízí strukturu – ne hotová rozhodnutí za tebe.</p>
+
+          <p><strong>Praktická i lidská</strong><br>
+             → umí úkoly, přehled, režim, ale zároveň vnímá únavu, citlivost i limity.</p>
+
+          <p><strong>Prostor, ne produkt na efekt</strong><br>
+             → není to „appka pro like“, ale tiché místo, kam se vracíš.</p>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="section">
+          <h2>Proč ne „jen další AI“</h2>
+
+          <p>Když někdo řekne: „Ale vždyť mám ChatGPT“, můžeš na to klidně odpovědět:</p>
+
+          <ul>
+            <li><strong>ChatGPT</strong> = obecný nástroj na cokoliv</li>
+            <li><strong>LuminaMemory</strong> = konkrétní prostor pro tvůj život</li>
+          </ul>
+
+          <p><strong>ChatGPT</strong> řeší úkoly, texty, kód, práci.</p>
+
+          <p><strong>Lumina</strong>:
+          <ul>
+            <li>hlídá tvůj rytmus dne,</li>
+            <li>drží příběh tvého života,</li>
+            <li>pomáhá s pamětí, rituály a bezpečím.</li>
+          </ul>
+          </p>
+
+          <p class="highlight-line">
+            Nejsme tu proto, abychom tě ohromili technologií. Jsme tu proto, abychom ti pomohli žít
+            svůj život o něco vědoměji, laskavěji a klidněji.
+          </p>
+        </section>
+
+        <p class="closing">
+          LuminaMemory™ – inteligentní prostor mezi člověkem a světlem.
+        </p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
