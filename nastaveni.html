@@ -596,7 +596,7 @@ margin-left:auto;
   width: min(860px, 94vw);
   margin: 0 auto;
   aspect-ratio: 3 / 4;
-  max-height: min(78vh, calc((var(--vh, 1vh) * 100) - 180px));
+  max-height: min(90vh, calc((var(--vh, 1vh) * 100) - 120px));
   border-radius:18px;
   position:relative;
 
@@ -641,12 +641,15 @@ margin-left:auto;
   /* Make the full Manifest sheet use more height on landscape screens
      so the paper isn't too narrow on iPad and similar tablets. */
   .sheet-paper{
-    max-height: min(92vh, calc((var(--vh, 1vh) * 100) - 80px));
+    /* dovolíme skoro celou výšku obrazovky v landscape,
+       ale pořád respektujeme mobilní UI přes var(--vh) */
+    max-height: min(96vh, calc((var(--vh, 1vh) * 100) - 40px));
   }
 
   .sheet-text{
-    /* o něco širší textové pole, ale stále bezpečně uvnitř papíru */
-    inset: 10% 9%;
+    /* o něco větší papír + zároveň víc prostoru od okrajů pro text */
+    inset: 12% 12%;
+    font-size: clamp(10px, 0.8vmin + 0.45rem, 13px);
   }
 }
 
