@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+<html lang="cs">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nastavení • LuminaMemory™</title>
+<meta content="Nastavení světa LuminaMemory™ – profil, povaha Luminy, Rose Zone™, archiv, inventář, předplatné, MemorySky Gate a Manifest." name="description"/>
+<link href="favicon.png" rel="icon" type="image/png"/>
+<style>
+    :root{
+      --bg:#070A14;
+      --panel:#0F1326;
+      --panel2:#0B0E1E;
+      --stroke:rgba(255,255,255,.08);
+      --text:#F3F6FF;
+      --muted:rgba(243,246,255,.68);
+      --accent:#FFE072;          /* Lumina */
+      --ms:#3FA9F5;              /* MemorySky */
+      --rose:#C77DFF;            /* Rose Zone */
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --r18:18px;
+      --r24:24px;
+      --pill:999px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: linear-gradient(180deg, #070A14 0%, #070A14 55%, #050713 100%);
+      color:var(--text);
+      padding:28px 16px 44px;
+    }
+    .wrap{
+      max-width:1100px;margin:0 auto;
+      border:1px solid var(--stroke);
+      border-radius:32px;
+      background:rgba(11,14,30,.92);
+      box-shadow:0 40px 120px rgba(0,0,0,.65);
+      overflow:hidden;
+      position:relative;
+    }
+    .wrap:before{
+      content:""; position:absolute; inset:-2px;
+      background: radial-gradient(circle at 18% 12%, rgba(255,224,114,.08), transparent 45%),
+                  radial-gradient(circle at 82% 18%, rgba(63,169,245,.06), transparent 50%);
+      pointer-events:none;
+    }
+    header{
+      position:relative; z-index:1;
+      padding:22px 22px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .mark{
+      width:30px;height:30px;border-radius:50%;
+      display:grid;place-items:center;
+      background: radial-gradient(circle at 30% 20%, #FFF6CD 0, #FFE072 35%, #EBB03B 62%, rgba(0,0,0,0) 70%);
+      box-shadow:0 0 22px rgba(255,224,114,.45);
+      font-weight:800;
+    }
+    .title{display:flex;flex-direction:column;gap:2px}
+    .title b{letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+    .title span{font-size:12px;color:var(--muted)}
+
+    .header-right{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .crumb{
+      font-size:11px; color:var(--muted);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--pill);
+      padding:6px 10px;
+      background:rgba(255,255,255,.03);
+      display:flex; align-items:center; gap:6px;
+    }
+    .back-link{
+      font-size:11px;
+      text-decoration:none;
+      color:var(--text);
+      border-radius:var(--pill);
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.35);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .back-link:hover{
+      border-color:rgba(255,255,255,.18);
+      background:rgba(0,0,0,.5);
+    }
+
+    main{position:relative; z-index:1; padding:18px 18px 22px}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 860px){
+      .grid{grid-template-columns: 1fr}
+      /* iPad/phones: force every card to full width (override inline grid-column spans) */
+      .card{grid-column: 1 / -1 !important; min-height: 0;}
+      .wide{grid-column: 1 / -1 !important;}
+    }
+
+    .card{
+      grid-column: span 4;
+      background:rgba(15,19,38,.9);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--r18);
+      padding:16px 15px 14px;
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+      position:relative;
+      overflow:hidden;
+      min-height:150px;
+    }
+    .card:hover{transform: translateY(-2px); border-color: rgba(255,255,255,.14); background:rgba(15,19,38,.97);}
+    .card:active{transform: translateY(0px)}
+    .card h3{
+      font-size:13px; text-transform:uppercase; letter-spacing:.12em;
+      display:flex; align-items:center; gap:10px;
+      margin-bottom:8px;
+    }
+    .card p{font-size:13px; line-height:1.6; color:var(--muted); margin-bottom:10px;}
+    .meta{
+      font-size:11px; color:rgba(243,246,255,.55);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .cta{
+      font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+      display:inline-flex; align-items:center; gap:8px; opacity:.9;
+    }
+
+    /* glowing icons */
+    .ico{
+      width:28px;height:28px;border-radius:999px;
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.02);
+      position:relative;
+    }
+    .ico.glow:after{
+      content:""; position:absolute; inset:-10px;
+      border-radius:999px;
+      filter: blur(10px);
+      opacity:.65;
+      pointer-events:none;
+    }
+    .ico.lumina{border-color: rgba(255,224,114,.55)}
+    .ico.lumina:after{background: rgba(255,224,114,.35)}
+    .ico.rose{border-color: rgba(199,125,255,.6)}
+    .ico.rose:after{background: rgba(199,125,255,.38)}
+    .ico.ms{border-color: rgba(63,169,245,.65)}
+    .ico.ms:after{background: rgba(63,169,245,.35)}
+    .ico.soft:after{background: rgba(255,255,255,.5); opacity:.7}
+
+    .wide{
+      grid-column: span 12;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:var(--r18);
+      background:rgba(255,255,255,.02);
+    }
+    .wide small{color:var(--muted); font-size:12px; line-height:1.45}
+    .wide .btn{
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      padding:9px 12px;
+      font-size:12px;
+      cursor:pointer;
+      display:flex; align-items:center; gap:8px;
+    }
+    .wide .btn:hover{border-color: rgba(255,255,255,.16); background:rgba(255,255,255,.06);}
+
+    
+/* Modal (room window) — light glass */
+.overlay{
+  position:fixed; inset:0;
+  background: rgba(2,3,8,.72);
+  backdrop-filter: blur(8px);
+  display:none;
+  align-items:center; justify-content:center;
+  padding:16px 8px;
+  z-index:999;
+  overflow-y:auto;
+}
+.overlay.open{display:flex;}
+
+.modal{
+  width:min(1100px, 100%);
+  /* iOS/iPadOS: prefer dynamic/small viewport units to avoid cut-off content */
+  max-height: calc(100vh - 64px);
+  max-height: calc(100svh - 64px);
+  max-height: calc(100dvh - 64px);
+  border-radius: 26px;
+  box-shadow: 0 50px 140px rgba(0,0,0,.75);
+  overflow:hidden;
+  background: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(16px);
+  color:#0b1220;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+
+.modal-topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:14px 14px 10px;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.32);
+}
+
+.modal-title{
+  display:flex; align-items:center; gap:10px;
+  text-transform:uppercase; letter-spacing:.12em;
+  font-size:12px;
+  color: rgba(11,18,32,.92);
+}
+
+.close{
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,0,0,.18);
+  color:rgba(255,255,255,.95);
+  padding:8px 10px;
+  font-size:12px;
+  cursor:pointer;
+}
+.close:hover{background:rgba(255,255,255,.78); border-color: rgba(255,255,255,.24);}
+
+.modal-content{
+  display:grid;
+  grid-template-columns: 5fr 7fr;
+  gap:14px;
+  padding:14px;
+
+  /* Single scroll area for the whole modal content (fixes iPad cut-off & "can't reach the end") */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 860px){
+  .modal-content{grid-template-columns: 1fr;}
+}
+
+.modal-card{
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.58);
+  box-shadow: 0 26px 70px rgba(0,0,0,.35);
+  height: 100%;
+  overflow:hidden;
+  min-height: 360px;
+
+  min-height: 0;
+}
+
+/* Left card: full-bleed image */
+.modal-media{padding:0; position:relative;}
+.modal-media img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  filter: saturate(.98) contrast(1.05) brightness(1.02);
+}
+.modal-media:after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(255,255,255,.00) 0%, rgba(0,0,0,.10) 100%);
+  pointer-events:none;
+}
+
+/* Right card: text */
+.modal-text{
+  padding:18px 18px 18px;
+  color:#101827;
+  font-size:14px;
+  line-height:1.75;
+  font-weight:520;
+
+  /* Let the modal-content be the only scroll container */
+  height:auto;
+  min-height:0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-bottom: 28px;
+}
+.modal-text h4{
+  color:#0b1220;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  margin:12px 0 6px;
+}
+
+#modalBody{padding-bottom: 22px;}
+
+/* Chips + notes in light theme */
+.modal-text .action-row{
+  margin-top:10px;
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.modal-text .chip{
+  border-radius:var(--pill);
+  border:1px solid rgba(12,18,32,.14);
+  background:rgba(255,255,255,.55);
+  padding:7px 10px;
+  font-size:12px;
+  color:rgba(12,18,32,.9);
+  cursor:pointer;
+  user-select:none;
+}
+.modal-text .chip:hover{background:rgba(255,255,255,.82); border-color: rgba(12,18,32,.2);}
+.modal-text .chip.ms{border-color: rgba(63,169,245,.35); background: rgba(63,169,245,.12);}
+.modal-text .chip.rose{border-color: rgba(199,125,255,.35); background: rgba(199,125,255,.12);}
+.modal-text .chip.lumina{border-color: rgba(235,176,59,.35); background: rgba(255,224,114,.20);}
+
+.modal-text .note{
+  margin-top:10px;
+  font-size:12px;
+  color: rgba(12,18,32,.7);
+}
+
+/* Manifest on paper */
+    .manifest-paper{
+  margin-top:8px;
+  width:100%;
+  max-width:720px;
+
+  /* Paper should always be fully visible on iPad; if text is longer, scroll INSIDE the sheet */
+  height: clamp(360px, 62vh, 720px);
+  padding: 38px 30px;
+margin-left:auto;
+  margin-right:auto;
+  display:block;
+  border-radius:18px;
+
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  position: relative;
+  
+  /* Paper image should be fully visible (no cropping) */
+  background-color: #F7F2E8;
+  background-image: url("img-paper.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  /* Physical sheet feel */
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.28),
+    0 2px 10px rgba(0,0,0,.18);
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+/* iPad portrait: slightly tighter padding */
+@media (max-width: 1024px) and (orientation: portrait){
+  .manifest-paper{
+    height: clamp(340px, 58vh, 640px);
+    padding: 28px 20px;
+  }
+}
+
+    .manifest-paper-inner{
+      width:100%;
+      height:auto;
+      overflow:visible;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(10px, 0.9vmin + 0.35rem, 12px);
+      line-height:1.55;
+      color:#111;
+
+      padding: 2px 6px 28px;
+}
+    .manifest-paper-inner h2{
+      font-size:16px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:8px;
+    }
+    .manifest-paper-inner h3{
+      font-size:13px;
+      margin:8px 0 4px;
+    }
+    .manifest-paper-inner p{
+      margin-bottom:6px;
+    }
+    .manifest-paper-inner ul{
+      margin:2px 0 6px 18px;
+      padding-left:0;
+    }
+    .manifest-paper-inner li{
+      margin-bottom:3px;
+    }
+
+    footer{
+      position:relative; z-index:1;
+      padding:14px 18px 18px;
+      border-top:1px solid rgba(255,255,255,.06);
+      color: rgba(243,246,255,.55);
+      font-size:11px;
+      display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    }
+  
+
+/* === iOS Safari viewport + modal scroll fixes (v5) === */
+:root{ --vh: 1vh; }
+
+/* Use dynamic viewport height driven by JS to avoid iPad Safari "crush" on rotation */
+.overlay{
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;              /* prevent double scrolling on iOS */
+  -webkit-overflow-scrolling: auto;
+}
+
+.modal{
+  max-height: calc((var(--vh, 1vh) * 100) - 64px); /* account for overlay padding */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Single scroll area inside modal */
+.modal-content{
+  flex: 1 1 auto;
+  min-height: 0;                 /* critical for iOS to allow inner scrolling */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-bottom: 18px;          /* keeps last lines reachable */
+}
+
+/* Allow text card to expand naturally; avoid clipping */
+.modal-card{
+  overflow: hidden;
+}
+.modal-text{
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Extra safeguard for iPad Safari */
+@supports (-webkit-touch-callout: none){
+  .modal-content{ padding-bottom: 28px; }
+}
+
+/* === Manifest paper image fix (iPad orientation safe) === */
+.manifest-paper,
+.manifest-paper img,
+.manifest-paper-bg {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (orientation: landscape) {
+    .manifest-paper {
+        max-height: 85vh;
+        overflow: auto;
+    }
+}
+
+@media (orientation: portrait) {
+    .manifest-paper {
+        max-height: 90vh;
+        overflow: auto;
+    }
+}
+
+
+/* Subtle paper texture + depth (keeps text readable) */
+.manifest-paper::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:18px;
+  opacity:.18;
+  background:
+    radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.70), transparent 55%),
+    radial-gradient(900px 520px at 85% 88%, rgba(0,0,0,.14), transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,.035),
+      rgba(0,0,0,.035) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  mix-blend-mode:multiply;
+}
+
+.manifest-paper::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:18px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -18px 30px rgba(0,0,0,.06);
+  opacity:.9;
+}
+
+
+/* === iPad/Safari fix: remove weird "filter band" on top of paper (blend-mode + overflow bug) === */
+.manifest-paper::before{
+  mix-blend-mode: normal !important;
+  opacity: .10 !important;
+}
+/* Extra safeguard for iOS Safari compositing */
+@supports (-webkit-touch-callout: none){
+  .manifest-paper::before{
+    mix-blend-mode: normal !important;
+    opacity: .08 !important;
+  }
+}
+
+
+/* === iPad landscape: Safari compositor "band" fix === */
+
+
+
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="brand">
+<div class="mark">★</div>
+<div class="title">
+<b>LuminaMemory™</b>
+<span>Nastavení světa (velín)</span>
+</div>
+</div>
+<div class="header-right">
+<a class="back-link" href="lumina-demo.html">← Zpět ✨</a>
+<div class="crumb">⚙️ <span>Nastavení</span> · <span>DEMO</span></div>
+</div>
+</header>
+<main>
+<div class="grid">
+<div class="wide">
+<div>
+<div style="font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(243,246,255,.82); margin-bottom:4px;">
+              I nastavení může být živé.
+            </div>
+<small>
+              Každá karta jsou dveře do nové místnosti – bezpečný přehled, jasné akce, žádné technické hrůzy.
+            </small>
+</div>
+<button class="btn" data-open="manifest">🕯 Otevřít Manifest</button>
+</div>
+<section class="card" data-open="profile" style="grid-column: span 4;">
+<h3><span class="ico glow soft">👤</span> Profil uživatele</h3>
+<p>Kdo jsi, jak ti říkat, v jakém jazyce a rytmu s tebou má Lumina žít. Základní mapa tvého světa.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>DEMO</span></div>
+</section>
+<section class="card" data-open="lumina" style="grid-column: span 4;">
+<h3><span class="ico glow lumina">✨</span> Jaká má být Lumina</h3>
+<p>Jemná, hravá nebo raději přímočarý analytik? Zde nastavíš povahu, tón a Sigma-rytmus dne.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>DEMO</span></div>
+</section>
+<section class="card" data-open="rosezone" style="grid-column: span 4;">
+<h3><span class="ico glow rose">🌹</span> Rose Zone™</h3>
+<p>Ochranný prstenec celého prostředí. Když se objeví nezvaný host, obrazovka se umí prostě zastavit.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Bezpečí</span></div>
+</section>
+<section class="card" data-open="inventory" style="grid-column: span 4;">
+<h3><span class="ico glow soft">🧭</span> Inventory</h3>
+<p>Mapa toho, co svítí: Praetorium, Proiecta, Arcana, rituály, MemorySky. Jedním pohledem víš, co je odemčené.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Mapa</span></div>
+</section>
+<section class="card" data-open="archive" style="grid-column: span 4;">
+<h3><span class="ico glow soft">📦</span> Life Mission Archive</h3>
+<p>Zálohy, exporty, přenos světa jinam. Ne další složka v cloudu – ale tvůj osobní trezor.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Archiv</span></div>
+</section>
+<section class="card" data-open="plans" style="grid-column: span 4;">
+<h3><span class="ico glow soft">💎</span> Předplatné</h3>
+<p>FREE, PLUS nebo PREMIUM. Kolik částí pavučiny svítí, jak velké je MemorySky a jak moc Lumina používá paměť.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Tarif</span></div>
+</section>
+<section class="card" data-open="guide" style="grid-column: span 6;">
+<h3><span class="ico glow soft">📘</span> Návod</h3>
+<p>Jak s Luminou mluvit, jak používat rituály a úkoly, kdy zpomalit a říct: „dnes jen lehce“.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Text</span></div>
+</section>
+<section class="card" data-open="memorysky" style="grid-column: span 6; border-color: rgba(63,169,245,.22);">
+<h3><span class="ico glow ms">☁️</span> MemorySky Gate</h3>
+<p>Tvoje brána do paměťového nebe: kapacita, export, historie záloh. V DEMU jen vizuální náhled.</p>
+<div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span style="color:rgba(208,233,255,.75)">MemorySky</span></div>
+</section>
+</div>
+</main>
+<footer>
+<div>DEMO • Nastavení (velín) • žádná interní data</div>
+<div>🕸 identity → centrální síť</div>
+</footer>
+</div>
+<!-- ONE reusable modal -->
+<div aria-hidden="true" class="overlay" id="overlay">
+<div aria-labelledby="modalTitle" aria-modal="true" class="modal" role="dialog">
+<div class="modal-topbar">
+<div class="modal-title" id="modalTitle">
+<span class="ico glow soft" id="modalIco">⚙️</span>
+<span id="modalName">Místnost</span>
+</div>
+<button class="close" id="closeBtn">Zavřít ✕</button>
+</div>
+<div class="modal-content">
+<div aria-hidden="true" class="modal-card modal-media">
+<img alt="" id="modalImg" src=""/>
+</div>
+<div class="modal-card modal-text">
+<div id="modalBody"></div>
+
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const DATA = {
+      profile: {
+        name: "Profil uživatele",
+        ico: "👤",
+        img: "img-web-memory.jpg",
+        body: `
+          <h4>Co tu nastavíš</h4>
+          <p>
+            Místo, kde Lumině řekneš základní věci o sobě: jak ti říkat, v jakém jazyce se bavit
+            a jak vypadá běžný rytmus tvého dne. Nejde o sociální profil – ale o praktičtý kompas.
+          </p>
+          <div class="action-row">
+            <div class="chip">Jméno / přezdívka</div>
+            <div class="chip">Jazyk (CZ / EN / DE)</div>
+            <div class="chip">Časové pásmo</div>
+            <div class="chip">Citlivý režim zapnuto / vypnuto</div>
+          </div>
+          <p class="note">DEMO: žádná data se do systému trvale neukládají. Všechno je jen vizuální ukázka struktury.</p>
+        `
+      },
+      lumina: {
+        name: "Jaká má být Lumina",
+        ico: "✨",
+        img: "img-web-memory.jpg",
+        body: `
+          <h4>Povaha & komunikace</h4>
+          <p>
+            Lumina nemá jednu masku pro všechny. Tady nastavíš, jestli tě má spíš hladit,
+            nebo ti občas jemně říct: „tady si možná něco namlouváš“. Všechno bez dramat,
+            ale bez zbytečného přitakávání.
+          </p>
+          <div class="action-row">
+            <div class="chip lumina">Styl: jemný</div>
+            <div class="chip lumina">Styl: neutrální</div>
+            <div class="chip lumina">Styl: přímočarý</div>
+          </div>
+          <h4>Tón</h4>
+          <div class="action-row">
+            <div class="chip">světelný</div>
+            <div class="chip">hravý</div>
+            <div class="chip">analytický</div>
+            <div class="chip">klidný</div>
+          </div>
+          <h4>Sigma rytmus</h4>
+          <p>Jak často máš chuť, aby se ti Lumina sama připomínala a držela tvůj den v rytmu.</p>
+          <div class="action-row">
+            <div class="chip">ráno – lehké nakopnutí</div>
+            <div class="chip">večer – shrnutí dne</div>
+            <div class="chip">obojí – jemný ráno i večer</div>
+            <div class="chip">vypnout – když stačí ticho</div>
+          </div>
+          <p class="note">V plné verzi se podle těchto voleb mění tón chatu, návrhy rituálů i způsob, jak se ti Lumina ozývá.</p>
+        `
+      },
+      rosezone: {
+        name: "Rose Zone™",
+        ico: "🌹",
+        img: "img-rosezone-door.jpg",
+        body: `
+          <h4>Ochrana celého prostředí</h4>
+          <p>
+            Rose Zone™ je druhý zámek přes celý tvůj svět. Nestačí jen znát heslo – systém
+            sleduje, jestli se člověk za obrazovkou chová jako ty: jak se přihlašuje,
+            jak rychle píše, jak přepíná mezi částmi prostředí.
+          </p>
+          <p>
+            Jakmile něco vypadá jako nezvaný host (opakované špatné PINy, podivné pokusy o vstup),
+            prostředí se může <strong>zamrazit</strong> – ukáže neutrální obrazovku a vyžádá hlavní klíč.
+          </p>
+          <div class="action-row">
+            <div class="chip rose">Zapnout / vypnout biometriku</div>
+            <div class="chip rose">Bezpečnostní PIN pro celou aplikaci</div>
+            <div class="chip rose">Nouzové zamrznutí prostředí</div>
+          </div>
+          <p class="note">
+            DEMO varianta nic reálně nezamyká. Jen ukazuje, že Rose Zone™ chrání celý ekosystém,
+            ne jen Arcanu.
+          </p>
+        `
+      },
+      inventory: {
+        name: "Inventory",
+        ico: "🧭",
+        img: "img-web-memory.jpg",
+        body: `
+          <h4>Mapa toho, co svítí</h4>
+          <p>
+            Inventory je přehled, kde všude už máš světlo zapnuté. Uvidíš, které části miniLuminy
+            jsou aktivní, které jsou jen v ukázkovém režimu a co patří do vyšších tarifů.
+          </p>
+          <div class="action-row">
+            <div class="chip">Pokec · aktivní (bez paměti)</div>
+            <div class="chip">Praetorium · aktivní</div>
+            <div class="chip">Arcana · zamčeno (DEMO)</div>
+            <div class="chip">Sigma · DEMO režim</div>
+            <div class="chip">Chronica · DEMO režim</div>
+            <div class="chip">Proiecta · několik místností</div>
+            <div class="chip ms">MemorySky · jen náhled</div>
+          </div>
+          <p class="note">
+            V plné verzi se Inventory propojí s předplatným. Jedním pohledem uvidíš,
+            co už používáš naplno a kde se ještě ukrývá nevyužité světlo.
+          </p>
+        `
+      },
+      archive: {
+        name: "Life Mission Archive",
+        ico: "📦",
+        img: "img-web-memory.jpg",
+        body: `
+          <h4>Zálohy & export</h4>
+          <p>
+            Tohle není obyčejný „export nastavení“. Life Mission Archive je místo, kde jednou
+            uložíš <strong>příběh svého světa</strong> – deníky, rituály, projekty – tak,
+            abys bylo možné je vzít a odejít s nimi jinam.
+          </p>
+          <div class="action-row">
+            <div class="chip">Měsíční záloha (PLUS / PREMIUM)</div>
+            <div class="chip">Extra zálohy za příplatek</div>
+            <div class="chip">Export PDF / datový balíček</div>
+          </div>
+          <p class="note">
+            V DEMO verzi se žádná reálná data neukládají. Vidíš jen logiku: pravidelné zálohy
+            plus možnost velkého „odchodu i s batohem“.
+          </p>
+        `
+      },
+      plans: {
+        name: "Předplatné",
+        ico: "💎",
+        img: "img-web-memory.jpg",
+        body: `
+          <h4>Úrovně světla</h4>
+          <p>
+            Tarify neurčují, kdo si Luminu zaslouží. Jen kolik částí pavučiny je zapnutých
+            a jak velkou paměť máš k dispozici.
+          </p>
+          <div class="action-row">
+            <div class="chip">FREE · základní svět</div>
+            <div class="chip">PLUS · rozšířený svět</div>
+            <div class="chip">PREMIUM · plná pavučina</div>
+          </div>
+          <h4>Orientační logika</h4>
+          <p>
+            <strong>FREE</strong> – Pokec bez paměti, omezené Praetorium, 1 místnost v Proiecta,
+            žádná Arcana, žádný MemorySky. Vhodné na první seznámení a lehký režim.
+          </p>
+          <p>
+            <strong>PLUS</strong> – plná Sigma a Chronica, neomezená Proiecta, přednastavené
+            rituální režimy, částečné MemorySky (např. okolo 5&nbsp;GB), základní archiv.
+          </p>
+          <p>
+            <strong>PREMIUM</strong> – vše odemčeno: Arcana, plná kapacita MemorySky
+            (např. 50&nbsp;GB+), Life Mission Archive a plná paměť Luminy pro dlouhodobé vedení.
+          </p>
+          <p class="note">
+            Ceny jsou zatím jen orientační koncept: FREE ≈ 0&nbsp;€ měsíčně, PLUS v pásmu
+            zhruba 7–9&nbsp;€ a PREMIUM zhruba 18–22&nbsp;€ měsíčně. Reálné hodnoty se mohou při spuštění změnit.
+          </p>
+        `
+      },
+      guide: {
+        name: "Návod",
+        ico: "📘",
+        img: "img-web-memory.jpg",
+        body: `
+          <h4>Jak s Luminou pracovat</h4>
+          <p>
+            Lumina není chatbot na rychlé „vygeneruj text“. Je to prostor, kde můžeš psát normálně,
+            s chybami, s emocemi. Ona z toho dělá přehled, rytmus a jemné návrhy.
+          </p>
+          <div class="action-row">
+            <div class="chip">Piš jako člověk člověku</div>
+            <div class="chip">Řekni, v jaké jsi situaci</div>
+            <div class="chip">Začni malými kroky</div>
+            <div class="chip">Kdykoliv můžeš zpomalit</div>
+          </div>
+          <h4>Co umí navrhovat</h4>
+          <div class="action-row">
+            <div class="chip">Ranní a večerní rituály</div>
+            <div class="chip">Rozdělení velkých úkolů</div>
+            <div class="chip">Propojení s Chronica / Proiecta</div>
+          </div>
+          <p class="note">
+            Později se tady objeví i hlasová verze návodu. DEMO drží jen to podstatné: jak
+            s Luminou mluvit tak, aby ti opravdu pomáhala – ne tě zahlcovala.
+          </p>
+        `
+      },
+      memorysky: {
+        name: "MemorySky Gate",
+        ico: "☁️",
+        img: "img-web-memory.jpg",
+        body: `
+          <h4>Modrá brána</h4>
+          <p>
+            MemorySky je paměťové nebe pro tvůj svět. Ne klasický „cloud s fotkami“, ale
+            zrcadlo toho, co si Lumina pamatuje: rituály ze Sigmy, zápisy z Chronicy,
+            stavy projektů z Proiecta a citlivé věci z Arcany.
+          </p>
+          <div class="action-row">
+            <div class="chip ms">Náhled kapacity</div>
+            <div class="chip ms">Historie záloh</div>
+            <div class="chip ms">Stáhnout export</div>
+          </div>
+          <p>
+            V plné verzi bude propojené s tarifem: PLUS například okolo 5&nbsp;GB pracovního
+            prostoru, PREMIUM desítky GB pro dlouhodobý životní archiv.
+          </p>
+          <p class="note">
+            V DEMO verzi je MemorySky jen vizuální ukázka. Reálná data se neukládají a žádný export
+            ještě neprobíhá – jde jen o představu, jak bude brána fungovat.
+          </p>
+        `
+      },
+      manifest: {
+        name: "Manifest LuminaMemory™",
+        ico: "🕯",
+        img: "img-manifest-palace.jpg",
+        body: `
+<h4>Manifest na papíru</h4>
+<p>
+  Manifest je pevný bod celého projektu. Ne marketingová stránka, ale list, který
+  vysvětluje, co Lumina je – a co nikdy nebude.
+</p>
+
+<div class="action-row">
+  <a class="chip lumina" href="manifest.html">🕯 Otevřít celý Manifest</a>
+</div>
+
+<p class="note">
+  Text Manifestu je pevný základ – opora pro obyčejné lidi, žádné leštění ega, upřímné vedení!
+</p>
+        `
+      }
+    };
+
+    const overlay = document.getElementById("overlay");
+    const modalImg = document.getElementById("modalImg");
+    const modalName = document.getElementById("modalName");
+    const modalIco = document.getElementById("modalIco");
+    const modalBody = document.getElementById("modalBody");
+    const closeBtn = document.getElementById("closeBtn");
+
+    function openModal(key){
+      const d = DATA[key];
+      if(!d) return;
+      modalImg.src = d.img;
+      modalImg.alt = d.name;
+      modalName.textContent = d.name;
+      modalIco.textContent = d.ico;
+      modalBody.innerHTML = d.body;
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(){
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden","true");
+      document.body.style.overflow = "";
+      modalImg.src = "";
+      modalBody.innerHTML = "";
+    }
+
+    document.querySelectorAll("[data-open]").forEach(el=>{
+      el.addEventListener("click", ()=> openModal(el.getAttribute("data-open")));
+    });
+
+    closeBtn.addEventListener("click", closeModal);
+    overlay.addEventListener("click", (e)=>{
+      if(e.target === overlay) closeModal();
+    });
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape" && overlay.classList.contains("open")) closeModal();
+    });
+
+  /* iOS Safari: fix viewport units on rotation and keep modals scrollable */
+(function () {
+  function setVh() {
+    // Use innerHeight for iOS Safari; update CSS var --vh
+    var vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', vh + 'px');
+  }
+
+  // Update on load + resize + orientation change (with a small delay)
+  setVh();
+  window.addEventListener('resize', function () {
+    setVh();
+  }, {passive:true});
+
+  window.addEventListener('orientationchange', function () {
+    // iOS Safari sometimes reports stale innerHeight immediately after rotation
+    setTimeout(setVh, 60);
+    setTimeout(setVh, 240);
+    setTimeout(setVh, 520);
+  });
+})();
+</script></body>
+</html>
