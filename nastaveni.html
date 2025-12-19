@@ -516,6 +516,20 @@ margin-left:auto;
   opacity:.9;
 }
 
+
+/* === iPad/Safari fix: remove weird "filter band" on top of paper (blend-mode + overflow bug) === */
+.manifest-paper::before{
+  mix-blend-mode: normal !important;
+  opacity: .10 !important;
+}
+/* Extra safeguard for iOS Safari compositing */
+@supports (-webkit-touch-callout: none){
+  .manifest-paper::before{
+    mix-blend-mode: normal !important;
+    opacity: .08 !important;
+  }
+}
+
 </style>
 </head>
 <body>
