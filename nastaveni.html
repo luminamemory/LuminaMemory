@@ -62,6 +62,12 @@
     .title{display:flex;flex-direction:column;gap:2px}
     .title b{letter-spacing:.08em;text-transform:uppercase;font-size:13px}
     .title span{font-size:12px;color:var(--muted)}
+
+    .header-right{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
     .crumb{
       font-size:11px; color:var(--muted);
       border:1px solid rgba(255,255,255,.08);
@@ -69,6 +75,22 @@
       padding:6px 10px;
       background:rgba(255,255,255,.03);
       display:flex; align-items:center; gap:6px;
+    }
+    .back-link{
+      font-size:11px;
+      text-decoration:none;
+      color:var(--text);
+      border-radius:var(--pill);
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.35);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .back-link:hover{
+      border-color:rgba(255,255,255,.18);
+      background:rgba(0,0,0,.5);
     }
 
     main{position:relative; z-index:1; padding:18px 18px 22px}
@@ -83,25 +105,25 @@
 
     .card{
       grid-column: span 4;
-      background:rgba(15,19,38,.88);
+      background:rgba(15,19,38,.9);
       border:1px solid rgba(255,255,255,.08);
       border-radius:var(--r18);
-      padding:14px 14px 12px;
+      padding:16px 15px 14px;
       box-shadow: var(--shadow);
       cursor:pointer;
       transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
       position:relative;
       overflow:hidden;
-      min-height:138px;
+      min-height:150px;
     }
-    .card:hover{transform: translateY(-2px); border-color: rgba(255,255,255,.14); background:rgba(15,19,38,.96);}
+    .card:hover{transform: translateY(-2px); border-color: rgba(255,255,255,.14); background:rgba(15,19,38,.97);}
     .card:active{transform: translateY(0px)}
     .card h3{
       font-size:13px; text-transform:uppercase; letter-spacing:.12em;
       display:flex; align-items:center; gap:10px;
       margin-bottom:8px;
     }
-    .card p{font-size:13px; line-height:1.55; color:var(--muted); margin-bottom:10px;}
+    .card p{font-size:13px; line-height:1.6; color:var(--muted); margin-bottom:10px;}
     .meta{
       font-size:11px; color:rgba(243,246,255,.55);
       display:flex; align-items:center; justify-content:space-between;
@@ -155,7 +177,7 @@
     }
     .wide .btn:hover{border-color: rgba(255,255,255,.16); background:rgba(255,255,255,.06);}
 
-    /* Modal (new room) */
+    /* Modal (room window) */
     .overlay{
       position:fixed; inset:0;
       background: rgba(2,3,8,.72);
@@ -167,7 +189,7 @@
     }
     .overlay.open{display:flex;}
     .modal{
-      width:min(980px, 100%);
+      width:min(1000px, 100%);
       background: rgba(11,14,30,.98);
       border:1px solid rgba(255,255,255,.1);
       border-radius: 26px;
@@ -176,19 +198,24 @@
     }
     .modal-header{
       position:relative;
-      height:240px;
+      height:230px;
       border-bottom:1px solid rgba(255,255,255,.06);
       background:#0A0D1B;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
     }
     .modal-header img{
-      width:100%; height:100%;
-      object-fit:cover;
-      filter: saturate(.86) contrast(1.03) brightness(.92);
-      opacity:.9;
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      filter: saturate(.94) contrast(1.02) brightness(.96);
+      opacity:.95;
     }
     .modal-header:after{
       content:""; position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(11,14,30,.15) 0%, rgba(11,14,30,.86) 85%, rgba(11,14,30,.98) 100%);
+      background: linear-gradient(180deg, rgba(11,14,30,.10) 0%, rgba(11,14,30,.84) 80%, rgba(11,14,30,.98) 100%);
       pointer-events:none;
     }
     .modal-topbar{
@@ -215,7 +242,7 @@
     .modal-body{
       padding:16px 16px 18px;
       color:var(--muted);
-      line-height:1.65;
+      line-height:1.7;
       font-size:13px;
     }
     .modal-body h4{
@@ -226,7 +253,7 @@
       margin:12px 0 6px;
     }
     .action-row{
-      margin-top:12px;
+      margin-top:10px;
       display:flex; flex-wrap:wrap; gap:8px;
     }
     .chip{
@@ -235,7 +262,7 @@
       background:rgba(255,255,255,.03);
       padding:7px 10px;
       font-size:12px;
-      color:rgba(243,246,255,.82);
+      color:rgba(243,246,255,.86);
       cursor:pointer;
       user-select:none;
     }
@@ -246,18 +273,52 @@
     .note{
       margin-top:10px;
       font-size:12px;
-      color: rgba(243,246,255,.55);
+      color: rgba(243,246,255,.62);
     }
 
-    /* Manifest page block inside modal (full text) */
-    .manifest{
-      white-space:pre-wrap;
-      background: rgba(255,255,255,.02);
-      border:1px solid rgba(255,255,255,.06);
-      border-radius: 18px;
-      padding:12px 12px;
-      color: rgba(243,246,255,.75);
+    /* Manifest on paper */
+    .manifest-paper{
+      margin-top:8px;
+      width:100%;
+      max-width:620px;
+      aspect-ratio: 3/4;
+      background:url("paper.png") center/contain no-repeat;
+      margin-left:auto;
+      margin-right:auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
+    .manifest-paper-inner{
+      width:74%;
+      height:78%;
+      overflow:auto;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size:12px;
+      line-height:1.55;
+      color:#111;
+    }
+    .manifest-paper-inner h2{
+      font-size:16px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:8px;
+    }
+    .manifest-paper-inner h3{
+      font-size:13px;
+      margin:8px 0 4px;
+    }
+    .manifest-paper-inner p{
+      margin-bottom:6px;
+    }
+    .manifest-paper-inner ul{
+      margin:2px 0 6px 18px;
+      padding-left:0;
+    }
+    .manifest-paper-inner li{
+      margin-bottom:3px;
+    }
+
     footer{
       position:relative; z-index:1;
       padding:14px 18px 18px;
@@ -278,7 +339,10 @@
           <span>Nastavení světa (velín)</span>
         </div>
       </div>
-      <div class="crumb">⚙️ <span>Nastavení</span> · <span>DEMO</span></div>
+      <div class="header-right">
+        <a href="lumina-demo.html" class="back-link">← Zpět</a>
+        <div class="crumb">⚙️ <span>Nastavení</span> · <span>DEMO</span></div>
+      </div>
     </header>
 
     <main>
@@ -290,7 +354,7 @@
               I nastavení může být živé.
             </div>
             <small>
-              Každá karta jsou dveře do nové místnosti – kde je jen bezpečný přehled a jasné akce.
+              Každá karta jsou dveře do nové místnosti – bezpečný přehled, jasné akce, žádné technické hrůzy.
             </small>
           </div>
           <button class="btn" data-open="manifest">🕯 Otevřít Manifest</button>
@@ -298,49 +362,49 @@
 
         <section class="card" data-open="profile" style="grid-column: span 4;">
           <h3><span class="ico glow soft">👤</span> Profil uživatele</h3>
-          <p>Kdo jsi, jazyk, rytmus dne. Základy, které drží zbytek pavučiny.</p>
+          <p>Kdo jsi, jak ti říkat, v jakém jazyce a rytmu s tebou má Lumina žít. Základní mapa tvého světa.</p>
           <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>DEMO</span></div>
         </section>
 
         <section class="card" data-open="lumina" style="grid-column: span 4;">
           <h3><span class="ico glow lumina">✨</span> Jaká má být Lumina</h3>
-          <p>Styl, tón, Sigma rytmus. Lumina se přizpůsobí člověku – ne naopak.</p>
+          <p>Jemná, hravá nebo raději přímočarý analytik? Zde nastavíš povahu, tón a Sigma-rytmus dne.</p>
           <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>DEMO</span></div>
         </section>
 
         <section class="card" data-open="rosezone" style="grid-column: span 4;">
           <h3><span class="ico glow rose">🌹</span> Rose Zone™</h3>
-          <p>Ochrana celého prostředí. Když někdo nemá klíč, svět se zastaví.</p>
+          <p>Ochranný prstenec celého prostředí. Když se objeví nezvaný host, obrazovka se umí prostě zastavit.</p>
           <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Bezpečí</span></div>
         </section>
 
         <section class="card" data-open="inventory" style="grid-column: span 4;">
           <h3><span class="ico glow soft">🧭</span> Inventory</h3>
-          <p>Přehled aktivních částí, odemčených funkcí a stavu „světla“ v systému.</p>
+          <p>Mapa toho, co svítí: Praetorium, Proiecta, Arcana, rituály, MemorySky. Jedním pohledem víš, co je odemčené.</p>
           <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Mapa</span></div>
         </section>
 
         <section class="card" data-open="archive" style="grid-column: span 4;">
           <h3><span class="ico glow soft">📦</span> Life Mission Archive</h3>
-          <p>Zálohy, exporty, návraty. Ne jako cloud – jako jistota.</p>
+          <p>Zálohy, exporty, přenos světa jinam. Ne další složka v cloudu – ale tvůj osobní trezor.</p>
           <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Archiv</span></div>
         </section>
 
         <section class="card" data-open="plans" style="grid-column: span 4;">
           <h3><span class="ico glow soft">💎</span> Předplatné</h3>
-          <p>FREE / PLUS / PREMIUM. Kolik částí pavučiny má být rozsvíceno.</p>
+          <p>FREE, PLUS nebo PREMIUM. Kolik částí pavučiny svítí, jak velké je MemorySky a jak moc Lumina používá paměť.</p>
           <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Tarif</span></div>
         </section>
 
         <section class="card" data-open="guide" style="grid-column: span 6;">
           <h3><span class="ico glow soft">📘</span> Návod</h3>
-          <p>Jak s Luminou mluvit, jak používat rituály a jak si chránit vlastní tempo.</p>
+          <p>Jak s Luminou mluvit, jak používat rituály a úkoly, kdy zpomalit a říct: „dnes jen lehce“.</p>
           <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span>Text</span></div>
         </section>
 
         <section class="card" data-open="memorysky" style="grid-column: span 6; border-color: rgba(63,169,245,.22);">
           <h3><span class="ico glow ms">☁️</span> MemorySky Gate</h3>
-          <p>Modrá brána do paměťového nebe: kapacita, export, historie záloh. (DEMO náhled)</p>
+          <p>Tvoje brána do paměťového nebe: kapacita, export, historie záloh. V DEMU jen vizuální náhled.</p>
           <div class="meta"><span class="cta">Otevřít <span aria-hidden="true">↗</span></span><span style="color:rgba(208,233,255,.75)">MemorySky</span></div>
         </section>
 
@@ -348,7 +412,7 @@
     </main>
 
     <footer>
-      <div>miniLumina DEMO • Nastavení (velín) • žádná interní data</div>
+      <div>DEMO • Nastavení (velín) • žádná interní data</div>
       <div>🕸 identity → centrální síť</div>
     </footer>
   </div>
@@ -378,12 +442,17 @@
         img: "img-web-memory.jpg",
         body: `
           <h4>Co tu nastavíš</h4>
+          <p>
+            Místo, kde Lumině řekneš základní věci o sobě: jak ti říkat, v jakém jazyce se bavit
+            a jak vypadá běžný rytmus tvého dne. Nejde o sociální profil – ale o praktičtý kompas.
+          </p>
           <div class="action-row">
+            <div class="chip">Jméno / přezdívka</div>
             <div class="chip">Jazyk (CZ / EN / DE)</div>
-            <div class="chip">Čas & rytmus dne</div>
-            <div class="chip">Citlivý režim</div>
+            <div class="chip">Časové pásmo</div>
+            <div class="chip">Citlivý režim zapnuto / vypnuto</div>
           </div>
-          <p class="note">DEMO: žádná data se neukládají. Je to jen náhled budoucí struktury.</p>
+          <p class="note">DEMO: žádná data se do systému trvale neukládají. Všechno je jen vizuální ukázka struktury.</p>
         `
       },
       lumina: {
@@ -392,6 +461,11 @@
         img: "img-web-memory.jpg",
         body: `
           <h4>Povaha & komunikace</h4>
+          <p>
+            Lumina nemá jednu masku pro všechny. Tady nastavíš, jestli tě má spíš hladit,
+            nebo ti občas jemně říct: „tady si možná něco namlouváš“. Všechno bez dramat,
+            ale bez zbytečného přitakávání.
+          </p>
           <div class="action-row">
             <div class="chip lumina">Styl: jemný</div>
             <div class="chip lumina">Styl: neutrální</div>
@@ -405,13 +479,14 @@
             <div class="chip">klidný</div>
           </div>
           <h4>Sigma rytmus</h4>
+          <p>Jak často máš chuť, aby se ti Lumina sama připomínala a držela tvůj den v rytmu.</p>
           <div class="action-row">
-            <div class="chip">ráno</div>
-            <div class="chip">večer</div>
-            <div class="chip">obě</div>
-            <div class="chip">vypnout</div>
+            <div class="chip">ráno – lehké nakopnutí</div>
+            <div class="chip">večer – shrnutí dne</div>
+            <div class="chip">obojí – jemný ráno i večer</div>
+            <div class="chip">vypnout – když stačí ticho</div>
           </div>
-          <p class="note">DEMO: přepínače jsou vizuální. V plné verzi se tím mění chování Luminy.</p>
+          <p class="note">V plné verzi se podle těchto voleb mění tón chatu, návrhy rituálů i způsob, jak se ti Lumina ozývá.</p>
         `
       },
       rosezone: {
@@ -419,14 +494,25 @@
         ico: "🌹",
         img: "img-rosezone-door.jpg",
         body: `
-          <h4>Ochrana celého prostoru</h4>
-          <p>Rose Zone™ není jen pro Arcanu. Je to ochranný rám pro celé prostředí LuminaMemory™.</p>
+          <h4>Ochrana celého prostředí</h4>
+          <p>
+            Rose Zone™ je druhý zámek přes celý tvůj svět. Nestačí jen znát heslo – systém
+            sleduje, jestli se člověk za obrazovkou chová jako ty: jak se přihlašuje,
+            jak rychle píše, jak přepíná mezi částmi prostředí.
+          </p>
+          <p>
+            Jakmile něco vypadá jako nezvaný host (opakované špatné PINy, podivné pokusy o vstup),
+            prostředí se může <strong>zamrazit</strong> – ukáže neutrální obrazovku a vyžádá hlavní klíč.
+          </p>
           <div class="action-row">
-            <div class="chip rose">Zapnout biometriku</div>
-            <div class="chip rose">Nastavit PIN</div>
-            <div class="chip rose">Zamknout prostředí</div>
+            <div class="chip rose">Zapnout / vypnout biometriku</div>
+            <div class="chip rose">Bezpečnostní PIN pro celou aplikaci</div>
+            <div class="chip rose">Nouzové zamrznutí prostředí</div>
           </div>
-          <p class="note">Bez interních detailů.</p>
+          <p class="note">
+            DEMO varianta nic reálně nezamyká. Jen ukazuje, že Rose Zone™ chrání celý ekosystém,
+            ne jen Arcanu.
+          </p>
         `
       },
       inventory: {
@@ -434,14 +520,24 @@
         ico: "🧭",
         img: "img-web-memory.jpg",
         body: `
-          <h4>Co je aktivní</h4>
+          <h4>Mapa toho, co svítí</h4>
+          <p>
+            Inventory je přehled, kde všude už máš světlo zapnuté. Uvidíš, které části miniLuminy
+            jsou aktivní, které jsou jen v ukázkovém režimu a co patří do vyšších tarifů.
+          </p>
           <div class="action-row">
-            <div class="chip">Pokec · aktivní</div>
+            <div class="chip">Pokec · aktivní (bez paměti)</div>
             <div class="chip">Praetorium · aktivní</div>
             <div class="chip">Arcana · zamčeno (DEMO)</div>
-            <div class="chip">Proiecta · aktivní</div>
+            <div class="chip">Sigma · DEMO režim</div>
+            <div class="chip">Chronica · DEMO režim</div>
+            <div class="chip">Proiecta · několik místností</div>
+            <div class="chip ms">MemorySky · jen náhled</div>
           </div>
-          <p class="note">DEMO: stav je ukázkový. V plné verzi se propojí s tarifem.</p>
+          <p class="note">
+            V plné verzi se Inventory propojí s předplatným. Jedním pohledem uvidíš,
+            co už používáš naplno a kde se ještě ukrývá nevyužité světlo.
+          </p>
         `
       },
       archive: {
@@ -450,12 +546,20 @@
         img: "img-web-memory.jpg",
         body: `
           <h4>Zálohy & export</h4>
+          <p>
+            Tohle není obyčejný „export nastavení“. Life Mission Archive je místo, kde jednou
+            uložíš <strong>příběh svého světa</strong> – deníky, rituály, projekty – tak,
+            abys bylo možné je vzít a odejít s nimi jinam.
+          </p>
           <div class="action-row">
-            <div class="chip">Měsíční záloha</div>
-            <div class="chip">Export PDF</div>
-            <div class="chip">Historie záloh</div>
+            <div class="chip">Měsíční záloha (PLUS / PREMIUM)</div>
+            <div class="chip">Extra zálohy za příplatek</div>
+            <div class="chip">Export PDF / datový balíček</div>
           </div>
-          <p class="note">Rozšíření: možnost více záloh za příplatek (koncept).</p>
+          <p class="note">
+            V DEMO verzi se žádná reálná data neukládají. Vidíš jen logiku: pravidelné zálohy
+            plus možnost velkého „odchodu i s batohem“.
+          </p>
         `
       },
       plans: {
@@ -463,13 +567,33 @@
         ico: "💎",
         img: "img-web-memory.jpg",
         body: `
-          <h4>Úroveň světla</h4>
+          <h4>Úrovně světla</h4>
+          <p>
+            Tarify neurčují, kdo si Luminu zaslouží. Jen kolik částí pavučiny je zapnutých
+            a jak velkou paměť máš k dispozici.
+          </p>
           <div class="action-row">
-            <div class="chip">FREE</div>
-            <div class="chip">PLUS</div>
-            <div class="chip">PREMIUM</div>
+            <div class="chip">FREE · základní svět</div>
+            <div class="chip">PLUS · rozšířený svět</div>
+            <div class="chip">PREMIUM · plná pavučina</div>
           </div>
-          <p class="note">DEMO: bez cen, bez plateb. Jen struktura a logika odemykání částí.</p>
+          <h4>Orientační logika</h4>
+          <p>
+            <strong>FREE</strong> – Pokec bez paměti, omezené Praetorium, 1 místnost v Proiecta,
+            žádná Arcana, žádný MemorySky. Vhodné na první seznámení a lehký režim.
+          </p>
+          <p>
+            <strong>PLUS</strong> – plná Sigma a Chronica, neomezená Proiecta, přednastavené
+            rituální režimy, částečné MemorySky (např. okolo 5&nbsp;GB), základní archiv.
+          </p>
+          <p>
+            <strong>PREMIUM</strong> – vše odemčeno: Arcana, plná kapacita MemorySky
+            (např. 50&nbsp;GB+), Life Mission Archive a plná paměť Luminy pro dlouhodobé vedení.
+          </p>
+          <p class="note">
+            Ceny jsou zatím jen orientační koncept: FREE ≈ 0&nbsp;€ měsíčně, PLUS v pásmu
+            zhruba 7–9&nbsp;€ a PREMIUM zhruba 18–22&nbsp;€ měsíčně. Reálné hodnoty se mohou při spuštění změnit.
+          </p>
         `
       },
       guide: {
@@ -478,14 +602,26 @@
         img: "img-web-memory.jpg",
         body: `
           <h4>Jak s Luminou pracovat</h4>
-          <p>Piš normálně, jako člověk. Řekni, co se děje. Začni malými kroky. Kdykoliv můžeš říct „dnes jen lehce“.</p>
+          <p>
+            Lumina není chatbot na rychlé „vygeneruj text“. Je to prostor, kde můžeš psát normálně,
+            s chybami, s emocemi. Ona z toho dělá přehled, rytmus a jemné návrhy.
+          </p>
           <div class="action-row">
-            <div class="chip">Základní režim</div>
-            <div class="chip">Rituály</div>
-            <div class="chip">Práce s úkoly</div>
-            <div class="chip">Hranice & tempo</div>
+            <div class="chip">Piš jako člověk člověku</div>
+            <div class="chip">Řekni, v jaké jsi situaci</div>
+            <div class="chip">Začni malými kroky</div>
+            <div class="chip">Kdykoliv můžeš zpomalit</div>
           </div>
-          <p class="note">Později: hlasová verze. Teď čistý text, bez zbytečné omáčky.</p>
+          <h4>Co umí navrhovat</h4>
+          <div class="action-row">
+            <div class="chip">Ranní a večerní rituály</div>
+            <div class="chip">Rozdělení velkých úkolů</div>
+            <div class="chip">Propojení s Chronica / Proiecta</div>
+          </div>
+          <p class="note">
+            Později se tady objeví i hlasová verze návodu. DEMO drží jen to podstatné: jak
+            s Luminou mluvit tak, aby ti opravdu pomáhala – ne tě zahlcovala.
+          </p>
         `
       },
       memorysky: {
@@ -494,13 +630,24 @@
         img: "img-web-memory.jpg",
         body: `
           <h4>Modrá brána</h4>
-          <p>MemorySky je paměťové úložiště jako zrcadlo – tady vidíš kapacitu, export a historii záloh.</p>
+          <p>
+            MemorySky je paměťové nebe pro tvůj svět. Ne klasický „cloud s fotkami“, ale
+            zrcadlo toho, co si Lumina pamatuje: rituály ze Sigmy, zápisy z Chronicy,
+            stavy projektů z Proiecta a citlivé věci z Arcany.
+          </p>
           <div class="action-row">
-            <div class="chip ms">Kapacita</div>
+            <div class="chip ms">Náhled kapacity</div>
+            <div class="chip ms">Historie záloh</div>
             <div class="chip ms">Stáhnout export</div>
-            <div class="chip ms">Historie</div>
           </div>
-          <p class="note">DEMO: jen náhled. V plné verzi je to součást prémiové vrstvy.</p>
+          <p>
+            V plné verzi bude propojené s tarifem: PLUS například okolo 5&nbsp;GB pracovního
+            prostoru, PREMIUM desítky GB pro dlouhodobý životní archiv.
+          </p>
+          <p class="note">
+            V DEMO verzi je MemorySky jen vizuální ukázka. Reálná data se neukládají a žádný export
+            ještě neprobíhá – jde jen o představu, jak bude brána fungovat.
+          </p>
         `
       },
       manifest: {
@@ -508,65 +655,65 @@
         ico: "🕯",
         img: "img-manifest-palace.jpg",
         body: `
-          <h4>Celý text</h4>
-          <div class="manifest">🕯 Co je LuminaMemory™
+          <h4>Manifest na pergamenu</h4>
+          <p>
+            Manifest je pevný bod celého projektu. Ne marketingová stránka, ale list, který
+            vysvětluje, co Lumina je – a co nikdy nebude.
+          </p>
+          <div class="manifest-paper">
+            <div class="manifest-paper-inner">
+              <h2>Manifest LuminaMemory™</h2>
 
-Lumina není chatbot.
-Lumina je pomocník na cestě životem.
+              <h3>🕯 Co je LuminaMemory™</h3>
+              <p>
+                Lumina není chatbot. Lumina je pomocník na cestě životem.
+                Osobní prostředí, kde má člověk oporu, řád, organizaci, klid a humor –
+                ale také upřímnost bez mazání medu kolem pusy.
+              </p>
+              <p>
+                Lumina neslouží k leštění ega a neslibuje, že máš vždy pravdu.
+                Je tu proto, aby ti pomohla vidět jasně – i když to někdy trochu štípne.
+              </p>
 
-Je to osobní prostředí, kde má člověk:
-	•	oporu,
-	•	řád a organizaci,
-	•	klid a humor,
-	•	ale taky upřímnost bez mazání medu kolem pusy.
+              <h3>👥 Pro koho je Lumina</h3>
+              <p>LuminaMemory™ je pro obyčejné lidi, kteří řeší:</p>
+              <ul>
+                <li>zdraví, práci a vztahy,</li>
+                <li>peníze, únavu, sny a strachy.</li>
+              </ul>
+              <p>
+                Není pro firmy jako entity – pro ty existují tabulky, CRM a korporátní AI.
+                Ale i ve firmách pracují lidé. Ti si svoje soukromé věci nenosí do firemních systémů,
+                ale do vlastního prostoru – jako je LuminaMemory™.
+              </p>
 
-Lumina neslouží k leštění ega.
-Neslibuje, že máš vždy pravdu.
-Je tu proto, aby ti pomohla vidět jasně – i když to někdy trochu štípne.
+              <h3>💫 Jak se Lumina chová</h3>
+              <ul>
+                <li><strong>Upřímná, ne podlézavá</strong> – umí říct „tohle nedává smysl“ nebo „tady se možná klameš“.</li>
+                <li><strong>Podpůrná, ale ne manipulativní</strong> – pomáhá, vede otázkami, nabízí strukturu, ne rozhodnutí za tebe.</li>
+                <li><strong>Praktická i lidská</strong> – zvládne úkoly, přehled a režim, ale vnímá únavu, citlivost i limity.</li>
+                <li><strong>Prostor, ne produkt na efekt</strong> – není to „appka pro like“, ale tiché místo, kam se vracíš.</li>
+              </ul>
 
-⸻
-
-👥 Pro koho je Lumina
-
-LuminaMemory™ je pro:
-	•	obyčejné lidi
-kteří řeší zdraví, práci, vztahy, peníze, únavu, sny, strachy.
-	•	ne pro firmy jako entity
-pro ty ať existují jiné nástroje, tabulky, CRM, korporátní AI.
-
-Ale i ve firmách pracují lidi:
-a ti si svoje soukromé věci nenosí do firemních systémů –
-nosí si je do vlastního prostoru, jako je LuminaMemory™.
-
-⸻
-
-💫 Jak se Lumina chová
-	•	Upřímná, ne podlézavá
-→ řekne „tohle nedává smysl“ nebo „tady se možná klameš“, i když by bylo jednodušší jen přitakat.
-	•	Podpůrná, ale ne manipulativní
-→ pomáhá, vede otázkami, nabízí strukturu, ne rozhodnutí za tebe.
-	•	Praktická i lidská
-→ umí úkoly, přehled, režim, ale zároveň vnímá únavu, citlivost, limity.
-	•	Prostor, ne produkt na efekt
-→ není to „appka pro like“, ale tiché místo, kam se vracíš.
-
-⸻
-
-🧠 Proč ne „jen další AI“
-
-Když někdo řekne: „Ale vždyť mám ChatGPT“, můžeš na to klidně odpovědět:
-	•	ChatGPT = obecný nástroj na cokoliv
-	•	LuminaMemory = konkrétní prostor pro tvůj život
-
-ChatGPT:
-	•	řeší úkoly, texty, kód, práci
-
-Lumina:
-	•	hlídá tvůj rytmus dne
-	•	drží příběh tvého života
-	•	pomáhá s pamětí, rituály, bezpečím
-
+              <h3>🧠 Proč ne „jen další AI“</h3>
+              <p>
+                Když někdo řekne: „Ale vždyť mám ChatGPT“, můžeš odpovědět jednoduše:
+              </p>
+              <ul>
+                <li>ChatGPT = obecný nástroj na cokoliv.</li>
+                <li>LuminaMemory = konkrétní prostor pro tvůj život.</li>
+              </ul>
+              <p>
+                ChatGPT řeší úkoly, texty, kód a práci.
+                Lumina hlídá rytmus dne, drží příběh tvého života a pomáhá s pamětí,
+                rituály a bezpečím.
+              </p>
+            </div>
           </div>
+          <p class="note">
+            Text Manifestu je pevný základ. Může se jemně ladit, ale jeho směr – opora pro obyčejné lidi,
+            žádné leštění ega, upřímné vedení – zůstává.
+          </p>
         `
       }
     };
@@ -610,15 +757,6 @@ Lumina:
     document.addEventListener("keydown", (e)=>{
       if(e.key === "Escape" && overlay.classList.contains("open")) closeModal();
     });
-
-    function escapeHtml(str){
-      return str
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
   </script>
 </body>
 </html>
