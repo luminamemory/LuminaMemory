@@ -370,6 +370,29 @@
       font-size:11px;
       display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
     }
+  
+
+    /* Manifest: make the paper always fit (portrait & landscape) */
+    .modal[data-modal="manifest"] .manifest-paper{
+      max-width: none;
+      width: 100%;
+      /* scale by available viewport height so it never gets cut off in landscape */
+      height: min(62dvh, 560px);
+      height: min(62vh, 560px);
+      aspect-ratio: 3 / 4;
+      margin-top: 8px;
+      margin-left: auto;
+      margin-right: auto;
+      background-size: contain;
+    }
+    .modal[data-modal="manifest"] .manifest-paper-inner{
+      /* keep inner text usable even when the paper scales down */
+      width: 74%;
+      height: 78%;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
   </style>
 </head>
 <body>
@@ -462,7 +485,7 @@
 
     <!-- ONE reusable modal -->
   <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-inner">
         <!-- LEFT: text -->
         <div class="modal-left">
@@ -773,6 +796,7 @@
     };
 
     const overlay = document.getElementById("overlay");
+    const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modalImg");
     const modalName = document.getElementById("modalName");
     const modalIco = document.getElementById("modalIco");
@@ -787,6 +811,7 @@
       modalName.textContent = d.name;
       modalIco.textContent = d.ico;
       modalBody.innerHTML = d.body;
+      modal.setAttribute("data-modal", key);
       overlay.classList.add("open");
       overlay.setAttribute("aria-hidden","false");
       document.body.style.overflow = "hidden";
@@ -794,6 +819,7 @@
 
     function closeModal(){
       overlay.classList.remove("open");
+      modal.removeAttribute("data-modal");
       overlay.setAttribute("aria-hidden","true");
       document.body.style.overflow = "";
       modalImg.src = "";
