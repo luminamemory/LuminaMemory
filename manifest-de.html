@@ -28,25 +28,13 @@
 
   <link rel="canonical" href="https://luminamemory.github.io/LuminaMemory/manifest-de.html" />
 
-  <!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
   <style>
 :root {
-      --bg-ivory: #f7f2e8;
-      --bg-ivory-2: #efe7d8;
-      --bg-ivory-3: #e3d7c2;
-
-      --text-main: #1f2328;
-      --text-soft: #4b525a;
-
-      --accent: #4f5ee6;        /* royal indigo */
-      --accent-soft: #cfd4ff;   /* soft divider glow */
-
-      --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-display: "Cormorant Garamond", ui-serif, Georgia, "Times New Roman", serif;
+      --bg-body: #f3f4f7;
+      --text-main: #222222;
+      --text-soft: #555555;
+      --accent: #6b5cff;        /* fialová – hlavní signatura */
+      --accent-soft: #8b7dff;   /* světlejší fialová */
     }
 
     *,
@@ -56,30 +44,20 @@
     }
 
     html, body {
-      position: relative;
-      height: 100%;
-      margin: 0;
-      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at top,
+          rgba(139, 125, 255, 0.18) 0%,
+          rgba(92, 140, 255, 0.12) 35%,
+          #e8dfcf 70%
+        );
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
-
-/* Subtle “paper / gallery” grain so ivory feels more noble */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    repeating-linear-gradient(
-      115deg,
-      rgba(0, 0, 0, 0.020) 0px,
-      rgba(0, 0, 0, 0.020) 1px,
-      rgba(255, 255, 255, 0.000) 7px,
-      rgba(255, 255, 255, 0.000) 12px
-    );
-  mix-blend-mode: multiply;
-  opacity: 0.40;
-}
-
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -109,21 +87,25 @@ body::before {
       left: 12px;
       z-index: 40;
       font-size: 0.95rem;
-      color: var(--accent);
+      color: #ffffff;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.86);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.16);
+      background: linear-gradient(
+        135deg,
+        #6b5cff 0%,
+        #5c8cff 100%
+      );
+      box-shadow: 0 10px 22px rgba(92, 106, 240, 0.35);
+      font-weight: 500;
     }
 
     .back-link:hover {
-      background: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(92, 106, 240, 0.45);
     }
 
     .back-link span {
@@ -172,17 +154,16 @@ body::before {
     }
 
     .manifest-title {
-      font-family: var(--font-display);
       font-size: clamp(1.3rem, 2.2vw, 1.7rem);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--accent);
+      font-weight: 600;
+      text-shadow: 0 1px 6px rgba(107, 92, 255, 0.25);
       margin: 0 0 4px 0;
     }
 
     .manifest-subtitle {
-      font-family: var(--font-display);
-      font-weight: 600;
       font-size: clamp(1.8rem, 3vw, 2.2rem);
       margin: 0 0 16px 0;
     }
@@ -195,8 +176,6 @@ body::before {
     }
 
     .section h2 {
-      font-family: var(--font-display);
-      font-weight: 600;
       font-size: clamp(1.05rem, 1.7vw, 1.2rem);
       margin: 0 0 8px 0;
       color: var(--text-main);
@@ -205,7 +184,12 @@ body::before {
     .divider {
       width: 100%;
       height: 1px;
-      background: linear-gradient(to right, transparent, var(--accent-soft), transparent);
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(107, 92, 255, 0.35),
+        transparent
+      );
       margin: 6px 0 12px;
     }
 
@@ -229,7 +213,6 @@ body::before {
     }
 
     .closing {
-      font-family: var(--font-body);
       margin-top: 8px;
       font-size: 0.9rem;
       color: #444;
@@ -248,7 +231,44 @@ body::before {
         inset: 7% 7% 9% 8%;
       }
     }
-  </style>
+  
+.sheet-wrapper {
+  width: min(100%, 720px);
+  max-height: calc(100svh - 120px);
+  aspect-ratio: 2 / 3;
+  position: relative;
+}
+
+@supports not (height: 100svh) {
+  .sheet-wrapper {
+    max-height: calc(100vh - 120px);
+  }
+}
+
+.sheet-content {
+  min-height: 100%;
+}
+
+
+/* v4 iPad/Safari layout fix: ensure the paper always has a real height */
+.sheet-wrapper{
+  height: min(900px, calc(100svh - 120px));
+  width: auto;
+  max-width: 720px;
+  aspect-ratio: 2 / 3;
+  position: relative;
+}
+
+@supports not (height: 100svh){
+  .sheet-wrapper{
+    height: min(900px, calc(100vh - 120px));
+  }
+}
+
+/* Defensive: never let content collapse */
+.sheet-content{ min-height: 100%; }
+
+</style>
 </head>
 <body>
   <main class="page-frame" style="margin-top: 40px;">
