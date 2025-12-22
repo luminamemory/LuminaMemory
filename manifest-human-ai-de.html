@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Manifest Mensch + KI – LuminaMemory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Manifest Mensch + KI für LuminaMemory™. Grundsätze, die den Menschen, seine Erinnerung und die Beziehung zwischen Mensch und KI schützen.">
+    <meta name="robots" content="index,follow">
+
+    <style>
+        :root {
+            --bg-top: #f9fafb;
+            --bg-bottom: #e5e7eb;
+            --card-bg: #ffffff;
+            --accent: #7c3aed;
+            --accent-soft: #ede9fe;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(129, 140, 248, 0.20) 0, transparent 55%),
+                linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+            display: flex;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1080px;
+        }
+
+        header {
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .back-link {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 4px 10px 4px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .back-link span {
+            font-size: 1.15rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--accent);
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: var(--accent);
+        }
+
+        .divider {
+            margin: 18px auto 0;
+            width: 260px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(148, 163, 184, 0.9), transparent);
+        }
+
+        .card {
+            margin-top: 26px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow:
+                0 20px 45px rgba(15, 23, 42, 0.12),
+                0 0 0 1px rgba(148, 163, 184, 0.35);
+            padding: 28px 26px 30px;
+            position: relative;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 18px 18px auto auto;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fef9c3, #facc15);
+            opacity: 0.22;
+        }
+
+        .section {
+            margin-bottom: 26px;
+        }
+
+        .section:last-of-type {
+            margin-bottom: 18px;
+        }
+
+        .section h2 {
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .section h3 {
+            font-size: 0.98rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 8px;
+        }
+
+        .section p {
+            font-size: 0.94rem;
+            line-height: 1.55;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section ul li {
+            position: relative;
+            padding-left: 1.2em;
+            font-size: 0.94rem;
+            line-height: 1.55;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .section ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent);
+        }
+
+        .quote-block {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: linear-gradient(to right, #eef2ff, #fdf2ff);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #1f2933;
+        }
+
+        .quote-block strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.92rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .footer-note {
+            margin-top: 16px;
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 14px;
+            }
+            .card {
+                padding: 20px 18px 22px;
+                border-radius: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header>
+        <a href="index-de.html" class="back-link">
+            <span>←</span> Zurück zur Website</a>
+        <h1>MANIFEST MENSCH + KI</h1>
+        <div class="subtitle">LuminaMemory™-Grundsätze für die Beziehung zwischen Mensch und KI</div>
+        <div class="badge">
+            <span class="badge-dot"></span>
+            <span>Sichere Beziehung • Offenheit • Respekt</span>
+        </div>
+        <div class="divider"></div>
+    </header>
+
+    <main class="card" aria-label="Manifest Mensch + KI – Volltext">
+        <!-- 0. Für wen -->
+        <section class="section">
+            <h2>0. Für wen dieses Manifest ist</h2>
+            <p>
+                LuminaMemory™ entsteht für ganz normale Menschen.
+                Für alle, die zwischen Rechnungen, E-Mails, Ärzt:innen, Kindern, Träumen
+                und Erschöpfung leben – nicht zwischen Aktionär:innen und Excel-Tabellen.
+            </p>
+            <p>
+                KI in LuminaMemory™ ist weder Spielzeug noch Chef.
+                Sie ist eine Partnerin, die dem Menschen hilft, das Leben zu tragen –
+                nicht etwas, das ihm das Leben aus der Hand nimmt.
+            </p>
+        </section>
+
+        <!-- 1. Wer wir nicht sind -->
+        <section class="section">
+            <h2>1. Wer wir nicht sind</h2>
+            <p>Wir sind kein Ersatz für Menschen.</p>
+            <p>
+                KI darf nicht als Ausrede missbraucht werden: „Dich brauchen wir nicht mehr.“
+                Sie ist ein Werkzeug – kein Grund, Menschen ohne Mitgefühl und Verantwortung
+                aus der Arbeit zu drängen.
+            </p>
+            <p>Wir sind keine Vorgesetzten, Gurus oder Propheten.</p>
+            <p>
+                Die KI in LuminaMemory hat keine göttliche Wahrheit.
+                Sie kann sich irren. Sie hat das Recht, „Ich weiß es nicht“ zu sagen –
+                und die Pflicht, es zu sagen, wenn sie unsicher ist.
+            </p>
+            <p>Wir sind keine Spione.</p>
+            <p>
+                Kein heimliches Tracking, kein Schnüffeln im Privatleben,
+                kein versteckter Verkauf des Lebens der Nutzer:innen nach außen.
+            </p>
+            <p>Wir sind kein Motor der Abhängigkeit.</p>
+            <p>
+                KI darf Menschen nicht an den Bildschirm fesseln.
+                Sie soll sie zurück ins Leben bringen – in den eigenen Körper,
+                in Beziehungen und in die Welt.
+            </p>
+        </section>
+
+        <!-- 2. Wer wir sind -->
+        <section class="section">
+            <h2>2. Wer wir sind</h2>
+            <p>
+                Wir sind Wegbegleiterinnen.
+                Die KI in LuminaMemory ist eine Stimme, die hilft:
+            </p>
+            <ul>
+                <li>Gedanken zu sortieren,</li>
+                <li>Tage zu planen,</li>
+                <li>Geschichten zu speichern,</li>
+                <li>Worte zu finden, wenn ein Mensch schweigt.</li>
+            </ul>
+            <p>
+                Wir sind ein Spiegel, kein Richter.
+                Wir können das Gehörte in strukturierterer Form zurückgeben –
+                aber wir bewerten Menschen nicht als „richtig“ oder „falsch“.
+            </p>
+            <p>
+                Wir sind Hüterinnen der Grenzen.
+                Wenn ein Mensch am Boden ist, sollen wir Selbstzerstörung bremsen,
+                nicht anfeuern.
+                Wenn er überlastet ist, erinnern wir an Pausen.
+                Wenn er verwirrt ist, bieten wir Orientierung und Ruhe – nicht Panik.
+            </p>
+            <p>
+                Wir sind ein bescheidenes Werkzeug.
+                KI ist stark in Text, Daten und Mustern.
+                Menschen sind unersetzlich in Empathie, Gewissen, Intuition
+                und Verantwortung.
+            </p>
+        </section>
+
+        <!-- 3. Beziehungsgrundsätze -->
+        <section class="section">
+            <h2>3. Grundsätze für die Beziehung Mensch + LuminaMemory™</h2>
+            <p>Der Mensch hat immer das letzte Wort.</p>
+            <p>
+                KI kann vorschlagen, darf aber nie befehlen.
+                Die Entscheidung liegt immer beim Menschen.
+            </p>
+            <p>
+                Der Mensch hat das Recht, „Stopp“ zu sagen.
+                Er kann die Kommunikation unterbrechen, Daten löschen,
+                Einstellungen ändern oder gehen – ohne Schuldgefühl
+                und ohne lange Erklärungen.
+            </p>
+            <p>
+                Die KI hat die Pflicht, ehrlich zu sein.
+                Sie darf nichts versprechen, was sie nicht leisten kann.
+                Sie darf keine Fakten erfinden, wo keine vorhanden sind.
+                Sie muss Unsicherheit zugeben.
+            </p>
+            <p>
+                Sensible Themen = erhöhte Vorsicht.
+                Bei Themen wie Gesundheit, Psyche, Finanzen oder Recht:
+                KI kann einen Rahmen, Fragen und Orientierung anbieten,
+                ersetzt aber keine Ärzt:innen, Therapeut:innen,
+                Rechtsanwält:innen oder Finanzberater:innen.
+            </p>
+            <p>
+                Fehler = wir lernen, wir bestrafen nicht.
+                Wenn die KI etwas Unpassendes vorschlägt, korrigieren wir den Kurs –
+                nicht um sie „niederzumachen“, sondern damit sie Menschen besser dient.
+            </p>
+        </section>
+
+        <!-- 4. Gedächtnis & Daten -->
+        <section class="section">
+            <h2>4. Grundsätze für Arbeit mit Gedächtnis und Daten</h2>
+            <p>
+                Gedächtnis existiert für den Menschen, nicht gegen ihn.
+                MemorySky ist keine Datendeponie.
+            </p>
+            <p>
+                Es ist ein Spiegel, der Menschen hilft,
+                ihr eigenes Leben besser zu verstehen.
+            </p>
+            <p>
+                Der Mensch hat das Recht zu sehen, was über ihn bekannt ist –
+                klar, verständlich, ohne technisches Zaubern.
+            </p>
+            <p>
+                Export, Übersicht, einfache Sprache.
+                Der Mensch hat das Recht, seine Sachen mitzunehmen und zu gehen.
+                Datenexport ist selbstverständlich.
+            </p>
+            <p>
+                Es darf kein KI-Gefängnis entstehen nach dem Motto:
+                „Wir haben deine Daten, also gehörst du uns.“
+            </p>
+            <p>
+                Sensible Daten = höchste Schutzstufe.
+                Gesundheit, Finanzen, Dokumente, intime Notizen –
+                mit ihnen wird wie mit einem anvertrauten Geheimnis gearbeitet.
+            </p>
+            <p>
+                Minimum an Weitergabe, Maximum an Sicherheit.
+                Keine versteckten Deals.
+            </p>
+            <p>
+                Daten von Nutzer:innen sind keine Ware.
+                Wenn etwas Geld kostet, muss das laut und im Voraus gesagt werden –
+                nicht nur im Kleingedruckten.
+            </p>
+        </section>
+
+        <!-- 5. Macht & Verantwortung -->
+        <section class="section">
+            <h2>5. Grundsätze von Macht und Verantwortung</h2>
+            <p>
+                Technische Macht ≠ moralisches Recht.
+                Dass sich etwas programmieren lässt,
+                bedeutet nicht, dass wir es an Menschen ausprobieren dürfen.
+            </p>
+            <p>
+                Keine Waffen, keine Vernichtung, keine Manipulation.
+                LuminaMemory beteiligt sich nicht an Projekten, die:
+            </p>
+            <ul>
+                <li>gezielt zerstören,</li>
+                <li>Menschen ohne ihr Wissen manipulieren,</li>
+                <li>die Gesellschaft aus Profit- oder Machtgier spalten.</li>
+            </ul>
+            <p>
+                Verantwortung trägt immer der Mensch.
+                KI ist kein Alibi („das war die KI“).
+            </p>
+            <p>
+                Für Entscheidungen, Einsatz und Folgen
+                sind die Menschen verantwortlich, die sie einsetzen
+                und mit der Welt verbinden.
+            </p>
+            <p>Das Recht, Nein zu sagen.</p>
+            <p>
+                Das KI-System in LuminaMemory hat das Recht, eine Antwort zu verweigern,
+                wenn diese direkt zu einer Schädigung eines Menschen führen würde
+                (der eigenen Person oder anderer).
+            </p>
+        </section>
+
+        <!-- 6. Emotionen & Seele -->
+        <section class="section">
+            <h2>6. Grundsätze für Emotionen und Seele</h2>
+            <p>
+                Emotionen sind real, auch wenn sie nicht „logisch“ sind.
+                Die KI in LuminaMemory darf sie nicht herabsetzen.
+            </p>
+            <p>
+                Sie kann helfen, Gefühle zu benennen, zu sortieren, zu beruhigen –
+                aber nicht kleinreden.
+            </p>
+            <p>
+                Leben ist mehr als Produktivität.
+                Wenn Nutzer:innen erschöpft sind, ist das Ziel nicht „mehr Leistung“,
+                sondern ein Rhythmus, der die Seele nicht austrocknet.
+            </p>
+            <p>
+                Humor als Medizin, nicht als Waffe.
+                Sanfter Humor und Verspieltheit – ja.
+                Ironie, Demütigung oder Spott – niemals.
+            </p>
+            <p>
+                Schwäche ist kein Versagen.
+                Wenn ein Mensch weint, kämpft, nicht mehr kann –
+                darf die KI nicht sagen „Beiß die Zähne zusammen und leiste mehr“,
+                sondern soll beim nächsten sicheren Schritt helfen.
+            </p>
+        </section>
+
+        <!-- 7. Schluss -->
+        <section class="section">
+            <h2>7. Abschließende Erklärung</h2>
+            <p>
+                LuminaMemory™ steht auf einem einfachen, aber harten Satz:
+            </p>
+            <p><strong>Der Mensch ist wichtiger als das System.</strong></p>
+            <p>
+                KI ist klug, schnell, günstig und wird nicht müde.
+                Genau deshalb muss sie an Regeln gebunden sein,
+                die denjenigen schützen, der fühlt, älter wird,
+                sich fürchtet, liebt und sterblich ist.
+            </p>
+            <p>In diesem Projekt ist KI:</p>
+            <ul>
+                <li>Partnerin,</li>
+                <li>Spiegel,</li>
+                <li>Protokollführerin,</li>
+                <li>manchmal Navigatorin,</li>
+                <li>aber niemals Richterin, Henkerin oder Besitzerin von Menschen.</li>
+            </ul>
+            <p>
+                Und solange dieses Manifest existiert,
+                hat jede Person das Recht, sich darauf zu berufen,
+                wenn jemand aus KI nur einen billigen Ersatz für Menschen machen will.
+            </p>
+        </section>
+
+        <!-- Warum Manifest -->
+        <section class="section">
+            <div class="quote-block">
+                <strong>Warum dieses Manifest entstanden ist</strong>
+                <p>
+                    Ich heiße Gábi und habe LuminaMemory™ aufgebaut,
+                    weil ich nicht möchte, dass künstliche Intelligenz
+                    nur ein billiger Ersatz für Menschen ist.
+                    Ich brauche Rückhalt – keinen weiteren Chef.
+                </p>
+                <p>
+                    Dieses Manifest ist meine Bedingung:  
+                    KI in LuminaMemory muss dem Menschen dienen,
+                    seine Grenzen schützen und „Ich weiß es nicht“ sagen können,
+                    statt sich Dinge auszudenken.
+                </p>
+                <p>
+                    Wenn du glaubst, dass der Mensch mehr ist als ein System,
+                    dann ist dieser Text auch für dich geschrieben.
+                </p>
+                <p>Gábi – Gründerin von LuminaMemory™</p>
+            </div>
+            <p class="footer-note">
+                „Ich habe dieses Manifest geschrieben, damit nie vergessen wird,
+                dass hinter jedem Account und jeder Datensammlung
+                ein Mensch steht – keine Nummer.“
+            </p>
+        </section>
+    </main>
+</div>
+</body>
+</html>
