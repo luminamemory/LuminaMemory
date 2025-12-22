@@ -343,4 +343,50 @@
     <priority>0.65</priority>
   </url>
 
+
+  <!-- Manifest Human + AI -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-human-ai-index.html</loc>
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-human-ai.html</loc>
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-human-ai-en.html</loc>
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-human-ai-de.html</loc>
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Manifest – nástěnka -->
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-nastenka.html</loc>
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.60</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-nastenka-en.html</loc>
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.60</priority>
+  </url>
+
+  <url>
+    <loc>https://luminamemory.github.io/LuminaMemory/manifest-nastenka-de.html</loc>
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.60</priority>
+  </url>
+
+
 </urlset>
