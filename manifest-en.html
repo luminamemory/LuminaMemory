@@ -377,6 +377,59 @@ body{
   background: linear-gradient(to right, transparent, rgba(91, 33, 255, 0.35), transparent) !important;
 }
 
+
+/* v6: remove the extra "panel" behind the paper; keep full-screen background only */
+.sheet-wrapper::before{ 
+  content: none !important; 
+  display: none !important;
+}
+.sheet-wrapper{ 
+  background: transparent !important;
+  isolation: auto !important;
+}
+
+
+/* v7: kill the remaining panel (Safari renders our paper highlight as a "sheet") */
+html, body{
+  background-color: transparent !important;
+}
+
+body{
+  background-image:
+    radial-gradient(circle at 30% 20%,
+      rgba(91, 33, 255, 0.26) 0%,
+      rgba(70, 120, 255, 0.18) 38%,
+      rgba(245, 247, 255, 1) 78%,
+      rgba(247, 248, 255, 1) 100%
+    ) !important;
+}
+
+/* Remove paper highlight overlay that looks like a purple panel on iPad */
+.sheet-bg::after{
+  content: none !important;
+  display: none !important;
+}
+
+
+/* v8: Lumina aura background – soft, alive, no panels */
+body{
+  background:
+    radial-gradient(circle at 50% 12%,
+      rgba(120, 90, 255, 0.35) 0%,
+      rgba(90, 120, 255, 0.28) 28%,
+      rgba(160, 190, 255, 0.22) 46%,
+      rgba(245, 247, 255, 0.95) 70%,
+      rgba(250, 250, 255, 1) 100%
+    ) !important;
+}
+
+/* subtle breathing light behind paper */
+.sheet-bg{
+  filter:
+    drop-shadow(0 34px 70px rgba(70, 80, 180, 0.35))
+    drop-shadow(0 12px 26px rgba(40, 50, 120, 0.22));
+}
+
 </style>
 </head>
 <body>
