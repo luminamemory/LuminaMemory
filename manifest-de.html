@@ -6,15 +6,15 @@
   <title>Manifest – LuminaMemory™</title>
   <style>
 :root{
-  --bg1:#6a5cff;
-  --bg2:#2dd4ff;
-  --bg3:#a855f7;
-  --glass: rgba(255,255,255,.12);
-  --glass2: rgba(255,255,255,.18);
-  --stroke: rgba(255,255,255,.28);
-  --text: rgba(255,255,255,.92);
-  --muted: rgba(255,255,255,.74);
-  --shadow: rgba(0,0,0,.25);
+  --bgA:#f7f9ff;
+  --bgB:#f1fbff;
+  --bgC:#fff6ff;
+  --panel: rgba(255,255,255,.78);
+  --panel2: rgba(255,255,255,.55);
+  --stroke: rgba(15,23,42,.10);
+  --text: rgba(15,23,42,.92);
+  --muted: rgba(15,23,42,.62);
+  --shadow: rgba(2,6,23,.14);
 }
 
 *{box-sizing:border-box}
@@ -25,10 +25,10 @@ body{
   color:var(--text);
   overflow:hidden;
   background:
-    radial-gradient(1200px 800px at 15% 10%, rgba(168,85,247,.35), transparent 60%),
-    radial-gradient(1000px 700px at 85% 20%, rgba(45,212,255,.30), transparent 55%),
-    radial-gradient(900px 700px at 55% 90%, rgba(106,92,255,.30), transparent 60%),
-    linear-gradient(135deg, rgba(24,19,45,1), rgba(10,20,40,1));
+    radial-gradient(1200px 800px at 15% 10%, rgba(168,85,247,.16), transparent 60%),
+    radial-gradient(1000px 700px at 85% 20%, rgba(45,212,255,.18), transparent 55%),
+    radial-gradient(900px 700px at 55% 90%, rgba(106,92,255,.14), transparent 60%),
+    linear-gradient(135deg, var(--bgA), var(--bgB));
 }
 
 .sparks::before{
@@ -36,21 +36,21 @@ body{
   position:fixed; inset:0;
   pointer-events:none;
   background:
-    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.35), transparent 60%),
-    radial-gradient(2px 2px at 35% 70%, rgba(255,255,255,.22), transparent 60%),
-    radial-gradient(1.5px 1.5px at 70% 30%, rgba(255,255,255,.20), transparent 60%),
-    radial-gradient(2px 2px at 80% 75%, rgba(255,255,255,.28), transparent 60%),
-    radial-gradient(1.5px 1.5px at 55% 55%, rgba(255,255,255,.18), transparent 60%),
-    radial-gradient(2px 2px at 20% 85%, rgba(255,255,255,.25), transparent 60%);
-  opacity:.55;
+    radial-gradient(2px 2px at 10% 20%, rgba(2,6,23,.10), transparent 60%),
+    radial-gradient(2px 2px at 35% 70%, rgba(2,6,23,.08), transparent 60%),
+    radial-gradient(1.5px 1.5px at 70% 30%, rgba(2,6,23,.07), transparent 60%),
+    radial-gradient(2px 2px at 80% 75%, rgba(2,6,23,.09), transparent 60%),
+    radial-gradient(1.5px 1.5px at 55% 55%, rgba(2,6,23,.06), transparent 60%),
+    radial-gradient(2px 2px at 20% 85%, rgba(2,6,23,.08), transparent 60%);
+  opacity:.40;
   filter: blur(.2px);
-  animation: floatSparks 12s ease-in-out infinite;
+  animation: floatSparks 14s ease-in-out infinite;
 }
 
 @keyframes floatSparks{
-  0%{transform:translate3d(0,0,0); opacity:.45}
-  50%{transform:translate3d(0,-8px,0); opacity:.65}
-  100%{transform:translate3d(0,0,0); opacity:.45}
+  0%{transform:translate3d(0,0,0); opacity:.30}
+  50%{transform:translate3d(0,-8px,0); opacity:.50}
+  100%{transform:translate3d(0,0,0); opacity:.30}
 }
 
 .wrap{
@@ -63,13 +63,13 @@ body{
 
 .panel{
   width:min(980px, 100%);
-  height:min(78vh, 720px);
+  height:min(80vh, 740px);
   border-radius:24px;
-  background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+  background: linear-gradient(135deg, var(--panel), var(--panel2));
   border:1px solid var(--stroke);
-  box-shadow: 0 20px 60px var(--shadow);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 18px 55px var(--shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   position:relative;
   overflow:hidden;
 }
@@ -78,9 +78,9 @@ body{
   content:"";
   position:absolute; inset:-2px;
   background:
-    radial-gradient(700px 220px at 20% 0%, rgba(255,255,255,.12), transparent 60%),
-    radial-gradient(500px 240px at 85% 15%, rgba(255,255,255,.10), transparent 60%),
-    radial-gradient(600px 260px at 30% 100%, rgba(255,255,255,.08), transparent 60%);
+    radial-gradient(700px 240px at 20% 0%, rgba(255,255,255,.55), transparent 60%),
+    radial-gradient(520px 260px at 85% 15%, rgba(255,255,255,.42), transparent 60%),
+    radial-gradient(640px 280px at 30% 100%, rgba(255,255,255,.38), transparent 60%);
   pointer-events:none;
 }
 
@@ -88,14 +88,14 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:18px 18px 10px 18px;
+  padding:16px 16px 10px 16px;
   position:relative;
   z-index:2;
 }
 
 .brand{
-  font-size:14px;
-  letter-spacing:.12em;
+  font-size:13px;
+  letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--muted);
 }
@@ -103,12 +103,12 @@ body{
 .content{
   position:relative;
   z-index:2;
-  margin:0 18px 18px 18px;
+  margin:0 16px 16px 16px;
   padding:18px 18px;
   border-radius:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-  border:1px solid rgba(255,255,255,.18);
-  height: calc(100% - 64px);
+  background: rgba(255,255,255,.72);
+  border:1px solid rgba(15,23,42,.08);
+  height: calc(100% - 62px);
   overflow-y:auto;
 }
 
@@ -116,33 +116,34 @@ body{
   margin:0 0 14px 0;
   font-size:28px;
   letter-spacing:.04em;
+  color: rgba(15,23,42,.92);
 }
 .content h2{
   margin:18px 0 8px 0;
   font-size:18px;
-  color:rgba(255,255,255,.88);
+  color:rgba(15,23,42,.86);
 }
 .content p, .content li{
   font-size:15px;
-  line-height:1.6;
-  color:rgba(255,255,255,.90);
+  line-height:1.65;
+  color:rgba(15,23,42,.88);
 }
 .content ul{
   margin:10px 0 10px 22px;
 }
-.content strong{color:rgba(255,255,255,.95)}
+.content strong{color:rgba(15,23,42,.95)}
 
 .content::-webkit-scrollbar{width:10px}
 .content::-webkit-scrollbar-track{
-  background: rgba(255,255,255,.06);
+  background: rgba(15,23,42,.06);
   border-radius:999px;
 }
 .content::-webkit-scrollbar-thumb{
-  background: rgba(255,255,255,.22);
+  background: rgba(15,23,42,.18);
   border-radius:999px;
-  border:2px solid rgba(255,255,255,.06);
+  border:2px solid rgba(15,23,42,.06);
 }
-.content::-webkit-scrollbar-thumb:hover{background: rgba(255,255,255,.30)}
+.content::-webkit-scrollbar-thumb:hover{background: rgba(15,23,42,.26)}
 
 .back{
   display:inline-flex;
@@ -151,22 +152,32 @@ body{
   padding:10px 12px;
   border-radius:14px;
   text-decoration:none;
-  color:var(--text);
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow: 0 10px 22px rgba(0,0,0,.18);
-  transition: transform .15s ease, background .15s ease;
+  color: rgba(15,23,42,.90);
+  background: rgba(255,255,255,.75);
+  border:1px solid rgba(15,23,42,.10);
+  box-shadow: 0 10px 22px rgba(2,6,23,.10);
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
 }
-.back:hover{transform: translateY(-1px); background: rgba(255,255,255,.12)}
-.back svg{width:18px;height:18px; opacity:.9}
-.back span{font-size:14px; color:rgba(255,255,255,.88)}
+.back:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.88);
+  box-shadow: 0 12px 26px rgba(2,6,23,.12);
+}
+.back:active{transform: translateY(0)}
+.back svg{width:18px;height:18px; opacity:.85}
+.back span{font-size:14px; color: rgba(15,23,42,.78)}
 </style>
 </head>
 <body class="sparks">
   <div class="wrap">
     <div class="panel" role="document" aria-label="Manifest – LuminaMemory™">
       <div class="header">
-        <div></div>
+        <a class="back" href="manifest-nastenka-de.html" aria-label="Zurück">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+          <span>Zurück</span>
+        </a>
         <div class="brand">LuminaMemory™</div>
       </div>
       <div class="content">
