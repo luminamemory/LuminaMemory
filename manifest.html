@@ -276,6 +276,115 @@
 /* Defensive: never let content collapse */
 .sheet-content{ min-height: 100%; }
 
+
+/* v5 visual polish: plastic paper, clean cool background, higher contrast text */
+:root{
+  --accent: #5b21ff;       /* saturated purple */
+  --accent-soft: #7c5cff;
+  --text-main: #111111;
+  --text-soft: #1a1a1a;    /* darker body text for contrast */
+}
+
+/* Remove ivory/beige surroundings; keep cool violet-blue ambience */
+body{
+  background:
+    radial-gradient(circle at 30% 20%,
+      rgba(91, 33, 255, 0.28) 0%,
+      rgba(70, 120, 255, 0.18) 35%,
+      rgba(245, 247, 255, 1) 75%,
+      rgba(247, 248, 255, 1) 100%
+    ) !important;
+}
+
+/* Paper as the main hero: depth + subtle glow underneath */
+.sheet-wrapper{
+  isolation: isolate;
+}
+
+.sheet-wrapper::before{
+  content:"";
+  position:absolute;
+  inset:-10%;
+  z-index:0;
+  background:
+    radial-gradient(circle at 50% 60%,
+      rgba(91, 33, 255, 0.22) 0%,
+      rgba(70, 120, 255, 0.16) 35%,
+      rgba(0,0,0,0) 70%
+    );
+  filter: blur(22px);
+  opacity: 0.9;
+  pointer-events:none;
+}
+
+/* Stronger, more "plastic" paper shadow */
+.sheet-bg{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  filter:
+    drop-shadow(0 28px 60px rgba(15, 23, 42, 0.26))
+    drop-shadow(0 10px 22px rgba(15, 23, 42, 0.18));
+}
+
+/* Add a gentle highlight + vignette on top of the paper (makes it 3D) */
+.sheet-bg::after{
+  content:"";
+  position:absolute;
+  inset:3% 4% 4% 4%;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 30% 18%,
+      rgba(255,255,255,0.55) 0%,
+      rgba(255,255,255,0.10) 38%,
+      rgba(0,0,0,0.06) 100%
+    );
+  mix-blend-mode: soft-light;
+  pointer-events:none;
+}
+
+/* Keep content above the paper */
+.sheet-content{
+  position:absolute;
+  z-index:2;
+  color: var(--text-soft);
+}
+
+/* Typography: smaller, cleaner, higher contrast */
+.manifest-title{
+  color: var(--accent) !important;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-shadow: 0 2px 10px rgba(91, 33, 255, 0.22);
+}
+
+.manifest-subtitle{
+  color: var(--text-main);
+}
+
+.section{
+  font-size: clamp(0.86rem, 1.25vw, 0.98rem);
+  line-height: 1.62;
+  color: var(--text-soft) !important;
+}
+
+.section h2{
+  color: var(--text-main) !important;
+}
+
+.highlight-line{
+  color: var(--text-main) !important;
+}
+
+.closing{
+  color: var(--text-main) !important;
+}
+
+/* Divider slightly purple */
+.divider{
+  background: linear-gradient(to right, transparent, rgba(91, 33, 255, 0.35), transparent) !important;
+}
+
 </style>
 </head>
 <body>
