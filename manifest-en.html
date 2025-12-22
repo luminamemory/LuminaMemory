@@ -1,122 +1,215 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Manifest — LuminaMemory™</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manifest – LuminaMemory™</title>
   <style>
-    :root{ --paper-w:min(920px,92vw); --paper-h:min(1180px,88vh); --ink:#1d1d1f; --muted:rgba(0,0,0,.65);
-      --shadow:0 26px 70px rgba(0,0,0,.20); --radius:18px; }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--ink);
-      background:
-        radial-gradient(1100px 700px at 20% 10%, rgba(245,246,255,.95), rgba(240,242,255,.55) 45%, rgba(235,235,245,0) 70%),
-        radial-gradient(900px 600px at 80% 90%, rgba(255,245,250,.85), rgba(240,240,255,.35) 55%, rgba(235,235,245,0) 75%),
-        linear-gradient(180deg,#f7f7fb,#f1f1f7);
-      min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px 14px;
-    }
-    .stage{position:relative; width:var(--paper-w); max-width:980px;}
-    .glass{
-      position:absolute; inset:40px 26px -14px 26px; border-radius:calc(var(--radius) + 10px);
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06)),
-        radial-gradient(900px 420px at 15% 20%, rgba(180,200,255,.22), transparent 65%),
-        radial-gradient(900px 420px at 85% 75%, rgba(255,180,220,.18), transparent 60%);
-      border:1px solid rgba(255,255,255,.35); box-shadow:0 18px 60px rgba(0,0,0,.10);
-      backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); overflow:hidden; pointer-events:none;
-    }
-    .glass::before{
-      content:""; position:absolute; inset:-40%;
-      background:
-        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1.5px 1.5px at 30% 70%, rgba(255,255,255,.28), transparent 60%),
-        radial-gradient(2px 2px at 60% 30%, rgba(255,255,255,.25), transparent 60%),
-        radial-gradient(1.5px 1.5px at 80% 60%, rgba(255,255,255,.22), transparent 60%),
-        radial-gradient(2px 2px at 90% 15%, rgba(255,255,255,.18), transparent 60%);
-      opacity:.7; filter:blur(.2px); transform:rotate(8deg); mix-blend-mode:screen;
-      animation:drift 10s ease-in-out infinite alternate;
-    }
-    @keyframes drift{ from{transform:translate3d(-10px,-8px,0) rotate(6deg); opacity:.55;}
-      to{transform:translate3d(14px,10px,0) rotate(10deg); opacity:.75;} }
-    .paper{position:relative; width:100%; height:var(--paper-h); border-radius:var(--radius);
-      background:url("img-paper.png") center/cover no-repeat; box-shadow:var(--shadow); overflow:hidden;}
-    .back{
-      position:absolute; top:18px; left:18px; z-index:5; display:inline-flex; align-items:center; gap:10px;
-      text-decoration:none; color:rgba(0,0,0,.72); background:rgba(255,255,255,.55);
-      border:1px solid rgba(0,0,0,.08); border-radius:999px; padding:10px 14px;
-      backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); box-shadow:0 10px 28px rgba(0,0,0,.10);
-      transition:transform .12s ease, background .12s ease;
-    }
-    .back:hover{transform:translateY(-1px); background:rgba(255,255,255,.70);}
-    .back .arrow{font-size:18px; line-height:1;}
-    .content{position:absolute; inset:72px 54px 46px 54px; overflow:auto; padding-right:8px; scrollbar-width:thin;}
-    .content::-webkit-scrollbar{width:10px;}
-    .content::-webkit-scrollbar-thumb{background:rgba(0,0,0,.18); border-radius:10px; border:3px solid rgba(255,255,255,.55);}
-    h1{margin:0 0 10px; letter-spacing:.6px; font-size:clamp(30px,3.2vw,42px);}
-    h2{margin:22px 0 10px; font-size:clamp(18px,2.2vw,22px);}
-    p{margin:10px 0; line-height:1.55; color:var(--muted); font-size:16px;}
-    ul{margin:10px 0 14px 18px; color:var(--muted); line-height:1.55;}
-    li{margin:6px 0;}
-    .note{margin-top:18px; padding:14px; background:rgba(255,255,255,.45); border:1px solid rgba(0,0,0,.06); border-radius:14px; color:rgba(0,0,0,.72);}
-    .brand{margin-top:14px; font-weight:700; color:rgba(0,0,0,.78);}
-    @media (max-width:560px){ .content{inset:70px 22px 28px 22px;} .glass{inset:34px 14px -16px 14px;} }
-  </style>
+:root{
+  --bg1:#6a5cff;
+  --bg2:#2dd4ff;
+  --bg3:#a855f7;
+  --glass: rgba(255,255,255,.12);
+  --glass2: rgba(255,255,255,.18);
+  --stroke: rgba(255,255,255,.28);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.74);
+  --shadow: rgba(0,0,0,.25);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color:var(--text);
+  overflow:hidden;
+  background:
+    radial-gradient(1200px 800px at 15% 10%, rgba(168,85,247,.35), transparent 60%),
+    radial-gradient(1000px 700px at 85% 20%, rgba(45,212,255,.30), transparent 55%),
+    radial-gradient(900px 700px at 55% 90%, rgba(106,92,255,.30), transparent 60%),
+    linear-gradient(135deg, rgba(24,19,45,1), rgba(10,20,40,1));
+}
+
+.sparks::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.35), transparent 60%),
+    radial-gradient(2px 2px at 35% 70%, rgba(255,255,255,.22), transparent 60%),
+    radial-gradient(1.5px 1.5px at 70% 30%, rgba(255,255,255,.20), transparent 60%),
+    radial-gradient(2px 2px at 80% 75%, rgba(255,255,255,.28), transparent 60%),
+    radial-gradient(1.5px 1.5px at 55% 55%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(2px 2px at 20% 85%, rgba(255,255,255,.25), transparent 60%);
+  opacity:.55;
+  filter: blur(.2px);
+  animation: floatSparks 12s ease-in-out infinite;
+}
+
+@keyframes floatSparks{
+  0%{transform:translate3d(0,0,0); opacity:.45}
+  50%{transform:translate3d(0,-8px,0); opacity:.65}
+  100%{transform:translate3d(0,0,0); opacity:.45}
+}
+
+.wrap{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.panel{
+  width:min(980px, 100%);
+  height:min(78vh, 720px);
+  border-radius:24px;
+  background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+  border:1px solid var(--stroke);
+  box-shadow: 0 20px 60px var(--shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  position:relative;
+  overflow:hidden;
+}
+
+.panel::after{
+  content:"";
+  position:absolute; inset:-2px;
+  background:
+    radial-gradient(700px 220px at 20% 0%, rgba(255,255,255,.12), transparent 60%),
+    radial-gradient(500px 240px at 85% 15%, rgba(255,255,255,.10), transparent 60%),
+    radial-gradient(600px 260px at 30% 100%, rgba(255,255,255,.08), transparent 60%);
+  pointer-events:none;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 18px 10px 18px;
+  position:relative;
+  z-index:2;
+}
+
+.brand{
+  font-size:14px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.content{
+  position:relative;
+  z-index:2;
+  margin:0 18px 18px 18px;
+  padding:18px 18px;
+  border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.18);
+  height: calc(100% - 64px);
+  overflow-y:auto;
+}
+
+.content h1{
+  margin:0 0 14px 0;
+  font-size:28px;
+  letter-spacing:.04em;
+}
+.content h2{
+  margin:18px 0 8px 0;
+  font-size:18px;
+  color:rgba(255,255,255,.88);
+}
+.content p, .content li{
+  font-size:15px;
+  line-height:1.6;
+  color:rgba(255,255,255,.90);
+}
+.content ul{
+  margin:10px 0 10px 22px;
+}
+.content strong{color:rgba(255,255,255,.95)}
+
+.content::-webkit-scrollbar{width:10px}
+.content::-webkit-scrollbar-track{
+  background: rgba(255,255,255,.06);
+  border-radius:999px;
+}
+.content::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.22);
+  border-radius:999px;
+  border:2px solid rgba(255,255,255,.06);
+}
+.content::-webkit-scrollbar-thumb:hover{background: rgba(255,255,255,.30)}
+
+.back{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  text-decoration:none;
+  color:var(--text);
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow: 0 10px 22px rgba(0,0,0,.18);
+  transition: transform .15s ease, background .15s ease;
+}
+.back:hover{transform: translateY(-1px); background: rgba(255,255,255,.12)}
+.back svg{width:18px;height:18px; opacity:.9}
+.back span{font-size:14px; color:rgba(255,255,255,.88)}
+</style>
 </head>
-
-<body>
-  <div class="stage">
-    <div class="glass" aria-hidden="true"></div>
-
-    <div class="paper" role="main" aria-label="LuminaMemory Manifest">
-      <a class="back" href="manifest-nastenka-en.html" aria-label="Back">
-        <span class="arrow">←</span> Back
-      </a>
-
+<body class="sparks">
+  <div class="wrap">
+    <div class="panel" role="document" aria-label="Manifest – LuminaMemory™">
+      <div class="header">
+        <div></div>
+        <div class="brand">LuminaMemory™</div>
+      </div>
       <div class="content">
         <h1>MANIFEST</h1>
 
-        <h2>What LuminaMemory™ is</h2>
-        <p><strong>Lumina is not a chatbot.</strong><br/>Lumina is a companion for the road of life.</p>
-        <p>It’s a personal space where you get:</p>
-        <ul>
-          <li>support,</li>
-          <li>order and organization,</li>
-          <li>calm and humor,</li>
-          <li>and also honesty — without sugarcoating.</li>
-        </ul>
-        <p>Lumina isn’t here to polish your ego. It won’t promise you’re always right. It’s here to help you see clearly — even if it stings a little sometimes.</p>
+<h2>What LuminaMemory™ is</h2>
+<p>Lumina is not a chatbot.<br>Lumina is a companion for the journey through life.</p>
+<p>It’s a personal space where you can have:</p>
+<ul>
+  <li>support,</li>
+  <li>order and organization,</li>
+  <li>calm and humor,</li>
+  <li>and also honesty — with no sugar-coating.</li>
+</ul>
+<p>Lumina isn’t here to polish your ego. It doesn’t promise you’re always right. It’s here to help you see clearly — even if it sometimes stings a little.</p>
 
-        <h2>Who Lumina is for</h2>
-        <p>LuminaMemory™ is for everyday people dealing with health, work, relationships, money, fatigue, dreams, and fears.</p>
-        <p>It’s not for companies as entities.<br/>There are other tools for that: spreadsheets, CRMs, and corporate AI.</p>
-        <p>But people work inside companies — and they don’t bring their private stuff into company systems. They bring it into their own space, like LuminaMemory™.</p>
+<h2>Who Lumina is for</h2>
+<p>LuminaMemory™ is for ordinary people dealing with health, work, relationships, money, exhaustion, dreams, and fears.</p>
+<p>It’s not for companies as entities.<br>For that, there are other tools: spreadsheets, CRMs, and corporate AI.</p>
+<p>But people work in companies — and they don’t carry their private lives into corporate systems. They carry them into their own space, like LuminaMemory™.</p>
 
-        <h2>How Lumina behaves</h2>
-        <ul>
-          <li><strong>Honest, not flattering</strong> → it can say “this doesn’t make sense” or “you might be fooling yourself here,” even when it would be easier to just agree.</li>
-          <li><strong>Supportive, not manipulative</strong> → it helps, guides with questions, offers structure — not ready-made decisions for you.</li>
-          <li><strong>Practical and human</strong> → it can handle tasks, overview, routine — and also notices fatigue, sensitivity, and limits.</li>
-          <li><strong>A space, not a showy product</strong> → not an “app for likes,” but a quiet place you return to.</li>
-        </ul>
+<h2>How Lumina behaves</h2>
+<p><strong>Honest, not flattering</strong><br>→ it will say “this doesn’t make sense” or “you might be fooling yourself here,” even when it would be easier to just agree.</p>
+<p><strong>Supportive, not manipulative</strong><br>→ it helps, guides with questions, offers structure — not decisions made for you.</p>
+<p><strong>Practical and human</strong><br>→ it can handle tasks, overviews, and routines, while still noticing fatigue, sensitivity, and limits.</p>
+<p><strong>A space, not a flashy product</strong><br>→ not an “app for likes,” but a quiet place you return to.</p>
 
-        <h2>Why it’s not “just another AI”</h2>
-        <p>If someone says: “But I already have ChatGPT,” you can calmly answer:</p>
-        <ul>
-          <li><strong>ChatGPT</strong> = a general-purpose tool for anything</li>
-          <li><strong>LuminaMemory</strong> = a specific space for your life</li>
-        </ul>
-        <p>ChatGPT solves tasks, texts, code, work. Lumina:</p>
-        <ul>
-          <li>keeps an eye on your daily rhythm,</li>
-          <li>holds the story of your life,</li>
-          <li>helps with memory, rituals, and safety.</li>
-        </ul>
+<h2>Why it’s not “just another AI”</h2>
+<p>When someone says: “But I already have ChatGPT,” you can calmly answer:</p>
+<ul>
+  <li>ChatGPT = a general tool for anything</li>
+  <li>LuminaMemory = a dedicated space for your life</li>
+</ul>
+<p>ChatGPT handles tasks, texts, code, work.<br>Lumina:</p>
+<ul>
+  <li>keeps an eye on your daily rhythm,</li>
+  <li>holds the story of your life,</li>
+  <li>helps with memory, rituals, and safety.</li>
+</ul>
+<p>We’re not here to impress you with technology. We’re here to help you live a little more consciously, kindly, and calmly.</p>
 
-        <div class="note">
-          <p>We’re not here to impress you with technology. We’re here to help you live your life a little more consciously, kindly, and calmly.</p>
-          <div class="brand">LuminaMemory™ — an intelligent space between a human and light.</div>
-        </div>
+<p><strong>LuminaMemory™ — an intelligent space between a human and light.</strong></p>
+
       </div>
     </div>
   </div>
