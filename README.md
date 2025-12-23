@@ -21,7 +21,7 @@ Tento repozitář obsahuje:
 
 - úvodní web LuminaMemory™ (CZ / EN / DE)  
 - statické demo obrazovky připravované aplikace  
-- podklady pro GitHub Pages a budoucí nasazení na doménu `luminamemory.ai`
+- podklady pro nasazení na doménu `luminamemory.ai`
 
 Repo slouží jako „zahrada prototypů“, kde se testuje obsah, struktura a vizuální identita.
 
@@ -33,7 +33,7 @@ Pomoz prosím formovat další směr projektu:
 
 ## Odkazy
 
-- Web (GitHub Pages): https://luminamemory.github.io/LuminaMemory  
+- Web (GitHub Pages – archiv): https://luminamemory.github.io/LuminaMemory  
 - Web (doména): https://luminamemory.ai  
 - Kontakt: gabi@luminamemory.ai  
 
