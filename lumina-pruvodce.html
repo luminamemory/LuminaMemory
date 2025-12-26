@@ -9,7 +9,7 @@
   <meta name="description" content="Průvodce palácem LuminaMemory™ – jednoduchý návod, jak se neztratit v Praetorium, Arcana, Chronica, Proiecta a Nastavení.">
   <link rel="canonical" href="https://luminamemory.ai/lumina-pruvodce.html">
 
-  <!-- Hreflang (připravena místa pro EN/DE verzi) -->
+  <!-- Hreflang -->
   <link rel="alternate" hreflang="cs" href="https://luminamemory.ai/lumina-pruvodce.html">
   <link rel="alternate" hreflang="en" href="https://luminamemory.ai/lumina-guide.html">
   <link rel="alternate" hreflang="de" href="https://luminamemory.ai/lumina-guide-de.html">
@@ -117,6 +117,31 @@
       font-weight:400;
       color:var(--lm-text-soft);
       font-size:11px;
+    }
+
+    .header-right{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .back-link{
+      font-size:11px;
+      text-decoration:none;
+      color:var(--lm-text);
+      border-radius:999px;
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .back-link:hover{
+      border-color:rgba(255,255,255,0.18);
+      background:rgba(0,0,0,0.5);
     }
 
     main{
@@ -343,7 +368,8 @@
 <div class="lm-shell">
 
   <header>
-    <a href="home.html" class="brand">
+    <!-- logo je jen značka, už ne odkaz domů -->
+    <div class="brand">
       <span class="brand-logo">
         <img src="lumina-avatar.png" alt="Lumina – průvodkyně palácem">
       </span>
@@ -351,7 +377,11 @@
         LuminaMemory™<br>
         <small>Průvodce palácem</small>
       </span>
-    </a>
+    </div>
+
+    <div class="header-right">
+      <a class="back-link" href="nastaveni.html">← Zpět do nastavení</a>
+    </div>
   </header>
 
   <main>
