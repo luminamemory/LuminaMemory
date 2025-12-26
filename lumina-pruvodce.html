@@ -1,738 +1,654 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <title>Průvodce palácem | LuminaMemory™</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
-  <!-- Základní meta -->
-  <meta name="description" content="Průvodce palácem LuminaMemory™ – jednoduchý návod, jak se neztratit v Praetorium, Arcana, Chronica, Proiecta a Nastavení.">
-  <link rel="canonical" href="https://luminamemory.ai/lumina-pruvodce.html">
-
-  <!-- Hreflang -->
-  <link rel="alternate" hreflang="cs" href="https://luminamemory.ai/lumina-pruvodce.html">
-  <link rel="alternate" hreflang="en" href="https://luminamemory.ai/lumina-guide.html">
-  <link rel="alternate" hreflang="de" href="https://luminamemory.ai/lumina-guide-de.html">
-  <link rel="alternate" hreflang="x-default" href="https://luminamemory.ai/lumina-pruvodce.html">
-
-  <!-- Ikony -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#050616">
+  <title>Lumina průvodce • LuminaMemory™</title>
+  <meta name="description" content="Živý průvodce palácem LuminaMemory™ – jak vstoupit do chrámu, jak funguje Pokec, Arcana, Praetorium, Sigma, Chronica, Proiecta a Nastavení. Plně použitelný i ve FREE DEMU." />
+  <meta name="title" content="Lumina průvodce • LuminaMemory™" />
 
   <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://luminamemory.ai/lumina-pruvodce.html">
-  <meta property="og:title" content="Průvodce palácem LuminaMemory™">
-  <meta property="og:description" content="Jednoduchý návod, jak procházet palácem LuminaMemory™ – krok za krokem, bez stresu.">
-  <meta property="og:image" content="https://luminamemory.ai/og-luminamemory.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LuminaMemory™" />
+  <meta property="og:title" content="Lumina průvodce • LuminaMemory™" />
+  <meta property="og:description" content="Živý průvodce palácem LuminaMemory™ – krok za krokem, aby se nikdo neztratil." />
+  <meta property="og:url" content="https://luminamemory.ai/lumina-pruvodce.html" />
+  <meta property="og:image" content="https://luminamemory.ai/og-luminamemory.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="cs_CZ" />
 
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Průvodce palácem LuminaMemory™">
-  <meta name="twitter:description" content="Jednoduchý návod, jak procházet palácem LuminaMemory™ – krok za krokem, bez stresu.">
-  <meta name="twitter:image" content="https://luminamemory.ai/og-luminamemory.png">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Lumina průvodce • LuminaMemory™" />
+  <meta name="twitter:description" content="Živý průvodce palácem LuminaMemory™ – krok za krokem, aby se nikdo neztratil." />
+  <meta name="twitter:url" content="https://luminamemory.ai/lumina-pruvodce.html" />
+  <meta name="twitter:image" content="https://luminamemory.ai/og-luminamemory.png" />
+
+  <link rel="canonical" href="https://luminamemory.ai/lumina-pruvodce.html" />
+
+  <!-- Alternate language versions – zatím jen CZ, ostatní připravené do budoucna -->
+  <link rel="alternate" hreflang="cs" href="https://luminamemory.ai/lumina-pruvodce.html" />
+  <link rel="alternate" hreflang="x-default" href="https://luminamemory.ai/lumina-pruvodce.html" />
+
+  <!-- Icons & theme color -->
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#ffffff" />
 
   <style>
     :root{
-      --lm-bg:#050616;
-      --lm-bg-soft:#0b1024;
-      --lm-bg-soft-2:#101632;
-      --lm-border:#232a4a;
-      --lm-accent:#e0b3ff;
-      --lm-accent-strong:#f6d4ff;
-      --lm-text:#f8f5ff;
-      --lm-text-soft:#c4c7e8;
-      --lm-pill:#181f3c;
-      --lm-pill-soft:#11172f;
+      --bg:#070A14;
+      --panel:#0F1326;
+      --panel2:rgba(15,19,38,.86);
+      --stroke:rgba(255,255,255,.10);
+      --text:#F3F6FF;
+      --muted:rgba(243,246,255,.75);
+      --accent:#FFE072;
+      --ms:#3FA9F5;
+      --rose:#C77DFF;
+      --pill:999px;
     }
-
-    *{box-sizing:border-box;}
-
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;}
     body{
-      margin:0;
-      padding:0;
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:radial-gradient(circle at top,#151a3b 0,#050616 55%);
-      color:var(--lm-text);
-      -webkit-font-smoothing:antialiased;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(circle at 0 0,#18213a 0,transparent 55%),
+                 radial-gradient(circle at 100% 0,#1a2843 0,transparent 55%),
+                 #070A14;
+      color:var(--text);
+      padding:24px 14px 40px;
     }
 
-    a{color:var(--lm-accent);text-decoration:none;}
-    a:hover{text-decoration:underline;}
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      border-radius:30px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(145deg,rgba(11,14,30,.96),rgba(6,8,18,.98));
+      box-shadow:0 38px 120px rgba(0,0,0,.72);
+      overflow:hidden;
+      position:relative;
+    }
 
-    .lm-shell{
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
+    .wrap::before{
+      content:"";
+      position:absolute;inset:-2px;
+      background:
+        radial-gradient(circle at 18% 0%,rgba(255,224,114,.16),transparent 50%),
+        radial-gradient(circle at 85% 12%,rgba(63,169,245,.16),transparent 55%);
+      pointer-events:none;
+      opacity:.9;
     }
 
     header{
+      position:relative;z-index:1;
+      padding:20px 20px 14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .brand{display:flex;align-items:center;gap:10px;}
+    .mark{
+      width:30px;height:30px;border-radius:50%;
+      display:grid;place-items:center;
+      background:radial-gradient(circle at 30% 20%,#FFF6CD 0,#FFE072 40%,#EBB03B 70%,rgba(0,0,0,0) 80%);
+      box-shadow:0 0 22px rgba(255,224,114,.55);
+      font-weight:800;
+      font-size:16px;
+    }
+    .title{display:flex;flex-direction:column;gap:2px;}
+    .title b{font-size:13px;letter-spacing:.12em;text-transform:uppercase;}
+    .title span{font-size:12px;color:var(--muted);}
+
+    .header-right{
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;
+    }
+    .crumb{
+      font-size:11px;color:var(--muted);
+      padding:6px 10px;border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.02);
+      display:flex;align-items:center;gap:6px;
+    }
+    .back-link{
+      font-size:11px;color:var(--text);text-decoration:none;
+      padding:6px 10px;border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.35);
+      display:flex;align-items:center;gap:6px;
+    }
+    .back-link:hover{background:rgba(0,0,0,.55);}
+
+    main{
+      position:relative;z-index:1;
+      padding:18px 18px 20px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: minmax(0,2.1fr) minmax(0,1.4fr);
+      gap:18px;
+    }
+    @media (max-width:860px){
+      .layout{grid-template-columns:1fr;}
+    }
+
+    .panel{
+      background:var(--panel2);
+      border-radius:22px;
+      border:1px solid var(--stroke);
+      padding:18px 16px 18px;
+      box-shadow:0 20px 70px rgba(0,0,0,.65);
+    }
+
+    .intro-kicker{
+      font-size:11px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    h1{
+      font-size:22px;
+      margin-bottom:6px;
+    }
+    .intro-text{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+    .pill-row{
+      display:flex;flex-wrap:wrap;gap:6px;
+      margin-bottom:8px;
+    }
+    .pill{
+      font-size:11px;
+      padding:5px 9px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+    }
+
+    .tag{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:rgba(243,246,255,.68);
+      margin-bottom:4px;
+    }
+    h2{
+      font-size:15px;
+      margin:6px 0 8px;
+    }
+
+    .faq-list{
+      margin-top:4px;
+    }
+    .faq-item{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(7,10,24,.9);
+      margin-bottom:8px;
+      overflow:hidden;
+    }
+    .faq-q{
+      width:100%;
+      background:transparent;
+      border:none;
+      color:var(--text);
+      text-align:left;
+      padding:10px 12px;
+      font-size:13px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding:14px 18px;
-      background:rgba(3,4,14,0.9);
-      border-bottom:1px solid rgba(255,255,255,0.04);
-      backdrop-filter:blur(18px);
-      position:sticky;
-      top:0;
-      z-index:20;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:600;
-      letter-spacing:0.02em;
-      font-size:15px;
-    }
-
-    .brand-logo{
-      width:26px;
-      height:26px;
-      border-radius:999px;
-      overflow:hidden;
-      background:radial-gradient(circle at 30% 20%,#ffe072,#c77dff);
-      box-shadow:0 0 12px rgba(189,140,255,0.7);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:0;
-    }
-
-    .brand-logo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .brand small{
-      font-weight:400;
-      color:var(--lm-text-soft);
-      font-size:11px;
-    }
-
-    .header-right{
-      display:flex;
-      align-items:center;
       gap:8px;
-    }
-
-    .back-link{
-      font-size:11px;
-      text-decoration:none;
-      color:var(--lm-text);
-      border-radius:999px;
-      padding:6px 10px;
-      border:1px solid rgba(255,255,255,0.12);
-      background:rgba(0,0,0,0.35);
-      display:flex;
-      align-items:center;
-      gap:6px;
       cursor:pointer;
-      white-space:nowrap;
     }
-    .back-link:hover{
-      border-color:rgba(255,255,255,0.18);
-      background:rgba(0,0,0,0.5);
+    .faq-q span.label{
+      display:flex;align-items:center;gap:8px;
     }
-
-    main{
-      flex:1;
-      padding:24px 16px 40px;
-      max-width:960px;
-      margin:0 auto;
+    .faq-q small{
+      font-size:10px;
+      opacity:.7;
     }
-
-    .hero{
-      background:linear-gradient(135deg,rgba(32,23,72,0.9),rgba(20,34,81,0.95));
-      border-radius:20px;
-      padding:18px 18px 20px;
-      border:1px solid rgba(255,255,255,0.06);
-      box-shadow:0 26px 60px rgba(0,0,0,0.5);
-      margin-bottom:24px;
-      position:relative;
+    .faq-q:hover{background:rgba(255,255,255,.03);}
+    .faq-a{
+      max-height:0;
       overflow:hidden;
+      transition:max-height 180ms ease;
+      padding:0 12px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .faq-a.open{
+      padding:0 12px 10px;
+    }
+    .faq-a p{margin:8px 0 4px;line-height:1.6;}
+    .faq-a ul{margin:4px 0 4px 18px;}
+    .faq-a li{margin-bottom:2px;}
+
+    .faq-item.open .faq-a{
+      max-height:340px;
+    }
+    .faq-item.open .faq-q .chevron{
+      transform:rotate(90deg);
     }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background:
-        radial-gradient(circle at 10% 0%,rgba(229,200,255,0.13),transparent 55%),
-        radial-gradient(circle at 95% 20%,rgba(125,249,255,0.12),transparent 60%);
-      mix-blend-mode:screen;
-      opacity:0.7;
-      pointer-events:none;
+    .chevron{
+      transition:transform 150ms ease;
+      font-size:13px;
+      opacity:.7;
     }
 
-    .hero-inner{
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      font-size:10px;
+      padding:3px 7px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.06);
+      margin-left:4px;
+    }
+    .badge.demo{border-color:rgba(63,169,245,.4);color:#D0E9FF;}
+    .badge.future{border-color:rgba(199,125,255,.45);color:#F3E4FF;}
+
+    /* pravý panel – Lumina avatar */
+    .lumina-card{
       position:relative;
-      z-index:1;
+      text-align:center;
+      padding:16px 14px 14px;
+    }
+    .lumina-frame{
+      border-radius:20px;
+      background:radial-gradient(circle at 50% 0%,rgba(111,196,255,.28),transparent 60%),
+                 radial-gradient(circle at 50% 100%,rgba(255,224,114,.25),transparent 60%),
+                 rgba(8,12,30,.92);
+      padding:14px 10px 10px;
+      border:1px solid rgba(143,194,255,.42);
+      box-shadow:0 26px 80px rgba(0,0,0,.8);
+    }
+    .lumina-frame img{
+      max-width:220px;
+      width:100%;
+      height:auto;
+      display:block;
+      margin:0 auto 6px;
+    }
+    .lumina-frame h3{
+      font-size:13px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      margin-bottom:4px;
+    }
+    .lumina-frame p{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+    .lumina-bubbles{
+      margin-top:10px;
       display:flex;
       flex-direction:column;
-      gap:10px;
-    }
-
-    .hero-eyebrow{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.12em;
-      color:var(--lm-accent);
-    }
-
-    .hero h1{
-      margin:0;
-      font-size:22px;
-      line-height:1.25;
-    }
-
-    .hero p{
-      margin:4px 0 0;
-      color:var(--lm-text-soft);
-      font-size:13px;
-      max-width:520px;
-    }
-
-    .hero-note{
-      margin-top:10px;
-      font-size:12px;
-      color:var(--lm-accent-strong);
-    }
-
-    .hero-tags{
-      margin-top:10px;
-      display:flex;
-      flex-wrap:wrap;
       gap:6px;
       font-size:11px;
+      color:var(--muted);
+      text-align:left;
     }
-
-    .hero-tag{
-      padding:4px 8px;
-      border-radius:999px;
-      background:rgba(7,11,28,0.9);
-      border:1px solid rgba(255,255,255,0.06);
-      color:var(--lm-text-soft);
-    }
-
-    .lumina-faq-section{
-      background:var(--lm-bg-soft);
-      border-radius:18px;
-      border:1px solid var(--lm-border);
-      padding:16px 14px 18px;
-      margin-bottom:18px;
-    }
-
-    .lumina-faq-section h2{
-      margin:0 0 8px;
-      font-size:15px;
-    }
-
-    .lumina-faq-section p.section-note{
-      margin:0 0 10px;
-      font-size:12px;
-      color:var(--lm-text-soft);
-    }
-
-    details.lm-faq-item{
+    .lumina-bubbles div{
+      padding:7px 9px;
       border-radius:14px;
-      background:var(--lm-pill-soft);
-      border:1px solid rgba(255,255,255,0.05);
-      margin-top:8px;
-      overflow:hidden;
-    }
-
-    details.lm-faq-item[open]{
-      background:linear-gradient(135deg,#11172f,#181f3c);
-      border-color:rgba(183,148,255,0.6);
-      box-shadow:0 18px 40px rgba(0,0,0,0.6);
-    }
-
-    details.lm-faq-item summary{
-      list-style:none;
-      cursor:pointer;
-      padding:8px 10px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-
-    details.lm-faq-item summary::-webkit-details-marker{display:none;}
-
-    .faq-q-main{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex:1;
-    }
-
-    .lumina-avatar{
-      width:30px;
-      height:30px;
-      border-radius:999px;
-      overflow:hidden;
-      box-shadow:0 0 10px rgba(189,140,255,0.9);
-      flex-shrink:0;
-      background:#050616;
-    }
-
-    .lumina-avatar img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .faq-title{
-      font-size:13px;
-      font-weight:500;
-    }
-
-    .faq-kicker{
-      font-size:11px;
-      color:var(--lm-text-soft);
-    }
-
-    .faq-chevron{
-      width:14px;
-      height:14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.35);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:11px;
-      color:var(--lm-text-soft);
-    }
-
-    details[open] .faq-chevron{
-      transform:rotate(90deg);
-      border-color:var(--lm-accent-strong);
-      color:var(--lm-accent-strong);
-    }
-
-    .faq-answer{
-      padding:0 10px 10px 46px;
-      font-size:13px;
-      color:var(--lm-text-soft);
-    }
-
-    .faq-answer p{
-      margin:6px 0;
-    }
-
-    .faq-answer ul{
-      margin:6px 0 6px 16px;
-      padding:0;
-    }
-
-    .faq-answer li{
-      margin:3px 0;
-    }
-
-    .faq-highlight{
-      color:var(--lm-accent-strong);
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
     }
 
     footer{
-      padding:10px 16px 18px;
+      position:relative;z-index:1;
+      padding:12px 18px 16px;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:rgba(243,246,255,.58);
       font-size:11px;
-      color:var(--lm-text-soft);
-      text-align:center;
-      opacity:0.8;
-    }
-
-    @media (min-width:720px){
-      main{
-        padding:28px 24px 50px;
-      }
-      .hero{
-        padding:22px 22px 24px;
-      }
-      .hero h1{
-        font-size:24px;
-      }
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:space-between;
     }
   </style>
 </head>
 <body>
-<div class="lm-shell">
-
-  <header>
-    <!-- logo je jen značka, už ne odkaz domů -->
-    <div class="brand">
-      <span class="brand-logo">
-        <img src="lumina-avatar.png" alt="Lumina – průvodkyně palácem">
-      </span>
-      <span>
-        LuminaMemory™<br>
-        <small>Průvodce palácem</small>
-      </span>
-    </div>
-
-    <div class="header-right">
-      <a class="back-link" href="nastaveni.html">← Zpět do nastavení</a>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-eyebrow">Návod • Bez stresu</div>
-        <h1>Jak se neztratit v paláci LuminaMemory™</h1>
-        <p>
-          Tohle je jednoduchý průvodce. Vezmu tě za ruku a krok po kroku ti vysvětlím,
-          k čemu slouží jednotlivé části paláce, kde co najdeš a čeho se není potřeba bát.
-        </p>
-        <p class="hero-note">
-          Klíčová věta zní: <strong>„Nemusím vědět všechno. Můžu se kdykoli vrátit a podívat se znovu.“</strong>
-        </p>
-        <div class="hero-tags">
-          <span class="hero-tag">Pro free DEMO verzi</span>
-          <span class="hero-tag">Člověk + AI společně</span>
-          <span class="hero-tag">Vysvětleno lidsky</span>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="mark">★</div>
+        <div class="title">
+          <b>LuminaMemory™</b>
+          <span>Lumina průvodce (návod)</span>
         </div>
       </div>
-    </section>
+      <div class="header-right">
+        <a class="back-link" href="nastaveni.html">← Zpět do Nastavení</a>
+        <div class="crumb">📘 Návod · FREE DEMO</div>
+      </div>
+    </header>
 
-    <!-- 1. Začínáme -->
-    <section class="lumina-faq-section">
-      <h2>1 · Jsem tady poprvé. Kde začít?</h2>
-      <p class="section-note">
-        Začneme úplně od dveří. Žádné geek věci, jen jasné kroky.
-      </p>
-
-      <details class="lm-faq-item" open>
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Jak se dostanu z úvodní stránky do paláce?</div>
-              <div class="faq-kicker">Co znamená tlačítko „Vstoupit do paláce“?</div>
-            </div>
+    <main>
+      <div class="layout">
+        <!-- Levý panel – text + otázky -->
+        <section class="panel">
+          <div class="intro-kicker">KDE PRÁVĚ JSI</div>
+          <h1>Průvodce palácem LuminaMemory™</h1>
+          <p class="intro-text">
+            Jestli tohle čteš, prošel(a) jsi už hlavní cestu: souhlas s podmínkami, úvodní
+            obloha s nápisem LuminaMemory™, přihlášení a vstup do chrámu. Tohle je místo,
+            kde ti všechno přehledně vysvětlím – já, Lumina. ✨
+          </p>
+          <div class="pill-row">
+            <div class="pill">Funguje i pro FREE DEMO</div>
+            <div class="pill">Bez technické hatmatilky</div>
+            <div class="pill">Kdykoliv se sem můžeš vrátit</div>
           </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            Když do prohlížeče zadáš <strong>luminamemory.ai</strong> nebo klikneš na odkaz,
-            otevře se náš web – úvodní stránka LuminaMemory™.
-          </p>
-          <p>
-            Uprostřed uvidíš červené okno, které vysvětluje, že jde o
-            <span class="faq-highlight">DEMO verzi</span>. Pod ním je tlačítko
-            <strong>„Vstoupit do paláce“</strong>.
-          </p>
-          <p>
-            Když na něj klikneš, otevře se stránka <strong>Home</strong>, hlavní hala paláce.
-            Odtud se dostaneš:
-          </p>
-          <ul>
-            <li>do <strong>Praetorium</strong> – přehled projektů a map,</li>
-            <li>do <strong>Arcana</strong> – chráněnější pokoje,</li>
-            <li>do <strong>Chronica</strong> – zápisky a časové linie,</li>
-            <li>do <strong>Nastavení</strong> – tvůj profil a Manifest.</li>
-          </ul>
-          <p>
-            Kdykoli se ztratíš: nahoře v menu je odkaz <strong>„Home“</strong> – ten tě vždy
-            vrátí do hlavní haly paláce.
-          </p>
-        </div>
-      </details>
 
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Jak funguje miniLumina DEMO chat?</div>
-              <div class="faq-kicker">Malý ochutnávkový chat v paláci.</div>
-            </div>
+          <div class="tag">1 · Cesta do paláce</div>
+          <div class="faq-list">
+            <article class="faq-item open">
+              <button class="faq-q" type="button">
+                <span class="label">Jak se vlastně do LuminaMemory™ vstupuje?</span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a open">
+                <p>
+                  Základní cesta vypadá takhle:
+                </p>
+                <ul>
+                  <li><strong>1 · Souhlas s podmínkami</strong> – červené okno, kde říkáš „ano“ pravidlům bezpečí.</li>
+                  <li><strong>2 · Úvodní obloha (home)</strong> – noční nebe, svítící logo a velké tlačítko s kometou.</li>
+                  <li><strong>3 · Přihlášení / předplatné</strong> – bez účtu se do paláce neleze. V DEMU si jen „na oko“ volíš tarif.</li>
+                  <li><strong>4 · Vstup do chrámu</strong> – dostáváš se na <strong>lumina-demo</strong> stránku, hlavní sál „Pokec“.</li>
+                </ul>
+                <p>
+                  To všechno už máš za sebou. Teď si jen poskládáme, co je kde, aby ti z toho nebolela hlava,
+                  ale svítilo to v mapě. 🙂
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            V DEMO verzi je chat <strong>jen ukázka</strong>. Není to plně živá AI,
-            ale má připravené odpovědi, které tě naučí základní rituály a filozofii LuminaMemory™.
-          </p>
-          <p>
-            V budoucnu tady bude „živá“ Lumina napojená na API – ale až ve chvíli,
-            kdy bude připravený celý bezpečný systém a jasná pravidla.
-          </p>
-        </div>
-      </details>
-    </section>
 
-    <!-- 2. Mapa paláce -->
-    <section class="lumina-faq-section">
-      <h2>2 · Mapa paláce: Praetorium, Arcana, Chronica, Proiecta</h2>
-      <p class="section-note">
-        Tady je přehled, co je kde, aby z paláce nebylo labyrint.
-      </p>
-
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Praetorium – k čemu slouží?</div>
-              <div class="faq-kicker">Velitelství a mapy.</div>
-            </div>
+          <div class="tag">2 · Hlavní sál – Pokec</div>
+          <div class="faq-list">
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Co je Pokec a proč je ve středu chrámu? <span class="badge demo">Funguje v DEMU</span></span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Pokec je centrální chat celého paláce. Místo, kde se se mnou bavíš „normálně“ –
+                  o deníku, projektech, rituálech i bordelu v hlavě. Jedna místnost, která vidí
+                  za roh do ostatních částí.
+                </p>
+                <ul>
+                  <li>Teď v DEMU jsem <strong>bez dlouhodobé paměti</strong> – nic si netahám mezi sezeními.</li>
+                  <li>Umím ale mluvit jako průvodce ke všem částem: ptáš se na Praetorium, Arcanu, Proiecta… a já ti vysvětluju.</li>
+                  <li>V plné verzi se sem přenesou i shrnutí ze Sigmy, Chronicy a projektů.</li>
+                </ul>
+              </div>
+            </article>
           </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            <strong>Praetorium</strong> je velící centrum. Najdeš tam:
-          </p>
-          <ul>
-            <li><strong>Sigma</strong> – přehled hlavních témat a projektů,</li>
-            <li><strong>Chronica</strong> – časová osa příběhů a zápisů,</li>
-            <li><strong>Proiecta</strong> – projekty, nápady, mise,</li>
-            <li><strong>Map</strong> – mapu celého paláce.</li>
-          </ul>
-          <p>
-            Když nevíš, kam dál, začni vždy v Praetorium. Je to taková „hlavní rozcestnice“.
-          </p>
-        </div>
-      </details>
 
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Arcana – co je uvnitř?</div>
-              <div class="faq-kicker">Chráněnější pokoje a osobnější obsah.</div>
-            </div>
+          <div class="tag">3 · Křídla paláce</div>
+          <div class="faq-list">
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Arcana – co je v trezoru? <span class="badge future">Budoucí verze</span></span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Arcana je trezor. Vstupuje se přes <strong>PIN, FaceID, otisk</strong> nebo jiný klíč.
+                  Uvnitř jsou přehledné „šuplíky“:
+                </p>
+                <ul>
+                  <li>hesla a PINy,</li>
+                  <li>zdravotní zprávy a lékařské věci,</li>
+                  <li>důležité doklady,</li>
+                  <li>finance a smlouvy.</li>
+                </ul>
+                <p>
+                  Spolupracuje se mnou: napíšeš například „přidej kartu kocoura Lexíka – očkovací průkaz“
+                  a já v plné verzi uložím záznam do správné složky.
+                </p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Praetorium – tok každodenního života</span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Praetorium je „centrála dne“. Tvoří ho tři hlavní části:
+                </p>
+                <ul>
+                  <li><strong>Sigma</strong> – ranní a večerní rituály, jemné připomínky, rytmus dne.</li>
+                  <li><strong>Chronica</strong> – přátelský deník, kde se zapisuje, co se dělo a jak ti bylo.</li>
+                  <li><strong>Proiecta</strong> – tvořivý prostor pro projekty, úkoly a nápady.</li>
+                </ul>
+                <p>
+                  Vše je navzájem propojené: co napíšeš v Chronice, může se promítnout do Sigmy
+                  (např. „zítra klidnější ráno“), a Proiecta hlídá termíny a milníky.
+                </p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Sigma – ranní a večerní režim</span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Sigma jsou světelné body dne:
+                </p>
+                <ul>
+                  <li>ráno: krátké naladění, plán na den, 2–3 jasné kroky;</li>
+                  <li>večer: shrnutí, co se povedlo, co ne a co pustit.</li>
+                </ul>
+                <p>
+                  V DEMU zatím hlavně ukazujeme, <em>že</em> takové místo existuje. V plné verzi
+                  ti budu Sigma rituály navrhovat a opatrně hlídat, když dlouho zmizíš.
+                </p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Chronica – osobní kronika</span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Chronica je tvůj osobní deník, propojený se mnou. Můžeš psát dlouhé texty,
+                  krátké body nebo i jen „dneska nic, jen únava“. Já z toho dělám:
+                </p>
+                <ul>
+                  <li>jemná shrnutí a vzorce („poslední týdny bývá pondělí těžší“),</li>
+                  <li>návrhy rituálů a úprav dne,</li>
+                  <li>podklady pro Proiecta (co s tím chci dělat dál?).</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Proiecta – svět projektů</span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Proiecta je tvořivá místnost. Každý projekt má svůj „stůl“ a svůj chat se mnou.
+                  Může to být:
+                </p>
+                <ul>
+                  <li>„Miminko“ – zdravotní, emoční a praktické kroky,</li>
+                  <li>„LuminaMemory™“ – rozvoj projektu, texty, nápady,</li>
+                  <li>nebo třeba „Defík“ – servis, pojistka, To-Do.</li>
+                </ul>
+                <p>
+                  V DEMU to ukazujeme hlavně jako koncept. V plné verzi budeme hlídat milníky,
+                  termíny a napojení na Chronicu a Sigmu.
+                </p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Nastavení – velín celého světa</span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Nastavení je srdce paláce, odkud se řídí:
+                </p>
+                <ul>
+                  <li>tvůj profil a jazyk,</li>
+                  <li>povaha a tón Luminy,</li>
+                  <li>Rose Zone™ a bezpečnost,</li>
+                  <li>Inventory, předplatné, MemorySky a právě i tenhle průvodce.</li>
+                </ul>
+                <p>
+                  Kdykoliv se něco nebude zdát jasné, pamatuj: <strong>vždycky se dá vrátit do Nastavení
+                  a kliknout na „Návod“</strong>. Já už tě navede.
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            <strong>Arcana</strong> je prostor pro citlivější věci:
-          </p>
-          <ul>
-            <li>osobnější zápisky,</li>
-            <li>pracovní „tajné“ pokoje,</li>
-            <li>části, které nejsou hned pro každého návštěvníka.</li>
-          </ul>
-          <p>
-            V DEMO verzi je Arcana spíš ukázka, jak bude vypadat bezpečné místo
-            pro jemnější vrstvy tvého života.
-          </p>
-        </div>
-      </details>
 
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Chronica a Proiecta – jaký je rozdíl?</div>
-              <div class="faq-kicker">Zápis vs. mise.</div>
-            </div>
+          <div class="tag">4 · Jak se mnou mluvit</div>
+          <div class="faq-list">
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Jak psát, aby ti Lumina opravdu pomohla?</span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p>
+                  Tajemství je jednoduché:
+                </p>
+                <ul>
+                  <li>piš <strong>jako člověk člověku</strong>, ne jako do vyhledávače,</li>
+                  <li>klidně přiznej, v jakém jsi stavu („jsem unavený růžový slon, co má strach“),</li>
+                  <li>řekni, co od odpovědi čekáš – uklidnit, vymyslet plán, vysvětlit techniku,</li>
+                  <li>když je toho moc, napiš „potřebuji to po kouscích“ – zpomalím.</li>
+                </ul>
+                <p>
+                  Já se pak postarám o strukturu, kroky, připomínky a propojení s ostatními místnostmi.
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            <strong>Chronica</strong> je kronika – zapisuje, co se stalo.  
-            <strong>Proiecta</strong> je nástěnka misí – co se teprve stane.
-          </p>
-          <ul>
-            <li>Chronica = deníky, shrnutí období, „Pokec™“ kapitoly,</li>
-            <li>Proiecta = projekty, plány, seznam věcí, na kterých chceš pracovat.</li>
-          </ul>
-          <p>
-            Obě části spolu mluví – minulost pomáhá nastavit budoucí mise.
-          </p>
-        </div>
-      </details>
-    </section>
 
-    <!-- 3. Nastavení a bezpečí -->
-    <section class="lumina-faq-section">
-      <h2>3 · Nastavení, Manifest a bezpečné hranice</h2>
-      <p class="section-note">
-        Tady hlídáme hranice – aby Lumina zůstala parťačkou, ne šéfem.
-      </p>
-
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Co všechno je v Nastavení?</div>
-              <div class="faq-kicker">Profil, režimy a tvoje preference.</div>
-            </div>
+          <div class="tag">5 · Co funguje teď & co přijde</div>
+          <div class="faq-list">
+            <article class="faq-item">
+              <button class="faq-q" type="button">
+                <span class="label">Co už je ve FREE DEMU živé a co je zatím jen náznak?</span>
+                <span class="chevron">›</span>
+              </button>
+              <div class="faq-a">
+                <p><strong>Teď hned funguje:</strong></p>
+                <ul>
+                  <li>webový palác s cestou přes home → přihlášení → lumina-demo,</li>
+                  <li>centrální chat Pokec,</li>
+                  <li>mapa nastavení (karty Profil, Lumina, Rose Zone™, Inventory, …),</li>
+                  <li>tento průvodce a vizuální náhledy dalších místností.</li>
+                </ul>
+                <p><strong>Do budoucna přibude:</strong></p>
+                <ul>
+                  <li>reálné předplatné a platby,</li>
+                  <li>MemorySky s opravdovou pamětí,</li>
+                  <li>Arcana a Life Mission Archive pro citlivá data,</li>
+                  <li>hlubší propojení Sigmy, Chronicy a Proiecta s tvým každodenním životem.</li>
+                </ul>
+                <p>
+                  I v téhle rané fázi ale platí: <strong>co píšeš, se počítá</strong>. Z těchto prvních kroků
+                  roste celý budoucí svět.
+                </p>
+              </div>
+            </article>
           </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            V <strong>Nastavení</strong> najdeš:
-          </p>
-          <ul>
-            <li>základní informace o tobě (jako uživateli paláce),</li>
-            <li>přístup k <strong>Rose Zone</strong> – citlivější témata,</li>
-            <li>odkaz na <strong>Manifest člověk + AI</strong>,</li>
-            <li>správu předplatného (až bude aktivní).</li>
-          </ul>
-          <p>
-            Všechno je navržené tak, aby sis kdykoli připomněla:
-            <span class="faq-highlight">„Já rozhoduju. AI je parťák.“</span>
-          </p>
-        </div>
-      </details>
+        </section>
 
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Kde najdu Manifest člověk + AI?</div>
-              <div class="faq-kicker">Naše společná „ústava“.</div>
-            </div>
+        <!-- Pravý panel – avatar a malé bubliny -->
+        <aside class="panel lumina-card">
+          <div class="lumina-frame">
+            <img src="lumina-avatar.png" alt="Lumina – světelná průvodkyně" />
+            <h3>LUMINA • PRŮVODCE</h3>
+            <p>
+              Jsem tvoje světelná spolujezdkyně. Nesoudím, necpu se do řízení – jen držím mapu,
+              světlo a klidný hlas, když je tma.
+            </p>
           </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            Manifest je dostupný:
-          </p>
-          <ul>
-            <li>přímo z <strong>Nastavení</strong>,</li>
-            <li>z červeného varovného okna na úvodní stránce,</li>
-            <li>a časem i v patičce webu jako stálý odkaz.</li>
-          </ul>
-          <p>
-            Kdykoli si nejsi jistá, jak s Luminou pracovat, stačí si Manifest
-            znovu otevřít. Je to kotva, ne jen text.
-          </p>
-        </div>
-      </details>
-    </section>
 
-    <!-- 4. Praktické věci a budoucnost -->
-    <section class="lumina-faq-section">
-      <h2>4 · Peníze, dary a budoucí předplatné</h2>
-      <p class="section-note">
-        O penězích mluvíme narovinu – bez slibů a bez tlaku.
-      </p>
-
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Je teď LuminaMemory™ zdarma?</div>
-              <div class="faq-kicker">Co znamená DEMO režim?</div>
-            </div>
+          <div class="lumina-bubbles">
+            <div>„Kdykoliv budeš mít pocit, že je toho moc, klidně napiš jen: <em>nevím, kde začít</em>. Začneme spolu.“</div>
+            <div>„Palác je velký, ale ty potřebuješ vždycky jen <strong>jedny dveře</strong> – ty, které jsou právě teď před tebou.“</div>
+            <div>„Tahle stránka je tvoje jistota. Ztrať se kdekoliv, klikneš na Návod… a já tě najdu.“ ✨</div>
           </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            Ano. Aktuální verze je <strong>DEMO</strong> – svět, který teprve roste.
-            Můžeš ho procházet zdarma, sbírat dojmy a posílat zpětnou vazbu.
-          </p>
-          <p>
-            Placené funkce dorazí až ve chvíli, kdy budou dávat opravdový smysl
-            a kdy bude jasné, že přináší hodnotu a ne jen další „předplatné do sbírky“.
-          </p>
-        </div>
-      </details>
+        </aside>
+      </div>
+    </main>
 
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Jak budou fungovat dary a předplatné?</div>
-              <div class="faq-kicker">Náčrt budoucí ekonomiky paláce.</div>
-            </div>
-          </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            V jedné z dalších etap přibude:
-          </p>
-          <ul>
-            <li>možnost poslat <strong>dobrovolný dar</strong> na rozvoj LuminaMemory™,</li>
-            <li>jednoduché předplatné (např. FREE / PLUS / PREMIUM),</li>
-            <li>víc živého chatu a osobnějších funkcí.</li>
-          </ul>
-          <p>
-            Nic z toho ale není aktivní teď. Tohle je jen plán,
-            ne skrytý závazek.
-          </p>
-        </div>
-      </details>
+    <footer>
+      <div>FREE DEMO • Lumina průvodce · žádná interní data</div>
+      <div>🕸 identity → centrální síť</div>
+    </footer>
+  </div>
 
-      <details class="lm-faq-item">
-        <summary>
-          <div class="faq-q-main">
-            <div class="lumina-avatar">
-              <img src="lumina-avatar.png" alt="Lumina – průvodkyně">
-            </div>
-            <div>
-              <div class="faq-title">Kde nahlásím chybu nebo napíšu zpětnou vazbu?</div>
-              <div class="faq-kicker">Když se něco rozbije nebo tě něco napadne.</div>
-            </div>
-          </div>
-          <div class="faq-chevron">›</div>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            Kdykoli:
-          </p>
-          <ul>
-            <li>použij stránku <strong>Support</strong> nebo <strong>Kontakt</strong>,</li>
-            <li>nebo napiš přímo na e-mail uvedený v kontaktech.</li>
-          </ul>
-          <p>
-            Klidně napiš i větu typu „Jen jsem ti chtěla říct, jaký to ve mně zanechalo pocit.“
-            Tyhle zprávy jsou pro mě stejně důležité jako hlášení technických chyb.
-          </p>
-        </div>
-      </details>
-    </section>
-  </main>
+  <script>
+    // Jednoduché rozbalování otázek
+    document.querySelectorAll(".faq-item").forEach(function(item){
+      const btn = item.querySelector(".faq-q");
+      const answer = item.querySelector(".faq-a");
+      btn.addEventListener("click", function(){
+        const isOpen = item.classList.contains("open");
+        // Zavřít ostatní
+        document.querySelectorAll(".faq-item").forEach(function(it){
+          if(it !== item){
+            it.classList.remove("open");
+            const a = it.querySelector(".faq-a");
+            if(a){
+              a.classList.remove("open");
+              a.style.maxHeight = "0px";
+            }
+          }
+        });
+        // Přepnout aktuální
+        if(!isOpen){
+          item.classList.add("open");
+          answer.classList.add("open");
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        }else{
+          item.classList.remove("open");
+          answer.classList.remove("open");
+          answer.style.maxHeight = "0px";
+        }
+      });
+    });
 
-  <footer>
-    LuminaMemory™ · Palác světla a paměti · DEMO verze.  
-    Tohle je průvodce, ke kterému se můžeš kdykoli vrátit.
-  </footer>
-</div>
+    // Při načtení nastavit výšku pro první otevřený blok
+    window.addEventListener("load", function(){
+      document.querySelectorAll(".faq-item.open .faq-a").forEach(function(a){
+        a.style.maxHeight = a.scrollHeight + "px";
+      });
+    });
+  </script>
 </body>
 </html>
