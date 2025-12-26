@@ -589,7 +589,8 @@
         <!-- Pravý panel – avatar a malé bubliny -->
         <aside class="panel lumina-card">
           <div class="lumina-frame">
-            <img src="lumina-avatar.png" alt="Lumina – světelná průvodkyně" />
+            <!-- Lumina avatar with wink animation -->
+            <img src="lumina-avatar.png" class="lumina-avatar" id="luminaAvatar" alt="Lumina" />
             <h3>LUMINA • PRŮVODCE</h3>
             <p>
               Jsem tvoje světelná spolujezdkyně. Nesoudím, necpu se do řízení – jen držím mapu,
@@ -647,6 +648,23 @@
     window.addEventListener("load", function(){
       document.querySelectorAll(".faq-item.open .faq-a").forEach(function(a){
         a.style.maxHeight = a.scrollHeight + "px";
+      });
+    });
+
+    // Lumina avatar wink animation
+    const avatar = document.getElementById('luminaAvatar');
+    const normal = 'lumina-avatar.png';
+    const wink   = 'lumina-avatar-wink.png';
+    function luminaWink() {
+      // change the avatar to wink variant and revert back after 600ms
+      avatar.src = wink;
+      setTimeout(() => avatar.src = normal, 600);
+    }
+    // Attach wink animation to every FAQ question
+    const questions = document.querySelectorAll('.faq-q');
+    questions.forEach(q => {
+      q.addEventListener('click', () => {
+        luminaWink();
       });
     });
   </script>
