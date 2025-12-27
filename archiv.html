@@ -379,6 +379,65 @@
       font-size: 14px;
     }
 
+    /* ================================== */
+    /* Demo toast – glass info chip */
+    /* ================================== */
+    .demo-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%) translateY(20px);
+      max-width: 460px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at top left,
+          rgba(120, 190, 255, 0.22),
+          transparent 55%),
+        rgba(6, 8, 24, 0.96);
+      border: 1px solid rgba(185, 215, 255, 0.35);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(18px);
+      color: #f4f3ff;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 9999;
+    }
+
+    .demo-toast.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .demo-toast-icon {
+      font-size: 1.2rem;
+      margin-top: 2px;
+    }
+
+    .demo-toast strong {
+      color: #ffe28a;
+    }
+
+    .demo-toast-close {
+      margin-left: auto;
+      border: none;
+      background: transparent;
+      color: #a7b4ff;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .demo-toast-close:hover {
+      color: #ffffff;
+    }
+
     .lumina-frame {
       margin-top: 4px;
       padding: 10px 11px 9px;
@@ -565,7 +624,11 @@
               </p>
 
               <div class="btn-row">
-                <a class="btn-main" href="backup.pdf" download>
+                <a href="backup.pdf"
+                   class="btn-main"
+                   target="_blank"
+                   rel="noopener"
+                   onclick="showDemoToast()">
                   <span>⬇️</span> Stáhnout ukázkovou zálohu (PDF)
                 </a>
                 <button type="button" class="btn-ghost" onclick="alert('V DEMO verzi ještě nevytváříme skutečný export – jen ukázkový dokument backup.pdf 😊');">
@@ -603,6 +666,30 @@
       </div>
     </footer>
   </div>
+
+  <!-- Demo toast component -->
+  <div class="demo-toast" id="demoToast">
+    <div class="demo-toast-icon">💾</div>
+    <div>
+      <strong>DEMO verze</strong><br>
+      V téhle fázi si stahuješ jen ukázkový dokument <code>backup.pdf</code> –
+      opravdový chytrý export přijde až v ostré verzi.
+    </div>
+    <button class="demo-toast-close" type="button" onclick="hideDemoToast()">Zavřít ✕</button>
+  </div>
+
+  <script>
+    function showDemoToast() {
+      const el = document.getElementById('demoToast');
+      el.classList.add('is-visible');
+      // auto-hide after 7 s
+      setTimeout(() => el.classList.remove('is-visible'), 7000);
+    }
+
+    function hideDemoToast() {
+      document.getElementById('demoToast').classList.remove('is-visible');
+    }
+  </script>
 </body>
 
 </html>
