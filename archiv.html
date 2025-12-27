@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <!-- META TAGS – LuminaMemory™ · Life Mission Archive -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="title" content="Life Mission Archive · LuminaMemory™">
+  <meta name="description" content="Místo, kde můžeš jedním kliknutím vzít svůj svět z LuminaMemory™ s sebou – deníky, rituály, projekty i export pro právníky nebo účetní.">
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#050015">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://luminamemory.ai/archiv.html">
+  <meta property="og:title" content="Life Mission Archive · LuminaMemory™">
+  <meta property="og:site_name" content="LuminaMemory™">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:description" content="Zálohy, exporty a přenos tvého světa jinam. Ne jen další složka v cloudu – ale tvůj osobní trezor.">
+  <meta property="og:image" content="https://luminamemory.ai/og-luminamemory.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://luminamemory.ai/archiv.html">
+  <meta name="twitter:title" content="Life Mission Archive · LuminaMemory™">
+  <meta name="twitter:description" content="Zálohy, exporty a přenos tvého světa jinam. Ne jen další složka v cloudu – ale tvůj osobní trezor.">
+  <meta name="twitter:image" content="https://luminamemory.ai/og-luminamemory.png">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://luminamemory.ai/archiv.html">
+
+  <title>📦 Life Mission Archive · LuminaMemory™</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: radial-gradient(circle at 0% 0%, #2a1a40, #050015 52%, #02020a 100%);
+      --card: rgba(9, 12, 26, 0.94);
+      --cardSoft: rgba(13, 18, 36, 0.96);
+      --border: rgba(255, 255, 255, 0.06);
+      --ink: rgba(244, 247, 255, 0.94);
+      --muted: rgba(202, 213, 243, 0.75);
+      --accent: #e7b75a;
+      --accentSoft: rgba(231, 183, 90, 0.14);
+      --pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 24px 14px;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1120px;
+      min-height: 0;
+      background: radial-gradient(circle at 0 0,
+          rgba(146, 111, 255, 0.08),
+          transparent 60%) rgba(3, 5, 18, 0.96);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.78),
+        0 0 0 1px rgba(255, 255, 255, 0.02);
+      padding: 18px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%,
+          #ffe9a8,
+          #f5b24b 48%,
+          #5d2a83 100%);
+      box-shadow:
+        0 0 24px rgba(255, 214, 127, 0.9),
+        0 0 40px rgba(109, 78, 197, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 13px;
+    }
+
+    .title b {
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .title span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .back-link {
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(8, 10, 24, 0.8);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-link:hover {
+      background: rgba(19, 25, 52, 0.95);
+    }
+
+    .crumb {
+      opacity: 0.75;
+    }
+
+    main {
+      flex: 1;
+      padding-top: 18px;
+      padding-bottom: 6px;
+      min-height: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 18px 18px 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .intro-kicker {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(20px, 2.2vw, 24px);
+    }
+
+    .intro-text {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 2px 0 8px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(231, 183, 90, 0.95);
+      margin-top: 4px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 6px;
+      margin-bottom: 3px;
+    }
+
+    .section-text {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+
+    .list {
+      margin: 4px 0 6px;
+      padding-left: 16px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .list li {
+      margin-bottom: 4px;
+    }
+
+    .note {
+      margin-top: 4px;
+      font-size: 11px;
+      color: rgba(212, 224, 255, 0.8);
+      border-left: 2px solid rgba(231, 183, 90, 0.7);
+      padding-left: 8px;
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .office-card {
+      flex: 1;
+      min-height: 0;
+      background: var(--cardSoft);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .office-image {
+      position: relative;
+      padding-top: 58%;
+      background-image: url("office.png");
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .office-image::after {
+      content: "Ukázková kancelář archivu · DEMO";
+      position: absolute;
+      left: 12px;
+      bottom: 10px;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(2, 4, 12, 0.82);
+      color: rgba(235, 240, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .office-body {
+      padding: 14px 14px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .office-body b {
+      color: var(--ink);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 12px;
+      border-radius: var(--pill);
+      border: 1px solid rgba(231, 183, 90, 0.9);
+      background: radial-gradient(circle at 20% 0,
+          rgba(255, 244, 210, 0.16),
+          rgba(53, 30, 9, 0.96));
+      color: #fff5d8;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-main span {
+      font-size: 14px;
+    }
+
+    .btn-main:hover {
+      box-shadow:
+        0 0 28px rgba(231, 183, 90, 0.55),
+        0 0 0 1px rgba(231, 183, 90, 0.85);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 11px;
+      border-radius: var(--pill);
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      background: rgba(10, 14, 32, 0.8);
+      color: var(--muted);
+      font-size: 11px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-ghost span {
+      font-size: 14px;
+    }
+
+    .lumina-frame {
+      margin-top: 4px;
+      padding: 10px 11px 9px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: radial-gradient(circle at 0 0,
+          rgba(133, 194, 255, 0.12),
+          rgba(11, 16, 38, 0.98));
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .lumina-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 0 26px rgba(126, 194, 255, 0.9);
+    }
+
+    .lumina-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lumina-frame h2 {
+      margin: 0 0 2px;
+      font-size: 12px;
+    }
+
+    .lumina-frame p {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    footer {
+      padding-top: 12px;
+      margin-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 11px;
+      color: rgba(226, 233, 255, 0.65);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .foot-left {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .foot-right {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 880px) {
+      body {
+        padding: 14px 10px;
+      }
+
+      .wrap {
+        padding: 14px 14px 12px;
+        border-radius: 18px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .office-image {
+        padding-top: 64%;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="mark">★</div>
+        <div class="title">
+          <b>LuminaMemory™</b>
+          <span>Life Mission Archive™ · DEMO</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <a class="back-link" href="nastaveni.html">← Zpět ⚙️</a>
+        <div class="crumb">📦 Zálohy & export · FREE DEMO</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="layout">
+        <!-- Levý panel – vysvětlení -->
+        <section class="panel">
+          <div class="intro-kicker">KDE PRÁVĚ JSI</div>
+          <h1>Life Mission Archive – zálohy tvého světa</h1>
+          <p class="intro-text">
+            Tohle není obyčejný „export nastavení“. Life Mission Archive je místo, kde
+            jedním kliknutím uložíš <strong>příběh svého světa</strong> – deníky, rituály,
+            projekty, poznámky, tvé mise. Tak, abys je mohl(a) vzít a odejít s nimi
+            jinam – v klidu a s hlavou nahoře.
+          </p>
+
+          <div class="pill-row">
+            <div class="pill">Přehledné PDF i datový balíček</div>
+            <div class="pill">Pro advokáta, účetní i „batoh“</div>
+            <div class="pill">DEMO: jen ukázkový scénář</div>
+          </div>
+
+          <div class="tag">1 · Co se jednou bude zálohovat</div>
+          <p class="section-text">
+            V plné verzi se sem jednou budou ukládat:
+          </p>
+          <ul class="list">
+            <li><strong>Chronica</strong> – výběr důležitých zápisů a milníků.</li>
+            <li><strong>Sigma</strong> – klíčové rituály, návyky a připomínky.</li>
+            <li><strong>Proiecta</strong> – projekty, plány, kreativní náčrtky.</li>
+            <li><strong>Arcana</strong> – odkazy na trezor (bez citlivých dat v otevřené podobě).</li>
+            <li><strong>Nastavení světa</strong> – jak s tebou Lumina pracuje, jaký máš tarif, jak velké je MemorySky.</li>
+          </ul>
+
+          <p class="section-text">
+            Cílem je, aby ses jednou mohl(a) rozhodnout: <em>„Chci celý tenhle svět
+            přenést jinam, nebo jen uložit do šuplíku jako kroniku jednoho období?“</em>
+          </p>
+
+          <div class="tag">2 · Jak vypadá ukázková záloha (DEMO)</div>
+          <p class="section-text">
+            V téhle DEMO verzi ti nabízím jen <strong>ukázkový dokument</strong> – 
+            fiktivní „Záloha duše 001“. Vypadá tak, jak by jednou mohl vypadat
+            export pro tebe, tvého právníka, terapeuta nebo prostě pro šanon
+            s názvem „Tohle jsem byl(a) já“.
+          </p>
+
+          <p class="section-text">
+            Uvidíš strukturované kapitoly, shrnutí misí, seznam rituálů a
+            přehled projektů. Žádná skutečná data se z DEMO verze nezálohují
+            ani nikam neposílají – je to jen <strong>papírová maketa</strong>.
+          </p>
+
+          <div class="note">
+            V ostré verzi budeš mít možnost exportovat jak <strong>čitelné PDF</strong>,
+            tak i <strong>strojově čitelný datový balíček</strong>, který půjde
+            napojit na jiné systémy nebo archivovat u notáře.
+          </div>
+        </section>
+
+        <!-- Pravý panel – kancelář + tlačítka -->
+        <section class="side">
+          <div class="office-card">
+            <div class="office-image"></div>
+            <div class="office-body">
+              <b>Archivní kancelář</b>
+              <p class="section-text">
+                Představ si tuhle místnost jako malou kancelář v zákulisí chrámu:
+                dřevěný stůl, starý telefon, šuplík plný složek a pavučiny, které
+                se objevují jen tam, kde je už všechno bezpečně uložené.
+              </p>
+
+              <p class="section-text">
+                Tady se neřeší emoce ani drama – tady se <strong>počítá, třídí
+                a podepisuje</strong>. Přehledně, klidně, bez technické hrůzy.
+              </p>
+
+              <div class="btn-row">
+                <a class="btn-main" href="backup.pdf" download>
+                  <span>⬇️</span> Stáhnout ukázkovou zálohu (PDF)
+                </a>
+                <button type="button" class="btn-ghost" onclick="alert('V DEMO verzi ještě nevytváříme skutečný export – jen ukázkový dokument backup.pdf 😊');">
+                  <span>ℹ️</span> Jak bude vypadat skutečný export?
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lumina-frame">
+            <div class="lumina-avatar">
+              <img src="lumina-avatar.png" alt="Lumina">
+            </div>
+            <div>
+              <h2>Jak s tím pracovat teď</h2>
+              <p>
+                V téhle fázi ber Life Mission Archive spíš jako <strong>vizi</strong>
+                než hotovou funkci. Můžeš si projít ukázkový dokument, promyslet,
+                jaké kapitoly bys jednou chtěl(a) mít ve své opravdové záloze,
+                a podle toho se mnou ladit, co všechno má tvůj svět obsahovat.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="foot-left">
+        <span>📦 Life Mission Archive™ · DEMO náhled</span>
+        <span>Export reálných dat: zatím <strong>v přípravě</strong>.</span>
+      </div>
+      <div class="foot-right">
+        LuminaMemory™ · Mise ŽIVOT™ · 2025
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>
