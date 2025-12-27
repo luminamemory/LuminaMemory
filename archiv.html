@@ -360,6 +360,37 @@
         0 0 0 1px rgba(231, 183, 90, 0.85);
     }
 
+    /*
+     * Pill button styles matching the Lumina design
+     * These classes mirror the existing .btn-main styling so that
+     * the download link can use the lm-pill-btn and lm-pill-primary
+     * classes without losing its appearance. The hover effect also
+     * matches the original button.
+     */
+    .lm-pill-btn.lm-pill-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 12px;
+      border-radius: var(--pill);
+      border: 1px solid rgba(231, 183, 90, 0.9);
+      background: radial-gradient(circle at 20% 0,
+          rgba(255, 244, 210, 0.16),
+          rgba(53, 30, 9, 0.96));
+      color: #fff5d8;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lm-pill-btn.lm-pill-primary:hover {
+      box-shadow:
+        0 0 28px rgba(231, 183, 90, 0.55),
+        0 0 0 1px rgba(231, 183, 90, 0.85);
+    }
+
     .btn-ghost {
       display: inline-flex;
       align-items: center;
@@ -625,11 +656,11 @@
 
               <div class="btn-row">
                 <a href="backup.pdf"
-                   class="btn-main"
+                   class="lm-pill-btn lm-pill-primary"
                    target="_blank"
                    rel="noopener"
                    onclick="showDemoToast()">
-                  <span>⬇️</span> Stáhnout ukázkovou zálohu (PDF)
+                  Stáhnout ukázkovou zálohu (PDF)
                 </a>
                 <button type="button" class="btn-ghost" onclick="alert('V DEMO verzi ještě nevytváříme skutečný export – jen ukázkový dokument backup.pdf 😊');">
                   <span>ℹ️</span> Jak bude vypadat skutečný export?
