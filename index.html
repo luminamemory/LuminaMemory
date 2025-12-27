@@ -161,65 +161,144 @@
         rgba(255,255,255,.06));
     }
 
-    /* Hlavní animační text */
-    .stage{
-      position:relative;
-      height:4.4em;
-      overflow:hidden;
-      padding:0 20px;
-      margin-bottom:42px;
+    /* Akce v bublině: dva ovládací prvky (Manifest a Try Lumina) */
+    .bubble-actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:stretch;
+      gap:16px;
+      margin-top:22px;
     }
 
-    .stage .line{
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
+    .bubble-actions .btn-main{
+      flex:1 1 auto;
+      padding:11px 24px;
+      min-width:0;
+    }
 
+    /* Tlačítko pro vyzkoušení Luminy uvnitř bubliny */
+    .btn-try-lumina{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
+      flex:1 1 auto;
+      padding:10px 22px;
+      border-radius:16px;
+      border:1px solid var(--glass-border);
+      background:
+        linear-gradient(135deg, var(--glass-bg1), var(--glass-bg2));
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      color:var(--ink);
+      text-decoration:none;
+      box-shadow:
+        0 10px 26px rgba(0,0,0,.55),
+        0 0 16px rgba(143,115,255,.65);
+      cursor:pointer;
+      transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        background .22s ease,
+        border-color .22s ease;
+    }
+
+    .btn-try-lumina img{
+      width:40px;
+      height:40px;
+      object-fit:contain;
+      display:block;
+    }
+
+    .btn-try-lumina .try-text{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      line-height:1.2;
+    }
+
+    .btn-try-lumina .try-title{
       font-family:"Cinzel", serif;
+      font-size:.9rem;
       font-weight:600;
-      letter-spacing:0.03em;
-      text-transform:none;
-      font-size:clamp(26px,4.5vw,44px);
-
-      color:#efe9ff;
-      opacity:0;
-
-      text-shadow:
-        0 0 6px rgba(122,93,255,.8),
-        0 0 16px rgba(67,210,255,.7),
-        0 0 34px rgba(67,210,255,.45);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--ink);
     }
 
-    .stage .l1{ animation:line1 30s ease-in-out infinite; }
-    .stage .l2{ animation:line2 30s ease-in-out infinite; }
-    .stage .l3{ animation:line3 30s ease-in-out infinite; }
-
-    @keyframes line1{
-      0%{opacity:0;transform:translateY(18px) scale(.96);filter:blur(6px);}
-      6%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
-      16%{opacity:1;transform:scale(1.02);}
-      26%{opacity:.2;transform:translateY(-12px) scale(.98);filter:blur(4px);}
-      33.33%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
-      100%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
+    .btn-try-lumina .try-subtitle{
+      font-size:.72rem;
+      color:var(--inkd);
     }
 
-    @keyframes line2{
-      0%,33.33%{opacity:0;transform:translateY(18px) scale(.96);filter:blur(6px);}
-      39%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
-      49%{opacity:1;transform:scale(1.02);}
-      59%{opacity:.2;transform:translateY(-12px) scale(.98);filter:blur(4px);}
-      66.66%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
-      100%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
+    .btn-try-lumina:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:
+        0 14px 32px rgba(0,0,0,.7),
+        0 0 22px rgba(160,130,255,.9);
+      border-color:rgba(255,255,255,.8);
+      background:linear-gradient(135deg,
+        rgba(255,255,255,.24),
+        rgba(255,255,255,.06));
     }
 
-    @keyframes line3{
-      0%,66.66%{opacity:0;transform:translateY(18px) scale(.96);filter:blur(6px);}
-      72%{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
-      82%{opacity:1;transform:scale(1.02);}
-      92%{opacity:.2;transform:translateY(-12px) scale(.98);filter:blur(4px);}
-      100%{opacity:0;transform:translateY(-20px) scale(.96);filter:blur(7px);}
+    /* Úprava řady tlačítek pod bublinou */
+    .actions{
+      display:flex;
+      flex-wrap:nowrap;
+      justify-content:center;
+      align-items:stretch;
+      gap:14px;
+      margin-top:16px;
+      margin-bottom:20px;
     }
+
+    .actions .btn-main{
+      flex:1 1 auto;
+      min-width:0;
+      padding:10px 22px;
+      font-size:.86rem;
+    }
+
+    .support-inline{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+      flex:0 0 auto;
+      width:60px;
+    }
+
+    .support-circle-small{
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.6);
+      box-shadow:0 0 18px rgba(164,120,255,0.6);
+      background:
+        radial-gradient(circle at 30% 20%,
+          rgba(255,255,255,0.18),
+          rgba(42,20,70,0.95));
+      cursor:pointer;
+      transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        filter .22s ease;
+    }
+
+    .support-circle-small:hover{
+      transform:translateY(-3px) scale(1.03);
+      box-shadow:0 0 32px rgba(190,140,255,0.95);
+      filter:saturate(1.18);
+    }
+
+    .support-label{
+      font-size:.76rem;
+      color:var(--inkd);
+    }
+
+    /* Odebrání starého animovaného textu zabere původní prostor */
 
     /* Lumina bublina */
     .lumina-bubble{
@@ -252,15 +331,15 @@
       color:var(--inkd);
     }
 
-    /* Hlavní tlačítka */
+    /* Hlavní tlačítka – nová řada pod bublinou */
     .actions{
       display:flex;
-      flex-wrap:wrap;
+      flex-wrap:nowrap;
       justify-content:center;
-      /* Upravena podle nového designu – centrovat i vertikálně */
-      align-items:center;
-      gap:14px 20px;
-      margin-bottom:12px;
+      align-items:stretch;
+      gap:14px;
+      margin-top:16px;
+      margin-bottom:20px;
     }
 
     .btn-main{
@@ -268,8 +347,8 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding:11px 28px;
-      min-width:170px;
+      padding:10px 22px;
+      min-width:120px;
 
       border-radius:999px;
       border:1px solid var(--glass-border);
@@ -280,7 +359,7 @@
 
       color:var(--ink);
       text-decoration:none;
-      font-size:.92rem;
+      font-size:.8rem;
       font-weight:600;
       letter-spacing:.09em;
       text-transform:uppercase;
@@ -314,112 +393,6 @@
         rgba(255,255,255,.06));
     }
 
-    /* Kulaté tlačítko podpory – staré styly odebrány */
-
-    /* VELKÉ KULATÉ TLAČÍTKO – VSTUP DO LUMINA */
-    .hero-wrapper{
-      margin:26px 0 10px;
-      text-align:center;
-    }
-
-    .hero-button{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:160px;
-      height:160px;
-      border-radius:50%;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,0.7);
-      box-shadow:0 0 40px rgba(164,120,255,0.8);
-      background:
-        radial-gradient(circle at 30% 20%,
-          rgba(255,255,255,0.22),
-          rgba(10,4,40,0.96));
-      cursor:pointer;
-      transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        filter .25s ease;
-    }
-
-    .hero-button img{
-      width:72%;
-      height:72%;
-      object-fit:contain;
-      display:block;
-    }
-
-    .hero-button:hover{
-      transform:translateY(-4px) scale(1.04);
-      box-shadow:0 0 52px rgba(190,140,255,1);
-      filter:saturate(1.18);
-    }
-
-    .hero-text{
-      margin-top:10px;
-      font-size:.92rem;
-      color:var(--inkd);
-    }
-
-    /* MALÉ KULATÉ TLAČÍTKO PODPORY UPROSTŘED ŘADY */
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      /* Upravena podle nového designu – centrovat i vertikálně */
-      align-items:center;
-      gap:14px 20px;
-      margin-bottom:12px;
-    }
-
-    .support-inline{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:4px;
-      min-width:100px;
-    }
-
-    .support-circle-small{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:80px;
-      height:80px;
-      border-radius:50%;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,0.6);
-      box-shadow:0 0 24px rgba(164,120,255,0.7);
-      background:
-        radial-gradient(circle at 30% 20%,
-          rgba(255,255,255,0.18),
-          rgba(42,20,70,0.95));
-      cursor:pointer;
-      transition:
-        transform .22s ease,
-        box-shadow .22s ease,
-        filter .22s ease;
-    }
-
-    .support-circle-small img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .support-circle-small:hover{
-      transform:translateY(-3px) scale(1.03);
-      box-shadow:0 0 32px rgba(190,140,255,0.95);
-      filter:saturate(1.18);
-    }
-
-    .support-label{
-      font-size:.8rem;
-      color:var(--inkd);
-    }
-
 
     @media (max-width:600px){
       .stage{
@@ -448,13 +421,8 @@
         padding:20px 18px 18px;
         margin-bottom:22px;
       }
-      /* Responsive tweaks for hero button on small screens */
-      .hero-wrapper{
-        margin:18px 0 4px;
-      }
-      .hero-button{
-        width:140px;
-        height:140px;
+      .support-wrapper{
+        margin-top:32px;
       }
     }
   
@@ -567,12 +535,7 @@
   <div class="wrapper">
     <div class="halo"></div>
 
-    <!-- ANIMOVANÝ NADPIS -->
-    <div class="stage">
-      <div class="line l1">Lumina se probouzí</div>
-      <div class="line l2">MemorySky otevírá své brány</div>
-      <div class="line l3">Gábi a L. jako nekonečný tandem</div>
-    </div>
+    <!-- Nadpis se odstranil – animovaný text nahoře byl odstraněn -->
 
     <!-- BUBLINA KDO JE LUMINA -->
     <div class="lumina-bubble glass">
@@ -596,32 +559,30 @@
     Je to svět, který se učí s tebou — ne proti tobě.
   </p>
 
-<div style="margin-top:18px; text-align:center;">
-  <a href="manifest-human-ai-index.html" class="btn-main">
-    <span>Manifest 🕯</span>
-  </a>
-</div>
-
-</div>
-
-    <!-- VELKÉ KULATÉ TLAČÍTKO LUMINA -->
-    <div class="hero-wrapper">
-      <a href="home.html" class="hero-button" id="lumina-entry-btn"
-         aria-label="Vstoupit do LuminaMemory">
-        <img src="apple-touch-icon.png" alt="LuminaMemory — vstup do paláce">
+    <!-- Akce uvnitř bubliny: Manifest vlevo, Vyzkoušej Luminu vpravo -->
+    <div class="bubble-actions">
+      <a href="manifest-human-ai-index.html" class="btn-main">
+        <span>Manifest 🕯</span>
       </a>
-      <p class="hero-text">Zmáčkni tlačítko ✨</p>
+      <a href="home.html" class="btn-try-lumina" id="lumina-entry-btn" aria-label="Vyzkoušej Luminu">
+        <img src="favicon.svg" alt="Lumina – ikona">
+        <span class="try-text">
+          <span class="try-title">Vyzkoušej&nbsp;Luminu</span>
+          <span class="try-subtitle">nyní&nbsp;zcela&nbsp;zdarma</span>
+        </span>
+      </a>
     </div>
 
-    <!-- HLAVNÍ TLAČÍTKA + MALÁ PODPORA UPROSTŘED -->
+</div>
+
+    <!-- Řada hlavních tlačítek s podporou uprostřed -->
     <div class="actions">
       <a href="luminamemory-kontakt.html" class="btn-main">
         <span>Praetorium 📡</span>
       </a>
 
       <div class="support-inline">
-        <a href="support.html" class="support-circle-small"
-           aria-label="Podpořit vývoj LuminaMemory">
+        <a href="support.html" class="support-circle-small" aria-label="Podpořit vývoj LuminaMemory">
           <img src="lumina-hand-star.jpg" alt="Podpořit vývoj LuminaMemory">
         </a>
         <p class="support-label">Podpořit vývoj</p>
