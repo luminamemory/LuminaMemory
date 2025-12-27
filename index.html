@@ -306,6 +306,16 @@
     }
     .entry-btn:hover .avatar-ring .wink{
       opacity:1;
+    } 
+
+    @keyframes luminaWink {
+  0%, 92%, 100% { opacity: 0; }
+  93%, 95% { opacity: 1; }
+  96% { opacity: 0; }
+    }
+
+    .avatar-ring .wink{
+      animation: luminaWink 4.8s infinite; /* mrkne cca každých ~5s */
     }
 
     .entry-text{
@@ -357,36 +367,31 @@
       padding: 10px 14px;
     }
 
-    .support-mini{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-    }
-
     .support-mini a{
       width: 48px;
       height: 48px;
       border-radius: 999px;
-      overflow:hidden;
-      display:grid;
-      place-items:center;
+      overflow: hidden;
+      display: block;                /* místo gridu */
+      position: relative;            /* pro absolutní centrování obrázku */
       border:1px solid rgba(255,255,255,0.18);
       background: rgba(0,0,0,0.18);
       backdrop-filter: blur(10px);
       transition: transform .15s ease, border-color .15s ease;
     }
-    .support-mini a:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,0.32);
-    }
+
     .support-mini img{
-      width: 58px;
-      height: 58px;
-      object-fit:cover;
-      transform: translateY(1px);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 64px;                    /* může být klidně větší než kruh */
+      height: 64px;
+      object-fit: cover;
+      transform: translate(-50%, -50%); /* ✅ vždy přesně do středu */
       user-select:none;
       -webkit-user-drag:none;
     }
+
     .support-mini .txt{
       font-size: 12px;
       color: rgba(255,255,255,0.72);
