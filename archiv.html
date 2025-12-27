@@ -659,10 +659,11 @@
                    class="lm-pill-btn lm-pill-primary"
                    target="_blank"
                    rel="noopener"
-                   onclick="showDemoToast()">
+                   download
+                   >
                   Stáhnout ukázkovou zálohu (PDF)
                 </a>
-                <button type="button" class="btn-ghost" onclick="alert('V DEMO verzi ještě nevytváříme skutečný export – jen ukázkový dokument backup.pdf 😊');">
+                <button type="button" class="btn-ghost" onclick="showInfoToast()">
                   <span>ℹ️</span> Jak bude vypadat skutečný export?
                 </button>
               </div>
@@ -709,6 +710,16 @@
     <button class="demo-toast-close" type="button" onclick="hideDemoToast()">Zavřít ✕</button>
   </div>
 
+  <!-- Info toast component -->
+  <div class="demo-toast" id="infoToast">
+    <div class="demo-toast-icon">ℹ️</div>
+    <div>
+      <strong>Informace</strong><br>
+      V DEMO verzi ještě nevytváříme skutečný export – jen ukázkový dokument <code>backup.pdf</code> 😊
+    </div>
+    <button class="demo-toast-close" type="button" onclick="hideInfoToast()">Zavřít ✕</button>
+  </div>
+
   <script>
     function showDemoToast() {
       const el = document.getElementById('demoToast');
@@ -719,6 +730,18 @@
 
     function hideDemoToast() {
       document.getElementById('demoToast').classList.remove('is-visible');
+    }
+
+    // Show informational toast for the "Jak bude vypadat skutečný export?" button
+    function showInfoToast() {
+      const el = document.getElementById('infoToast');
+      el.classList.add('is-visible');
+      // auto-hide after 7 s
+      setTimeout(() => el.classList.remove('is-visible'), 7000);
+    }
+
+    function hideInfoToast() {
+      document.getElementById('infoToast').classList.remove('is-visible');
     }
   </script>
 </body>
