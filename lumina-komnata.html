@@ -122,9 +122,16 @@
       padding: 10px;
     }
 
+    /*
+      Upravili jsme styly pro tančící Luminu tak, aby si obrázek udržel
+      konzistentní poměr stran. Šířka se roztáhne na 100 % dostupného
+      prostoru až do maximální šířky 360 px a aspect-ratio zaručí, že
+      výška zůstane vždy v poměru 9 : 16. Díky tomu jsou všechny snímky
+      animace zobrazeny se stejnou velikostí a neblikají. */
     .lumina-dance {
       width: 100%;
       max-width: 360px;
+      aspect-ratio: 9 / 16;      /* fixní poměr stran, nehne se výška */
       border-radius: 24px;
       box-shadow: 0 14px 45px rgba(70, 120, 255, 0.55);
       object-fit: cover;
@@ -338,11 +345,37 @@
     ];
 
     if (danceImg) {
+      /*
+        Pro animaci přepínáme tři snímky do dvou úplných cyklů a pak se
+        zastavíme na posledním, nejhezčím záběru. Přidali jsme počítadlo
+        smyček (loopsDone) a maximální počet opakování (maxLoops). Jakmile
+        proběhne požadovaný počet celých sad snímků, interval se zruší a
+        obrázek zůstane na posledním snímku. Tím se animace po chvíli
+        zastaví místo nekonečného přehrávání.
+      */
       let i = 0;
-      setInterval(() => {
-        i = (i + 1) % frames.length;
+      const maxLoops = 2; // kolikrát má přepnout celou sadu (3 snímky)
+      let loopsDone = 0;
+
+      const intervalId = setInterval(() => {
+        i++;
+
+        // jsme na konci sady snímků?
+        if (i >= frames.length) {
+          loopsDone++;
+
+          if (loopsDone >= maxLoops) {
+            clearInterval(intervalId);
+            // necháme poslední, nejhezčí pózu
+            danceImg.src = frames[frames.length - 1];
+            return;
+          }
+
+          i = 0;
+        }
+
         danceImg.src = frames[i];
-      }, 220); // rychlost tance (ms)
+      }, 220); // rychlost tance
     }
 
     // --- 2) Nastavení módu Luminy -------------------------------------------
