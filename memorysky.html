@@ -512,6 +512,90 @@
       padding: 8px 8px;
       box-shadow: 0 12px 30px rgba(0,0,0,.10);
     }
+
+    /* Modal for download confirmation */
+    .modal {
+      position: fixed;
+      top: 6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: rgba(255,255,255,0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      max-width: 420px;
+      padding: 2rem;
+    }
+    .modal-content h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .btn-cancel,
+    .btn-primary {
+      border-radius: var(--pill);
+      border: 1px solid rgba(12,18,32,.12);
+      padding: 8px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-cancel {
+      background: rgba(255,255,255,.55);
+      color: rgba(12,18,32,.86);
+    }
+    .btn-cancel:hover {
+      background: rgba(255,255,255,.75);
+    }
+    .btn-primary {
+      background: rgba(0,88,255,.65);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: rgba(0,88,255,.85);
+    }
+    /* Hidden helper class */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Icon bar above export suitcase */
+    .icon-bar{
+      display:flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .icon-chip{
+      width: 60px;
+      height: 60px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      cursor: default;
+      transition: transform 160ms ease;
+    }
+    .icon-chip:hover{
+      transform: scale(1.08);
+    }
+    .icon-sprite{
+      width: 40px;
+      height: 40px;
+      background-image: url('icons.png');
+      background-size: 300% 100%;
+      background-position-y: 50%;
+    }
+    #icon-chronica .icon-sprite{ background-position-x: 0%; }
+    #icon-proiecta .icon-sprite{ background-position-x: -100%; }
+    #icon-sigma    .icon-sprite{ background-position-x: -200%; }
   </style>
 </head>
 
@@ -686,6 +770,12 @@
                   Klikni na „kufřík“ - otevře se a ukáže ti, co export obsahuje.
                   V DEMU je to jen animace.
                 </div>
+                <!-- Pás ikon nad kufrem (bigger icons) -->
+                <div class="icon-bar hidden" id="iconBar">
+                  <div class="icon-chip" id="icon-chronica"><div class="icon-sprite"></div></div>
+                  <div class="icon-chip" id="icon-proiecta"><div class="icon-sprite"></div></div>
+                  <div class="icon-chip" id="icon-sigma"><div class="icon-sprite"></div></div>
+                </div>
 
                 <img class="suitcase" id="suitcaseImg" src="export-closed.png" alt="Export kufřík" />
 
@@ -725,6 +815,18 @@
         DEMO • MemorySky Gate • žádná reálná data se neukládají — jen struktura, klid a bezpečný pocit.
       </div>
 
+    </div>
+  </div>
+
+  <!-- Modální okno pro potvrzení stahování -->
+  <div id="downloadModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Chcete stáhnout export dat?</h2>
+      <p>Soubor <strong id="fileName"></strong> je připraven ke stažení.</p>
+      <div class="modal-actions">
+        <button id="downloadCancel" class="btn-cancel">Zrušit</button>
+        <a id="downloadConfirm" class="btn-primary" download>Stáhnout</a>
+      </div>
     </div>
   </div>
 
@@ -768,6 +870,7 @@
     const suitcaseImg = document.getElementById('suitcaseImg');
     const miniIcons = document.getElementById('miniIcons');
     const iconCaptions = document.getElementById('iconCaptions');
+const iconBar = document.getElementById('iconBar');
     let opened = false;
 
     exportBox.addEventListener('click', ()=>{
@@ -776,6 +879,13 @@
       miniIcons.style.opacity = opened ? '1' : '0';
       iconCaptions.style.opacity = opened ? '1' : '0';
       suitcaseImg.style.transform = opened ? 'translateY(-2px) scale(1.01)' : 'translateY(0) scale(1)';
+    if(iconBar){
+      if(opened){
+        iconBar.classList.remove('hidden');
+      } else {
+        iconBar.classList.add('hidden');
+      }
+    }
     });
 
     // DEMO kapacita – pseudo náhodná hodnota (působí "živě")
@@ -797,34 +907,166 @@
       setDemoCapacity(base + wobble);
     }, 1800);
 
-    // DEMO download – vytvoří malý "balíček" jako JSON
-    const btnDownload = document.getElementById('btnDownload');
+    // Helper to format date into local ISO string with timezone offset
+    function toLocalISOString(date) {
+      const tzOffset = -date.getTimezoneOffset();
+      const diff = tzOffset >= 0 ? '+' : '-';
+      const pad = (n) => String(Math.floor(Math.abs(n))).padStart(2, '0');
+      return date.getFullYear()
+        + '-' + pad(date.getMonth() + 1)
+        + '-' + pad(date.getDate())
+        + 'T' + pad(date.getHours())
+        + ':' + pad(date.getMinutes())
+        + ':' + pad(date.getSeconds())
+        + diff + pad(tzOffset / 60) + ':' + pad(tzOffset % 60);
+    }
 
-    function downloadDemoPackage(){
-      const payload = {
+    // Builds a demo payload with fiktivní data and local/UTC timestamps
+    function buildDemoPayload() {
+      const now = new Date();
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown';
+      const minutesAgo = (m) => {
+        const d = new Date(Date.now() - m * 60 * 1000);
+        return toLocalISOString(d);
+      };
+      return {
         product: "LuminaMemory™",
         module: "MemorySky Gate",
         type: "DEMO_EXPORT",
-        createdAt: new Date().toISOString(),
-        contains: ["Chronica (deník)", "Proiecta (projekty)", "Sigma (rituály)"],
-        note: "DEMO soubor – žádná reálná data. Slouží pro ukázku toku exportu."
+        schemaVersion: "0.1",
+        demo: true,
+        disclaimer: "Toto je DEMO balíček. Všechna data jsou fiktivní.",
+        createdAtLocal: toLocalISOString(now),
+        createdAtUTC: now.toISOString(),
+        timezone: tz,
+        summary: {
+          contains: ["Chronica", "Proiecta", "Sigma"],
+          counts: {
+            chronicaEntries: 2,
+            proiectaItems: 2,
+            sigmaRituals: 2
+          }
+        },
+        chronica: [
+          {
+            id: "ch_001",
+            title: "Klidné ráno po náročném dni",
+            mood: "vyrovnaná",
+            createdAt: minutesAgo(720),
+            tags: ["odpočinek","restart"],
+            text: "Dnes jsem si dovolila zpomalit. Krátká pauza, teplý čaj, a jedna věc, kterou chci pustit: zbytečný tlak na sebe."
+          },
+          {
+            id: "ch_002",
+            title: "Štědrovečerní moment",
+            mood: "vřelá",
+            createdAt: minutesAgo(2000),
+            tags: ["rodina","vděčnost"],
+            text: "Večeře hotová, stůl připravený. Vzduch voněl domovem. Dnes chci mít míň perfekcionismu a víc přítomnosti."
+          }
+        ],
+        proiecta: [
+          {
+            id: "pr_001",
+            name: "LuminaMemory – Průvodce palácem",
+            status: "in_progress",
+            updatedAt: minutesAgo(90),
+            nextSteps: [
+              "Dopsat sekci: Jak funguje přihlášení a bezpečnost",
+              "Přidat FAQ: co je Chronica / Proiecta / Sigma",
+              "Doplnit tlačítko zpět ⚙️ u všech místností"
+            ],
+            notes: "Cíl: aby se uživatel nikdy neztratil a věděl, co se děje v každé části paláce."
+          },
+          {
+            id: "pr_002",
+            name: "MemorySky Export – DEMO balíček",
+            status: "prototype",
+            updatedAt: minutesAgo(15),
+            nextSteps: [
+              "Vyladit ikonkový pás nad kufr",
+              "Přidat náhled exportu v Lumina stylu",
+              "Později: volba formátu PDF / JSON"
+            ],
+            notes: "V DEMU bez reálných dat – jen vizuální a bezpečný tok."
+          }
+        ],
+        sigma: {
+          rituals: [
+            {
+              id: "sg_001",
+              title: "Ranní start",
+              timeLocal: "08:00",
+              days: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+              checklist: ["Voda","Krátké protažení","Jedna věta: co dnes opravdu chci"]
+            },
+            {
+              id: "sg_002",
+              title: "Večerní zklidnění",
+              timeLocal: "21:30",
+              days: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+              checklist: ["Zapsat 3 body do Chronica","Připravit zítřek (1 maličkost)","Vypnout hluk (ticho / pohádka)"]
+            }
+          ],
+          reminders: [
+            {
+              id: "rm_001",
+              label: "Jemná připomínka",
+              createdAt: minutesAgo(480),
+              text: "Když je toho moc, stačí jedna věc. Jedna jediná."
+            }
+          ]
+        }
       };
-
-      const blob = new Blob([JSON.stringify(payload, null, 2)], {type: "application/json"});
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = "LuminaMemory_DEMO_export.json";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      URL.revokeObjectURL(url);
     }
 
+    // Show custom modal for download confirmation and return a promise with user's choice
+    function showDownloadModal(fileUrl, displayName) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('downloadModal');
+        const fileNameElem = document.getElementById('fileName');
+        const confirmBtn = document.getElementById('downloadConfirm');
+        const cancelBtn = document.getElementById('downloadCancel');
+
+        fileNameElem.textContent = displayName || '';
+        confirmBtn.href = fileUrl;
+        if (displayName) {
+          confirmBtn.setAttribute('download', displayName);
+        }
+
+        modal.classList.remove('hidden');
+
+        const onConfirm = () => { cleanup(); resolve(true); };
+        const onCancel = () => { cleanup(); resolve(false); };
+
+        confirmBtn.addEventListener('click', onConfirm);
+        cancelBtn.addEventListener('click', onCancel);
+
+        function cleanup() {
+          confirmBtn.removeEventListener('click', onConfirm);
+          cancelBtn.removeEventListener('click', onCancel);
+          modal.classList.add('hidden');
+        }
+      });
+    }
+
+    // Download button handler with modal and demo payload
+    const btnDownload = document.getElementById('btnDownload');
     if(btnDownload){
-      btnDownload.addEventListener('click', downloadDemoPackage);
+      btnDownload.addEventListener('click', async ()=>{
+        const payload = buildDemoPayload();
+        const json = JSON.stringify(payload, null, 2);
+        const blob = new Blob([json], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const fileName = "LuminaMemory_DEMO_export.json";
+        const proceed = await showDownloadModal(url, fileName);
+        if(!proceed){
+          URL.revokeObjectURL(url);
+          return;
+        }
+        // revoke after a short delay to allow download
+        setTimeout(()=>{ URL.revokeObjectURL(url); }, 1000);
+      });
     }
   </script>
 </body>
