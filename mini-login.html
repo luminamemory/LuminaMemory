@@ -66,17 +66,16 @@
       --emerald2:#00ffb3;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
+    html, body {
+    min-height: 100%;
+    margin: 0;
+    }
+
     body{
-      display:flex;align-items:center;justify-content:center;
+      display:flex;
+      align-items:flex-start;   /* 🔑 místo center */
+      justify-content:center;
       padding:22px 12px;
-      color:var(--ink);
-      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
-      background:
-        radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 55%),
-        radial-gradient(circle at 82% 100%, rgba(67,210,255,.45) 0, transparent 55%),
-        radial-gradient(circle at 50% 40%, rgba(122,93,255,.35) 0, transparent 60%),
-        #000;
     }
 
     .shell{width:100%;max-width:980px;display:grid;gap:18px;grid-template-columns:1.05fr .95fr}
@@ -264,6 +263,11 @@
     }
     .lumina-select__menu button:hover{background:rgba(0,255,179,.10);border-color:rgba(0,255,179,.18)}
     .lumina-select__menu button[aria-selected="true"]{background:rgba(0,255,179,.14);border-color:rgba(0,255,179,.22)}
+    @media (max-height: 520px) {
+  body {
+    align-items: flex-start;
+    }
+  }
   </style>
 </head>
 
