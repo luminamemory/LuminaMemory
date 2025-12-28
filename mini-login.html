@@ -72,10 +72,23 @@
     }
 
     body{
-      display:flex;
-      align-items:flex-start;   /* 🔑 místo center */
-      justify-content:center;
-      padding:22px 12px;
+  min-height: 100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:22px 12px;
+
+  /* ✅ pozadí zpátky */
+    background:
+      radial-gradient(1000px 520px at 20% 12%, rgba(184,146,255,.28), transparent 58%),
+      radial-gradient(900px 520px at 86% 70%, rgba(0,255,179,.12), transparent 60%),
+      radial-gradient(650px 420px at 55% 30%, rgba(80,210,255,.14), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, #010012 100%);
+    background-attachment: fixed;
+
+  /* ✅ aby landscape neřezal horní část */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     }
 
     .shell{width:100%;max-width:980px;display:grid;gap:18px;grid-template-columns:1.05fr .95fr}
