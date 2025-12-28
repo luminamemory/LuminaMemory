@@ -2,45 +2,36 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
-  <meta name="title" content="LuminaMemory™ – Vstup do miniLumina DEMO">
-  <meta name="description"
-        content="Vstupní brána do světa LuminaMemory™ – místo, odkud se otevírá miniLumina DEMO a digitální pavučina světla.">
+  <meta name="title" content="LuminaMemory™ – Vstupní brána (DEMO)">
+  <meta name="description" content="Vstupní brána do světa LuminaMemory™. Nejprve stručný návod a potvrzení DEMO, poté přihlášení.">
 
   <!-- Icons -->
   <link rel="icon" href="/favicon.ico">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#050312">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="LuminaMemory™">
-  <meta property="og:title" content="LuminaMemory™ – Vstup do miniLumina DEMO">
-  <meta property="og:description"
-        content="Vstupní brána do světa LuminaMemory™ – místo, odkud se otevírá miniLumina DEMO a digitální pavučina světla.">
-  <meta property="og:url"
-        content="https://luminamemory.ai/home.html">
-  <meta property="og:image"
-        content="https://luminamemory.ai/og-luminamemory.png">
+  <meta property="og:title" content="LuminaMemory™ – Vstupní brána (DEMO)">
+  <meta property="og:description" content="Vstupní brána do světa LuminaMemory™. Nejprve stručný návod a potvrzení DEMO, poté přihlášení.">
+  <meta property="og:url" content="https://luminamemory.ai/home.html">
+  <meta property="og:image" content="https://luminamemory.ai/og-luminamemory.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="cs_CZ">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="LuminaMemory™ – Vstup do miniLumina DEMO">
-  <meta name="twitter:description"
-        content="Vstupní brána do světa LuminaMemory™ – místo, odkud se otevírá miniLumina DEMO a digitální pavučina světla.">
-  <meta name="twitter:url"
-        content="https://luminamemory.ai/home.html">
-  <meta name="twitter:image"
-        content="https://luminamemory.ai/og-luminamemory.png">
+  <meta name="twitter:title" content="LuminaMemory™ – Vstupní brána (DEMO)">
+  <meta name="twitter:description" content="Vstupní brána do světa LuminaMemory™. Nejprve stručný návod a potvrzení DEMO, poté přihlášení.">
+  <meta name="twitter:url" content="https://luminamemory.ai/home.html">
+  <meta name="twitter:image" content="https://luminamemory.ai/og-luminamemory.png">
 
   <!-- Canonical -->
-  <link rel="canonical"
-        href="https://luminamemory.ai/home.html">
-  <!-- Alternate language versions -->
+  <link rel="canonical" href="https://luminamemory.ai/home.html">
   <link rel="alternate" hreflang="cs" href="https://luminamemory.ai/home.html">
   <link rel="alternate" hreflang="en" href="https://luminamemory.ai/home-en.html">
   <link rel="alternate" hreflang="de" href="https://luminamemory.ai/home-de.html">
@@ -51,14 +42,18 @@
 
   <style>
     :root{
-      --bg-image: url("luminamemory.png");
+      --bg-image: url("gate-of-light.png");
 
       --ink: rgba(255,255,255,.92);
       --ink2: rgba(255,255,255,.72);
 
-      --glowV: rgba(175,135,255,.65);
-      --glowC: rgba(80,210,255,.55);
-      --glowW: rgba(255,255,255,.35);
+      --glass: rgba(10,6,26,.38);
+      --glass2: rgba(10,6,26,.55);
+      --stroke: rgba(255,255,255,.18);
+
+      --glowV: rgba(175,135,255,.55);
+      --glowC: rgba(80,210,255,.45);
+      --glowW: rgba(255,255,255,.18);
     }
 
     *{ box-sizing:border-box }
@@ -70,45 +65,23 @@
       background:#000;
     }
 
-    /* ===== Background image ===== */
+    /* ===== Background ===== */
     .bg{
       position:fixed; inset:0;
       background-image: var(--bg-image);
-      background-size: contain;      /* aby byl nápis celý */
+      background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-      background-color:#000;
       z-index: 0;
-      filter: saturate(1.05) contrast(1.02);
+      filter: saturate(1.02) contrast(1.03);
+      transform: scale(1.01);
     }
-
     .bg::after{
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(circle at 50% 40%, rgba(0,0,0,.06) 0, rgba(0,0,0,.30) 60%, rgba(0,0,0,.62) 100%);
+        radial-gradient(circle at 50% 40%, rgba(0,0,0,.10) 0, rgba(0,0,0,.42) 62%, rgba(0,0,0,.72) 100%);
       pointer-events:none;
-    }
-
-    /* ===== Stars ===== */
-    .stars{
-      position:fixed; inset:0;
-      pointer-events:none;
-      z-index: 1;
-      opacity:.95;
-    }
-
-    .star{
-      position:absolute;
-      border-radius:999px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.98), rgba(255,255,255,.35) 55%, rgba(255,255,255,0) 72%);
-      animation: twinkle 4s ease-in-out infinite;
-      transform: translateZ(0);
-    }
-
-    @keyframes twinkle{
-      0%,100%{ opacity: .35; transform: scale(1); }
-      50%{ opacity: 1; transform: scale(1.25); }
     }
 
     /* ===== Back button ===== */
@@ -116,7 +89,7 @@
       position:fixed;
       left:18px;
       bottom:18px;
-      z-index: 3;
+      z-index: 5;
       font-size:13px;
       color:var(--ink2);
       text-decoration:none;
@@ -130,125 +103,175 @@
     }
     .back:hover{ filter:brightness(1.08); background:rgba(0,0,0,.30); }
 
-    /* ===== Logo button + popisek ===== */
-    .enterWrap{
+    /* ===== Center gate panel ===== */
+    .gateWrap{
       position:fixed;
-      left:0; right:0;
-      bottom: 120px;
+      inset:0;
       display:flex;
-      flex-direction:column;
-      align-items:center;
+      align-items:flex-end;
       justify-content:center;
-      z-index: 3;
+      z-index: 4;
+      padding: 28px 18px 78px;
       pointer-events:none;
       text-align:center;
     }
 
-    .enterBtn{
+    .gateCard{
       pointer-events:auto;
-      width: 160px;
-      height: 160px;
+      width:min(560px, 100%);
+      border-radius: 26px;
+      border: 1px solid var(--stroke);
+      background: radial-gradient(circle at 0 0, rgba(175,135,255,.18), transparent 55%) var(--glass);
+      box-shadow:
+        0 28px 86px rgba(0,0,0,.74),
+        0 0 66px rgba(175,135,255,.32),
+        0 0 110px rgba(80,210,255,.20),
+        inset 0 1px 0 rgba(255,255,255,.14),
+        inset 0 -18px 30px rgba(0,0,0,.35);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 18px 18px 16px;
+    }
+
+    .gateTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--ink2);
+      font-size: 12px;
+    }
+
+    .badge b{ color: var(--ink); font-weight: 600; }
+
+    .title{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.86);
+      text-shadow: 0 0 14px rgba(0,0,0,.72);
+    }
+
+    .hint{
+      margin: 10px 0 14px;
+      font-size: 14px;
+      color: var(--ink2);
+    }
+
+    /* ===== Enter button ===== */
+    .enterBtn{
+      width: 100%;
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.20);
+      background: rgba(0,0,0,.22);
       box-shadow:
-        0 28px 78px rgba(0,0,0,.62),
-        0 0 60px rgba(175,135,255,.55),
-        0 0 110px rgba(80,210,255,.34),
-        0 0 22px rgba(255,255,255,.14),
-        inset 0 1px 0 rgba(255,255,255,.20),
-        inset 0 -14px 26px rgba(0,0,0,.40);
-      overflow:hidden;
+        0 16px 56px rgba(0,0,0,.55),
+        0 0 50px rgba(175,135,255,.30),
+        0 0 92px rgba(80,210,255,.20),
+        inset 0 1px 0 rgba(255,255,255,.16);
       cursor:pointer;
       position:relative;
+      padding: 14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 12px;
       transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
       outline:none;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .enterBtn::before{
-      content:"";
-      position:absolute; inset:-10px;
-      border-radius: 22px;
-      background: radial-gradient(circle at 50% 50%,
-        rgba(175,135,255,.32),
-        rgba(80,210,255,.20) 45%,
-        rgba(255,255,255,.08) 62%,
-        rgba(0,0,0,0) 72%);
-      opacity:.95;
-      filter: blur(6px);
-      z-index:0;
-      pointer-events:none;
-    }
-
-    .enterBtn::after{
-      content:"";
-      position:absolute; inset:0;
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0) 35%, rgba(0,0,0,.22));
-      z-index:1;
-      pointer-events:none;
-      mix-blend-mode: screen;
-      opacity:.55;
-    }
-
     .enterBtn:hover{
       filter: brightness(1.06);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
       box-shadow:
-        0 34px 88px rgba(0,0,0,.68),
-        0 0 74px rgba(175,135,255,.62),
-        0 0 140px rgba(80,210,255,.40),
-        0 0 28px rgba(255,255,255,.18),
-        inset 0 1px 0 rgba(255,255,255,.22),
-        inset 0 -14px 26px rgba(0,0,0,.40);
-    }
-
-    .enterBtn img{
-      position:absolute;
-      inset: 14px;
-      width: calc(100% - 28px);
-      height: calc(100% - 28px);
-      object-fit: contain;
-      display:block;
-      z-index:2;
-      transform: translateZ(0);
-      filter:
-        drop-shadow(0 0 18px rgba(175,135,255,.34))
-        drop-shadow(0 0 26px rgba(80,210,255,.22));
-      user-select:none;
-      -webkit-user-drag:none;
-      opacity: .995;
+        0 20px 68px rgba(0,0,0,.60),
+        0 0 62px rgba(175,135,255,.36),
+        0 0 110px rgba(80,210,255,.24),
+        inset 0 1px 0 rgba(255,255,255,.16);
     }
 
     .enterBtn.is-pressed{
-      transform: translateY(6px) scale(.96);
-      filter: brightness(1.10) saturate(1.08);
-      box-shadow:
-        0 18px 52px rgba(0,0,0,.55),
-        0 0 44px rgba(175,135,255,.46),
-        0 0 86px rgba(80,210,255,.30),
-        inset 0 1px 0 rgba(255,255,255,.18),
-        inset 0 -18px 30px rgba(0,0,0,.45);
+      transform: translateY(5px) scale(.985);
+      filter: brightness(1.08) saturate(1.06);
       transition: transform .22s cubic-bezier(.2,.9,.2,1), filter .22s ease, box-shadow .22s ease;
     }
 
-    .enterLabel{
-      margin-top:12px;
-      font-size:15px;
-      color:var(--ink);
-      text-shadow:0 0 14px rgba(0,0,0,.85);
+    .enterIcon{
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.20);
+      box-shadow: 0 0 20px rgba(175,135,255,.22), 0 0 40px rgba(80,210,255,.14);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex-shrink: 0;
     }
 
-    /* Flash overlay */
+    .enterIcon img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+      transform: translateZ(0);
+    }
+
+    .enterText{
+      text-align:left;
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .enterText .big{
+      font-size: 16px;
+      color: var(--ink);
+      letter-spacing: .02em;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .enterText .small{
+      font-size: 13px;
+      color: var(--ink2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arrow{
+      margin-left:auto;
+      color: rgba(255,255,255,.70);
+      font-size: 20px;
+      padding-right: 6px;
+    }
+
+    /* ===== Flash overlay ===== */
     .flash{
       position:fixed; inset:0;
-      z-index: 10;
+      z-index: 30;
       pointer-events:none;
       opacity:0;
       background:
-        radial-gradient(circle at 50% 45%, rgba(255,255,255,.92), rgba(255,255,255,.25) 40%, rgba(255,255,255,0) 72%);
+        radial-gradient(circle at 50% 45%, rgba(255,255,255,.90), rgba(255,255,255,.22) 38%, rgba(255,255,255,0) 72%);
       transition: opacity .18s ease;
     }
     .flash.is-on{ opacity:1; }
@@ -260,11 +283,12 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      background: radial-gradient(circle at 50% 0%, rgba(9,4,30,.95), rgba(3,0,10,.96));
-      z-index:20;
+      background: radial-gradient(circle at 50% 0%, rgba(9,4,30,.92), rgba(3,0,10,.94));
+      z-index: 40;
       opacity:0;
       pointer-events:none;
       transition: opacity .22s ease;
+      padding: 18px;
     }
     .modal-backdrop.is-open{
       opacity:1;
@@ -272,17 +296,16 @@
     }
 
     .modal{
-      width:min(460px, 100% - 32px);
+      width:min(520px, 100%);
       border-radius:24px;
       border:1px solid rgba(255,255,255,.18);
-      background: radial-gradient(circle at 0 0, rgba(175,135,255,.18), transparent 55%)
-                  rgba(8,4,26,.96);
-      box-shadow:0 26px 80px rgba(0,0,0,.85);
-      padding:22px 22px 20px;
+      background: radial-gradient(circle at 0 0, rgba(175,135,255,.20), transparent 55%) rgba(8,4,26,.94);
+      box-shadow:0 26px 90px rgba(0,0,0,.86);
+      padding:22px 22px 18px;
       color:var(--ink);
       position:relative;
-      backdrop-filter:blur(22px);
-      -webkit-backdrop-filter:blur(22px);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
     }
 
     .modal-close{
@@ -317,30 +340,37 @@
     .modal-header h1{
       margin:0;
       font-size:18px;
-      letter-spacing:.03em;
+      letter-spacing:.02em;
     }
 
     .modal-body{
       font-size:14px;
-      line-height:1.5;
+      line-height:1.55;
       color:var(--ink2);
     }
 
     .modal-body ol{
       padding-left:20px;
-      margin:10px 0 16px;
+      margin:10px 0 14px;
     }
-    .modal-body li{ margin-bottom:4px; }
+    .modal-body li{ margin-bottom:6px; }
 
-    .modal-body strong{
-      color:var(--ink);
+    .note{
+      margin-top:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
     }
 
     .modal-footer{
       display:flex;
       justify-content:flex-end;
-      gap:8px;
-      margin-top:6px;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap: wrap;
     }
 
     .btn-primary{
@@ -348,86 +378,78 @@
       border:1px solid rgba(255,255,255,.22);
       background:linear-gradient(135deg, rgba(175,135,255,.95), rgba(80,210,255,.95));
       color:#050312;
-      padding:8px 18px;
+      padding:10px 18px;
       font-size:14px;
       cursor:pointer;
       box-shadow:0 12px 36px rgba(0,0,0,.65);
+      font-weight: 700;
     }
-    .btn-primary:hover{
-      filter:brightness(1.05);
-    }
+    .btn-primary:hover{ filter:brightness(1.05); }
 
     .btn-ghost{
       border-radius:999px;
       border:1px solid rgba(255,255,255,.18);
-      background:rgba(0,0,0,.2);
+      background:rgba(0,0,0,.18);
       color:var(--ink2);
-      padding:8px 14px;
+      padding:10px 14px;
       font-size:13px;
       cursor:pointer;
     }
-
-    @media (prefers-reduced-motion: reduce){
-      .star{ animation:none !important; }
-      .enterBtn{ transition:none !important; }
-      .flash{ transition:none !important; }
-      .bg{ transform:none; }
-    }
+    .btn-ghost:hover{ filter: brightness(1.06); }
 
     /* Mobile tuning */
     @media (max-width:520px){
-      .enterWrap{ bottom: 72px; }
-      .enterBtn{ width: 140px; height: 140px; border-radius: 16px; }
-      .enterBtn img{ inset: 12px; width: calc(100% - 24px); height: calc(100% - 24px); }
-      .enterLabel{ font-size:14px; }
+      .gateWrap{ padding-bottom: 62px; }
+      .title{ font-size: 16px; }
+      .enterText .big{ font-size: 15px; }
+      .enterText .small{ font-size: 12px; }
+      .enterIcon{ width: 40px; height: 40px; }
     }
 
-    /* Landscape na malých displejích – posuneme níž a zmenšíme */
-    @media (max-height:520px) and (orientation: landscape){
-      .enterWrap{ bottom: 30px; }
-      .enterBtn{ width: 120px; height:120px; }
-    } 
-    
-    /* Malé mobily na šířku – ať tlačítko neleze do loga */
-     @media (max-width: 900px) and (max-height: 500px) {
-  .enterWrap {
-    bottom: 4vh;              /* víc ke spodku */
-  }
-
-  .enterBtn {
-    width: 110px;
-    height: 110px;            /* o kousek menší */
-  }
-
-  .enter-text {
-    font-size: 16px;          /* text pod tím trochu menší */
-  }
-}
+    @media (prefers-reduced-motion: reduce){
+      .enterBtn{ transition:none !important; }
+      .flash{ transition:none !important; }
+      .modal-backdrop{ transition:none !important; }
+    }
   </style>
 </head>
 
 <body>
-  <!-- Background image -->
   <div class="bg" aria-hidden="true"></div>
 
-  <!-- Stars over background -->
-  <div class="stars" aria-hidden="true">
-    <!-- (původní hvězdy beze změny) -->
-    <!-- ... ponechávám tvůj existující seznam <span class="star"> ... -->
-  </div>
-
-  <!-- Back link -->
   <a class="back" href="index.html">← Zpět na web</a>
 
-  <!-- Logo button + text -->
-  <div class="enterWrap">
-    <button class="enterBtn" id="enterBtn" type="button" aria-label="Zmáčkni tlačítko a vstup do Luminy">
-      <img src="favicon.png" alt="LuminaMemory™ logo">
-    </button>
-    <div class="enterLabel">Zmáčkni tlačítko ✨</div>
+  <div class="gateWrap">
+    <div class="gateCard" aria-label="Vstupní brána">
+      <div class="gateTop">
+        <div class="badge" title="Demonstrační režim">
+          <b>DEMO</b> • zdarma • bezpečně
+        </div>
+        <div class="badge" title="Krátký postup před vstupem">
+          nejprve návod • potom vstup
+        </div>
+      </div>
+
+      <div class="title">Vstupní brána</div>
+
+      <button class="enterBtn" id="enterBtn" type="button" aria-label="Vstoupit do demo prostředí">
+        <span class="enterIcon">
+          <!-- může být favicon nebo avatar – tady logo, ať je to univerzální -->
+          <img src="favicon.png" alt="LuminaMemory™">
+        </span>
+        <span class="enterText">
+          <span class="big">Vstoupit do Luminy</span>
+          <span class="small">Zmáčkni tlačítko a já tě povedu dál ✨</span>
+        </span>
+        <span class="arrow">›</span>
+      </button>
+
+      <div class="hint">
+        Uvnitř tě čeká <b>miniLumina</b> a hlavně <b>Nastavení ⚙️ → Návod / průvodce</b>, abys se neztratil(a).
+      </div>
+    </div>
   </div>
 
-  <!-- Flash -->
   <div class="flash" id="flash" aria-hidden="true"></div>
 
   <!-- Intro modal -->
@@ -437,53 +459,55 @@
 
       <div class="modal-header">
         <img src="lumina-avatar.png" alt="Lumina" class="modal-avatar">
-        <h1 id="introTitle">Vítej v miniLumina DEMO 💫</h1>
+        <h1 id="introTitle">Vítej ✨ Než otevřu bránu…</h1>
       </div>
 
       <div class="modal-body">
         <p>
-          Jsem Lumina – tvoje digitální průvodkyně. Než skočíš dovnitř,
-          prosím věnuj chvilku tomu, jak naše demo funguje:
+          Tohle je <b>DEMO</b>. Aby byl vstup hladký a bezpečný, tady je krátký postup:
         </p>
+
         <ol>
-          <li><strong>Přihlášení:</strong> zadáš e-mail, své heslo a vybereš tarif
-              (teď je vše jen v demo režimu a zdarma).</li>
-          <li><strong>miniLumina:</strong> po přihlášení se ti otevře chat POKEC a tlačítka
-              do dalších místností paláce.</li>
-          <li><strong>První kroky:</strong> než začneš tvořit,
-              otevři v&nbsp;horním panelu <strong>Nastavení ⚙️ → Návod / průvodce</strong>.
-              Tam najdeš podrobný popis všech místností.</li>
+          <li>
+            <b>Teď se nic neplatí.</b> Přihlášení i „tarif“ jsou v demu jen orientační – <b>na oko</b>.
+          </li>
+          <li>
+            Po přihlášení uvidíš <b>miniLumina</b> (chat „POKEC“ + tlačítka místností).
+          </li>
+          <li>
+            Než začneš cokoliv zkoušet, otevři:
+            <b>Nastavení ⚙️ → Návod / průvodce</b> – tam je celý palác popsaný krok za krokem.
+          </li>
         </ol>
-        <p>
-          Pokud pokračuješ dál, bereš na vědomí, že jde o demonstrační verzi
-          LuminaMemory™ určenou k testování konceptu.
-        </p>
+
+        <div class="note">
+          Pokračováním potvrzuješ, že rozumíš: jde o demonstrační prostředí, které slouží k testování konceptu.
+          Přístupové údaje a volba tarifu jsou v této verzi pouze pro simulaci.
+        </div>
       </div>
 
       <div class="modal-footer">
         <button class="btn-ghost" type="button" id="introLater">Ještě se rozhlédnu</button>
-        <button class="btn-primary" type="button" id="introContinue">
-          Rozumím, jdeme dál ✨
-        </button>
+        <button class="btn-primary" type="button" id="introContinue">Rozumím, otevři bránu ✨</button>
       </div>
     </div>
   </div>
 
   <script>
     (function(){
-      const btn        = document.getElementById("enterBtn");
+      const enterBtn   = document.getElementById("enterBtn");
       const flash      = document.getElementById("flash");
       const modal      = document.getElementById("introModal");
       const continueBt = document.getElementById("introContinue");
       const laterBt    = document.getElementById("introLater");
       const closeBt    = document.getElementById("introClose");
-      const target     = "mini-login.html";
+
+      // cílová stránka po potvrzení
+      const target = "mini-login.html";
 
       function openModal(){
         modal.hidden = false;
-        requestAnimationFrame(() => {
-          modal.classList.add("is-open");
-        });
+        requestAnimationFrame(() => modal.classList.add("is-open"));
       }
 
       function closeModal(){
@@ -491,26 +515,29 @@
         setTimeout(() => { modal.hidden = true; }, 220);
       }
 
-      btn.addEventListener("click", () => {
-        btn.classList.add("is-pressed");
+      enterBtn.addEventListener("click", () => {
+        enterBtn.classList.add("is-pressed");
         flash.classList.add("is-on");
 
         setTimeout(() => {
           flash.classList.remove("is-on");
-          btn.classList.remove("is-pressed");
+          enterBtn.classList.remove("is-pressed");
           openModal();
-        }, 420);
+        }, 360);
       });
 
       continueBt.addEventListener("click", () => {
         flash.classList.add("is-on");
-        setTimeout(() => {
-          window.location.href = target;
-        }, 450);
+        setTimeout(() => { window.location.href = target; }, 420);
       });
 
       laterBt.addEventListener("click", closeModal);
       closeBt.addEventListener("click", closeModal);
+
+      // zavření klikem mimo modal (jemné UX)
+      modal.addEventListener("click", (e) => {
+        if(e.target === modal) closeModal();
+      });
     })();
   </script>
 </body>
