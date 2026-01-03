@@ -1739,7 +1739,26 @@
   updatePlanUI();
   renderChat();
   renderFeed();
+
+  // 💡 Při přepnutí jazyka vyčistit dílnu,
+  // aby se nepřenášely bubliny z jiného jazyka
+  const langLinks = document.querySelectorAll('.lang-switch a');
+
+  langLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      // vyprázdníme chat i položky dílny
+      state.chat = [];
+      state.items = [];
+
+      // uložíme prázdný stav
+      if (typeof saveState === 'function') {
+        saveState();
+      }
+    });
+  });
+
 })();
+
 </script>
 </body>
 </html>
