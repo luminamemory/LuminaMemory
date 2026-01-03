@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="cs">
+<html lang="en">
 <head>
 
   <meta charset="UTF-8">
@@ -16,8 +16,8 @@
       --ink:#EAF7F6;
       --muted: rgba(234,247,246,.72);
 
-      --accent:#24D2C1;     /* tyrkys */
-      --accent2:#7CE7FF;    /* light cyan */
+      --accent:#24D2C1;
+      --accent2:#7CE7FF;
 
       --shadow: 0 18px 60px rgba(0,0,0,.45);
       --shadow2: 0 10px 26px rgba(0,0,0,.34);
@@ -190,13 +190,13 @@
     .actions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
 
     .studio{
-  height: min(90vh, 880px);
-  display:flex;
-  flex-direction:column;
-  gap: 12px;
-  min-height:0;
-  padding: 14px 16px 16px;
-}
+      height: min(90vh, 880px);
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      min-height:0;
+      padding: 14px 16px 16px;
+    }
 
     .chatlog{
       flex: 1 1 auto;
@@ -334,7 +334,6 @@
       border-top: 1px solid rgba(255,255,255,.08);
     }
 
-    /* Odkládací stůl */
     .shelf{
       flex: 0 0 clamp(190px, 30%, 290px);
       min-height: 190px;
@@ -488,23 +487,20 @@
       padding: 0 4px;
     }
 
-/* Kartičky na odkládacím stole – mobilní úpravy */
-@media (max-width: 480px) {
-  /* horní řádek kartičky: badge + title + tlačítka */
-  .item .top{
-    flex-direction: column;      /* místo vedle sebe pod sebe */
-    align-items: stretch;
-    gap: 6px;
-    margin-bottom: 8px;          /* víc místa nad textem poznámky */
-  }
+    @media (max-width: 480px) {
+      .item .top{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
 
-  .itemActions{
-    justify-content: flex-start; /* tlačítka doleva, ne natlačená vpravo */
-    row-gap: 4px;
-  }
-}
+      .itemActions{
+        justify-content: flex-start;
+        row-gap: 4px;
+      }
+    }
 
-    /* Modals (Lumina style) */
     .modalOverlay{
       position:fixed;
       inset:0;
@@ -600,98 +596,93 @@
       .grid2{ grid-template-columns: 1fr; }
     }
 
-    /* iPhone landscape – víc prostoru pro chat */
-@media (max-height: 600px) {
-  .studio{
-    height: auto;       /* žádná pevná výška */
-    max-height: none;   /* a ani strop */
-  }
+    @media (max-height: 600px) {
+      .studio{
+        height: auto;
+        max-height: none;
+      }
 
-  /* můžeš si pohrát – jen jemné zmenšení stolu */
-  .shelfWrap{
-    margin-top: 10px;
-  }
+      .shelfWrap{
+        margin-top: 10px;
+      }
 
-  .feed{
-    max-height: 200px;  /* menší stůl, víc místa na chat */
-  }
-}
-    /* Úzké displeje – cca mobil na výšku */
-@media (max-width: 600px) {
+      .feed{
+        max-height: 200px;
+      }
+    }
 
-  .wrap{
-    padding: 16px 12px 28px;
-  }
+    @media (max-width: 600px) {
 
-  header{
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
+      .wrap{
+        padding: 16px 12px 28px;
+      }
 
-  nav{
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+      header{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
 
-  .navbtn,
-  .btn{
-    padding: 9px 10px;
-    font-size: 13px;
-  }
+      nav{
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
 
-  .hero{
-    padding: 14px 14px;
-    margin: 8px 0 14px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
+      .navbtn,
+      .btn{
+        padding: 9px 10px;
+        font-size: 13px;
+      }
 
-  .hero h1{
-    font-size: 16px;
-  }
+      .hero{
+        padding: 14px 14px;
+        margin: 8px 0 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
 
-  .hero p{
-    font-size: 13px;
-  }
+      .hero h1{
+        font-size: 16px;
+      }
 
-  .studio{
-    padding: 12px 12px 14px;
-  }
+      .hero p{
+        font-size: 13px;
+      }
 
-  /* Composer pod sebe, ať se na mobilu nemačká */
-  .composer{
-    flex-direction: column;
-    align-items: stretch;
-  }
+      .studio{
+        padding: 12px 12px 14px;
+      }
 
-  .composer input[type="text"]{
-    width: 100%;
-  }
+      .composer{
+        flex-direction: column;
+        align-items: stretch;
+      }
 
-  .composer .btn{
-    width: 100%;
-    justify-content: center;
-  }
+      .composer input[type="text"]{
+        width: 100%;
+      }
 
-  /* Nástroje – tlačítka se skládají do dvou sloupců */
-  .toolrow{
-    gap: 6px;
-  }
+      .composer .btn{
+        width: 100%;
+        justify-content: center;
+      }
 
-  .toolrow .btn{
-    flex: 1 1 calc(50% - 6px);
-    justify-content: flex-start;
-  }
+      .toolrow{
+        gap: 6px;
+      }
 
-  /* Bubliny můžou klidně využít celou šířku */
-  .bubble{
-    max-width: 100%;
-  }
-}
+      .toolrow .btn{
+        flex: 1 1 calc(50% - 6px);
+        justify-content: flex-start;
+      }
+
+      .bubble{
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
 
@@ -701,32 +692,32 @@
       <div class="brand" aria-label="Proiecta">
         <div class="t">
           <strong>Proiecta</strong>
-          <span>Kreativní studio Luminy ✨ (DEMO)</span>
+          <span>Lumina’s creative studio ✨ (DEMO)</span>
         </div>
       </div>
 
-      <nav aria-label="Navigace">
-        <a class="navbtn" href="praetorium.html" title="Zpět">⬅️ Zpět</a>
-        <a class="navbtn" href="lumina-demo.html" title="Pokec">🗯 Pokec</a>
-        <a class="navbtn" href="proiecta-projekty.html" title="Projektová místnost">📺 Projekty</a>
+      <nav aria-label="Navigation">
+        <a class="navbtn" href="praetorium-en.html" title="Back">⬅️ Back</a>
+        <a class="navbtn" href="lumina-demo-en.html" title="Pokec">🗯 Pokec</a>
+        <a class="navbtn" href="proiecta-projekty-en.html" title="Project room">📺 Projects</a>
       </nav>
     </header>
 
     <section class="hero">
       <div>
-        <h1>Proiecta — přehledná tvorba. 🛡️✨</h1>
+        <h1>Proiecta — structured creation. 🛡️✨</h1>
         <p>
-          Tvoření probíhá v dílně (chatu). Dole je „Odkládací stůl“ pro rozpracované věci.
+          Most of the work happens in the workshop (chat). Below you have the “holding shelf” for things that are still in progress.
         </p>
       </div>
 
-      <div class="pillrow" aria-label="Stav a tarif">
-        <div class="pill"><span class="dot"></span> <b>Živě:</b> DEMO</div>
-        <div class="pill">✨ Lumina: <b>kreativní režim</b></div>
+      <div class="pillrow" aria-label="Status and plan">
+        <div class="pill"><span class="dot"></span> <b>Live:</b> DEMO</div>
+        <div class="pill">✨ Lumina: <b>creative mode</b></div>
 
-        <div class="pill" title="Demo přepínač tarifu">
-          💳 Tarif:
-          <span class="seg" role="group" aria-label="Tarif">
+        <div class="pill" title="DEMO plan switch">
+          💳 Plan:
+          <span class="seg" role="group" aria-label="Plan">
             <button id="planFree" type="button">Free</button>
             <button id="planPlus" type="button">Plus</button>
             <button id="planPremium" type="button">Premium</button>
@@ -736,62 +727,62 @@
     </section>
 
     <main>
-      <section class="card" aria-label="Kreativní studio">
+      <section class="card" aria-label="Creative studio">
         <div class="hd">
           <div class="title">
-            <strong>🛠 Dílna</strong>
-            <span>Chat je centrum celého dění. Odkládací stůl drží rozpracované věci pohromadě.</span>
+            <strong>🛠 Workshop</strong>
+            <span>The chat is the centre of everything. The holding shelf keeps your in-progress pieces together.</span>
           </div>
           <div class="actions">
-            <button class="btn ghost" id="btnExport" title="Stáhnout obsah odkládacího stolu jako .txt">⬇️ Export</button>
-            <button class="btn" id="btnClear" title="Vyčistit chat + odkládací stůl">🧹 Vyčistit</button>
+            <button class="btn ghost" id="btnExport" title="Download the holding shelf as .txt">⬇️ Export</button>
+            <button class="btn" id="btnClear" title="Clear chat + holding shelf">🧹 Clear</button>
           </div>
         </div>
 
         <div class="studio">
-          <div class="chatlog" id="chatlog" aria-live="polite" aria-label="Zprávy chatu"></div>
+          <div class="chatlog" id="chatlog" aria-live="polite" aria-label="Chat messages"></div>
 
-          <div class="composer" aria-label="Vstup do chatu">
-            <input id="chatInput" type="text" placeholder="Napiš sem, co chceš vytvořit nebo vyber nástroj👇…">
-            <button class="btn primary" id="btnSend">✨ Poslat</button>
+          <div class="composer" aria-label="Chat input">
+            <input id="chatInput" type="text" placeholder="Type what you want to create or pick a tool 👇…">
+            <button class="btn primary" id="btnSend">✨ Send</button>
           </div>
 
-          <div class="toolsection" aria-label="Nástroje">
-            <div class="toolhint">🏢 Kancelářské nástroje</div>
-            <div class="toolrow" aria-label="Kancelářské nástroje">
-              <button class="btn" id="btnEmail">📧 E-mail</button>
-              <button class="btn" id="btnTranslate">🌍 Překlad</button>
-              <button class="btn" id="btnAttach">📎 Přidat soubor</button>
-              <button class="btn" id="btnNote">📝 Odložit poznámku</button>
+          <div class="toolsection" aria-label="Tools">
+            <div class="toolhint">🏢 Office tools</div>
+            <div class="toolrow" aria-label="Office tools">
+              <button class="btn" id="btnEmail">📧 Email</button>
+              <button class="btn" id="btnTranslate">🌍 Translation</button>
+              <button class="btn" id="btnAttach">📎 Add file</button>
+              <button class="btn" id="btnNote">📝 Park a note</button>
               <input id="fileInput" type="file" multiple hidden />
             </div>
 
-            <div class="toolhint" style="margin-top:10px;">🎨 Kreativní nástroje</div>
-            <div class="toolrow" aria-label="Kreativní nástroje">
-              <button class="btn" id="btnSuggest">💡 Nápady</button>
-              <button class="btn" id="btnImageFlow">🖼 Generování obrázků</button>
+            <div class="toolhint" style="margin-top:10px;">🎨 Creative tools</div>
+            <div class="toolrow" aria-label="Creative tools">
+              <button class="btn" id="btnSuggest">💡 Ideas</button>
+              <button class="btn" id="btnImageFlow">🖼 Image generation</button>
             </div>
 
             <div class="toolhint">
-              ✨ Tip: Věci, které nechceš ztratit v proudu chatu, odlož na stůl 🗃️
+              ✨ Tip: If you don’t want to lose something in the flow of chat, park it on the shelf 🗃️
             </div>
           </div>
 
-          <div class="shelf" aria-label="Odkládací stůl">
+          <div class="shelf" aria-label="Holding shelf">
             <div class="shelfLabel">
-              <span>🗃️ Odkládací stůl (rozpracováno)</span>
+              <span>🗃️ Holding shelf (in progress)</span>
               <span id="planHint" style="color: rgba(234,247,246,.65); font-weight: 780;"></span>
             </div>
 
-            <div class="shelfFilters" id="shelfFilters" aria-label="Filtr odkládacího stolu">
-              <button type="button" class="chip is-active" data-topic="__all">Všechno</button>
-              <button type="button" class="chip" data-topic="__none">Bez tématu</button>
+            <div class="shelfFilters" id="shelfFilters" aria-label="Holding shelf filter">
+              <button type="button" class="chip is-active" data-topic="__all">All</button>
+              <button type="button" class="chip" data-topic="__none">No topic</button>
               <div class="chipRow" id="topicChips"></div>
             </div>
 
             <div class="shelfWrap" id="shelfWrap">
               <div class="feed" id="feed">
-                <div class="empty" id="feedEmpty">Zatím tu nic neleží. Přidej poznámku, soubor, nebo obrázek ✨</div>
+                <div class="empty" id="feedEmpty">Nothing is parked here yet. Add a note, file, or image ✨</div>
               </div>
             </div>
           </div>
@@ -801,8 +792,8 @@
     </main>
 
     <footer>
-      <div>DEMO • ukládání probíhá lokálně v prohlížeči.</div>
-      <div>Proiecta • 📺 Projekty</div>
+      <div>DEMO • everything is stored locally in your browser.</div>
+      <div>Proiecta • 📺 Projects</div>
     </footer>
   </div>
 
@@ -811,16 +802,16 @@
     <div class="modal">
       <div class="modalHd">
         <div>
-          <strong id="clearTitle">🧹 Vyčistit studio?</strong>
-          <span>Vyčistí se dílna i odkládací stůl.</span>
+          <strong id="clearTitle">🧹 Clear the studio?</strong>
+          <span>This will clear the workshop and the holding shelf.</span>
         </div>
-        <button class="xBtn" data-close="clearModal" aria-label="Zavřít">✕</button>
+        <button class="xBtn" data-close="clearModal" aria-label="Close">✕</button>
       </div>
       <div class="modalBd">
-        <p>Opravdu vyčistit? Nerozmyslíš si to 😉</p>
+        <p>Really clear everything? No take-backs 😉</p>
         <div class="modalBtns">
-          <button class="btn" data-close="clearModal">Nechat být</button>
-          <button class="btn primary" id="btnConfirmClear">Ano, vyčistit</button>
+          <button class="btn" data-close="clearModal">Leave it</button>
+          <button class="btn primary" id="btnConfirmClear">Yes, clear</button>
         </div>
       </div>
     </div>
@@ -830,88 +821,88 @@
     <div class="modal">
       <div class="modalHd">
         <div>
-          <strong id="imgTitle">🖼️ Náhled</strong>
-          <span id="imgSubtitle">Klikni na obrázek</span>
+          <strong id="imgTitle">🖼 Preview</strong>
+          <span id="imgSubtitle">Click the image</span>
         </div>
-        <button class="xBtn" data-close="imgModal" aria-label="Zavřít">✕</button>
+        <button class="xBtn" data-close="imgModal" aria-label="Close">✕</button>
       </div>
       <div class="modalBd">
         <div class="imgFrame" id="imgFrame"></div>
         <div class="modalBtns">
-          <button class="btn" data-close="imgModal">Zavřít</button>
+          <button class="btn" data-close="imgModal">Close</button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="modalOverlay" id="noteModal" role="dialog" aria-modal="true" aria-labelledby="noteTitle">
-  <div class="modal">
-    <div class="modalHd">
-      <div>
-        <strong id="noteTitle">📝 Odložit poznámku</strong>
-        <span>Krátce a přehledně. Kdykoli se k tomu můžeš vrátit.</span>
-      </div>
-      <button class="xBtn" data-close="noteModal" aria-label="Zavřít">✕</button>
-    </div>
-    <div class="modalBd">
-      <div class="grid2">
+    <div class="modal">
+      <div class="modalHd">
         <div>
-          <p style="margin-top:0"><b>Název</b></p>
-          <input
-            id="noteTitleInput"
-            type="text"
-            style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;"
-            placeholder="Např. ‘Text na web – zajistit správné zobrazení’">
+          <strong id="noteTitle">📝 Park a note</strong>
+          <span>Short and clear. You can always come back to it.</span>
         </div>
-        <div>
-          <p style="margin-top:0"><b>Typ</b></p>
-          <div class="toolrow" style="margin-top:0">
-            <button class="btn" type="button" data-note-type="idea">💡 Nápad</button>
-            <button class="btn" type="button" data-note-type="task">✅ Úkol</button>
-            <button class="btn" type="button" data-note-type="note">📝 Poznámka</button>
+        <button class="xBtn" data-close="noteModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <div class="grid2">
+          <div>
+            <p style="margin-top:0"><b>Title</b></p>
+            <input
+              id="noteTitleInput"
+              type="text"
+              style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;"
+              placeholder="E.g. ‘Text for web – make sure it displays correctly’">
           </div>
-          <div class="toolhint">
-            Vybraný typ: <span id="noteTypeHint">📝 Poznámka</span>
+          <div>
+            <p style="margin-top:0"><b>Type</b></p>
+            <div class="toolrow" style="margin-top:0">
+              <button class="btn" type="button" data-note-type="idea">💡 Idea</button>
+              <button class="btn" type="button" data-note-type="task">✅ Task</button>
+              <button class="btn" type="button" data-note-type="note">📝 Note</button>
+            </div>
+            <div class="toolhint">
+              Selected type: <span id="noteTypeHint">📝 Note</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <p><b>Obsah</b></p>
-      <textarea id="noteBodyInput" placeholder="Napiš poznámku…"></textarea>
+        <p><b>Content</b></p>
+        <textarea id="noteBodyInput" placeholder="Write your note…"></textarea>
 
-      <p><b>Téma / šuplík (volitelné)</b></p>
-      <input
-        id="noteTopicInput"
-        type="text"
-        style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;"
-        placeholder="Např. ‘leták’, ‘web’, ‘škola’…">
-      <div class="toolhint">
-        Téma ti pomůže seskupit věci na odkládacím stole do jednoho šuplíku 🗂️
-      </div>
+        <p><b>Topic / drawer (optional)</b></p>
+        <input
+          id="noteTopicInput"
+          type="text"
+          style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;"
+          placeholder="E.g. ‘flyer’, ‘web’, ‘school’…">
+        <div class="toolhint">
+          The topic helps you group things on the holding shelf into one drawer 🗂️
+        </div>
 
-      <div class="modalBtns">
-        <button class="btn" data-close="noteModal">Zrušit</button>
-        <button class="btn primary" id="btnSaveNote">Odložit na stůl 🗃️</button>
+        <div class="modalBtns">
+          <button class="btn" data-close="noteModal">Cancel</button>
+          <button class="btn primary" id="btnSaveNote">Add to shelf 🗃️</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <div class="modalOverlay" id="imageFlowModal" role="dialog" aria-modal="true" aria-labelledby="imgFlowTitle">
     <div class="modal">
       <div class="modalHd">
         <div>
-          <strong id="imgFlowTitle">🖼️ Generování obrázku</strong>
-          <span>Napiš zadání a odešli. V demo verzi má Lumina pro tebe připravených pár obrázků.</span>
+          <strong id="imgFlowTitle">🖼 Image generation</strong>
+          <span>Write a prompt and send it. In the demo version, Lumina has a few images prepared for you.</span>
         </div>
-        <button class="xBtn" data-close="imageFlowModal" aria-label="Zavřít">✕</button>
+        <button class="xBtn" data-close="imageFlowModal" aria-label="Close">✕</button>
       </div>
       <div class="modalBd">
-        <p><b>Zadání</b></p>
-        <textarea id="imgPromptInput" placeholder="Např. ‘pavučina, Lumina, chaos, ...’"></textarea>
+        <p><b>Prompt</b></p>
+        <textarea id="imgPromptInput" placeholder="E.g. ‘web, Lumina, chaos, ...’"></textarea>
         <div class="modalBtns">
-          <button class="btn" data-close="imageFlowModal">Zrušit</button>
-          <button class="btn primary" id="btnSendImagePrompt">Odeslat 🎨</button>
+          <button class="btn" data-close="imageFlowModal">Cancel</button>
+          <button class="btn primary" id="btnSendImagePrompt">Send 🎨</button>
         </div>
         <div class="toolhint" id="imgFlowStatus" aria-live="polite"></div>
       </div>
@@ -922,17 +913,17 @@
     <div class="modal">
       <div class="modalHd">
         <div>
-          <strong id="moveTitle">📦 Přesun do projektu</strong>
-          <span id="moveSubtitle">DEMO logika podle tarifu.</span>
+          <strong id="moveTitle">📦 Move to project</strong>
+          <span id="moveSubtitle">DEMO logic based on plan.</span>
         </div>
-        <button class="xBtn" data-close="moveModal" aria-label="Zavřít">✕</button>
+        <button class="xBtn" data-close="moveModal" aria-label="Close">✕</button>
       </div>
       <div class="modalBd">
-        <p style="margin-top:0"><b>Vyber projekt</b></p>
+        <p style="margin-top:0"><b>Select project</b></p>
         <div class="toolrow" id="projectButtons" style="margin-top:0"></div>
         <div class="toolhint" id="moveHint"></div>
         <div class="modalBtns">
-          <button class="btn" data-close="moveModal">Zavřít</button>
+          <button class="btn" data-close="moveModal">Close</button>
         </div>
       </div>
     </div>
@@ -942,18 +933,18 @@
     <div class="modal">
       <div class="modalHd">
         <div>
-          <strong id="topicTitle">🗂 Téma / šuplík</strong>
-          <span>Nastav nebo uprav šuplík, do kterého tahle věc patří.</span>
+          <strong id="topicTitle">🗂 Topic / drawer</strong>
+          <span>Set or adjust the drawer this belongs to.</span>
         </div>
-        <button class="xBtn" data-close="topicModal" aria-label="Zavřít">✕</button>
+        <button class="xBtn" data-close="topicModal" aria-label="Close">✕</button>
       </div>
       <div class="modalBd">
-        <p><b>Název šuplíku</b></p>
-        <input id="topicInput" type="text" style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;" placeholder="Např. ‘leták’, ‘web’, ‘škola’…">
-        <div class="toolhint" id="topicHint">Nech prázdné, pokud nechceš mít téma přiřazené.</div>
+        <p><b>Drawer name</b></p>
+        <input id="topicInput" type="text" style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;" placeholder="E.g. ‘flyer’, ‘web’, ‘school’…">
+        <div class="toolhint" id="topicHint">Leave empty if you don’t want to have a topic assigned.</div>
         <div class="modalBtns">
-          <button class="btn" data-close="topicModal">Zrušit</button>
-          <button class="btn primary" id="btnSaveTopic">Uložit</button>
+          <button class="btn" data-close="topicModal">Cancel</button>
+          <button class="btn primary" id="btnSaveTopic">Save</button>
         </div>
       </div>
     </div>
@@ -962,7 +953,7 @@
 <script>
 (() => {
   const KEY = "LM_PROIECTA_STUDIO";
-const PLAN_KEY = "LM_PLAN"; // Proiecta vnitřní klíč, ale primárně bereme lm_plan z mini-loginu
+  const PLAN_KEY = "LM_PLAN";
   const KEY_QUEUE = "LM_PROIECTA_QUEUE_DEMO_V1";
 
   const PRESET_IMAGES = [
@@ -974,14 +965,14 @@ const PLAN_KEY = "LM_PLAN"; // Proiecta vnitřní klíč, ale primárně bereme 
   ];
 
   const GEN_LINES = [
-    "Chvilku… tvořím 🎨",
-    "Dáme tomu trochu barvy, ať to nevypadá jak zubní ordinace. 🎨😄",
-    "Ok… zpracovávám ✨",
-    "Ještě moment… 👀"
+    "Moment… creating 🎨",
+    "Let’s add some colour so it doesn’t look like a dentist’s office. 🎨😄",
+    "Okay… processing ✨",
+    "One more moment… 👀"
   ];
 
   const state = loadState();
-  let plan = loadPlan(); // free | plus | premium
+  let plan = loadPlan();
   let activeTopicFilter = "__all";
 
   const chatlog = document.getElementById("chatlog");
@@ -1005,48 +996,43 @@ const PLAN_KEY = "LM_PLAN"; // Proiecta vnitřní klíč, ale primárně bereme 
   const shelfFilters = document.getElementById("shelfFilters");
   const topicChips = document.getElementById("topicChips");
 
-  // Plan buttons
   const planFree = document.getElementById("planFree");
   const planPlus = document.getElementById("planPlus");
   const planPremium = document.getElementById("planPremium");
 
   function loadPlan(){
-  try{
-    // 1) primárně tarif z mini-loginu
-    const raw = localStorage.getItem("lm_plan") || localStorage.getItem(PLAN_KEY);
-    if(raw === "free" || raw === "plus" || raw === "premium") return raw;
+    try{
+      const raw = localStorage.getItem("lm_plan") || localStorage.getItem(PLAN_KEY);
+      if(raw === "free" || raw === "plus" || raw === "premium") return raw;
 
-    // kdyby náhodou bylo uložené jako FREE/PLUS/PREMIUM
-    const up = String(raw || "").toUpperCase();
-    if(up === "FREE" || up === "PLUS" || up === "PREMIUM"){
-      return up.toLowerCase();
+      const up = String(raw || "").toUpperCase();
+      if(up === "FREE" || up === "PLUS" || up === "PREMIUM"){
+        return up.toLowerCase();
+      }
+    }catch(_){
     }
-  }catch(_){
-    // ignore
+    return "free";
   }
-  return "free";
-}
 
-function savePlan(){
-  try{
-    // hlavní klíč, který používá mini-login + Sigma
-    localStorage.setItem("lm_plan", plan);
-    // záloha pro Proiectu (pro jistotu)
-    localStorage.setItem(PLAN_KEY, plan);
-  }catch(_){}
-}
+  function savePlan(){
+    try{
+      localStorage.setItem("lm_plan", plan);
+      localStorage.setItem(PLAN_KEY, plan);
+    }catch(_){}
+  }
 
   function setPlan(p){
     plan = p;
     savePlan();
     updatePlanUI();
-    addChat("lumina",
+    addChat(
+      "lumina",
       plan === "free"
-        ? "Nastaveno: Free (1 projekt) ✅"
+        ? "Set: Free (1 project) ✅"
         : plan === "plus"
-          ? "Nastaveno: Plus (až 5 projektů) ✅"
-          : "Nastaveno: Premium (bez limitu) ✅",
-      "tarif"
+          ? "Set: Plus (up to 5 projects) ✅"
+          : "Set: Premium (no project limit) ✅",
+      "plan"
     );
   }
   function updatePlanUI(){
@@ -1054,16 +1040,15 @@ function savePlan(){
     planPlus.classList.toggle("active", plan === "plus");
     planPremium.classList.toggle("active", plan === "premium");
     planHint.textContent =
-      plan === "free" ? "Free: 1 projekt"
-      : plan === "plus" ? "Plus: 5 projektů"
-      : "Premium: ∞ projektů";
+      plan === "free" ? "Free: 1 project"
+      : plan === "plus" ? "Plus: 5 projects"
+      : "Premium: ∞ projects";
   }
 
   planFree.addEventListener("click", () => setPlan("free"));
   planPlus.addEventListener("click", () => setPlan("plus"));
   planPremium.addEventListener("click", () => setPlan("premium"));
 
-  // Modals helpers
   function openModal(el){
     el.classList.add("show");
     document.documentElement.style.overflow = "hidden";
@@ -1092,7 +1077,6 @@ function savePlan(){
     }
   });
 
-  // Image preview modal
   const imgModal = document.getElementById("imgModal");
   const imgFrame = document.getElementById("imgFrame");
   const imgTitle = document.getElementById("imgTitle");
@@ -1100,14 +1084,13 @@ function savePlan(){
 
   function openImageModal(src, alt){
     if(!src) return;
-    imgTitle.textContent = "🖼️ " + (alt || "Náhled");
-    imgSubtitle.textContent = "Klikni na obrázek pro zavření.";
-    imgFrame.innerHTML = `<img src="${src}" alt="${escapeHtml(alt||"obrázek")}">`;
+    imgTitle.textContent = "🖼 " + (alt || "Preview");
+    imgSubtitle.textContent = "Click the image to close.";
+    imgFrame.innerHTML = `<img src="${src}" alt="${escapeHtml(alt||"image")}">`;
     openModal(imgModal);
   }
   imgFrame.addEventListener("click", () => closeModal(imgModal));
 
-  // State
   function loadState(){
     try{
       const raw = localStorage.getItem(KEY);
@@ -1128,7 +1111,6 @@ function savePlan(){
     return (s||"").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[m]));
   }
 
-  // Chat + Shelf
   function addChat(role, text, tag, extra){
     state.chat.push({ id: cryptoId(), role, text, tag: tag || "", extra: extra || {}, ts: Date.now() });
     saveState();
@@ -1144,12 +1126,12 @@ function savePlan(){
   }
 
   function typeLabel(type){
-    if(type === "image") return "Obrázek";
-    if(type === "file") return "Soubor";
-    if(type === "idea") return "Nápad";
-    if(type === "task") return "Úkol";
-    if(type === "note") return "Poznámka";
-    return "Záznam";
+    if(type === "image") return "Image";
+    if(type === "file") return "File";
+    if(type === "idea") return "Idea";
+    if(type === "task") return "Task";
+    if(type === "note") return "Note";
+    return "Entry";
   }
 
   function renderChat(){
@@ -1159,8 +1141,8 @@ function savePlan(){
       state.chat.push({
         id: cryptoId(),
         role: "lumina",
-        text: "Vítej v dílně. 🛠 Já jsem tu na dozor 🕶️, aby vše probíhalo bez chaosu. Tady spolu vytvoříme velké věci. ❤️",
-        tag: "dílna",
+        text: "Welcome to the workshop. 🛠 I’m here as quiet supervision 🕶️ so things stay out of chaos. We’ll create big things together here. ❤️",
+        tag: "workshop",
         extra: {},
         ts: Date.now()
       });
@@ -1184,7 +1166,7 @@ function savePlan(){
       const bubble = document.createElement("div");
       bubble.className = "bubble" + (m.role === "user" ? " user" : "");
 
-      const time = new Date(m.ts).toLocaleTimeString("cs-CZ",{hour:"2-digit", minute:"2-digit"});
+      const time = new Date(m.ts).toLocaleTimeString("en-GB",{hour:"2-digit", minute:"2-digit"});
 
       let inner = `
         <p>${escapeHtml(m.text)}</p>
@@ -1202,21 +1184,21 @@ function savePlan(){
           if(a.kind === "image" && a.src){
             const box = document.createElement("div");
             box.className = "thumbMini";
-            box.innerHTML = `<img src="${a.src}" alt="${escapeHtml(a.name||"obrázek")}" loading="lazy">`;
-            box.addEventListener("click", () => openImageModal(a.src, a.name || "Obrázek"));
+            box.innerHTML = `<img src="${a.src}" alt="${escapeHtml(a.name||"image")}" loading="lazy">`;
+            box.addEventListener("click", () => openImageModal(a.src, a.name || "Image"));
             row.appendChild(box);
           }else if(a.kind === "file"){
             const chip = document.createElement("a");
             chip.className = "fileChip";
             chip.href = a.downloadUrl || "#";
-            chip.download = a.name || "soubor";
+            chip.download = a.name || "file";
             chip.target = "_blank";
             chip.rel = "noopener";
-            chip.innerHTML = `📎 ${escapeHtml(a.name || "soubor")} <small>${escapeHtml(a.info || "")}</small>`;
+            chip.innerHTML = `📎 ${escapeHtml(a.name || "file")} <small>${escapeHtml(a.info || "")}</small>`;
             if(!a.downloadUrl){
               chip.addEventListener("click", (e) => {
                 e.preventDefault();
-                addChat("lumina", "Soubor je uložený jako záznam na stole (DEMO). ✅", "soubor");
+                addChat("lumina", "The file is stored as a record on the shelf (DEMO). ✅", "file");
               });
             }
             row.appendChild(chip);
@@ -1255,12 +1237,12 @@ function savePlan(){
       for(const it of items){
         const el = document.createElement("div");
         el.className = "item";
-        const ts = new Date(it.ts).toLocaleString("cs-CZ", { hour:"2-digit", minute:"2-digit" });
+        const ts = new Date(it.ts).toLocaleString("en-GB", { hour:"2-digit", minute:"2-digit" });
 
         const subtitle =
-          it.type === "image" ? "Vizuální položka (DEMO)"
-          : it.type === "file" ? "Příloha (DEMO)"
-          : "Rozpracováno (DEMO)";
+          it.type === "image" ? "Visual item (DEMO)"
+          : it.type === "file" ? "Attachment (DEMO)"
+          : "In progress (DEMO)";
 
         const topic = (it.extra && it.extra.topic || "").trim();
         const topicMarkup = topic ? `<span class="itemTopic">🗂 ${escapeHtml(topic)}</span>` : "";
@@ -1270,17 +1252,17 @@ function savePlan(){
             <div style="display:flex; align-items:flex-start; min-width:0; flex:1;">
               <span class="badge">${typeLabel(it.type)}</span>
               <div class="itTitle">
-                <strong>${escapeHtml(it.title || "Bez názvu")}</strong>
+                <strong>${escapeHtml(it.title || "Untitled")}</strong>
                 <span>${escapeHtml(subtitle)} • ${ts}</span>
                 ${topicMarkup}
               </div>
             </div>
             <div class="itemActions">
-              <button class="linkbtn ghost" data-act="move" data-id="${it.id}">📦 Do projektu</button>
-              <button class="linkbtn" data-act="copy" data-id="${it.id}">📋 Kopírovat</button>
-              <button class="linkbtn" data-act="topic" data-id="${it.id}">🗂 Téma</button>
-              <button class="linkbtn" data-act="done" data-id="${it.id}">✅ Hotovo</button>
-              <button class="linkbtn danger" data-act="del" data-id="${it.id}">🗑 Smazat</button>
+              <button class="linkbtn ghost" data-act="move" data-id="${it.id}">📦 To project</button>
+              <button class="linkbtn" data-act="copy" data-id="${it.id}">📋 Copy</button>
+              <button class="linkbtn" data-act="topic" data-id="${it.id}">🗂 Topic</button>
+              <button class="linkbtn" data-act="done" data-id="${it.id}">✅ Done</button>
+              <button class="linkbtn danger" data-act="del" data-id="${it.id}">🗑 Delete</button>
             </div>
           </div>
           <div class="body">${escapeHtml(it.body || "")}</div>
@@ -1293,8 +1275,8 @@ function savePlan(){
           const box = document.createElement("div");
           box.className = "thumbMini";
           box.style.width = "220px";
-          box.innerHTML = `<img src="${it.extra.src}" alt="${escapeHtml(it.title||"obrázek")}" loading="lazy">`;
-          box.addEventListener("click", () => openImageModal(it.extra.src, it.title || "Obrázek"));
+          box.innerHTML = `<img src="${it.extra.src}" alt="${escapeHtml(it.title||"image")}" loading="lazy">`;
+          box.addEventListener("click", () => openImageModal(it.extra.src, it.title || "Image"));
           row.appendChild(box);
 
           el.appendChild(row);
@@ -1306,8 +1288,8 @@ function savePlan(){
           const box = document.createElement("div");
           box.className = "thumbMini";
           box.style.width = "220px";
-          box.innerHTML = `<img src="${it.extra.thumb}" alt="${escapeHtml(it.title||"náhled")}" loading="lazy">`;
-          box.addEventListener("click", () => openImageModal(it.extra.thumb, it.title || "Náhled"));
+          box.innerHTML = `<img src="${it.extra.thumb}" alt="${escapeHtml(it.title||"preview")}" loading="lazy">`;
+          box.addEventListener("click", () => openImageModal(it.extra.thumb, it.title || "Preview"));
           row.appendChild(box);
           el.appendChild(row);
         }
@@ -1318,10 +1300,10 @@ function savePlan(){
           const a = document.createElement("a");
           a.className = "fileChip";
           a.href = it.extra.downloadUrl;
-          a.download = it.title || "soubor";
+          a.download = it.title || "file";
           a.target = "_blank";
           a.rel = "noopener";
-          a.innerHTML = `⬇️ Stáhnout: ${escapeHtml(it.title || "soubor")} <small>${escapeHtml(it.extra.info || "")}</small>`;
+          a.innerHTML = `⬇️ Download: ${escapeHtml(it.title || "file")} <small>${escapeHtml(it.extra.info || "")}</small>`;
           row.appendChild(a);
           el.appendChild(row);
         }
@@ -1373,7 +1355,6 @@ function savePlan(){
     });
   }
 
-      // Shelf actions
   const moveModal = document.getElementById("moveModal");
   const projectButtons = document.getElementById("projectButtons");
   const moveHint = document.getElementById("moveHint");
@@ -1391,7 +1372,6 @@ function savePlan(){
     return Infinity;
   }
 
-  // Bridge do Proiecta-projekty – fronta odkládacího stolu
   function loadQueue(){
     try{
       const raw = localStorage.getItem(KEY_QUEUE);
@@ -1407,7 +1387,6 @@ function savePlan(){
     try{
       localStorage.setItem(KEY_QUEUE, JSON.stringify(q || []));
     }catch(_){
-      // ignore
     }
   }
 
@@ -1442,18 +1421,18 @@ function savePlan(){
     const btn = document.createElement("button");
     btn.className = "btn primary";
     btn.type = "button";
-    btn.textContent = "📦 Odeslat na odkládací stůl v projektech";
+    btn.textContent = "📦 Send to the project shelf";
     btn.addEventListener("click", () => {
       const label = pushItemToQueue(item);
       if(label){
         addChat(
           "lumina",
-          `Přidáno na odkládací stůl v Proiecta → Projekty jako „${label}“. ✅`,
-          "projekty"
+          `Added to the shelf in Proiecta → Projects as “${label}”. ✅`,
+          "projects"
         );
-        moveHint.textContent = "Hotovo ✅ – najdeš to v sekci Proiecta → Projekty.";
+        moveHint.textContent = "Done ✅ – you’ll find it in Proiecta → Projects.";
       }else{
-        moveHint.textContent = "Nepovedlo se uložit položku. Zkus to prosím ještě jednou.";
+        moveHint.textContent = "Couldn’t save the item. Please try again.";
       }
     });
     projectButtons.appendChild(btn);
@@ -1461,19 +1440,18 @@ function savePlan(){
     const lim = projectLimit();
     const planText =
       lim === Infinity
-        ? "Tarif PREMIUM – žádný pevný limit počtu projektů (v ostré verzi)."
-        : `Tarif ${plan.toUpperCase()} – v ostré verzi omezený počet projektových místností.`;
+        ? "PREMIUM plan – no hard limit on the number of projects (in the live version)."
+        : `Plan ${plan.toUpperCase()} – in the live version, a limited number of project rooms.`;
     moveHint.textContent = planText;
 
     openModal(moveModal);
   }
 
-  // Uložení tématu položky (🗂 Téma)
   if(btnSaveTopic && topicModal && topicInput){
     btnSaveTopic.addEventListener("click", () => {
       const it = state.items.find(x => x.id === topicEditId);
       if(!it){
-        topicHint.textContent = "Položka už neexistuje. Zkus to znovu.";
+        topicHint.textContent = "The item no longer exists. Try again.";
         return;
       }
       const val = (topicInput.value || "").trim();
@@ -1481,7 +1459,7 @@ function savePlan(){
       it.extra.topic = val;
       saveState();
       renderFeed();
-      topicHint.textContent = "Téma uložené. 😊";
+      topicHint.textContent = "Topic saved. 😊";
       setTimeout(() => {
         topicHint.textContent = "";
         closeModal(topicModal);
@@ -1489,7 +1467,6 @@ function savePlan(){
     });
   }
 
-  // Kliky na odkládacím stole
   feed.addEventListener("click", async (e) => {
     const btn = e.target.closest("button[data-act]");
     if(!btn) return;
@@ -1505,7 +1482,7 @@ function savePlan(){
       state.items.splice(idx,1);
       saveState();
       renderFeed();
-      addChat("lumina", "Smazáno 🧹", "stůl");
+      addChat("lumina", "Deleted 🧹", "shelf");
       return;
     }
 
@@ -1514,12 +1491,12 @@ function savePlan(){
         await navigator.clipboard.writeText(
           (it.title ? it.title + "\n" : "") + (it.body || "")
         );
-        addChat("lumina", "Zkopírováno 📋", "stůl");
+        addChat("lumina", "Copied 📋", "shelf");
       }catch(err){
         addChat(
           "lumina",
-          "Kopírování se nepovedlo (prohlížeč to někdy blokuje). 🙈",
-          "stůl"
+          "Copying didn’t work (the browser sometimes blocks it). 🙈",
+          "shelf"
         );
       }
       return;
@@ -1537,7 +1514,7 @@ function savePlan(){
       state.items.splice(idx,1);
       saveState();
       renderFeed();
-      addChat("lumina", `Beru „${label}“ jako vyřízené a uklizené ze stolu. ✅`, "stůl");
+      addChat("lumina", `I’ll take “${label}” as done and removed from the shelf. ✅`, "shelf");
       return;
     }
 
@@ -1547,15 +1524,14 @@ function savePlan(){
         const current = (it.extra && it.extra.topic || "").trim();
         topicInput.value = current;
         topicHint.textContent = current
-          ? "Změň název šuplíku, nebo nech prázdné pro odebrání tématu."
-          : "Volitelné. Krátký název šuplíku – např. „leták“, „web“, „škola“…";
+          ? "Change the drawer name, or leave empty to remove the topic."
+          : "Optional. Short drawer name – e.g. “flyer”, “web”, “school”…";
       }
       openModal(topicModal);
       return;
     }
   });
 
-  // Sending
   function sendUser(){
     const text = (chatInput.value || "").trim();
     if(!text) return;
@@ -1563,7 +1539,7 @@ function savePlan(){
     addChat("user", text, "");
 
     setTimeout(() => {
-      addChat("lumina", "Zapsáno ✅ Chceš z toho udělat e-mail, návrhy, překlad, nebo to odložit na stůl?", "dílna");
+      addChat("lumina", "Written down ✅ Do you want to turn this into an email, ideas, a translation, or park it on the shelf?", "workshop");
     }, 360);
   }
 
@@ -1572,21 +1548,19 @@ function savePlan(){
     if(e.key === "Enter") sendUser();
   });
 
-  // Quick tools (neutrální hlášky)
   btnTranslate.addEventListener("click", () => {
-    addChat("lumina", "Pošli text toho co chceš přeložit a do jakého jazyka to bude 🌍 - v demo verzi nečekej zázraky, protože si musím ještě nastudovat slovníky. 😂", "překlad");
+    addChat("lumina", "Send me the text you want to translate and the target language 🌍 – in the demo version don’t expect miracles, I still need to study the dictionaries. 😂", "translation");
   });
 
   btnSuggest.addEventListener("click", () => {
-    addChat("lumina", "Napiš jednou větou, co chceš vymyslet. Připravím několik variant 💡", "nápady");
+    addChat("lumina", "Write in one sentence what you want to come up with. I’ll prepare a few options 💡", "ideas");
   });
 
   btnEmail.addEventListener("click", () => {
-    addChat("lumina", "Napiš, o jaký e-mail jde a jaký tón chceš 📧", "e-mail");
+    addChat("lumina", "Tell me what kind of email it is and what tone you want 📧", "email");
   });
 
-  // Note modal
-  const noteModal = document.getElementById("noteModal");
+  const noteModalEl = document.getElementById("noteModal");
   const noteTitleInput = document.getElementById("noteTitleInput");
   const noteBodyInput = document.getElementById("noteBodyInput");
   const noteTopicInput = document.getElementById("noteTopicInput");
@@ -1596,10 +1570,13 @@ function savePlan(){
 
   function setNoteType(t){
     noteType = t;
-    noteTypeHint.textContent = (t === "idea") ? "💡 Nápad" : (t === "task") ? "✅ Úkol" : "📝 Poznámka";
+    noteTypeHint.textContent =
+      t === "idea" ? "💡 Idea"
+      : t === "task" ? "✅ Task"
+      : "📝 Note";
   }
 
-  noteModal.addEventListener("click", (e) => {
+  noteModalEl.addEventListener("click", (e) => {
     const b = e.target.closest("button[data-note-type]");
     if(!b) return;
     setNoteType(b.getAttribute("data-note-type"));
@@ -1610,7 +1587,7 @@ function savePlan(){
     noteTitleInput.value = "";
     noteBodyInput.value = "";
     if(noteTopicInput) noteTopicInput.value = "";
-    openModal(noteModal);
+    openModal(noteModalEl);
   });
 
   btnSaveNote.addEventListener("click", () => {
@@ -1618,23 +1595,22 @@ function savePlan(){
     const body = (noteBodyInput.value || "").trim();
     const topic = (noteTopicInput && noteTopicInput.value || "").trim();
     if(!t && !body){
-      addChat("lumina", "Poznámka je prázdná 🙂", "stůl");
+      addChat("lumina", "The note is empty 🙂", "shelf");
       return;
     }
-    const title = t || (body.split("\n")[0].slice(0, 52) || "Bez názvu");
+    const title = t || (body.split("\n")[0].slice(0, 52) || "Untitled");
     const extra = topic ? { topic } : {};
-    addItem(noteType, title, body || "(bez obsahu)", extra);
+    addItem(noteType, title, body || "(no content)", extra);
     addChat(
       "lumina",
       topic
-        ? `Odloženo na stůl do šuplíku „${topic}“. 🗃️`
-        : "Odloženo na stůl 🗃️",
-      "stůl"
+        ? `Parked on the shelf in the drawer “${topic}”. 🗃️`
+        : "Parked on the shelf 🗃️",
+      "shelf"
     );
-    closeModal(noteModal);
+    closeModal(noteModalEl);
   });
 
-  // Image flow modal (DEMO)
   const imageFlowModal = document.getElementById("imageFlowModal");
   const imgPromptInput = document.getElementById("imgPromptInput");
   const btnSendImagePrompt = document.getElementById("btnSendImagePrompt");
@@ -1649,25 +1625,24 @@ function savePlan(){
   btnSendImagePrompt.addEventListener("click", () => {
     const prompt = (imgPromptInput.value || "").trim();
     if(!prompt){
-      imgFlowStatus.textContent = "Napiš prosím zadání 🙂";
+      imgFlowStatus.textContent = "Please write a prompt 🙂";
       return;
     }
 
     closeModal(imageFlowModal);
 
-    addChat("user", "Zadání obrázku: " + prompt, "");
-    addChat("lumina", GEN_LINES[Math.floor(Math.random() * GEN_LINES.length)], "generování");
+    addChat("user", "Image prompt: " + prompt, "");
+    addChat("lumina", GEN_LINES[Math.floor(Math.random() * GEN_LINES.length)], "generation");
 
     setTimeout(() => {
       const pick = PRESET_IMAGES[Math.floor(Math.random() * PRESET_IMAGES.length)];
-      addChat("lumina", "Výsledek (DEMO) 🖼️", "generování", {
+      addChat("lumina", "Result (DEMO) 🖼️", "generation", {
         attachments: [{ kind:"image", src: pick.src, name: pick.title }]
       });
-      addItem("image", "Generovaný obrázek", "Zadání: " + prompt, { src: pick.src, preset: true });
+      addItem("image", "Generated image", "Prompt: " + prompt, { src: pick.src, preset: true });
     }, 2200 + Math.floor(Math.random()*900));
   });
 
-  // Attach files
   btnAttach.addEventListener("click", () => fileInput.click());
 
   fileInput.addEventListener("change", async (e) => {
@@ -1676,7 +1651,7 @@ function savePlan(){
 
     const attachments = [];
 
-    addChat("lumina", "Příloha se přidává… 📎", "soubor");
+    addChat("lumina", "Adding attachment… 📎", "file");
 
     for(const f of files){
       const info = `${(f.size/1024).toFixed(1)} KB`;
@@ -1685,16 +1660,16 @@ function savePlan(){
       if(isImg){
         const dataUrl = await readAsDataURL(f);
         attachments.push({ kind:"image", src: dataUrl, name: f.name, info });
-        addItem("file", f.name, "Přiložený obrázek (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size, info });
+        addItem("file", f.name, "Attached image (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size, info });
       }else{
         const url = URL.createObjectURL(f);
         attachments.push({ kind:"file", downloadUrl: url, name: f.name, info });
-        addItem("file", f.name, "Soubor přijat (DEMO).", { downloadUrl: url, mime: f.type, size: f.size, info });
+        addItem("file", f.name, "File received (DEMO).", { downloadUrl: url, mime: f.type, size: f.size, info });
       }
     }
 
-    addChat("user", files.length === 1 ? "Přidávám přílohu." : `Přidávám ${files.length} příloh.`, "", { attachments });
-    addChat("lumina", "Přidáno ✅", "soubor");
+    addChat("user", files.length === 1 ? "Adding an attachment." : `Adding ${files.length} attachments.`, "", { attachments });
+    addChat("lumina", "Added ✅", "file");
 
     fileInput.value = "";
   });
@@ -1708,37 +1683,35 @@ function savePlan(){
     });
   }
 
-  // Clear
-  const clearModal = document.getElementById("clearModal");
+  const clearModalEl = document.getElementById("clearModal");
   const btnConfirmClear = document.getElementById("btnConfirmClear");
 
-  btnClear.addEventListener("click", () => openModal(clearModal));
+  btnClear.addEventListener("click", () => openModal(clearModalEl));
   btnConfirmClear.addEventListener("click", () => {
     state.chat = [];
     state.items = [];
     saveState();
-    closeModal(clearModal);
+    closeModal(clearModalEl);
     renderChat();
     renderFeed();
-    addChat("lumina", "Vyčištěno. ✅ Všechno to zmizelo, jak ponožka v pračce. 🧦✨", "reset");
+    addChat("lumina", "Cleared. ✅ Everything disappeared like a sock in the washing machine. 🧦✨", "reset");
   });
 
-  // Export shelf as txt
   btnExport.addEventListener("click", () => {
     const lines = [];
-    lines.push("Proiecta • Export odkládacího stolu (DEMO)");
-    lines.push("Tarif: " + plan.toUpperCase());
-    lines.push("Datum: " + new Date().toLocaleString("cs-CZ"));
+    lines.push("Proiecta • Holding shelf export (DEMO)");
+    lines.push("Plan: " + plan.toUpperCase());
+    lines.push("Date: " + new Date().toLocaleString("en-GB"));
     lines.push("");
 
     if(!state.items.length){
-      lines.push("(Stůl je prázdný.)");
+      lines.push("(The shelf is empty.)");
     }else{
       for(const it of state.items){
         lines.push("—");
-        lines.push(typeLabel(it.type) + ": " + (it.title || "Bez názvu"));
+        lines.push(typeLabel(it.type) + ": " + (it.title || "Untitled"));
         const topic = (it.extra && it.extra.topic || "").trim();
-        if(topic) lines.push("Téma: " + topic);
+        if(topic) lines.push("Topic: " + topic);
         lines.push((it.body || "").trim());
         if(it.extra && it.extra.src) lines.push("[image] " + it.extra.src);
       }
@@ -1748,23 +1721,21 @@ function savePlan(){
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "proiecta-odkladaci-stul.txt";
+    a.download = "proiecta-shelf.txt";
     document.body.appendChild(a);
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 800);
 
-    addChat("lumina", "Export připravený ⬇️", "export");
+    addChat("lumina", "Export ready ⬇️", "export");
   });
 
-  // Make chat thumbnails clickable
   chatlog.addEventListener("click", (e) => {
     const img = e.target.closest(".thumbMini img");
     if(!img) return;
-    openImageModal(img.getAttribute("src") || "", img.getAttribute("alt") || "Obrázek");
+    openImageModal(img.getAttribute("src") || "", img.getAttribute("alt") || "Image");
   });
 
-  // INIT
   updatePlanUI();
   renderChat();
   renderFeed();
