@@ -1,0 +1,62 @@
+User-agent: *
+Allow: /
+
+# Sitemap = oficiální veřejné dveře
+Sitemap: https://luminamemory.ai/sitemap.xml
+
+# =========================
+# Internal rooms (do not index)
+# =========================
+
+# Home / entry (internal)
+Disallow: /home
+Disallow: /home.html
+Disallow: /home-en.html
+Disallow: /home-de.html
+
+# Demo login + demo app shell
+Disallow: /mini-login.html
+Disallow: /mini-login-en.html
+Disallow: /mini-login-de.html
+
+Disallow: /lumina-demo.html
+Disallow: /lumina-demo-en.html
+Disallow: /lumina-demo-de.html
+
+# Core internal modules
+Disallow: /praetorium.html
+Disallow: /praetorium-en.html
+Disallow: /praetorium-de.html
+
+Disallow: /chronica.html
+Disallow: /chronica-en.html
+Disallow: /chronica-de.html
+
+Disallow: /sigma.html
+Disallow: /sigma-en.html
+Disallow: /sigma-de.html
+
+Disallow: /proiecta
+Disallow: /proiecta.html
+Disallow: /proiecta-en.html
+Disallow: /proiecta-de.html
+
+Disallow: /arcana
+Disallow: /arcana.html
+Disallow: /arcana-en.html
+Disallow: /arcana-de.html
+
+Disallow: /nastaveni
+Disallow: /nastaveni.html
+Disallow: /nastaveni-en.html
+Disallow: /nastaveni-de.html
+
+# Bonus room (internal)
+Disallow: /map.html
+Disallow: /map-en.html
+Disallow: /map-de.html
+
+# Artifacts / internal docs (if kept internal)
+Disallow: /pergamen-luminamemory.html
+Disallow: /pergamen-luminamemory-en.html
+Disallow: /pergamen-luminamemory-de.html
