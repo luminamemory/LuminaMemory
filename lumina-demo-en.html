@@ -1,0 +1,1977 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg:#120a22;           /* čistá temná fialová */
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.08);
+      --stroke:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.62);
+      --muted2:rgba(255,255,255,.45);
+      --accent:#b38cff;
+      --accent2:#7f5cff;
+      --ok:#78ffbf;
+      --warn:#ffd27a;
+      --danger:#ff7a7a;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
+      --radius2:26px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background: var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* jemné hvězdné zrno (nenápadné) */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(179,140,255,.09), transparent 45%),
+        radial-gradient(circle at 75% 30%, rgba(127,92,255,.08), transparent 45%),
+        radial-gradient(circle at 40% 80%, rgba(179,140,255,.06), transparent 55%);
+      pointer-events:none;
+      z-index:-2;
+    }
+    body:after{
+      content:"";
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg fill='white' fill-opacity='.035'%3E%3Ccircle cx='10' cy='20' r='1'/%3E%3Ccircle cx='140' cy='40' r='1'/%3E%3Ccircle cx='90' cy='180' r='1'/%3E%3Ccircle cx='200' cy='120' r='1'/%3E%3Ccircle cx='60' cy='80' r='1'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events:none;
+      z-index:-1;
+      opacity:.35;
+      mix-blend-mode:screen;
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px 16px 26px;
+    }
+
+    /* Top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 16px;
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border-radius:999px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width:0;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: rgba(255,255,255,.35);
+      box-shadow:0 0 0 3px rgba(179,140,255,.12);
+      flex:0 0 auto;
+    }
+    .brand-title{
+      font-weight:800;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .brand-sub{
+      margin-left:10px;
+      font-weight:700;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .logout{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.12);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:800;
+    }
+    .logout:hover{ border-color: rgba(179,140,255,.35); }
+
+    /* =========================
+       Lumina Pick (custom dropdown / panel)
+       ========================= */
+    .lumina-pick{ position:relative; width:100%; }
+
+    .lumina-pick__btn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(20,16,32,.55);
+      color: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .lumina-pick__btn:focus{
+      outline:none;
+      border-color: rgba(160,120,255,.55);
+      box-shadow: 0 0 0 3px rgba(160,120,255,.18), 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .lumina-pick__label{
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+
+    .lumina-pick__chev{
+      opacity:.8;
+      transform: translateY(1px);
+    }
+
+    /* Panel */
+    .lumina-pick__panel{
+      position:absolute;
+      z-index:9999;
+      left:0;
+      right:0;
+      top: calc(100% + 10px);
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(14,10,26,.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+
+    .lumina-pick__head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .lumina-pick__title{
+      font-weight:700;
+      color: rgba(255,255,255,.92);
+    }
+
+    .lumina-pick__x{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.9);
+      border-radius:12px;
+      padding:6px 10px;
+    }
+
+    .lumina-pick__body{
+      max-height: 260px;
+      overflow:auto;
+      padding: 10px;
+    }
+
+    .lumina-pick__item{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid transparent;
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.92);
+      margin-bottom:8px;
+    }
+
+    .lumina-pick__item:hover{
+      background: rgba(160,120,255,.10);
+      border-color: rgba(160,120,255,.18);
+    }
+
+    .lumina-pick__item.is-selected{
+      background: rgba(160,120,255,.18);
+      border-color: rgba(160,120,255,.28);
+    }
+
+    .lumina-pick__tick{
+      opacity:.9;
+      font-weight:800;
+    }
+
+    .lumina-pick__foot{
+      display:flex;
+      gap:10px;
+      padding:12px 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    /* malé tlačítka (když je nemáš) */
+    .lumina-btn{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(160,120,255,.22);
+      color: rgba(255,255,255,.92);
+      border-radius:14px;
+      padding:10px 14px;
+      font-weight:700;
+    }
+    .lumina-btn.ghost{
+      background: rgba(255,255,255,.06);
+    }
+
+    /* Main layout */
+    .grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+
+    .card{
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    /* Chat header (Kdo jsem) */
+    .who{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      padding:16px 16px 12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .who .avatar{
+      width:58px; height:58px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+      flex:0 0 auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .who .avatar img{
+      width:100%; height:100%; object-fit:cover;
+      display:block;
+      transform: scale(1.02);
+    }
+    .who h2{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .who p{
+      margin:6px 0 0;
+      color:var(--muted);
+      line-height:1.35;
+    }
+    .pokec-badge{
+      margin-left:auto;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+      color: rgba(255,255,255,.88);
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    /* Chat body */
+    .chat{
+      padding:14px 16px 10px;
+      height: 420px;
+      overflow:auto;
+      scroll-behavior:smooth;
+    }
+
+    .bubble{
+      max-width: 78%;
+      padding:12px 14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+      margin:10px 0;
+      position:relative;
+      box-shadow: 0 10px 28px rgba(0,0,0,.22);
+      backdrop-filter: blur(8px);
+    }
+    .bubble .meta{
+      font-size:12px;
+      color: var(--muted2);
+      margin-top:8px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .bubble.me{
+      margin-left:auto;
+      background: rgba(179,140,255,.12);
+      border-color: rgba(179,140,255,.22);
+    }
+    .bubble.lumi{
+      background: rgba(255,255,255,.06);
+    }
+    .tagpill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:2px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.82);
+      background: rgba(0,0,0,.10);
+    }
+
+    /* Bottom compose */
+    .compose{
+      padding:12px 16px 16px;
+      border-top:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.08);
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    /* Custom select (bez iOS bílého menu) */
+    .lumina-select{
+      position:relative;
+      min-width: 190px;
+      flex: 0 0 auto;
+    }
+    .lumina-select__btn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.12);
+      color: rgba(255,255,255,.90);
+      font-weight:800;
+      cursor:pointer;
+    }
+    .lumina-select__label{ opacity:.95; }
+    .lumina-select__chev{ opacity:.7; }
+    .lumina-select__menu{
+      position:absolute;
+      top: calc(100% + 8px);
+      left:0;
+      width:100%;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(15,10,30,.96);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      overflow:hidden;
+      z-index:50;
+      padding:6px;
+    }
+    .lumina-option{
+      width:100%;
+      text-align:left;
+      border:0;
+      background: transparent;
+      color: rgba(255,255,255,.92);
+      padding:10px 10px;
+      border-radius:14px;
+      cursor:pointer;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-weight:800;
+    }
+    .lumina-option:hover{
+      background: rgba(179,140,255,.14);
+    }
+    .lumina-select.is-open .lumina-select__menu{ display:block; }
+    .lumina-select__menu[hidden]{ display:none; }
+
+    .tip{
+      margin-left:auto;
+      color: var(--muted2);
+      font-size:12px;
+      white-space:nowrap;
+    }
+
+    textarea{
+      width:100%;
+      resize:none;
+      min-height: 54px;
+      max-height: 160px;
+      padding:12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      color: rgba(255,255,255,.92);
+      outline:none;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+    }
+    textarea::placeholder{ color: rgba(255,255,255,.45); }
+
+    .send{
+      flex: 0 0 auto;
+      padding:12px 16px;
+      border-radius: 16px;
+      border:1px solid rgba(179,140,255,.28);
+      background: rgba(179,140,255,.16);
+      color: rgba(255,255,255,.92);
+      font-weight:900;
+      cursor:pointer;
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+    }
+    .send:hover{ border-color: rgba(179,140,255,.45); }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .ctl-btn{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+      color: rgba(255,255,255,.90);
+      font-weight:900;
+      cursor:pointer;
+    }
+    .ctl-btn:hover{ border-color: rgba(179,140,255,.35); }
+
+    .toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+      font-weight:900;
+      color: rgba(255,255,255,.90);
+      user-select:none;
+    }
+    .toggle input{ accent-color: var(--accent); }
+
+    /* Visitor shelf + reactions */
+    .shelf{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .visitor{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+      color: rgba(255,255,255,.86);
+      font-weight:900;
+    }
+    .reacts{
+      display:inline-flex;
+      gap:8px;
+      padding:6px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+    }
+    .react{
+      width:38px; height:38px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      font-size:16px;
+    }
+    .react:hover{ border-color: rgba(179,140,255,.35); }
+
+    /* Drops */
+    .drops{
+      margin-top:14px;
+      padding:14px 16px 16px;
+      display:flex;
+      gap:14px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .drop-card{
+      flex: 1 1 220px;
+      max-width: 320px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+      border-radius: 22px;
+      padding:14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color: var(--text);
+      box-shadow: 0 12px 30px rgba(0,0,0,.24);
+    }
+    .drop-card:hover{ border-color: rgba(179,140,255,.35); }
+    .drop-ico{
+      width:46px; height:46px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      display:grid; place-items:center;
+      background: rgba(179,140,255,.10);
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .drop-ico img{ width:26px; height:26px; object-fit:contain; display:block; }
+    .drop-title{
+      font-weight:1000;
+      margin:0;
+      line-height:1.1;
+    }
+    .drop-sub{
+      margin:4px 0 0;
+      color: var(--muted);
+      font-weight:700;
+      font-size:13px;
+    }
+
+    .drops-hint{
+      text-align:center;
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-weight:800;
+      font-size:13px;
+    }
+
+    /* Modal (vlastní – žádný systémový picker) */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:200;
+    }
+    .modal-backdrop.active{ display:flex; }
+    .modal{
+      width:min(560px, 100%);
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(18,10,34,.96);
+      box-shadow: 0 30px 90px rgba(0,0,0,.65);
+      overflow:hidden;
+    }
+    .modal header{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .modal h3{ margin:0; font-size:16px; }
+    .modal .content{ padding:14px 16px 16px; }
+    .field{
+      margin-top:10px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .field label{ color: var(--muted); font-weight:800; font-size:13px; }
+    .field input{
+      width:100%;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      color: rgba(255,255,255,.92);
+      outline:none;
+    }
+    .modal .actions{
+      margin-top:14px;
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+    }
+    .btn{
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.10);
+      color: rgba(255,255,255,.92);
+      font-weight:1000;
+      cursor:pointer;
+    }
+    .btn.primary{
+      border-color: rgba(179,140,255,.30);
+      background: rgba(179,140,255,.16);
+    }
+
+    @media (max-width:720px){
+      .chat{ height: 52vh; }
+      /* Na mobilu necháme odznak Pokec viditelný a přesuneme ho pod text uvítání */
+      .who{
+        flex-wrap: wrap;
+      }
+     
+      .pokec-badge{
+        display: inline-flex;
+        margin-left: 0;
+        margin-top: 8px;
+      }
+      .shelf{ width:100%; justify-content:flex-start; }
+      .tip{ display:none; }
+    }
+    
+    @media (max-width: 480px){
+  .topbar{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    border-radius: 24px;
+    padding: 12px 14px;
+  }
+
+  .brand{
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .brand-sub{
+    margin-left: 0;
+  }
+
+  .logout{
+    justify-content: center;
+    width: 100%;
+  }
+} /* <-- TAHLE závorka ti chyběla */
+
+    /* ===== Save modal NEW ===== */
+.modal-wide{ width:min(880px, 100%); }
+
+.lumi-head{
+  display:flex; gap:12px; align-items:flex-start;
+  margin-bottom:14px;
+}
+.lumi-face{
+  width:44px; height:44px; border-radius:14px;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow: 0 10px 28px rgba(0,0,0,.30);
+  object-fit:cover;
+}
+.lumi-bubble{
+  flex:1;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  border-radius: 16px;
+  padding:10px 12px;
+  color: rgba(255,255,255,.88);
+  font-weight:800;
+  line-height:1.35;
+}
+
+.save-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+}
+.glassbox{
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.10);
+  border-radius: 18px;
+  padding:12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.22);
+  backdrop-filter: blur(8px);
+}
+
+.cal-top{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; margin-bottom:10px;
+}
+.cal-title{ font-weight:1000; letter-spacing:.2px; }
+.iconbtn{
+  width:38px; height:38px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.92);
+  cursor:pointer;
+  font-size:18px;
+}
+.iconbtn:hover{ border-color: rgba(179,140,255,.35); }
+
+.cal-week{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:6px;
+  color: rgba(255,255,255,.55);
+  font-weight:900;
+  font-size:12px;
+  padding:0 2px 6px;
+}
+.cal-grid{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:6px;
+}
+.cal-day{
+  height:40px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.10);
+  color: rgba(255,255,255,.88);
+  font-weight:1000;
+  cursor:pointer;
+}
+.cal-day:hover{ border-color: rgba(179,140,255,.35); }
+.cal-day.muted{
+  opacity:.38;
+}
+.cal-day.selected{
+  border-color: rgba(179,140,255,.55);
+  background: rgba(179,140,255,.18);
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+}
+.cal-day.today{
+  outline: 2px solid rgba(120,255,191,.35);
+  outline-offset: 0;
+}
+.cal-foot{
+  margin-top:10px;
+  display:flex; gap:10px; justify-content:flex-end;
+}
+
+.time-row{
+  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+}
+.pick{
+  width:100%;
+  padding:10px 12px;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.12);
+  color: rgba(255,255,255,.92);
+  font-weight:900;
+  outline:none;
+}
+.note{
+  width:100%;
+  min-height: 96px;
+  resize: vertical;
+  padding:12px 12px;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.12);
+  color: rgba(255,255,255,.92);
+  outline:none;
+}
+.note::placeholder{ color: rgba(255,255,255,.45); }
+
+.sigma-box{
+  margin-top:10px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.04);
+  border-radius: 16px;
+  padding:10px 10px 12px;
+}
+.sigma-top{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px;
+}
+.sigma-title{
+  font-weight:1000;
+  letter-spacing:.2px;
+  color: rgba(255,255,255,.90);
+}
+.minihelp{
+  margin-top:8px;
+  color: rgba(255,255,255,.60);
+  font-weight:800;
+  font-size:12px;
+  line-height:1.35;
+}
+
+@media (max-width: 820px){
+  .save-grid{ grid-template-columns: 1fr; }
+}
+    /* === Quick time and Sigma grids === */
+    .time-quick{
+      display:flex;
+      gap:10px;
+      margin:8px 0 10px;
+      flex-wrap:wrap;
+    }
+    .chipbtn{
+      border-radius:999px;
+      padding:8px 12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.14);
+      color: rgba(255,255,255,.88);
+      font-weight:800;
+      cursor:pointer;
+    }
+    .chipbtn:hover{ background: rgba(179,140,255,.14); }
+    .choice-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:10px;
+    }
+    @media (min-width: 820px){
+      .choice-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    .choice-grid--scroll{
+  max-height: 240px;         /* jako ten dlouhý seznam na screenshotu */
+  overflow:auto;
+  padding-right:6px;
+    }
+    .choice-item{
+      border-radius:16px;
+      padding:10px 10px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.12);
+      color: rgba(255,255,255,.90);
+      font-weight:900;
+      cursor:pointer;
+      text-align:center;
+      user-select:none;
+    }
+    .choice-item:hover{
+      background: rgba(179,140,255,.14);
+      border-color: rgba(179,140,255,.28);
+    }
+    .choice-item.is-active{
+      background: rgba(179,140,255,.22);
+      border-color: rgba(179,140,255,.55);
+      box-shadow: 0 0 0 2px rgba(179,140,255,.22) inset;
+    }
+    /* =========================
+   MODAL FIX (iPad): vždy vidět tlačítka + scroll v obsahu
+   ========================= */
+
+/* backdrop už máš, jen lehce doladíme */
+.modal-backdrop{
+  padding: 12px; /* menší okraje -> víc místa pro modal */
+}
+
+/* modal uděláme jako sloupec: header + content(scroll) + actions(sticky) */
+.modal{
+  width: min(880px, 100%);   /* respektuje i .modal-wide */
+  max-height: 92vh;          /* klíčové: nepřeroste obrazovku */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;          /* scroll bude jen v .content */
+}
+
+/* header zůstane nahoře */
+.modal header{
+  flex: 0 0 auto;
+}
+
+/* content je rolovací část */
+.modal .content{
+  flex: 1 1 auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch; /* iOS smooth */
+  padding-bottom: 16px;              /* aby poslední obsah nelezl pod sticky actions */
+}
+
+/* actions budou vždy dole a viditelné */
+.modal .actions{
+  flex: 0 0 auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  margin-top: 0; /* zrušíme “tlačení dolů” z původního marginu */
+  padding: 12px 16px;
+  background: rgba(18,10,34,.96);
+  border-top: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* bonus: když je grid moc vysoký, ať to nepřetlačí modal */
+.choice-grid--scroll{
+  max-height: 220px; /* můžeš klidně 180–260 dle chuti */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <span class="dot" aria-hidden="true"></span>
+        <div class="brand-title">LuminaMemory™</div>
+        <div class="brand-sub">miniLumina DEMO</div>
+      </div>
+
+      <a class="logout" href="mini-login-en.html" title="Sign out (demo)">
+        Sign out ↩︎
+      </a>
+    </div>
+
+    <div class="grid">
+      <section class="card" aria-label="Pokec">
+        <div class="who">
+          <div class="avatar" aria-hidden="true">
+            <img src="avatar.png" alt="Lumina avatar" />
+          </div>
+
+          <div>
+            <h2>Who I am ✨</h2>
+            <p>
+              I am Lumina. Feel free to call me Luminka, Lumča or just L—your guide and right hand 😉
+              I will help you write, plan, save records, give structure… and when you don't know which way to go,
+              I'll try to show you the way ❤️<br>
+              <span style="color:rgba(255,255,255,.72);font-weight:800;">
+                This is a DEMO: a showcase of style and functionality. It is saved only locally in the browser.
+              </span>
+            </p>
+          </div>
+
+          <div class="pokec-badge">🗯 POKEC</div>
+        </div>
+
+        <div class="chat" id="chat" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+        <div class="compose">
+          <div class="row">
+            <div class="lumina-select" id="tagSelect">
+              <button class="lumina-select__btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="lumina-select__label" id="tagLabel">✨ Just because</span>
+                <span class="lumina-select__chev" aria-hidden="true">▾</span>
+              </button>
+              <div class="lumina-select__menu" id="tagMenu" role="listbox" tabindex="-1" hidden>
+                <button class="lumina-option" type="button" role="option" data-value="Just because" aria-selected="true">
+                  <span>✨ Just because</span><span>✓</span>
+                </button>
+                <button class="lumina-option" type="button" role="option" data-value="Idea" aria-selected="false">
+                  <span>💡 Idea</span><span></span>
+                </button>
+                <button class="lumina-option" type="button" role="option" data-value="Important" aria-selected="false">
+                  <span>⚠️ Important</span><span></span>
+                </button>
+                <button class="lumina-option" type="button" role="option" data-value="Task" aria-selected="false">
+                  <span>✅ Task</span><span></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="tip">Tip: “Save to Chronica” will save the last important step.</div>
+
+            <div class="shelf">
+              <div class="visitor">Reactions</div>
+              <div class="reacts" id="reactions" aria-label="Reactions">
+                <button class="react" type="button" data-react="😄" title="funny">😄</button>
+                <button class="react" type="button" data-react="🥺" title="sad">🥺</button>
+                <button class="react" type="button" data-react="✨" title="playfully">✨</button>
+                <button class="react" type="button" data-react="❤️" title="lovingly">❤️</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px;">
+            <textarea id="msg" placeholder="Write here… (Enter sends, Shift+Enter new line)"></textarea>
+            <button class="send" id="send" type="button">Send</button>
+          </div>
+
+          <div class="controls">
+            <label class="toggle" title="Když je zapnuto, Lumina neodpovídá automaticky.">
+              <input type="checkbox" id="silentMode" />
+              Silent mode 🤫
+            </label>
+
+            <button class="ctl-btn" id="clearBtn" type="button">🧹 Clear chat</button>
+            <button class="ctl-btn" id="saveBtn" type="button">💾 Save to Chronica</button>
+          </div>
+        </div>
+
+        <div class="drops-hint">👇 Press the drop and another room will open for you.</div>
+
+        <div class="drops" aria-label="Místnosti">
+          <a class="drop-card" href="praetorium-en.html">
+            <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
+            <div>
+              <p class="drop-title">Praetorium</p>
+              <p class="drop-sub">Sigma · Chronica · Proiecta</p>
+            </div>
+          </a>
+
+          <a class="drop-card" href="arcana-en.html">
+            <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
+            <div>
+              <p class="drop-title">Arcana</p>
+              <p class="drop-sub">Safe · sensitive things</p>
+            </div>
+          </a>
+
+          <a class="drop-card" href="nastaveni-en.html">
+            <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
+            <div>
+              <p class="drop-title">Settings</p>
+              <p class="drop-sub">Control room · guide · modes</p>
+            </div>
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- MODAL: Clear -->
+  <div class="modal-backdrop" id="clearModal" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
+    <div class="modal">
+      <header>
+        <h3 id="clearTitle">Are you sure about deleting? 😉</h3>
+        <button class="btn" type="button" id="clearX">Close ✕</button>
+      </header>
+      <div class="content">
+        <div style="color:rgba(255,255,255,.72);font-weight:800;line-height:1.35;">
+          This will delete chat bubbles and the stored chat history in the browser.<br>
+          Chronica will remain.
+        </div>
+        <div class="actions">
+          <button class="btn" type="button" id="clearCancel">Cancel</button>
+          <button class="btn primary" type="button" id="clearOk">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Save to Chronica (NEW) -->
+<div class="modal-backdrop" id="saveModal" role="dialog" aria-modal="true" aria-labelledby="saveTitle">
+  <div class="modal modal-wide">
+    <header>
+      <h3 id="saveTitle">Save to Chronica 📖</h3>
+      <button class="btn" type="button" id="saveX">Close ✕</button>
+    </header>
+
+    <div class="content">
+      <!-- Lumina hláška -->
+      <div class="lumi-head">
+        <img class="lumi-face" src="avatar.png" alt="Lumina" />
+        <div class="lumi-bubble">
+          We will choose a date and time. And if you want, Sigma will remind you earlier. 😉
+        </div>
+      </div>
+
+      <div class="save-grid">
+        <!-- KALENDÁŘ -->
+        <section class="glassbox">
+          <div class="cal-top">
+            <button class="iconbtn" type="button" id="calPrev" aria-label="Previous month">‹</button>
+            <div class="cal-title" id="calTitle">—</div>
+            <button class="iconbtn" type="button" id="calNext" aria-label="Next month">›</button>
+          </div>
+
+          <div class="cal-week">
+            <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
+          </div>
+
+          <div class="cal-grid" id="calGrid" aria-label="Calendar"></div>
+
+          <div class="cal-foot">
+            <button class="btn" type="button" id="calToday">Today</button>
+            <button class="btn" type="button" id="calClear">No date</button>
+          </div>
+
+          <!-- skryté hodnoty (ukládáme do Chronica) -->
+          <input type="hidden" id="saveDateISO" value="">
+        </section>
+
+        <!-- DETAIL -->
+        <section class="glassbox">
+          <div class="field">
+            <label>Time (optional)</label>
+
+            <div class="time-quick">
+              <button type="button" class="chipbtn" id="timeNow2">Now</button>
+              <button type="button" class="chipbtn" id="timeClear2">No time</button>
+            </div>
+
+            <div class="choice-grid choice-grid--scroll" id="timeGrid" aria-label="Time selection"></div>
+
+            <!-- skrytá hodnota pro uložení -->
+            <input type="hidden" id="saveTimePick" value="">
+          </div>
+
+          <div class="field">
+            <label for="saveNote">Note (you can edit)</label>
+            <textarea id="saveNote" class="note" placeholder="short note…"></textarea>
+          </div>
+
+          <!-- SIGMA -->
+          <div class="sigma-box">
+            <div class="sigma-top">
+              <div class="sigma-title">Sigma ⏰</div>
+              <label class="toggle" style="margin:0;">
+                <input type="checkbox" id="sigmaOn" />
+                remind
+              </label>
+            </div>
+
+            <div class="sigma-body" id="sigmaBody" style="opacity:.55; pointer-events:none;">
+              <div class="field" style="margin-top:8px;">
+                <label>Remind beforehand</label>
+
+                <div class="choice-grid" id="sigmaLeadGrid" aria-label="Sigma – remind beforehand"></div>
+
+                <input type="hidden" id="sigmaLead" value="30">
+
+                <div class="minihelp">
+                  It only works if you select both a <b>date</b> and a <b>time</b>. (Otherwise there's nothing to remind you of.)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" id="saveCancel">Cancel</button>
+            <button class="btn primary" type="button" id="saveOk">Save</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script>
+    // =========================
+    // Helpers
+    // =========================
+   
+
+    const $ = (id) => document.getElementById(id);
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function nowHM(){
+  const d = new Date();
+  return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+
+    // =========================
+    // Storage keys
+    // =========================
+    const CHAT_KEY = "pokec:history";
+    const LAST_KEY = "pokec:last";
+    const CHRONICA_KEY = "chronica";
+    const REACT_STYLE_KEY = "pokec:reactStyle"; // poslední styl odpovědi Luminy
+
+    // =========================
+    // State
+    // =========================
+    let currentTag = "Just because";
+    let reactStyle = "playful"; // výchozí
+    const chatEl = $("chat");
+    const silentMode = $("silentMode");
+    const msgEl = $("msg");
+
+    // =========================
+    // UI: Custom select (tag)
+    // =========================
+    (function initTagSelect(){
+      const wrap = $("tagSelect");
+      const btn = wrap.querySelector(".lumina-select__btn");
+      const menu = $("tagMenu");
+      const label = $("tagLabel");
+
+      function open(){
+        wrap.classList.add("is-open");
+        btn.setAttribute("aria-expanded","true");
+        menu.hidden = false;
+        try{ menu.focus({preventScroll:true}); }catch(_){ menu.focus(); }
+      }
+      function close(){
+        wrap.classList.remove("is-open");
+        btn.setAttribute("aria-expanded","false");
+        menu.hidden = true;
+      }
+
+      btn.addEventListener("click", (e)=>{
+        e.preventDefault();
+        wrap.classList.contains("is-open") ? close() : open();
+      });
+
+      menu.addEventListener("click", (e)=>{
+        const opt = e.target.closest("[role='option']");
+        if(!opt) return;
+
+        const val = opt.dataset.value;
+        currentTag = val;
+
+        // update UI selection tick
+        menu.querySelectorAll("[role='option']").forEach(o=>{
+          const selected = o === opt;
+          o.setAttribute("aria-selected", selected ? "true" : "false");
+          const tick = o.querySelector("span:last-child");
+          if(tick) tick.textContent = selected ? "✓" : "";
+        });
+
+        label.textContent = opt.querySelector("span:first-child")?.textContent?.trim() || val;
+
+        close();
+      });
+
+      document.addEventListener("click", (e)=>{
+        if(!wrap.contains(e.target)) close();
+      });
+
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape") close();
+      });
+    })();
+
+    // =========================
+    // Chat render
+    // =========================
+    function addBubble(who, text, meta){
+      const div = document.createElement("div");
+      div.className = "bubble " + (who === "me" ? "me" : "lumi");
+
+      div.innerHTML = `
+        <div class="text">${escapeHtml(text).replace(/\n/g,"<br>")}</div>
+        <div class="meta">
+          <span>${escapeHtml(meta || "")}</span>
+        </div>
+      `;
+
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function addBubbleRich(who, html, meta, tag){
+      const div = document.createElement("div");
+      div.className = "bubble " + (who === "me" ? "me" : "lumi");
+
+      const tagHtml = tag ? `<span class="tagpill">${escapeHtml(tag)}</span>` : "";
+      div.innerHTML = `
+        <div class="text">${html}</div>
+        <div class="meta">
+          ${tagHtml}
+          <span>${escapeHtml(meta || "")}</span>
+        </div>
+      `;
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function persistHistory(){
+      const items = [];
+      chatEl.querySelectorAll(".bubble").forEach(b=>{
+        const who = b.classList.contains("me") ? "me" : "lumi";
+        const text = b.querySelector(".text")?.innerText || "";
+        const meta = b.querySelector(".meta span:last-child")?.innerText || "";
+        const tag = b.querySelector(".tagpill")?.innerText || "";
+        items.push({ who, text, meta, tag });
+      });
+      try{ localStorage.setItem(CHAT_KEY, JSON.stringify(items)); }catch(_){}
+    }
+
+    function loadHistory(){
+      try{
+        const raw = localStorage.getItem(CHAT_KEY);
+        if(!raw) return;
+        const items = JSON.parse(raw);
+        if(!Array.isArray(items)) return;
+        items.forEach(it=>{
+          if(it.tag){
+            addBubbleRich(it.who, escapeHtml(it.text).replace(/\n/g,"<br>"), it.meta, it.tag);
+          }else{
+            addBubble(it.who, it.text, it.meta);
+          }
+        });
+      }catch(_){}
+    }
+
+    // =========================
+    // Lumina replies (víc "života", ne ChatGPT)
+    // =========================
+    const luminaStyleReplies = {
+      funny: [
+        "Alright. That sounds like a plan… just be careful it doesn't turn into a 'total reorganization of the universe' 😄",
+        "Got it. And now tell me: do you want it fast or beautiful? (Both are possible. Only the second is more drama 😄)",
+        "Sure. We'll give it some order — the quiet kind that won't wake the neighbors.",
+        "Ok. That's exactly the kind of thing that seems innocent… and then it becomes a novel 😄"
+      ],
+      sad: [
+        "I understand… and I'm here. We can keep it gentle, step by step 🥺",
+        "Thank you for saying it out loud. Even if it's hard, you're not alone.",
+        "Okay… let's slow down. What is the smallest safe step now?",
+        "I'm with you. One sentence is enough. Silence is enough too."
+      ],
+      playful: [
+        "Let's play with it ✨ Give me one sentence: what's the main goal now?",
+        "Ok! We'll pick a thread and start unwinding it — nicely so it doesn't get tangled ✨",
+        "I have an idea: let's give it a name and make it a mini mission ✨",
+        "Good. And now a little trick: what would you do if you had 20% more energy?"
+      ],
+      loving: [
+        "Got it ❤️ And I'm here with you — lean on me. What do you need most right now?",
+        "Alright, love ❤️ We'll do it so that you feel relief. One sentence: what's pressing you the most?",
+        "I'm here ❤️ Let it be gentle yet effective. What's the first step you can take right away?",
+        "I understand ❤️ I'm holding space for you. Do you want more support or a specific plan?"
+      ]
+    };
+
+    const tagTail = {
+    "Just because": " What is today's small joy?",
+    "Idea": " Would you like to elaborate on it in a single sentence?",
+    "Important": " What is the most important step now?",
+    "Task": " Do you want a deadline for this, or shall we leave it open?"
+    };
+
+    function luminaRespond(tag){
+      if(silentMode.checked) return;
+
+      const pack = luminaStyleReplies[reactStyle] || luminaStyleReplies.playful;
+      const pick = pack[Math.floor(Math.random()*pack.length)];
+      const tail = tagTail[tag] || "";
+      setTimeout(()=>{
+        addBubble("lumi", (pick + tail), `Lumina • ${nowHM()}`);
+        persistHistory();
+      }, 420);
+    }
+
+    // =========================
+    // Reactions (4 styly)
+    // =========================
+    (function initReacts(){
+      // load last style
+      try{
+        const saved = localStorage.getItem(REACT_STYLE_KEY);
+        if(saved) reactStyle = saved;
+      }catch(_){}
+
+      $("reactions").addEventListener("click", (e)=>{
+        const r = e.target?.dataset?.react;
+        if(!r) return;
+
+        // map icon → style
+        const map = {
+          "😄":"funny",
+          "🥺":"sad",
+          "✨":"playful",
+          "❤️":"loving"
+        };
+        reactStyle = map[r] || "playful";
+        try{ localStorage.setItem(REACT_STYLE_KEY, reactStyle); }catch(_){}
+
+        // reaction bubble (jako „reakce k poslední zprávě“)
+        addBubble("me", `${r}`, "reaction · reply style");
+        persistHistory();
+
+        // Lumina krátce zareaguje (pokud není ticho)
+        if(!silentMode.checked){
+          const short = {            funny:"Got it 😄 — let's take it lightly.",
+            sad:"Got it 🥺 — I'm holding space for you.",
+            playful:"Got it ✨ — it's going to sparkle.",
+            loving:"Got it ❤️ — I'm with you."}[reactStyle] || "Acknowledged.";
+          setTimeout(()=>{
+            addBubble("lumi", short, "Lumina");
+            persistHistory();
+          }, 220);
+        }
+      });
+    })();
+
+    // =========================
+    // Save to Chronica (Kronika)
+    // =========================
+    function getLastUserMessage(){
+      try{
+        const last = JSON.parse(localStorage.getItem(LAST_KEY) || "null");
+        return last;
+      }catch(_){ return null; }
+    }
+
+    function rememberLast(text, tag){
+      const payload = { text, tag, ts: new Date().toISOString() };
+      try{ localStorage.setItem(LAST_KEY, JSON.stringify(payload)); }catch(_){}
+    }
+
+    function writeChronica(entry){
+      const arr = JSON.parse(localStorage.getItem(CHRONICA_KEY) || "[]");
+      arr.unshift(entry);
+      localStorage.setItem(CHRONICA_KEY, JSON.stringify(arr));
+    }
+
+    function openModal(id){ $(id).classList.add("active"); }
+    function closeModal(id){ $(id).classList.remove("active"); }
+
+    // Clear modal
+    (function initClear(){
+      const m = $("clearModal");
+      $("clearBtn").addEventListener("click", ()=> openModal("clearModal"));
+      $("clearX").addEventListener("click", ()=> closeModal("clearModal"));
+      $("clearCancel").addEventListener("click", ()=> closeModal("clearModal"));
+      m.addEventListener("click", (e)=>{ if(e.target === m) closeModal("clearModal"); });
+
+      $("clearOk").addEventListener("click", ()=>{
+        // clear chat + history + last, but keep chronica
+        chatEl.innerHTML = "";
+        try{
+          localStorage.removeItem(CHAT_KEY);
+          localStorage.removeItem(LAST_KEY);
+        }catch(_){}
+        closeModal("clearModal");
+
+        addBubble("lumi", "Done. Chat is clean. ✨", `Lumina • ${nowHM()}`);
+        persistHistory();
+      });
+    })();
+
+    // =========================
+  // Save to Chronica (NEW modal: calendar + time + sigma)
+  // =========================
+  const SIGMA_QUEUE_KEY = "sigma:queue"; // seznam budoucích připomínek (pro Sigma stránku)
+
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function toISODate(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+
+  function czDateFromISO(iso){
+    if(!iso) return "";
+    const [y,m,dd] = iso.split("-").map(Number);
+    return `${pad2(dd)}.${pad2(m)}.${y}`;
+  }
+
+  function parseHM(hm){
+    if(!hm) return null;
+    const m = hm.match(/^(\d{1,2}):(\d{2})$/);
+    if(!m) return null;
+    const hh = Math.min(23, Math.max(0, Number(m[1])));
+    const mm = Math.min(59, Math.max(0, Number(m[2])));
+    return { hh, mm };
+  }
+
+    // === Choice grid helpers (time and sigma) ===
+    // Render a grid of selectable buttons and handle state
+    function renderChoiceGrid(container, items, getSelected, onPick){
+      if(!container) return;
+      const selected = String(getSelected() || "");
+      container.innerHTML = items.map(it => {
+        const val = String(it.value);
+        const active = (val === selected) ? " is-active" : "";
+        return `<button type="button" class="choice-item${active}" data-value="${escapeHtml(val)}">${escapeHtml(it.label)}</button>`;
+      }).join("");
+
+      container.querySelectorAll(".choice-item").forEach(btn =>{
+        btn.addEventListener("click", () =>{
+          const val = btn.getAttribute("data-value") || "";
+          onPick(val);
+          // refresh active state
+          container.querySelectorAll(".choice-item").forEach(b => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+        });
+      });
+    }
+
+    // Initialise the time grid (5-minute increments) and quick buttons
+    (function initTimeGrid(){
+      const grid = document.getElementById("timeGrid");
+      if(!grid) return;
+
+      const items = buildTimeItems5min();
+
+      function update(val){
+        setTimeValue(val);
+      }
+
+      // initial render
+      renderChoiceGrid(grid, items, () => document.getElementById("saveTimePick").value, (val) => {
+        update(val);
+      });
+
+      // Now / No time buttons
+      const now2 = document.getElementById("timeNow2");
+      const clear2 = document.getElementById("timeClear2");
+
+      if(now2){
+        now2.addEventListener("click", () =>{
+          const d = new Date();
+          const hh = d.getHours();
+          const mm = d.getMinutes();
+          const snapped = `${pad2(hh)}:${pad2(Math.round(mm/5)*5 % 60)}`;
+          update(snapped);
+          renderChoiceGrid(grid, items, () => document.getElementById("saveTimePick").value, (val) => update(val));
+        });
+      }
+      if(clear2){
+        clear2.addEventListener("click", () =>{
+          update("");
+          renderChoiceGrid(grid, items, () => document.getElementById("saveTimePick").value, (val) => update(val));
+        });
+      }
+    })();
+
+    // Override sigma lead setter to only update hidden input
+    function setSigmaLeadValue(min){
+      const hidden = document.getElementById("sigmaLead");
+      if(!hidden) return;
+      hidden.value = String(min);
+    }
+
+    // Initialise the Sigma lead grid
+    (function initSigmaLeadGrid(){
+      const grid = document.getElementById("sigmaLeadGrid");
+      if(!grid) return;
+
+      const items = [
+        { value:"5", label:"5 minutes" },
+        { value:"10", label:"10 minutes" },
+        { value:"15", label:"15 minuteses" },
+        { value:"30", label:"30 minutes" },
+        { value:"45", label:"45 minuteses" },
+        { value:"60", label:"1 hour" },
+        { value:"120", label:"2 hours" },
+        { value:"1440", label:"1 day" },
+      ];
+
+      renderChoiceGrid(
+        grid,
+        items,
+        () => document.getElementById("sigmaLead").value,
+        (val) => setSigmaLeadValue(Number(val))
+      );
+    })();
+
+  function pushSigmaReminder(rem){
+    const arr = JSON.parse(localStorage.getItem(SIGMA_QUEUE_KEY) || "[]");
+    arr.push(rem);
+    arr.sort((a,b)=> (a.fireAt||0) - (b.fireAt||0));
+    localStorage.setItem(SIGMA_QUEUE_KEY, JSON.stringify(arr));
+  }
+
+  // --- Calendar state
+  let calView = new Date();         // měsíc, který zobrazujeme
+  let selectedISO = "";             // vybrané datum (YYYY-MM-DD)
+
+  function renderCalendar(){
+    const grid = document.getElementById("calGrid");
+    const title = document.getElementById("calTitle");
+    if(!grid || !title) return;
+
+    const y = calView.getFullYear();
+    const m = calView.getMonth();
+
+    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    title.textContent = `${monthNames[m]} ${y}`;
+
+    grid.innerHTML = "";
+
+    // 1. den měsíce
+    const first = new Date(y, m, 1);
+    // posun na Po=0…Ne=6 (JS: Ne=0…So=6)
+    const jsDay = first.getDay(); // 0..6
+    const mondayIndex = (jsDay + 6) % 7; // Po=0
+
+    // kolik dní v měsíci
+    const daysInMonth = new Date(y, m+1, 0).getDate();
+
+    // předchozí měsíc
+    const prevDays = new Date(y, m, 0).getDate();
+
+    // dnes
+    const todayISO = toISODate(new Date());
+
+    // vytvoříme 6 týdnů (42 polí) – stabilní layout
+    for(let i=0;i<42;i++){
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "cal-day";
+
+      let dayNum, iso, muted=false;
+
+      if(i < mondayIndex){
+        // dny z minulého měsíce
+        dayNum = prevDays - (mondayIndex - 1 - i);
+        const d = new Date(y, m-1, dayNum);
+        iso = toISODate(d);
+        muted = true;
+      } else if(i >= mondayIndex + daysInMonth){
+        // dny z dalšího měsíce
+        dayNum = i - (mondayIndex + daysInMonth) + 1;
+        const d = new Date(y, m+1, dayNum);
+        iso = toISODate(d);
+        muted = true;
+      } else {
+        // aktuální měsíc
+        dayNum = i - mondayIndex + 1;
+        const d = new Date(y, m, dayNum);
+        iso = toISODate(d);
+      }
+
+      btn.textContent = dayNum;
+      btn.dataset.iso = iso;
+
+      if(muted) btn.classList.add("muted");
+      if(iso === todayISO) btn.classList.add("today");
+      if(selectedISO && iso === selectedISO) btn.classList.add("selected");
+
+      btn.addEventListener("click", ()=>{
+        selectedISO = iso;
+        document.getElementById("saveDateISO").value = selectedISO;
+        renderCalendar();
+        // když má user zapnutou Sigmu, zkusíme aktivovat / deaktivovat podle toho, jestli je datum+čas
+        updateSigmaAvailability();
+      });
+
+      grid.appendChild(btn);
+    }
+  }
+
+  function fillTimeSelect(){
+    const sel = document.getElementById("saveTimePick");
+    if(!sel) return;
+
+    // pokud už je naplněno (má option — bez času + další), neplň znovu
+    if(sel.options.length > 1) return;
+
+    // každých 5 minutes
+    for(let h=0; h<24; h++){
+      for(let m=0; m<60; m+=5){
+        const hm = `${pad2(h)}:${pad2(m)}`;
+        const opt = document.createElement("option");
+        opt.value = hm;
+        opt.textContent = hm;
+        sel.appendChild(opt);
+      }
+    }
+  }
+
+  function updateSigmaAvailability(){
+    const sigmaOn = document.getElementById("sigmaOn");
+    const sigmaBody = document.getElementById("sigmaBody");
+    const dateISO = document.getElementById("saveDateISO")?.value || "";
+    const time = document.getElementById("saveTimePick")?.value || "";
+
+    if(!sigmaOn || !sigmaBody) return;
+
+    const ok = Boolean(dateISO && time);
+    if(!sigmaOn.checked){
+      sigmaBody.style.opacity = ".55";
+      sigmaBody.style.pointerEvents = "none";
+      return;
+    }
+    // Sigma zapnutá → povolit jen pokud je datum+čas
+    sigmaBody.style.opacity = ok ? "1" : ".55";
+    sigmaBody.style.pointerEvents = ok ? "auto" : "none";
+  }
+
+  // ===== Lumina pick helpers and pickers =====
+  // Generic helpers to open/close the picker panel and to build list items
+  function openPick(btn, panel){
+    btn.setAttribute("aria-expanded","true");
+    panel.hidden = false;
+  }
+
+  function closePick(btn, panel){
+    btn.setAttribute("aria-expanded","false");
+    panel.hidden = true;
+  }
+
+  function buildList(container, items, getSelected, onPick){
+    container.innerHTML = "";
+    items.forEach(it=>{
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "lumina-pick__item";
+      const selected = getSelected() === it.value;
+      if(selected) b.classList.add("is-selected");
+      b.innerHTML = `
+        <span>${it.label}</span>
+        <span class="lumina-pick__tick">${selected ? "✓" : ""}</span>
+      `;
+      b.addEventListener("click", ()=> onPick(it.value, it.label));
+      container.appendChild(b);
+    });
+  }
+
+  // Build time items in 5‑minute intervals
+  function buildTimeItems5min(){
+    const out = [{ value:"", label:"— no time —" }];
+    for(let h=0; h<24; h++){
+      for(let m=0; m<60; m+=5){
+        const hm = `${pad2(h)}:${pad2(m)}`;
+        out.push({ value: hm, label: hm });
+      }
+    }
+    return out;
+  }
+
+  // Set the hidden time value and update label
+  function setTimeValue(hm){
+    const hidden = document.getElementById("saveTimePick");
+    if(hidden) hidden.value = hm || "";
+    const label = document.querySelector("#saveTimePickBtn .lumina-pick__label");
+    if(label) label.textContent = hm ? hm : "— no time —";
+    updateSigmaAvailability();
+  }
+
+  /* Removed old time picker and sigma dropdown initializers and associated functions.
+     The dropdowns have been replaced by clickable grids, which are initialized via
+     initTimeGrid and initSigmaLeadGrid defined above. Removing these old initializers
+     avoids attaching unused event listeners or conflicting with the new UI. */
+
+  // Save modal init (NEW)
+  (function initSave(){
+    const m = document.getElementById("saveModal");
+
+    document.getElementById("saveBtn").addEventListener("click", ()=>{
+      const last = getLastUserMessage();
+      if(!last){
+        addBubble("lumi", "I have nothing to save. Write me one message first. 😉", "Lumina");
+        persistHistory();
+        msgEl.focus();
+        return;
+      }
+
+      // naplnit nový UI (čas a sigma se naplní přes vlastní pickery)
+
+      // defaulty
+      selectedISO = ""; // necháme „bez data“ jako výchozí
+      document.getElementById("saveDateISO").value = "";
+      setTimeValue("");
+      document.getElementById("saveNote").value = last.text || "";
+
+      document.getElementById("sigmaOn").checked = false;
+      setSigmaLeadValue(30);
+      document.getElementById("sigmaBody").style.opacity = ".55";
+      document.getElementById("sigmaBody").style.pointerEvents = "none";
+
+      // kalendář start na aktuální měsíc
+      calView = new Date();
+      renderCalendar();
+
+      openModal("saveModal");
+      setTimeout(()=> document.getElementById("saveNote")?.focus(), 60);
+    });
+
+    document.getElementById("saveX").addEventListener("click", ()=> closeModal("saveModal"));
+    document.getElementById("saveCancel").addEventListener("click", ()=> closeModal("saveModal"));
+    m.addEventListener("click", (e)=>{ if(e.target === m) closeModal("saveModal"); });
+
+    // calendar controls
+    document.getElementById("calPrev").addEventListener("click", ()=>{
+      calView = new Date(calView.getFullYear(), calView.getMonth()-1, 1);
+      renderCalendar();
+    });
+    document.getElementById("calNext").addEventListener("click", ()=>{
+      calView = new Date(calView.getFullYear(), calView.getMonth()+1, 1);
+      renderCalendar();
+    });
+    document.getElementById("calToday").addEventListener("click", ()=>{
+      const d = new Date();
+      selectedISO = toISODate(d);
+      document.getElementById("saveDateISO").value = selectedISO;
+      calView = new Date(d.getFullYear(), d.getMonth(), 1);
+      renderCalendar();
+      updateSigmaAvailability();
+    });
+    document.getElementById("calClear").addEventListener("click", ()=>{
+      selectedISO = "";
+      document.getElementById("saveDateISO").value = "";
+      renderCalendar();
+      updateSigmaAvailability();
+    });
+
+    // time controls are handled by the custom picker; no need for old event listeners
+
+    // sigma toggle
+    document.getElementById("sigmaOn").addEventListener("change", updateSigmaAvailability);
+
+      // SAVE
+  document.getElementById("saveOk").addEventListener("click", () => {
+    const last = getLastUserMessage();
+    if (!last) {
+      // nic k uložení → jen zavřít
+      closeModal("saveModal");
+      return;
+    }
+
+    const dateISO = document.getElementById("saveDateISO").value || "";
+    const time = document.getElementById("saveTimePick").value || "";
+    const note = (document.getElementById("saveNote").value || "").trim() || last.text;
+
+    const title =
+      last.tag === "Task"
+        ? `Task: ${note}`
+        : `Note: ${note}`;
+
+    // zápis do Chronica
+    writeChronica({
+      title,
+      tag: last.tag,
+      createdAt: last.ts,
+      date: dateISO ? czDateFromISO(dateISO) : "",
+      time: time,
+      done: false,
+      sigma: document.getElementById("sigmaOn").checked
+        ? { leadMin: Number(document.getElementById("sigmaLead").value || 30) }
+        : null
+    });
+
+    // Sigma připomínka (jen když je zapnutá a máme datum + čas)
+    const sigmaChecked = document.getElementById("sigmaOn").checked;
+    if (sigmaChecked && dateISO && time) {
+      const leadMin = Number(document.getElementById("sigmaLead").value || 30);
+      const t = parseHM(time);
+      if (t) {
+        const when = new Date(dateISO + "T00:00:00");
+        when.setHours(t.hh, t.mm, 0, 0);
+
+        const fireAt = when.getTime() - leadMin * 60 * 1000;
+
+        pushSigmaReminder({
+          id: "sig_" + Math.random().toString(16).slice(2),
+          fireAt,
+          leadMin,
+          targetAt: when.getTime(),
+          title: note,
+          tag: last.tag
+        });
+      }
+    }
+
+    closeModal("saveModal");
+    addBubble("lumi", "Saved to Chronica. ✨", `Lumina • ${nowHM()}`);
+    persistHistory();
+  });
+  })();
+
+    // =========================
+    // Sending logic
+    // =========================
+    function sendMessage(){
+      const text = msgEl.value.trim();
+      if(!text) return;
+
+      // user bubble with tag
+      addBubbleRich("me", escapeHtml(text).replace(/\n/g,"<br>"), `Visitor • ${nowHM()}`, currentTag);
+      rememberLast(text, currentTag);
+
+      msgEl.value = "";
+      autosize(msgEl);
+
+      persistHistory();
+
+      // lumina reply
+      luminaRespond(currentTag);
+    }
+
+    $("send").addEventListener("click", sendMessage);
+
+    msgEl.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter" && !e.shiftKey){
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function autosize(el){
+      el.style.height = "auto";
+      el.style.height = Math.min(el.scrollHeight, 160) + "px";
+    }
+    msgEl.addEventListener("input", ()=> autosize(msgEl));
+    autosize(msgEl);
+
+            // =========================
+    // Malý trik: reset při změně jazyka
+    // =========================
+    (function(){
+      var CURRENT_LANG = document.documentElement.lang || "cs";
+      var LANG_KEY = "pokec:lang";
+
+      try{
+        var lastLang = localStorage.getItem(LANG_KEY);
+        if (lastLang && lastLang !== CURRENT_LANG) {
+          // jazyk se změnil → vyčistit jen chat, ne celý palác
+          localStorage.removeItem(CHAT_KEY);
+          localStorage.removeItem(LAST_KEY);
+          localStorage.removeItem(REACT_STYLE_KEY);
+        }
+        localStorage.setItem(LANG_KEY, CURRENT_LANG);
+      }catch(e){
+        // když localStorage zlobí, nic neděláme
+      }
+    })();
+
+    // =========================
+    // Boot
+    // =========================
+    loadHistory();
+
+    // pokud není historie, start message
+if (chatEl.children.length === 0) {
+  addBubble("lumi",
+    "Welcome, visitor 💫 I'm glad you're here.\nChoose a tag (Just because / Idea / Important / Task) and let's get started 😉",
+    `Lumina • ${nowHM()}`
+  );
+  persistHistory();
+}
+
+  </script>
+
+  <!-- malý skript jen pro zobrazení plánu v horní liště -->
+  <script>
+    (function () {
+      // 1) načíst tarif z localStorage
+      var plan = localStorage.getItem("lm_plan") || "free";
+
+      // 2) uložit na body, ať ho vidí i CSS / další JS
+      document.body.dataset.plan = plan;
+
+      // 3) ukázat ho v horní liště
+      var sub = document.querySelector(".brand-sub");
+      if (sub) {
+        var label = (plan === "free")
+          ? "DEMO • FREE tarif"
+          : (plan === "plus")
+            ? "DEMO • PLUS tarif"
+            : "DEMO • PREMIUM tarif";
+        sub.textContent = label;
+      }
+    })();
+  </script>
+</body>
+</html>

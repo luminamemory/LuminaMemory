@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg:#02010a;
+      --ink:#f7f3ff;
+      --inkd:#c2b8ff;
+
+      --accent:#b892ff;
+      --card:rgba(6,3,20,.92);
+      --border:rgba(255,255,255,.16);
+
+      /* Emerald notice */
+      --emerald:#15d3a6;
+      --emerald2:#00ffb3;
+    }
+      *{box-sizing:border-box}
+      html, body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+      body{
+        min-height: 100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+    padding:22px 12px;
+
+    /* ✅ pozadí zpátky */
+      background:
+        radial-gradient(1000px 520px at 20% 12%, rgba(184,146,255,.28), transparent 58%),
+        radial-gradient(900px 520px at 86% 70%, rgba(0,255,179,.12), transparent 60%),
+        radial-gradient(650px 420px at 55% 30%, rgba(80,210,255,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, #010012 100%);
+      background-attachment: fixed;
+
+    /* ✅ aby landscape neřezal horní část */
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .shell{width:100%;max-width:980px;display:grid;gap:18px;grid-template-columns:1.05fr .95fr}
+    @media (max-width:860px){ .shell{grid-template-columns:1fr} }
+
+    .card{
+      position:relative;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:0 24px 80px rgba(0,0,0,.75),0 0 60px rgba(150,120,255,.45);
+      overflow: visible;
+    }
+
+    /* pavučina (jemnější, rozsvícení smaragdově kontrastní) */
+    .web{
+      position:absolute; inset:-20%;
+      background:url("pavucina-web.png") center/cover no-repeat;
+      opacity:.06;
+      filter:blur(.35px) saturate(.9);
+      transform:rotate(-6deg);
+      pointer-events:none;
+      transition:opacity 600ms ease, filter 600ms ease;
+      mix-blend-mode: screen;
+    }
+    .card.is-awake .web{
+      opacity:.22;
+      filter:brightness(1.9) saturate(2.3) hue-rotate(105deg) drop-shadow(0 0 18px rgba(0,255,179,.35));
+    }
+
+    .left{padding:26px 20px 18px}
+    .right{padding:26px 20px 18px}
+
+    .brand{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .brand img{height:34px;width:auto;display:block}
+    .kicker{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--inkd)}
+    h1{
+      margin:6px 0 10px;
+      font-family:"Cinzel",serif;
+      font-size:1.35rem;
+      letter-spacing:.04em;
+    }
+    .brand h1{
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 0 14px rgba(0,0,0,0.6);
+    }
+    .lead{margin:0 0 14px;color:var(--inkd);font-size:.92rem;line-height:1.45}
+
+    .grid{display:grid;gap:12px;margin-top:10px;}
+    label{font-size:.82rem;color:rgba(255,255,255,.78)}
+    input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(8,3,22,.86);
+      color:var(--ink);
+      outline:none;
+    }
+    input::placeholder{color:rgba(197,189,214,.55)}
+    .row2{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+    @media (max-width:520px){ .row2{grid-template-columns:1fr} }
+
+    .btn{
+      margin-top:8px;
+      width:100%;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.5);
+      padding:11px 14px;
+      font-size:.92rem;
+      font-weight:700;
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,.62),rgba(255,255,255,.16));
+      cursor:pointer;
+    }
+    .btn:hover{filter:brightness(1.05)}
+    .mini{
+      margin-top:10px;
+      font-size:.78rem;
+      color:rgba(255,255,255,.7);
+      line-height:1.4;
+    }
+    .mini a{color:var(--accent);text-decoration:none}
+    .mini a:hover{text-decoration:underline}
+
+    .panelTitle{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:10px;
+    }
+    .pill{
+      font-size:.72rem;padding:3px 10px 4px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.4);
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.4), rgba(255,255,255,.08));
+      color:#120b2e;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+    }
+    .steps{
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:radial-gradient(circle at top left, rgba(184,146,255,.12), transparent 60%);
+      padding:14px 12px;
+      color:rgba(255,255,255,.82);
+      font-size:.9rem;
+      line-height:1.5;
+    }
+    .steps b{color:var(--ink)}
+    .steps ul{margin:8px 0 0 18px;padding:0}
+
+    /* ===== Field notice (v místě, kam to patří) ===== */
+    .field{position:relative;}
+    .lumi-note{
+      position:absolute;
+      left:0;
+      top:calc(100% + 8px);
+      display:inline-flex;
+      gap:8px;
+      align-items:flex-start;
+      max-width:100%;
+      width:max-content;
+      padding:9px 10px 8px;
+      border-radius:12px;
+      border:1px solid rgba(0,255,179,.35);
+      background:linear-gradient(180deg, rgba(0,40,32,.85), rgba(0,18,16,.82));
+      box-shadow:0 18px 44px rgba(0,0,0,.72), 0 0 28px rgba(0,255,179,.18);
+      color:rgba(255,255,255,.92);
+      font-size:.82rem;
+      line-height:1.25;
+      z-index:50;
+      white-space:nowrap;
+    }
+    @media (max-width:520px){
+      .lumi-note{white-space:normal; width:100%;}
+    }
+    .lumi-note__dot{
+      width:10px;height:10px;margin-top:3px;border-radius:999px;
+      background:radial-gradient(circle at 30% 30%, var(--emerald2), rgba(0,255,179,.2));
+      box-shadow:0 0 16px rgba(0,255,179,.55);
+      flex:0 0 auto;
+    }
+
+    /* jemné zvýraznění pole při chybě */
+    .is-bad input,
+    .is-bad .lumina-select__btn{
+      border-color:rgba(0,255,179,.45) !important;
+      box-shadow:0 0 0 3px rgba(0,255,179,.12);
+    }
+
+    /* ===== Lumina custom dropdown ===== */
+    .lumina-select{position:relative;width:100%}
+    .lumina-select__btn{
+      width:100%;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(8,3,22,.86);
+      color:rgba(255,255,255,.92);
+      cursor:pointer;
+      text-align:left;
+    }
+    .lumina-select__chev{opacity:.85}
+    .lumina-select__menu{
+      position:absolute;left:0;right:0;top:calc(100% + 10px);
+      padding:8px;
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(22,12,50,.92), rgba(6,8,20,.88));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 20px 60px rgba(0,0,0,.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transform: translateY(-6px);
+      opacity:0;
+      pointer-events:none;
+      z-index:999;
+    }
+    .lumina-select.is-open .lumina-select__menu{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .lumina-select__menu button{
+      width:100%;
+      text-align:left;
+      padding:11px 12px;
+      border-radius:12px;
+      border:1px solid transparent;
+      background:transparent;
+      color:rgba(255,255,255,.92);
+      cursor:pointer;
+    }
+    .lumina-select__menu button:hover{background:rgba(0,255,179,.10);border-color:rgba(0,255,179,.18)}
+    .lumina-select__menu button[aria-selected="true"]{background:rgba(0,255,179,.14);border-color:rgba(0,255,179,.22)}
+    @media (max-height: 520px) {
+  body {
+    align-items: flex-start;
+    }
+  }
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+
+    <section class="card left" id="loginCard">
+      <div class="web" aria-hidden="true"></div>
+
+      <div class="brand">
+        <img src="favicon.png" alt="LuminaMemory">
+        <div>
+          <div class="kicker">miniLumina • demo</div>
+          <h1>Vstup do prostředí</h1>
+        </div>
+      </div>
+
+      <p class="lead">
+        Demo verze – zatím bez reálného ukládání.
+      </p>
+
+      <form class="grid" novalidate onsubmit="return false">
+        <div class="field" data-field="email">
+          <label>E-mail</label>
+          <input type="email" id="email" autocomplete="email" placeholder="např. gabi@luminamemory.ai">
+        </div>
+
+        <div class="row2">
+          <div class="field" data-field="pass">
+            <label>Heslo</label>
+            <input type="password" id="pass" autocomplete="current-password" placeholder="••••••••">
+          </div>
+
+          <div class="field" data-field="plan">
+            <label>Předplatné (demo)</label>
+
+            <div class="lumina-select" id="planSelect">
+              <button type="button" class="lumina-select__btn" aria-haspopup="listbox" aria-expanded="false">
+                <span class="lumina-select__label">Předplatné</span>
+                <span class="lumina-select__chev">▾</span>
+              </button>
+              <div class="lumina-select__menu" role="listbox" hidden>
+                <button type="button" role="option" data-value="free" aria-selected="false">Free</button>
+                <button type="button" role="option" data-value="plus" aria-selected="false">Plus</button>
+                <button type="button" role="option" data-value="premium" aria-selected="false">Premium</button>
+              </div>
+              <input type="hidden" id="plan" value="">
+            </div>
+          </div>
+        </div>
+
+        <!-- tlačítko "Vstoupit" smazáno; zůstává jen vstup do demo apky -->
+        <button class="btn" type="button" id="demoBtn">Vstoupit do demo apky</button>
+
+        <div class="mini">
+          <a href="index.html">← Zpět na web</a>
+          &nbsp;•&nbsp;
+          <a href="home.html">← Zpět k bráně</a>
+        </div>
+      </form>
+    </section>
+
+    <aside class="card right">
+      <div class="panelTitle">
+        <div class="kicker">jak to bude fungovat</div>
+        <div class="pill">mapa</div>
+      </div>
+
+      <div class="steps">
+        <b>Po přihlášení</b> se rozsvítí pavučina a otevřou se místnosti podle předplatného:
+        <ul>
+          <li><b>Nastavení</b> (Rose Zone, Inventory, Life Mission Archive, “návod chat”)</li>
+          <li><b>Praetorium</b> (Sigma, Chronica, Proiecta)</li>
+          <li><b>Arcana</b> (zamčená – PIN/biometrie)</li>
+          <li><b>Pokec</b> (hlavní chat)</li>
+        </ul>
+        
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    // =========================
+    // Inline notices (pouze: email / heslo / předplatné / vstup do demo apky)
+    // =========================
+    (function(){
+      const NOTE_CLASS = "lumi-note";
+
+      function clearNote(field){
+        field.classList.remove("is-bad");
+        const old = field.querySelector("." + NOTE_CLASS);
+        if(old) old.remove();
+      }
+
+      function showNote(field, text){
+        clearNote(field);
+        field.classList.add("is-bad");
+
+        const note = document.createElement("div");
+        note.className = NOTE_CLASS;
+        note.innerHTML = '<span class="lumi-note__dot" aria-hidden="true"></span><span>' + escapeHtml(text) + '</span>';
+        field.appendChild(note);
+
+        // auto-hide
+        window.setTimeout(()=>{ if(note.isConnected) { note.remove(); field.classList.remove("is-bad"); } }, 2600);
+      }
+
+      function escapeHtml(s){
+        return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+      }
+
+      // expose minimal API
+      window.LuminaUI = {
+        showNote,
+        clearNote
+      };
+    })();
+
+    // =========================
+    // Lumina select (custom dropdown)
+    // =========================
+    (function(){
+      const el = document.getElementById("planSelect");
+      if(!el) return;
+
+      const btn   = el.querySelector(".lumina-select__btn");
+      const menu  = el.querySelector(".lumina-select__menu");
+      const label = el.querySelector(".lumina-select__label");
+      const hidden = el.querySelector('input[type="hidden"]');
+
+      function open(){
+        el.classList.add("is-open");
+        btn.setAttribute("aria-expanded","true");
+        menu.hidden = false;
+      }
+      function close(){
+        el.classList.remove("is-open");
+        btn.setAttribute("aria-expanded","false");
+        menu.hidden = true;
+      }
+      function toggle(){ el.classList.contains("is-open") ? close() : open(); }
+
+      btn.addEventListener("click", (e)=>{ e.preventDefault(); toggle(); });
+
+      menu.addEventListener("click", (e)=>{
+        const opt = e.target.closest('button[role="option"]');
+        if(!opt) return;
+
+        const val = opt.getAttribute("data-value") || "";
+        const txt = (opt.textContent || "").trim();
+
+        hidden.value = val;
+        label.textContent = txt;
+
+        menu.querySelectorAll('button[role="option"]').forEach(b=>b.setAttribute("aria-selected","false"));
+        opt.setAttribute("aria-selected","true");
+
+        close();
+      });
+
+      document.addEventListener("click", (e)=>{
+        if(!el.contains(e.target)) close();
+      });
+
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape") close();
+      });
+    })();
+
+    // =========================
+    // Demo entry
+    // =========================
+    (function(){
+      const emailEl = document.getElementById("email");
+      const passEl  = document.getElementById("pass");
+      const planEl  = document.getElementById("plan");
+      const demoBtn = document.getElementById("demoBtn");
+
+      const emailField = document.querySelector('[data-field="email"]');
+      const passField  = document.querySelector('[data-field="pass"]');
+      const planField  = document.querySelector('[data-field="plan"]');
+
+      // clear notes on typing
+      emailEl.addEventListener("input", ()=> LuminaUI.clearNote(emailField));
+      passEl.addEventListener("input",  ()=> LuminaUI.clearNote(passField));
+      document.getElementById("planSelect").addEventListener("click", ()=> LuminaUI.clearNote(planField));
+
+      demoBtn.addEventListener("click", ()=>{
+        const email = emailEl.value.trim();
+        const pass  = passEl.value.trim();
+        const plan  = planEl.value;
+
+        // pouze 4 hlášky, žádné jiné
+        if(!email){
+          LuminaUI.showNote(emailField, "Vyplň e-mail");
+          emailEl.focus();
+          return;
+        }
+        if(!pass){
+          LuminaUI.showNote(passField, "Vyplň heslo");
+          passEl.focus();
+          return;
+        }
+        if(!plan){
+          LuminaUI.showNote(planField, "Vyber předplatné");
+          document.querySelector("#planSelect .lumina-select__btn").focus();
+          return;
+        }
+
+        // rozsvítit pavučinu a vstoupit do demo
+        document.getElementById("loginCard").classList.add("is-awake");
+
+        const payload = { email, plan };
+        localStorage.setItem("miniLuminaUser", JSON.stringify(payload));
+        localStorage.setItem("lm_plan", plan);
+        localStorage.setItem("lm_plan_set_at", new Date().toISOString());
+
+        window.setTimeout(()=>{ window.location.href = "lumina-demo.html"; }, 520);
+      });
+    })();
+  </script>
+</body>
+</html>
