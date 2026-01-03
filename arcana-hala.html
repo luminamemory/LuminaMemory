@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: #02090b;
+      --bg-card: radial-gradient(circle at top left, #163238 0, #07191c 38%, #040b0d 100%);
+      --ink: #eaf7f6;
+      --muted: rgba(234,247,246,.66);
+      --accent: #ffb3d9;
+      --accent-soft: rgba(255,179,217,.12);
+      --accent-strong: #ff82c0;
+      --border-soft: rgba(255,255,255,.12);
+      --border-strong: rgba(255,255,255,.26);
+      --danger: #ff7a7a;
+      --ghost: rgba(255,255,255,.06);
+      --ghost-strong: rgba(255,255,255,.16);
+      --vault-gray: #151a1f;
+      --pill-bg: rgba(8,41,44,.9);
+      --pill-border: rgba(255,255,255,.18);
+      --shadow-card: 0 30px 80px rgba(0,0,0,.8);
+      --radius-lg: 22px;
+      --radius-pill: 999px;
+      --transition-fast: .18s ease-out;
+      --transition-med: .25s ease-out;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html,body{
+      margin:0;
+      padding:0;
+      min-height:100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top, rgba(255,179,217,.12), transparent 55%),
+        radial-gradient(circle at bottom, rgba(76,201,240,.18), transparent 60%),
+        #000809;
+    }
+
+    body{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .grain{
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      opacity:0.65;
+      mix-blend-mode:soft-light;
+      background-image:url("noise-texture.png");
+      background-size:260px 260px;
+      filter:contrast(140%) brightness(110%);
+      z-index:-1;
+    }
+
+    header.top{
+      padding:14px 18px 6px;
+    }
+
+    .top-inner{
+      max-width:1120px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:13px;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+
+    .brand-dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 20%, #fff 0, #ffb3d9 38%, #a42d80 100%);
+      box-shadow:0 0 10px rgba(255,179,217,.9);
+    }
+
+    nav.nav{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 12px 8px;
+      border-radius: var(--radius-pill);
+      border:1px solid var(--pill-border);
+      background: var(--pill-bg);
+      color: var(--ink);
+      text-decoration:none;
+      font-size:12.5px;
+      line-height:1;
+      letter-spacing:.03em;
+      text-transform:uppercase;
+      opacity:.94;
+      transition:
+        background-color var(--transition-med),
+        border-color var(--transition-med),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        opacity var(--transition-fast);
+    }
+
+    .pill:hover{
+      background: rgba(8,41,44,1);
+      border-color: rgba(255,255,255,.38);
+      transform:translateY(-1px);
+      box-shadow:0 8px 22px rgba(0,0,0,.7);
+      opacity:1;
+    }
+
+    .pill span.label{
+      font-weight:600;
+    }
+
+    main.main{
+      flex:1;
+      padding:8px 18px 22px;
+    }
+
+    .shell{
+      max-width:1120px;
+      margin:0 auto;
+    }
+
+    .card{
+      border-radius: var(--radius-lg);
+      border:1px solid var(--border-soft);
+      background: var(--bg-card);
+      box-shadow: var(--shadow-card);
+      padding:16px 16px 18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background:
+        radial-gradient(circle at 10% 0, rgba(255,179,217,.15), transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(76,201,240,.06), transparent 60%);
+      opacity:.55;
+      pointer-events:none;
+      mix-blend-mode:screen;
+    }
+
+    .card-inner{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.6fr);
+      gap:18px;
+    }
+
+    @media (max-width: 880px){
+      .card-inner{
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .col{
+      min-width:0;
+    }
+
+    .col-about{
+      border-radius:18px;
+      background: radial-gradient(circle at top left, rgba(5,14,18,.9), rgba(9,18,25,.95));
+      padding:12px 12px 14px;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .col-ui{
+      border-radius:18px;
+      background: radial-gradient(circle at top right, rgba(9,20,24,.96), rgba(4,10,13,.98));
+      padding:12px 12px 14px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .card-title{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .card-title h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+
+    .card-title p{
+      margin:4px 0 0;
+      font-size:13px;
+      color: var(--muted);
+      max-width:410px;
+      line-height:1.45;
+    }
+
+    .plan-badge{
+      align-self:flex-start;
+      padding:4px 10px 5px;
+      border-radius: var(--radius-pill);
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(5,25,28,.92);
+      font-size:11px;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .plan-badge.free{ border-color:rgba(255,255,255,.12); }
+    .plan-badge.plus{ border-color:#4cc9f0; }
+    .plan-badge.premium{ border-color:#ffb3d9; }
+
+    .vault-intro{
+      margin-top:6px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .avatar-frame{
+      flex:0 0 auto;
+      width:54px;
+      height:54px;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.24);
+      background: radial-gradient(circle at top, #233640, #050b10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 12px 30px rgba(0,0,0,.75);
+    }
+    .avatar-frame img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .intro-bubble{
+      flex:1;
+      border-radius:16px;
+      background: rgba(3,14,18,.9);
+      border:1px solid rgba(255,255,255,.1);
+      padding:8px 10px 9px;
+      position:relative;
+    }
+
+    .intro-bubble::before{
+      content:"";
+      position:absolute;
+      left:-7px;
+      top:18px;
+      border-width:7px;
+      border-style:solid;
+      border-color:transparent rgba(3,14,18,.9) transparent transparent;
+      filter:drop-shadow(-1px 1px 0 rgba(0,0,0,.55));
+    }
+
+    .intro-bubble strong{
+      font-size:14px;
+    }
+    .intro-bubble p{
+      margin:4px 0;
+      font-size:13px;
+      color: var(--muted);
+      line-height:1.45;
+    }
+    .intro-bubble p.small{
+      font-size:12px;
+      opacity:.9;
+    }
+    .intro-bubble a{
+      color: var(--accent-strong);
+      text-decoration:none;
+    }
+    .intro-bubble a:hover{
+      text-decoration:underline;
+    }
+
+    .rules{
+      margin-top:10px;
+      padding:8px 10px 9px;
+      border-radius:14px;
+      background: rgba(7,16,20,.96);
+      border:1px solid rgba(255,255,255,.09);
+    }
+
+    .rules h2{
+      margin:0 0 4px;
+      font-size:13px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+    .rules ul{
+      margin:4px 0 6px 18px;
+      padding:0;
+      font-size:12.5px;
+      color: var(--muted);
+      line-height:1.5;
+    }
+    .rules li{
+      margin-bottom:2px;
+    }
+
+    .rules .note{
+      margin-top:4px;
+      font-size:12px;
+      color: var(--accent);
+    }
+
+    /* Right side – UI */
+
+    .rooms{
+      padding:4px 0 8px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      margin-bottom:8px;
+    }
+
+    .rooms-header{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:baseline;
+      margin-bottom:6px;
+    }
+
+    .rooms-header .label{
+      font-size:11px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+    .rooms-header .hint{
+      font-size:11.5px;
+      color: var(--muted);
+      opacity:.85;
+    }
+
+    .rooms-grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap:6px;
+      padding:4px;
+      border-radius:999px;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,.04), transparent 65%),
+        radial-gradient(circle at top right, rgba(255,179,217,.16), transparent 60%),
+        radial-gradient(circle at bottom left, rgba(76,201,240,.24), transparent 55%),
+        #050c10;
+      border:1px solid rgba(255,255,255,.12);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .rooms-grid::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background-image:url("arcana-web.png");
+      background-size:cover;
+      background-position:center;
+      opacity:.22;
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+
+    @media (max-width: 700px){
+      .rooms-grid{
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        border-radius:18px;
+      }
+    }
+
+    .room-btn{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      justify-content:center;
+      gap:2px;
+      padding:7px 8px 8px;
+      border-radius:999px;
+      border:1px solid transparent;
+      background: transparent;
+      color: var(--ink);
+      cursor:pointer;
+      outline:none;
+      transition:
+        background-color var(--transition-med),
+        border-color var(--transition-med),
+        box-shadow var(--transition-med),
+        transform var(--transition-fast),
+        color var(--transition-med);
+      font-size:11.5px;
+      text-align:left;
+    }
+
+    .room-btn .topline{
+      display:flex;
+      align-items:center;
+      gap:5px;
+      font-weight:600;
+    }
+    .room-btn .ico{
+      font-size:15px;
+    }
+    .room-btn .name{
+      font-size:11.5px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .room-btn .sub{
+      font-size:11px;
+      color: var(--muted);
+    }
+
+    .room-btn span.lock-badge{
+      font-size:10px;
+      padding:2px 6px 3px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.32);
+    }
+
+    .room-btn.is-active{
+      background: radial-gradient(circle at top left, rgba(255,179,217,.26), rgba(76,201,240,.18));
+      border-color: rgba(255,255,255,.8);
+      box-shadow:0 0 0 1px rgba(255,255,255,.18), 0 10px 26px rgba(0,0,0,.85);
+      transform:translateY(-1px);
+    }
+
+    .room-btn[data-locked="true"]{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+
+    .room-panel{
+      margin-top:6px;
+      border-radius:16px;
+      background: linear-gradient(145deg, rgba(4,9,12,.96), rgba(12,23,30,.98));
+      border:1px solid rgba(255,255,255,.14);
+      padding:10px 10px 9px;
+    }
+
+    .room-heading{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      margin-bottom:8px;
+    }
+
+    .room-heading h2{
+      margin:2px 0 0;
+      font-size:15px;
+    }
+    .room-heading .eyebrow{
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+
+    .status{
+      font-size:11.5px;
+      color: var(--muted);
+      max-width:260px;
+      line-height:1.4;
+      text-align:right;
+    }
+
+    .room-body{
+      display:grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      gap:10px;
+    }
+
+    @media (max-width: 800px){
+      .room-body{
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    form#entryForm{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      font-size:12px;
+      color: var(--muted);
+    }
+
+    .field-label{
+      font-size:11.5px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    input[type="text"],
+    textarea{
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(5,14,18,.9);
+      color: var(--ink);
+      font-size:13px;
+      padding:7px 8px;
+      outline:none;
+      resize:vertical;
+      min-height:34px;
+      transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background-color var(--transition-fast);
+    }
+
+    textarea{
+      min-height:64px;
+      max-height:112px;
+    }
+
+    input[type="text"]::placeholder,
+    textarea::placeholder{
+      color: rgba(234,247,246,.35);
+    }
+
+    input[type="text"]:focus,
+    textarea:focus{
+      border-color: var(--accent-strong);
+      box-shadow:0 0 0 1px rgba(255,179,217,.3);
+      background: rgba(3,10,14,.98);
+    }
+
+    .form-foot{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-top:4px;
+    }
+
+    .form-note{
+      font-size:11.5px;
+      color: var(--muted);
+      max-width:230px;
+      line-height:1.4;
+    }
+
+    .btn{
+      border-radius: var(--radius-pill);
+      border:1px solid rgba(255,255,255,.2);
+      background: rgba(11,31,36,.96);
+      color: var(--ink);
+      font-size:12.5px;
+      padding:7px 12px 8px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      white-space:nowrap;
+      transition:
+        background-color var(--transition-med),
+        border-color var(--transition-med),
+        box-shadow var(--transition-med),
+        transform var(--transition-fast),
+        opacity var(--transition-fast);
+    }
+
+    .btn.primary{
+      background: linear-gradient(135deg, #ffb3d9, #ff82c0);
+      border-color: rgba(255,255,255,.9);
+      color:#1b0714;
+      font-weight:600;
+      box-shadow:0 12px 28px rgba(0,0,0,.9);
+    }
+
+    .btn.ghost{
+      background: rgba(0,0,0,.2);
+      border-color: rgba(255,255,255,.24);
+      color: var(--muted);
+      font-size:11.5px;
+      padding-inline:10px;
+    }
+
+    .btn.small{
+      font-size:11px;
+      padding:6px 10px 6px;
+    }
+
+    .btn:hover:not(:disabled){
+      transform:translateY(-1px);
+      box-shadow:0 8px 20px rgba(0,0,0,.75);
+    }
+
+    .btn.primary:hover:not(:disabled){
+      background: linear-gradient(135deg, #ffd0ea, #ff9cd0);
+    }
+
+    .btn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+
+    .entries{
+      border-radius:12px;
+      background: rgba(2,9,12,.96);
+      border:1px solid rgba(255,255,255,.12);
+      padding:7px 8px 6px;
+      min-height:80px;
+      max-height:170px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .entries-head{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      align-items:center;
+      font-size:11.5px;
+      color: var(--muted);
+    }
+
+    .entries-list{
+      list-style:none;
+      margin:4px 0 0;
+      padding:0;
+      overflow-y:auto;
+      scrollbar-width:thin;
+      scrollbar-color: rgba(255,255,255,.22) transparent;
+      font-size:12.5px;
+    }
+
+    .entries-list::-webkit-scrollbar{
+      width:6px;
+    }
+    .entries-list::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.22);
+      border-radius:999px;
+    }
+
+    .entry{
+      padding:4px 0 3px;
+      border-bottom:1px dashed rgba(255,255,255,.1);
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      align-items:flex-start;
+    }
+    .entry:last-child{
+      border-bottom:none;
+    }
+
+    .entry-main{
+      flex:1;
+      min-width:0;
+    }
+    .entry-title{
+      font-size:12.5px;
+    }
+    .entry-note{
+      font-size:11.5px;
+      color: var(--muted);
+      opacity:.86;
+      margin-top:1px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .entry-time{
+      font-size:11px;
+      color: var(--muted);
+      white-space:nowrap;
+      opacity:.9;
+    }
+
+    .entries-empty{
+      font-size:12px;
+      color: var(--muted);
+      text-align:center;
+      padding:10px 0 6px;
+    }
+
+    .chronica-info{
+      margin-top:8px;
+      font-size:11.5px;
+      color: var(--muted);
+      border-radius:12px;
+      padding:7px 8px 7px;
+      background: rgba(0,0,0,.32);
+      border:1px dashed rgba(255,255,255,.22);
+      line-height:1.45;
+    }
+    .chronica-info b{
+      color: var(--accent-strong);
+    }
+
+    /* FREE režim – hala zamčená */
+    body[data-plan="free"] .room-panel,
+    body[data-plan="free"] .rooms-grid{
+      opacity:.42;
+      pointer-events:none;
+      filter:grayscale(10%);
+    }
+    body[data-plan="free"] .chronica-info{
+      border-color: var(--danger);
+      color: #ffd3d3;
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      max-width:320px;
+      border-radius:14px;
+      background: rgba(8,30,32,.96);
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 18px 40px rgba(0,0,0,.88);
+      padding:7px 9px 8px;
+      display:flex;
+      align-items:flex-start;
+      gap:7px;
+      font-size:12.5px;
+      color: var(--ink);
+      opacity:0;
+      transform:translateY(10px);
+      pointer-events:none;
+      transition:
+        opacity .22s ease-out,
+        transform .22s ease-out;
+      z-index:50;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+    .toast-pill{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      padding:3px 7px 4px;
+      border-radius:999px;
+      background: rgba(0,0,0,.6);
+      border:1px solid rgba(255,255,255,.3);
+      flex:0 0 auto;
+    }
+    .toast-msg{
+      flex:1;
+      min-width:0;
+      line-height:1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="top">
+    <div class="top-inner">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span>LuminaMemory™ · Arcana</span>
+      </div>
+      <nav class="nav" aria-label="Navigace">
+        <a class="pill" href="lumina-demo.html">
+          <span class="label">🗯 Pokec</span>
+        <a class="pill" href="chronica.html">
+          <span class="label">📖 Chronica</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="shell">
+      <section class="card" aria-label="Arcana – trezorová hala">
+        <div class="card-inner">
+          <!-- Levý sloupec – vysvětlení -->
+          <div class="col col-about">
+            <div class="card-title">
+              <div>
+                <h1>Arcana – trezor citlivých věcí</h1>
+                <p>
+                  Tady si trénuješ bezpečný zápis. Co patří jen do trezoru, zůstane v Arcana.
+                  Co má být připomínka pro budoucí tebe, jednou přepíšeme do Chronica.
+                </p>
+              </div>
+              <div class="plan-badge" id="planBadge" title="Aktuální tarif">
+                DEMO · FREE tarif
+              </div>
+            </div>
+
+            <div class="vault-intro">
+              <div class="avatar-frame">
+                <img src="avatar.png" alt="Lumina – strážkyně trezoru Arcana">
+              </div>
+              <div class="intro-bubble">
+                <p><strong>🔐 Trezorová šeptárna</strong></p>
+                <p>
+                  Místo pro drobné, ale důležité věci: hesla, termíny doktorů, platnosti dokladů,
+                  mimořádné platby… všechno, co nechceš mít v hlavě jako šum.
+                </p>
+                <p class="small">
+                  Hesla a citlivé údaje zůstávají <b>jen</b> v Arcana. Do
+                  <a href="chronica.html">Chronica</a> se jednou dostane jen
+                  bezpečný přepis typu „kontrola u doktora“ nebo „občanka – konec platnosti“.
+                </p>
+              </div>
+            </div>
+
+            <div class="rules">
+              <h2>Pravidla zápisu do Chronica</h2>
+              <ul>
+                <li><b>Hesla sem nepatří.</b> Ani do názvu, ani do detailu. Arcana není správce hesel.</li>
+                <li>
+                  U doktorů, dokladů a mimořádných plateb zapisujeme do Chronica jen
+                  <b>shrnutí</b>, ne čísla, diagnózy ani částky.
+                </li>
+                <li>
+                  Co napíšeš do pole „Soukromý detail“, zůstává jen v trezoru Arcana –
+                  nikam jinam se v demu neposílá.
+                </li>
+              </ul>
+              <div class="note" id="planNote"></div>
+            </div>
+          </div>
+
+          <!-- Pravý sloupec – UI -->
+          <div class="col col-ui">
+            <div class="rooms">
+              <div class="rooms-header">
+                <span class="label">Místnosti trezoru</span>
+                <span class="hint">Vyber, co chceš zapsat. Všechno zůstává v tvém prohlížeči.</span>
+              </div>
+              <div class="rooms-grid" id="roomsGrid" role="tablist" aria-label="Místnosti trezoru">
+                <button type="button" class="room-btn is-active" data-room="clavis" role="tab" aria-selected="true">
+                  <div class="topline">
+                    <span class="ico" aria-hidden="true">🔑</span>
+                    <span class="name">Clavis</span>
+                  </div>
+                  <div class="sub">Hesla &amp; klíče (jen pro tebe)</div>
+                </button>
+
+                <button type="button" class="room-btn" data-room="pecunia" role="tab" aria-selected="false">
+                  <div class="topline">
+                    <span class="ico" aria-hidden="true">💰</span>
+                    <span class="name">Pecunia</span>
+                  </div>
+                  <div class="sub">Mimořádné platby &amp; peníze navíc</div>
+                </button>
+
+                <button type="button" class="room-btn" data-room="medica" role="tab" aria-selected="false">
+                  <div class="topline">
+                    <span class="ico" aria-hidden="true">🩺</span>
+                    <span class="name">Medica</span>
+                  </div>
+                  <div class="sub">Termíny doktorů &amp; kontroly</div>
+                </button>
+
+                <button type="button" class="room-btn" data-room="vitae" role="tab" aria-selected="false">
+                  <div class="topline">
+                    <span class="ico" aria-hidden="true">📜</span>
+                    <span class="name">Vitae</span>
+                  </div>
+                  <div class="sub">Občanky, pasy, smlouvy – důležité lhůty</div>
+                </button>
+              </div>
+            </div>
+
+            <div class="room-panel">
+              <div class="room-heading">
+                <div>
+                  <div class="eyebrow" id="roomLabel">Clavis · hesla</div>
+                  <h2 id="roomTitle">Hesla &amp; klíče</h2>
+                </div>
+                <div class="status" id="roomStatus">
+                  Zápisky k heslům zůstávají jen v trezoru. Skutečné heslo sem nepiš nikdy.
+                </div>
+              </div>
+
+              <div class="room-body">
+                <form id="entryForm" autocomplete="off">
+                  <label class="field">
+                    <span class="field-label">Jak to má jednou vidět Chronica</span>
+                    <input
+                      type="text"
+                      id="publicLabel"
+                      placeholder="např. Kontrola u zubaře / Občanka – konec platnosti / Mimořádná platba nájem"
+                    >
+                  </label>
+
+                  <label class="field">
+                    <span class="field-label">Soukromý detail (zůstává v trezoru)</span>
+                    <textarea
+                      id="secretNote"
+                      rows="3"
+                      placeholder="Sem si můžeš napsat poznámku jen pro sebe. V demu se nikam neposílá."
+                    ></textarea>
+                  </label>
+
+                  <div class="form-foot">
+                    <div class="form-note" id="formNote">
+                      U Clavis nikdy nepiš celé heslo. Stačí náznak typu „heslo k bankovní appce“.
+                    </div>
+                    <button class="btn primary" type="submit" id="btnSave">
+                      💾 Zapsat do trezoru
+                    </button>
+                  </div>
+                </form>
+
+                <div class="entries" aria-live="polite">
+                  <div class="entries-head">
+                    <span>Poslední zápisy v téhle místnosti</span>
+                    <button class="btn ghost small" type="button" id="btnClearRoom">
+                      🧹 Vyčistit místnost
+                    </button>
+                  </div>
+                  <ul class="entries-list" id="entriesList">
+                    <!-- dynamicky -->
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="chronica-info" id="chronicaInfo">
+              <b>Chronica v demu:</b> V téhle verzi si hlavně trénuješ bezpečný způsob zápisu.
+              V ostré verzi se z Medica / Vitae / Pecunia budou dělat jen jemné přepisy
+              („kontrola u doktora“, „konec platnosti občanky“, „mimořádná platba“)
+              a ty se propojí s Chronica a Sigmou.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+      <div class="toast-pill" id="toastPill">ARCANA</div>
+      <div class="toast-msg" id="toastMsg">Zapsáno.</div>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      const KEY_ARCANA = "LM_ARCANA_TREZOR_V1";
+
+      const ROOM_META = {
+        clavis: {
+          label: "Clavis · hesla",
+          title: "Hesla & klíče",
+          status: "Zápisky k heslům zůstávají jen v trezoru. Skutečné heslo sem nepiš nikdy.",
+          formNote: "Clavis slouží jako připomínka, ne jako správce hesel. Piš jen pojmenování („heslo k e-mailu“), ne heslo samotné."
+        },
+        pecunia: {
+          label: "Pecunia · peníze",
+          title: "Mimořádné platby & peníze navíc",
+          status: "Místo pro věci jako „backpay“, nedoplatky, neočekávané platby nebo malé finanční výpravy.",
+          formNote: "Stačí shrnutí typu „nedoplatek energie“ nebo „mimořádná splátka“. Částky klidně nech jen u sebe v hlavě nebo v bance."
+        },
+        medica: {
+          label: "Medica · zdraví",
+          title: "Termíny doktorů & kontroly",
+          status: "Sem patří kontroly, vyšetření, připomínky k lékům… bez diagnóz a detailů.",
+          formNote: "Zkus zapisovat jen lidské shrnutí: „kontrola štítné žlázy“, „kontrola OCD léků“ – bez diagnóz a citlivých detailů."
+        },
+        vitae: {
+          label: "Vitae · doklady & život",
+          title: "Občanky, pasy, smlouvy – důležité lhůty",
+          status: "Všechno, co má expiraci nebo důležitou lhůtu – doklady, smlouvy, pojištění.",
+          formNote: "Například „občanka – konec platnosti“, „pojištění motorky – výročí“. Čísla dokladů ani pojistek sem psát nemusíš."
+        }
+      };
+
+      const body = document.body;
+      const planBadge = document.getElementById("planBadge");
+      const planNote = document.getElementById("planNote");
+      const chronicaInfo = document.getElementById("chronicaInfo");
+
+      const roomsGrid = document.getElementById("roomsGrid");
+      const roomButtons = roomsGrid ? Array.from(roomsGrid.querySelectorAll(".room-btn")) : [];
+
+      const roomLabel = document.getElementById("roomLabel");
+      const roomTitle = document.getElementById("roomTitle");
+      const roomStatus = document.getElementById("roomStatus");
+      const formNote = document.getElementById("formNote");
+
+      const entryForm = document.getElementById("entryForm");
+      const inputPublic = document.getElementById("publicLabel");
+      const inputSecret = document.getElementById("secretNote");
+      const btnSave = document.getElementById("btnSave");
+      const btnClearRoom = document.getElementById("btnClearRoom");
+      const entriesList = document.getElementById("entriesList");
+
+      const toast = document.getElementById("toast");
+      const toastPill = document.getElementById("toastPill");
+      const toastMsg = document.getElementById("toastMsg");
+
+      let toastTimer = null;
+
+      function showToast(pill, msg, ms){
+        if(!toast) return;
+        const dur = (typeof ms === "number" && ms > 0) ? ms : 3800;
+        if(toastPill) toastPill.textContent = pill || "ARCANA";
+        if(toastMsg) toastMsg.textContent = msg || "";
+        toast.classList.add("show");
+        if(toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(()=> toast.classList.remove("show"), dur);
+      }
+
+      function normalizePlan(p){
+        if(!p) return "free";
+        p = String(p).trim().toLowerCase();
+        if(p === "free" || p === "plus" || p === "premium") return p;
+        if(p.includes("free")) return "free";
+        if(p.includes("plus")) return "plus";
+        if(p.includes("premium")) return "premium";
+        return "free";
+      }
+
+      function readStoredPlan(){
+        try{
+          const u = JSON.parse(localStorage.getItem("miniLuminaUser")||"null");
+          const fromUser = u && u.plan;
+          const fromKey  = localStorage.getItem("lm_plan");
+          return normalizePlan(fromKey || fromUser);
+        }catch(e){
+          return "free";
+        }
+      }
+
+      function updatePlanUI(plan){
+        plan = normalizePlan(plan);
+        body.dataset.plan = plan;
+
+        const human =
+          plan === "premium" ? "PREMIUM tarif" :
+          plan === "plus"    ? "PLUS tarif" :
+          "FREE tarif";
+
+        const labelText = "DEMO · " + human;
+
+        if(planBadge){
+          planBadge.textContent = labelText;
+          planBadge.title = "Aktuální plán: " + human;
+          planBadge.classList.remove("free","plus","premium");
+          planBadge.classList.add(plan);
+        }
+
+        if(planNote){
+          if(plan === "free"){
+            planNote.textContent =
+              "V demu je Arcana hala pro FREE uzamčená. Přepnutím na PLUS nebo PREMIUM v Arcana bráně si ji můžeš naplno vyzkoušet.";
+          }else if(plan === "plus"){
+            planNote.textContent =
+              "PLUS: trénuješ bezpečný zápis v trezoru. V ostré verzi by se přidalo propojení s Chronica a Sigmou.";
+          }else{
+            planNote.textContent =
+              "PREMIUM: celý trezor máš otevřený. V ostré verzi by se z některých zápisů dělaly jemné přepisy pro Chronica.";
+          }
+        }
+
+        if(chronicaInfo){
+          if(plan === "free"){
+            chronicaInfo.innerHTML =
+              "<b>FREE demo:</b> Arcana hala je zatím spíš ukázka. Zápisy si tu můžeš jen vizuálně projít – nic se netvoří ani neposílá.";
+          }else if(plan === "plus"){
+            chronicaInfo.innerHTML =
+              "<b>PLUS demo:</b> Zápisy zůstávají v trezoru na tomto zařízení. V plné PREMIUM verzi by se z Medica / Vitae / Pecunia dělaly jemné přepisy" +
+              " typu „kontrola u doktora“ nebo „konec platnosti dokladu“ a ty by se propojily s Chronica.";
+          }else{
+            chronicaInfo.innerHTML =
+              "<b>PREMIUM demo:</b> Máš odemčené všechny místnosti trezoru. V ostré verzi by se z vybraných zápisů dělaly bezpečné přepisy" +
+              " (bez hesel, čísel dokladů a částek) a ty by šly do Chronica i Sigmy.";
+          }
+        }
+
+        if(plan === "free"){
+          if(btnSave) btnSave.disabled = true;
+          if(btnClearRoom) btnClearRoom.disabled = true;
+        }
+      }
+
+      function loadArcana(){
+        try{
+          const raw = localStorage.getItem(KEY_ARCANA);
+          if(!raw) return { clavis:[], pecunia:[], medica:[], vitae:[] };
+          const parsed = JSON.parse(raw);
+          return {
+            clavis: Array.isArray(parsed.clavis) ? parsed.clavis : [],
+            pecunia: Array.isArray(parsed.pecunia) ? parsed.pecunia : [],
+            medica: Array.isArray(parsed.medica) ? parsed.medica : [],
+            vitae: Array.isArray(parsed.vitae) ? parsed.vitae : []
+          };
+        }catch(e){
+          return { clavis:[], pecunia:[], medica:[], vitae:[] };
+        }
+      }
+
+      function saveArcana(){
+        try{
+          localStorage.setItem(KEY_ARCANA, JSON.stringify(state));
+        }catch(e){}
+      }
+
+      function formatTime(ts){
+        const d = new Date(ts);
+        if(isNaN(d.getTime())) return "";
+        return d.toLocaleTimeString("cs-CZ", { hour:"2-digit", minute:"2-digit" });
+      }
+
+      function formatRelDate(ts){
+        const d = new Date(ts);
+        if(isNaN(d.getTime())) return "";
+        const now = new Date();
+        const sameDay =
+          d.getFullYear() === now.getFullYear() &&
+          d.getMonth() === now.getMonth() &&
+          d.getDate() === now.getDate();
+        if(sameDay) return "dnes " + formatTime(ts);
+        return d.toLocaleDateString("cs-CZ", { day:"2-digit", month:"2-digit" });
+      }
+
+      function renderEntries(){
+        if(!entriesList) return;
+        const list = state[activeRoom] || [];
+        if(!list.length){
+          entriesList.innerHTML =
+            '<li class="entries-empty">Ještě tu nic není. Zkus zapsat první věc, ať trezor dýchne.</li>';
+          return;
+        }
+
+        const items = list
+          .slice()
+          .sort((a,b) => (b.createdAt||0) - (a.createdAt||0))
+          .map(entry => {
+            const title = entry.publicLabel && entry.publicLabel.trim()
+              ? entry.publicLabel.trim()
+              : "(bez názvu)";
+            const note = entry.secretNote && entry.secretNote.trim()
+              ? entry.secretNote.trim()
+              : "";
+            const when = entry.createdAt || Date.now();
+            const rel = formatRelDate(when);
+            const time = formatTime(when);
+            const stamp = rel ? (time ? rel : rel) : "";
+            const safeNote = note.replace(/\s+/g," ").slice(0,120);
+            return (
+              '<li class="entry">' +
+                '<div class="entry-main">' +
+                  '<div class="entry-title">' + escapeHtml(title) + '</div>' +
+                  (safeNote
+                    ? '<div class="entry-note">' + escapeHtml(safeNote) + (note.length > safeNote.length ? "…" : "") + '</div>'
+                    : '<div class="entry-note" style="opacity:.55;">(bez soukromého detailu)</div>'
+                  ) +
+                '</div>' +
+                '<time class="entry-time" datetime="">' + escapeHtml(stamp) + '</time>' +
+              '</li>'
+            );
+          })
+          .join("");
+
+        entriesList.innerHTML = items;
+      }
+
+      function escapeHtml(str){
+        return String(str)
+          .replace(/&/g,"&amp;")
+          .replace(/</g,"&lt;")
+          .replace(/>/g,"&gt;")
+          .replace(/"/g,"&quot;")
+          .replace(/'/g,"&#39;");
+      }
+
+      function applyRoom(room){
+        if(!ROOM_META[room]) room = "clavis";
+        activeRoom = room;
+
+        roomButtons.forEach(btn=>{
+          const r = btn.getAttribute("data-room");
+          const active = r === room;
+          btn.classList.toggle("is-active", active);
+          btn.setAttribute("aria-selected", active ? "true" : "false");
+        });
+
+        const meta = ROOM_META[room];
+        if(roomLabel) roomLabel.textContent = meta.label;
+        if(roomTitle) roomTitle.textContent = meta.title;
+        if(roomStatus) roomStatus.textContent = meta.status;
+        if(formNote) formNote.textContent = meta.formNote;
+
+        // placeholder pro různé místnosti
+        if(inputPublic){
+          if(room === "medica"){
+            inputPublic.placeholder = "např. Kontrola u psychiatra / Kontrola OCD léků";
+          }else if(room === "pecunia"){
+            inputPublic.placeholder = "např. Mimořádná platba nájem / Nedoplatek energie";
+          }else if(room === "vitae"){
+            inputPublic.placeholder = "např. Občanka – konec platnosti / Pas – ověření platnosti";
+          }else{
+            inputPublic.placeholder = "např. „heslo k e-mailu“ (bez samotného hesla)";
+          }
+        }
+
+        renderEntries();
+      }
+
+      // --- Stav ---
+      let plan = readStoredPlan();
+      const state = loadArcana();
+      let activeRoom = "clavis";
+
+      updatePlanUI(plan);
+      applyRoom(activeRoom);
+
+      // --- Události ---
+
+      if(roomsGrid){
+        roomsGrid.addEventListener("click", function(e){
+          const btn = e.target.closest(".room-btn");
+          if(!btn) return;
+          const room = btn.getAttribute("data-room");
+          if(!room) return;
+          if(btn.dataset.locked === "true"){
+            showToast("ARCANA", "Tahle část trezoru by byla odemčená až v PREMIUM.", 4200);
+            return;
+          }
+          applyRoom(room);
+        });
+      }
+
+      if(entryForm){
+        entryForm.addEventListener("submit", function(e){
+          e.preventDefault();
+
+          plan = readStoredPlan();
+          if(normalizePlan(plan) === "free"){
+            showToast("ARCANA", "V FREE demu je trezor spíš ukázka. Přepni v Arcana bráně na PLUS nebo PREMIUM.", 5200);
+            return;
+          }
+
+          const label = (inputPublic && inputPublic.value || "").trim();
+          const note  = (inputSecret && inputSecret.value || "").trim();
+
+          if(!label && !note){
+            showToast("ARCANA", "Napiš aspoň krátký název nebo soukromý detail. Jinak by to byl prázdný zápis.", 5200);
+            return;
+          }
+
+          const now = Date.now();
+          const entry = {
+            id: "arc_" + now,
+            room: activeRoom,
+            publicLabel: label,
+            secretNote: note,
+            createdAt: now
+          };
+
+          if(!state[activeRoom]) state[activeRoom] = [];
+          state[activeRoom].push(entry);
+          saveArcana();
+          renderEntries();
+
+          if(inputPublic) inputPublic.value = "";
+          if(inputSecret) inputSecret.value = "";
+
+          if(activeRoom === "clavis"){
+            showToast("CLAVIS", "Zapsáno v trezoru. Skutečné heslo si nech dál v hlavě nebo ve správci hesel, ne tady.", 6200);
+          }else{
+            if(normalizePlan(plan) === "premium"){
+              showToast(
+                "ARCANA",
+                "Zapsáno v trezoru. V ostré PREMIUM verzi by se z toho udělal jemný přepis do Chronica.",
+                7000
+              );
+            }else{
+              showToast(
+                "ARCANA",
+                "Zapsáno v trezoru. V PREMIUM by se z takového zápisu dělaly bezpečné připomínky v Chronica.",
+                7000
+              );
+            }
+          }
+        });
+      }
+
+      if(btnClearRoom){
+        btnClearRoom.addEventListener("click", function(){
+          const list = state[activeRoom] || [];
+          if(!list.length){
+            showToast("ARCANA", "Tahle místnost je prázdná, není co mazat.", 3800);
+            return;
+          }
+          state[activeRoom] = [];
+          saveArcana();
+          renderEntries();
+          showToast("ARCANA", "Místnost vyčištěná. V demu je mazání definitivní.", 4800);
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>
