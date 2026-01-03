@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="cs">
+<head>
+ 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg0:#020914;
+      --bg1:#031320;
+      --bg2:#02263a;
+
+      --ink:rgba(255,255,255,.96);
+      --ink2:rgba(255,255,255,.8);
+      --muted:rgba(255,255,255,.68);
+
+      --card:rgba(5,12,25,.94);
+      --card-soft:rgba(9,20,40,.98);
+      --border:rgba(148,227,255,.35);
+      --border-soft:rgba(148,227,255,.18);
+      --shadow:0 26px 80px rgba(0,0,0,.86);
+
+      --accent:#22c1af;
+      --accent-soft:rgba(34,193,175,.18);
+      --accent-strong:#0ea5e9;
+      --danger:#f97373;
+      --danger-soft:rgba(248,113,113,.2);
+
+      --radius:22px;
+      --max-width:1040px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 780px at 10% 8%, rgba(96,165,250,.25), transparent 60%),
+        radial-gradient(980px 720px at 85% 18%, rgba(45,212,191,.2), transparent 62%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 45%, var(--bg2));
+    }
+
+    a{color:#bfdbfe}
+    a:hover{color:#e0f2fe}
+
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:24px 16px 40px;
+    }
+
+    .shell{
+      width:min(100%, var(--max-width));
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:16px;
+      gap:12px;
+      font-size:13px;
+    }
+
+    .backlink{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.45);
+      text-decoration:none;
+      color:#e5e7eb;
+      background:rgba(15,23,42,.7);
+    }
+    .backlink:hover{
+      border-color:#e5e7eb;
+      background:rgba(15,23,42,.9);
+    }
+
+    .bonus-pill{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      border:1px dashed rgba(249,250,251,.5);
+      background:linear-gradient(90deg,rgba(34,197,235,.2),rgba(45,212,191,.08));
+      color:#e0f2fe;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    main.card{
+      background:var(--card);
+      border-radius:24px;
+      border:1px solid var(--border-soft);
+      box-shadow:var(--shadow);
+      padding:22px 20px 24px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    header.hero{
+      margin-bottom:18px;
+    }
+    header.hero h1{
+      font-family:"Cinzel",serif;
+      font-size:1.6rem;
+      letter-spacing:.03em;
+      margin:0 0 6px;
+      display:flex;
+      align-items:baseline;
+      gap:8px;
+    }
+    header.hero h1 span.emoji{
+      font-size:1.4rem;
+    }
+
+    .hero-sub{
+      margin:0 0 10px;
+      font-size:.96rem;
+      color:var(--ink2);
+      max-width:60ch;
+    }
+
+    .plan-strip{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    .plan-chip{
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,227,255,.5);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+    }
+
+    .plan-hint{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .map-locked{
+      margin-top:6px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px dashed var(--danger-soft);
+      background:rgba(15,23,42,.92);
+      font-size:12.5px;
+      color:#fecaca;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0, 320px) minmax(0, 1fr);
+      gap:22px;
+      margin-top:10px;
+      align-items:flex-start;
+    }
+
+    .map-figure{
+      background:var(--card-soft);
+      border-radius:20px;
+      border:1px solid rgba(148,227,255,.26);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .map-figure img{
+      width:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .map-caption{
+      padding:8px 10px 10px;
+      font-size:12px;
+      color:var(--muted);
+      background:linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,1));
+    }
+
+    .map-tag{
+      position:absolute;
+      top:10px;
+      left:10px;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:11px;
+      background:rgba(15,23,42,.8);
+      border:1px solid rgba(148,227,255,.6);
+      color:#e0f2fe;
+    }
+
+    .right{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card-block{
+      background:radial-gradient(900px 600px at 0 0,rgba(56,189,248,.22),transparent 60%),
+                 radial-gradient(820px 560px at 100% 0,rgba(45,212,191,.18),transparent 62%),
+                 rgba(6,14,32,.96);
+      border-radius:18px;
+      padding:12px 12px 14px;
+      border:1px solid rgba(148,227,255,.28);
+    }
+
+    .card-block h2{
+      font-size:1rem;
+      margin:0 0 4px;
+    }
+    .card-block p{
+      margin:0 0 8px;
+      font-size:13px;
+      color:var(--ink2);
+    }
+
+    .trip-types{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin:6px 0 8px;
+    }
+
+    .chip-option{
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:12px;
+      border:1px solid rgba(148,227,255,.35);
+      background:rgba(15,23,42,.85);
+      color:#e5e7eb;
+      cursor:pointer;
+    }
+    .chip-option.active{
+      background:var(--accent-soft);
+      border-color:var(--accent);
+      color:#e0f2fe;
+    }
+
+    .trip-form{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:flex-end;
+      margin-bottom:4px;
+    }
+
+    .field-inline{
+  margin-top: 10px;
+}
+
+.save-btn{
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+
+  background: #111827;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, .25);
+  transition: transform .08s ease, box-shadow .08s ease, background .12s ease;
+}
+
+.save-btn:hover{
+  background: #020617;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .3);
+  transform: translateY(-1px);
+}
+
+.save-btn:active{
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(15, 23, 42, .2);
+}
+
+.save-hint{
+  font-size: 12px;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+.save-hint.ok{
+  color: #047857; /* zelená „OK“ */
+}
+
+.save-hint.error{
+  color: #b91c1c; /* červená „něco se nepovedlo“ */
+}
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+      font-size:12px;
+      min-width:120px;
+      flex:1 1 140px;
+    }
+    .field label{
+      color:var(--muted);
+    }
+    .field input{
+      border-radius:10px;
+      border:1px solid rgba(148,227,255,.45);
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      padding:5px 8px;
+      font-size:13px;
+    }
+
+    .trip-note{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    .checklist{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      gap:10px;
+      margin-top:4px;
+      font-size:13px;
+    }
+
+    .checklist-group{
+      background:rgba(15,23,42,.96);
+      border-radius:14px;
+      padding:8px 10px 10px;
+      border:1px solid rgba(148,227,255,.16);
+    }
+
+    .checklist-group h3{
+      margin:0 0 4px;
+      font-size:12.5px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:#bae6fd;
+    }
+
+    .item{
+      display:flex;
+      align-items:flex-start;
+      gap:6px;
+      margin:2px 0;
+    }
+
+    .item input[type="checkbox"]{
+      margin-top:2px;
+      accent-color:var(--accent);
+    }
+
+    .item label{
+      font-size:12.5px;
+      color:var(--ink2);
+    }
+
+    .status-strip{
+      margin-top:6px;
+      font-size:12.5px;
+      color:#bbf7d0;
+      padding:6px 8px;
+      border-radius:999px;
+      background:rgba(22,163,74,.12);
+      border:1px solid rgba(22,163,74,.35);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .status-strip span.badge{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      border-radius:999px;
+      padding:3px 8px;
+      background:rgba(21,128,61,.85);
+      color:#ecfdf5;
+    }
+
+    .tiny{
+      margin-top:8px;
+      font-size:11.5px;
+      color:var(--muted);
+    }
+
+    /* Datum + čas – mini kalendář + čas pod políčky */
+    .pseudo-input{
+      width:100%;
+      text-align:left;
+      border-radius:10px;
+      border:1px solid rgba(148,227,255,.45);
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      padding:6px 9px;
+      font-size:13px;
+      cursor:pointer;
+    }
+
+    .mini-calendar,
+    .mini-times{
+      margin-top:6px;
+      border-radius:12px;
+      border:1px solid rgba(148,227,255,.26);
+      background:rgba(15,23,42,.96);
+      padding:6px 8px 8px;
+      font-size:11px;
+      max-width:240px;
+    }
+
+    .mini-calendar-head,
+    .mini-times-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-weight:500;
+      color:#e0f2fe;
+      margin-bottom:4px;
+      gap:4px;
+    }
+
+    .mini-calendar-head span{
+      flex:1;
+      text-align:center;
+      font-size:11.5px;
+    }
+
+    .cal-nav{
+      border:none;
+      background:transparent;
+      color:#9ca3af;
+      font-size:13px;
+      padding:0 4px;
+      cursor:pointer;
+    }
+
+    .mini-calendar-grid{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:2px;
+    }
+
+    .mini-calendar-grid button{
+      border:none;
+      border-radius:7px;
+      padding:3px 0;
+      font-size:10px;
+      background:rgba(15,23,42,.9);
+      color:#9ca3af;
+      cursor:pointer;
+    }
+
+    .mini-cal-dayhead{
+      background:transparent !important;
+      color:#9ca3af !important;
+      font-weight:600;
+      cursor:default;
+    }
+
+    .mini-cal-empty{
+      background:transparent;
+      border:none;
+    }
+
+    .mini-calendar-grid button.is-day{
+      color:#e5e7eb;
+    }
+
+    .mini-calendar-grid button.today{
+      border:1px solid var(--accent);
+    }
+
+    .mini-calendar-grid button.selected{
+      background:var(--accent-soft);
+      color:#e0f2fe;
+      border-color:var(--accent-strong);
+    }
+
+    .time-chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:5px;
+      margin-top:2px;
+    }
+
+    .time-chips button{
+      border-radius:999px;
+      border:1px solid rgba(148,227,255,.35);
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      font-size:11px;
+      padding:3px 8px;
+      cursor:pointer;
+    }
+
+    .time-chips button.active{
+      background:var(--accent-soft);
+      border-color:var(--accent);
+      color:#e0f2fe;
+    }
+
+    /* Zamčený režim pro FREE/PLUS */
+    .card.locked{
+      position:relative;
+    }
+    .card.locked::after{
+      content:"PREMIUM bonus – v demu jen náhled. Skutečné šablony a ukládání budou v ostré verzi.";
+      position:absolute;
+      inset:auto 12px 10px 12px;
+      border-radius:14px;
+      padding:6px 9px;
+      font-size:11px;
+      text-align:center;
+      background:linear-gradient(90deg,rgba(15,23,42,.96),rgba(39,39,42,.96));
+      color:#fbbf24;
+      border:1px dashed rgba(251,191,36,.7);
+    }
+
+    .card.locked .card-block,
+    .card.locked .map-figure{
+      opacity:.55;
+      pointer-events:none;
+    }
+
+    @media (max-width:840px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width:640px){
+      main.card{
+        padding:18px 14px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="shell">
+    <div class="topbar">
+      <a class="backlink" href="proiecta-projekty.html">
+        <span>⬅︎</span>
+        <span>Zpět</span>
+      </a>
+      <div class="bonus-pill">
+        <span>🎊 Bonusová místnost</span>
+        <span>Mapa výprav</span>
+      </div>
+    </div>
+
+    <main class="card" id="mapCard">
+      <header class="hero">
+        <h1><span class="emoji">🗺️</span><span>Mapa výprav • cestovní velín</span></h1>
+        <p class="hero-sub">
+          Místnost pro chvíle, kdy vyrážíš z domu – na dovolenou, výlet, k doktorovi nebo na pracovní schůzku –
+          a nechceš stát u dveří s jednou ponožkou, prázdnou peněženkou a bušícím srdcem.
+        </p>
+
+        <div class="plan-strip">
+          <span id="mapPlanChip" class="plan-chip">DEMO · FREE tarif</span>
+          <span id="mapPlanHint" class="plan-hint">
+            V DEMO režimu si můžeš vyzkoušet balicí checklist a náladu místnosti. Plná verze se otevírá v tarifu PREMIUM.
+          </span>
+        </div>
+
+        <div id="mapLockedInfo" class="map-locked" hidden>
+          Tohle je <strong>PREMIUM bonus</strong>. V demu si můžeš vše jen „osahat“,
+          skutečné ukládání výprav a chytré šablony budou až v ostré verzi.
+        </div>
+      </header>
+
+      <section class="layout" aria-label="Mapa výprav a balicí checklist">
+        <!-- Levá strana – obrázek mapy -->
+        <figure class="map-figure">
+          <div class="map-tag">Ukázková mapa výprav</div>
+          <img src="map.png" alt="Ilustrační mapa města s řekou, lesem a cestami – hravý pohled na plánování výprav." />
+          <figcaption class="map-caption">
+            Každá výprava má svůj směr: domov, cesta, cíl a bezpečný návrat.
+            V plné verzi sem jednou dokreslíme tvoje vlastní „trasy“.
+          </figcaption>
+        </figure>
+
+        <!-- Pravá strana – typ výpravy + checklist -->
+        <div class="right">
+          <section class="card-block" aria-labelledby="tripTypeHeading">
+            <h2 id="tripTypeHeading">1 • Jaká výprava tě čeká?</h2>
+            <p>
+              Vyber typ – dovolená, výlet, doktor, pracovní schůzka nebo něco úplně svého.
+              Podle toho ti dám jinou malou větu do hlavy.
+            </p>
+
+            <div class="trip-types" id="tripTypes">
+              <button type="button" class="chip-option active" data-kind="dovolena">🏖 Dovolená</button>
+              <button type="button" class="chip-option" data-kind="vylet">🌲 Výlet</button>
+              <button type="button" class="chip-option" data-kind="doktor">🩺 Doktor</button>
+              <button type="button" class="chip-option" data-kind="prace">💼 Pracovní schůzka</button>
+              <button type="button" class="chip-option" data-kind="jine">✨ Něco jiného</button>
+            </div>
+
+            <div class="trip-form">
+              <div class="field">
+                <label for="tripDateDisplay">Datum</label>
+                <button type="button" id="tripDateDisplay" class="pseudo-input">
+                  Vybrat den na mapě →
+                </button>
+
+                <div class="mini-calendar" aria-label="Výběr dne výpravy">
+                  <div class="mini-calendar-head">
+                    <button type="button" class="cal-nav" id="calPrev" aria-label="Předchozí měsíc">‹</button>
+                    <span id="calMonthLabel">Měsíc</span>
+                    <button type="button" class="cal-nav" id="calNext" aria-label="Další měsíc">›</button>
+                  </div>
+                  <div class="mini-calendar-grid" id="calGrid"></div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="tripTimeDisplay">Čas odchodu</label>
+                <button type="button" id="tripTimeDisplay" class="pseudo-input">
+                  Zatím neurčeno
+                </button>
+
+                <div class="mini-times" aria-label="Výběr přibližného času">
+                  <div class="mini-times-head">Vyber přibližný čas</div>
+                  <div class="time-chips" id="timeChips">
+                    <button type="button" data-time="Ráno 7–10">🌅 Ráno</button>
+                    <button type="button" data-time="Dopoledne 10–12">☀️ Dopoledne</button>
+                    <button type="button" data-time="Odpoledne 13–17">🌤 Odpoledne</button>
+                    <button type="button" data-time="Večer 18–22">🌙 Večer</button>
+                    <button type="button" data-time="Kdykoliv, podle pocitu">✨ Kdykoliv</button>
+                  </div>
+                </div>
+              </div>
+
+                <div class="field field-inline">
+              <button type="button" id="btnSaveTrip" class="save-btn">
+                💾 Uložit výpravu (DEMO)
+              </button>
+              <div class="save-hint" id="tripSaveHint">
+                Uloží jen do tohoto prohlížeče – na klid u dveří.
+              </div>
+            </div>
+
+              <div class="field">
+                <label for="tripPlace">Kam vyrážíš</label>
+                <input id="tripPlace" type="text" placeholder="např. Klinika / letiště / Praha" />
+              </div>
+            </div>
+
+            <div class="trip-note" id="tripNote">
+              Dovolená mód: tvůj úkol je dorazit v celku. Všechno ostatní je bonus.
+            </div>
+          </section>
+
+          <section class="card-block" aria-labelledby="checklistHeading">
+            <h2 id="checklistHeading">2 • Balící checklist – vážné věci v hravé formě</h2>
+            <p>
+              Zaškrtni, co máš připravené. Nejde o výkon, jde o klid u dveří.
+            </p>
+
+            <div class="checklist" id="checklist">
+              <div class="checklist-group">
+                <h3>Doklady & peníze</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-id" data-label="Občanka / pas">
+                  <label for="item-id">Občanka / pas</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-ins" data-label="Karta pojištěnce / kartička k doktorovi">
+                  <label for="item-ins">Karta pojištěnce / kartička k doktorovi</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-money" data-label="Peněženka (karty + hotovost)">
+                  <label for="item-money">Peněženka (karty + hotovost)</label>
+                </div>
+              </div>
+
+              <div class="checklist-group">
+                <h3>Tělo & zdraví</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-meds" data-label="Pravidelné léky">
+                  <label for="item-meds">Pravidelné léky (to, bez čeho to nejde)</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-water" data-label="Voda / pití">
+                  <label for="item-water">Voda / pití na cestu</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-snack" data-label="Lehká svačina">
+                  <label for="item-snack">Lehká svačina, ať neomdlíš hlady</label>
+                </div>
+              </div>
+
+              <div class="checklist-group">
+                <h3>Technika</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-phone" data-label="Telefon">
+                  <label for="item-phone">Telefon (a ideálně nabitý 😅)</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-charger" data-label="Nabíječka / powerbanka">
+                  <label for="item-charger">Nabíječka / powerbanka</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-docs" data-label="Důležité e-maily / dokumenty v telefonu">
+                  <label for="item-docs">Důležité e-maily / dokumenty v telefonu</label>
+                </div>
+              </div>
+
+              <div class="checklist-group">
+                <h3>Domov</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-keys" data-label="Klíče od bytu / auta">
+                  <label for="item-keys">Klíče od bytu / auta</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-windows" data-label="Zavřená okna / vypnutá plotýnka">
+                  <label for="item-windows">Okna, sporák, svíčky – mrknout a mít klid</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-pet" data-label="Zajištěné zvířátko / krmení">
+                  <label for="item-pet">Zajištěné zvířátko / krmení (když odcházíš na déle)</label>
+                </div>
+              </div>
+
+              <div class="checklist-group">
+                <h3>Pro duši</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-paper" data-label="Papírek s adresou / důležitým kontaktem">
+                  <label for="item-paper">Malý papírek s adresou / kontaktem „kdyby něco“</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-comfort" data-label="Drobný talisman / kapesník">
+                  <label for="item-comfort">Drobný talisman / kapesník – něco, co tě uklidňuje</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-note" data-label="Krátká věta na uklidnění">
+                  <label for="item-note">Krátká věta na uklidnění v hlavě („Jdu připravená, zbytek doladíme na místě“)</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="status-strip" id="statusStrip">
+              <span class="badge">Stav výpravy</span>
+              <span id="statusText">Zatím nic nezaškrtnuto. To je v pohodě – teprve začínáme chystat batoh.</span>
+            </div>
+
+            <p class="tiny">
+  V DEMO verzi se výprava ukládá jen do tohoto prohlížeče – aby sis ji mohla v klidu připravit.
+  Velká paměť paláce a napojení na Chronica / Sigma přijde až v ostré verzi.
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // --- výběr typu výpravy ---
+    const typeButtons = Array.from(document.querySelectorAll(".chip-option"));
+    const noteEl = document.getElementById("tripNote");
+
+    const notesByKind = {
+      dovolena: "Dovolená mód: tvůj úkol je dorazit v celku. Všechno ostatní je bonus.",
+      vylet: "Výlet mód: nejdůležitější je vrátit se domů unavená příjemně, ne vyčerpaná.",
+      doktor: "Doktor mód: tvůj úkol je dorazit včas a v co největším klidu. Zbytek je na doktorech.",
+      prace: "Pracovní mód: papíry a argumenty máš. Teď se jen postarat, aby tě cestou nic nerozhodilo.",
+      jine: "Speciální výprava: nemusí být perfektní. Stačí dost dobrá a zvládnutelná."
+    };
+
+    typeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        typeButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const kind = btn.getAttribute("data-kind");
+        if(noteEl && notesByKind[kind]){
+          noteEl.textContent = notesByKind[kind];
+        }
+      });
+    });
+
+    // --- checklist – počítání zaškrtnutých položek ---
+    const statusText = document.getElementById("statusText");
+    const checkboxes = Array.from(document.querySelectorAll(".checklist input[type='checkbox']"));
+
+    function updateStatus(){
+      const total = checkboxes.length;
+      let checked = 0;
+      checkboxes.forEach(cb => { if(cb.checked) checked++; });
+
+      if(!statusText) return;
+
+      if(checked === 0){
+        statusText.textContent = "Zatím nic nezaškrtnuto. To je v pohodě – teprve začínáme chystat batoh.";
+      }else if(checked < total / 2){
+        statusText.textContent = `První kroky hotové (${checked} z ${total}). Pořád je čas cokoli doplnit bez paniky.`;
+      }else if(checked < total){
+        statusText.textContent = `Jsi téměř připravená (${checked} z ${total}). Zbývá pár drobností na klid duše.`;
+      }else{
+        statusText.textContent = "Checklist je plný. Teď už nejde o věci – jen o to, aby ses cestou nezapomněla nadechnout.";
+      }
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", updateStatus);
+    });
+    updateStatus();
+
+    // --- mini kalendář a časovač ---
+    const dateDisplay = document.getElementById("tripDateDisplay");
+    const calGrid = document.getElementById("calGrid");
+    const calMonthLabel = document.getElementById("calMonthLabel");
+    const calPrev = document.getElementById("calPrev");
+    const calNext = document.getElementById("calNext");
+    const today = new Date();
+    let calRef = new Date(); // měsíc, ve kterém se zrovna díváme
+
+    function buildCalendar(){
+      if(!calGrid || !calMonthLabel) return;
+      calGrid.innerHTML = "";
+
+      const year = calRef.getFullYear();
+      const month = calRef.getMonth(); // 0–11
+      const monthNames = ["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"];
+      const dayNames = ["Po","Út","St","Čt","Pá","So","Ne"];
+
+      calMonthLabel.textContent = `${monthNames[month]} ${year}`;
+
+      // hlavička dnů
+      dayNames.forEach(d => {
+        const h = document.createElement("button");
+        h.type = "button";
+        h.textContent = d;
+        h.className = "mini-cal-dayhead";
+        h.disabled = true;
+        calGrid.appendChild(h);
+      });
+
+      const first = new Date(year, month, 1);
+      const startIdx = (first.getDay() + 6) % 7; // Po = 0
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const isThisMonth = year === today.getFullYear() && month === today.getMonth();
+      const todayDate = today.getDate();
+
+      // prázdné buňky před 1.
+      for(let i = 0; i < startIdx; i++){
+        const empty = document.createElement("button");
+        empty.type = "button";
+        empty.disabled = true;
+        empty.className = "mini-cal-empty";
+        calGrid.appendChild(empty);
+      }
+
+      // dny v měsíci
+      for(let d = 1; d <= daysInMonth; d++){
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = String(d);
+        btn.classList.add("is-day");
+        if(isThisMonth && d === todayDate) btn.classList.add("today");
+        btn.dataset.date = `${d}.${month+1}.${year}`;
+        calGrid.appendChild(btn);
+      }
+    }
+
+    function handleCalendarClick(e){
+      const btn = e.target.closest("button.is-day");
+      if(!btn || !calGrid) return;
+      const all = calGrid.querySelectorAll("button.is-day");
+      all.forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      const value = btn.dataset.date;
+      if(dateDisplay && value){
+        dateDisplay.textContent = value;
+      }
+    }
+
+    if(calGrid){
+      calGrid.addEventListener("click", handleCalendarClick);
+      buildCalendar();
+    }
+
+    if(calPrev){
+      calPrev.addEventListener("click", () => {
+        calRef.setMonth(calRef.getMonth() - 1);
+        buildCalendar();
+      });
+    }
+    if(calNext){
+      calNext.addEventListener("click", () => {
+        calRef.setMonth(calRef.getMonth() + 1);
+        buildCalendar();
+      });
+    }
+
+    const timeDisplay = document.getElementById("tripTimeDisplay");
+    const timeChips = Array.from(document.querySelectorAll("#timeChips button"));
+
+    timeChips.forEach(btn => {
+      btn.addEventListener("click", () => {
+        timeChips.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const t = btn.getAttribute("data-time");
+        if(timeDisplay && t){
+          timeDisplay.textContent = t;
+        }
+      });
+    });
+
+        // --- demo ukládání jedné výpravy do localStorage ---
+    const TRIP_KEY = "LM_MAP_TRIP_DEMO_V1";
+
+    const tripPlaceInput = document.getElementById("tripPlace");
+    const saveBtn = document.getElementById("btnSaveTrip");
+    const saveHint = document.getElementById("tripSaveHint");
+
+    function currentKind(){
+      const active = document.querySelector(".chip-option.active");
+      return active ? (active.getAttribute("data-kind") || "jine") : "jine";
+    }
+
+    function collectChecklistState(){
+      const state = {};
+      checkboxes.forEach(cb => {
+        const id = cb.id || cb.getAttribute("data-label") || "";
+        if(!id) return;
+        state[id] = !!cb.checked;
+      });
+      return state;
+    }
+
+    function applyChecklistState(data){
+      if(!data) return;
+      checkboxes.forEach(cb => {
+        const id = cb.id || cb.getAttribute("data-label") || "";
+        if(!id) return;
+        cb.checked = !!data[id];
+      });
+      updateStatus();
+    }
+
+    function saveTrip(){
+      if(!window.localStorage || !saveHint) return;
+
+      const dateText = dateDisplay ? (dateDisplay.textContent || "").trim() : "";
+      const timeText = timeDisplay ? (timeDisplay.textContent || "").trim() : "";
+      const place = tripPlaceInput ? (tripPlaceInput.value || "").trim() : "";
+
+      const payload = {
+        kind: currentKind(),
+        dateText,
+        timeText,
+        place,
+        checklist: collectChecklistState(),
+        savedAt: Date.now()
+      };
+
+      try{
+        localStorage.setItem(TRIP_KEY, JSON.stringify(payload));
+        saveHint.textContent = "Uloženo pro tuhle výpravu (v demu jen v tomto prohlížeči).";
+        saveHint.classList.remove("error");
+        saveHint.classList.add("ok");
+      }catch(_){
+        saveHint.textContent = "Nepovedlo se uložit. Ber to pořád jako demíčko, ne selhání.";
+        saveHint.classList.remove("ok");
+        saveHint.classList.add("error");
+      }
+    }
+
+    function loadTrip(){
+      if(!window.localStorage) return;
+
+      try{
+        const raw = localStorage.getItem(TRIP_KEY);
+        if(!raw) return;
+        const data = JSON.parse(raw);
+        if(!data || typeof data !== "object") return;
+
+        // typ výpravy
+        if(data.kind && typeButtons.length){
+          typeButtons.forEach(btn => {
+            const k = btn.getAttribute("data-kind");
+            btn.classList.toggle("active", k === data.kind);
+          });
+          if(noteEl && notesByKind[data.kind]){
+            noteEl.textContent = notesByKind[data.kind];
+          }
+        }
+
+        // datum & čas & místo
+        if(dateDisplay && data.dateText){
+          dateDisplay.textContent = data.dateText;
+        }
+        if(timeDisplay && data.timeText){
+          timeDisplay.textContent = data.timeText;
+          timeChips.forEach(btn => {
+            const t = btn.getAttribute("data-time");
+            btn.classList.toggle("active", t === data.timeText);
+          });
+        }
+        if(tripPlaceInput && typeof data.place === "string"){
+          tripPlaceInput.value = data.place;
+        }
+
+        // checklist
+        if(data.checklist){
+          applyChecklistState(data.checklist);
+        }
+      }catch(_){
+        // ignorujeme – je to jen demo
+      }
+    }
+
+    if(saveBtn){
+      saveBtn.addEventListener("click", saveTrip);
+    }
+
+    // při prvním načtení zkus načíst poslední výpravu
+    loadTrip();
+
+    // --- plán z localStorage (FREE / PLUS / PREMIUM) ---
+    const chip = document.getElementById("mapPlanChip");
+    const hint = document.getElementById("mapPlanHint");
+    const lockedInfo = document.getElementById("mapLockedInfo");
+    const card = document.getElementById("mapCard");
+
+    let plan = "FREE";
+    try{
+      const raw = localStorage.getItem("lm_plan");
+      if(raw){
+        const up = String(raw).toUpperCase();
+        if(["FREE","PLUS","PREMIUM"].includes(up)){
+          plan = up;
+        }
+      }
+    }catch(_){}
+
+    if(chip){
+      if(plan === "PREMIUM"){
+        chip.textContent = "DEMO · PREMIUM tarif";
+      }else if(plan === "PLUS"){
+        chip.textContent = "DEMO · PLUS tarif";
+      }else{
+        chip.textContent = "DEMO · FREE tarif";
+      }
+    }
+
+    if(hint){
+      if(plan === "PREMIUM"){
+        hint.textContent = "PREMIUM: cestovní velín si můžeš v ostré verzi nechat ukládat do paměti. Tady zatím jen trénujeme pocit klidu.";
+      }else if(plan === "PLUS"){
+        hint.textContent = "PLUS: máš rozšířené možnosti v Proiecta. Plný cestovní velín s ukládáním výprav se otevře v tarifu PREMIUM.";
+      }else{
+        hint.textContent = "FREE: ukázka, jak může vypadat balicí checklist a psychická příprava. Plná verze patří vyšším tarifům.";
+      }
+    }
+
+    if(plan !== "PREMIUM"){
+      if(lockedInfo) lockedInfo.hidden = false;
+      if(card) card.classList.add("locked");
+    }
+  })();
+</script>
+</body>
+</html>
