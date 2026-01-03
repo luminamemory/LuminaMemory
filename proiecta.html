@@ -488,6 +488,22 @@
       padding: 0 4px;
     }
 
+/* Kartičky na odkládacím stole – mobilní úpravy */
+@media (max-width: 480px) {
+  /* horní řádek kartičky: badge + title + tlačítka */
+  .item .top{
+    flex-direction: column;      /* místo vedle sebe pod sebe */
+    align-items: stretch;
+    gap: 6px;
+    margin-bottom: 8px;          /* víc místa nad textem poznámky */
+  }
+
+  .itemActions{
+    justify-content: flex-start; /* tlačítka doleva, ne natlačená vpravo */
+    row-gap: 4px;
+  }
+}
+
     /* Modals (Lumina style) */
     .modalOverlay{
       position:fixed;
@@ -583,6 +599,23 @@
       .pillrow{ justify-content:flex-start; }
       .grid2{ grid-template-columns: 1fr; }
     }
+
+    /* iPhone landscape – víc prostoru pro chat */
+@media (max-height: 600px) {
+  .studio{
+    height: auto;       /* žádná pevná výška */
+    max-height: none;   /* a ani strop */
+  }
+
+  /* můžeš si pohrát – jen jemné zmenšení stolu */
+  .shelfWrap{
+    margin-top: 10px;
+  }
+
+  .feed{
+    max-height: 200px;  /* menší stůl, víc místa na chat */
+  }
+}
   </style>
 </head>
 
