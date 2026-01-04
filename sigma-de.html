@@ -7,12 +7,35 @@
   <meta name="robots" content="noindex,nofollow">
 
   <style>
-    :root{--bg0:#08031a;--bg1:#17083a;--bg2:#2b0b5a;--ink:rgba(255,255,255,.92);--ink2:rgba(255,255,255,.72);--muted:rgba(255,255,255,.62);--border:rgba(255,255,255,.14);--card:rgba(6,3,20,.80);--shadow:0 24px 80px rgba(0,0,0,.72);--r:22px;}
+    :root{
+  --bg0:#050015;
+  --bg1:#0d0322;
+  --bg2:#050015;
+
+  --ink:rgba(255,255,255,.92);
+  --ink2:rgba(255,255,255,.72);
+  --muted:rgba(255,255,255,.62);
+  --border:rgba(255,255,255,.14);
+  --card:rgba(6,3,20,.80);
+  --shadow:0 24px 80px rgba(0,0,0,.72);
+  --r:22px;
+}
     *{box-sizing:border-box} html,body{height:100%}
-    body{margin:0;font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);
-      background:radial-gradient(1100px 740px at 18% 10%, rgba(184,146,255,.24), transparent 60%),
-      radial-gradient(980px 760px at 86% 25%, rgba(214,170,255,.16), transparent 62%),
-      linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));}
+    body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    /* jemné světlo nahoře vlevo */
+    radial-gradient(1100px 740px at 14% 0%, rgba(184,146,255,.20), transparent 60%),
+    /* jemný nádech nahoře vpravo */
+    radial-gradient(980px 760px at 86% 4%, rgba(214,170,255,.12), transparent 62%),
+    /* ztmavení u dna – zabije proužek */
+    radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.65), transparent 65%),
+    /* plynulý vertikální přechod */
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 42%, var(--bg2) 100%);
+  background-attachment: fixed;
+}
     header{position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
       background:linear-gradient(180deg, rgba(8,3,26,.86), rgba(8,3,26,.35));border-bottom:1px solid rgba(255,255,255,.08);}
     .wrap{max-width:1100px;margin:0 auto;padding:16px 18px;}
