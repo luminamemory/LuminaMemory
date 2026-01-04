@@ -1066,38 +1066,28 @@
     return (p === "free" || p === "plus" || p === "premium") ? p : "free";
   }
 
-  // NOVÉ: bezpečnější čtení tarifu – umí i hodnoty uložené jako "\"PLUS\""
-  function readPlanFromStorageKey(key){
+    function loadPlan(){
     try{
-      const raw = localStorage.getItem(key);
-      if(!raw) return null;
+      // 1) Primárně to, co používá mini-login a Proiecta
+      const direct = localStorage.getItem("lm_plan") || localStorage.getItem(PLAN_KEY);
+      if(direct) return normalizePlan(direct);
 
-      // zkus JSON.parse – pokud je tam '"PLUS"', dostaneme "PLUS"
-      try{
-        const parsed = JSON.parse(raw);
-        if(typeof parsed === "string"){
-          return normalizePlan(parsed);
+      // 2) Starší / alternativní klíč
+      const raw = localStorage.getItem("LM_PLAN");
+      if(raw) return normalizePlan(raw);
+
+      // 3) Tarif z objektu miniLuminaUser (mini-login)
+      const userRaw = localStorage.getItem("miniLuminaUser");
+      if(userRaw){
+        const user = JSON.parse(userRaw);
+        if(user && user.plan){
+          return normalizePlan(user.plan);
         }
-      }catch(_){
-        // není JSON, nevadí
       }
-
-      return normalizePlan(raw);
-    }catch(_){
-      return null;
+    }catch(e){
+      // v případě chyby raději bezpečný default
+      console.warn("Arcana: loadPlan fallback na FREE", e);
     }
-  }
-
-  function loadPlan(){
-    // 1) nový klíč
-    const fromKey = readPlanFromStorageKey(PLAN_KEY);
-    if(fromKey) return fromKey;
-
-    // 2) případné starší / alternativní klíče
-    const legacy = readPlanFromStorageKey("LM_PLAN");
-    if(legacy) return legacy;
-
-    // fallback
     return "free";
   }
 
