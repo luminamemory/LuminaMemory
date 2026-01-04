@@ -8,41 +8,41 @@
 
   <style>
     :root{
-      /* Proiecta – turquoise variant */
-      --bg0:#021015;
-      --bg1:#041c24;
-      --bg2:#05313e;
+  /* sjednocená tmavší tyrkysová rodina */
+  --bg0:#020814;
+  --bg1:#03161d;
+  --bg2:#020814;
 
-      --ink:rgba(255,255,255,.94);
-      --ink2:rgba(255,255,255,.78);
-      --muted:rgba(255,255,255,.68);
-      --muted2:rgba(255,255,255,.55);
+  --ink:rgba(255,255,255,.94);
+  --ink2:rgba(255,255,255,.78);
+  --muted:rgba(255,255,255,.68);
+  --muted2:rgba(255,255,255,.55);
 
-      --border:rgba(148,227,255,.24);
-      --border-soft:rgba(148,227,255,.16);
-      --card:rgba(1,10,16,.88);
-      --shadow:0 26px 80px rgba(0,0,0,.8);
+  --border:rgba(148,227,255,.24);
+  --border-soft:rgba(148,227,255,.16);
+  --card:rgba(1,10,16,.88);
+  --shadow:0 26px 80px rgba(0,0,0,.8);
 
-      --accent:#2dd4bf;
-      --accent-soft:rgba(45,212,191,.18);
-      --accent-strong:#22c1af;
-      --danger:#f97373;
-      --danger-soft:rgba(248,113,113,.18);
-      --demo:#eab308;
-    }
+  --accent:#2dd4bf;
+  --accent-soft:rgba(45,212,191,.18);
+  --accent-strong:#22c1af;
+  --danger:#f97373;
+  --danger-soft:rgba(248,113,113,.18);
+  --demo:#eab308;
+}
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-
-    body{
-      margin:0;
-      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      color:var(--ink);
-      background:
-        radial-gradient(1200px 820px at 10% 0%, rgba(56,189,248,.26), transparent 60%),
-        radial-gradient(1000px 780px at 90% 12%, rgba(45,212,191,.20), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));
-    }
+body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 820px at 10% 0%, rgba(56,189,248,.24), transparent 60%),
+    radial-gradient(1000px 780px at 90% 8%, rgba(45,212,191,.18), transparent 60%),
+    /* tmavý spodek pro celou stránku */
+    radial-gradient(1200px 840px at 50% 120%, rgba(0,0,0,.75), transparent 65%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 42%, var(--bg2) 100%);
+  background-attachment: fixed;
+}
 
     a{color:inherit}
 

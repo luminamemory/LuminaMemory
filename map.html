@@ -8,41 +8,42 @@
 
   <style>
     :root{
-      --bg0:#020914;
-      --bg1:#031320;
-      --bg2:#02263a;
+  --bg0:#020815;
+  --bg1:#03121c;
+  --bg2:#020612;
 
-      --ink:rgba(255,255,255,.96);
-      --ink2:rgba(255,255,255,.8);
-      --muted:rgba(255,255,255,.68);
+  --ink:rgba(255,255,255,.96);
+  --ink2:rgba(255,255,255,.8);
+  --muted:rgba(255,255,255,.68);
 
-      --card:rgba(5,12,25,.94);
-      --card-soft:rgba(9,20,40,.98);
-      --border:rgba(148,227,255,.35);
-      --border-soft:rgba(148,227,255,.18);
-      --shadow:0 26px 80px rgba(0,0,0,.86);
+  --card:rgba(5,12,25,.94);
+  --card-soft:rgba(9,20,40,.98);
+  --border:rgba(148,227,255,.35);
+  --border-soft:rgba(148,227,255,.18);
+  --shadow:0 26px 80px rgba(0,0,0,.86);
 
-      --accent:#22c1af;
-      --accent-soft:rgba(34,193,175,.18);
-      --accent-strong:#0ea5e9;
-      --danger:#f97373;
-      --danger-soft:rgba(248,113,113,.2);
+  --accent:#22c1af;
+  --accent-soft:rgba(34,193,175,.18);
+  --accent-strong:#0ea5e9;
+  --danger:#f97373;
+  --danger-soft:rgba(248,113,113,.2);
 
-      --radius:22px;
-      --max-width:1040px;
-    }
+  --radius:22px;
+  --max-width:1040px;
+}
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      color:var(--ink);
-      background:
-        radial-gradient(1200px 780px at 10% 8%, rgba(96,165,250,.25), transparent 60%),
-        radial-gradient(980px 720px at 85% 18%, rgba(45,212,191,.2), transparent 62%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 45%, var(--bg2));
-    }
+body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 780px at 10% 0%, rgba(96,165,250,.22), transparent 60%),
+    radial-gradient(980px 720px at 85% 6%, rgba(45,212,191,.18), transparent 62%),
+    /* ztmavení dna – zabije proužek */
+    radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.7), transparent 65%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 42%, var(--bg2) 100%);
+  background-attachment: fixed;
+}
 
     a{color:#bfdbfe}
     a:hover{color:#e0f2fe}
