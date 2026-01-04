@@ -351,10 +351,10 @@
     }
 
     .seg button.active{
-      background:linear-gradient(135deg, #b38cff, #f7c6ff);
-      color:#050608;
-      font-weight:600;
-    }
+  background:#f5f5f5;
+  color:#050608;
+  font-weight:600;
+}
 
     .status{
       display:flex;
@@ -456,37 +456,39 @@
     }
 
     .cta-row{
-      margin-top:12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-    }
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+}
 
-    .cta-row small{
-      font-size:10.5px;
-      color:var(--ink-muted);
-    }
+.cta-row small{
+  font-size:11px;
+  color:var(--ink-dim);
+  max-width:260px;
+}
 
-    .btn-unlock{
-      border:0;
+    .btn{
       border-radius:var(--radius-pill);
-      padding:7px 14px 8px;
-      font-size:11.5px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
+      border:1px solid rgba(255,255,255,.2);
+      background:#f5f5f5;
+      color:#050608;
+      padding:8px 12px 9px;
+      font-size:12px;
+      font-weight:600;
       display:inline-flex;
       align-items:center;
       gap:6px;
       cursor:pointer;
-      color:#050608;
-      background:linear-gradient(135deg, #f7c6ff, #b38cff);
-      box-shadow:0 14px 32px rgba(0,0,0,.9);
+      box-shadow:var(--shadow-chip);
+      white-space:nowrap;
     }
 
-    .btn-unlock:disabled{
-      opacity:.45;
-      cursor:not-allowed;
+    .btn:disabled{
+      opacity:.5;
+      cursor:default;
       box-shadow:none;
     }
 
@@ -724,15 +726,13 @@
               <small>
                 In this DEMO the button only simulates entering the Arcana Hall.
               </small>
-              <button type="button" class="btn-unlock" id="unlockBtn">
-                <span>🔒</span><span>Unlock and enter (DEMO)</span>
+              <button class="btn" id="unlockBtn" type="button" disabled>
+                🔒 Unlock and enter (DEMO)
               </button>
             </div>
 
             <div class="main-foot">
               © 2025 LuminaMemory™ · Demo Arcana (gate)
-              <br>
-              <span class="warning">Important:</span> No real encryption or password management runs here.
             </div>
           </div>
         </div>
