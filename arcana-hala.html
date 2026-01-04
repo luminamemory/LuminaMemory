@@ -1019,371 +1019,361 @@
 
 <script>
 (function(){
-  // --- Tarify: čtení stejně jako v Arcaně / Proiectě ---
+  // ===== PLAN – čtení z mini-loginu / Arcany =====
+  const PLAN_RANK = { free: 0, plus: 1, premium: 2 };
 
-function normalizePlan(p){
-  if (!p) return "free";
-  p = String(p).toLowerCase();
-  return (p === "free" || p === "plus" || p === "premium") ? p : "free";
-}
-
-function loadPlan(){
-  try {
-    // 1) hlavní klíč z mini-loginu / Proiecty
-    const fromKey = localStorage.getItem("lm_plan");
-    if (fromKey) return normalizePlan(fromKey);
-
-    // 2) záloha z miniLuminaUser
-    const userRaw = localStorage.getItem("miniLuminaUser");
-    if (userRaw) {
-      const u = JSON.parse(userRaw);
-      if (u && u.plan) return normalizePlan(u.plan);
-    }
-  } catch(e) {
-    // ticho v duši, free jako bezpečný default
+  function normalizePlan(p){
+    if(!p) return "free";
+    p = String(p).toLowerCase();
+    return (p === "free" || p === "plus" || p === "premium") ? p : "free";
   }
-  return "free";
-}
 
-// plán se dál používá jako doteď:
-let plan = loadPlan();
-
-  function loadPlan(){
-    const candidates = [];
+  function readStoredPlan(){
     try{
-      const k1 = localStorage.getItem("lm_plan");
-      const k2 = localStorage.getItem("LM_PLAN");
-      if(k1) candidates.push(k1);
-      if(k2) candidates.push(k2);
+      const fromKey = localStorage.getItem("lm_plan");
+      if(fromKey) return normalizePlan(fromKey);
 
-      const userRaw = localStorage.getItem("miniLuminaUser");
-      if(userRaw){
-        const u = JSON.parse(userRaw);
-        if(u && u.plan) candidates.push(u.plan);
+      const rawUser = localStorage.getItem("miniLuminaUser");
+      if(rawUser){
+        const user = JSON.parse(rawUser);
+        if(user && user.plan) return normalizePlan(user.plan);
       }
-    }catch(e){
-      console.warn("Arcana Hala: loadPlan -> FREE", e);
-    }
-
-    if(!candidates.length) return "free";
-
-    let best = "free";
-    candidates.forEach(val=>{
-      const p = normalizePlan(val);
-      if(PLAN_RANK[p] > PLAN_RANK[best]) best = p;
-    });
-    return best;
+    }catch(e){}
+    return "free";
   }
 
-  function loadJSON(key, fallback){
+  // ===== DOM =====
+  const planBadge   = document.getElementById("planBadge");
+  const planHint    = document.getElementById("planHint");
+  const statusPill  = document.getElementById("statusPill");
+  const lockOverlay = document.getElementById("lockOverlay");
+  const zoneGrid    = document.getElementById("zoneGrid");
+  const zoneCards   = zoneGrid ? Array.from(zoneGrid.querySelectorAll(".zone-card")) : [];
+
+  const activeZoneLabel = document.getElementById("activeZoneLabel");
+  const btnZoneAuto     = document.getElementById("btnZoneAuto");
+
+  const whisperForm      = document.getElementById("whisperForm");
+  const whisperInput     = document.getElementById("whisperInput");
+  const whisperChatInner = document.getElementById("whisperChatInner");
+  const mirrorList       = document.getElementById("mirrorList");
+  const mirrorCount      = document.getElementById("mirrorCount");
+
+  const toast      = document.getElementById("toast");
+  const toastIcon  = document.getElementById("toastIcon");
+  const toastText  = document.getElementById("toastText");
+
+  const STATE_KEY  = "ARCANA_HALA_DEMO_STATE_V1";
+
+  let state = loadState();
+  let plan  = readStoredPlan();
+
+  // ===== State helpers =====
+  function loadState(){
     try{
-      const raw = localStorage.getItem(key);
-      if(!raw) return fallback;
+      const raw = localStorage.getItem(STATE_KEY);
+      if(!raw) return { activeZone: "auto", whispers: [] };
       const parsed = JSON.parse(raw);
-      return parsed && typeof parsed === "object" ? parsed : fallback;
-    }catch(_){
-      return fallback;
+      if(!parsed || typeof parsed !== "object") return { activeZone: "auto", whispers: [] };
+      if(!Array.isArray(parsed.whispers)) parsed.whispers = [];
+      if(!parsed.activeZone) parsed.activeZone = "auto";
+      return parsed;
+    }catch(e){
+      return { activeZone: "auto", whispers: [] };
     }
   }
 
-  function saveJSON(key, value){
+  function saveState(){
     try{
-      localStorage.setItem(key, JSON.stringify(value));
-    }catch(_){}
+      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }catch(e){}
   }
 
-  let toastTimeout = null;
-  function showToast(message, type){
-    if(!toastEl) return;
-    toastIcon.textContent = (type === "premium") ? "⭐" : "💬";
-    toastText.textContent = message;
-    toastEl.classList.add("visible");
-    if(toastTimeout) clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(()=> toastEl.classList.remove("visible"), 2600);
+  // ===== Toast =====
+  function showToast(pill, msg, ms){
+    if(!toast) return;
+    const dur = (typeof ms === "number" && ms > 0) ? ms : 3200;
+    if(toastIcon) toastIcon.textContent = pill || "DEMO";
+    if(toastText) toastText.textContent = msg || "";
+    toast.classList.add("show");
+    clearTimeout(window.__arcanaHalaToastT);
+    window.__arcanaHalaToastT = setTimeout(()=>{
+      toast.classList.remove("show");
+    }, dur);
+  }
+
+  // ===== Tarif – UI =====
+  function labelForPlan(plan){
+    if(plan === "plus") return "DEMO · PLUS";
+    if(plan === "premium") return "DEMO · PREMIUM";
+    return "DEMO · FREE";
+  }
+
+  function hintForPlan(plan){
+    if(plan === "free"){
+      return "Běžíš ve FREE demu. Hala Arcany je tady jen jako náhled – nic se neukládá, trezor je přivřený.";
+    }
+    if(plan === "plus"){
+      return "PLUS demo – Hala Arcany je odemčená na zkoušku, všechno běží jen v tomhle prohlížeči.";
+    }
+    return "PREMIUM demo – ukazuju, jak by Hala Arcany vypadala v plné verzi, ale pořád bez ukládání skutečných tajemství.";
   }
 
   function initPlanUI(){
-    const human =
-      plan === "premium" ? "PREMIUM tarif" :
-      plan === "plus"    ? "PLUS tarif" :
-      "FREE tarif";
+    plan = normalizePlan(plan);
 
     if(planBadge){
-      planBadge.textContent = "DEMO · " + human;
-      planBadge.classList.remove("free","plus","premium");
-      planBadge.classList.add(plan);
+      planBadge.textContent = labelForPlan(plan);
     }
-
     if(planHint){
+      planHint.textContent = hintForPlan(plan);
+    }
+    if(statusPill){
       if(plan === "free"){
-        planHint.textContent =
-          "Běžíš ve FREE tarifu. Arcana je v DEMU jen jako náhled – pro ostrý trezor by bylo potřeba aspoň PLUS.";
+        statusPill.textContent = "FREE – náhled trezoru";
+        statusPill.classList.remove("pill-plus","pill-premium");
+        statusPill.classList.add("pill-free");
       }else if(plan === "plus"){
-        planHint.textContent =
-          "PLUS tarif – v ostré verzi by se Arcana chovala jako „light“ trezor se zkratkami bez plných čísel.";
+        statusPill.textContent = "PLUS – trezor odemčený v demu";
+        statusPill.classList.remove("pill-free","pill-premium");
+        statusPill.classList.add("pill-plus");
       }else{
-        planHint.textContent =
-          "PREMIUM tarif – v ostré verzi by se tahle hala napojila na Chronica a sloužila jako hlavní trezor.";
+        statusPill.textContent = "PREMIUM – trezor naplno v demu";
+        statusPill.classList.remove("pill-free","pill-plus");
+        statusPill.classList.add("pill-premium");
       }
     }
 
-    const locked = (plan === "free");
-
+    // Globální zámek pro FREE
     if(lockOverlay){
-      lockOverlay.hidden = !locked;
+      lockOverlay.hidden = (plan !== "free");
     }
-    if(whisperInput){
-      whisperInput.disabled = locked;
+
+    // Zámky na kartách podle data-min-plan
+    const rank = PLAN_RANK[plan] ?? 0;
+    zoneCards.forEach(card=>{
+      const minPlan = normalizePlan(card.dataset.minPlan || "free");
+      const minRank = PLAN_RANK[minPlan] ?? 0;
+      const lockBadge = card.querySelector(".zone-lock");
+
+      if(rank < minRank){
+        card.classList.add("locked");
+        if(lockBadge){
+          lockBadge.textContent = "DEMO – vyšší tarif v ostré verzi";
+        }
+      }else{
+        card.classList.remove("locked");
+        if(lockBadge){
+          lockBadge.textContent = minPlan === "free"
+            ? "Dostupné ve všech tarifech"
+            : "Otevřené v tomhle demu";
+        }
+      }
+    });
+  }
+
+  // ===== Zóny =====
+  function findZoneName(id){
+    const card = zoneCards.find(c => (c.dataset.zone || "") === id);
+    if(!card) return null;
+    const title = card.querySelector(".zone-title");
+    if(title && title.textContent.trim()) return title.textContent.trim();
+    const badge = card.querySelector(".zone-badge");
+    if(badge && badge.textContent.trim()) return badge.textContent.trim();
+    return id.toUpperCase();
+  }
+
+  function setActiveZone(id, fromClick){
+    state.activeZone = id;
+    saveState();
+
+    zoneCards.forEach(card=>{
+      const isActive = (card.dataset.zone || "") === id;
+      card.classList.toggle("zone-active", isActive);
+    });
+
+    if(activeZoneLabel){
+      if(id === "auto"){
+        activeZoneLabel.textContent = "Zóna: automaticky podle textu";
+      }else{
+        const name = findZoneName(id);
+        activeZoneLabel.textContent = "Zóna: " + (name || id.toUpperCase());
+      }
     }
-    if(btnSubmit){
-      btnSubmit.disabled = locked;
+
+    if(fromClick){
+      const name = findZoneName(id);
+      showToast("ARCANA", `Přepínám pozornost trezoru na „${name || id.toUpperCase()}“.`, 2600);
     }
+
+    renderMirror();
   }
 
   function initZones(){
-    const planRank = PLAN_RANK[plan] || 0;
-
+    // Klikání na zóny
     zoneCards.forEach(card=>{
-      const zone = card.getAttribute("data-zone") || "";
-      const min  = card.getAttribute("data-min-plan") || "plus";
-      const minRank = PLAN_RANK[min] || 0;
-
-      if(planRank < minRank){
-        card.classList.add("locked");
-        card.setAttribute("aria-disabled","true");
-      }else{
-        card.classList.remove("locked");
-        card.removeAttribute("aria-disabled");
-      }
+      const zoneId = card.dataset.zone;
+      if(!zoneId) return;
 
       card.addEventListener("click", ()=>{
-        if(card.classList.contains("locked")){
-          if(min === "premium"){
-            showToast("Arcana Clavis by se naplno otevírala až v PREMIUM ostré verzi.", "premium");
-          }else{
-            showToast("Pro tuhle zónu trezoru by byl potřeba vyšší tarif.", "info");
-          }
+        // Ve FREE neumožníme přepínat – jen toast.
+        if(plan === "free"){
+          showToast("ARCANA", "Ve FREE demu je Hala Arcany jen jako náhled. V PLUS/PREMIUM by šlo zóny aktivně přepínat.", 5200);
           return;
         }
-        setActiveZone(zone);
+
+        const minPlan = normalizePlan(card.dataset.minPlan || "free");
+        const rank = PLAN_RANK[plan] ?? 0;
+        const need = PLAN_RANK[minPlan] ?? 0;
+        if(rank < need){
+          showToast("ARCANA", "Tahle zóna by v ostré verzi byla až ve vyšším tarifu. V demu ji jen ukazuju jako náhled.", 5200);
+          return;
+        }
+
+        setActiveZone(zoneId, true);
       });
     });
-
-    setActiveZone(plan === "free" ? "auto" : "pecunia");
 
     if(btnZoneAuto){
-      btnZoneAuto.addEventListener("click",(e)=>{
-        e.preventDefault();
-        setActiveZone("auto");
-        showToast("Zónu vyberu automaticky podle textu.", "info");
+      btnZoneAuto.addEventListener("click", ()=>{
+        if(plan === "free"){
+          showToast("ARCANA", "V FREE demu hlídáme jen jednoduchý náhled. V PLUS/PREMIUM by šlo přepnout na plně automatický režim.", 5200);
+          return;
+        }
+        setActiveZone("auto", true);
       });
     }
-  }
 
-  function setActiveZone(zone){
-    activeZone = zone || "auto";
-
-    zoneCards.forEach(card=>{
-      const z = card.getAttribute("data-zone") || "";
-      card.classList.toggle("active", z === activeZone);
-    });
-
-    if(!activeZoneLabel) return;
-
-    if(activeZone === "auto"){
-      activeZoneLabel.textContent = "Zóna: automaticky podle textu";
-    }else if(activeZone === "pecunia"){
-      activeZoneLabel.textContent = "Zóna: Arcana Pecunia (peníze & platby)";
-    }else if(activeZone === "medica"){
-      activeZoneLabel.textContent = "Zóna: Corpus Medica (doktoři & zdraví)";
-    }else if(activeZone === "vitae"){
-      activeZoneLabel.textContent = "Zóna: Codex Vitae (doklady & platnost)";
-    }else if(activeZone === "clavis"){
-      activeZoneLabel.textContent = "Zóna: Arcana Clavis (hesla & přístupy)";
+    // Inicializace podle uloženého stavu
+    if(plan === "free"){
+      setActiveZone("auto", false);
+    }else{
+      const z = state.activeZone || "auto";
+      setActiveZone(z, false);
     }
   }
 
-  function getZoneForText(text){
-    if(activeZone !== "auto") return activeZone;
-    const t = text.toLowerCase();
-
-    if(/doktor|zubař|kontrol|ordinac|vyšetřen|zdrav/i.test(t))  return "medica";
-    if(/občan|pas|řidič|technick|doklad|průkaz|op|id/i.test(t)) return "vitae";
-    if(/platba|záloh|faktur|nájem|splátk|peníze|účet|faktura/i.test(t)) return "pecunia";
-    if(/hesl|pin|přihláš|přístup|login|kód|code/i.test(t))      return "clavis";
-
-    return "vitae";
-  }
-
-  function getZoneLabelShort(zone){
-    return zone === "pecunia" ? "Arcana Pecunia" :
-           zone === "medica"  ? "Corpus Medica"  :
-           zone === "vitae"   ? "Codex Vitae"    :
-           zone === "clavis"  ? "Arcana Clavis"  :
-           "Auto";
-  }
-
-  function initWhisper(){
-    renderWhisperLog();
-
-    if(!whisperForm) return;
-
-    whisperForm.addEventListener("submit", (e)=>{
-      e.preventDefault();
-      if(!whisperInput) return;
-
-      const raw = whisperInput.value.trim();
-      if(!raw){
-        showToast("Napiš mi aspoň krátkou větu, ať mám co hlídat.", "info");
-        return;
-      }
-
-      if(plan === "free"){
-        showToast("Ve FREE DEMU je trezor jen na ukázku. Text se teď ukládá jen jako trénink, ne ostrý trezor.", "info");
-      }
-
-      const zone = getZoneForText(raw);
-      const createdAt = new Date().toISOString();
-
-      const whisperEntry = { t: createdAt, z: zone, text: raw };
-      whisperState.log.push(whisperEntry);
-      if(whisperState.log.length > 40){
-        whisperState.log = whisperState.log.slice(-40);
-      }
-      saveJSON(WHISPER_KEY, whisperState);
-
-      const mirrorEntry = {
-        t: createdAt,
-        z: zone,
-        preview: makePreview(raw),
-        plan: plan
-      };
-      demoState.entries.push(mirrorEntry);
-      if(demoState.entries.length > 40){
-        demoState.entries = demoState.entries.slice(-40);
-      }
-      saveJSON(DEMO_KEY, demoState);
-
-      whisperInput.value = "";
-      renderWhisperLog();
-      renderMirror();
-      showToast("Zapsáno do DEMO trezoru a zrcadla pro Chronicu.", "info");
-    });
-  }
-
-  function renderWhisperLog(){
+  // ===== Šeptání (whisper) =====
+  function renderWhispers(){
     if(!whisperChatInner) return;
     whisperChatInner.innerHTML = "";
 
-    const log = whisperState.log || [];
-    if(!log.length){
-      const empty = document.createElement("div");
-      empty.className = "bubble lumina";
-      empty.textContent = "Tady uvidíš poslední věty, které mi svěříš do Arcany. Zkus napsat první.";
+    if(!state.whispers.length){
+      const empty = document.createElement("p");
+      empty.className = "whisper-empty";
+      empty.textContent = "Ještě nic nešeptáš. Můžeš sem napsat drobnou starost, kterou nechceš nosit jen v hlavě.";
       whisperChatInner.appendChild(empty);
       return;
     }
 
-    const recent = log.slice(-6);
-    recent.forEach(entry=>{
-      const userBubble = document.createElement("div");
-      userBubble.className = "bubble user";
-      userBubble.textContent = entry.text;
-      const meta = document.createElement("span");
-      meta.className = "bubble-meta";
-      meta.textContent = getZoneLabelShort(entry.z) + " · " + formatTime(entry.t);
-      userBubble.appendChild(meta);
+    state.whispers.slice(-12).forEach(entry=>{
+      const row = document.createElement("div");
+      row.className = "whisper-row";
 
-      const reply = document.createElement("div");
-      reply.className = "bubble lumina";
-      reply.textContent = makeReply(entry);
+      const bubble = document.createElement("div");
+      bubble.className = "whisper-bubble";
+      bubble.textContent = entry.text;
 
-      whisperChatInner.appendChild(userBubble);
-      whisperChatInner.appendChild(reply);
+      const meta = document.createElement("div");
+      meta.className = "whisper-meta";
+      meta.textContent = entry.when || "";
+
+      row.appendChild(bubble);
+      row.appendChild(meta);
+      whisperChatInner.appendChild(row);
     });
 
-    const container = whisperChatInner.parentElement;
-    if(container){
-      container.scrollTop = container.scrollHeight;
-    }
-  }
-
-  function makeReply(entry){
-    const zone = entry.z;
-    const label = getZoneLabelShort(zone);
-    if(zone === "medica"){
-      return label + ": do Chronica pošlu jen bezpečnou větu ve stylu „kontrola u lékaře + připomenutí“. Diagnóza ani detaily tady v DEMU nikam nejdou.";
-    }
-    if(zone === "pecunia"){
-      return label + ": vytvořím z toho připomínku platby nebo změny v rozpočtu – bez čísel účtů.";
-    }
-    if(zone === "vitae"){
-      return label + ": pohlídám, že se blíží konec platnosti dokladu. Číslo dokladu v téhle verzi nikam nezapisujeme.";
-    }
-    if(zone === "clavis"){
-      return label + ": v DEMU je to jen ukázka. Skutečný správce hesel by musel šifrovat a nikdy neposílat hesla mimo trezor.";
-    }
-    return "Bezpečně zapsáno jako obecný trezorový maják.";
-  }
-
-  function makePreview(text){
-    const t = text.replace(/\s+/g," ").trim();
-    if(t.length <= 80) return t;
-    return t.slice(0,77) + "…";
-  }
-
-  function formatTime(iso){
-    try{
-      const d = new Date(iso);
-      if(isNaN(d.getTime())) return "";
-      const hh = String(d.getHours()).padStart(2,"0");
-      const mm = String(d.getMinutes()).padStart(2,"0");
-      return hh + ":" + mm;
-    }catch(_){
-      return "";
-    }
+    whisperChatInner.scrollTop = whisperChatInner.scrollHeight;
   }
 
   function renderMirror(){
-    if(!mirrorList || !mirrorCount) return;
+    if(!mirrorList) return;
+
     mirrorList.innerHTML = "";
-
-    const entries = (demoState.entries || []).slice(-10);
-
-    mirrorCount.textContent =
-      entries.length === 1 ? "1 zápis" :
-      entries.length + " zápisů";
-
-    if(!entries.length){
+    if(!state.whispers.length){
       const li = document.createElement("li");
       li.className = "mirror-empty";
-      li.textContent = "Zatím tu nic není. Až něco zadáš do Šeptárny, uvidíš tady zkrácenou verzi pro Chronicu.";
+      li.textContent = "Zrcadlo zatím jen tiše čeká. Když něco svěříš, ukáže ti vzory v čase.";
       mirrorList.appendChild(li);
+      if(mirrorCount) mirrorCount.textContent = "0 záznamů";
       return;
     }
 
-    entries.forEach(entry=>{
+    const recent = state.whispers.slice(-7);
+    recent.forEach(entry=>{
       const li = document.createElement("li");
       li.className = "mirror-item";
 
-      const zoneLabel = getZoneLabelShort(entry.z);
       const main = document.createElement("div");
-      main.textContent = "[" + zoneLabel + "] " + entry.preview;
-      li.appendChild(main);
+      main.className = "mirror-main";
+      main.textContent = entry.text;
 
       const meta = document.createElement("div");
       meta.className = "mirror-meta";
-      const when = document.createElement("span");
-      when.textContent = formatTime(entry.t);
-      const planSpan = document.createElement("span");
-      planSpan.textContent = (entry.plan || "").toUpperCase() || "DEMO";
-      meta.appendChild(when);
-      meta.appendChild(planSpan);
+      const zonePart = entry.zone && entry.zone !== "auto"
+        ? ` · zóna „${findZoneName(entry.zone) || entry.zone.toUpperCase()}“`
+        : "";
+      meta.textContent = (entry.when || "") + zonePart;
 
+      li.appendChild(main);
       li.appendChild(meta);
       mirrorList.appendChild(li);
     });
+
+    if(mirrorCount){
+      mirrorCount.textContent = `${state.whispers.length} záznamů`;
+    }
   }
+
+  function addWhisper(text){
+    const trimmed = text.trim();
+    if(!trimmed) return;
+
+    const now = new Date();
+    const when = now.toLocaleString("cs-CZ", {
+      day:"2-digit",
+      month:"2-digit",
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+
+    const zoneForEntry = (plan === "free") ? "auto" : (state.activeZone || "auto");
+
+    state.whispers.push({
+      id: now.getTime(),
+      text: trimmed,
+      when,
+      zone: zoneForEntry
+    });
+
+    if(state.whispers.length > 60){
+      state.whispers = state.whispers.slice(-60);
+    }
+
+    saveState();
+    renderWhispers();
+    renderMirror();
+
+    showToast("ARCANA", "Zapsáno jen sem do tvého prohlížeče. V ostré verzi by šel trezor šifrovat.", 5200);
+  }
+
+  function initWhisper(){
+    if(!whisperForm || !whisperInput) return;
+
+    whisperForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      addWhisper(whisperInput.value || "");
+      whisperInput.value = "";
+      whisperInput.focus();
+    });
+  }
+
+  // ===== Start =====
+  initPlanUI();
+  initZones();
+  renderWhispers();
+  renderMirror();
+  initWhisper();
 })();
 </script>
 </body>
