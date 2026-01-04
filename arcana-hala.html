@@ -256,7 +256,7 @@
       font-weight:600;
     }
 
-    /* Lock overlay – FREE fallback */
+    /* Lock overlay */
 
     .lock-overlay{
       position:absolute;
@@ -272,11 +272,6 @@
       gap:8px;
       z-index:5;
     }
-
-/* Dočasně: Arcana není v demu zamčená podle tarifu */
-.lock-overlay{
-  display: none !important;
-}
 
     .lock-title{
       font-size:14px;
@@ -457,12 +452,12 @@
       box-shadow:0 0 0 1px rgba(255,255,255,.3);
     }
 
-.zone-card.zone-pulse{
-  box-shadow: 0 0 0 1px rgba(255,255,255,.4),
-              0 0 24px rgba(255, 245, 200, .75);
-  transform: translateY(-1px);
-  transition: box-shadow .25s ease, transform .25s ease;
-}
+    .zone-card.zone-pulse{
+      box-shadow: 0 0 0 1px rgba(255,255,255,.4),
+                  0 0 24px rgba(255, 245, 200, .75);
+      transform: translateY(-1px);
+      transition: box-shadow .25s ease, transform .25s ease;
+    }
 
     /* Šeptárna */
 
@@ -555,6 +550,39 @@
       font-size:11px;
     }
 
+    .whisper-row{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:6px;
+    }
+
+    .whisper-content{
+      flex:1;
+      min-width:0;
+    }
+
+    .whisper-delete{
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.22);
+      background:#151923;
+      color:var(--ink-soft2);
+      font-size:10px;
+      padding:3px 7px;
+      cursor:pointer;
+      flex-shrink:0;
+    }
+
+    .whisper-delete:hover{
+      border-color:rgba(255,255,255,.4);
+      color:var(--ink);
+    }
+
+    .whisper-empty{
+      font-size:11px;
+      color:var(--ink-muted);
+    }
+
     .bubble{
       max-width:100%;
       padding:7px 8px;
@@ -564,15 +592,8 @@
       word-wrap:break-word;
     }
 
-    .bubble.lumina{
-      align-self:flex-start;
-      background:#10151d;
-      border:1px solid rgba(255,255,255,.22);
-      color:var(--ink-soft);
-    }
-
     .bubble.user{
-      align-self:flex-end;
+      align-self:flex-start;
       background:#121720;
       border:1px solid rgba(255,255,255,.18);
       color:var(--ink);
@@ -700,88 +721,6 @@
       gap:5px;
     }
 
-    /* Mirror */
-
-    .mirror{
-      border-radius:var(--radius-lg);
-      border:1px dashed rgba(255,255,255,.16);
-      background:#090c11;
-      padding:10px 11px 11px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-
-    @media (min-width:960px){
-      .mirror{
-        padding:11px 13px 12px;
-      }
-    }
-
-    .mirror-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-    }
-
-    .mirror-title{
-      font-size:11px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:var(--ink-soft2);
-    }
-
-    .mirror-count{
-      font-size:10px;
-      color:var(--ink-muted);
-    }
-
-    .mirror-list{
-      list-style:none;
-      padding-left:0;
-      margin:0;
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      max-height:120px;
-      overflow-y:auto;
-      font-size:11px;
-    }
-
-    .mirror-item{
-      padding:5px 7px;
-      border-radius:10px;
-      background:#10141d;
-      border:1px solid rgba(255,255,255,.14);
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-
-    .mirror-meta{
-      font-size:10px;
-      color:var(--ink-muted);
-      display:flex;
-      justify-content:space-between;
-      gap:6px;
-    }
-
-    .mirror-empty{
-      font-size:11px;
-      color:var(--ink-muted);
-    }
-
-    .mirror-note{
-      font-size:10px;
-      color:var(--ink-muted);
-    }
-
-    .mirror-note .warning{
-      color:var(--danger);
-      font-weight:600;
-    }
-
     /* Toast */
 
     .toast{
@@ -805,7 +744,7 @@
       max-width:90vw;
     }
 
-    .toast.visible{
+    .toast.show{
       opacity:1;
       transform:translateX(-50%) translateY(0);
     }
@@ -1005,21 +944,6 @@
           </form>
         </section>
       </div>
-
-      <!-- Spodní část – zrcadlo pro Chronica (DEMO) -->
-      <section class="mirror" aria-label="DEMO zápisy pro Chronica">
-        <div class="mirror-head">
-          <div class="mirror-title">Jak by to viděla Chronica (DEMO)</div>
-          <div id="mirrorCount" class="mirror-count">0 zápisů</div>
-        </div>
-        <ul id="mirrorList" class="mirror-list"></ul>
-        <p class="mirror-note">
-          <span class="warning">Pozn.:</span> V téhle verzi se všechno ukládá jen lokálně
-          ve tvém prohlížeči a jako zkrácený text (bez čísel účtů, hesel, rodných čísel).
-          Ostrá verze Arcany musí být navržena bezpečně a v souladu s právem –
-          tohle je jen náhled, jak by <em>zjednodušené zápisy</em> pro Chronica mohly vypadat.
-        </p>
-      </section>
     </section>
   </main>
 </div>
@@ -1059,7 +983,6 @@
   // --- DOM ---
   const planBadge   = document.getElementById("planBadge");
   const planHint    = document.getElementById("planHint");
-  const statusPill  = document.getElementById("statusPill");
   const lockOverlay = document.getElementById("lockOverlay");
 
   const zoneGrid  = document.getElementById("zoneGrid");
@@ -1071,9 +994,6 @@
   const whisperForm      = document.getElementById("whisperForm");
   const whisperInput     = document.getElementById("whisperInput");
   const whisperChatInner = document.getElementById("whisperChatInner");
-
-  const mirrorList  = document.getElementById("mirrorList");
-  const mirrorCount = document.getElementById("mirrorCount");
 
   const toast     = document.getElementById("toast");
   const toastIcon = document.getElementById("toastIcon");
@@ -1119,41 +1039,38 @@
 
   // --- Plan UI ---
   function labelForPlan(p){
-    if(p === "plus") return "DEMO · PLUS";
-    if(p === "premium") return "DEMO · PREMIUM";
-    return "DEMO · FREE";
+    if(p === "plus") return "DEMO · PLUS tarif";
+    if(p === "premium") return "DEMO · PREMIUM tarif";
+    return "DEMO · FREE tarif";
   }
 
   function initPlanUI(){
-    if(!planBadge || !planHint || !statusPill || !lockOverlay) return;
-
-    planBadge.textContent = labelForPlan(plan);
+    if(planBadge){
+      planBadge.textContent = labelForPlan(plan);
+    }
 
     let hint = "";
-    let status = "";
-    let statusClass = "";
 
     if(plan === "free"){
       hint = "FREE demo: hala je jen světelný náhled. Zóny fungují symbolicky, nic se naplno nepropojuje.";
-      status = "FREE • zavřený trezor";
-      statusClass = "is-off";
-      lockOverlay.removeAttribute("hidden");
+      if(lockOverlay){
+        lockOverlay.removeAttribute("hidden");
+      }
     }else if(plan === "plus"){
       hint = "PLUS demo: Pecunia / Corpus Medica / Codex Vitae reagují na šepoty. Arcana Clavis zůstává zamčená.";
-      status = "PLUS • částečně otevřený trezor";
-      statusClass = "is-warn";
-      lockOverlay.setAttribute("hidden","true");
+      if(lockOverlay){
+        lockOverlay.setAttribute("hidden","true");
+      }
     }else{
       hint = "PREMIUM demo: všechny čtyři zóny se chovají jako živý trezor. Data běží jen lokálně v tomto prohlížeči.";
-      status = "PREMIUM • otevřený trezor (DEMO)";
-      statusClass = "is-on";
-      lockOverlay.setAttribute("hidden","true");
+      if(lockOverlay){
+        lockOverlay.setAttribute("hidden","true");
+      }
     }
 
-    planHint.textContent = hint;
-    statusPill.textContent = status;
-    statusPill.classList.remove("is-off","is-warn","is-on");
-    if(statusClass) statusPill.classList.add(statusClass);
+    if(planHint){
+      planHint.textContent = hint;
+    }
   }
 
   // --- Zóny ---
@@ -1191,7 +1108,7 @@
     if(zoneGrid){
       zoneCards.forEach(card=>{
         const z = card.dataset.zone;
-        card.classList.toggle("is-active", z === zoneId);
+        card.classList.toggle("active", z === zoneId);
       });
     }
 
@@ -1340,82 +1257,55 @@
       const row = document.createElement("div");
       row.className = "whisper-row";
 
+      const content = document.createElement("div");
+      content.className = "whisper-content";
+
       const bubble = document.createElement("div");
-      bubble.className = "whisper-bubble";
+      bubble.className = "bubble user";
       bubble.textContent = entry.text;
 
-      const meta = document.createElement("div");
-      meta.className = "whisper-meta";
+      const meta = document.createElement("span");
+      meta.className = "bubble-meta";
       const zonePart = entry.zone && entry.zone !== "auto"
         ? " · " + (findZoneName(entry.zone) || entry.zone.toUpperCase())
         : "";
       meta.textContent = (entry.when || "") + zonePart;
 
-      row.appendChild(bubble);
-      row.appendChild(meta);
+      content.appendChild(bubble);
+      content.appendChild(meta);
+
+      const delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "whisper-delete";
+      delBtn.setAttribute("data-delete-id", String(entry.id));
+      delBtn.textContent = "✕";
+
+      row.appendChild(content);
+      row.appendChild(delBtn);
       whisperChatInner.appendChild(row);
     });
 
     whisperChatInner.scrollTop = whisperChatInner.scrollHeight;
   }
 
-  function renderMirror(){
-    if(!mirrorList) return;
-
-    mirrorList.innerHTML = "";
-    let total = 0;
-
-    try{
-      const raw = localStorage.getItem(CHRONICA_KEY);
-      const arr = raw ? JSON.parse(raw) : [];
-      const list = Array.isArray(arr) ? arr : [];
-      total = list.length;
-
-      if(!list.length){
-        const li = document.createElement("li");
-        li.className = "mirror-empty";
-        li.textContent = "Chronica zatím mlčí. Jakmile něco z haly přeskočí do úkolů, uvidíš to na stránce Chronica.";
-        mirrorList.appendChild(li);
-      }else{
-        list.slice(0,7).forEach(it=>{
-          const li = document.createElement("li");
-          li.className = "mirror-item";
-
-          const main = document.createElement("div");
-          main.className = "mirror-main";
-          main.textContent = it.title || "";
-
-          const meta = document.createElement("div");
-          meta.className = "mirror-meta";
-          let when = "";
-          if(it.createdAt){
-            try{
-              const d = new Date(it.createdAt);
-              when = d.toLocaleDateString("cs-CZ", { day:"2-digit", month:"2-digit", year:"numeric" });
-            }catch(e){}
-          }
-          const tag = it.tag ? " · " + it.tag : "";
-          meta.textContent = (when || "") + tag;
-
-          li.appendChild(main);
-          li.appendChild(meta);
-          mirrorList.appendChild(li);
-        });
-      }
-    }catch(e){
-      const li = document.createElement("li");
-      li.className = "mirror-empty";
-      li.textContent = "Chronica se teď nedá přečíst (prohlížeč něco odmítl).";
-      mirrorList.appendChild(li);
-    }
-
-    if(mirrorCount){
-      mirrorCount.textContent = total ? (total + " záznamů") : "0 záznamů";
-    }
-  }
-
   function initWhisper(){
     if(!whisperForm || !whisperInput) return;
+
+    // mazání záznamů v šeptárně (jen lokální log v Arcaně)
+    if(whisperChatInner){
+      whisperChatInner.addEventListener("click", (ev)=>{
+        const btn = ev.target.closest(".whisper-delete");
+        if(!btn) return;
+        const idStr = btn.getAttribute("data-delete-id");
+        if(!idStr) return;
+        const idNum = Number(idStr);
+
+        state.whispers = state.whispers.filter(w => w.id !== idNum);
+        saveState();
+        renderWhispers();
+        showToast("✂︎","Záznam v Šeptárně smazán.",2600);
+      });
+    }
 
     whisperForm.addEventListener("submit", (ev)=>{
       ev.preventDefault();
@@ -1467,7 +1357,6 @@
     initPlanUI();
     initZones();
     initWhisper();
-    renderMirror();
   });
 
 })();
