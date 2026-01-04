@@ -768,23 +768,52 @@
         return (p === "free" || p === "plus" || p === "premium") ? p : "free";
       }
 
+            const PLAN_KEY_MAIN = "lm_plan";
+      const PLAN_KEY_FALLBACK = "LM_PLAN";
+
+      function normalizePlan(p){
+        if(!p) return "free";
+        p = String(p).toLowerCase();
+        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+      }
+
       function readStoredPlan(){
         try{
-          const fromKey  = localStorage.getItem("lm_plan");
-          if(fromKey) return normalizePlan(fromKey);
+          // 1) primárně hlavní klíč
+          let raw = localStorage.getItem(PLAN_KEY_MAIN)
+                 || localStorage.getItem(PLAN_KEY_FALLBACK);
+
+          if(raw){
+            raw = normalizePlan(raw);
+            if(raw === "free" || raw === "plus" || raw === "premium"){
+              return raw;
+            }
+          }
+
+          // 2) fallback – miniLuminaUser.plan
           const user = JSON.parse(localStorage.getItem("miniLuminaUser") || "null");
-          if(user && user.plan) return normalizePlan(user.plan);
+          if(user && user.plan){
+            return normalizePlan(user.plan);
+          }
         }catch(e){}
+
+        // 3) default
         return "free";
       }
 
       function writeStoredPlan(plan){
         plan = normalizePlan(plan);
+
+        // 1) uložit oba plan klíče
         try{
-          localStorage.setItem("lm_plan", plan);
+          localStorage.setItem(PLAN_KEY_MAIN, plan);
+          localStorage.setItem(PLAN_KEY_FALLBACK, plan);
         }catch(e){}
+
+        // 2) syncnout miniLuminaUser.plan
         try{
-          const u = JSON.parse(localStorage.getItem("miniLuminaUser") || "null") || {};
+          const rawUser = localStorage.getItem("miniLuminaUser") || "null";
+          const u = JSON.parse(rawUser) || {};
           u.plan = plan;
           localStorage.setItem("miniLuminaUser", JSON.stringify(u));
         }catch(e){}
