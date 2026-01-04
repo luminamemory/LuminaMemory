@@ -60,3 +60,21 @@ Disallow: /map-de.html
 Disallow: /pergamen-luminamemory.html
 Disallow: /pergamen-luminamemory-en.html
 Disallow: /pergamen-luminamemory-de.html
+
+# Proiecta – dílna
+Disallow: /proiecta
+Disallow: /proiecta.html
+Disallow: /proiecta-en.html
+Disallow: /proiecta-de.html
+
+# Proiecta – projektové místnosti / TV stěna
+Disallow: /proiecta-projekty
+Disallow: /proiecta-projekty.html
+Disallow: /proiecta-projekty-en.html
+Disallow: /proiecta-projekty-de.html
+
+# Mapa výprav
+Disallow: /map
+Disallow: /map.html
+Disallow: /map-en.html
+Disallow: /map-de.html
