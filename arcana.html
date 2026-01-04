@@ -40,20 +40,15 @@
     }
 
     body{
-  margin:0;
-  min-height:100vh;
-  font-family:var(--font-sans);
-  color:var(--ink);
-
-  display:flex;
-  flex-direction:column;
-  overflow-x:hidden;
-
-  /* nové pozadí – avatar jako tapeta, přetažený tmavým filmem */
-  background:
-    linear-gradient(180deg, rgba(5,6,8,.88), rgba(5,6,8,.96)),
-    url("avatar.png") center center / cover no-repeat fixed;
-}
+      margin:0;
+      min-height:100vh;
+      font-family:var(--font-sans);
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.05) 0, transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(0,0,0,.8) 0, transparent 55%),
+        #050608;
+    }
 
     body{
       display:flex;
@@ -246,18 +241,18 @@
     }
 
     .avatar-frame{
-  width:50px;
-  height:50px;
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.25);
-  background:#14171e;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 12px 26px rgba(0,0,0,.9);
-  flex-shrink:0;
-}
+      width:50px;
+      height:50px;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.25);
+      background:#14171e;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 12px 26px rgba(0,0,0,.9);
+      flex-shrink:0;
+    }
 
     .avatar-frame img{
       width:100%;
@@ -629,14 +624,21 @@
             </div>
 
             <div class="intro-bubble-row">
-  <div class="avatar-frame" aria-hidden="true"></div>
-  <div class="speech">
-    ...
-  <div class="avatar-frame" aria-hidden="true">
-  <span class="avatar-glyph">✶</span>
-  </div>
-  </div>
-</div>
+              <div class="avatar-frame">
+                <img src="avatar.png" alt="Lumina – strážkyně Arcany">
+              </div>
+              <div class="speech">
+                <strong>🔐 „Trezor je jiný režim.“</strong>
+                <p>
+                  Arcana není běžný Pokec. Ostrá verze z ní bude
+                  <strong>správce hesel, dokladů, financí a zdravotních připomínek</strong>.
+                </p>
+                <p class="small">
+                  Tohle je jen <strong>DEMO náhled</strong> chování. Ukazujeme logiku tarifu
+                  a odemykání, ale <strong>žádná reálná citlivá data se tady neukládají</strong>.
+                </p>
+              </div>
+            </div>
 
             <div class="rules">
               <ul>
