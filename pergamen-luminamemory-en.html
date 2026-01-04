@@ -17,8 +17,11 @@
   --para-mt: 14px;           /* slightly tighter vertical rhythm */
 }
 
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
+html{
+  height:100%;
+  /* jistota: stejné temné pozadí i pro případné „mezery“ */
+  background:#0b090f;
+}
 
 body{
   margin:0;
@@ -26,14 +29,13 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+
+  /* jen jemné světlo shora, dole čistá tma */
   background:
-    /* jemné světlo nahoře vlevo */
     radial-gradient(circle at 20% 0%, rgba(255,255,255,.10), transparent 55%),
-    /* posunuté a jemnější světlo zespodu vpravo (už ne přímo na hraně) */
-    radial-gradient(circle at 80% 70%, rgba(255,255,255,.06), transparent 60%),
-    /* ztmavení u dna – zabije proužek */
-    radial-gradient(circle at 50% 120%, rgba(0,0,0,.75), transparent 65%),
-    #100f12;
+    radial-gradient(circle at 50% 130%, rgba(0,0,0,.85), transparent 65%),
+    #0b090f;
+
   color: var(--ink);
   font-family: "Libre Baskerville", serif;
 }
