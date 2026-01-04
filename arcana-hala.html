@@ -813,27 +813,6 @@
       font-size:11px;
     }
   </style>
-
-<script>
-  // Jednorázové přenastavení tarifu na PREMIUM v celém paláci
-  (function () {
-    try {
-      // hlavní klíč, který používá Proiecta + Arcana
-      localStorage.setItem("lm_plan", "premium");
-      // starší / alternativní klíč
-      localStorage.setItem("LM_PLAN", "premium");
-
-      // mini-login objekt
-      var raw = localStorage.getItem("miniLuminaUser") || "null";
-      var u = JSON.parse(raw) || {};
-      u.plan = "premium";
-      localStorage.setItem("miniLuminaUser", JSON.stringify(u));
-    } catch (e) {
-      console.warn("Arcana: nepodařilo se nastavit premium plan", e);
-    }
-  })();
-</script>
-
 </head>
 
 <body>
@@ -1087,30 +1066,63 @@
     return (p === "free" || p === "plus" || p === "premium") ? p : "free";
   }
 
-    function loadPlan(){
-  try{
-    // 1) to samé, co používá Arcana + mini-login
-    const user = JSON.parse(localStorage.getItem("miniLuminaUser") || "null");
-    const fromUser = user && user.plan;
-    const fromKey  = localStorage.getItem("lm_plan");
+      function loadPlan(){
+    const RANK = { free: 0, plus: 1, premium: 2 };
 
-    // priorita: explicitní klíč lm_plan, pak miniLuminaUser.plan
-    const raw = fromKey || fromUser;
-    if(raw){
-      return normalizePlan(raw);
+    try{
+      const candidates = [];
+
+      // 1) Primární klíče
+      const k1 = localStorage.getItem("lm_plan");
+      const k2 = localStorage.getItem(PLAN_KEY); // "LM_PLAN"
+      const k3 = localStorage.getItem("LM_PLAN");
+
+      if (k1) candidates.push(k1);
+      if (k2) candidates.push(k2);
+      if (k3) candidates.push(k3);
+
+      // 2) mini-login objekt
+      const userRaw = localStorage.getItem("miniLuminaUser");
+      if (userRaw) {
+        const u = JSON.parse(userRaw);
+        if (u && u.plan) {
+          candidates.push(u.plan);
+        }
+      }
+
+      // nic nenalezeno → FREE
+      if (!candidates.length) return "free";
+
+      // vybereme „nejvyšší“ tarif z toho, co jsme našli
+      let best = "free";
+      candidates.forEach((val) => {
+        const p = normalizePlan(val);
+        if (RANK[p] > RANK[best]) {
+          best = p;
+        }
+      });
+
+      return best;
+    } catch (e) {
+      console.warn("Arcana: loadPlan fallback na FREE", e);
+      return "free";
     }
-  }catch(e){
-    console.warn("Arcana Hala: loadPlan fallback na FREE", e);
   }
-  return "free";
-}
 
   function savePlan(p){
     p = normalizePlan(p);
     plan = p;
-    try{ localStorage.setItem(PLAN_KEY, p); }catch(_){}
+
     try{
-      const u = JSON.parse(localStorage.getItem("miniLuminaUser") || "null") || {};
+      // zapisujeme všude stejně, ať se nic nehádá
+      localStorage.setItem("lm_plan", p);
+      localStorage.setItem(PLAN_KEY, p); // "LM_PLAN"
+      localStorage.setItem("LM_PLAN", p);
+    }catch(_){}
+
+    try{
+      const raw = localStorage.getItem("miniLuminaUser") || "null";
+      const u = JSON.parse(raw) || {};
       u.plan = p;
       localStorage.setItem("miniLuminaUser", JSON.stringify(u));
     }catch(_){}
