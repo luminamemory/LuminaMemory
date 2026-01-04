@@ -1040,16 +1040,17 @@
   }
 
   function showToast(pill, msg, ms){
-    if(!toast) return;
-    const dur = (typeof ms === "number" && ms > 0) ? ms : 3200;
-    if(toastIcon) toastIcon.textContent = pill || "DEMO";
-    if(toastText) toastText.textContent = msg || "";
-    toast.classList.add("show");
-    clearTimeout(window.__arcanaHalaToastT);
-    window.__arcanaHalaToastT = setTimeout(()=>{
-      toast.classList.remove("show");
-    }, dur);
-  }
+  if(!toast) return;
+  // delší default – aby to šlo v klidu přečíst
+  const dur = (typeof ms === "number" && ms > 0) ? ms : 6500;
+  if(toastIcon) toastIcon.textContent = pill || "DEMO";
+  if(toastText) toastText.textContent = msg || "";
+  toast.classList.add("show");
+  clearTimeout(window.__arcanaHalaToastT);
+  window.__arcanaHalaToastT = setTimeout(()=>{
+    toast.classList.remove("show");
+  }, dur);
+}
 
   function labelForPlan(p){
     if(p === "plus") return "DEMO · PLUS";
@@ -1343,55 +1344,65 @@
   }
 
   function handleWhisper(toChronica){
-    if(!whisperInput) return;
-    const text = whisperInput.value.trim();
-    if(!text) return;
+  if(!whisperInput) return;
+  const text = whisperInput.value.trim();
+  if(!text) return;
 
-    const zoneId = getEffectiveZone(text);
-    const now = new Date();
-    const when = now.toLocaleString("cs-CZ", {
-      day:"2-digit", month:"2-digit", year:"numeric",
-      hour:"2-digit", minute:"2-digit"
-    });
+  const zoneId = getEffectiveZone(text);
+  const now = new Date();
+  const when = now.toLocaleString("cs-CZ", {
+    day:"2-digit", month:"2-digit", year:"numeric",
+    hour:"2-digit", minute:"2-digit"
+  });
 
-    state.whispers.push({
-      id: now.getTime(),
-      text,
-      zone: zoneId,
-      when
-    });
-    if(state.whispers.length > 120){
-      state.whispers = state.whispers.slice(-120);
-    }
-    saveState();
-    renderWhispers();
+  // uložit do lokální Šeptárny (Arcana)
+  state.whispers.push({
+    id: now.getTime(),
+    text,
+    zone: zoneId,
+    when
+  });
+  if(state.whispers.length > 120){
+    state.whispers = state.whispers.slice(-120);
+  }
+  saveState();
+  renderWhispers();
 
-    if(zoneId !== "auto"){
-      flashZone(zoneId);
-    }
-
-    if(toChronica){
-      if(zoneId === "clavis"){
-        showToast("🔒","Tohle vypadá jako heslo nebo přístupový údaj. Do Chronica ho neukládám – zůstává jen v Arcaně.",6200);
-      }else{
-        pushToChronica(zoneId, text);
-        showToast("💾","Zapsáno do trezoru a do Chronica jako bezpečné shrnutí.",4200);
-      }
-    }else{
-      showToast("ARCANA","Zapsáno jen v Arcaně. Do Chronica nic neposílám.",4200);
-    }
-
-    whisperInput.value = "";
+  if(zoneId !== "auto"){
+    flashZone(zoneId);
   }
 
-  function initWhisper(){
-    if(!whisperForm || !whisperInput) return;
+  if(toChronica){
+    // CLAVIS – nikdy neukládáme do Chronica
+    if(zoneId === "clavis"){
+      showToast(
+        "🔒",
+        "Tohle vypadá jako heslo nebo přístupový údaj. Do Chronica ho neukládám – zůstává jen v Arcaně.",
+        8000
+      );
+    }else{
+      pushToChronica(zoneId, text);
 
-    if(btnArcanaOnly){
-      btnArcanaOnly.addEventListener("click", ()=>{
-        handleWhisper(false);
-      });
+      let msg;
+      if(zoneId === "pecunia"){
+        msg = "Uloženo do Chronica jako připomínka peněz – bez čísel účtů a karet.";
+      }else if(zoneId === "medica"){
+        msg = "Uloženo do Chronica jako zdravotní termín – bez diagnózy a detailního nálezu.";
+      }else if(zoneId === "vitae"){
+        msg = "Uloženo do Chronica jako připomínka dokladů – bez čísla dokladu, adresy a rodného čísla.";
+      }else{
+        msg = "Zapsáno do trezoru a do Chronica jako bezpečné shrnutí bez citlivých údajů.";
+      }
+
+      showToast("💾", msg, 7500);
     }
+  }else{
+    // jen Arcana
+    showToast("ARCANA","Zapsáno jen v Arcaně. Do Chronica nic neposílám.",6500);
+  }
+
+  whisperInput.value = "";
+}
 
     if(btnChronica){
       btnChronica.addEventListener("click", ()=>{
