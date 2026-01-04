@@ -36,6 +36,11 @@
 
     *{ box-sizing:border-box; }
 
+    /* cokoliv s hidden prostě zmizí */
+    [hidden]{
+      display:none !important;
+    }
+
     html{
       -webkit-text-size-adjust:100%;
       text-size-adjust:100%;
@@ -163,10 +168,6 @@
       white-space:nowrap;
     }
 
-    .plan-badge.free{}
-    .plan-badge.plus{}
-    .plan-badge.premium{}
-
     /* Main panel */
 
     .shell-main{
@@ -256,7 +257,7 @@
       font-weight:600;
     }
 
-    /* Lock overlay */
+    /* Lock overlay – FREE */
 
     .lock-overlay{
       position:absolute;
@@ -383,7 +384,7 @@
       transform:translateY(-1px);
     }
 
-    .zone-card.active{
+    .zone-card.is-active{
       border-color:var(--border-strong);
       background:#141922;
       box-shadow:0 14px 30px rgba(0,0,0,.95);
@@ -454,7 +455,7 @@
 
     .zone-card.zone-pulse{
       box-shadow: 0 0 0 1px rgba(255,255,255,.4),
-                  0 0 24px rgba(255, 245, 200, .75);
+                  0 0 24px rgba(255,245,200,.75);
       transform: translateY(-1px);
       transition: box-shadow .25s ease, transform .25s ease;
     }
@@ -552,35 +553,8 @@
 
     .whisper-row{
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:6px;
-    }
-
-    .whisper-content{
-      flex:1;
-      min-width:0;
-    }
-
-    .whisper-delete{
-      border-radius:var(--radius-pill);
-      border:1px solid rgba(255,255,255,.22);
-      background:#151923;
-      color:var(--ink-soft2);
-      font-size:10px;
-      padding:3px 7px;
-      cursor:pointer;
-      flex-shrink:0;
-    }
-
-    .whisper-delete:hover{
-      border-color:rgba(255,255,255,.4);
-      color:var(--ink);
-    }
-
-    .whisper-empty{
-      font-size:11px;
-      color:var(--ink-muted);
+      flex-direction:column;
+      gap:2px;
     }
 
     .bubble{
@@ -593,17 +567,38 @@
     }
 
     .bubble.user{
-      align-self:flex-start;
+      align-self:flex-end;
       background:#121720;
       border:1px solid rgba(255,255,255,.18);
       color:var(--ink);
     }
 
     .bubble-meta{
-      display:block;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:6px;
       font-size:10px;
       color:var(--ink-muted);
       margin-top:2px;
+    }
+
+    .whisper-delete{
+      border:none;
+      background:transparent;
+      color:var(--ink-muted);
+      font-size:10px;
+      cursor:pointer;
+      padding:0 2px;
+    }
+
+    .whisper-delete:hover{
+      color:var(--danger);
+    }
+
+    .whisper-empty{
+      font-size:11px;
+      color:var(--ink-muted);
     }
 
     .whisper-form{
@@ -955,11 +950,10 @@
 
 <script>
 (function(){
-  const PLAN_RANK = { free: 0, plus: 1, premium: 2 };
-  const STATE_KEY = "ARCANA_HALA_DEMO_STATE_V2";
-  const CHRONICA_KEY = "chronica";
+  const PLAN_RANK   = { free: 0, plus: 1, premium: 2 };
+  const STATE_KEY   = "ARCANA_HALA_DEMO_STATE_V2";
+  const CHRONICA_KEY= "chronica";
 
-  // --- Plan helpers ---
   function normalizePlan(p){
     if(!p) return "free";
     p = String(p).toLowerCase();
@@ -980,7 +974,6 @@
     return "free";
   }
 
-  // --- DOM ---
   const planBadge   = document.getElementById("planBadge");
   const planHint    = document.getElementById("planHint");
   const lockOverlay = document.getElementById("lockOverlay");
@@ -999,22 +992,21 @@
   const toastIcon = document.getElementById("toastIcon");
   const toastText = document.getElementById("toastText");
 
-  // --- State ---
-  let plan  = readStoredPlan();
-  let state = loadState();
-  let activeZone = state.activeZone || "auto";
+  let plan        = readStoredPlan();
+  let state       = loadState();
+  let activeZone  = state.activeZone || "auto";
 
   function loadState(){
     try{
       const raw = localStorage.getItem(STATE_KEY);
-      if(!raw) return { activeZone: "auto", whispers: [] };
+      if(!raw) return { activeZone:"auto", whispers:[] };
       const parsed = JSON.parse(raw);
-      if(!parsed || typeof parsed !== "object") return { activeZone: "auto", whispers: [] };
+      if(!parsed || typeof parsed !== "object") return { activeZone:"auto", whispers:[] };
       if(!Array.isArray(parsed.whispers)) parsed.whispers = [];
       if(!parsed.activeZone) parsed.activeZone = "auto";
       return parsed;
     }catch(e){
-      return { activeZone: "auto", whispers: [] };
+      return { activeZone:"auto", whispers:[] };
     }
   }
 
@@ -1024,7 +1016,6 @@
     }catch(e){}
   }
 
-  // --- Toast ---
   function showToast(pill, msg, ms){
     if(!toast) return;
     const dur = (typeof ms === "number" && ms > 0) ? ms : 3200;
@@ -1037,43 +1028,33 @@
     }, dur);
   }
 
-  // --- Plan UI ---
   function labelForPlan(p){
-    if(p === "plus") return "DEMO · PLUS tarif";
-    if(p === "premium") return "DEMO · PREMIUM tarif";
-    return "DEMO · FREE tarif";
+    if(p === "plus") return "DEMO · PLUS";
+    if(p === "premium") return "DEMO · PREMIUM";
+    return "DEMO · FREE";
   }
 
   function initPlanUI(){
-    if(planBadge){
-      planBadge.textContent = labelForPlan(plan);
-    }
+    if(!planBadge || !planHint || !lockOverlay) return;
+
+    planBadge.textContent = labelForPlan(plan);
 
     let hint = "";
 
     if(plan === "free"){
       hint = "FREE demo: hala je jen světelný náhled. Zóny fungují symbolicky, nic se naplno nepropojuje.";
-      if(lockOverlay){
-        lockOverlay.removeAttribute("hidden");
-      }
+      lockOverlay.removeAttribute("hidden");
     }else if(plan === "plus"){
       hint = "PLUS demo: Pecunia / Corpus Medica / Codex Vitae reagují na šepoty. Arcana Clavis zůstává zamčená.";
-      if(lockOverlay){
-        lockOverlay.setAttribute("hidden","true");
-      }
+      lockOverlay.setAttribute("hidden","true");
     }else{
       hint = "PREMIUM demo: všechny čtyři zóny se chovají jako živý trezor. Data běží jen lokálně v tomto prohlížeči.";
-      if(lockOverlay){
-        lockOverlay.setAttribute("hidden","true");
-      }
+      lockOverlay.setAttribute("hidden","true");
     }
 
-    if(planHint){
-      planHint.textContent = hint;
-    }
+    planHint.textContent = hint;
   }
 
-  // --- Zóny ---
   function findZoneName(id){
     if(id === "pecunia") return "Arcana Pecunia • peníze";
     if(id === "medica")  return "Corpus Medica • zdraví";
@@ -1108,7 +1089,7 @@
     if(zoneGrid){
       zoneCards.forEach(card=>{
         const z = card.dataset.zone;
-        card.classList.toggle("active", z === zoneId);
+        card.classList.toggle("is-active", z === zoneId);
       });
     }
 
@@ -1118,7 +1099,7 @@
       if(zoneId === "auto"){
         showToast("ARCANA","Nechávám zónu vybírat automaticky podle textu.",4200);
       }else{
-        showToast("ARCANA","Šepoty teď posílám hlavně do zóny: " + (findZoneName(zoneId) || zoneId.toUpperCase()),4200);
+        showToast("ARCANA","Šeptoty teď posílám hlavně do zóny: " + (findZoneName(zoneId) || zoneId.toUpperCase()),4200);
       }
     }
   }
@@ -1134,7 +1115,6 @@
         const rank = PLAN_RANK[plan] ?? 0;
         const need = PLAN_RANK[minPlan] ?? 0;
 
-        // Clavis: v PLUS zamčená
         if(zoneId === "clavis" && plan !== "premium"){
           showToast("🔒","Arcana Clavis je dostupná až v PREMIUM verzi. Tady ji ukazuju jen jako světelný náhled.",5200);
           return;
@@ -1159,7 +1139,6 @@
       });
     }
 
-    // počáteční stav
     if(plan === "free"){
       setActiveZone("auto", false);
     }else{
@@ -1167,32 +1146,26 @@
     }
   }
 
-  // --- Automatické přiřazení zóny podle textu ---
   function getZoneForText(text){
     const t = (text || "").toLowerCase();
     if(!t.trim()) return "auto";
 
-    // CLAVIS – hesla a přihlášení
     if(/\b(heslo|hesla|password|login|lognout|přihlášení|prihlaseni|pin|puk|ověřovací kód|overovaci kod|2fa|dvoufaktor|bezpečnostní kód|bezpecnostni kod)\b/.test(t)){
       return "clavis";
     }
 
-    // PECUNIA – peníze, platby, úvěry
     if(/\b(úvěr|uver|úvěru|uveru|kreditka|kreditní karta|hypot[eě]ka|hypoteka|spl[aá]tka|splatka|splatnost|faktura|fakturu|nájem|najmu|inkaso|platba|zaplatit|poji[sš]t[eě]ní|pojistka|pojistn[eí]|výplata|vyplata|mzda|dan[eě]|dph|energie|elektřina|elektrina|plyn|internet|trval[yý] příkaz|trvaly prikaz)\b/.test(t)){
       return "pecunia";
     }
 
-    // MEDICA – zdraví, doktory, kontroly
     if(/\b(zubař|zubarka|zubní|zubni|doktor|doktorka|praktik|prakticka|gynekolog|psychiatr|psycholog|terapie|terapeut|kontrola|prohlídka|prohlidka|vyšetření|vysetreni|operace|ordinace|rehabilitace|rehabka|lékárna|lekarna|recept|vakcína|vakcina|očkování|ockovani|antibiotika|ultrazvuk|sono|magnetick[aá] rezonance)\b/.test(t)){
       return "medica";
     }
 
-    // VITAE – doklady, papíry, platnost
     if(/\b(občanka|obcanka|občanský průkaz|obcansky prukaz|pas|cestovn[ií] pas|řidičák|ridicak|řidičský průkaz|ridicsky prukaz|doklady|dokumenty|pojistná karta|pojistna karta|kartička pojišťovny|karticka pojistovny|technický průkaz|technicky prukaz|spz|registrace|visa|viza|pobytová karta|pobytova karta|průkaz|prukaz|oprávnění|opravneni|končí platnost|konec platnosti|expirace|expiruje|platnost do)\b/.test(t)){
       return "vitae";
     }
 
-    // fallback – bezpečný obecný šuplík
     return "vitae";
   }
 
@@ -1201,9 +1174,7 @@
     return getZoneForText(text);
   }
 
-  // --- Chronica integrace (opravdový přesun) ---
   function pushToChronica(zoneId, text){
-    // Clavis → jen v PREMIUM; pro jistotu neukládáme nic z hesel
     if(zoneId === "clavis" || zoneId === "auto") return;
 
     let tag;
@@ -1227,17 +1198,21 @@
       });
 
       localStorage.setItem(CHRONICA_KEY, JSON.stringify(arr));
-    }catch(e){
-      // tichý pád – nic neřešíme
-    }
+    }catch(e){}
   }
 
-  // --- Whisper chat ---
   function getEmptyWhisperText(){
     if(whisperChatInner && whisperChatInner.dataset && whisperChatInner.dataset.emptyText){
       return whisperChatInner.dataset.emptyText;
     }
     return "Ještě nic nešeptáš. Můžeš sem napsat drobnou starost, kterou nechceš nosit jen v hlavě.";
+  }
+
+  function removeWhisper(id){
+    state.whispers = state.whispers.filter(entry => entry.id !== id);
+    saveState();
+    renderWhispers();
+    showToast("ARCANA","Šeptání bylo smazáno jen z tohoto prohlížeče.",3600);
   }
 
   function renderWhispers(){
@@ -1257,31 +1232,29 @@
       const row = document.createElement("div");
       row.className = "whisper-row";
 
-      const content = document.createElement("div");
-      content.className = "whisper-content";
-
       const bubble = document.createElement("div");
       bubble.className = "bubble user";
       bubble.textContent = entry.text;
 
-      const meta = document.createElement("span");
+      const meta = document.createElement("div");
       meta.className = "bubble-meta";
       const zonePart = entry.zone && entry.zone !== "auto"
         ? " · " + (findZoneName(entry.zone) || entry.zone.toUpperCase())
         : "";
-      meta.textContent = (entry.when || "") + zonePart;
+      const info = document.createElement("span");
+      info.textContent = (entry.when || "") + zonePart;
 
-      content.appendChild(bubble);
-      content.appendChild(meta);
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "whisper-delete";
+      del.textContent = "✕";
+      del.addEventListener("click", ()=> removeWhisper(entry.id));
 
-      const delBtn = document.createElement("button");
-      delBtn.type = "button";
-      delBtn.className = "whisper-delete";
-      delBtn.setAttribute("data-delete-id", String(entry.id));
-      delBtn.textContent = "✕";
+      meta.appendChild(info);
+      meta.appendChild(del);
 
-      row.appendChild(content);
-      row.appendChild(delBtn);
+      row.appendChild(bubble);
+      row.appendChild(meta);
       whisperChatInner.appendChild(row);
     });
 
@@ -1290,22 +1263,6 @@
 
   function initWhisper(){
     if(!whisperForm || !whisperInput) return;
-
-    // mazání záznamů v šeptárně (jen lokální log v Arcaně)
-    if(whisperChatInner){
-      whisperChatInner.addEventListener("click", (ev)=>{
-        const btn = ev.target.closest(".whisper-delete");
-        if(!btn) return;
-        const idStr = btn.getAttribute("data-delete-id");
-        if(!idStr) return;
-        const idNum = Number(idStr);
-
-        state.whispers = state.whispers.filter(w => w.id !== idNum);
-        saveState();
-        renderWhispers();
-        showToast("✂︎","Záznam v Šeptárně smazán.",2600);
-      });
-    }
 
     whisperForm.addEventListener("submit", (ev)=>{
       ev.preventDefault();
@@ -1319,7 +1276,6 @@
         hour:"2-digit", minute:"2-digit"
       });
 
-      // uložit šeptání do lokálního logu haly
       state.whispers.push({
         id: now.getTime(),
         text,
@@ -1332,16 +1288,13 @@
       saveState();
       renderWhispers();
 
-      // vizuální rozsvícení zóny podle textu
       if(zoneId !== "auto"){
         flashZone(zoneId);
       }
 
-      // PLUS + CLAVIS → info, ale nic do Chronicy
       if(plan === "plus" && zoneId === "clavis"){
         showToast("🔒","Arcana Clavis je v PLUS verzi zamčená. V PREMIUM by se tenhle zápis proměnil v bezpečné heslo v trezoru.",5600);
       }else{
-        // reálný zápis do Chronicy (pokud nejde o hesla)
         pushToChronica(zoneId, text);
         showToast("💾","Zapsáno do trezoru. V Chronice se objeví jako další úkol / připomínka.",4200);
       }
@@ -1352,13 +1305,11 @@
     renderWhispers();
   }
 
-  // --- Init ---
   document.addEventListener("DOMContentLoaded", function(){
     initPlanUI();
     initZones();
     initWhisper();
   });
-
 })();
 </script>
 </body>
