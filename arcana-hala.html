@@ -1068,47 +1068,15 @@
 
     function loadPlan(){
   try{
-    // 0) Zkusit tarif z URL (kdyby ho tam jednou brána posílala)
-    try{
-      const sp = new URLSearchParams(window.location.search || "");
-      const fromUrl = sp.get("plan");
-      if(fromUrl){
-        const urlPlan = normalizePlan(fromUrl);
-        if(urlPlan === "free" || urlPlan === "plus" || urlPlan === "premium"){
-          return urlPlan;
-        }
-      }
-    }catch(_){}
+    // 1) to samé, co používá Arcana + mini-login
+    const user = JSON.parse(localStorage.getItem("miniLuminaUser") || "null");
+    const fromUser = user && user.plan;
+    const fromKey  = localStorage.getItem("lm_plan");
 
-    // 1) Primárně to, co používá mini-login a Proiecta
-    const direct =
-      (typeof localStorage !== "undefined")
-        ? (localStorage.getItem("lm_plan") || localStorage.getItem(PLAN_KEY))
-        : null;
-    if(direct){
-      const p = normalizePlan(direct);
-      if(p === "free" || p === "plus" || p === "premium") return p;
-    }
-
-    // 2) Starší / alternativní klíč
-    if(typeof localStorage !== "undefined"){
-      const raw = localStorage.getItem("LM_PLAN");
-      if(raw){
-        const p = normalizePlan(raw);
-        if(p === "free" || p === "plus" || p === "premium") return p;
-      }
-    }
-
-    // 3) Tarif z objektu miniLuminaUser (mini-login)
-    if(typeof localStorage !== "undefined"){
-      const userRaw = localStorage.getItem("miniLuminaUser");
-      if(userRaw){
-        const user = JSON.parse(userRaw);
-        if(user && user.plan){
-          const p = normalizePlan(user.plan);
-          if(p === "free" || p === "plus" || p === "premium") return p;
-        }
-      }
+    // priorita: explicitní klíč lm_plan, pak miniLuminaUser.plan
+    const raw = fromKey || fromUser;
+    if(raw){
+      return normalizePlan(raw);
     }
   }catch(e){
     console.warn("Arcana Hala: loadPlan fallback na FREE", e);
