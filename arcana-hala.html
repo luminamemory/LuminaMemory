@@ -1067,29 +1067,54 @@
   }
 
     function loadPlan(){
+  try{
+    // 0) Zkusit tarif z URL (kdyby ho tam jednou brána posílala)
     try{
-      // 1) Primárně to, co používá mini-login a Proiecta
-      const direct = localStorage.getItem("lm_plan") || localStorage.getItem(PLAN_KEY);
-      if(direct) return normalizePlan(direct);
+      const sp = new URLSearchParams(window.location.search || "");
+      const fromUrl = sp.get("plan");
+      if(fromUrl){
+        const urlPlan = normalizePlan(fromUrl);
+        if(urlPlan === "free" || urlPlan === "plus" || urlPlan === "premium"){
+          return urlPlan;
+        }
+      }
+    }catch(_){}
 
-      // 2) Starší / alternativní klíč
+    // 1) Primárně to, co používá mini-login a Proiecta
+    const direct =
+      (typeof localStorage !== "undefined")
+        ? (localStorage.getItem("lm_plan") || localStorage.getItem(PLAN_KEY))
+        : null;
+    if(direct){
+      const p = normalizePlan(direct);
+      if(p === "free" || p === "plus" || p === "premium") return p;
+    }
+
+    // 2) Starší / alternativní klíč
+    if(typeof localStorage !== "undefined"){
       const raw = localStorage.getItem("LM_PLAN");
-      if(raw) return normalizePlan(raw);
+      if(raw){
+        const p = normalizePlan(raw);
+        if(p === "free" || p === "plus" || p === "premium") return p;
+      }
+    }
 
-      // 3) Tarif z objektu miniLuminaUser (mini-login)
+    // 3) Tarif z objektu miniLuminaUser (mini-login)
+    if(typeof localStorage !== "undefined"){
       const userRaw = localStorage.getItem("miniLuminaUser");
       if(userRaw){
         const user = JSON.parse(userRaw);
         if(user && user.plan){
-          return normalizePlan(user.plan);
+          const p = normalizePlan(user.plan);
+          if(p === "free" || p === "plus" || p === "premium") return p;
         }
       }
-    }catch(e){
-      // v případě chyby raději bezpečný default
-      console.warn("Arcana: loadPlan fallback na FREE", e);
     }
-    return "free";
+  }catch(e){
+    console.warn("Arcana Hala: loadPlan fallback na FREE", e);
   }
+  return "free";
+}
 
   function savePlan(p){
     p = normalizePlan(p);
@@ -1152,20 +1177,9 @@
     }
 
     if(planHint){
-      if(plan === "free"){
-        planHint.innerHTML =
-          "Teď běžíš v <strong>DEMO · FREE</strong>. Arcana se v téhle verzi jen ukazuje – " +
-          "žádný opravdový trezor ještě neběží.";
-      }else if(plan === "plus"){
-        planHint.innerHTML =
-          "DEMO · PLUS – můžeš si zkoušet, jak bys chtěla trezor používat. " +
-          "Záznamy zůstávají jen ve tvém prohlížeči.";
-      }else{
-        planHint.innerHTML =
-          "DEMO · PREMIUM – všechny zóny Arcany jsou otevřené jako náhled. " +
-          "Ostrá verze by navíc musela šifrovat citlivá data.";
-      }
-    }
+      Oris Aquis Date Calibre 400 – 41,5 mm
+
+Ref.: 01 400 7769 4135-07 8 22 09PEB 
 
     if(plan === "free" && lockOverlay){
       lockOverlay.hidden = false;
