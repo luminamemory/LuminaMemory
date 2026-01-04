@@ -36,7 +36,6 @@
 
     *{ box-sizing:border-box; }
 
-    /* cokoliv s hidden prostě zmizí */
     [hidden]{
       display:none !important;
     }
@@ -257,7 +256,7 @@
       font-weight:600;
     }
 
-    /* Lock overlay – FREE */
+    /* Lock overlay */
 
     .lock-overlay{
       position:absolute;
@@ -553,8 +552,16 @@
 
     .whisper-row{
       display:flex;
+      align-items:flex-start;
+      gap:6px;
+    }
+
+    .whisper-left{
+      flex:1;
+      display:flex;
       flex-direction:column;
       gap:2px;
+      min-width:0;
     }
 
     .bubble{
@@ -567,7 +574,7 @@
     }
 
     .bubble.user{
-      align-self:flex-end;
+      align-self:flex-start;
       background:#121720;
       border:1px solid rgba(255,255,255,.18);
       color:var(--ink);
@@ -575,21 +582,26 @@
 
     .bubble-meta{
       display:flex;
-      justify-content:space-between;
+      justify-content:flex-start;
       align-items:center;
-      gap:6px;
+      gap:4px;
       font-size:10px;
       color:var(--ink-muted);
       margin-top:2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .whisper-delete{
       border:none;
       background:transparent;
       color:var(--ink-muted);
-      font-size:10px;
+      font-size:11px;
       cursor:pointer;
       padding:0 2px;
+      margin-top:4px;
+      flex-shrink:0;
     }
 
     .whisper-delete:hover{
@@ -612,6 +624,7 @@
       justify-content:space-between;
       align-items:center;
       gap:8px;
+      flex-wrap:wrap;
     }
 
     .whisper-label{
@@ -664,6 +677,13 @@
       align-items:center;
       justify-content:space-between;
       gap:6px;
+    }
+
+    .whisper-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      justify-content:flex-end;
     }
 
     .whisper-hint{
@@ -734,7 +754,7 @@
       gap:6px;
       box-shadow:0 16px 34px rgba(0,0,0,.9);
       opacity:0;
-      transition:opacity .18s ease, transform .18s ease;
+      transition:opacity .18s, transform .18s;
       z-index:50;
       max-width:90vw;
     }
@@ -752,10 +772,6 @@
       white-space:normal;
     }
 
-    .mono{
-      font-family:var(--font-mono);
-      font-size:11px;
-    }
   </style>
 </head>
 
@@ -927,14 +943,19 @@
               <button type="button" class="btn-ghost" id="btnZoneAuto">
                 🔄 Nech zónu vybrat automaticky
               </button>
-              <button type="submit" class="btn primary" id="btnSubmit">
-                ➜ Zapsat (DEMO) → Chronica
-              </button>
+              <div class="whisper-actions">
+                <button type="button" class="btn" id="btnArcanaOnly">
+                  🕯 Jen v Arcaně
+                </button>
+                <button type="button" class="btn primary" id="btnChronica">
+                  💾 Arcana + Chronica
+                </button>
+              </div>
             </div>
 
             <p class="whisper-hint">
               <span class="warning">DEMO:</span> Zápisy se ukládají jen jako zkrácené věty do tvého prohlížeče.
-              V ostré verzi by se spojily s Chronica a Arcanou tak, aby čísla, hesla a diagnózy zůstaly v trezoru.
+              Do Chronica posíláme jen bezpečné shrnutí bez hesel, čísel karet a diagnóz.
             </p>
           </form>
         </section>
@@ -950,9 +971,9 @@
 
 <script>
 (function(){
-  const PLAN_RANK   = { free: 0, plus: 1, premium: 2 };
-  const STATE_KEY   = "ARCANA_HALA_DEMO_STATE_V2";
-  const CHRONICA_KEY= "chronica";
+  const PLAN_RANK    = { free: 0, plus: 1, premium: 2 };
+  const STATE_KEY    = "ARCANA_HALA_DEMO_STATE_V3";
+  const CHRONICA_KEY = "chronica";
 
   function normalizePlan(p){
     if(!p) return "free";
@@ -987,14 +1008,16 @@
   const whisperForm      = document.getElementById("whisperForm");
   const whisperInput     = document.getElementById("whisperInput");
   const whisperChatInner = document.getElementById("whisperChatInner");
+  const btnArcanaOnly    = document.getElementById("btnArcanaOnly");
+  const btnChronica      = document.getElementById("btnChronica");
 
   const toast     = document.getElementById("toast");
   const toastIcon = document.getElementById("toastIcon");
   const toastText = document.getElementById("toastText");
 
-  let plan        = readStoredPlan();
-  let state       = loadState();
-  let activeZone  = state.activeZone || "auto";
+  let plan       = readStoredPlan();
+  let state      = loadState();
+  let activeZone = state.activeZone || "auto";
 
   function loadState(){
     try{
@@ -1146,6 +1169,8 @@
     }
   }
 
+  // --- zóna z textu ---
+
   function getZoneForText(text){
     const t = (text || "").toLowerCase();
     if(!t.trim()) return "auto";
@@ -1174,8 +1199,60 @@
     return getZoneForText(text);
   }
 
+  // --- sanitizace pro Chronicu ---
+
+  function extractDateFragment(text){
+    if(!text) return "";
+    const dateRegex = /(\d{1,2}\.\s*\d{1,2}\.\s*\d{2,4}|\d{1,2}\.\s*\d{1,2}\.)/;
+    const monthRegex = /\b(leden|ledna|únor|února|březen|března|duben|dubna|květen|května|červen|června|červenec|července|srpen|srpna|září|říjen|října|listopad|listopadu|prosinec|prosince)\b/i;
+
+    const m1 = text.match(dateRegex);
+    if(m1) return m1[0].trim();
+
+    const m2 = text.match(monthRegex);
+    if(m2) return m2[0].trim();
+
+    return "";
+  }
+
+  function sanitizeForChronica(zoneId, text){
+    const t = (text || "").toLowerCase();
+    const datePart = extractDateFragment(text);
+    let base = "";
+
+    if(zoneId === "pecunia"){
+      if(/nájem|najmu/.test(t)) base = "Platba nájmu";
+      else if(/elektr[ií]na|energie|plyn/.test(t)) base = "Platba za energie";
+      else if(/hypot[eě]ka|uver|úvěr|spl[aá]tka/.test(t)) base = "Splátka úvěru / hypotéky";
+      else if(/poji[sš]t[eě]n[ií]|pojistka/.test(t)) base = "Pojištění – platba nebo obnova";
+      else base = "Peníze – připomínka z Arcany";
+    }else if(zoneId === "medica"){
+      if(/zubař|zubni/.test(t)) base = "Kontrola u zubaře";
+      else if(/gynekolog/.test(t)) base = "Kontrola u gynekologa";
+      else if(/praktik|praktick[aá]/.test(t)) base = "Kontrola u praktického lékaře";
+      else if(/psychiatr|psycholog|terapie/.test(t)) base = "Termín u terapeuta / psychologa";
+      else base = "Zdravotní kontrola / vyšetření";
+    }else if(zoneId === "vitae"){
+      if(/občanka|obcanka|občanský průkaz|obcansky prukaz/.test(t)) base = "Platnost občanského průkazu";
+      else if(/pas|cestovn[ií] pas/.test(t)) base = "Platnost cestovního pasu";
+      else if(/řidičák|ridicak|řidičský průkaz|ridicsky prukaz/.test(t)) base = "Platnost řidičského průkazu";
+      else if(/technick[ýy] pr[ůu]kaz|stk|technick[aá]/.test(t)) base = "Technická prohlídka / technický průkaz";
+      else base = "Doklady – platnost / obnova";
+    }else{
+      base = "Připomínka z trezoru Arcana";
+    }
+
+    if(datePart){
+      return base + " (" + datePart + ")";
+    }
+    return base;
+  }
+
   function pushToChronica(zoneId, text){
     if(zoneId === "clavis" || zoneId === "auto") return;
+
+    const title = sanitizeForChronica(zoneId, text || "");
+    if(!title) return;
 
     let tag;
     if(zoneId === "pecunia") tag = "peníze";
@@ -1190,7 +1267,7 @@
 
       arr.unshift({
         id: "arcana-" + now.getTime(),
-        title: text,
+        title,
         tag,
         mood: "",
         done: false,
@@ -1232,17 +1309,24 @@
       const row = document.createElement("div");
       row.className = "whisper-row";
 
+      const left = document.createElement("div");
+      left.className = "whisper-left";
+
       const bubble = document.createElement("div");
       bubble.className = "bubble user";
       bubble.textContent = entry.text;
 
       const meta = document.createElement("div");
       meta.className = "bubble-meta";
+      const label = document.createElement("span");
       const zonePart = entry.zone && entry.zone !== "auto"
         ? " · " + (findZoneName(entry.zone) || entry.zone.toUpperCase())
         : "";
-      const info = document.createElement("span");
-      info.textContent = (entry.when || "") + zonePart;
+      label.textContent = (entry.when || "") + zonePart;
+      meta.appendChild(label);
+
+      left.appendChild(bubble);
+      left.appendChild(meta);
 
       const del = document.createElement("button");
       del.type = "button";
@@ -1250,56 +1334,78 @@
       del.textContent = "✕";
       del.addEventListener("click", ()=> removeWhisper(entry.id));
 
-      meta.appendChild(info);
-      meta.appendChild(del);
-
-      row.appendChild(bubble);
-      row.appendChild(meta);
+      row.appendChild(left);
+      row.appendChild(del);
       whisperChatInner.appendChild(row);
     });
 
     whisperChatInner.scrollTop = whisperChatInner.scrollHeight;
   }
 
+  function handleWhisper(toChronica){
+    if(!whisperInput) return;
+    const text = whisperInput.value.trim();
+    if(!text) return;
+
+    const zoneId = getEffectiveZone(text);
+    const now = new Date();
+    const when = now.toLocaleString("cs-CZ", {
+      day:"2-digit", month:"2-digit", year:"numeric",
+      hour:"2-digit", minute:"2-digit"
+    });
+
+    state.whispers.push({
+      id: now.getTime(),
+      text,
+      zone: zoneId,
+      when
+    });
+    if(state.whispers.length > 120){
+      state.whispers = state.whispers.slice(-120);
+    }
+    saveState();
+    renderWhispers();
+
+    if(zoneId !== "auto"){
+      flashZone(zoneId);
+    }
+
+    if(toChronica){
+      if(zoneId === "clavis"){
+        showToast("🔒","Tohle vypadá jako heslo nebo přístupový údaj. Do Chronica ho neukládám – zůstává jen v Arcaně.",6200);
+      }else{
+        pushToChronica(zoneId, text);
+        showToast("💾","Zapsáno do trezoru a do Chronica jako bezpečné shrnutí.",4200);
+      }
+    }else{
+      showToast("ARCANA","Zapsáno jen v Arcaně. Do Chronica nic neposílám.",4200);
+    }
+
+    whisperInput.value = "";
+  }
+
   function initWhisper(){
     if(!whisperForm || !whisperInput) return;
 
+    if(btnArcanaOnly){
+      btnArcanaOnly.addEventListener("click", ()=>{
+        handleWhisper(false);
+      });
+    }
+
+    if(btnChronica){
+      btnChronica.addEventListener("click", ()=>{
+        handleWhisper(true);
+      });
+    }
+
     whisperForm.addEventListener("submit", (ev)=>{
       ev.preventDefault();
-      const text = whisperInput.value.trim();
-      if(!text) return;
-
-      const zoneId = getEffectiveZone(text);
-      const now = new Date();
-      const when = now.toLocaleString("cs-CZ", {
-        day:"2-digit", month:"2-digit", year:"numeric",
-        hour:"2-digit", minute:"2-digit"
-      });
-
-      state.whispers.push({
-        id: now.getTime(),
-        text,
-        zone: zoneId,
-        when
-      });
-      if(state.whispers.length > 120){
-        state.whispers = state.whispers.slice(-120);
-      }
-      saveState();
-      renderWhispers();
-
-      if(zoneId !== "auto"){
-        flashZone(zoneId);
-      }
-
-      if(plan === "plus" && zoneId === "clavis"){
-        showToast("🔒","Arcana Clavis je v PLUS verzi zamčená. V PREMIUM by se tenhle zápis proměnil v bezpečné heslo v trezoru.",5600);
+      if(btnChronica){
+        btnChronica.click();
       }else{
-        pushToChronica(zoneId, text);
-        showToast("💾","Zapsáno do trezoru. V Chronice se objeví jako další úkol / připomínka.",4200);
+        handleWhisper(true);
       }
-
-      whisperInput.value = "";
     });
 
     renderWhispers();
