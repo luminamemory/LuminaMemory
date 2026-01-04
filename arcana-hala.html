@@ -1066,13 +1066,38 @@
     return (p === "free" || p === "plus" || p === "premium") ? p : "free";
   }
 
-  function loadPlan(){
+  // NOVÉ: bezpečnější čtení tarifu – umí i hodnoty uložené jako "\"PLUS\""
+  function readPlanFromStorageKey(key){
     try{
-      const fromKey = localStorage.getItem(PLAN_KEY);
-      if(fromKey) return normalizePlan(fromKey);
-      const raw = localStorage.getItem("LM_PLAN");
-      if(raw) return normalizePlan(raw);
-    }catch(_){}
+      const raw = localStorage.getItem(key);
+      if(!raw) return null;
+
+      // zkus JSON.parse – pokud je tam '"PLUS"', dostaneme "PLUS"
+      try{
+        const parsed = JSON.parse(raw);
+        if(typeof parsed === "string"){
+          return normalizePlan(parsed);
+        }
+      }catch(_){
+        // není JSON, nevadí
+      }
+
+      return normalizePlan(raw);
+    }catch(_){
+      return null;
+    }
+  }
+
+  function loadPlan(){
+    // 1) nový klíč
+    const fromKey = readPlanFromStorageKey(PLAN_KEY);
+    if(fromKey) return fromKey;
+
+    // 2) případné starší / alternativní klíče
+    const legacy = readPlanFromStorageKey("LM_PLAN");
+    if(legacy) return legacy;
+
+    // fallback
     return "free";
   }
 
