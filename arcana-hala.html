@@ -813,6 +813,27 @@
       font-size:11px;
     }
   </style>
+
+<script>
+  // Jednorázové přenastavení tarifu na PREMIUM v celém paláci
+  (function () {
+    try {
+      // hlavní klíč, který používá Proiecta + Arcana
+      localStorage.setItem("lm_plan", "premium");
+      // starší / alternativní klíč
+      localStorage.setItem("LM_PLAN", "premium");
+
+      // mini-login objekt
+      var raw = localStorage.getItem("miniLuminaUser") || "null";
+      var u = JSON.parse(raw) || {};
+      u.plan = "premium";
+      localStorage.setItem("miniLuminaUser", JSON.stringify(u));
+    } catch (e) {
+      console.warn("Arcana: nepodařilo se nastavit premium plan", e);
+    }
+  })();
+</script>
+
 </head>
 
 <body>
