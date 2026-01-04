@@ -196,7 +196,7 @@
       background:var(--bg-softer);
     }
 
-    /* Info-Teil */
+    /* Info part */
 
     .intro-head{
       display:flex;
@@ -329,7 +329,7 @@
       margin-top:4px;
     }
 
-    /* Panel – Tarif und Entsperren */
+    /* Panel – plan and unlock */
 
     .panel-header{
       display:flex;
@@ -586,40 +586,42 @@
   </style>
 </head>
 <body>
-  <main class="page">
-    <header class="top">
-      <div class="top-inner">
-        <div class="brand" aria-label="LuminaMemory brand">
-          <img src="favicon.png" alt="LuminaMemory icon">
-          <div class="brand-text">
-            <span class="kicker">LuminaMemory™ · prototype garden</span>
-            <span>Arcana · gate to the vault</span>
-          </div>
+  <header class="top">
+    <div class="top-inner">
+      <div class="brand" aria-label="LuminaMemory brand">
+        <div class="brand-icon">
+          <img src="favicon.png" alt="LuminaMemory favicon">
         </div>
-
-        <nav aria-label="Navigation">
-          <a class="pill" href="lumina-demo-en.html">
-            <span class="label">🗯 Pokec</span>
-          </a>
-        </nav>
+        <div class="brand-text">
+          <strong>LuminaMemory™</strong>
+          <span>Arcana · gate to the vault</span>
+        </div>
       </div>
-    </header>
+      <nav class="nav" aria-label="Navigation">
+        <a class="pill" href="lumina-demo-en.html">
+          <span class="label">🗯 Back</span>
+        </a>
+      </nav>
+    </div>
+  </header>
 
-    <div class="wrap">
-      <section class="card-grid" aria-label="Arcana – vault gate demo">
-        <div class="card-frame">
-          <div class="card">
-            <div class="card-head">
-              <div class="badge">
-                <span class="badge-main">ARCANA – GATE</span>
-                <span class="badge-sub" id="badgePlan">DEMO · FREE</span>
+  <main class="main">
+    <div class="shell">
+      <section class="card" aria-label="Arcana – vault entrance">
+        <div class="card-inner">
+          <!-- LEFT SIDE – explanation + frame -->
+          <div class="col-info">
+            <div class="intro-head">
+              <div class="intro-main">
+                <h1>ARCANA – GATE</h1>
+                <p>
+                  Here begins the vault for your most sensitive things:
+                  passwords, finances, health, documents. The gate only cares
+                  who may continue further into the Arcana Hall (Arcana Clavis,
+                  Pecunia, Corpus Medica, Codex Vitae).
+                </p>
               </div>
-              <p class="lead">
-                This is where the vault for your most sensitive things begins:
-                <strong>passwords, money, health, documents.</strong><br>
-                The gate only checks who may continue into the Arcana Hall
-                (Arcana Clavis, Pecunia, Corpus Medica, Codex Vitae).
-              </p>
+              <div class="badge-plan" id="badgePlan">DEMO · FREE</div>
             </div>
 
             <div class="intro-bubble-row">
@@ -651,9 +653,9 @@
                   Use only examples and “safe sentences”.
                 </li>
                 <li>
-                  3) The live version of Arcana will be designed to meet current legal
-                  requirements for the protection of personal data (e.g. GDPR) and not to
-                  pass data to third parties without your consent.
+                  3) The live version of Arcana will be designed to meet the
+                  current legal requirements for the protection of personal data
+                  (e.g. GDPR) and not to pass data to third parties without your consent.
                 </li>
               </ul>
               <div class="rules-note" id="planNote">
@@ -709,13 +711,13 @@
                   <b>FaceID / TouchID (demo)</b>
                   <span>Preview only. The live version will depend on the device capabilities.</span>
                 </div>
-                <input type="radio" name="unlock" value="Biometric" disabled>
+                <input type="radio" name="unlock" value="Biometrics" disabled>
               </label>
             </div>
 
             <div class="footnote" id="planFoot">
-              FREE: everything is locked, you can only watch. In a real app the vault
-              would open from the PLUS plan upwards.
+              FREE: Everything is locked, you can only watch. In a real app the vault
+              would open starting from the PLUS plan.
               <br>
               <span class="warning">In this demo no real passwords or real numbers are stored.</span>
             </div>
@@ -789,110 +791,169 @@
         }catch(e){}
       }
 
-      function showToast(title, message, ms){
-        toastPill.textContent = title || "DEMO";
-        toastMsg.textContent  = message || "";
-        toast.classList.add("on");
-        if(showToast._timer){
-          clearTimeout(showToast._timer);
-        }
-        showToast._timer = setTimeout(() => {
-          toast.classList.remove("on");
-        }, ms || 2600);
+      function showToast(pill, msg, ms){
+        if(!toast) return;
+        const dur = (typeof ms === "number" && ms > 0) ? ms : 4200;
+        if(toastPill) toastPill.textContent = pill || "DEMO";
+        if(toastMsg)  toastMsg.textContent  = msg  || "";
+        toast.classList.add("show");
+        clearTimeout(window.__arcanaToastT);
+        window.__arcanaToastT = setTimeout(()=> toast.classList.remove("show"), dur);
       }
 
-      function setMethodEnabled(el, enabled){
+      function setMethodState(el, enabled){
         if(!el) return;
+        const radio = el.querySelector("input");
         el.classList.toggle("disabled", !enabled);
-        const input = el.querySelector("input");
-        if(input){
-          input.disabled = !enabled;
+        if(radio){
+          radio.disabled = !enabled;
+          if(!enabled && radio.checked) radio.checked = false;
         }
       }
 
-      function updateForPlan(plan){
+      function updateUIForPlan(plan){
         plan = normalizePlan(plan);
 
-        // Seg buttons
-        segButtons.forEach(btn => {
-          const p = btn.getAttribute("data-plan");
-          const active = (p === plan);
-          btn.classList.toggle("active", active);
-          btn.setAttribute("aria-selected", active ? "true" : "false");
+        // Badge
+        if(badgePlan){
+          const label =
+            plan === "plus" ? "DEMO · PLUS" :
+            plan === "premium" ? "DEMO · PREMIUM" :
+            "DEMO · FREE";
+          badgePlan.textContent = label;
+        }
+
+        // Dot + status text
+        if(statusDot && statusText){
+          if(plan === "free"){
+            statusDot.className = "dot lock";
+            statusText.textContent = "In the demo Arcana is locked (FREE).";
+          }else if(plan === "plus"){
+            statusDot.className = "dot ok";
+            statusText.textContent = "In this demo you could unlock Arcana with a PIN (PLUS).";
+          }else{
+            statusDot.className = "dot ok";
+            statusText.textContent = "In this demo you could unlock Arcana with all methods (PREMIUM).";
+          }
+        }
+
+        // Info on left
+        if(planNote){
+          if(plan === "free"){
+            planNote.textContent =
+              "FREE: In this plan Arcana only runs as a preview. For a real vault you would need at least PLUS.";
+          }else if(plan === "plus"){
+            planNote.textContent =
+              "PLUS: In the live version Arcana Pecunia, Corpus Medica and Codex Vitae would open. Password management (Arcana Clavis) would be limited.";
+          }else{
+            planNote.textContent =
+              "PREMIUM: In the live version all vault zones would be active – including Arcana Clavis for passwords and access.";
+          }
+        }
+
+        if(planFoot){
+          if(plan === "free"){
+            planFoot.innerHTML =
+              "FREE: Everything is locked, you can only watch. In a real app the vault would open starting from the PLUS plan." +
+              '<br><span class="warning">In this demo no real passwords or real numbers are stored.</span>';
+          }else if(plan === "plus"){
+            planFoot.innerHTML =
+              "PLUS: In this DEMO we only simulate the entry. In the live version the gate to the Arcana Hall would open without password management." +
+              '<br><span class="warning">Even here we do not store any real passwords or card numbers.</span>';
+          }else{
+            planFoot.innerHTML =
+              "PREMIUM: This DEMO shows only the behaviour – in the live version Arcana Clavis for passwords would also be unlocked." +
+              '<br><span class="warning">This demo does not perform real encryption or access management.</span>';
+          }
+        }
+
+        // Unlock methods
+        const enablePin  = (plan === "plus" || plan === "premium");
+        const enablePass = (plan === "premium");
+        const enableBio  = (plan === "premium");
+
+        setMethodState(mPin,  enablePin);
+        setMethodState(mPass, enablePass);
+        setMethodState(mBio,  enableBio);
+
+        // Button
+        if(unlockBtn){
+          unlockBtn.disabled = (plan === "free");
+        }
+      }
+
+      function applyPlan(plan, silent){
+        plan = normalizePlan(plan);
+
+        // UI segment buttons
+        segButtons.forEach(btn=>{
+          const isActive = btn.dataset.plan === plan;
+          btn.classList.toggle("active", isActive);
+          btn.setAttribute("aria-selected", String(isActive));
         });
 
-        badgePlan.textContent = "DEMO · " + plan.toUpperCase();
-
-        let note, status, foot;
-        if(plan === "free"){
-          statusDot.classList.remove("ok");
-          statusDot.classList.add("lock");
-          status  = "In the demo Arcana is locked (FREE).";
-          note    = "FREE: Arcana only runs as a preview. For a real vault you would need at least PLUS.";
-          foot    = "FREE: everything is locked, you can only watch. In a real app the vault would open from the PLUS plan upwards.";
-          setMethodEnabled(mPin,  false);
-          setMethodEnabled(mPass, false);
-          setMethodEnabled(mBio,  false);
-          unlockBtn.disabled = true;
-        }else if(plan === "plus"){
-          statusDot.classList.remove("lock");
-          statusDot.classList.add("ok");
-          status  = "In PLUS plan the Arcana vault would open in a basic mode.";
-          note    = "PLUS: basic vault for passwords and documents. Biometric unlock would stay in PREMIUM.";
-          foot    = "PLUS: vault open for core Arcana. This demo still does not store any real passwords or numbers.";
-          setMethodEnabled(mPin,  true);
-          setMethodEnabled(mPass, true);
-          setMethodEnabled(mBio,  false);
-          unlockBtn.disabled = false;
-        }else{
-          statusDot.classList.remove("lock");
-          statusDot.classList.add("ok");
-          status  = "In PREMIUM plan Arcana would be fully unlocked in this demo flow.";
-          note    = "PREMIUM: full Arcana, including stronger unlock methods and more zones in the vault.";
-          foot    = "PREMIUM: full access in the live app. Here it is still only a local demo without real sensitive data.";
-          setMethodEnabled(mPin,  true);
-          setMethodEnabled(mPass, true);
-          setMethodEnabled(mBio,  true);
-          unlockBtn.disabled = false;
-        }
-
-        statusText.textContent = status;
-        planNote.textContent   = note;
-        planFoot.firstChild.textContent = foot + " ";
-      }
-
-      function applyPlan(plan){
-        plan = normalizePlan(plan);
+        updateUIForPlan(plan);
         writeStoredPlan(plan);
-        updateForPlan(plan);
+
+        if(!silent){
+          showToast("DEMO", "Switched to " + plan.toUpperCase() + ".", 2600);
+        }
       }
 
-      segButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const plan = btn.getAttribute("data-plan");
-          applyPlan(plan);
-          showToast("DEMO", "Switched to " + plan.toUpperCase() + ".", 2000);
+      // Plan switch clicks
+      segButtons.forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          applyPlan(btn.dataset.plan, false);
         });
       });
 
-      unlockBtn.addEventListener("click", () => {
-        const plan = normalizePlan(readStoredPlan());
-        if(plan === "free"){
-          showToast("ARCANA", "In FREE plan the vault would stay locked in this demo.", 2800);
-          return;
-        }
-        try{
-          localStorage.setItem("ARCANA_ACCESS", "allowed");
-        }catch(e){}
-        showToast("ARCANA", "Gate unlocked in demo – entering the Arcana Hall…", 2200);
-        setTimeout(() => {
-          window.location.href = "arcana-hala-en.html";
-        }, 260);
-      });
+      // Unlock in demo
+      if(unlockBtn){
+        unlockBtn.addEventListener("click", ()=>{
+          const plan = readStoredPlan();
+          if(plan === "free"){
+            showToast(
+              "ARCANA",
+              "In the FREE plan Arcana is only a preview in this demo. For entry you would need at least PLUS.",
+              5200
+            );
+            return;
+          }
+          const selected = document.querySelector('input[name="unlock"]:checked');
+          if(!selected){
+            showToast(
+              "ARCANA",
+              "Choose an unlock method (PIN / Password / FaceID). In this demo nothing is stored – we only simulate the entrance into the vault.",
+              5400
+            );
+            return;
+          }
+          showToast(
+            "ARCANA",
+            'DEMO: Imagine you unlock the vault with “‘ + selected.value + '”. I am opening the gate to the Arcana Hall…',
+            5200
+          );
+          setTimeout(()=>{
+            window.location.href = "arcana-hala-en.html";
+          }, 5200);
+        });
+      }
 
-      // Init
-      const initial = readStoredPlan();
-      applyPlan(initial);
+      // Init + possible return with ?denied=1
+      const url = new URL(window.location.href);
+      const denied = url.searchParams.get("denied");
+
+      applyPlan(readStoredPlan(), true);
+
+      if(denied){
+        showToast(
+          "ARCANA",
+          "This path into Arcana was blocked for the selected plan. In the demo you can switch the plan above – still without storing any sensitive data.",
+          6200
+        );
+        url.searchParams.delete("denied");
+        window.history.replaceState({}, "", url.toString());
+      }
     })();
   </script>
 </body>
