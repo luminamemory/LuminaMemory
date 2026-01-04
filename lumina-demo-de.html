@@ -8,7 +8,9 @@
 
   <style>
     :root{
-      --bg:#120a22;           /* čistá temná fialová */
+      --bg: #050015;
+      --surface: rgba(8, 1, 24, 0.96);
+      --surface-soft: rgba(15, 4, 40, 0.9);
       --panel:rgba(255,255,255,.06);
       --panel2:rgba(255,255,255,.08);
       --stroke:rgba(255,255,255,.14);
@@ -34,11 +36,13 @@ body{
   margin:0;
   font-family:var(--font);
   color:var(--text);
-  /* plynulé fialové pozadí přes celou výšku */
+
+  /* tmavší, výraznější fialové nebe přes celou výšku */
   background:
-    radial-gradient(1000px 520px at 20% 0%, #2b1554 0, #120a22 55%, #060213 100%),
-    radial-gradient(900px 520px at 80% 100%, #1e103a 0, #120a22 55%, #050112 100%);
+    radial-gradient(circle at 0% 0%, #4a22a0 0, #1a063e 38%, #050015 100%),
+    radial-gradient(circle at 100% 100%, #2a155f 0, #12042e 40%, #050015 100%);
   background-attachment: fixed;
+
   overflow-x:hidden;
 }
 
