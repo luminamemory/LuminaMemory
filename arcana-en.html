@@ -768,10 +768,12 @@
         return (p === "free" || p === "plus" || p === "premium") ? p : "free";
       }
 
+      // 🔧 OPRAVA: čistá verze readStoredPlan
       function readStoredPlan(){
         try{
-          const fromKey  = localStorage.getItem("lm_plan");
+          const fromKey = localStorage.getItem("lm_plan");
           if(fromKey) return normalizePlan(fromKey);
+
           const user = JSON.parse(localStorage.getItem("miniLuminaUser") || "null");
           if(user && user.plan) return normalizePlan(user.plan);
         }catch(e){}
