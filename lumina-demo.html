@@ -1927,6 +1927,23 @@ body{
     msgEl.addEventListener("input", ()=> autosize(msgEl));
     autosize(msgEl);
 
+    // =========================
+    // User profile – nickname z LM_USER_CODEX_V1
+    // =========================
+    const PROFILE_KEY = "LM_USER_CODEX_V1";
+
+    function getProfileNickname(){
+      try{
+        const raw = localStorage.getItem(PROFILE_KEY);
+        if(!raw) return null;
+        const data = JSON.parse(raw);
+        const nick = (data.nickname || data.name || "").trim();
+        return nick || null;
+      }catch(_){
+        return null;
+      }
+    }
+
             // =========================
     // Malý trik: reset při změně jazyka
     // =========================
@@ -1953,12 +1970,20 @@ body{
     // =========================
     loadHistory();
 
+        // =========================
+    // Boot
+    // =========================
+    loadHistory();
+
     // pokud není historie, start message
     if (chatEl.children.length === 0) {
-      addBubble("lumi",
-        "Vítej, návštěvníku 💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to 😉",
-        `Lumina • ${nowHM()}`
-      );
+      const nick = getProfileNickname();
+
+      const text = nick
+        ? `Zdravím tě, ${nick} 😉💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to.`
+        : "Vítej, návštěvníku 💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to 😉";
+
+      addBubble("lumi", text, `Lumina • ${nowHM()}`);
       persistHistory();
     }
   </script>

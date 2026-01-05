@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory – LuminaMemory</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- interní stránka, bez SEO -->
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: radial-gradient(circle at 0% 0%, #3d2616, #140904 52%, #050207 100%);
+      --card: rgba(20, 12, 7, 0.96);
+      --cardSoft: rgba(15, 9, 6, 0.96);
+      --border: rgba(255, 227, 198, 0.16);
+      --ink: #fff6e7;
+      --soft: rgba(243, 223, 203, 0.88);
+      --muted: rgba(206, 184, 162, 0.8);
+      --accent: #e7b75a;
+      --accentSoft: rgba(231, 183, 90, 0.18);
+      --accentStrong: #ffce6e;
+      --warning: #f99b4d;
+      --danger: #ff6b7a;
+      --ok: #4bd3a6;
+      --pill: 999px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 28px 90px rgba(0,0,0,0.8);
+    }
+
+    *{box-sizing:border-box;}
+
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+      color:var(--ink);
+      background:#050207;
+    }
+
+    body{
+      background-image:var(--bg);
+      background-attachment:fixed;
+      background-size:cover;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1120px;
+      margin:18px auto 26px;
+      padding:0 16px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    /* Header */
+
+    header{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px 18px;
+      padding:14px 18px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(255,227,198,0.22);
+      background:
+        radial-gradient(circle at top left, rgba(255,232,188,0.28), transparent 55%),
+        radial-gradient(circle at top right, rgba(167,112,58,0.18), transparent 60%),
+        rgba(11, 6, 3, 0.98);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(0,0,0,0.7);
+      backdrop-filter:blur(18px);
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 12px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,227,198,0.6);
+      background:rgba(12,6,3,0.96);
+      color:var(--soft);
+      text-decoration:none;
+      font-size:13px;
+      transition:background .16s ease-out, border-color .16s ease-out, transform .16s ease-out;
+    }
+    .back-link span.chevron{font-size:14px; transform: translateY(-0.5px);}
+    .back-link:hover{
+      background:rgba(26,14,7,0.98);
+      border-color:rgba(231,183,90,0.9);
+      color:#fffaf0;
+      transform:translateY(-1px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+
+    .mark{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 30% 0, #ffecc4, #e7b75a 55%, #8b541f 100%);
+      box-shadow:
+        0 0 30px rgba(255,223,154,0.95),
+        0 0 0 4px rgba(0,0,0,0.55);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    header h1{
+      margin:0;
+      font-size:21px;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:12px;
+      color:var(--soft);
+    }
+
+    .plan-pill{
+      padding:7px 13px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,227,198,0.68);
+      background:
+        linear-gradient(120deg, rgba(255,236,188,0.26), rgba(141,100,46,0.52));
+      color:#201004;
+      font-size:11px;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      font-weight:600;
+      white-space:nowrap;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.25),
+        0 16px 42px rgba(0,0,0,0.9);
+    }
+
+    /* Intro */
+
+    .intro{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      background:var(--cardSoft);
+      box-shadow:var(--shadow);
+      padding:14px 16px 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 16px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+
+    .intro-main{
+      max-width:560px;
+      font-size:13px;
+      color:var(--soft);
+      line-height:1.65;
+    }
+
+    .intro-main b{color:var(--accentStrong);}
+
+    .intro-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      color:var(--muted);
+      margin-bottom:3px;
+    }
+
+    .legend{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .legend-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+
+    .legend-pill{
+      padding:4px 10px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,227,198,0.4);
+      background:rgba(22,12,5,0.96);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .legend-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      box-shadow:0 0 10px rgba(0,0,0,0.8);
+    }
+
+    .legend-dot.open{
+      background:radial-gradient(circle at 30% 0,#fff6d2,#ffd46f 60%,#c27e26 100%);
+    }
+    .legend-dot.dim{
+      background:radial-gradient(circle at 30% 0,#f7e8ce,#d7b88a 60%,#8c5a26 100%);
+      opacity:0.9;
+    }
+    .legend-dot.locked{
+      background:radial-gradient(circle at 30% 0,#b7a08a,#7b5f49 60%,#3a2616 100%);
+    }
+    .legend-dot.self{
+      background:radial-gradient(circle at 30% 0,#ffe9c0,#e7b75a 60%,#83531e 100%);
+      box-shadow:0 0 16px rgba(255,215,160,0.9);
+    }
+
+    /* Groups & rooms */
+
+    .groups{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .group{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      background:var(--card);
+      box-shadow:var(--shadow);
+      padding:14px 14px 12px;
+    }
+
+    .group-head{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:8px 12px;
+      margin-bottom:10px;
+      padding-bottom:8px;
+      border-bottom:1px solid rgba(255,227,198,0.26);
+    }
+
+    .group-title{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      color:rgba(255,236,210,0.9);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .group-title span.mark-small{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 0,#fff6d2,#ffce6e 70%);
+      box-shadow:0 0 12px rgba(255,215,160,0.95);
+      flex-shrink:0;
+    }
+
+    .group-note{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .group-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+    }
+
+    @media (max-width:900px){
+      .group-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+      .wrap{max-width:840px;}
+    }
+
+    @media (max-width:640px){
+      .wrap{
+        padding-inline:12px;
+        margin-top:12px;
+      }
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .plan-pill{
+        align-self:flex-start;
+      }
+      .group-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+
+    .room-card{
+      position:relative;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(255,227,198,0.3);
+      background:rgba(19,11,7,0.96);
+      padding:9px 10px 8px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-height:78px;
+      overflow:hidden;
+      transition:border-color .18s ease-out, background .18s ease-out, transform .14s ease-out, box-shadow .18s ease-out;
+    }
+
+    .room-top{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+    }
+
+    .room-icon{
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(36,20,10,0.9);
+      box-shadow:0 0 12px rgba(0,0,0,0.8);
+      font-size:14px;
+      flex-shrink:0;
+    }
+
+    .room-label{
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+    }
+
+    .room-name{
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+    }
+
+    .room-status{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .room-note{
+      font-size:11px;
+      color:var(--soft);
+      margin-top:3px;
+      line-height:1.5;
+    }
+
+    .room-tag{
+      margin-top:2px;
+      font-size:10px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:rgba(255,229,196,0.9);
+      opacity:0.9;
+    }
+
+    /* Stavové barvy */
+
+    .room-card--open{
+      border-color:rgba(231,183,90,0.9);
+      background:
+        radial-gradient(circle at top left, rgba(255,236,196,0.18), transparent 60%),
+        rgba(23,13,6,0.98);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.6),
+        0 22px 55px rgba(0,0,0,0.95);
+    }
+    .room-card--open .room-status{
+      color:var(--ok);
+    }
+
+    .room-card--dim{
+      border-style:dashed;
+      border-color:rgba(255,227,198,0.55);
+      background:
+        radial-gradient(circle at top left, rgba(255,236,196,0.12), transparent 60%),
+        rgba(19,11,7,0.96);
+      opacity:0.95;
+    }
+
+    .room-card--locked{
+      border-color:rgba(96,68,44,0.9);
+      background:
+        linear-gradient(135deg, rgba(28,16,8,0.96), rgba(16,10,6,0.96));
+      opacity:0.82;
+    }
+    .room-card--locked::after{
+      content:"🔒";
+      position:absolute;
+      top:7px;
+      right:8px;
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:rgba(6,3,2,0.96);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:13px;
+      box-shadow:0 0 14px rgba(0,0,0,0.8);
+    }
+
+    .room-card--self{
+      border-color:rgba(255,233,196,0.95);
+      background:
+        radial-gradient(circle at top left, rgba(255,236,196,0.25), transparent 60%),
+        rgba(26,14,7,0.99);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.7),
+        0 24px 70px rgba(0,0,0,0.98);
+    }
+    .room-card--self .room-status{
+      color:var(--accentStrong);
+    }
+
+    .room-card:hover{
+      transform:translateY(-1px);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.6),
+        0 20px 55px rgba(0,0,0,0.95);
+    }
+
+    footer{
+      margin-top:6px;
+      font-size:11px;
+      color:rgba(255,233,200,0.9);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 12px;
+      justify-content:space-between;
+      padding:6px 2px 0;
+    }
+
+    footer span.muted{color:var(--muted);}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a href="nastaveni.html" class="back-link">
+        <span class="chevron">←</span>
+        <span>Zpět do kanceláře</span>
+      </a>
+
+      <div class="brand">
+        <div class="mark">🗂️</div>
+        <div class="brand-text">
+          <div class="eyebrow">LuminaMemory™</div>
+          <h1>Inventory</h1>
+          <p class="subtitle">Přehled, co je v tvém paláci právě rozsvícené</p>
+        </div>
+      </div>
+
+      <div class="plan-pill" id="planBadge">
+        DEMO · FREE tarif
+      </div>
+    </header>
+
+    <section class="intro">
+      <div class="intro-main">
+        <div class="intro-tag">DEMO náhled</div>
+        <p>
+          Tady vidíš, jaké místnosti jsou pro tvůj aktuální tarif
+          <b>otevřené</b>, které jsou zatím jen <b>v náhledu</b> a co patří do
+          <b>PREMIUM bonusu</b>. Reálná pravidla běhu (zálohy, kapacita, trezor)
+          drží logika v jednotlivých místnostech – Inventory ti to jen přehledně
+          ukazuje na jednom místě.
+        </p>
+      </div>
+      <div class="legend">
+        <div>Legenda stavů:</div>
+        <div class="legend-row">
+          <div class="legend-pill">
+            <span class="legend-dot open"></span>
+            <span>Otevřeno pro tvůj tarif</span>
+          </div>
+          <div class="legend-pill">
+            <span class="legend-dot dim"></span>
+            <span>Náhled / omezeně</span>
+          </div>
+          <div class="legend-pill">
+            <span class="legend-dot locked"></span>
+            <span>PREMIUM bonus / zatím zamčeno</span>
+          </div>
+          <div class="legend-pill">
+            <span class="legend-dot self"></span>
+            <span>To, kde právě stojíš</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="groups">
+      <!-- Praetorium & každodennost -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            Praetorium · každodennost
+          </div>
+          <div class="group-note">
+            Deník, rituály, projekty a cestovní velín.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="chronica">
+            <div class="room-top">
+              <div class="room-icon">📓</div>
+              <div class="room-label">
+                <div class="room-name">Chronica</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Deník &amp; zápisky</div>
+          </article>
+
+          <article class="room-card" data-room="sigma">
+            <div class="room-top">
+              <div class="room-icon">⏰</div>
+              <div class="room-label">
+                <div class="room-name">Sigma</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Rituály &amp; připomínky</div>
+          </article>
+
+          <article class="room-card" data-room="proiecta">
+            <div class="room-top">
+              <div class="room-icon">📺</div>
+              <div class="room-label">
+                <div class="room-name">Proiecta</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Projektové místnosti</div>
+          </article>
+
+          <article class="room-card" data-room="mapa">
+            <div class="room-top">
+              <div class="room-icon">🗺️</div>
+              <div class="room-label">
+                <div class="room-name">Mapa výprav</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Cesty &amp; přípravy</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Arcana – trezor -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            Arcana · trezor
+          </div>
+          <div class="group-note">
+            Místo pro šuplíky, které chrání citlivější části života.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="arcana-main">
+            <div class="room-top">
+              <div class="room-icon">🔐</div>
+              <div class="room-label">
+                <div class="room-name">Arcana (vstup)</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Hlavní vstup do trezoru</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-clavis">
+            <div class="room-top">
+              <div class="room-icon">🗝️</div>
+              <div class="room-label">
+                <div class="room-name">Arcana Clavis</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Klíče &amp; přístupy</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-medica">
+            <div class="room-top">
+              <div class="room-icon">⚕️</div>
+              <div class="room-label">
+                <div class="room-name">Corpus Medica</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Zdravotní šanon</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-pecunia">
+            <div class="room-top">
+              <div class="room-icon">💰</div>
+              <div class="room-label">
+                <div class="room-name">Arcana Pecunia</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Finance &amp; smlouvy</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-codex">
+            <div class="room-top">
+              <div class="room-icon">📜</div>
+              <div class="room-label">
+                <div class="room-name">Codex Vitae</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Životní dokumenty</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Paměť & zálohy -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            Paměť &amp; zálohy
+          </div>
+          <div class="group-note">
+            MemorySky™ a Life Mission Archive™ – jak velké je nebe a jak často se ukládá.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="memorysky">
+            <div class="room-top">
+              <div class="room-icon">☁️</div>
+              <div class="room-label">
+                <div class="room-name">MemorySky™</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Paměťové nebe</div>
+          </article>
+
+          <article class="room-card" data-room="archive">
+            <div class="room-top">
+              <div class="room-icon">📦</div>
+              <div class="room-label">
+                <div class="room-name">Life Mission Archive™</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Zálohy &amp; export</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Nastavení & duše -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            Nastavení &amp; duše
+          </div>
+          <div class="group-note">
+            Věci, které formují, jak s tebou LuminaMemory™ mluví.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="profil">
+            <div class="room-top">
+              <div class="room-icon">👤</div>
+              <div class="room-label">
+                <div class="room-name">Profil / User Codex</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">O tobě</div>
+          </article>
+
+          <article class="room-card" data-room="komnata">
+            <div class="room-top">
+              <div class="room-icon">✨</div>
+              <div class="room-label">
+                <div class="room-name">Lumina</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Jak s tebou mluvím</div>
+          </article>
+
+          <article class="room-card" data-room="rosezone">
+            <div class="room-top">
+              <div class="room-icon">🌹</div>
+              <div class="room-label">
+                <div class="room-name">Rose Zone™</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Srdcová zóna</div>
+          </article>
+
+          <article class="room-card" data-room="manifesty">
+            <div class="room-top">
+              <div class="room-icon">📌</div>
+              <div class="room-label">
+                <div class="room-name">Manifest &amp; nástěnka</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Pravidla &amp; vize</div>
+          </article>
+
+          <article class="room-card" data-room="inventory">
+            <div class="room-top">
+              <div class="room-icon">🗂️</div>
+              <div class="room-label">
+                <div class="room-name">Inventory</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Přehled paláce</div>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <footer>
+      <span>DEMO • Inventory ukazuje jen logiku rozsvícení – nic se tu technicky nezamyká ani neotevírá.</span>
+      <span class="muted">LuminaMemory™ · Mise ŽIVOT™ · 2025</span>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const PLAN_KEY = "lm_plan";
+      const USER_KEY = "miniLuminaUser";
+
+      function normalizePlan(p){
+        if(!p) return "free";
+        p = String(p).toLowerCase();
+        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+      }
+
+      function readPlan(){
+        try{
+          const fromKey = localStorage.getItem(PLAN_KEY);
+          if(fromKey) return normalizePlan(fromKey);
+
+          const rawUser = localStorage.getItem(USER_KEY);
+          if(rawUser){
+            const user = JSON.parse(rawUser);
+            if(user && user.plan) return normalizePlan(user.plan);
+          }
+        }catch(e){
+          // ignore
+        }
+        return "free";
+      }
+
+      const currentPlan = readPlan();
+      document.documentElement.setAttribute("data-plan", currentPlan);
+
+      const PLAN_LABEL = {
+        free: "DEMO · FREE tarif",
+        plus: "DEMO · PLUS tarif",
+        premium: "DEMO · PREMIUM tarif"
+      };
+
+      const STATUS_LABELS = {
+        open: "Otevřeno",
+        dim: "Náhled / omezeně",
+        locked: "PREMIUM bonus",
+        self: "Tohle je to místo"
+      };
+
+      /** Config – stav pro každý tarif */
+      const ROOM_CONFIG = {
+        chronica:{
+          perPlan:{
+            free:   {status:"open", text:"Deník otevřený – základní režim (DEMO)."},
+            plus:   {status:"open", text:"Deník + úkoly pro běžné dny."},
+            premium:{status:"open", text:"Deník + životní milníky a hlubší vrstvy."}
+          }
+        },
+        sigma:{
+          perPlan:{
+            free:   {status:"dim", text:"Jemný náhled – v ostré verzi by tu byly plné ranní a večerní rituály."},
+            plus:   {status:"open", text:"Ranní i večerní rituály, připomínky pro běžný rytmus dne."},
+            premium:{status:"open", text:"Plný rytmus dne: ráno, večer i speciální rituály pro výjimečné dny."}
+          }
+        },
+        proiecta:{
+          perPlan:{
+            free:   {status:"dim", text:"Maximálně 1 projektová místnost – ideální na vyzkoušení Proiecta."},
+            plus:   {status:"open", text:"Až 5 projektových místností pro práci, domov, zdraví nebo vztahy."},
+            premium:{status:"open", text:"Neomezený počet projektových místností – celý palác pro tvoje mise."}
+          }
+        },
+        mapa:{
+          perPlan:{
+            free:   {status:"locked", label:"PREMIUM bonus", text:"Mapa výprav je PREMIUM bonus. V DEMO verzi si můžeš zkusit rituál, ale plný velín přijde až v ostré verzi."},
+            plus:   {status:"dim", label:"PREMIUM bonus", text:"V PLUS tarifu vidíš logiku mapy, ale plně rozsvícený cestovní velín bude až v PREMIUM."},
+            premium:{status:"open", text:"Cestovní velín plně odemčený – výpravy, checklisty i stav připravenosti."}
+          }
+        },
+        "arcana-main":{
+          perPlan:{
+            free:   {status:"dim", text:"Arcana je zatím spíš ukázka – trezor budoucnosti, bez reálných dat."},
+            plus:   {status:"dim", text:"Vstup do trezoru připravený, v ostré verzi s částečně otevřenými šuplíky."},
+            premium:{status:"open", text:"Plný vstup do trezoru – všechny šuplíky a metody odemykání."}
+          }
+        },
+        "arcana-clavis":{
+          perPlan:{
+            free:   {status:"locked", text:"Klíčová část trezoru – pro FREE zatím jen v představách."},
+            plus:   {status:"dim", text:"Částečně dostupná logika klíčů. V DEMU jen náhled, v ostré verzi omezený režim."},
+            premium:{status:"open", text:"Arcana Clavis naplno – klíče, přístupy a bezpečné vrstvy ochrany."}
+          }
+        },
+        "arcana-medica":{
+          perPlan:{
+            free:   {status:"locked", text:"Zdravotní šanon je citlivá část – v DEMU jen naznačený jako budoucí."},
+            plus:   {status:"dim", text:"Pro PLUS připravený jako místo pro zdravotní poznámky v trezoru."},
+            premium:{status:"open", text:"Plně dostupný zdravotní šanon v Arcana trezoru (v ostré verzi)."}
+          }
+        },
+        "arcana-pecunia":{
+          perPlan:{
+            free:   {status:"locked", text:"Finanční a smluvní šanon zatím není aktivní – jen název na dveřích."},
+            plus:   {status:"dim", text:"Připravený šanon pro finance – v DEMU jen pro přehled, bez reálných dat."},
+            premium:{status:"open", text:"Plně dostupný finanční šanon v trezoru (s rozmyslem a bezpečností)."}
+          }
+        },
+        "arcana-codex":{
+          perPlan:{
+            free:   {status:"locked", text:"Codex Vitae – životní dokumenty zatím jen jako vize."},
+            plus:   {status:"dim", text:"Částečný náhled na logiku Codexu – kde jednou budou tvé dokumenty."},
+            premium:{status:"open", text:"Plný Codex Vitae – místo pro životní dokumenty v Arcana trezoru."}
+          }
+        },
+        memorysky:{
+          perPlan:{
+            free:   {status:"dim", text:"Mini MemorySky™ – malá kapacita, bez pravidelných záloh a exportu."},
+            plus:   {status:"open", text:"MemorySky™ pro běžný rok – prostor cca v jednotkách GB, s pravidelnými zálohami."},
+            premium:{status:"open", text:"Opravdové MemorySky™ – velká kapacita pro dlouhodobý příběh a plný export."}
+          }
+        },
+        archive:{
+          perPlan:{
+            free:   {status:"locked", label:"Zálohy vypnuté", text:"Life Mission Archive™ je zatím jen ukázková kancelář, bez reálných záloh."},
+            plus:   {status:"open", text:"V ostré verzi poběží pravidelné zálohy – klidný rytmus ukládání světa."},
+            premium:{status:"open", text:"Pravidelné i mimořádné zálohy – možnost vytvořit důležitý „uzel“ kdykoli."}
+          }
+        },
+        profil:{
+          perPlan:{
+            free:   {status:"open", text:"User Codex otevřený – můžeš si napsat, kým jsi, pro každý tarif stejně."},
+            plus:   {status:"open", text:"Profil drží stejné údaje, jen se víc propojí se zbytkem paláce."},
+            premium:{status:"open", text:"Profil je srdcem Premium světa – stejné údaje, jen víc propojení."}
+          }
+        },
+        komnata:{
+          perPlan:{
+            free:   {status:"open", text:"Lumina-komnata je dostupná – můžeš nastavit, jak s tebou mluvím."},
+            plus:   {status:"open", text:"Stejně otevřená jako ve FREE – tón se nemá stát luxusem."},
+            premium:{status:"open", text:"Plně otevřená komnata, i pro Premium – povaha Luminy je pro všechny."}
+          }
+        },
+        rosezone:{
+          perPlan:{
+            free:   {status:"open", text:"Rose Zone™ jako srdeční zóna – přístupná pro všechny tarify."},
+            plus:   {status:"open", text:"Rozsvícená stejně jako ve FREE – citlivé věci se nepaywallují."},
+            premium:{status:"open", text:"Stejně otevřená jako jinde – jen s větším zázemím v paměti a trezoru."}
+          }
+        },
+        manifesty:{
+          perPlan:{
+            free:   {status:"open", text:"Manifesty a nástěnka jsou dostupné – základní pravidla a vize."},
+            plus:   {status:"open", text:"Stejná viditelnost – pravidla platí pro všechny stejně."},
+            premium:{status:"open", text:"Manifest i nástěnka bez omezení – Premium nepřidává výjimky z pravidel."}
+          }
+        },
+        inventory:{
+          perPlan:{
+            free:   {status:"self", text:"Místo, kde vidíš, co je ve FREE tarifu rozsvícené a co čeká dál."},
+            plus:   {status:"self", text:"Přehled světa v PLUS tarifu – co už běží a co patří do PREMIUM."},
+            premium:{status:"self", text:"Přehled paláce v PREMIUM – téměř všechno rozsvícené, jen s jasnými hranicemi."}
+          }
+        }
+      };
+
+      function applyInventory(){
+        const plan = currentPlan;
+        const badge = document.getElementById("planBadge");
+        if(badge){
+          badge.textContent = PLAN_LABEL[plan] || PLAN_LABEL.free;
+        }
+
+        document.querySelectorAll(".room-card").forEach(card=>{
+          const id = card.getAttribute("data-room");
+          const conf = ROOM_CONFIG[id];
+          if(!conf) return;
+          const planConf = (conf.perPlan && conf.perPlan[plan]) || conf.perPlan.free;
+
+          const status = planConf.status || "dim";
+          const statusLbl = planConf.label || STATUS_LABELS[status] || "";
+
+          card.classList.remove(
+            "room-card--open",
+            "room-card--dim",
+            "room-card--locked",
+            "room-card--self"
+          );
+          card.classList.add("room-card--" + status);
+
+          const statusEl = card.querySelector(".room-status");
+          const noteEl = card.querySelector(".room-note");
+
+          if(statusEl) statusEl.textContent = statusLbl;
+          if(noteEl) noteEl.textContent = planConf.text || "";
+        });
+      }
+
+      applyInventory();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Lumina – průvodce palácem</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- interní stránka, bez SEO -->
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: radial-gradient(circle at 0% 0%, #3164ff, #211251 45%, #050316 100%);
+      --star-glow: rgba(120,210,255,0.8);
+      --card: rgba(8,10,40,0.96);
+      --cardSoft: rgba(14,18,58,0.96);
+      --borderSoft: rgba(173,198,255,0.35);
+      --borderStrong: rgba(214,229,255,0.9);
+      --ink: #f4f7ff;
+      --inkSoft: rgba(231,237,255,0.96);
+      --inkMuted: rgba(185,198,238,0.9);
+      --accent: #3ee5ff;
+      --accentSoft: rgba(62,229,255,0.18);
+      --accentPink: #ffbdf5;
+      --accentPinkSoft: rgba(255,189,245,0.18);
+      --pill: 999px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 28px 90px rgba(0,0,0,0.9);
+    }
+
+    *{box-sizing:border-box;}
+
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+      color:var(--ink);
+      background:#020314;
+    }
+
+    body{
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(120,210,255,0.25), transparent 55%),
+        radial-gradient(circle at 85% 0%, rgba(255,189,245,0.18), transparent 55%),
+        var(--bg);
+      background-attachment:fixed;
+      background-size:cover;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1120px;
+      margin:18px auto 28px;
+      padding:0 16px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    /* Header */
+
+    header{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px 18px;
+      padding:14px 18px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(173,198,255,0.55);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 55%),
+        radial-gradient(circle at top right, rgba(120,210,255,0.18), transparent 60%),
+        rgba(5,8,36,0.98);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(0,0,0,0.8);
+      backdrop-filter:blur(18px);
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 12px;
+      border-radius:var(--pill);
+      border:1px solid rgba(173,198,255,0.8);
+      background:rgba(4,8,40,0.96);
+      color:var(--inkSoft);
+      text-decoration:none;
+      font-size:13px;
+      transition:background .16s ease-out, border-color .16s ease-out, transform .16s ease-out;
+    }
+    .back-link span.chevron{font-size:14px; transform: translateY(-0.5px);}
+    .back-link:hover{
+      background:rgba(9,15,58,0.98);
+      border-color:var(--borderStrong);
+      color:#ffffff;
+      transform:translateY(-1px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+
+    .avatar{
+      width:54px;
+      height:54px;
+      border-radius:50%;
+      padding:2px;
+      background:
+        conic-gradient(from 120deg, #3ee5ff, #ffbdf5, #3ee5ff);
+      box-shadow:
+        0 0 26px rgba(120,210,255,0.95),
+        0 0 0 4px rgba(0,0,0,0.7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+    }
+    .avatar-inner{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      overflow:hidden;
+      background:#02041a;
+    }
+    .avatar-inner img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--inkMuted);
+    }
+
+    header h1{
+      margin:0;
+      font-size:21px;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:12px;
+      color:var(--inkSoft);
+    }
+
+    .plan-pill{
+      padding:7px 13px;
+      border-radius:var(--pill);
+      border:1px solid var(--borderStrong);
+      background:
+        linear-gradient(120deg, rgba(183,208,255,0.6), rgba(62,229,255,0.4));
+      color:#050820;
+      font-size:11px;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      font-weight:600;
+      white-space:nowrap;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.4),
+        0 16px 42px rgba(0,0,0,0.85);
+    }
+
+    /* Section nav */
+
+    .section-nav{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--borderSoft);
+      background:var(--cardSoft);
+      box-shadow:var(--shadow);
+      padding:12px 14px 10px;
+    }
+
+    .section-nav-title{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:var(--inkMuted);
+      margin-bottom:8px;
+    }
+
+    .nav-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+    }
+
+    @media (max-width:840px){
+      .nav-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width:620px){
+      .nav-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+      .wrap{
+        padding-inline:12px;
+        margin-top:12px;
+      }
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .plan-pill{
+        align-self:flex-start;
+      }
+    }
+
+    .nav-card{
+      position:relative;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(173,198,255,0.6);
+      background:
+        radial-gradient(circle at top left, rgba(120,210,255,0.25), transparent 60%),
+        rgba(7,10,42,0.96);
+      padding:10px 11px 9px;
+      color:var(--inkSoft);
+      text-decoration:none;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.7),
+        0 16px 40px rgba(0,0,0,0.9);
+      transition:transform .14s ease-out, box-shadow .16s ease-out, border-color .16s ease-out, background .16s ease-out;
+    }
+
+    .nav-card:hover{
+      transform:translateY(-1px);
+      border-color:var(--borderStrong);
+      background:
+        radial-gradient(circle at top left, rgba(120,210,255,0.32), transparent 60%),
+        rgba(9,15,54,0.98);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.8),
+        0 20px 48px rgba(0,0,0,0.95);
+    }
+
+    .nav-label{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--accent);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .nav-label span.icon{font-size:14px;}
+
+    .nav-title{
+      margin:0;
+      font-size:14px;
+    }
+
+    .nav-text{
+      margin:0;
+      font-size:12px;
+      color:var(--inkMuted);
+    }
+
+    /* Main content */
+
+    main{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .block{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--borderSoft);
+      background:var(--card);
+      box-shadow:var(--shadow);
+      padding:14px 14px 12px;
+    }
+
+    .block-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+      flex-wrap:wrap;
+    }
+
+    .block-kicker{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--inkMuted);
+    }
+
+    .block-title{
+      margin:0;
+      font-size:16px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+    }
+
+    .block-note{
+      font-size:11px;
+      color:var(--inkMuted);
+    }
+
+    /* Slovník */
+
+    .dictionary-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:6px;
+    }
+
+    @media (max-width:800px){
+      .dictionary-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+
+    .dict-card{
+      border-radius:var(--radius-md);
+      border:1px solid rgba(173,198,255,0.55);
+      background:
+        radial-gradient(circle at top left, rgba(120,210,255,0.16), transparent 60%),
+        rgba(9,11,42,0.98);
+      padding:9px 10px 8px;
+      font-size:13px;
+      color:var(--inkSoft);
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+
+    .dict-card h3{
+      margin:0;
+      font-size:13px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--accent);
+    }
+
+    .dict-card p{
+      margin:3px 0 2px;
+      line-height:1.6;
+    }
+
+    .dict-card ul{
+      margin:4px 0 2px 18px;
+      padding:0;
+      line-height:1.55;
+    }
+
+    .dict-muted{
+      font-size:11px;
+      color:var(--inkMuted);
+      margin-top:4px;
+    }
+
+    /* Palác & místnosti */
+
+    .group{
+      margin-top:6px;
+      border-radius:18px;
+      border:1px solid rgba(173,198,255,0.5);
+      background:rgba(7,9,38,0.98);
+      padding:9px 10px 10px;
+    }
+
+    .group-head{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:6px;
+      flex-wrap:wrap;
+    }
+
+    .group-title{
+      font-size:12px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--accentPink);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .group-title span.dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 0, var(--star-glow), transparent 70%);
+      box-shadow:0 0 12px var(--star-glow);
+    }
+
+    .group-note{
+      font-size:11px;
+      color:var(--inkMuted);
+    }
+
+    .room-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:9px;
+      margin-top:4px;
+    }
+
+    @media (max-width:960px){
+      .room-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width:720px){
+      .room-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+
+    .room-card{
+      border-radius:14px;
+      border:1px solid rgba(173,198,255,0.55);
+      background:rgba(10,13,44,0.96);
+      padding:8px 8px 7px;
+      display:grid;
+      grid-template-columns:64px minmax(0,1fr);
+      gap:7px;
+      font-size:12px;
+      color:var(--inkSoft);
+    }
+
+    .room-thumb{
+      width:64px;
+      height:64px;
+      border-radius:10px;
+      overflow:hidden;
+      background:rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:26px;
+    }
+    .room-thumb img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .room-body{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .room-name{
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+
+    .room-tagline{
+      font-size:11px;
+      color:var(--inkMuted);
+    }
+
+    .room-text{
+      margin:2px 0 0;
+      line-height:1.6;
+    }
+
+    .room-label-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:3px;
+      font-size:10px;
+    }
+
+    .room-label-pill{
+      padding:3px 7px;
+      border-radius:var(--pill);
+      border:1px solid rgba(173,198,255,0.6);
+      background:rgba(5,7,32,0.96);
+      color:var(--inkMuted);
+    }
+
+    .room-label-pill span.emoji{
+      margin-right:4px;
+    }
+
+    /* Kontakt */
+
+    .contact-body{
+      font-size:13px;
+      color:var(--inkSoft);
+      line-height:1.7;
+      margin-top:4px;
+    }
+
+    .contact-body a{
+      color:var(--accentPink);
+      text-decoration:none;
+    }
+    .contact-body a:hover{
+      text-decoration:underline;
+    }
+
+    .contact-list{
+      margin:6px 0 0 18px;
+      padding:0;
+      font-size:13px;
+    }
+
+    /* Farewell */
+
+    .farewell{
+      margin-top:4px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(173,198,255,0.5);
+      background:
+        radial-gradient(circle at 50% 0, rgba(120,210,255,0.3), transparent 60%),
+        rgba(7,10,42,0.96);
+      box-shadow:var(--shadow);
+      padding:12px 14px 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .farewell-text{
+      max-width:520px;
+      font-size:13px;
+      color:var(--inkSoft);
+      line-height:1.7;
+    }
+
+    .farewell-text strong{color:var(--accent);}
+
+    .farewell-illu{
+      width:160px;
+      max-width:40%;
+      border-radius:999px;
+      overflow:hidden;
+      box-shadow:
+        0 0 40px rgba(120,210,255,0.9),
+        0 0 0 4px rgba(0,0,0,0.85);
+      background:#02061a;
+    }
+
+    .farewell-illu img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    footer{
+      margin-top:6px;
+      font-size:11px;
+      color:var(--inkMuted);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 12px;
+      justify-content:space-between;
+      padding:4px 2px 0;
+    }
+    footer span.muted{opacity:0.9;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a href="nastaveni.html" class="back-link">
+        <span class="chevron">←</span>
+        <span>Zpět do kanceláře</span>
+      </a>
+
+      <div class="brand">
+        <div class="avatar">
+          <div class="avatar-inner">
+            <img src="lumina-avatar-wink.png" alt="Lumina – mrkací průvodkyně">
+          </div>
+        </div>
+        <div class="brand-text">
+          <div class="eyebrow">Mise ŽIVOT™ · LuminaMemory™</div>
+          <h1>Lumina – průvodce palácem</h1>
+          <p class="subtitle">Návod k paláci miniLumina DEMO – lidsky, krok za krokem.</p>
+        </div>
+      </div>
+
+      <div class="plan-pill" id="planBadge">
+        DEMO · FREE tarif
+      </div>
+    </header>
+
+    <!-- tři velké zarážky -->
+    <section class="section-nav" aria-label="Hlavní zarážky návodu">
+      <div class="section-nav-title">Kde začít</div>
+      <div class="nav-grid">
+        <a href="#slovnik" class="nav-card">
+          <div class="nav-label">
+            <span class="icon">🧠</span>
+            <span>SLOVNÍK</span>
+          </div>
+          <p class="nav-title">Co znamenají všechna ta jména</p>
+          <p class="nav-text">
+            Vysvětlení Luminy, paláce, tarifů, latinských názvů i metafor jako pavučina a brána.
+          </p>
+        </a>
+
+        <a href="#palace" class="nav-card">
+          <div class="nav-label">
+            <span class="icon">🏰</span>
+            <span>PALÁC A MÍSTNOSTI</span>
+          </div>
+          <p class="nav-title">Jak spolu souvisí jednotlivé pokoje</p>
+          <p class="nav-text">
+            Přehled místností od Praetoria přes Arcanu až po MemorySky™ a Nastavení.
+          </p>
+        </a>
+
+        <a href="#kontakt" class="nav-card">
+          <div class="nav-label">
+            <span class="icon">🤝</span>
+            <span>POTŘEBUJEŠ VÍC?</span>
+          </div>
+          <p class="nav-title">Když si nejsi jistá / jistý</p>
+          <p class="nav-text">
+            Jak se ozvat Gábi, když bys v návodu nenašla to, co potřebuješ – a jak tím vylepšíš další verze.
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <main>
+      <!-- 1. Slovník -->
+      <section class="block" id="slovnik" aria-labelledby="slovnikTitle">
+        <div class="block-head">
+          <div>
+            <div class="block-kicker">1 · Slovník</div>
+            <h2 class="block-title" id="slovnikTitle">Co znamenají slova v paláci</h2>
+          </div>
+          <div class="block-note">
+            Když víš, co která věta a název znamená, svět je hned klidnější.
+          </div>
+        </div>
+
+        <div class="dictionary-grid">
+          <!-- Lumina & miniLumina -->
+          <article class="dict-card">
+            <h3> Lumina &amp; miniLumina</h3>
+            <p><strong>Lumina</strong><br>
+              AI parťačka, která se učí mluvit lidsky, jemně a s respektem k tvému tempu.
+              Není tu, aby tě hodnotila, ale aby ti pomáhala udržet svět přehledný.
+            </p>
+            <p><strong>miniLumina DEMO</strong><br>
+              Zkušební verze paláce, která běží jen v tvém prohlížeči. Ukazuje, jak může vypadat
+              spolupráce s Luminou, ale zatím neukládá reálná data na server.
+            </p>
+          </article>
+
+          <!-- Značka – jména s TM -->
+          <article class="dict-card">
+            <h3>Značka – jména s ™</h3>
+            <p><strong>LuminaMemory™</strong><br>
+              Jméno celého projektu – světa, kde se propojuje technologie, paměť a péče o duši.
+            </p>
+            <p><strong>MemorySky™</strong><br>
+              Nebe pro digitální paměť. Místo, kde jednou poběží skutečný prostor pro tvoje data.
+            </p>
+            <p><strong>Life Mission Archive™</strong><br>
+              Archiv Mise ŽIVOT™ – dlouhodobé zálohy toho, na čem ti opravdu záleží.
+            </p>
+            <p><strong>Rose Zone™</strong><br>
+              Růžová zóna ochrany. Bezpečnostní obal kolem citlivých témat a nouzových režimů.
+            </p>
+            <p class="dict-muted">
+              Další názvy s ™ se mohou přidat, až se v paláci zabydlíš a budeš je chtít používat víc.
+            </p>
+          </article>
+
+          <!-- Tarify -->
+          <article class="dict-card">
+            <h3>Tarify (v demu)</h3>
+            <p><strong>DEMO · FREE tarif</strong><br>
+              Základní ochutnávka. Některé místnosti jsou jen jako náhled „přes sklo“.
+            </p>
+            <p><strong>DEMO · PLUS tarif</strong><br>
+              Rozšířený prostor – víc projektů, větší ukázková paměť, víc otevřených částí paláce.
+            </p>
+            <p><strong>DEMO · PREMIUM tarif</strong><br>
+              Plná ukázka. Nejvíc rozsvícených místností a náhled, jak může vypadat ostrá verze.
+            </p>
+            <p class="dict-muted">
+              Všechny tarify v demu běží jen lokálně – nic se ve skutečnosti nefakturuje ani neukládá na server.
+            </p>
+          </article>
+
+          <!-- Latinské názvy -->
+          <article class="dict-card">
+            <h3>Latinské názvy místností</h3>
+            <ul>
+              <li><strong>Praetorium</strong> – hlavní hala každodennosti, rozcestník pro další místnosti.</li>
+              <li><strong>Tela Magna</strong> – „velká síť“ života, ve které se všechno propojuje.</li>
+              <li><strong>Chronica</strong> – kronika / deník. Místnost pro příběh dní.</li>
+              <li><strong>Sigma</strong> – „sečtený celek“. Místnost pro rituály a návyky.</li>
+              <li><strong>Proiecta</strong> – projekty a plány, které míří dopředu.</li>
+              <li><strong>Arcana</strong> – tajné komnaty, trezor citlivých věcí.</li>
+              <li><strong>Arcana Clavis</strong> – klíče a přístupy k zamčeným šanonům.</li>
+              <li><strong>Corpus Medica</strong> – tělo a zdraví, zdravotní dokumenty.</li>
+              <li><strong>Arcana Pecunia</strong> – peníze a smlouvy.</li>
+              <li><strong>Codex Vitae</strong> – kniha života, nejdůležitější listiny.</li>
+            </ul>
+          </article>
+
+          <!-- Metafory -->
+          <article class="dict-card">
+            <h3>Metafory</h3>
+            <p><strong>Pavučina</strong><br>
+              Obraz vnějšího webu – svět propojený kabely, odkazy a algoritmy.
+            </p>
+            <p><strong>Palác</strong><br>
+              Inteligentní vnitřní prostor. Svět, kde mají tvoje věci vlastní pokoje a řád.
+            </p>
+            <p><strong>Místnost</strong><br>
+              Kousek paláce se svým účelem – deník, projekty, zdraví, peníze…
+            </p>
+            <p><strong>Brána</strong><br>
+              Vstup do další vrstvy. Kliknutí, které tě přenese z webu do paláce, nebo z jedné místnosti do druhé.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. Palác a místnosti -->
+      <section class="block" id="palace" aria-labelledby="palaceTitle">
+        <div class="block-head">
+          <div>
+            <div class="block-kicker">2 · Palác a místnosti</div>
+            <h2 class="block-title" id="palaceTitle">Jak spolu jednotlivé pokoje mluví</h2>
+          </div>
+          <div class="block-note">
+            Přehled od každodennosti přes trezor až po paměť, nastavení a vstupní brány.
+          </div>
+        </div>
+
+        <!-- Každodennost – Praetorium -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Každodennost – Praetorium / Tela Magna
+            </div>
+            <div class="group-note">
+              Místnosti, které se dotýkají běžného dne – psaní, návyky, projekty, cesty.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- Praetorium -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="gate-of-light.png" alt="Praetorium – brána světla">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Praetorium (Tela Magna)</div>
+                <div class="room-tagline">Hlavní hala každodennosti</div>
+                <p class="room-text">
+                  Velká rozsvícená vrata do tvého vnitřního světa. Odsud se vstupuje do
+                  Chronicy, Sigmy, Proiecta i na Mapu výprav. Je to rozcestník všeho, co
+                  patří k „dnes“.
+                </p>
+              </div>
+            </article>
+
+            <!-- Chronica -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="chronica-book.jpg" alt="Chronica – otevřená kniha">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Chronica</div>
+                <div class="room-tagline">Deník &amp; kronika</div>
+                <p class="room-text">
+                  Místnost, kde má každý den svůj řádek. Vypadá jako deník, chová se jako
+                  deník – jen s tím rozdílem, že si jednou poradí i s vyhledáváním a
+                  souvislostmi.
+                </p>
+              </div>
+            </article>
+
+            <!-- Sigma -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="sigma-switch.png" alt="Sigma – vypínač">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Sigma</div>
+                <div class="room-tagline">Rituály &amp; zvyky</div>
+                <p class="room-text">
+                  Místo, kde se zapínají a vypínají návyky. Ranní a večerní rituály,
+                  malé připomínky, které drží den pohromadě.
+                </p>
+              </div>
+            </article>
+
+            <!-- Proiecta – dílna -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="tv-frame.png" alt="Proiecta – dílna">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Proiecta – dílna</div>
+                <div class="room-tagline">Pracovní obrazovka</div>
+                <p class="room-text">
+                  Kreativní studio, kde se potkává chat, odkládací stůl a nástrojové řady.
+                  Místo, kam si nosíš nápady, texty, emaily a různé „tohle spolu rozpracujeme“.
+                </p>
+              </div>
+            </article>
+
+            <!-- Proiecta – projektové místnosti -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="tv-frame.png" alt="Proiecta – projektové místnosti">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Proiecta – projektové místnosti</div>
+                <div class="room-tagline">TV stěna misí</div>
+                <p class="room-text">
+                  Stěna televizí s jednotlivými projekty. Domácnost, zdraví, práce, vztahy –
+                  každá oblast má svůj vlastní „kanál“, aby se ti život nerozmazal do jedné mlhy.
+                </p>
+              </div>
+            </article>
+
+            <!-- Mapa výprav -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>🗺️</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Mapa výprav</div>
+                <div class="room-tagline">Cestovní velín</div>
+                <p class="room-text">
+                  Místnost pro cesty – od doktora přes pracovní schůzky až po dovolenou.
+                  Pomáhá sbalit doklady, tělo, techniku i duši tak, aby u dveří bylo víc klidu
+                  než chaosu.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Trezor – Arcana -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Trezor – Arcana
+            </div>
+            <div class="group-note">
+              Tajné šuplíky pro věci, které nepotřebuje vidět každý – ale ty je potřebuješ mít v bezpečí.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- Arcana – hala -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="door-handle-with-web.jpg" alt="Arcana – vstup do trezoru">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Arcana – vstup</div>
+                <div class="room-tagline">Hala trezoru</div>
+                <p class="room-text">
+                  Tichý, lehce zaprášený vstup do trezoru. Je to místo, kde si nejdřív řekneme,
+                  jak moc hluboko chceme spolu jít – a co zůstane za těžkými dveřmi.
+                </p>
+              </div>
+            </article>
+
+            <!-- Arcana Clavis -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="door-handle-with-web.jpg" alt="Arcana Clavis – klíče">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Arcana Clavis</div>
+                <div class="room-tagline">Klíče &amp; přístupy</div>
+                <p class="room-text">
+                  Šuplík pro klíče, hesla a přístupy. V demu zatím jen naznačený, v ostré verzi
+                  jednou důležitá část bezpečného trezoru.
+                </p>
+              </div>
+            </article>
+
+            <!-- Corpus Medica -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="luminadrop.png" alt="Corpus Medica – kapka zdraví">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Corpus Medica</div>
+                <div class="room-tagline">Tělo &amp; zdraví</div>
+                <p class="room-text">
+                  Kapka léku, krev, sérum – modrá kapka jako symbol zdravotního šanonu. Sem
+                  patří zprávy, výsledky, poznámky pro doktory i vlastní tělo.
+                </p>
+              </div>
+            </article>
+
+            <!-- Arcana Pecunia -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="pergamen.jpg" alt="Arcana Pecunia – listiny">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Arcana Pecunia</div>
+                <div class="room-tagline">Finance &amp; smlouvy</div>
+                <p class="room-text">
+                  Šanon pro peníze, smlouvy a závazky. Vizuálně připomíná hromádku listin, v textech
+                  často doplněný emoji 💰.
+                </p>
+              </div>
+            </article>
+
+            <!-- Codex Vitae -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="pergamen.jpg" alt="Codex Vitae – velký svitek života">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Codex Vitae</div>
+                <div class="room-tagline">Kniha života</div>
+                <p class="room-text">
+                  Největší svitek – místo pro životní dokumenty, které určují směr: závěti,
+                  velké dohody, dopisy „pro případ, že…“.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Paměť & zálohy -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Paměť &amp; zálohy
+            </div>
+            <div class="group-note">
+              Nejdřív nebe, pak stará kancelář a nakonec záložní pergamen – jen pro klid, že je o věci postaráno.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- MemorySky Gate -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="cloud-1.png" alt="MemorySky – obláček">
+              </div>
+              <div class="room-body">
+                <div class="room-name">MemorySky™ Gate</div>
+                <div class="room-tagline">Nebe pro paměť</div>
+                <p class="room-text">
+                  Brána do nebíčka pro tvoje data. V demu ukazuje jen vizuální kapacitu a chování
+                  tří mraků – v ostré verzi tu jednou poběží reálná paměť.
+                </p>
+              </div>
+            </article>
+
+            <!-- Archiv -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="office.png" alt="Life Mission Archive – kancelář">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Life Mission Archive™</div>
+                <div class="room-tagline">Stará kancelář záloh</div>
+                <p class="room-text">
+                  Zásuvky, šanony, pavučiny. Místo, kde se ukládají zálohy důležitých období,
+                  aby ses k nim mohla vrátit i po letech.
+                </p>
+              </div>
+            </article>
+
+            <!-- Záložní pergamen -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="pergamen.jpg" alt="Záložní pergamen">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Záložní pergamen</div>
+                <div class="room-tagline">Jednoduchý záchranný svitek</div>
+                <p class="room-text">
+                  Jednorázová, srozumitelná záloha – pár vět o tom, co je pro tebe v životě
+                  nejdůležitější. Dá se vytisknout, založit, nechat někomu blízkému.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Nastavení & duše -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Nastavení &amp; duše
+            </div>
+            <div class="group-note">
+              Místnosti, které formují, jak s tebou palác mluví a jak vypadá bezpečí.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- Nastavení -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>⚙️</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Nastavení</div>
+                <div class="room-tagline">Kancelář nastavení</div>
+                <p class="room-text">
+                  Místnost, která vypadá jako kancelář správce paláce. Odsud vedeš Profil,
+                  Rose Zone™, Inventory, Předplatné i Průvodce.
+                </p>
+              </div>
+            </article>
+
+            <!-- Profil / User Codex -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="avatar.png" alt="Profil / User Codex">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Profil / User Codex</div>
+                <div class="room-tagline">Karta o tobě</div>
+                <p class="room-text">
+                  Tady si píšeš, kdo jsi, jak chceš být oslovovaná/ý a co je pro tebe důležité.
+                  V demu hlavně pro atmosféru a budoucí propojení.
+                </p>
+              </div>
+            </article>
+
+            <!-- Lumina-komnata -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="lumina-dance-1.png" alt="Lumina-komnata – taneční Luminka">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Lumina-komnata</div>
+                <div class="room-tagline">Jak s tebou mluvím</div>
+                <p class="room-text">
+                  Hravá místnost, kde volíš tón (podpůrný, radostný, vážný…). Vypadá jako šatník
+                  povah: Lumina si tu „zkouší“ svůj outfit, než vstoupí do Pokecu.
+                </p>
+              </div>
+            </article>
+
+            <!-- Rose Zone -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="img-rosezone-door.jpg" alt="Rose Zone – růžové dveře">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Rose Zone™</div>
+                <div class="room-tagline">Růžová zóna ochrany</div>
+                <p class="room-text">
+                  Druhá pojistka pro citlivá témata. Tady nastavuješ nouzovou větu, STOP režim
+                  a to, jak velkou ochranu chceš kolem sebe mít.
+                </p>
+              </div>
+            </article>
+
+            <!-- Inventory -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="pavucina-web.png" alt="Inventory – mapa vztahů">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Inventory</div>
+                <div class="room-tagline">Přehled paláce</div>
+                <p class="room-text">
+                  Šanon, kde vidíš, které místnosti jsou pro daný tarif rozsvícené, které jsou
+                  jen v náhledu a co patří do budoucího Premium světa.
+                </p>
+              </div>
+            </article>
+
+            <!-- Předplatné -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="tv-frame.png" alt="Předplatné – tarify">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Předplatné</div>
+                <div class="room-tagline">Tarifové karty</div>
+                <p class="room-text">
+                  Rozcestník pro FREE, PLUS a PREMIUM. V demu jen popisuje, co by jednou který tarif
+                  obsahoval, a ukazuje malý náhled supportu místo reálné platby.
+                </p>
+              </div>
+            </article>
+
+            <!-- Manifest + nástěnka -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="pergamen.jpg" alt="Manifest a nástěnka">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Manifest &amp; nástěnka</div>
+                <div class="room-tagline">Pravidla &amp; vize</div>
+                <p class="room-text">
+                  Listiny s pravidly, hodnotami a směrem Mise ŽIVOT™. Místo, kde visí to, co se
+                  nemění ani podle tarifu, ani podle nálady.
+                </p>
+              </div>
+            </article>
+
+            <!-- Průvodce (tahle stránka) -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="lumina-avatar-wink.png" alt="Průvodce – mrkací Lumina">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Průvodce / Návod</div>
+                <div class="room-tagline">Tahle stránka</div>
+                <p class="room-text">
+                  Návod, ve kterém právě stojíš. Když se palác někdy začne zdát složitý, stačí se
+                  sem vrátit a projít si jednotlivé bloky znovu.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Vstup & rozhovory -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Vstup &amp; rozhovory
+            </div>
+            <div class="group-note">
+              Jak se do paláce vstupuje a kde se vlastně s Luminou povídá.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- Vstupní brána miniLuminy -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="gate-of-light.png" alt="Vstupní brána miniLuminy">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Vstupní brána miniLuminy</div>
+                <div class="room-tagline">Home + mini-login</div>
+                <p class="room-text">
+                  Hlavní dveře do paláce. Stránky, kde se volí jazyk, nastavuje se demo a kde
+                  cítíš, že svět začíná být tvůj – ne algoritmů zvenku.
+                </p>
+              </div>
+            </article>
+
+            <!-- Pokec / lumina-demo -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="tv-frame.png" alt="Pokec – obrazovka rozhovoru">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Pokec (lumina-demo)</div>
+                <div class="room-tagline">Místo povídání</div>
+                <p class="room-text">
+                  Hlavní místo konverzací. Retro monitor s bublinami, kde začíná většina dialogů
+                  a kde se ukazuje, jaký tón sis nastavila v Lumina-komnatě.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <!-- 3. Potřebuješ víc? Kontakt -->
+      <section class="block" id="kontakt" aria-labelledby="kontaktTitle">
+        <div class="block-head">
+          <div>
+            <div class="block-kicker">3 · Když něco nesedí</div>
+            <h2 class="block-title" id="kontaktTitle">Potřebuješ víc? Kontaktuj nás</h2>
+          </div>
+          <div class="block-note">
+            Návod je živý dokument. Každý tvůj dotaz může doplnit další kousek.
+          </div>
+        </div>
+
+        <div class="contact-body">
+          <p>
+            Kdykoliv máš pocit, že ti v návodu něco chybí, je nejasné nebo by šlo vysvětlit
+            jemněji, můžeš napsat na:
+          </p>
+          <ul class="contact-list">
+            <li><a href="mailto:gabi@luminamemory.ai">gabi@luminamemory.ai</a></li>
+          </ul>
+          <p>
+            Email může být úplně jednoduchý – klidně jen „tady jsem se ztratila“ a odkaz
+            na stránku nebo místnost, kde se to stalo. Pro Gábi a Luminu je to cenný signál,
+            kde návod vylepšit nebo doplnit o nový příklad.
+          </p>
+          <p>
+            Když bude stejný dotaz přicházet od víc lidí, objeví se z něj v další verzi
+            malý nový odstavec nebo celá sekce. Takhle se z průvodce stává společné dílo.
+          </p>
+        </div>
+      </section>
+
+      <!-- Farewell -->
+      <section class="farewell">
+        <div class="farewell-text">
+          <p>
+            Kdykoliv budeš mít pocit, že je toho moc, můžeš se vrátit právě sem. Tahle stránka
+            je tvá <strong>hvězdná mapa</strong> – ne kontrolní seznam, ale klidné vysvětlení,
+            kde co v paláci leží a proč.
+          </p>
+          <p>
+            A jestli se někdy úplně zamotáš, stačí použít nouzovou větu nebo prostě napsat:
+            „Lumino, jsem ztracená, potřebuju mapu.“ Odtud už tě zase povedu dál. ✨
+          </p>
+        </div>
+        <div class="farewell-illu">
+          <img src="lumina-avatar.png" alt="Lumina – rozloučení">
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>DEMO · Tenhle průvodce popisuje, co palác umí a co teprve chystá.</span>
+      <span class="muted">LuminaMemory™ · Mise ŽIVOT™ · 2025</span>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const PLAN_KEY = "lm_plan";
+      const USER_KEY = "miniLuminaUser";
+
+      function normalizePlan(p){
+        if(!p) return "free";
+        p = String(p).toLowerCase();
+        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+      }
+
+      function readPlan(){
+        try{
+          const fromKey = localStorage.getItem(PLAN_KEY);
+          if(fromKey) return normalizePlan(fromKey);
+
+          const rawUser = localStorage.getItem(USER_KEY);
+          if(rawUser){
+            const user = JSON.parse(rawUser);
+            if(user && user.plan) return normalizePlan(user.plan);
+          }
+        }catch(e){
+          // ignore
+        }
+        return "free";
+      }
+
+      const PLAN_LABEL = {
+        free: "DEMO · FREE tarif",
+        plus: "DEMO · PLUS tarif",
+        premium: "DEMO · PREMIUM tarif"
+      };
+
+      (function applyPlanBadge(){
+        const plan = readPlan();
+        const badge = document.getElementById("planBadge");
+        if(badge){
+          badge.textContent = PLAN_LABEL[plan] || PLAN_LABEL.free;
+        }
+      })();
+    })();
+  </script>
+</body>
+</html>

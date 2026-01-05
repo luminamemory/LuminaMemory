@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --txt:#0b1220;
+      --glass: rgba(255,255,255,.58);
+      --stroke: rgba(255,255,255,.28);
+      --shadow: 0 28px 90px rgba(0,0,0,.35);
+      --pill: 999px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color: var(--txt);
+      background: #0a0c18;
+      overflow-x:hidden;
+    }
+
+    /* Background */
+    .bg{
+      position:fixed; inset:0;
+      background:
+        url("wall.png") center/cover no-repeat;
+      transform: translateZ(0);
+    }
+    .bg::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(1200px 520px at 50% 8%, rgba(255,255,255,.35), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.42));
+      pointer-events:none;
+    }
+
+    /* Top bar */
+    .topbar{
+      position:relative;
+      z-index:5;
+      padding:18px 18px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .crumb{
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius: var(--pill);
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.22);
+      color: rgba(255,255,255,.92);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      user-select:none;
+    }
+    .btn-back{
+      text-decoration:none;
+      color: rgba(255,255,255,.95);
+      font-size:12px;
+      padding:10px 12px;
+      border-radius: var(--pill);
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.18);
+    }
+    .btn-back:hover{
+      background: rgba(0,0,0,.32);
+      border-color: rgba(255,255,255,.24);
+    }
+
+    /* Stage */
+    .stage{
+      position:relative;
+      z-index:2;
+      min-height: calc(100vh - 68px);
+      padding: 8px 18px 28px;
+      display:grid;
+      place-items:center;
+    }
+
+    .frame{
+      width:min(1100px, 100%);
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 40px 120px rgba(0,0,0,.45);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .header{
+      padding: 20px 22px 14px;
+      border-bottom:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.12);
+    }
+    .header h1{
+      font-size: 22px;
+      letter-spacing:.02em;
+      color: rgba(255,255,255,.95);
+      text-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .header p{
+      margin-top:6px;
+      font-size: 13px;
+      line-height:1.55;
+      color: rgba(255,255,255,.78);
+      max-width: 70ch;
+    }
+
+    /* Clouds row */
+    .cloud-row{
+      padding: 18px 18px 20px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .cloud-row{grid-template-columns: 1fr; gap: 12px;}
+    }
+
+    .cloud-btn{
+      position:relative;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,.22);
+      cursor:pointer;
+      min-height: 190px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+      user-select:none;
+    }
+    .cloud-btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.24);
+      background: rgba(255,255,255,.10);
+    }
+    .cloud-btn:active{transform: translateY(0px);}
+
+    .cloud-img{
+      width: 92%;
+      max-width: 520px;
+      height:auto;
+      filter: drop-shadow(0 18px 30px rgba(0,0,0,.20));
+      transform: translateZ(0);
+      opacity: .95;
+      transition: filter 160ms ease, opacity 160ms ease;
+    }
+
+    /* vizuální stav kapacity podle plánu */
+    .cloud-img.cap-low{
+      filter: hue-rotate(270deg) saturate(1.1) brightness(1.08)
+              drop-shadow(0 18px 30px rgba(60,40,140,.25));
+    }
+    .cloud-img.cap-mid{
+      filter: hue-rotate(265deg) saturate(1.25) brightness(1.0)
+              drop-shadow(0 18px 36px rgba(90,60,170,.35));
+    }
+    .cloud-img.cap-high{
+      filter: hue-rotate(260deg) saturate(1.3) brightness(0.94)
+              drop-shadow(0 18px 36px rgba(110,70,200,.45));
+    }
+
+    /* zamčené mraky (FREE) */
+    .cloud-btn.locked::before{
+      content:"🔒";
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:24px;
+      height:24px;
+      border-radius:999px;
+      background: rgba(8,10,28,.88);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      box-shadow:0 0 18px rgba(0,0,0,.6);
+    }
+    .cloud-btn.locked .cloud-img{
+      opacity:.7;
+      filter: grayscale(.18) brightness(.86)
+              drop-shadow(0 14px 26px rgba(0,0,0,.30));
+    }
+
+    .cloud-label{
+      position:absolute;
+      inset:auto 14px 14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.52);
+      border:1px solid rgba(255,255,255,.35);
+      backdrop-filter: blur(10px);
+      color: rgba(11,18,32,.92);
+      box-shadow: 0 16px 45px rgba(0,0,0,.18);
+    }
+    .cloud-label b{
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .cloud-label span{
+      font-size:12px;
+      opacity:.75;
+      text-align:right;
+    }
+
+    /* dissolve efekt při kliknutí */
+    .cloud-btn.dissolve .cloud-img{
+      animation: cloudDissolve 520ms ease forwards;
+    }
+    .cloud-btn.dissolve .cloud-label{
+      animation: labelFade 420ms ease forwards;
+    }
+    @keyframes cloudDissolve{
+      0%{opacity:.95; filter: blur(0px) drop-shadow(0 18px 30px rgba(0,0,0,.20)); transform: scale(1)}
+      60%{opacity:.45; filter: blur(1.6px) drop-shadow(0 10px 18px rgba(0,0,0,.12)); transform: scale(1.02)}
+      100%{opacity:0; filter: blur(6px) drop-shadow(0 0 0 rgba(0,0,0,0)); transform: scale(1.06)}
+    }
+    @keyframes labelFade{
+      from{opacity:1; transform: translateY(0)}
+      to{opacity:0; transform: translateY(8px)}
+    }
+
+    /* Content panel */
+    .panel{
+      padding: 0 18px 20px;
+    }
+
+    .content{
+      display:none;
+      border-radius: 22px;
+      background: var(--glass);
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .content.active{display:block;}
+
+    .content-top{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .content-top h2{
+      font-size: 14px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color: rgba(11,18,32,.92);
+    }
+    .content-top p{
+      margin-top:6px;
+      font-size: 13px;
+      line-height:1.65;
+      color: rgba(12,18,32,.78);
+      max-width: 78ch;
+    }
+    .close-mini{
+      border-radius: var(--pill);
+      border:1px solid rgba(12,18,32,.12);
+      background: rgba(255,255,255,.55);
+      padding: 8px 10px;
+      cursor:pointer;
+      font-size: 12px;
+      color: rgba(12,18,32,.86);
+      white-space:nowrap;
+    }
+    .close-mini:hover{background: rgba(255,255,255,.82); border-color: rgba(12,18,32,.18);}
+
+    .content-body{
+      padding: 16px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .content-body{grid-template-columns: 1fr;}
+    }
+
+    .card{
+      border-radius: 18px;
+      border:1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.46);
+      box-shadow: 0 18px 45px rgba(0,0,0,.12);
+      overflow:hidden;
+      position:relative;
+      min-height: 240px;
+    }
+
+    /* Capacity: light column */
+    .capacity-wrap{
+      position:relative;
+      min-height: 280px;
+      display:grid;
+      place-items:center;
+      padding: 10px;
+    }
+    .light-col{
+      width: min(320px, 92%);
+      max-height: 360px;
+      height:auto;
+      opacity:.92;
+      filter: drop-shadow(0 18px 45px rgba(0,0,0,.16));
+      /* bez pohybu – statický obraz */
+      animation:none;
+    }
+
+    .capacity-text{
+      position:absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.62);
+      border:1px solid rgba(0,0,0,.06);
+      color: rgba(12,18,32,.82);
+      font-size: 13px;
+      line-height:1.55;
+    }
+    .capacity-text b{color: rgba(12,18,32,.92);}
+
+    /* Historie: timeline */
+    .timeline{
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      justify-content:center;
+      min-height: 280px;
+    }
+    .timeline img{
+      width: 100%;
+      height:auto;
+      opacity:.92;
+      filter: drop-shadow(0 16px 35px rgba(0,0,0,.12));
+    }
+    .timeline .hint{
+      font-size: 13px;
+      line-height:1.6;
+      color: rgba(12,18,32,.78);
+      background: rgba(255,255,255,.52);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 14px;
+      padding: 12px 12px;
+    }
+
+    /* Export: suitcase + icons */
+    .export-wrap{
+      position:relative;
+      padding: 14px;
+      min-height: 280px;
+      display:grid;
+      place-items:center;
+    }
+    .suitcase{
+      width: min(520px, 92%);
+      height:auto;
+      filter: drop-shadow(0 18px 55px rgba(0,0,0,.16));
+      transition: transform 220ms ease;
+    }
+    .export-wrap:hover .suitcase{transform: translateY(-2px);}
+
+    /* mini-icons removed entirely; no longer used */
+    .mini-icons{display:none;}
+    .mini-icons img{display:none;}
+    .export-note{
+      position: relative;
+      margin: 14px;
+      margin-bottom: 0.5rem;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.62);
+      border:1px solid rgba(0,0,0,.06);
+      color: rgba(12,18,32,.80);
+      font-size: 13px;
+      line-height:1.55;
+    }
+
+    /* Fade-in for content */
+    .content.active{
+      animation: popIn 260ms ease both;
+    }
+    @keyframes popIn{
+      from{opacity:0; transform: translateY(10px)}
+      to{opacity:1; transform: translateY(0)}
+    }
+
+    /* Footer note + avatar */
+    .foot{
+      padding: 0 18px 22px;
+      color: rgba(255,255,255,.80);
+      font-size: 12px;
+      line-height:1.55;
+      text-shadow: 0 10px 30px rgba(0,0,0,.25);
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:space-between;
+      align-items:flex-start;
+    }
+    .foot-left{
+      max-width:360px;
+    }
+    .foot-right{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      max-width:420px;
+    }
+    .lumina-avatar{
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      overflow:hidden;
+      flex-shrink:0;
+      box-shadow:0 0 22px rgba(180,210,255,.9);
+    }
+    .lumina-avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .lumina-note{
+      font-size:11px;
+      color:rgba(235,242,255,.95);
+    }
+
+    @media (max-width: 880px) {
+      .foot{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+
+    /* Kapacita – zaplnění sloupce (DEMO, bez animace) */
+    .capacity-meter{
+      position:absolute;
+      width:min(320px, 92%);
+      height: 360px;
+      max-height: 360px;
+      bottom: 44px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      overflow:hidden;
+      pointer-events:none;
+    }
+
+    .capacity-fill{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      height: 42%;
+      background: linear-gradient(180deg,
+        rgba(255,255,255,.0),
+        rgba(210,195,255,.35) 25%,
+        rgba(180,170,255,.65) 70%,
+        rgba(255,255,255,.85)
+      );
+      filter: blur(0.3px);
+      mix-blend-mode: screen;
+      animation:none;
+    }
+    .capacity-fill.free{
+      background: linear-gradient(180deg,
+        rgba(255,255,255,.0),
+        rgba(224,210,255,.30) 25%,
+        rgba(196,182,255,.58) 70%,
+        rgba(255,255,255,.82)
+      );
+    }
+    .capacity-fill.plus{
+      background: linear-gradient(180deg,
+        rgba(255,255,255,.0),
+        rgba(206,190,255,.35) 25%,
+        rgba(173,160,255,.68) 70%,
+        rgba(255,255,255,.88)
+      );
+    }
+    .capacity-fill.premium{
+      background: linear-gradient(180deg,
+        rgba(255,255,255,.0),
+        rgba(188,170,255,.40) 25%,
+        rgba(155,145,255,.78) 70%,
+        rgba(255,255,255,.92)
+      );
+    }
+
+    .capacity-percent{
+      position:absolute;
+      top: 14px;
+      right: 14px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.62);
+      border: 1px solid rgba(0,0,0,.06);
+      font-size:12px;
+      color: rgba(12,18,32,.82);
+    }
+
+    /* Historie záloh – seznam */
+    .backup-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .backup-item{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.52);
+      border: 1px solid rgba(0,0,0,.06);
+    }
+
+    .backup-item b{
+      display:block;
+      font-size:13px;
+      color: rgba(12,18,32,.86);
+    }
+
+    .backup-item small{
+      display:block;
+      margin-top:4px;
+      font-size:12px;
+      color: rgba(12,18,32,.70);
+      line-height:1.45;
+    }
+
+    .badge{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      white-space: nowrap;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.62);
+      color: rgba(12,18,32,.78);
+    }
+    .badge.plus{background: rgba(220,245,255,.65)}
+    .badge.premium{background: rgba(240,230,255,.70)}
+    .badge.export{background: rgba(255,240,220,.70)}
+
+    /* Download area styling inside the export panel */
+    .download-wrap{
+      padding: 14px 16px 16px;
+      border-top: 1px solid rgba(0,0,0,.06);
+      background: transparent;
+      display: flex;
+      justify-content: center;
+    }
+    .download-wrap .close-mini{
+      width: 100%;
+      display: block;
+      text-align: center;
+      padding: 12px 12px;
+    }
+
+    /* Modal for download confirmation */
+    .modal {
+      position: fixed;
+      top: 6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: rgba(238,246,255,0.88);
+      border: 1px solid rgba(120,150,220,0.35);
+      backdrop-filter: blur(14px) saturate(1.8);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      max-width: 420px;
+      padding: 2rem;
+    }
+    .modal-content h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1.4rem;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .btn-cancel,
+    .btn-primary {
+      border-radius: var(--pill);
+      border: 1px solid rgba(12,18,32,.12);
+      padding: 8px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-cancel {
+      background: rgba(255,255,255,.55);
+      color: rgba(12,18,32,.86);
+    }
+    .btn-cancel:hover {
+      background: rgba(255,255,255,.75);
+    }
+    .btn-primary {
+      background: rgba(0,115,255,.65);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: rgba(0,115,255,.85);
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    /* JSON preview inside the download modal */
+    .json-preview {
+      margin-top: 1rem;
+      max-height: 240px;
+      overflow:auto;
+      background: rgba(8,12,28,0.8);
+      color: #dce6ff;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      padding: 1rem;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* Icon bar above export suitcase */
+    .icon-bar{
+      display:flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 0rem;
+      margin-bottom: 0.2rem;
+    }
+    .icon-chip{
+      width: 60px;
+      height: 60px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      cursor: default;
+      transition: transform 160ms ease;
+    }
+    .icon-chip:hover{
+      transform: scale(1.08);
+    }
+    .icon-sprite{
+      width: 40px;
+      height: 40px;
+      background-image: url('icons.png');
+      background-size: 300% 100%;
+      background-position-y: 50%;
+    }
+    #icon-chronica .icon-sprite{ background-position-x: 0%; }
+    #icon-proiecta .icon-sprite{ background-position-x: -100%; }
+    #icon-sigma    .icon-sprite{ background-position-x: -200%; }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <div class="topbar">
+    <a class="btn-back" href="nastaveni.html">← Zpět do kanceláře</a>
+    <div class="crumb" id="crumbPlan">☁️ MemorySky™ Gate · DEMO · FREE tarif</div>
+  </div>
+
+  <div class="stage">
+    <div class="frame">
+
+      <div class="header">
+        <h1>MemorySky™ Gate</h1>
+        <p>
+          Tohle je brána do MemorySky™ – tvého paměťového nebe. V DEMO verzi ukazujeme
+          <b>logiku a pocit bezpečí</b>: kapacitu, historii záloh a export – bez ukládání
+          reálných dat.
+        </p>
+      </div>
+
+      <!-- CLOUD BUTTONS -->
+      <div class="cloud-row">
+        <button class="cloud-btn" id="btnCapacity" type="button" aria-controls="panelCapacity">
+          <img class="cloud-img" src="cloud-1.png" alt="Náhled kapacity" />
+          <div class="cloud-label">
+            <b>Náhled kapacity</b>
+            <span id="capacityStatus">Mini nebe (DEMO)</span>
+          </div>
+        </button>
+
+        <button class="cloud-btn" id="btnHistory" type="button" aria-controls="panelHistory">
+          <img class="cloud-img" src="cloud-2.png" alt="Historie záloh" />
+          <div class="cloud-label">
+            <b>Historie záloh</b>
+            <span id="historyStatus">DEMO přehled</span>
+          </div>
+        </button>
+
+        <button class="cloud-btn" id="btnExport" type="button" aria-controls="panelExport">
+          <img class="cloud-img" src="cloud-3.png" alt="Stáhnout export" />
+          <div class="cloud-label">
+            <b>Stáhnout export</b>
+            <span id="exportStatus">DEMO balíček</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- CONTENT PANELS -->
+      <div class="panel">
+
+        <!-- CAPACITY -->
+        <section class="content" id="panelCapacity">
+          <div class="content-top">
+            <div>
+              <h2>Náhled kapacity</h2>
+              <p>
+                Tady uvidíš, kolik prostoru má tvoje MemorySky™, jak je „nebe“ naplněné
+                a co se do něj počítá. V DEMU: bezpečný náhled – žádná reálná data.
+              </p>
+            </div>
+            <button class="close-mini" type="button" data-close> Zavřít ✕</button>
+          </div>
+
+          <div class="content-body">
+            <div class="card">
+              <div class="capacity-wrap">
+                <img class="light-col" src="light-column.png" alt="Světelný sloupec kapacity" />
+                <div class="capacity-meter" aria-hidden="true">
+                  <div class="capacity-fill" id="capacityFill"></div>
+                </div>
+                <div class="capacity-percent" id="capacityPercent">DEMO: 42 %</div>
+                <div class="capacity-text">
+                  <b>Tarify &amp; kapacita (DEMO čísla):</b><br>
+                  FREE ≈ 256&nbsp;MB paměti, PLUS ≈ 5&nbsp;GB, PREMIUM ≈ 50&nbsp;GB.<br>
+                  V plné verzi se bude sloupec měnit podle toho, jak moc LuminaMemory™
+                  pracuje s tvou Chronica, Sigma, Proiecta a Arcanou.
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="timeline">
+                <div class="hint">
+                  <b>Co se počítá do kapacity:</b><br/>
+                  zápisy z Chronica, rituály ze Sigmy, projekty z Proiecta a (v tarifech)
+                  i vybrané bezpečné výstupy z Arcany.
+                </div>
+                <div class="hint">
+                  <b>Jak vnímat rozdíl:</b><br/>
+                  FREE = maličké „zkoušecí“ nebe, PLUS = pracovní MemorySky™ pro tvůj rok,
+                  PREMIUM = dlouhodobý, opravdu prostorný archiv.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- HISTORY -->
+        <section class="content" id="panelHistory">
+          <div class="content-top">
+            <div>
+              <h2>Historie záloh</h2>
+              <p>
+                Jednoduchý, čitelný přehled: kdy proběhla záloha, jakého typu byla.
+                V DEMU jen vizuální koncept – v ostré verzi se napojí na skutečné události.
+              </p>
+            </div>
+            <button class="close-mini" type="button" data-close> Zavřít ✕</button>
+          </div>
+
+          <div class="content-body">
+            <div class="card">
+              <div class="timeline">
+                <img src="memory-line.png" alt="Jemná osa času" />
+                <div class="hint" id="historyPlanHint">
+                  <b>DEMO ukázka:</b> tři uzly jsou symbol – „poslední“, „předchozí“, „archivní“.
+                  V plné verzi se uzly napojí na zálohy a exporty podle tvého tarifu.
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="timeline">
+                <div class="hint">
+                  <b>Jak má působit:</b><br/>
+                  nikdy neřešíš techniku. Jen vidíš: „Jsem v bezpečí. Mám historii. Umím se vrátit.“
+                </div>
+                <div class="backup-list">
+                  <div class="backup-item">
+                    <div>
+                      <b>25. 12. 2025 • Měsíční záloha</b>
+                      <small>Souhrn Chronica + Sigma + Proiecta (DEMO ukázka).</small>
+                    </div>
+                    <span class="badge plus">PLUS</span>
+                  </div>
+
+                  <div class="backup-item">
+                    <div>
+                      <b>10. 12. 2025 • Extra záloha</b>
+                      <small>Manuální „bezpečnostní uzel“ před změnou nastavení (DEMO).</small>
+                    </div>
+                    <span class="badge premium">PREMIUM</span>
+                  </div>
+
+                  <div class="backup-item">
+                    <div>
+                      <b>01. 12. 2025 • Export balíček</b>
+                      <small>PDF + datový balíček (DEMO ukázka toku).</small>
+                    </div>
+                    <span class="badge export">EXPORT</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXPORT -->
+        <section class="content" id="panelExport">
+          <div class="content-top">
+            <div>
+              <h2>Stáhnout export</h2>
+              <p>
+                „Vezmi si svůj svět s sebou.“ Export jako balíček – deník, projekty, rituály.
+                V DEMU jen vizuální náhled chování a bezpečný dojem.
+              </p>
+            </div>
+            <button class="close-mini" type="button" data-close> Zavřít ✕</button>
+          </div>
+
+          <div class="content-body">
+            <div class="card">
+              <div class="export-wrap" id="exportBox">
+                <div class="export-note" id="exportNote">
+                  Klikni na „kufřík“ – otevře se a ukáže ti, co export obsahuje.
+                  V DEMU je to jen animace a fiktivní data.
+                </div>
+                <!-- Pás ikon nad kufrem -->
+                <div class="icon-bar hidden" id="iconBar">
+                  <div class="icon-chip" id="icon-chronica"><div class="icon-sprite"></div></div>
+                  <div class="icon-chip" id="icon-proiecta"><div class="icon-sprite"></div></div>
+                  <div class="icon-chip" id="icon-sigma"><div class="icon-sprite"></div></div>
+                </div>
+
+                <img class="suitcase" id="suitcaseImg" src="export-closed.png" alt="Export kufřík" />
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="timeline">
+                <div class="hint">
+                  <b>Obsah exportu:</b><br/>
+                  deník (Chronica), projekty (Proiecta), rituály (Sigma) + systémové shrnutí.
+                </div>
+                <div class="hint" id="exportPlanHint">
+                  <b>Formy:</b><br/>
+                  PDF pro čtení + datový balíček pro přenos. V plné verzi podle tarifu –
+                  od základního PDF až po plný export světa.
+                </div>
+              </div>
+              <div class="download-wrap">
+                <button type="button" class="close-mini" id="btnDownload">
+                  Stáhnout datový balíček (DEMO)
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="foot">
+        <div class="foot-left">
+          DEMO • MemorySky™ Gate • žádná reálná data se neukládají — jen struktura, klid a bezpečný pocit.
+        </div>
+        <div class="foot-right">
+          <div class="lumina-avatar">
+            <img src="avatar.png" alt="Lumina">
+          </div>
+          <div class="lumina-note" id="planFootText">
+            V tomhle DEMU se jen díváme, jak by tvoje MemorySky™ vypadala.
+            V ostré verzi se podle tarifu změní velikost nebe, rytmus záloh i to,
+            jak velký batoh si můžeš kdykoli sbalit.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modální okno pro potvrzení stahování -->
+  <div id="downloadModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Chceš stáhnout export dat?</h2>
+      <p>Soubor <strong id="fileName"></strong> je připraven ke stažení.</p>
+      <pre id="jsonPreview" class="json-preview hidden"></pre>
+      <div class="modal-actions">
+        <button id="downloadCancel" class="btn-cancel">Zrušit</button>
+        <a id="downloadConfirm" class="btn-primary" download>Stáhnout</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* --- Tarif & plán ----------------------------------------------------- */
+    const PLAN_KEY = "lm_plan";
+
+    function normalizePlan(p){
+      if(!p) return "free";
+      p = String(p).toLowerCase();
+      return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+    }
+
+    function readPlan(){
+      try{
+        const fromKey = localStorage.getItem(PLAN_KEY);
+        if(fromKey) return normalizePlan(fromKey);
+
+        const rawUser = localStorage.getItem("miniLuminaUser");
+        if(rawUser){
+          const user = JSON.parse(rawUser);
+          if(user && user.plan) return normalizePlan(user.plan);
+        }
+      }catch(e){}
+      return "free";
+    }
+
+    const currentPlan = readPlan();
+    document.documentElement.setAttribute("data-plan", currentPlan);
+
+    const planLabelMap = {
+      free: "FREE tarif",
+      plus: "PLUS tarif",
+      premium: "PREMIUM tarif"
+    };
+    const planNice = planLabelMap[currentPlan] || "FREE tarif";
+
+    /* --- Ovládání panelů -------------------------------------------------- */
+    function openPanel(btn, panel){
+      btn.classList.add('dissolve');
+      setTimeout(() => {
+        document.querySelectorAll('.content').forEach(x => x.classList.remove('active'));
+        panel.classList.add('active');
+        panel.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 420);
+      setTimeout(() => btn.classList.remove('dissolve'), 900);
+    }
+
+    const btnCapacity = document.getElementById('btnCapacity');
+    const btnHistory   = document.getElementById('btnHistory');
+    const btnExport    = document.getElementById('btnExport');
+
+    const panelCapacity = document.getElementById('panelCapacity');
+    const panelHistory  = document.getElementById('panelHistory');
+    const panelExport   = document.getElementById('panelExport');
+
+    btnCapacity.addEventListener('click', ()=> openPanel(btnCapacity, panelCapacity));
+    btnHistory.addEventListener('click', ()=> openPanel(btnHistory, panelHistory));
+    btnExport.addEventListener('click', ()=> openPanel(btnExport, panelExport));
+
+    document.querySelectorAll('[data-close]').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        const panel = b.closest('.content');
+        if(panel) panel.classList.remove('active');
+      });
+    });
+
+    /* --- Export open/close ------------------------------------------------ */
+    const exportBox = document.getElementById('exportBox');
+    const suitcaseImg = document.getElementById('suitcaseImg');
+    const iconBar = document.getElementById('iconBar');
+    let opened = false;
+
+    exportBox.addEventListener('click', ()=>{
+      opened = !opened;
+      suitcaseImg.src = opened ? 'export-open.png' : 'export-closed.png';
+      suitcaseImg.style.transform = opened ? 'translateY(-2px) scale(1.01)' : 'translateY(0) scale(1)';
+      if(iconBar){
+        iconBar.classList.toggle('hidden', !opened);
+      }
+    });
+
+    /* --- Kapacita: výška & barva podle tarifu ---------------------------- */
+    const capacityFill = document.getElementById('capacityFill');
+    const capacityPercent = document.getElementById('capacityPercent');
+
+    function initialCapacityForPlan(plan){
+      if(plan === "free") return 18;
+      if(plan === "plus") return 52;
+      if(plan === "premium") return 82;
+      return 42;
+    }
+
+    function setDemoCapacity(val, planLabel){
+      const v = Math.max(5, Math.min(99, val));
+      if(capacityFill){
+        capacityFill.style.height = v + '%';
+      }
+      if(capacityPercent){
+        capacityPercent.textContent = "DEMO: " + v + " % • " + planLabel;
+      }
+    }
+
+    const baseCap = initialCapacityForPlan(currentPlan);
+    setDemoCapacity(baseCap, planNice);
+
+    if(capacityFill){
+      capacityFill.classList.remove('free','plus','premium');
+      capacityFill.classList.add(currentPlan);
+    }
+
+    /* --- Vizuální stav mraků + texty ------------------------------------- */
+    const crumbEl = document.getElementById('crumbPlan');
+    if(crumbEl){
+      crumbEl.textContent = "☁️ MemorySky™ Gate · DEMO · " + planNice;
+    }
+
+    const capStatus = document.getElementById('capacityStatus');
+    const histStatus = document.getElementById('historyStatus');
+    const expStatus = document.getElementById('exportStatus');
+
+    const capImg = btnCapacity.querySelector('.cloud-img');
+
+    if(currentPlan === "free"){
+      if(capStatus) capStatus.textContent = "Hooodně malá paměť (DEMO)";
+      if(histStatus) histStatus.textContent = "Zálohy zamčené v ostré verzi";
+      if(expStatus) expStatus.textContent  = "Není co exportovat v ostré verzi";
+
+      if(btnHistory) btnHistory.classList.add('locked');
+      if(btnExport)  btnExport.classList.add('locked');
+      if(capImg) capImg.classList.add('cap-low');
+    } else if(currentPlan === "plus"){
+      if(capStatus) capStatus.textContent = "Nebe, co už stojí za řeč";
+      if(histStatus) histStatus.textContent = "Pravidelné zálohy (DEMO náhled)";
+      if(expStatus) expStatus.textContent  = "Export hlavních věcí";
+
+      if(capImg) capImg.classList.add('cap-mid');
+    } else if(currentPlan === "premium"){
+      if(capStatus) capStatus.textContent = "Opravdové MemorySky™";
+      if(histStatus) histStatus.textContent = "Průběžné + extra zálohy";
+      if(expStatus) expStatus.textContent  = "Plný export tvého světa";
+
+      if(capImg) capImg.classList.add('cap-high');
+    }
+
+    const historyPlanHint = document.getElementById('historyPlanHint');
+    if(historyPlanHint){
+      if(currentPlan === "free"){
+        historyPlanHint.innerHTML =
+          "<b>FREE (DEMO):</b> v ostré verzi by historie záloh byla zamčená – tady ji vidíš jen jako bezpečný náhled, " +
+          "abys věděla, jak bude jednou vypadat časová osa.";
+      } else if(currentPlan === "plus"){
+        historyPlanHint.innerHTML =
+          "<b>PLUS (DEMO):</b> v ostré verzi by tu běžely plánované měsíční zálohy. Tři uzly jsou jen ukázka: " +
+          "poslední záloha, ta předchozí a jeden starší archivní bod.";
+      } else {
+        historyPlanHint.innerHTML =
+          "<b>PREMIUM (DEMO):</b> v ostré verzi by k plánovaným zálohám přibyly i mimořádné bezpečnostní uzly – " +
+          "například před velkou změnou v životě nebo v nastavení.";
+      }
+    }
+
+    const exportPlanHint = document.getElementById('exportPlanHint');
+    if(exportPlanHint){
+      if(currentPlan === "free"){
+        exportPlanHint.innerHTML =
+          "<b>FREE:</b> v ostré verzi by export nebyl dostupný – není co seriózně balit. " +
+          "Tady vidíš jen, jak bude kufřík fungovat v tarifech PLUS a PREMIUM.";
+      } else if(currentPlan === "plus"){
+        exportPlanHint.innerHTML =
+          "<b>PLUS:</b> PDF se shrnutím + základní datový balíček (Chronica, Proiecta, Sigma). " +
+          "V DEMU je vše fiktivní, ale tok odpovídá tomu, jak by se export spouštěl.";
+      } else {
+        exportPlanHint.innerHTML =
+          "<b>PREMIUM:</b> PDF i plný datový balíček s možností více jazyků a rozšířených kapitol. " +
+          "V DEMU zatím jen ukázka, ale princip zůstává stejný: jedním klikem vezmeš celý svět s sebou.";
+      }
+    }
+
+    const planFootText = document.getElementById('planFootText');
+    if(planFootText){
+      if(currentPlan === "free"){
+        planFootText.textContent =
+          "Teď máš jen maličké zkušební nebe. V ostré verzi by ses z FREE dívala jen na náhled – " +
+          "skutečné zálohy i export patří až do PLUS a PREMIUM.";
+      } else if(currentPlan === "plus"){
+        planFootText.textContent =
+          "V PLUS tarifu by MemorySky™ sloužila jako pracovní nebe pro tvůj rok – " +
+          "pravidelné zálohy a možnost vzít si hlavní části světa s sebou.";
+      } else {
+        planFootText.textContent =
+          "V PREMIUM tarifu se z MemorySky™ stává opravdové nebe: velká kapacita, " +
+          "průběžné i mimořádné zálohy a plný export světa, kdykoli potřebuješ.";
+      }
+    }
+
+    /* --- Helpery pro download DEMO balíčku ------------------------------- */
+    function toLocalISOString(date) {
+      const tzOffset = -date.getTimezoneOffset();
+      const diff = tzOffset >= 0 ? '+' : '-';
+      const pad = (n) => String(Math.floor(Math.abs(n))).padStart(2, '0');
+      return date.getFullYear()
+        + '-' + pad(date.getMonth() + 1)
+        + '-' + pad(date.getDate())
+        + 'T' + pad(date.getHours())
+        + ':' + pad(date.getMinutes())
+        + ':' + pad(date.getSeconds())
+        + diff + pad(tzOffset / 60) + ':' + pad(tzOffset % 60);
+    }
+
+    function buildDemoPayload() {
+      const now = new Date();
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown';
+      const minutesAgo = (m) => {
+        const d = new Date(Date.now() - m * 60 * 1000);
+        return toLocalISOString(d);
+      };
+      return {
+        product: "LuminaMemory™",
+        module: "MemorySky™ Gate",
+        type: "DEMO_EXPORT",
+        schemaVersion: "0.1",
+        demo: true,
+        plan: currentPlan,
+        disclaimer: "Toto je DEMO balíček. Všechna data jsou fiktivní.",
+        createdAtLocal: toLocalISOString(now),
+        createdAtUTC: now.toISOString(),
+        timezone: tz,
+        summary: {
+          contains: ["Chronica", "Proiecta", "Sigma"],
+          counts: {
+            chronicaEntries: 2,
+            proiectaItems: 2,
+            sigmaRituals: 2
+          }
+        },
+        chronica: [
+          {
+            id: "ch_001",
+            title: "Klidné ráno po náročném dni",
+            mood: "vyrovnaná",
+            createdAt: minutesAgo(720),
+            tags: ["odpočinek","restart"],
+            text: "Dnes jsem si dovolila zpomalit. Krátká pauza, teplý čaj, a jedna věc, kterou chci pustit: zbytečný tlak na sebe."
+          },
+          {
+            id: "ch_002",
+            title: "Štědrovečerní moment",
+            mood: "vřelá",
+            createdAt: minutesAgo(2000),
+            tags: ["rodina","vděčnost"],
+            text: "Večeře hotová, stůl připravený. Vzduch voněl domovem. Dnes chci mít míň perfekcionismu a víc přítomnosti."
+          }
+        ],
+        proiecta: [
+          {
+            id: "pr_001",
+            name: "LuminaMemory – Průvodce palácem",
+            status: "in_progress",
+            updatedAt: minutesAgo(90),
+            nextSteps: [
+              "Dopsat sekci: Jak funguje přihlášení a bezpečnost",
+              "Přidat FAQ: co je Chronica / Proiecta / Sigma",
+              "Doplnit tlačítko zpět ⚙️ u všech místností"
+            ],
+            notes: "Cíl: aby se uživatel nikdy neztratil a věděl, co se děje v každé části paláce."
+          },
+          {
+            id: "pr_002",
+            name: "MemorySky Export – DEMO balíček",
+            status: "prototype",
+            updatedAt: minutesAgo(15),
+            nextSteps: [
+              "Vyladit ikonkový pás nad kufrem",
+              "Přidat náhled exportu v Lumina stylu",
+              "Později: volba formátu PDF / JSON"
+            ],
+            notes: "V DEMU bez reálných dat – jen vizuální a bezpečný tok."
+          }
+        ],
+        sigma: {
+          rituals: [
+            {
+              id: "sg_001",
+              title: "Ranní start",
+              timeLocal: "08:00",
+              days: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+              checklist: ["Voda","Krátké protažení","Jedna věta: co dnes opravdu chci"]
+            },
+            {
+              id: "sg_002",
+              title: "Večerní zklidnění",
+              timeLocal: "21:30",
+              days: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+              checklist: ["Zapsat 3 body do Chronica","Připravit zítřek (1 maličkost)","Vypnout hluk (ticho / pohádka)"]
+            }
+          ],
+          reminders: [
+            {
+              id: "rm_001",
+              label: "Jemná připomínka",
+              createdAt: minutesAgo(480),
+              text: "Když je toho moc, stačí jedna věc. Jedna jediná."
+            }
+          ]
+        }
+      };
+    }
+
+    function showDownloadModal(fileUrl, displayName, jsonString) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('downloadModal');
+        const fileNameElem = document.getElementById('fileName');
+        const confirmBtn = document.getElementById('downloadConfirm');
+        const cancelBtn = document.getElementById('downloadCancel');
+        const jsonPreview = document.getElementById('jsonPreview');
+
+        fileNameElem.textContent = displayName || '';
+        confirmBtn.href = fileUrl;
+        if (displayName) {
+          confirmBtn.setAttribute('download', displayName);
+        }
+
+        if (jsonPreview) {
+          if (jsonString) {
+            jsonPreview.textContent = jsonString;
+            jsonPreview.classList.remove('hidden');
+          } else {
+            jsonPreview.classList.add('hidden');
+          }
+        }
+
+        modal.classList.remove('hidden');
+
+        const onConfirm = () => { cleanup(); resolve(true); };
+        const onCancel = () => { cleanup(); resolve(false); };
+
+        confirmBtn.addEventListener('click', onConfirm);
+        cancelBtn.addEventListener('click', onCancel);
+
+        function cleanup() {
+          confirmBtn.removeEventListener('click', onConfirm);
+          cancelBtn.removeEventListener('click', onCancel);
+          modal.classList.add('hidden');
+          if (jsonPreview) jsonPreview.classList.add('hidden');
+        }
+      });
+    }
+
+    async function downloadDemo(){
+      const payload = buildDemoPayload();
+      const json = JSON.stringify(payload, null, 2);
+      const blob = new Blob([json], {type: "application/json"});
+      const url = URL.createObjectURL(blob);
+      const fileName = "LuminaMemory_DEMO_export.json";
+      const proceed = await showDownloadModal(url, fileName, json);
+      if(!proceed){
+        URL.revokeObjectURL(url);
+        return;
+      }
+      setTimeout(()=>{ URL.revokeObjectURL(url); }, 1000);
+    }
+
+    const downloadButton = document.getElementById('btnDownload');
+    if(downloadButton){
+      downloadButton.addEventListener('click', async function(ev){
+        ev.preventDefault();
+        await downloadDemo();
+      });
+    }
+  </script>
+</body>
+</html>
