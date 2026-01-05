@@ -1460,17 +1460,24 @@ body{
       m.addEventListener("click", (e)=>{ if(e.target === m) closeModal("clearModal"); });
 
       $("clearOk").addEventListener("click", ()=>{
-        // clear chat + history + last, but keep chronica
-        chatEl.innerHTML = "";
-        try{
-          localStorage.removeItem(CHAT_KEY);
-          localStorage.removeItem(LAST_KEY);
-        }catch(_){}
-        closeModal("clearModal");
+  // clear chat + history + last, but keep chronica
+  chatEl.innerHTML = "";
+  try{
+    localStorage.removeItem(CHAT_KEY);
+    localStorage.removeItem(LAST_KEY);
+  }catch(_){}
+  closeModal("clearModal");
 
-        addBubble("lumi", "Hotovo. Chat je čistý. ✨", `Lumina • ${nowHM()}`);
-        persistHistory();
-      });
+  // hned po vyčištění uděláme nové uvítání – stejně jako při startu
+  const nick = getProfileNickname();
+
+  const text = nick
+    ? `Zdravím tě, ${nick} 😉💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to.`
+    : "Vítej, návštěvníku 💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to 😉";
+
+  addBubble("lumi", text, `Lumina • ${nowHM()}`);
+  persistHistory();
+    });
     })();
 
     // =========================
@@ -1966,26 +1973,21 @@ body{
     })();
 
     // =========================
-    // Boot
-    // =========================
-    loadHistory();
+// Boot
+// =========================
+loadHistory();
 
-        // =========================
-    // Boot
-    // =========================
-    loadHistory();
+// pokud není historie, start message
+if (chatEl.children.length === 0) {
+  const nick = getProfileNickname();
 
-    // pokud není historie, start message
-    if (chatEl.children.length === 0) {
-      const nick = getProfileNickname();
+  const text = nick
+    ? `Zdravím tě, ${nick} 😉💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to.`
+    : "Vítej, návštěvníku 💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to 😉";
 
-      const text = nick
-        ? `Zdravím tě, ${nick} 😉💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to.`
-        : "Vítej, návštěvníku 💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to 😉";
-
-      addBubble("lumi", text, `Lumina • ${nowHM()}`);
-      persistHistory();
-    }
+  addBubble("lumi", text, `Lumina • ${nowHM()}`);
+  persistHistory();
+}
   </script>
 
   <!-- malý skript jen pro zobrazení plánu v horní liště -->
