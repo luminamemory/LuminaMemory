@@ -362,6 +362,11 @@
       min-height:150px;
     }
 
+    /* MemorySky přes celou šířku (desktop/tablet) */
+    .card--wide{
+      grid-column: 1 / -1;
+    }
+
     .card--link{
       cursor:pointer;
     }
@@ -581,29 +586,7 @@
               </div>
             </article>
 
-            <!-- Průvodce palácem -->
-            <article class="card card--link" onclick="window.location.href='lumina-pruvodce.html'">
-              <h3>
-                <span class="ico glow soft">📖</span>
-                Průvodce palácem
-              </h3>
-              <p>
-                Návod k Mise ŽIVOT™. Slovník pojmů, mapa místností a vysvětlení,
-                co je v demu jen „přes sklo“ a co bude jednou ostrá funkce.
-              </p>
-              <div class="meta">
-                <span class="cta">Otevřít průvodce <span aria-hidden="true">↗</span></span>
-                <span class="tag">Otevřené pro všechny tarify</span>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <!-- Svět LuminaMemory™ -->
-        <section class="section-block" aria-label="Svět LuminaMemory™">
-          <h2 class="section-title">Svět LuminaMemory™</h2>
-          <div class="grid">
-            <!-- Předplatné -->
+            <!-- Předplatné (přesunuto sem podle layoutu) -->
             <article class="card card--link" onclick="window.location.href='predplatne.html'">
               <h3>
                 <span class="ico glow soft">💡</span>
@@ -618,7 +601,13 @@
                 <span class="tag">DEMO · FREE / PLUS / PREMIUM</span>
               </div>
             </article>
+          </div>
+        </section>
 
+        <!-- Svět LuminaMemory™ -->
+        <section class="section-block" aria-label="Svět LuminaMemory™">
+          <h2 class="section-title">Svět LuminaMemory™</h2>
+          <div class="grid">
             <!-- Rose Zone™ -->
             <article class="card card--link" onclick="window.location.href='rosezone.html'">
               <h3>
@@ -667,8 +656,8 @@
               </div>
             </article>
 
-            <!-- MemorySky™ -->
-            <article class="card card--link" onclick="window.location.href='memorysky.html'">
+            <!-- MemorySky™ (třetí řada přes celou šířku) -->
+            <article class="card card--link card--wide" onclick="window.location.href='memorysky.html'">
               <h3>
                 <span class="ico glow ms">☁️</span>
                 MemorySky™ – paměť
