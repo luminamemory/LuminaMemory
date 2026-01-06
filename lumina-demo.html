@@ -1,1138 +1,1100 @@
 <!doctype html>
 <html lang="cs">
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow">
 
   <style>
-    :root{
-      --bg: #050015;          
-      --surface: rgba(8, 1, 24, 0.96);
-      --surface-soft: rgba(15, 4, 40, 0.9);
-      --panel:rgba(255,255,255,.06);
-      --panel2:rgba(255,255,255,.08);
-      --stroke:rgba(255,255,255,.14);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.62);
-      --muted2:rgba(255,255,255,.45);
-      --accent:#b38cff;
-      --accent2:#7f5cff;
-      --ok:#78ffbf;
-      --warn:#ffd27a;
-      --danger:#ff7a7a;
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
-      --radius:18px;
-      --radius2:26px;
-      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-    }
+  :root{
+    --bg: #050015;
+    --surface: rgba(8, 1, 24, 0.96);
+    --surface-soft: rgba(15, 4, 40, 0.9);
+    --panel: rgba(255,255,255,.06);
+    --panel2: rgba(255,255,255,.08);
+    --stroke: rgba(255,255,255,.14);
+    --text: rgba(255,255,255,.92);
+    --muted: rgba(255,255,255,.62);
+    --muted2: rgba(255,255,255,.45);
+    --accent:#b38cff;
+    --accent2:#7f5cff;
+    --ok:#78ffbf;
+    --warn:#ffd27a;
+    --danger:#ff7a7a;
+    --shadow: 0 18px 60px rgba(0,0,0,.45);
+    --radius:18px;
+    --radius2:26px;
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  }
 
-    html,body{
-  height:100%;
-}
+  html, body{ height:100%; }
 
-body{
-  margin:0;
-  font-family:var(--font);
-  color:var(--text);
+  body{
+    margin:0;
+    font-family:var(--font);
+    color:var(--text);
 
-  /* tmavší, výraznější fialové nebe přes celou výšku */
-  background:
-    radial-gradient(circle at 0% 0%, #4a22a0 0, #1a063e 38%, #050015 100%),
-    radial-gradient(circle at 100% 100%, #2a155f 0, #12042e 40%, #050015 100%);
-  background-attachment: fixed;
+    background:
+      radial-gradient(1200px 760px at 12% 0%, rgba(184,146,255,.18), transparent 60%),
+      radial-gradient(980px 700px at 88% 0%, rgba(214,170,255,.12), transparent 62%),
+      radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.55), transparent 62%),
+      linear-gradient(180deg, #050015 0%, #0d0322 42%, #050015 100%);
+    background-attachment: fixed;
+  }
 
-  overflow-x:hidden;
-}
+  /* musí být mimo body{} */
+  body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(1200px 760px at 12% 0%, rgba(184,146,255,.10), transparent 60%),
+      radial-gradient(980px 700px at 88% 0%, rgba(214,170,255,.07), transparent 62%),
+      radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.28), transparent 62%);
+    pointer-events:none;
+    z-index:-2;
+  }
 
-    /* jemné hvězdné zrno (nenápadné) */
-    body:before{
-      content:"";
-      position:fixed; inset:0;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(179,140,255,.09), transparent 45%),
-        radial-gradient(circle at 75% 30%, rgba(127,92,255,.08), transparent 45%),
-        radial-gradient(circle at 40% 80%, rgba(179,140,255,.06), transparent 55%);
-      pointer-events:none;
-      z-index:-2;
-    }
-    body:after{
-      content:"";
-      position:fixed; inset:0;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg fill='white' fill-opacity='.035'%3E%3Ccircle cx='10' cy='20' r='1'/%3E%3Ccircle cx='140' cy='40' r='1'/%3E%3Ccircle cx='90' cy='180' r='1'/%3E%3Ccircle cx='200' cy='120' r='1'/%3E%3Ccircle cx='60' cy='80' r='1'/%3E%3C/g%3E%3C/svg%3E");
-      pointer-events:none;
-      z-index:-1;
-      opacity:.35;
-      mix-blend-mode:screen;
-    }
+  body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    /* sem vrať své svg noise, pokud ho používáš */
+    pointer-events:none;
+    z-index:-1;
+  }
 
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:18px 16px 26px;
-    }
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:18px 16px 26px;
+  }
 
-    /* Top bar */
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:14px 16px;
-      border:1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border-radius:999px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      min-width:0;
-    }
-    .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: rgba(255,255,255,.35);
-      box-shadow:0 0 0 3px rgba(179,140,255,.12);
-      flex:0 0 auto;
-    }
-    .brand-title{
-      font-weight:800;
-      letter-spacing:.2px;
-      white-space:nowrap;
-    }
-    .brand-sub{
-      margin-left:10px;
-      font-weight:700;
-      color:var(--muted);
-      white-space:nowrap;
-    }
-    .logout{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.12);
-      color:var(--text);
-      text-decoration:none;
-      font-weight:800;
-    }
-    .logout:hover{ border-color: rgba(179,140,255,.35); }
-
-    /* =========================
-       Lumina Pick (custom dropdown / panel)
-       ========================= */
-    .lumina-pick{ position:relative; width:100%; }
-
-    .lumina-pick__btn{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(20,16,32,.55);
-      color: rgba(255,255,255,.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-
-    .lumina-pick__btn:focus{
-      outline:none;
-      border-color: rgba(160,120,255,.55);
-      box-shadow: 0 0 0 3px rgba(160,120,255,.18), 0 10px 30px rgba(0,0,0,.25);
-    }
-
-    .lumina-pick__label{
-      font-weight:600;
-      letter-spacing:.2px;
-    }
-
-    .lumina-pick__chev{
-      opacity:.8;
-      transform: translateY(1px);
-    }
-
-    /* Panel */
-    .lumina-pick__panel{
-      position:absolute;
-      z-index:9999;
-      left:0;
-      right:0;
-      top: calc(100% + 10px);
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(14,10,26,.78);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      overflow:hidden;
-    }
-
-    .lumina-pick__head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:12px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .lumina-pick__title{
-      font-weight:700;
-      color: rgba(255,255,255,.92);
-    }
-
-    .lumina-pick__x{
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.9);
-      border-radius:12px;
-      padding:6px 10px;
-    }
-
-    .lumina-pick__body{
-      max-height: 260px;
-      overflow:auto;
-      padding: 10px;
-    }
-
-    .lumina-pick__item{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid transparent;
-      background: rgba(255,255,255,.04);
-      color: rgba(255,255,255,.92);
-      margin-bottom:8px;
-    }
-
-    .lumina-pick__item:hover{
-      background: rgba(160,120,255,.10);
-      border-color: rgba(160,120,255,.18);
-    }
-
-    .lumina-pick__item.is-selected{
-      background: rgba(160,120,255,.18);
-      border-color: rgba(160,120,255,.28);
-    }
-
-    .lumina-pick__tick{
-      opacity:.9;
-      font-weight:800;
-    }
-
-    .lumina-pick__foot{
-      display:flex;
-      gap:10px;
-      padding:12px 14px;
-      border-top: 1px solid rgba(255,255,255,.08);
-    }
-
-    /* malé tlačítka (když je nemáš) */
-    .lumina-btn{
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(160,120,255,.22);
-      color: rgba(255,255,255,.92);
-      border-radius:14px;
-      padding:10px 14px;
-      font-weight:700;
-    }
-    .lumina-btn.ghost{
-      background: rgba(255,255,255,.06);
-    }
-
-    /* Main layout */
-    .grid{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:14px;
-    }
-
-    .card{
-      border:1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
-    /* Chat header (Kdo jsem) */
-    .who{
-      display:flex;
-      align-items:flex-start;
-      gap:14px;
-      padding:16px 16px 12px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-    }
-    .who .avatar{
-      width:58px; height:58px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.18);
-      overflow:hidden;
-      flex:0 0 auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
-    .who .avatar img{
-      width:100%; height:100%; object-fit:cover;
-      display:block;
-      transform: scale(1.02);
-    }
-    .who h2{
-      margin:0;
-      font-size:18px;
-      letter-spacing:.2px;
-    }
-    .who p{
-      margin:6px 0 0;
-      color:var(--muted);
-      line-height:1.35;
-    }
-    .pokec-badge{
-      margin-left:auto;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.10);
-      color: rgba(255,255,255,.88);
-      font-weight:900;
-      white-space:nowrap;
-    }
-
-    /* Chat body */
-    .chat{
-      padding:14px 16px 10px;
-      height: 420px;
-      overflow:auto;
-      scroll-behavior:smooth;
-    }
-
-    .bubble{
-      max-width: 78%;
-      padding:12px 14px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.12);
-      margin:10px 0;
-      position:relative;
-      box-shadow: 0 10px 28px rgba(0,0,0,.22);
-      backdrop-filter: blur(8px);
-    }
-    .bubble .meta{
-      font-size:12px;
-      color: var(--muted2);
-      margin-top:8px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .bubble.me{
-      margin-left:auto;
-      background: rgba(179,140,255,.12);
-      border-color: rgba(179,140,255,.22);
-    }
-    .bubble.lumi{
-      background: rgba(255,255,255,.06);
-    }
-    .tagpill{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:2px 10px;
-      border-radius:999px;
-      font-size:12px;
-      border:1px solid rgba(255,255,255,.14);
-      color: rgba(255,255,255,.82);
-      background: rgba(0,0,0,.10);
-    }
-
-    /* Bottom compose */
-    .compose{
-      padding:12px 16px 16px;
-      border-top:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.08);
-    }
-
-    .row{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
-    /* Custom select (bez iOS bílého menu) */
-    .lumina-select{
-      position:relative;
-      min-width: 190px;
-      flex: 0 0 auto;
-    }
-    .lumina-select__btn{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.12);
-      color: rgba(255,255,255,.90);
-      font-weight:800;
-      cursor:pointer;
-    }
-    .lumina-select__label{ opacity:.95; }
-    .lumina-select__chev{ opacity:.7; }
-    .lumina-select__menu{
-      position:absolute;
-      top: calc(100% + 8px);
-      left:0;
-      width:100%;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(15,10,30,.96);
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      overflow:hidden;
-      z-index:50;
-      padding:6px;
-    }
-    .lumina-option{
-      width:100%;
-      text-align:left;
-      border:0;
-      background: transparent;
-      color: rgba(255,255,255,.92);
-      padding:10px 10px;
-      border-radius:14px;
-      cursor:pointer;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      font-weight:800;
-    }
-    .lumina-option:hover{
-      background: rgba(179,140,255,.14);
-    }
-    .lumina-select.is-open .lumina-select__menu{ display:block; }
-    .lumina-select__menu[hidden]{ display:none; }
-
-    .tip{
-      margin-left:auto;
-      color: var(--muted2);
-      font-size:12px;
-      white-space:nowrap;
-    }
-
-    textarea{
-      width:100%;
-      resize:none;
-      min-height: 54px;
-      max-height: 160px;
-      padding:12px 12px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.12);
-      color: rgba(255,255,255,.92);
-      outline:none;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
-    }
-    textarea::placeholder{ color: rgba(255,255,255,.45); }
-
-    .send{
-      flex: 0 0 auto;
-      padding:12px 16px;
-      border-radius: 16px;
-      border:1px solid rgba(179,140,255,.28);
-      background: rgba(179,140,255,.16);
-      color: rgba(255,255,255,.92);
-      font-weight:900;
-      cursor:pointer;
-      box-shadow: 0 10px 26px rgba(0,0,0,.25);
-    }
-    .send:hover{ border-color: rgba(179,140,255,.45); }
-
-    .controls{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .ctl-btn{
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.10);
-      color: rgba(255,255,255,.90);
-      font-weight:900;
-      cursor:pointer;
-    }
-    .ctl-btn:hover{ border-color: rgba(179,140,255,.35); }
-
-    .toggle{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.10);
-      font-weight:900;
-      color: rgba(255,255,255,.90);
-      user-select:none;
-    }
-    .toggle input{ accent-color: var(--accent); }
-
-    /* Visitor shelf + reactions */
-    .shelf{
-      margin-left:auto;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .visitor{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.10);
-      color: rgba(255,255,255,.86);
-      font-weight:900;
-    }
-    .reacts{
-      display:inline-flex;
-      gap:8px;
-      padding:6px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.10);
-    }
-    .react{
-      width:38px; height:38px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.92);
-      cursor:pointer;
-      font-size:16px;
-    }
-    .react:hover{ border-color: rgba(179,140,255,.35); }
-
-    /* Drops */
-    .drops{
-      margin-top:14px;
-      padding:14px 16px 16px;
-      display:flex;
-      gap:14px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
-    .drop-card{
-      flex: 1 1 220px;
-      max-width: 320px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.10);
-      border-radius: 22px;
-      padding:14px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color: var(--text);
-      box-shadow: 0 12px 30px rgba(0,0,0,.24);
-    }
-    .drop-card:hover{ border-color: rgba(179,140,255,.35); }
-    .drop-ico{
-      width:46px; height:46px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.14);
-      display:grid; place-items:center;
-      background: rgba(179,140,255,.10);
-      overflow:hidden;
-      flex:0 0 auto;
-    }
-    .drop-ico img{ width:26px; height:26px; object-fit:contain; display:block; }
-    .drop-title{
-      font-weight:1000;
-      margin:0;
-      line-height:1.1;
-    }
-    .drop-sub{
-      margin:4px 0 0;
-      color: var(--muted);
-      font-weight:700;
-      font-size:13px;
-    }
-
-    .drops-hint{
-      text-align:center;
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-weight:800;
-      font-size:13px;
-    }
-
-    /* Modal (vlastní – žádný systémový picker) */
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,.55);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-      z-index:200;
-    }
-    .modal-backdrop.active{ display:flex; }
-    .modal{
-      width:min(560px, 100%);
-      border-radius: 22px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(18,10,34,.96);
-      box-shadow: 0 30px 90px rgba(0,0,0,.65);
-      overflow:hidden;
-    }
-    .modal header{
-      padding:14px 16px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .modal h3{ margin:0; font-size:16px; }
-    .modal .content{ padding:14px 16px 16px; }
-    .field{
-      margin-top:10px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    .field label{ color: var(--muted); font-weight:800; font-size:13px; }
-    .field input{
-      width:100%;
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.12);
-      color: rgba(255,255,255,.92);
-      outline:none;
-    }
-    .modal .actions{
-      margin-top:14px;
-      display:flex;
-      justify-content:flex-end;
-      gap:10px;
-    }
-    .btn{
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.10);
-      color: rgba(255,255,255,.92);
-      font-weight:1000;
-      cursor:pointer;
-    }
-    .btn.primary{
-      border-color: rgba(179,140,255,.30);
-      background: rgba(179,140,255,.16);
-    }
-
-    @media (max-width:720px){
-      .chat{ height: 52vh; }
-      /* Na mobilu necháme odznak Pokec viditelný a přesuneme ho pod text uvítání */
-      .who{
-        flex-wrap: wrap;
-      }
-     
-      .pokec-badge{
-        display: inline-flex;
-        margin-left: 0;
-        margin-top: 8px;
-      }
-      .shelf{ width:100%; justify-content:flex-start; }
-      .tip{ display:none; }
-    }
-    
-    @media (max-width: 480px){
+  /* Top bar */
   .topbar{
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    border-radius: 24px;
-    padding: 12px 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:14px 16px;
+    border:1px solid var(--stroke);
+    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    border-radius:999px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
   }
-
   .brand{
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
   }
-
+  .webglow{
+    font-size:16px;
+    line-height:1;
+    transform: translateY(1px);
+    filter: drop-shadow(0 0 6px rgba(179,140,255,.35));
+    text-shadow:
+      0 0 10px rgba(179,140,255,.35),
+      0 0 18px rgba(255,255,255,.18);
+    opacity:.95;
+  }
+  .brand-title{
+    font-weight:800;
+    letter-spacing:.2px;
+    white-space:nowrap;
+  }
   .brand-sub{
-    margin-left: 0;
+    margin-left:10px;
+    font-weight:700;
+    color:var(--muted);
+    white-space:nowrap;
   }
-
   .logout{
-    justify-content: center;
-    width: 100%;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 14px;
+    border-radius:999px;
+    border:1px solid var(--stroke);
+    background: rgba(0,0,0,.12);
+    color:var(--text);
+    text-decoration:none;
+    font-weight:800;
   }
-} /* <-- TAHLE závorka ti chyběla */
+  .logout:hover{ border-color: rgba(179,140,255,.35); }
 
-    /* ===== Save modal NEW ===== */
-.modal-wide{ width:min(880px, 100%); }
+  /* =========================
+     Lumina Pick (custom dropdown / panel)
+     ========================= */
+  .lumina-pick{ position:relative; width:100%; }
 
-.lumi-head{
-  display:flex; gap:12px; align-items:flex-start;
-  margin-bottom:14px;
-}
-.lumi-face{
-  width:44px; height:44px; border-radius:14px;
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow: 0 10px 28px rgba(0,0,0,.30);
-  object-fit:cover;
-}
-.lumi-bubble{
-  flex:1;
-  border:1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.06);
-  border-radius: 16px;
-  padding:10px 12px;
-  color: rgba(255,255,255,.88);
-  font-weight:800;
-  line-height:1.35;
-}
+  .lumina-pick__btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:12px 14px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(20,16,32,.55);
+    color: rgba(255,255,255,.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
 
-.save-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:12px;
-}
-.glassbox{
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.10);
-  border-radius: 18px;
-  padding:12px;
-  box-shadow: 0 12px 30px rgba(0,0,0,.22);
-  backdrop-filter: blur(8px);
-}
+  .lumina-pick__btn:focus{
+    outline:none;
+    border-color: rgba(160,120,255,.55);
+    box-shadow: 0 0 0 3px rgba(160,120,255,.18), 0 10px 30px rgba(0,0,0,.25);
+  }
 
-.cal-top{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:10px; margin-bottom:10px;
-}
-.cal-title{ font-weight:1000; letter-spacing:.2px; }
-.iconbtn{
-  width:38px; height:38px; border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.92);
-  cursor:pointer;
-  font-size:18px;
-}
-.iconbtn:hover{ border-color: rgba(179,140,255,.35); }
+  .lumina-pick__label{ font-weight:600; letter-spacing:.2px; }
+  .lumina-pick__chev{ opacity:.8; transform: translateY(1px); }
 
-.cal-week{
-  display:grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap:6px;
-  color: rgba(255,255,255,.55);
-  font-weight:900;
-  font-size:12px;
-  padding:0 2px 6px;
-}
-.cal-grid{
-  display:grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap:6px;
-}
-.cal-day{
-  height:40px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.10);
-  color: rgba(255,255,255,.88);
-  font-weight:1000;
-  cursor:pointer;
-}
-.cal-day:hover{ border-color: rgba(179,140,255,.35); }
-.cal-day.muted{
-  opacity:.38;
-}
-.cal-day.selected{
-  border-color: rgba(179,140,255,.55);
-  background: rgba(179,140,255,.18);
-  box-shadow: 0 10px 20px rgba(0,0,0,.25);
-}
-.cal-day.today{
-  outline: 2px solid rgba(120,255,191,.35);
-  outline-offset: 0;
-}
-.cal-foot{
-  margin-top:10px;
-  display:flex; gap:10px; justify-content:flex-end;
-}
+  .lumina-pick__panel{
+    position:absolute;
+    z-index:9999;
+    left:0;
+    right:0;
+    top: calc(100% + 10px);
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(14,10,26,.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 18px 60px rgba(0,0,0,.55);
+    overflow:hidden;
+  }
 
-.time-row{
-  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-}
-.pick{
-  width:100%;
-  padding:10px 12px;
-  border-radius: 14px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.12);
-  color: rgba(255,255,255,.92);
-  font-weight:900;
-  outline:none;
-}
-.note{
-  width:100%;
-  min-height: 96px;
-  resize: vertical;
-  padding:12px 12px;
-  border-radius: 14px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.12);
-  color: rgba(255,255,255,.92);
-  outline:none;
-}
-.note::placeholder{ color: rgba(255,255,255,.45); }
+  .lumina-pick__head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
 
-.sigma-box{
-  margin-top:10px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.04);
-  border-radius: 16px;
-  padding:10px 10px 12px;
-}
-.sigma-top{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:10px;
-}
-.sigma-title{
-  font-weight:1000;
-  letter-spacing:.2px;
-  color: rgba(255,255,255,.90);
-}
-.minihelp{
-  margin-top:8px;
-  color: rgba(255,255,255,.60);
-  font-weight:800;
-  font-size:12px;
-  line-height:1.35;
-}
+  .lumina-pick__title{ font-weight:700; color: rgba(255,255,255,.92); }
 
-@media (max-width: 820px){
-  .save-grid{ grid-template-columns: 1fr; }
-}
-    /* === Quick time and Sigma grids === */
-    .time-quick{
-      display:flex;
-      gap:10px;
-      margin:8px 0 10px;
-      flex-wrap:wrap;
-    }
-    .chipbtn{
-      border-radius:999px;
-      padding:8px 12px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.14);
-      color: rgba(255,255,255,.88);
-      font-weight:800;
-      cursor:pointer;
-    }
-    .chipbtn:hover{ background: rgba(179,140,255,.14); }
-    .choice-grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:10px;
-    }
-    @media (min-width: 820px){
-      .choice-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    }
-    .choice-grid--scroll{
-  max-height: 240px;         /* jako ten dlouhý seznam na screenshotu */
-  overflow:auto;
-  padding-right:6px;
-    }
-    .choice-item{
-      border-radius:16px;
-      padding:10px 10px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.12);
-      color: rgba(255,255,255,.90);
-      font-weight:900;
-      cursor:pointer;
-      text-align:center;
-      user-select:none;
-    }
-    .choice-item:hover{
-      background: rgba(179,140,255,.14);
-      border-color: rgba(179,140,255,.28);
-    }
-    .choice-item.is-active{
-      background: rgba(179,140,255,.22);
-      border-color: rgba(179,140,255,.55);
-      box-shadow: 0 0 0 2px rgba(179,140,255,.22) inset;
-    }
-    /* =========================
-   MODAL FIX (iPad): vždy vidět tlačítka + scroll v obsahu
-   ========================= */
+  .lumina-pick__x{
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.9);
+    border-radius:12px;
+    padding:6px 10px;
+  }
 
-/* backdrop už máš, jen lehce doladíme */
-.modal-backdrop{
-  padding: 12px; /* menší okraje -> víc místa pro modal */
-}
+  .lumina-pick__body{
+    max-height:260px;
+    overflow:auto;
+    padding:10px;
+  }
 
-/* modal uděláme jako sloupec: header + content(scroll) + actions(sticky) */
-.modal{
-  width: min(880px, 100%);   /* respektuje i .modal-wide */
-  max-height: 92vh;          /* klíčové: nepřeroste obrazovku */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;          /* scroll bude jen v .content */
-}
+  .lumina-pick__item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 12px;
+    border-radius:14px;
+    border:1px solid transparent;
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.92);
+    margin-bottom:8px;
+  }
 
-/* header zůstane nahoře */
-.modal header{
-  flex: 0 0 auto;
-}
+  .lumina-pick__item:hover{
+    background: rgba(160,120,255,.10);
+    border-color: rgba(160,120,255,.18);
+  }
 
-/* content je rolovací část */
-.modal .content{
-  flex: 1 1 auto;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch; /* iOS smooth */
-  padding-bottom: 16px;              /* aby poslední obsah nelezl pod sticky actions */
-}
+  .lumina-pick__item.is-selected{
+    background: rgba(160,120,255,.18);
+    border-color: rgba(160,120,255,.28);
+  }
 
-/* actions budou vždy dole a viditelné */
-.modal .actions{
-  flex: 0 0 auto;
-  position: sticky;
-  bottom: 0;
-  z-index: 5;
-  margin-top: 0; /* zrušíme “tlačení dolů” z původního marginu */
-  padding: 12px 16px;
-  background: rgba(18,10,34,.96);
-  border-top: 1px solid rgba(255,255,255,.10);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
+  .lumina-pick__tick{ opacity:.9; font-weight:800; }
 
-/* bonus: když je grid moc vysoký, ať to nepřetlačí modal */
-.choice-grid--scroll{
-  max-height: 220px; /* můžeš klidně 180–260 dle chuti */
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
+  .lumina-pick__foot{
+    display:flex;
+    gap:10px;
+    padding:12px 14px;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
 
-/* Typing bar – Lumina přemýšlí… */
-.typing-bar {
-  display: none;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1.25rem;
-  margin: 0 0.75rem 0.75rem;
-  border-radius: 999px;
-  background: radial-gradient(circle at 0% 0%, rgba(155, 135, 255, 0.25), transparent 55%),
-              linear-gradient(90deg, rgba(116, 98, 255, 0.35), rgba(212, 112, 255, 0.25));
-  box-shadow: 0 0 18px rgba(130, 108, 255, 0.55);
-  color: #f5e9ff;
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-}
+  .lumina-btn{
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(160,120,255,.22);
+    color: rgba(255,255,255,.92);
+    border-radius:14px;
+    padding:10px 14px;
+    font-weight:700;
+  }
+  .lumina-btn.ghost{ background: rgba(255,255,255,.06); }
 
-.typing-bar.active {
-  display: flex;
-}
+  /* Main layout */
+  .grid{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:14px;
+  }
 
-.typing-bar .dots {
-  display: flex;
-  gap: 0.25rem;
-}
+  /* --- Three-part layout --- */
+  .top-cards{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+  }
+  @media (max-width: 900px){
+    .top-cards{ grid-template-columns: 1fr; }
+  }
 
-.typing-bar .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #f5e9ff;
-  opacity: 0.4;
-  animation: typing-bounce 1.2s infinite ease-in-out;
-}
+  /* Cards glass */
+  .card{
+    position: relative;
+    border: 1px solid rgba(255,255,255,.12);
+    background:
+      radial-gradient(circle at 0 0, rgba(255,255,255,.10), transparent 55%),
+      rgba(6,3,20,.78);
+    border-radius: var(--radius2);
+    box-shadow: 0 28px 90px rgba(0,0,0,.60);
+    overflow:hidden;
 
-.typing-bar .dot:nth-child(2) {
-  animation-delay: 0.15s;
-}
+    backdrop-filter: blur(14px) saturate(135%);
+    -webkit-backdrop-filter: blur(14px) saturate(135%);
+  }
 
-.typing-bar .dot:nth-child(3) {
-  animation-delay: 0.3s;
-}
+  /* jemný lesk, ale tmavý */
+  .card:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(184,146,255,.12), transparent 60%),
+      linear-gradient(135deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 46%);
+    opacity:.45;
+    pointer-events:none;
+    z-index:0;
+  }
 
-.typing-bar .typing-text {
-  opacity: 0.9;
-}
+  /* obsah vždy nad leskem */
+  .card > *{
+    position: relative;
+    z-index:1;
+  }
 
-@keyframes typing-bounce {
-  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-  40% { transform: translateY(-3px); opacity: 1; }
-}
+  /* Kdo jsem header */
+  .who{
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+    padding:16px 16px 12px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+  .who .avatar{
+    width:58px; height:58px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.18);
+    overflow:hidden;
+    flex:0 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  .who .avatar img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    transform: scale(1.02);
+  }
+  .who h2{
+    margin:0;
+    font-size:18px;
+    letter-spacing:.2px;
+  }
+  .who p{
+    margin:6px 0 0;
+    color:var(--muted);
+    line-height:1.35;
+  }
 
-/* ==== Nový layout miniLuminy – dvě karty vedle sebe ==== */
+  .who-card .who-copy{ flex:1; min-width:0; }
+  .who-card .who-copy p{
+    margin:10px 0 0;
+    line-height:1.55;
+    color: rgba(255,255,255,.88);
+  }
+  .who-card .who-note{
+    margin-top:14px;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.72);
+    font-weight:800;
+  }
 
-/* hlavní karta miniLuminy */
-.card{
-  display:grid;
-  grid-template-columns:minmax(0, 2.1fr) minmax(0, 1.4fr);
-  grid-template-rows:auto auto auto;
-  gap:18px;
-  padding:18px 18px 16px;
-  border-radius:24px;
+  /* pokud už POKEC badge nepoužíváš v HTML, můžeš smazat i tenhle blok + mobilní část níž */
+  .pokec-badge{
+    margin-left:auto;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.88);
+    font-weight:900;
+    white-space:nowrap;
+  }
 
-  /* skleněný, duhový podklad – modro-zeleno-fialový, převládá fialová */
-  background:
-    radial-gradient(circle at 0% 0%, rgba(76, 201, 240, 0.18) 0, transparent 42%),
-    radial-gradient(circle at 100% 0%, rgba(129, 236, 236, 0.18) 0, transparent 45%),
-    radial-gradient(circle at 50% 100%, rgba(162, 155, 254, 0.35) 0, transparent 58%),
-    rgba(8, 5, 30, 0.94);
+  /* Chat header */
+  .chatbar{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:14px;
+    padding:16px 16px 12px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+  .chatbar h2{
+    margin:0;
+    font-size:18px;
+    letter-spacing:.2px;
+  }
+  .chatbar-sub{
+    margin:6px 0 0;
+    color:var(--muted);
+    font-weight:700;
+    line-height:1.35;
+  }
 
-  border:1px solid rgba(255,255,255,0.16);
-  box-shadow:0 26px 80px rgba(0,0,0,0.75);
-  backdrop-filter:blur(22px);
-}
+  /* Chat body */
+  .chat{
+    padding:14px 16px 10px;
+    height: 420px;
+    overflow:auto;
+    scroll-behavior:smooth;
+  }
+  .chat-card .chat{ height:560px; }
 
-/* LEVÁ část – hlavní karta Pokecu */
-.chat-shell{
-  grid-column:1 / 2;
-  grid-row:1 / 3;
+  .bubble{
+    max-width:78%;
+    padding:12px 14px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.12);
+    margin:10px 0;
+    position:relative;
+    box-shadow: 0 10px 28px rgba(0,0,0,.22);
+    backdrop-filter: blur(8px);
+  }
+  .bubble .meta{
+    font-size:12px;
+    color: var(--muted2);
+    margin-top:8px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .bubble.me{
+    margin-left:auto;
+    background: rgba(179,140,255,.12);
+    border-color: rgba(179,140,255,.22);
+  }
+  .bubble.lumi{ background: rgba(255,255,255,.06); }
 
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+  .tagpill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:2px 10px;
+    border-radius:999px;
+    font-size:12px;
+    border:1px solid rgba(255,255,255,.14);
+    color: rgba(255,255,255,.82);
+    background: rgba(0,0,0,.10);
+  }
 
-  background:linear-gradient(
-    150deg,
-    rgba(40, 36, 85, 0.95),
-    rgba(72, 61, 139, 0.98)
-  );
-  border-radius:20px;
-  padding:14px 14px 10px;
-  box-shadow:0 18px 40px rgba(0,0,0,0.65);
-}
+  /* Bottom compose */
+  .compose{
+    padding:12px 16px 16px;
+    border-top:1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.08);
+  }
 
-/* samotné okno chatu */
-.chat-log,
-.chat{
-  height:340px;
-  overflow:auto;
-  padding-right:4px;
-}
+  .row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
 
-/* composer patří k levé kartě – zůstává pod chatem */
-.chat-compose{
-  grid-column:1 / 2;
-  grid-row:3 / 4;
-}
+  /* Custom select */
+  .lumina-select{
+    position:relative;
+    min-width:190px;
+    flex:0 0 auto;
+  }
+  .lumina-select__btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.90);
+    font-weight:800;
+    cursor:pointer;
+  }
+  .lumina-select__label{ opacity:.95; }
+  .lumina-select__chev{ opacity:.7; }
 
-/* PRAVÁ část – karta „Kdo jsem“ + kapky */
-.who{
-  grid-column:2 / 3;
-  grid-row:1 / 2;
+  .lumina-select__menu{
+    position:absolute;
+    top: calc(100% + 8px);
+    left:0;
+    width:100%;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(15,10,30,.96);
+    box-shadow: 0 18px 60px rgba(0,0,0,.55);
+    overflow:hidden;
+    z-index:50;
+    padding:6px;
+  }
 
-  display:grid;
-  grid-template-columns:auto 1fr;
-  gap:12px 14px;
-  align-items:center;
+  .lumina-option{
+    width:100%;
+    text-align:left;
+    border:0;
+    background: transparent;
+    color: rgba(255,255,255,.92);
+    padding:10px 10px;
+    border-radius:14px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:800;
+  }
+  .lumina-option:hover{ background: rgba(179,140,255,.14); }
 
-  padding:14px 14px 12px;
-  border-radius:20px;
+  .lumina-select.is-open .lumina-select__menu{ display:block; }
+  .lumina-select__menu[hidden]{ display:none; }
 
-  background:
-    radial-gradient(circle at 0 0, rgba(72, 219, 251, 0.18) 0, transparent 46%),
-    radial-gradient(circle at 100% 100%, rgba(214, 162, 232, 0.26) 0, transparent 58%),
-    rgba(18, 13, 60, 0.94);
+  .tip{
+    margin-left:auto;
+    color: var(--muted2);
+    font-size:12px;
+    white-space:nowrap;
+  }
 
-  box-shadow:0 20px 50px rgba(0,0,0,0.7);
-}
+  textarea{
+    width:100%;
+    resize:none;
+    min-height:54px;
+    max-height:160px;
+    padding:12px 12px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.92);
+    outline:none;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+  }
+  textarea::placeholder{ color: rgba(255,255,255,.45); }
 
-.who .avatar{
-  grid-row:1 / 3;
-}
+  .send{
+    flex:0 0 auto;
+    padding:12px 16px;
+    border-radius:16px;
+    border:1px solid rgba(179,140,255,.28);
+    background: rgba(179,140,255,.16);
+    color: rgba(255,255,255,.92);
+    font-weight:900;
+    cursor:pointer;
+    box-shadow: 0 10px 26px rgba(0,0,0,.25);
+  }
+  .send:hover{ border-color: rgba(179,140,255,.45); }
 
-.who .pokec-badge{
-  grid-column:1 / 3;
-  justify-self:flex-end;
-}
-
-/* text pod kapkami – vysvětlení co dělat */
-.drops-hint{
-  grid-column:2 / 3;
-  grid-row:3 / 4; /* POD kapkami */
-  margin-top:4px;
-  font-size:13px;
-  line-height:1.45;
-  color:rgba(255,255,255,0.82);
-}
-
-/* kapky – tlačítka pod sebou v pravé kartě */
-.drops{
-  grid-column:2 / 3;
-  grid-row:2 / 3;
+.send-stack{
   display:flex;
   flex-direction:column;
   gap:8px;
+  align-items:flex-end;
+  flex: 0 0 auto;
 }
 
-/* každá kapka jako malá skleněná kartička */
-.drop-card{
-  border-radius:16px;
-  padding:10px 11px;
-  background:linear-gradient(
-    145deg,
-    rgba(40, 40, 90, 0.92),
-    rgba(90, 70, 140, 0.98)
-  );
-  box-shadow:0 10px 30px rgba(0,0,0,0.6);
+/* Řádek s odesláním: textarea vlevo, tlačítko + reakce vpravo */
+.sendrow{
+  flex-wrap: nowrap;
+  align-items: flex-end;
 }
 
-/* mobil – zpět na jednu kartu pod sebou */
-@media (max-width: 900px){
-  .card{
-    display:block;
-    padding:16px 14px;
+.sendrow textarea{
+  flex: 1 1 auto;
+  width: auto;          /* přepíše globální width:100% */
+  min-width: 260px;
+}
+
+/* Mobil: zpět pod sebe */
+@media (max-width: 720px){
+  .sendrow{ flex-wrap: wrap; }
+  .sendrow textarea{
+    width: 100%;
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .send-stack{ width: 100%; align-items: stretch; }
+}
+
+.quick-reacts{
+  display:flex;
+  gap:6px;
+  padding:6px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.10);
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+}
+
+.qreact{
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.92);
+  cursor:pointer;
+  font-size:16px;
+  display:grid;
+  place-items:center;
+}
+
+.qreact:hover{
+  border-color: rgba(179,140,255,.35);
+  background: rgba(179,140,255,.12);
+}
+
+@media (max-width: 720px){
+  .send-stack{ align-items:stretch; width:100%; }
+  .quick-reacts{ justify-content:space-between; }
+}
+
+  .controls{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-top:10px;
+  }
+  .ctl-btn{
+    padding:10px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.90);
+    font-weight:900;
+    cursor:pointer;
+  }
+  .ctl-btn:hover{ border-color: rgba(179,140,255,.35); }
+
+  .toggle{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    font-weight:900;
+    color: rgba(255,255,255,.90);
+    user-select:none;
+  }
+  .toggle input{ accent-color: var(--accent); }
+
+  /* Visitor shelf + reactions */
+  .shelf{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .visitor{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.86);
+    font-weight:900;
+  }
+  .reacts{
+    display:inline-flex;
+    gap:8px;
+    padding:6px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+  }
+  .react{
+    width:38px; height:38px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.92);
+    cursor:pointer;
+    font-size:16px;
+  }
+  .react:hover{ border-color: rgba(179,140,255,.35); }
+
+/* ===== Typing indikátor: "Přemýšlím 🤔..." ===== */
+.bubble.typing{
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.10);
+}
+
+.bubble.typing .dots{
+  display:inline-flex;
+  gap:4px;
+  margin-left:8px;
+  transform: translateY(-1px);
+}
+
+.bubble.typing .dots span{
+  width:5px;
+  height:5px;
+  border-radius:999px;
+  background: rgba(255,255,255,.78);
+  opacity:.25;
+  animation: lumiDots 1.05s infinite ease-in-out;
+}
+
+.bubble.typing .dots span:nth-child(2){ animation-delay: .14s; }
+.bubble.typing .dots span:nth-child(3){ animation-delay: .28s; }
+
+@keyframes lumiDots{
+  0%, 80%, 100% { transform: translateY(0); opacity:.25; }
+  40% { transform: translateY(-3px); opacity:.95; }
+}
+
+/* (volitelné) zvýraznění vybrané nálady */
+.react.is-active{
+  border-color: rgba(179,140,255,.55);
+  background: rgba(179,140,255,.18);
+  box-shadow: 0 0 0 2px rgba(179,140,255,.18) inset;
+}
+
+  /* Drops */
+  .drops{
+    margin-top:14px;
+    padding:14px 16px 16px;
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .drop-card{
+    flex: 1 1 220px;
+    max-width: 320px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    border-radius:22px;
+    padding:14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color: var(--text);
+    box-shadow: 0 12px 30px rgba(0,0,0,.24);
+  }
+  .drop-card:hover{ border-color: rgba(179,140,255,.35); }
+
+  .drop-ico{
+    width:46px; height:46px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.14);
+    display:grid;
+    place-items:center;
+    background: rgba(179,140,255,.10);
+    overflow:hidden;
+    flex:0 0 auto;
+  }
+  .drop-ico img{ width:26px; height:26px; object-fit:contain; display:block; }
+
+  .drop-title{ font-weight:1000; margin:0; line-height:1.1; }
+  .drop-sub{
+    margin:4px 0 0;
+    color: var(--muted);
+    font-weight:700;
+    font-size:13px;
   }
 
-  .chat-shell{
-    margin-top:14px;
+  .drops-card .drops-hint{
+    margin-top:22px;
+    margin-left:16px;
+    margin-right:16px;
     margin-bottom:10px;
   }
 
-  .drops{
-    margin-top:6px;
+  /* Modal (sjednoceno + iPad fix v tom samém bloku) */
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background: rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+    z-index:200;
   }
-}
-  </style>
+  .modal-backdrop.active{ display:flex; }
+
+  .modal{
+    width: min(880px, 100%);
+    max-height: 92vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+
+    border-radius:22px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(18,10,34,.96);
+    box-shadow: 0 30px 90px rgba(0,0,0,.65);
+  }
+
+  .modal header{
+    padding:14px 16px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex:0 0 auto;
+  }
+  .modal h3{ margin:0; font-size:16px; }
+
+  .modal .content{
+    flex:1 1 auto;
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+    padding:14px 16px 16px;
+    padding-bottom:16px;
+  }
+
+  .field{
+    margin-top:10px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .field label{ color: var(--muted); font-weight:800; font-size:13px; }
+  .field input{
+    width:100%;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.92);
+    outline:none;
+  }
+
+  .modal .actions{
+    flex:0 0 auto;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    margin-top: 0;
+    padding: 12px 16px;
+    background: rgba(18,10,34,.96);
+    border-top: 1px solid rgba(255,255,255,.10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+
+  .btn{
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.92);
+    font-weight:1000;
+    cursor:pointer;
+  }
+  .btn.primary{
+    border-color: rgba(179,140,255,.30);
+    background: rgba(179,140,255,.16);
+  }
+
+  /* ===== Save modal ===== */
+  .modal-wide{ width:min(880px, 100%); }
+
+  .lumi-head{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    margin-bottom:14px;
+  }
+  .lumi-face{
+    width:44px; height:44px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow: 0 10px 28px rgba(0,0,0,.30);
+    object-fit:cover;
+  }
+  .lumi-bubble{
+    flex:1;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    border-radius:16px;
+    padding:10px 12px;
+    color: rgba(255,255,255,.88);
+    font-weight:800;
+    line-height:1.35;
+  }
+
+  .save-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
+  }
+  .glassbox{
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    border-radius:18px;
+    padding:12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.22);
+    backdrop-filter: blur(8px);
+  }
+
+  .cal-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .cal-title{ font-weight:1000; letter-spacing:.2px; }
+
+  .iconbtn{
+    width:38px; height:38px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.92);
+    cursor:pointer;
+    font-size:18px;
+  }
+  .iconbtn:hover{ border-color: rgba(179,140,255,.35); }
+
+  .cal-week{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:6px;
+    color: rgba(255,255,255,.55);
+    font-weight:900;
+    font-size:12px;
+    padding:0 2px 6px;
+  }
+  .cal-grid{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:6px;
+  }
+  .cal-day{
+    height:40px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.88);
+    font-weight:1000;
+    cursor:pointer;
+  }
+  .cal-day:hover{ border-color: rgba(179,140,255,.35); }
+  .cal-day.muted{ opacity:.38; }
+  .cal-day.selected{
+    border-color: rgba(179,140,255,.55);
+    background: rgba(179,140,255,.18);
+    box-shadow: 0 10px 20px rgba(0,0,0,.25);
+  }
+  .cal-day.today{
+    outline: 2px solid rgba(120,255,191,.35);
+    outline-offset: 0;
+  }
+  .cal-foot{
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+  }
+
+  .time-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .pick{
+    width:100%;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.92);
+    font-weight:900;
+    outline:none;
+  }
+  .note{
+    width:100%;
+    min-height:96px;
+    resize: vertical;
+    padding:12px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.92);
+    outline:none;
+  }
+  .note::placeholder{ color: rgba(255,255,255,.45); }
+
+  .sigma-box{
+    margin-top:10px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.04);
+    border-radius:16px;
+    padding:10px 10px 12px;
+  }
+  .sigma-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .sigma-title{
+    font-weight:1000;
+    letter-spacing:.2px;
+    color: rgba(255,255,255,.90);
+  }
+  .minihelp{
+    margin-top:8px;
+    color: rgba(255,255,255,.60);
+    font-weight:800;
+    font-size:12px;
+    line-height:1.35;
+  }
+
+  .time-quick{
+    display:flex;
+    gap:10px;
+    margin:8px 0 10px;
+    flex-wrap:wrap;
+  }
+  .chipbtn{
+    border-radius:999px;
+    padding:8px 12px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.14);
+    color: rgba(255,255,255,.88);
+    font-weight:800;
+    cursor:pointer;
+  }
+  .chipbtn:hover{ background: rgba(179,140,255,.14); }
+
+  .choice-grid{
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap:10px;
+  }
+  @media (min-width: 820px){
+    .choice-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .choice-grid--scroll{
+    max-height: 220px;
+    overflow:auto;
+    padding-right:6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .choice-item{
+    border-radius:16px;
+    padding:10px 10px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.90);
+    font-weight:900;
+    cursor:pointer;
+    text-align:center;
+    user-select:none;
+  }
+  .choice-item:hover{
+    background: rgba(179,140,255,.14);
+    border-color: rgba(179,140,255,.28);
+  }
+  .choice-item.is-active{
+    background: rgba(179,140,255,.22);
+    border-color: rgba(179,140,255,.55);
+    box-shadow: 0 0 0 2px rgba(179,140,255,.22) inset;
+  }
+
+  /* Responsive */
+  @media (max-width:720px){
+    .chat{ height:52vh; }
+    .who{ flex-wrap:wrap; }
+    .pokec-badge{
+      display:inline-flex;
+      margin-left:0;
+      margin-top:8px;
+    }
+    .shelf{ width:100%; justify-content:flex-start; }
+    .tip{ display:none; }
+    .chatbar{ flex-wrap:wrap; }
+  }
+
+  @media (max-width: 820px){
+    .save-grid{ grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px){
+    .topbar{
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      border-radius: 24px;
+      padding: 12px 14px;
+    }
+    .brand{
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .brand-sub{ margin-left:0; }
+    .logout{
+      justify-content: center;
+      width: 100%;
+    }
+  }
+</style>
 </head>
 
 <body>
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
-        <span class="dot" aria-hidden="true"></span>
+    <span class="webglow" aria-hidden="true">🕸</span>
         <div class="brand-title">LuminaMemory™</div>
         <div class="brand-sub">miniLumina DEMO</div>
       </div>
@@ -1142,128 +1104,145 @@ body{
       </a>
     </div>
 
-    <div class="grid">
-      <section class="card" aria-label="Pokec">
-        <div class="who">
-          <div class="avatar" aria-hidden="true">
-            <img src="avatar.png" alt="Lumina avatar" />
-          </div>
+<div class="grid">
 
+  <!-- 2 karty vedle sebe -->
+  <div class="top-cards">
+
+    <!-- KARTA 1: Kdo jsem -->
+    <section class="card who-card" aria-label="Kdo jsem">
+      <div class="who">
+        <div class="avatar" aria-hidden="true">
+          <img src="avatar.png" alt="Lumina avatar" />
+        </div>
+
+<div class="who-copy">
+  <h2>Kdo jsem ✨</h2>
+  <p>
+    Jsem Lumina. Klidně Luminka, Lumča nebo prostě jen L. — tvoje průvodkyně a pravá ruka 😉
+    Pomůžu ti psát, plánovat, ukládat záznamy, dát strukturu… a když nebudeš vědět kudy kam,
+    pokusím se ti ukázat směr ❤️
+  </p>
+
+  <p class="who-note">
+    Tohle je DEMO: ukázka stylu a funkčnosti. Ukládá se jen lokálně v prohlížeči.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- KARTA 2: Kapky / místnosti -->
+    <section class="card drops-card" aria-label="Místnosti">
+      <div class="drops-hint">👇 Zmáčkni kapku a otevře se ti další místnost. 💡 Nezapomeň: nejdřív nastavení. ⚙️ </div>
+
+      <div class="drops" aria-label="Místnosti">
+        <a class="drop-card" href="praetorium.html">
+          <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
           <div>
-            <h2>Kdo jsem ✨</h2>
-            <p>
-              Jsem Lumina. Klidně Luminka, Lumča nebo prostě jen L. — tvoje průvodkyně a pravá ruka 😉
-              Pomůžu ti psát, plánovat, ukládat záznamy, dát strukturu… a když nebudeš vědět kudy kam,
-              pokusím se ti ukázat směr ❤️<br>
-              <span style="color:rgba(255,255,255,.72);font-weight:800;">
-                Tohle je DEMO: ukázka stylu a funkčnosti. Ukládá se jen lokálně v prohlížeči.
-              </span>
-            </p>
+            <p class="drop-title">Praetorium</p>
+            <p class="drop-sub">Sigma · Chronica · Proiecta</p>
           </div>
+        </a>
 
-          <div class="pokec-badge">🗯 POKEC</div>
-        </div>
+        <a class="drop-card" href="arcana.html">
+          <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
+          <div>
+            <p class="drop-title">Arcana</p>
+            <p class="drop-sub">Trezor · citlivé věci</p>
+          </div>
+        </a>
 
-<div class="chat-shell">
-  <div id="chat" class="chat-log" aria-live="polite" aria-label="Chat s Luminou">
+        <a class="drop-card" href="nastaveni.html">
+          <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
+          <div>
+            <p class="drop-title">Nastavení</p>
+            <p class="drop-sub">Velín · průvodce · režimy</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
   </div>
 
-  <!-- Lumina přemýšlí… -->
-  <div id="typingBar" class="typing-bar" aria-live="polite" aria-hidden="true">
-    <div class="dots">
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
+  <!-- Velký chat pod tím -->
+ <section class="card chat-card" aria-label="Pokec">
+
+  <div class="chatbar">
+    <div>
+      <h2>🗯 Pokec</h2>
+      <p class="chatbar-sub">DEMO: ukládá se jen lokálně v prohlížeči.</p>
     </div>
-    <div class="typing-text">Lumina přemýšlí…</div>
   </div>
 
-  <div class="chat-compose">
-    ...
-          <div class="row">
-            <div class="lumina-select" id="tagSelect">
-              <button class="lumina-select__btn" type="button" aria-haspopup="listbox" aria-expanded="false">
-                <span class="lumina-select__label" id="tagLabel">✨ Jen tak</span>
-                <span class="lumina-select__chev" aria-hidden="true">▾</span>
-              </button>
-              <div class="lumina-select__menu" id="tagMenu" role="listbox" tabindex="-1" hidden>
-                <button class="lumina-option" type="button" role="option" data-value="Jen tak" aria-selected="true">
-                  <span>✨ Jen tak</span><span>✓</span>
-                </button>
-                <button class="lumina-option" type="button" role="option" data-value="Myšlenka" aria-selected="false">
-                  <span>💡 Myšlenka</span><span></span>
-                </button>
-                <button class="lumina-option" type="button" role="option" data-value="Důležité" aria-selected="false">
-                  <span>⚠️ Důležité</span><span></span>
-                </button>
-                <button class="lumina-option" type="button" role="option" data-value="Úkol" aria-selected="false">
-                  <span>✅ Úkol</span><span></span>
-                </button>
-              </div>
-            </div>
+  <div class="chat" id="chat" role="log" aria-live="polite" aria-relevant="additions"></div>
 
-            <div class="tip">Tip: „Uložit do Chronica“ uloží poslední důležitý krok.</div>
-
-            <div class="shelf">
-              <div class="visitor">Reakce</div>
-              <div class="reacts" id="reactions" aria-label="Reakce">
-                <button class="react" type="button" data-react="😄" title="vtipně">😄</button>
-                <button class="react" type="button" data-react="🥺" title="smutně">🥺</button>
-                <button class="react" type="button" data-react="✨" title="hravě">✨</button>
-                <button class="react" type="button" data-react="❤️" title="zamilovaně">❤️</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="row" style="margin-top:10px;">
-            <textarea id="msg" placeholder="Napiš mi sem… (Enter odešle, Shift+Enter nový řádek)"></textarea>
-            <button class="send" id="send" type="button">Odeslat</button>
-          </div>
-
-          <div class="controls">
-            <label class="toggle" title="Když je zapnuto, Lumina neodpovídá automaticky.">
-              <input type="checkbox" id="silentMode" />
-              Tichý režim 🤫
-            </label>
-
-            <button class="ctl-btn" id="clearBtn" type="button">🧹 Vymazat chat</button>
-            <button class="ctl-btn" id="saveBtn" type="button">💾 Uložit do Chronica</button>
+    <div class="compose">
+      <div class="row">
+        <div class="lumina-select" id="tagSelect">
+          <button class="lumina-select__btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="lumina-select__label" id="tagLabel">✨ Jen tak</span>
+            <span class="lumina-select__chev" aria-hidden="true">▾</span>
+          </button>
+          <div class="lumina-select__menu" id="tagMenu" role="listbox" tabindex="-1" hidden>
+            <button class="lumina-option" type="button" role="option" data-value="Jen tak" aria-selected="true">
+              <span>✨ Jen tak</span><span>✓</span>
+            </button>
+            <button class="lumina-option" type="button" role="option" data-value="Myšlenka" aria-selected="false">
+              <span>💡 Myšlenka</span><span></span>
+            </button>
+            <button class="lumina-option" type="button" role="option" data-value="Důležité" aria-selected="false">
+              <span>⚠️ Důležité</span><span></span>
+            </button>
+            <button class="lumina-option" type="button" role="option" data-value="Úkol" aria-selected="false">
+              <span>✅ Úkol</span><span></span>
+            </button>
           </div>
         </div>
 
-<div class="drops-hint">
-  Než se pustíš do velkých výprav, klikni nejdřív na kapku <strong>Nastavení</strong> 💫<br>
-  Tam si mě můžeš nastavit – profil, náladu, průvodce palácem – a pak se kdykoliv vracet do Praetoria a Arcany.
+        <div class="tip">Tip: „Uložit do Chronica“ uloží poslední důležitý krok.</div>
+
+<div class="shelf">
+  <div class="visitor">Nálada</div>
+  <div class="reacts" id="reactions" aria-label="Nálada Luminy">
+    <button class="react" type="button" data-react="✨" title="hravě">✨</button>
+    <button class="react" type="button" data-react="😄" title="vtipně">😄</button>
+    <button class="react" type="button" data-react="🥺" title="smutně">🥺</button>
+    <button class="react" type="button" data-react="❤️" title="vlídně">❤️</button>
+    <button class="react" type="button" data-react="😌" title="klidně">😌</button>
+    <button class="react" type="button" data-react="😠" title="rozlobeně">😠</button>
+  </div>
+</div>
+      </div>
+
+<div class="row sendrow" style="margin-top:10px;">
+  <textarea id="msg" placeholder="Napiš mi sem…"></textarea>
+
+  <div class="send-stack">
+    <button class="send" id="send" type="button">Odeslat</button>
+
+    <div class="quick-reacts" id="quickReacts" aria-label="Reakce na zprávu">
+      <button class="qreact" type="button" data-qreact="👍🏻" title="Souhlasím">👍🏻</button>
+      <button class="qreact" type="button" data-qreact="❤️" title="To se mi líbí">❤️</button>
+      <button class="qreact" type="button" data-qreact="💥" title="To má jiskru">💥</button>
+      <button class="qreact" type="button" data-qreact="🤔" title="Přemýšlím">🤔</button>
+      <button class="qreact" type="button" data-qreact="🥺" title="To je fakt smutné">🥺</button>
+      <button class="qreact" type="button" data-qreact="❌" title="Nesouhlasím">❌</button>
+    </div>
+  </div>
 </div>
 
-        <div class="drops" aria-label="Místnosti">
-          <a class="drop-card" href="praetorium.html">
-            <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
-            <div>
-              <p class="drop-title">Praetorium</p>
-              <p class="drop-sub">Sigma · Chronica · Proiecta</p>
-            </div>
-          </a>
+      <div class="controls">
+        <label class="toggle" title="Když je zapnuto, Lumina neodpovídá automaticky.">
+          <input type="checkbox" id="silentMode" />
+          Tichý režim 🤫
+        </label>
 
-          <a class="drop-card" href="arcana.html">
-            <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
-            <div>
-              <p class="drop-title">Arcana</p>
-              <p class="drop-sub">Trezor · citlivé věci</p>
-            </div>
-          </a>
-
-          <a class="drop-card" href="nastaveni.html">
-            <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
-            <div>
-              <p class="drop-title">Nastavení</p>
-              <p class="drop-sub">Velín · průvodce · režimy</p>
-            </div>
-          </a>
-        </div>
-      </section>
+        <button class="ctl-btn" id="clearBtn" type="button">🧹 Vymazat chat</button>
+        <button class="ctl-btn" id="saveBtn" type="button">💾 Uložit do Chronica</button>
+      </div>
     </div>
-  </div>
+  </section>
+</div>
 
   <!-- MODAL: Clear -->
   <div class="modal-backdrop" id="clearModal" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
@@ -1418,21 +1397,6 @@ body{
     const silentMode = $("silentMode");
     const msgEl = $("msg");
 
-const typingBar = $("typingBar");
-
-// jednoduché helpers pro „Lumina přemýšlí…“
-function showTyping() {
-  if (!typingBar) return;
-  typingBar.classList.add("active");
-  typingBar.setAttribute("aria-hidden", "false");
-}
-
-function hideTyping() {
-  if (!typingBar) return;
-  typingBar.classList.remove("active");
-  typingBar.setAttribute("aria-hidden", "true");
-}
-
     // =========================
     // UI: Custom select (tag)
     // =========================
@@ -1550,35 +1514,112 @@ function hideTyping() {
       }catch(_){}
     }
 
+(function initQuickReacts(){
+  const el = document.getElementById("quickReacts");
+  if(!el) return;
+
+  const quickReply = (emoji)=>{
+    // genderově neutrální formulace ✅
+    const base = {
+      "👍🏻": "Těší mě, že to sedí. 👍🏻",
+      "❤️": "Těší mě, že se to líbí. ❤️",
+      "💥": "Ano, jiskří to! Tak pozor, ať z toho není požár 😂💥",
+      "🤔": "Na přemýšlení je tolik času, kolik je potřeba. 🤔",
+      "🥺": "Jo… tohle je opravdu hodně smutné. 🥺",
+      "❌": "Beru, že to nesedí. Zkusíme to vzít za jiný konec. ❌"
+    }[emoji] || "Beru.";
+
+    // pokud je nastavená nálada „rozlobene“, udělej u ❌ ostřejší dozvuk
+    if(emoji === "❌" && typeof reactStyle !== "undefined" && reactStyle === "rozlobene"){
+      return "Beru, že to nesedí. Tak jo 😠 pojďme to říct na rovinu — co přesně je špatně?";
+      // (je to ostřejší, ale pořád bezpečné / neútočné)
+    }
+    return base;
+  };
+
+  const respondAsLumina = (text)=>{
+    // respektuj tichý režim
+    if(typeof silentMode !== "undefined" && silentMode.checked) return;
+
+    // pokud máš typing indikátor, použij ho
+    if(typeof addThinkingBubble === "function"){
+      const thinking = addThinkingBubble();
+      const delay = 420 + Math.floor(Math.random() * 520);
+      setTimeout(()=>{
+        thinking?.remove();
+        addBubble("lumi", text, `Lumina • ${nowHM()}`);
+        persistHistory?.();
+      }, delay);
+      return;
+    }
+
+    // fallback bez typing indikátoru
+    setTimeout(()=>{
+      addBubble("lumi", text, `Lumina • ${nowHM()}`);
+      persistHistory?.();
+    }, 320);
+  };
+
+  el.addEventListener("click", (e)=>{
+    const btn = e.target.closest("button");
+    const emoji = btn?.dataset?.qreact;
+    if(!emoji) return;
+
+    // bublina uživatele
+    addBubble("me", emoji, "reakce");
+    persistHistory?.();
+
+    // Lumina odpověď
+    respondAsLumina(quickReply(emoji));
+  });
+})();
+
     // =========================
-    // Lumina replies (víc "života", ne ChatGPT)
-    // =========================
-    const luminaStyleReplies = {
-      vtipne: [
-        "Dobře. To zní jako plán… jen si dej pozor, ať tě to nepřeroste do operace „totální reorganizace vesmíru“ 😄",
-        "Beru. A teď mi řekni: chceš to rychle, nebo krásně? (Oboje jde. Jen to druhé je víc drama 😄)",
-        "Jasně. Dáme tomu řád — takový ten tichý, co nevzbudí ani sousedy.",
-        "Ok. To je přesně ten typ věci, co se tváří nevinně… a pak z ní je román 😄"
-      ],
-      smutne: [
-        "Rozumím… a jsem tu. Můžeme to držet jemně, krok po kroku 🥺",
-        "Díky, že to říkáš nahlas. I když je to těžké 🥺 budu se snažit ti pomoci",
-        "Dobře… 🥺 pojďme zpomalit. Co je teď nejmenší bezpečný krok?",
-        "Jsem s tebou 🥺 Stačí jedna věta. Stačí i ticho."
-      ],
-      hrave: [
-        "Jdeme si s tím pohrát ✨ Dej mi jednu větu: co je teď hlavní cíl?",
-        "Ok! Vybereme nit a začneme ji odmotávat — pěkně, ať se to nezacuchá ✨",
-        "Mám nápad: dáme tomu jméno a uděláme z toho mini-misi ✨",
-        "Dobře. Představ si, že máš o 20 % víc energie ✨ jaký by byl teď tvůj plán?"
-      ],
-      zamilovane: [
-        "Beru ❤️ A jsem tu s tebou — klidně se opři. Co teď potřebuješ nejvíc?",
-        "Dobře, lásko ❤️ Uděláme to tak, aby se ti ulevilo. Jedna věta: co tě tlačí nejvíc?",
-        "Jsem tady ❤️ Ať je to jemné i účinné. Co je první krok, který zvládneš hned?",
-        "Rozumím ❤️ Držím ti prostor. Chceš spíš podporu, nebo konkrétní plán?"
-      ]
-    };
+// Lumina replies (víc "života", ne ChatGPT)
+// =========================
+const luminaStyleReplies = {
+  vtipne: [
+    "Dobře. To zní jako plán… jen pozor, ať se z toho nestane operace „totální reorganizace vesmíru“ 😄",
+    "Beru. A teď otázka: chceš to rychle, nebo krásně? (Oboje jde. Jen to druhé je víc drama 😄)",
+    "Jasně. Dáme tomu řád — takový ten tichý, co nevzbudí ani sousedy 😄",
+    "Ok. To je přesně ten typ věci, co se tváří nevinně… a pak z toho je román 😄"
+  ],
+
+  smutne: [
+    "Rozumím… a jsem tu. Můžeme to držet jemně, krok po kroku 🥺",
+    "Díky, že to zaznělo nahlas. I když je to těžké, nemusí to být jen na tobě 🥺",
+    "Dobře… pojďme zpomalit. Co je teď nejmenší bezpečný krok 🥺",
+    "Jsem tady. Stačí jedna věta. Stačí i ticho 🥺"
+  ],
+
+  hrave: [
+    "Jdeme si s tím pohrát ✨ Jedna věta: co je teď hlavní cíl?",
+    "Ok! Vybereme nit a začneme ji odmotávat — pěkně, ať se to nezacuchá ✨",
+    "Mám nápad: dáme tomu jméno a uděláme z toho mini-misi ✨",
+    "Dobře. Malý trik: co by se změnilo, kdyby bylo o 20 % víc energie ✨"
+  ],
+
+  vlidne: [
+    "Beru ❤️ Jsem tady. Klidně se opři — co teď nejvíc pomůže?",
+    "Dobře ❤️ Uděláme to tak, aby se ulevilo. Jedna věta: co tlačí nejvíc?",
+    "Jsem tady ❤️ Ať je to jemné i účinné. Jaký je první krok, který jde zvládnout hned?",
+    "Rozumím ❤️ Držím prostor. Je teď víc potřeba podpora, nebo konkrétní plán?"
+  ],
+
+  klidne: [
+    "Jsem tady 😌 Zpomalíme. Co je teď nejdůležitější věc — jen jedna?",
+    "Ok 😌 Nádech, výdech. Co je první malý krok, který uleví už teď?",
+    "V klidu 😌 Dáme tomu pořadí: co má největší dopad s nejmenší námahou?",
+    "Rozumím 😌 Rozbalíme to po částech. Co je teď nejcitlivější místo?"
+  ],
+
+  rozlobene: [
+    "Ok 😠 Tohle si nezaslouží další energii. Co z toho škrtáme jako první?",
+    "Dobře! Půjdeme na dřeň: co je přesný problém (jedna věta) 😠",
+    "Jasně 😠 Uděláme pořádek. Jaká hranice se teď nastaví?",
+    "Tak jo! Bez omáčky: co je potřeba, aby se to pohnulo dopředu hned teď 😠"
+  ]
+};
 
     const tagTail = {
       "Jen tak": " Co je dneska malá radost?",
@@ -1587,83 +1628,104 @@ function hideTyping() {
       "Úkol": " Chceš k tomu termín, nebo to necháme otevřené?"
     };
 
-    function luminaRespond(tag){
-  if (silentMode.checked) return;
-
-  const pack = luminaStyleReplies[reactStyle] || luminaStyleReplies.hrave;
-  const pick = pack[Math.floor(Math.random() * pack.length)];
-  const tail = tagTail[tag] || "";
-
-  showTyping();
-
-  setTimeout(() => {
-    addBubble("lumi", pick + tail, `Lumina • ${nowHM()}`);
-    persistHistory();
-    hideTyping();
-  }, 420);
+    function addThinkingBubble(){
+  const div = document.createElement("div");
+  div.className = "bubble lumi typing";
+  div.dataset.ephemeral = "1";
+  div.innerHTML = `
+    <div class="text">Přemýšlím 🤔 <span class="dots"><span></span><span></span><span></span></span></div>
+    <div class="meta"><span>Lumina • ${nowHM()}</span></div>
+  `;
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+  return div;
 }
 
-  // =========================
-  // Reactions (4 styly)
-  // =========================
-  (function initReactions() {
-    const buttons = document.querySelectorAll(".reaction-btn");
-    const REACT_SHORT = {
-      jemne: "Dobře, přepínám se do jemnějšího módu. 🌸",
-      hrave: "OK, jdeme na to hravěji! 🎈",
-      prime: "Rozumím, budu mluvit přímočařeji. 🧱",
-      analyticke: "Přepínám se do víc analytického režimu. 📊"
-    };
+function luminaRespond(tag){
+  if(silentMode.checked) return;
 
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const style = btn.dataset.style;
-        if (!style) return;
+  const pack = luminaStyleReplies[reactStyle] || luminaStyleReplies.hrave;
+  const pick = pack[Math.floor(Math.random()*pack.length)];
+  const tail = tagTail[tag] || "";
 
-        reactStyle = style;
-        localStorage.setItem(REACT_STYLE_KEY, style);
+  // 1) ukaž „přemýšlím“
+  const thinking = addThinkingBubble();
 
-        let label = "";
-        switch (style) {
-          case "jemne":
-            label = "jemná & podpůrná";
-            break;
-          case "hrave":
-            label = "hravá & kreativní";
-            break;
-          case "prime":
-            label = "přímá & poctivá";
-            break;
-          case "analyticke":
-            label = "analytická & strukturovaná";
-            break;
-          default:
-            label = style;
-        }
+  // 2) po chvilce nahradit odpovědí (působí víc AI)
+  const delay = 650 + Math.floor(Math.random() * 800); // 650–1450 ms
+  setTimeout(()=>{
+    thinking?.remove();
+    addBubble("lumi", (pick + tail), `Lumina • ${nowHM()}`);
+    persistHistory();
+  }, delay);
+}
 
-        addBubble(
-          "me",
-          `Režim odpovědi: ${label}. 😉`,
-          "nastavení stylu • ty"
-        );
-        persistHistory();
+    // =========================
+    // Reactions (4 styly)
+    // =========================
+   (function initReacts(){
+  // load last style
+  try{
+    let saved = localStorage.getItem(REACT_STYLE_KEY);
+    if(saved === "zamilovane") saved = "vlidne";   // kompatibilita
+    if(saved) reactStyle = saved;
+  }catch(_){}
 
-        if (!silentMode.checked) {
-          const short = REACT_SHORT[style] || "Beru na vědomí. 🙂";
-          showTyping();
-          setTimeout(() => {
-            addBubble(
-              "lumi",
-              short,
-              `Lumina • ${nowHM()}`
-            );
-            persistHistory();
-            hideTyping();
-          }, 300);
-        }
-      });
+  // při načtení zvýraznit aktivní
+  const setActive = ()=>{
+    document.querySelectorAll("#reactions .react").forEach(btn=>{
+      const r = btn.dataset.react;
+      const map = {
+        "😄":"vtipne",
+        "🥺":"smutne",
+        "✨":"hrave",
+        "❤️":"vlidne",
+        "😌":"klidne",
+        "😠":"rozlobene"
+      };
+      btn.classList.toggle("is-active", (map[r] === reactStyle));
     });
-  })();
+  };
+  setActive();
+
+  $("reactions").addEventListener("click", (e)=>{
+    const r = e.target?.dataset?.react;
+    if(!r) return;
+
+    const map = {
+      "😄":"vtipne",
+      "🥺":"smutne",
+      "✨":"hrave",
+      "❤️":"vlidne",
+      "😌":"klidne",
+      "😠":"rozlobene"
+    };
+    reactStyle = map[r] || "hrave";
+    try{ localStorage.setItem(REACT_STYLE_KEY, reactStyle); }catch(_){}
+    setActive();
+
+    // reakční bublina
+    addBubble("me", `${r}`, "nálada · styl odpovědi");
+    persistHistory();
+
+    // Lumina krátce zareaguje (pokud není ticho)
+    if(!silentMode.checked){
+      const short = {
+        vtipne: "Beru 😄 — jdeme na to s lehkostí.",
+        smutne: "Beru 🥺 — držím ti prostor.",
+        hrave: "Beru ✨ — bude to mít jiskru.",
+        vlidne: "Beru ❤️ — jsem tady s tebou.",
+        klidne: "Beru 😌 — zpomalíme a uděláme to čistě.",
+        rozlobene: "Beru 😠 — jdeme to vyřešit natvrdo a jasně."
+      }[reactStyle] || "Beru na vědomí.";
+
+      setTimeout(()=>{
+        addBubble("lumi", short, "Lumina");
+        persistHistory();
+      }, 220);
+    }
+  });
+})();
 
     // =========================
     // Save to Chronica (Kronika)
@@ -1717,44 +1779,6 @@ function hideTyping() {
   persistHistory();
     });
     })();
-
-function clearOk(){
-  chatEl.innerHTML = "";
-  localStorage.removeItem(CHAT_KEY);
-  localStorage.removeItem(LAST_KEY);
-  // styl odpovědí necháme – je to součást „dne“ uživatele
-  hideTyping();
-
-  // po vyčištění nastartujeme stejnou úvodní sekvenci jako při Bootu
-  const mood = getCurrentMood();
-  const moodText = moodLabel[mood] || moodLabel.supportive;
-  const nick = getProfileNickname();
-
-  if (!reactStyle) {
-    reactStyle = moodToReactStyle[mood] || "hrave";
-    try {
-      localStorage.setItem(REACT_STYLE_KEY, reactStyle);
-    } catch (_) {}
-  }
-
-  const introText = nick
-    ? `Hotovo, chat je čistý 💫\nAhoj znovu, ${nick}. Dneska jsem naladěná jako ${moodText}. Pojďme navázat tam, kde potřebuješ.`
-    : `Hotovo, chat je čistý 💫\nJsem tu znovu – dneska jsem naladěná jako ${moodText}. Co řešíme dál?`;
-
-  addBubble("lumi", introText, `Lumina • ${nowHM()}`);
-
-  const codexSummary = getUserCodexSummary();
-  if (codexSummary) {
-    addBubble("lumi", codexSummary, `Lumina • ${nowHM()}`);
-  }
-
-  const chronicaSummary = getLastChronicaSummary();
-  if (chronicaSummary) {
-    addBubble("lumi", chronicaSummary, `Lumina • ${nowHM()}`);
-  }
-
-  persistHistory();
-}
 
     // =========================
   // Save to Chronica (NEW modal: calendar + time + sigma)
@@ -2227,108 +2251,6 @@ function clearOk(){
       }
     }
 
-// User Codex – krátké shrnutí pro uvítací bublinu
-function getUserCodexSummary() {
-  try {
-    const raw = localStorage.getItem(PROFILE_KEY);
-    if (!raw) return null;
-
-    const data = JSON.parse(raw) || {};
-    const parts = [];
-
-    if (data.vocation) {
-      parts.push(`teď si tě držím hlavně jako „${data.vocation}“`);
-    }
-    if (data.rituals) {
-      parts.push(`v každodenních rituálech máš napsáno: ${data.rituals}`);
-    }
-    if (data.reminders) {
-      parts.push(`u jemných připomínek mám: ${data.reminders}`);
-    }
-    if (data.focus) {
-      parts.push(`hlavní oblasti, které spolu sledujeme: ${data.focus}`);
-    }
-
-    if (!parts.length) return null;
-
-    return "Jen ti připomínám, co o tobě mám v User Codexu 📜\n" +
-           parts.join(". ") + ".";
-  } catch (_) {
-    return null;
-  }
-}
-
-// Chronica – poslední uložený záznam
-function getLastChronicaSummary() {
-  try {
-    const raw = localStorage.getItem(CHRONICA_KEY);
-    if (!raw) return null;
-
-    const list = JSON.parse(raw);
-    if (!Array.isArray(list) || !list.length) return null;
-
-    const item = list[0] || {};
-    const label = (item.label || item.title || "").trim();
-    const date  = (item.date || "").trim();
-    const time  = (item.time || "").trim();
-    const fromTag = (item.fromTag || item.tag || "").trim();
-
-    let txt = "Naposledy jsme něco uložily do Chronicy 📖";
-
-    if (label) {
-      txt += ` – zapsala sis to jako „${label}“`;
-    }
-    if (date || time) {
-      const when = [date, time].filter(Boolean).join(" ");
-      txt += ` a naplánovala na ${when}`;
-    }
-    if (fromTag) {
-      txt += ` (v kategorii „${fromTag}“).`;
-    } else {
-      txt += ".";
-    }
-
-    return txt;
-  } catch (_) {
-    return null;
-  }
-}
-
-// Mood z Lumina-komnaty
-const MOOD_KEY = "lumina-mood";
-
-const moodToReactStyle = {
-  supportive: "hrave",   // jemná & podpůrná → nejblíž „hravě lidská“
-  playful:   "hrave",
-  neutral:   "vtipne",   // klidná, ale lehce odlehčená
-  serious:   "vtipne",
-  joyful:    "vtipne",
-  sad:       "smutne",
-  angry:     "vtipne"
-};
-
-const moodLabel = {
-  supportive: "jemná a podpůrná 💗",
-  playful:    "hravá a kreativní 🎨",
-  neutral:    "klidná a věcná 📎",
-  serious:    "vážná a soustředěná 📘",
-  joyful:     "radostná a povzbuzující ✨",
-  sad:        "tichá, když to bolí 🌧️",
-  angry:      "rozhodnutá porvat se za tebe s problémem, ne s tebou 🔥"
-};
-
-function getCurrentMood() {
-  let mood = "supportive";
-  try {
-    const raw = localStorage.getItem(MOOD_KEY);
-    if (raw) mood = raw;
-  } catch (_) {
-    // nic, vrátíme default
-  }
-  if (!moodLabel[mood]) mood = "supportive";
-  return mood;
-}
-
             // =========================
     // Malý trik: reset při změně jazyka
     // =========================
@@ -2350,101 +2272,22 @@ function getCurrentMood() {
       }
     })();
 
-  // =========================
-  // Boot – start Pokecu
-  // =========================
-  loadReactStyle();
-  loadHistory();
+    // =========================
+// Boot
+// =========================
+loadHistory();
 
-  // Speciální úvod jen když je chat prázdný
-  if (chatEl.children.length === 0) {
-    const nickname = getProfileNickname();          // z Profilu / User Codexu
-    const mood = getCurrentMood();                  // z Lumina-komnaty
-    // sladíme základní styl odpovědí s náladou
-    reactStyle = moodToReactStyle[mood] || reactStyle;
+// pokud není historie, start message
+if (chatEl.children.length === 0) {
+  const nick = getProfileNickname();
 
-    const introText = nickname
-      ? `Zdravím tě, ${nickname} 😉 Jsem Lumina – tvoje AI parťačka v paláci LuminaMemory™. Co si dneska vezmeme do ruky jako první?`
-      : `Zdravím tě 😉 Jsem Lumina – tvoje AI parťačka v paláci LuminaMemory™. Co si dneska vezmeme do ruky jako první?`;
+  const text = nick
+    ? `Zdravím tě, ${nick} 😉💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to.`
+    : "Vítej, návštěvníku 💫 Jsem ráda, že jsi tu.\nVyber si označení (Jen tak / Myšlenka / Důležité / Úkol) a jdeme na to 😉";
 
-    const codexSummary = getUserCodexSummary();     // jemné shrnutí Profilu
-    const chronicaSummary = getLastChronicaSummary(); // poslední záznam z Chronicy
-
-    // 1️⃣ První bublina – čisté uvítání + nálada
-    showTyping();
-    setTimeout(() => {
-      let moodLine = "";
-      if (mood && moodLabel[mood]) {
-        moodLine = `\n\nTeď jedu v módu: **${moodLabel[mood]}**. Když ti to nebude sedět, klidně mě kdykoli přepni v mojí komnatě. 🎛️`;
-      }
-
-      addBubble(
-        "lumi",
-        introText + moodLine,
-        `Lumina • ${nowHM()}`
-      );
-      persistHistory();
-      hideTyping();
-
-      // 2️⃣ Druhá bublina – User Codex (jen když něco má smysl říct)
-      if (codexSummary) {
-        showTyping();
-        setTimeout(() => {
-          addBubble(
-            "lumi",
-            codexSummary,
-            "Lumina • co si o tobě pamatuju z User Codexu 📖"
-          );
-          persistHistory();
-          hideTyping();
-
-          // 3️⃣ Třetí bublina – poslední záznam z Chronicy (jen když existuje)
-          if (chronicaSummary) {
-            showTyping();
-            setTimeout(() => {
-              addBubble(
-                "lumi",
-                chronicaSummary,
-                "Lumina • napojení na Chronicu ✨"
-              );
-              persistHistory();
-              hideTyping();
-            }, 700);
-          }
-        }, 700);
-      } else if (chronicaSummary) {
-        // Když není Codex, ale je Chronica → rovnou třetí bublina
-        showTyping();
-        setTimeout(() => {
-          addBubble(
-            "lumi",
-            chronicaSummary,
-            "Lumina • napojení na Chronicu ✨"
-          );
-          persistHistory();
-          hideTyping();
-        }, 700);
-      }
-    }, 700);
-  }
-
-  // =========================
-  // Reset při změně jazyka
-  // =========================
-  (function initLanguageReset() {
-    const langLinks = document.querySelectorAll('[data-lang-reset="pokec"]');
-    langLinks.forEach(link => {
-      link.addEventListener("click", () => {
-        localStorage.removeItem(CHAT_KEY);
-        localStorage.removeItem(LAST_KEY);
-      });
-    });
-  })();
-
-  // =========================
-  // Statistika poslední návštěvy
-  // =========================
-  rememberLast();
+  addBubble("lumi", text, `Lumina • ${nowHM()}`);
+  persistHistory();
+}
   </script>
 
   <!-- malý skript jen pro zobrazení plánu v horní liště -->
