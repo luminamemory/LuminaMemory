@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      /* duhovější, měkčí pozadí */
+      /* softer rainbow background */
       background:
         radial-gradient(circle at 10% 0%, #ffdde1 0, rgba(255,221,225,0) 35%),
         radial-gradient(circle at 90% 0%, #d4e4ff 0, rgba(212,228,255,0) 40%),
@@ -180,7 +180,7 @@
       margin-bottom: 10px;
     }
 
-    /* mód = skříň / outfit */
+    /* mode = wardrobe / outfit */
     .lm-modes-grid {
       margin-top: 8px;
       display: grid;
@@ -237,7 +237,7 @@
       opacity: 0.86;
     }
 
-    /* zvýraznění vybraného outfitu */
+    /* highlight selected outfit */
     .lm-mode-option input:checked + .lm-mode-body{
       border-radius:12px;
       background: linear-gradient(135deg,
@@ -294,145 +294,143 @@
 <div class="lm-shell">
   <header class="lm-header">
     <div class="lm-header-left">
-      <a href="nastaveni.html" class="lm-back">
+      <a href="nastaveni-en.html" class="lm-back">
         <span>←</span>
-        <span>Zpět do kanceláře</span>
+        <span>Back to control room</span>
       </a>
       <div class="lm-header-title">
-        <small>LuminaMemory™ · Nastavení</small>
-        <strong>Jaká má být Lumina</strong>
+        <small>LuminaMemory™ · Settings</small>
+        <strong>How Lumina should be</strong>
       </div>
     </div>
   </header>
 
   <main class="lm-main">
     <div class="lm-grid">
-      <!-- Levý panel – tančící Lumina -->
-      <section class="lm-panel" aria-label="Lumina – taneční komnata">
+      <!-- Left panel – dancing Lumina -->
+      <section class="lm-panel" aria-label="Lumina – dance chamber">
         <div class="lumina-dance-wrapper">
           <img
             class="lumina-dance"
             src="lumina-dance-1.png"
-            alt="Lumina tančí mezi hvězdami">
+            alt="Lumina dancing among the stars">
         </div>
         <p style="margin-top: 14px; font-size: 13px; opacity: 0.9;">
-          Tohle je tvoje hvězdná parťačka. Může být jemná, hravá, čistě
-          analytická nebo úplně vážná. V téhle komnatě jí vybereš
-          <strong>„outfit“ nálady</strong> – jakým tónem na tebe dnes bude mluvit.
+          This is your star companion. She can be gentle, playful, purely analytical,
+          or fully serious. In this chamber you choose her
+          <strong>mood “outfit”</strong> — the tone she’ll use to speak with you today.
         </p>
       </section>
 
-      <!-- Pravý panel – šatna s outfity tónů -->
-      <section class="lm-panel lm-panel--right" aria-label="Nastavení tónu Luminy">
+      <!-- Right panel – wardrobe of tone outfits -->
+      <section class="lm-panel lm-panel--right" aria-label="Lumina tone settings">
         <div class="lm-pill">
-          ✨ Styl &amp; nálada Luminy
+          ✨ Lumina style &amp; mood
         </div>
-        <h1>Vyber Lumině outfit</h1>
+        <h1>Choose an outfit for Lumina</h1>
         <p>
-          Každý outfit je jiný tón řeči. Uvnitř paláce tomu říkáme
-          <em>tónová vrstva</em> – jakým jazykem, tempem a energií s tebou
-          Lumina mluví. Nastavení se ukládá jen do tohoto prohlížeče.
+          Each outfit is a different speaking tone. Inside the palace we call it a
+          <em>tone layer</em> — the language, pace, and energy Lumina uses with you.
+          The setting is stored only in this browser.
         </p>
 
         <div class="lm-modes-grid">
-          <!-- Podpůrná -->
+          <!-- Supportive -->
           <label class="lm-mode-option" data-mood="supportive">
             <input type="radio" name="lumina-mood" value="supportive" checked>
             <div class="lm-mode-body">
-              <div class="lm-mode-title">Jemná &amp; podpůrná</div>
+              <div class="lm-mode-title">Gentle &amp; supportive</div>
               <div class="lm-mode-desc">
-                Klidný tón, víc pochopení a měkké formulace. Hodí se, když je toho
-                moc, potřebuješ oporu, připomenout dýchání a malé, zvládnutelné kroky.
+                Calm tone, more understanding, softer wording. Great when it’s a lot —
+                you need support, a breathing reminder, and small doable steps.
               </div>
             </div>
           </label>
 
-          <!-- Hravá -->
+          <!-- Playful -->
           <label class="lm-mode-option" data-mood="playful">
             <input type="radio" name="lumina-mood" value="playful">
             <div class="lm-mode-body">
-              <div class="lm-mode-title">Hravá &amp; kreativní</div>
+              <div class="lm-mode-title">Playful &amp; creative</div>
               <div class="lm-mode-desc">
-                Lehčí jazyk, špetka humoru, metafory a nápady. Dobrá na
-                brainstorming, psaní, tvoření a hledání nových cest bez tlaku.
+                Lighter language, a pinch of humor, metaphors, ideas. Good for brainstorming,
+                writing, creating, and finding new paths without pressure.
               </div>
             </div>
           </label>
 
-          <!-- Neutrální -->
+          <!-- Neutral -->
           <label class="lm-mode-option" data-mood="neutral">
             <input type="radio" name="lumina-mood" value="neutral">
             <div class="lm-mode-body">
-              <div class="lm-mode-title">Neutrální průvodkyně</div>
+              <div class="lm-mode-title">Neutral guide</div>
               <div class="lm-mode-desc">
-                Stručně, věcně, minimum obrazů. Krátké věty, přehledné kroky,
-                žádné zbytečné emoce navíc. Vhodné, když chceš být hlavně efektivní.
+                Concise, factual, minimal imagery. Short sentences, clear steps,
+                no extra emotions. Best when you want to be efficient.
               </div>
             </div>
           </label>
 
-          <!-- Analytik / vážný -->
+          <!-- Serious -->
           <label class="lm-mode-option" data-mood="serious">
             <input type="radio" name="lumina-mood" value="serious">
             <div class="lm-mode-body">
-              <div class="lm-mode-title">Vážná &amp; formální</div>
+              <div class="lm-mode-title">Serious &amp; formal</div>
               <div class="lm-mode-desc">
-                Jasná struktura, formálnější tón, citace pravidel a faktů.
-                Hodí se pro smlouvy, pravidla, pracovní věci a situace,
-                kde potřebuješ „úřednější“ hlas.
+                Clear structure, more formal tone, rules and facts. Good for contracts,
+                policies, work matters, and situations where you need an “official” voice.
               </div>
             </div>
           </label>
 
-          <!-- Radostná -->
+          <!-- Joyful -->
           <label class="lm-mode-option" data-mood="joyful">
             <input type="radio" name="lumina-mood" value="joyful">
             <div class="lm-mode-body">
-              <div class="lm-mode-title">Radostná &amp; povzbuzující</div>
+              <div class="lm-mode-title">Joyful &amp; encouraging</div>
               <div class="lm-mode-desc">
-                Lehké výkřiky radosti, víc světla v jazyce, metafory typu
-                „slunce v hrudi“. Vhodné, když chceš nakopnout motivaci a oslavit
-                malé vítězství.
+                A bit more sparkle and celebration. Helpful when you want a motivation boost
+                and to honor small wins.
               </div>
             </div>
           </label>
 
-          <!-- Smutná / tichá -->
+          <!-- Sad / quiet -->
           <label class="lm-mode-option" data-mood="sad">
             <input type="radio" name="lumina-mood" value="sad">
             <div class="lm-mode-body">
-              <div class="lm-mode-title">Tichá, když to bolí</div>
+              <div class="lm-mode-title">Quiet when it hurts</div>
               <div class="lm-mode-desc">
-                Pomalejší tempo, delší věty, víc prostoru pro emoce. Hodí se na dny,
-                kdy je tíživo a potřebuješ spíš být vyslyšená než motivovaná.
+                Slower pace, longer sentences, more room for feelings. For heavy days,
+                when you want to be heard more than motivated.
               </div>
             </div>
           </label>
 
-          <!-- Rozčilená na problém, ne na tebe -->
+          <!-- Angry at the problem -->
           <label class="lm-mode-option" data-mood="angry">
             <input type="radio" name="lumina-mood" value="angry">
             <div class="lm-mode-body">
-              <div class="lm-mode-title">Rozčilená na problém, ne na tebe</div>
+              <div class="lm-mode-title">Angry at the problem, not at you</div>
               <div class="lm-mode-desc">
-                Přímější jazyk, kratší věty pro důraz. Ne na shazování, ale na
-                jasné „tady už stačilo“ a na konkrétní akční kroky, jak z toho ven.
+                More direct language, shorter sentences for emphasis. Not to shame you —
+                but to say “enough” and turn it into concrete action steps.
               </div>
             </div>
           </label>
         </div>
 
         <div class="lm-preview-box" id="lumina-preview">
-          <strong>Aktuální outfit:</strong> Jemná &amp; podpůrná.<br>
-          Lumina reaguje něžněji, víc se ptá na to, co prožíváš, a nabízí malé
-          kroky místo tlaku na výkon.
+          <strong>Current outfit:</strong> Gentle &amp; supportive.<br>
+          Lumina responds more tenderly, checks in on what you’re feeling,
+          and offers small steps instead of pressure.
         </div>
 
         <div class="lm-footer-note">
-          Nastavení tónu se ukládá lokálně.
-          V DEMO verzi tím měníš hlavně styl odpovědí a textů v&nbsp;prostředí.
-          V ostré verzi tohle bude jedna z vrstev, ze které si Lumina bere,
-          jak se k&nbsp;člověku chovat.
+          The tone setting is stored locally.
+          In the DEMO version it mainly changes the style of responses and texts in the environment.
+          In the live version this will be one of the layers Lumina uses to decide
+          how to relate to a person.
         </div>
       </section>
     </div>
@@ -441,7 +439,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // --- 1) Jednoduchá "animace" – přepínání obrázků ------------------------
+    // --- 1) Simple "animation" – switching images ------------------------
     const danceImg = document.querySelector('.lumina-dance');
     const frames = [
       'lumina-dance-1.png',
@@ -451,7 +449,7 @@
 
     if (danceImg) {
       let i = 0;
-      const maxLoops = 2; // kolikrát projít celou sadu
+      const maxLoops = 2; // how many times to loop through the set
       let loopsDone = 0;
 
       const intervalId = setInterval(() => {
@@ -461,7 +459,7 @@
           loopsDone++;
           if (loopsDone >= maxLoops) {
             clearInterval(intervalId);
-            danceImg.src = frames[frames.length - 1]; // necháme poslední pózu
+            danceImg.src = frames[frames.length - 1]; // keep the last pose
             return;
           }
           i = 0;
@@ -471,41 +469,41 @@
       }, 220);
     }
 
-    // --- 2) Nastavení tónu Luminy -------------------------------------------
+    // --- 2) Lumina tone settings -------------------------------------------
     const radios = document.querySelectorAll('input[name="lumina-mood"]');
     const preview = document.getElementById('lumina-preview');
     const STORAGE_KEY = 'lumina-mood';
 
     const descriptions = {
       supportive:
-        '<strong>Aktuální outfit:</strong> Jemná &amp; podpůrná.<br>' +
-        'Lumina reaguje něžněji, víc se ptá na to, co prožíváš, ' +
-        'a nabízí malé, zvládnutelné kroky. Připomene pauzu, nádech, ' +
-        'když je toho moc.',
+        '<strong>Current outfit:</strong> Gentle &amp; supportive.<br>' +
+        'Lumina responds more tenderly, checks in on what you’re feeling, ' +
+        'and offers small doable steps. She may suggest a pause and a breath ' +
+        'when it’s too much.',
       playful:
-        '<strong>Aktuální outfit:</strong> Hravá &amp; kreativní.<br>' +
-        'Lumina používá lehčí jazyk, metafory a nápady. Hodí se, když chceš ' +
-        'tvořit, vymýšlet a potřebuješ trochu jiskry navíc.',
+        '<strong>Current outfit:</strong> Playful &amp; creative.<br>' +
+        'Lumina uses lighter language, metaphors, and ideas. Great when you want ' +
+        'to create, brainstorm, and add a little extra spark.',
       neutral:
-        '<strong>Aktuální outfit:</strong> Neutrální průvodkyně.<br>' +
-        'Odpovědi jsou stručnější, věcné, s minimem obrazů a emocí. ' +
-        'Dobré pro situace, kde potřebuješ hlavně jasné informace a kroky.',
+        '<strong>Current outfit:</strong> Neutral guide.<br>' +
+        'Responses are concise and factual, with minimal imagery and emotion. ' +
+        'Good when you mainly need clear information and steps.',
       serious:
-        '<strong>Aktuální outfit:</strong> Vážná &amp; formální.<br>' +
-        'Lumina mluví klidně, ale oficiálněji. Opírá se o pravidla, fakta ' +
-        'a jasnou strukturu – třeba u smluv, pravidel nebo pracovních věcí.',
+        '<strong>Current outfit:</strong> Serious &amp; formal.<br>' +
+        'Lumina speaks calmly but more officially. She leans on rules, facts, ' +
+        'and structure — useful for contracts, policies, or work matters.',
       joyful:
-        '<strong>Aktuální outfit:</strong> Radostná &amp; povzbuzující.<br>' +
-        'Do odpovědí pouští víc radosti a oslavování malých vítězství. ' +
-        'Pomáhá ti vidět, co se už povedlo, a jemně tě nakopne dál.',
+        '<strong>Current outfit:</strong> Joyful &amp; encouraging.<br>' +
+        'She brings more joy and celebrates small wins. Helps you see what’s already working ' +
+        'and gently nudges you forward.',
       sad:
-        '<strong>Aktuální outfit:</strong> Tichá, když to bolí.<br>' +
-        'Tempo je pomalejší, věty delší, víc se zůstává u pocitů. ' +
-        'Vhodné, když potřebuješ hlavně být vyslyšená a v bezpečí.',
+        '<strong>Current outfit:</strong> Quiet when it hurts.<br>' +
+        'Slower pace, longer sentences, more staying with feelings. ' +
+        'Helpful when you mostly need to be heard and feel safe.',
       angry:
-        '<strong>Aktuální outfit:</strong> Rozčilená na problém, ne na tebe.<br>' +
-        'Lumina pojmenuje, co je nefér nebo nefunkční, a nabídne konkrétní kroky, ' +
-        'co s tím. Bez shazování tebe, jen menší tolerance pro nesmysly kolem.'
+        '<strong>Current outfit:</strong> Angry at the problem, not at you.<br>' +
+        'Lumina names what’s unfair or not working and offers concrete steps. ' +
+        'Not aimed at you — just less tolerance for the nonsense around you.'
     };
 
     function applyMood(value, fromStorage) {
@@ -520,22 +518,16 @@
       if (!fromStorage) {
         try {
           localStorage.setItem(STORAGE_KEY, value);
-        } catch (e) {
-          // localStorage nemusí být dostupné – nevadí
-        }
+        } catch (e) {}
       }
 
-      // pro případné budoucí CSS úpravy v paláci
       document.documentElement.setAttribute('data-lumina-mood', value);
     }
 
-    // Načtení uloženého módu (pokud existuje)
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved && descriptions[saved]) {
-        radios.forEach(r => {
-          r.checked = (r.value === saved);
-        });
+        radios.forEach(r => { r.checked = (r.value === saved); });
         applyMood(saved, true);
       } else {
         applyMood('supportive', true);
@@ -544,7 +536,6 @@
       applyMood('supportive', true);
     }
 
-    // Reakce na změnu
     radios.forEach(radio => {
       radio.addEventListener('change', (event) => {
         applyMood(event.target.value, false);
