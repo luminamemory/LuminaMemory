@@ -3,12 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- interní stránka, bez SEO -->
   <meta name="robots" content="noindex,nofollow">
 
   <style>
   :root{
-    /* růžovo-fialový vesmír */
     --bg:
       radial-gradient(circle at 0% 0%, rgba(255,184,239,0.95) 0%, rgba(255,184,239,0) 42%),
       radial-gradient(circle at 100% 0%, rgba(180,120,255,0.75) 0%, rgba(180,120,255,0) 48%),
@@ -25,7 +23,6 @@
     --ink-muted: rgba(233, 200, 230, 0.85);
     --accent: #ffb3df;
     --accent-strong: #ffd0f0;
-    --accent-pill: rgba(255, 178, 223, 0.22);
     --danger: #ff6b8c;
     --ok: #6af3c0;
     --pill: 999px;
@@ -36,7 +33,7 @@
 
   *{box-sizing:border-box;}
 
-  /* ✅ FIX 1: background vždy do spodku obrazovky (bez tmavého pruhu) */
+  /* ✅ background vždy do spodku */
   html,body{
     margin:0;
     padding:0;
@@ -69,7 +66,6 @@
   }
 
   /* Header */
-
   header{
     display:flex;
     flex-wrap:wrap;
@@ -164,25 +160,7 @@
     color:var(--ink-soft);
   }
 
-  .plan-pill{
-    padding:7px 13px;
-    border-radius:var(--pill);
-    border:1px solid rgba(255,224,250,0.9);
-    background:
-      linear-gradient(120deg, rgba(255,231,252,0.65), rgba(186,105,222,0.8));
-    color:#210020;
-    font-size:11px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    font-weight:600;
-    white-space:nowrap;
-    box-shadow:
-      0 0 0 1px rgba(12,0,25,0.7),
-      0 16px 42px rgba(5,0,15,0.9);
-  }
-
   /* Layout */
-
   .main-grid{
     display:grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
@@ -190,30 +168,16 @@
   }
 
   @media (max-width:880px){
-    .main-grid{
-      grid-template-columns:minmax(0,1fr);
-    }
-    .wrap{
-      max-width:840px;
-    }
+    .main-grid{ grid-template-columns:minmax(0,1fr); }
+    .wrap{ max-width:840px; }
   }
 
   @media (max-width:640px){
-    .wrap{
-      padding-inline:12px;
-      margin-top:12px;
-    }
-    header{
-      flex-direction:column;
-      align-items:flex-start;
-    }
-    .plan-pill{
-      align-self:flex-start;
-    }
+    .wrap{ padding-inline:12px; margin-top:12px; }
+    header{ flex-direction:column; align-items:flex-start; }
   }
 
-  /* Levá strana – příběh */
-
+  /* Panel */
   .panel{
     border-radius:var(--radius-lg);
     border:1px solid var(--border-soft);
@@ -222,43 +186,6 @@
     overflow:hidden;
     display:flex;
     flex-direction:column;
-  }
-
-  /* ✅ FIX 3: obrázek se neřeže (contain) + vyšší výška */
-  .panel-media{
-    position:relative;
-    height:280px; /* bylo 210px */
-    background:
-      radial-gradient(circle at 40% 0, rgba(255,234,255,0.55), transparent 58%),
-      radial-gradient(circle at 90% 0, rgba(255,199,245,0.35), transparent 55%),
-      url("img-rosezone-door.jpg") center/contain no-repeat,
-      linear-gradient(180deg, #7a2fa0, #2a063b);
-    background-color:#2a063b;
-  }
-  .panel-media::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-      linear-gradient(180deg,
-        rgba(14,0,26,0.10) 0%,
-        rgba(14,0,26,0.55) 62%,
-        rgba(6,0,12,0.85) 100%);
-  }
-
-  .panel-media-tag{
-    position:absolute;
-    left:14px;
-    top:12px;
-    z-index:2;
-    padding:4px 10px;
-    border-radius:var(--pill);
-    border:1px solid rgba(255,224,250,0.9);
-    background:rgba(24,3,34,0.9);
-    font-size:10px;
-    letter-spacing:0.16em;
-    text-transform:uppercase;
-    color:var(--accent-strong);
   }
 
   .panel-body{
@@ -273,6 +200,38 @@
     font-size:14px;
     text-transform:uppercase;
     letter-spacing:0.18em;
+  }
+
+  /* ✅ NOVÉ: “novinový” obrázek bez obřího rámu */
+  .story-figure{
+    float:right;
+    width:260px;
+    margin:2px 0 10px 14px;
+    border-radius:18px;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 35% 0%, rgba(255,245,255,0.45), transparent 60%),
+      linear-gradient(180deg, rgba(122,47,160,0.55), rgba(42,6,59,0.9));
+    box-shadow:
+      0 16px 44px rgba(0,0,0,0.55);
+  }
+
+  .story-figure img{
+    width:100%;
+    height:auto;
+    display:block;
+    /* aby byl celý (žádný crop) */
+    object-fit:contain;
+  }
+
+  .flow-break{ clear:both; height:0; }
+
+  @media (max-width:740px){
+    .story-figure{
+      float:none;
+      width:100%;
+      margin:0 0 12px 0;
+    }
   }
 
   .pill-row{
@@ -307,9 +266,7 @@
     padding:0;
     color:var(--ink-soft);
   }
-  .panel-body li{
-    margin-bottom:3px;
-  }
+  .panel-body li{ margin-bottom:3px; }
 
   .note-soft{
     margin-top:6px;
@@ -318,7 +275,6 @@
   }
 
   /* Pravá strana – nastavení */
-
   .settings{
     border-radius:var(--radius-lg);
     border:1px solid var(--border-soft);
@@ -551,7 +507,6 @@
   }
 
   /* Modal */
-
   .modal-backdrop{
     position:fixed;
     inset:0;
@@ -563,7 +518,6 @@
   }
   .modal-backdrop.is-open{display:flex;}
 
-  /* ✅ FIX 2: modal jemně do růžova (Lumina style), ne tvrdě bílé okno */
   .modal{
     width:100%;
     max-width:460px;
@@ -642,7 +596,7 @@
   }
 
   footer span.muted{opacity:0.9;}
-</style>
+  </style>
 </head>
 <body>
   <div class="wrap">
@@ -662,19 +616,17 @@
           <p class="subtitle">Druhý zámek přes celý tvůj svět. Bez dramatu, ale jasně.</p>
         </div>
       </div>
-
-      <div class="plan-pill" id="planBadge">
-        DEMO · FREE tarif
-      </div>
     </header>
 
     <div class="main-grid">
       <!-- Levá strana – příběh a vysvětlení -->
       <section class="panel" aria-labelledby="roseStoryTitle">
-        <div class="panel-media">
-          <div class="panel-media-tag">Ochranná vrstva pro všechny tarify</div>
-        </div>
         <div class="panel-body">
+          <!-- “Novinová” fotka -->
+          <figure class="story-figure">
+            <img src="img-rosezone-door.jpg" alt="Klika s pavučinou">
+          </figure>
+
           <h2 id="roseStoryTitle">Co Rose Zone™ dělá</h2>
           <p>
             Rose Zone™ je <strong>druhá pojistka</strong> pro celé prostředí. Nestačí jen znát
@@ -686,6 +638,9 @@
             může se prostředí <strong>zamrazit</strong> – ukáže jen neutrální obrazovku a vyžádá
             hlavní klíč nebo nouzovou větu.
           </p>
+
+          <!-- tady se text přelije na plnou šířku -->
+          <div class="flow-break"></div>
 
           <div class="pill-row">
             <div class="pill">
@@ -852,45 +807,7 @@
 
   <script>
     (function(){
-      const PLAN_KEY = "lm_plan";
-      const USER_KEY = "miniLuminaUser";
       const ROSE_KEY = "LM_ROSEZONE_SETTINGS_V1";
-
-      function normalizePlan(p){
-        if(!p) return "free";
-        p = String(p).toLowerCase();
-        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
-      }
-
-      function readPlan(){
-        try{
-          const fromKey = localStorage.getItem(PLAN_KEY);
-          if(fromKey) return normalizePlan(fromKey);
-
-          const rawUser = localStorage.getItem(USER_KEY);
-          if(rawUser){
-            const user = JSON.parse(rawUser);
-            if(user && user.plan) return normalizePlan(user.plan);
-          }
-        }catch(e){
-          // ignore
-        }
-        return "free";
-      }
-
-      const PLAN_LABEL = {
-        free: "DEMO · FREE tarif",
-        plus: "DEMO · PLUS tarif",
-        premium: "DEMO · PREMIUM tarif"
-      };
-
-      function applyPlanBadge(){
-        const plan = readPlan();
-        const badge = document.getElementById("planBadge");
-        if(badge){
-          badge.textContent = PLAN_LABEL[plan] || PLAN_LABEL.free;
-        }
-      }
 
       function loadRoseSettings(){
         try{
@@ -965,22 +882,17 @@
             if(!key) return;
             const input = chip.querySelector("input[type='checkbox']");
             const value = !!settings[key];
-            if(input){
-              input.checked = value;
-            }
-            if(value){
-              chip.classList.add("is-on");
-            }
+            if(input){ input.checked = value; }
+            if(value){ chip.classList.add("is-on"); }
 
             chip.addEventListener("click", function(e){
               e.preventDefault();
               const current = loadRoseSettings();
               const newVal = !chip.classList.contains("is-on");
               chip.classList.toggle("is-on", newVal);
-              if(input){
-                input.checked = newVal;
-              }
+              if(input){ input.checked = newVal; }
               current[key] = newVal;
+
               const ok = saveRoseSettings(current);
               if(togglesHint){
                 if(ok){
@@ -1016,7 +928,6 @@
         });
       }
 
-      applyPlanBadge();
       initRose();
       initVipModal();
     })();
