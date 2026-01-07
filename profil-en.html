@@ -532,8 +532,6 @@
           <p class="subtitle">Your personal card in LuminaMemory™</p>
         </div>
       </div>
-
-      <div class="plan-pill" id="planPill">DEMO · FREE plan</div>
     </header>
 
     <main class="content">
@@ -695,17 +693,6 @@
         if(mode === "ok") saveStatus.classList.add("ok");
         if(mode === "error") saveStatus.classList.add("error");
       }
-
-      function loadPlan(){
-        let plan = "FREE";
-        try{
-          const raw = localStorage.getItem(USER_KEY);
-          if(raw){
-            const obj = JSON.parse(raw);
-            if(obj && obj.plan){
-              plan = String(obj.plan).toUpperCase();
-            }
-          }
         }catch(e){}
 
         const pill = el("planPill");
@@ -828,7 +815,6 @@
       el("btnSaveProfile").addEventListener("click", saveProfile);
       el("btnClearProfile").addEventListener("click", clearProfile);
 
-      loadPlan();
       loadProfile();
     })();
   </script>

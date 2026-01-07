@@ -14,7 +14,7 @@
       --accent-soft: #c597ff;
       --accent-strong: #ff6dd9;
       --text-main: #f7f2ff;
-      --text-soft: #b8b0d9;
+      --text-soft: #b8b0d9; 
       --text-muted: #7f77a8;
       --danger: #ff5b7c;
       --ok: #4bd3a6;
@@ -520,8 +520,6 @@
           <p class="subtitle">Deine persönliche Karte in LuminaMemory™</p>
         </div>
       </div>
-
-      <div class="plan-pill" id="planPill">DEMO · FREE Tarif</div>
     </header>
 
     <main class="content">
@@ -683,17 +681,6 @@
         if(mode === "ok") saveStatus.classList.add("ok");
         if(mode === "error") saveStatus.classList.add("error");
       }
-
-      function loadPlan(){
-        let plan = "FREE";
-        try{
-          const raw = localStorage.getItem(USER_KEY);
-          if(raw){
-            const obj = JSON.parse(raw);
-            if(obj && obj.plan){
-              plan = String(obj.plan).toUpperCase();
-            }
-          }
         }catch(e){}
 
         const pill = el("planPill");
@@ -816,7 +803,6 @@
       el("btnSaveProfile").addEventListener("click", saveProfile);
       el("btnClearProfile").addEventListener("click", clearProfile);
 
-      loadPlan();
       loadProfile();
     })();
   </script>
