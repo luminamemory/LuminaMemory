@@ -178,42 +178,70 @@ body{
       color:rgba(252,211,77,.9);
     }
 
-    .hero-side{
-      border-radius:22px;
-      border:1px solid var(--border-soft);
-      background:
-        radial-gradient(circle at 0% 0%, rgba(45,212,191,.24), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(56,189,248,.24), transparent 60%),
-        rgba(1,9,15,.92);
-      padding:22px 18px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      position:relative;
-      overflow:hidden;
-      text-align:center;
-    }
+.hero-side{
+  border-radius:22px;
+  border:1px solid var(--border-soft);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(45,212,191,.24), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(56,189,248,.24), transparent 60%),
+    rgba(1,9,15,.92);
 
-    .hero-side::before{
-      content:"";
-      position:absolute;
-      inset:6px 10px;
-      background:url("/tv-frame.png") center/contain no-repeat;
-      opacity:0.85;
-      mix-blend-mode:normal;
-      filter:
-        drop-shadow(0 18px 28px rgba(0,0,0,.85))
-        saturate(1.08)
-        contrast(1.10);
-      pointer-events:none;
-    }
+  /* ⬇️ DŮLEŽITÉ: necháme nahoře místo pro TV a text dáme pod ni */
+  padding:230px 18px 18px;
 
-    .hero-side > *{
-      position:relative;
-      z-index:1;
-    }
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+}
+
+/* TV rám – menší a jen nahoře (už nepřekrývá text) */
+.hero-side::before{
+  content:"";
+  position:absolute;
+  top:12px;
+  left:14px;
+  right:14px;
+  height:200px;
+
+  background:url("/tv-frame.png") center/contain no-repeat;
+  opacity:0.9;
+  mix-blend-mode:normal;
+  filter:
+    drop-shadow(0 18px 28px rgba(0,0,0,.85))
+    saturate(1.08)
+    contrast(1.10);
+  pointer-events:none;
+}
+
+/* obsah jde nad TV, ale začíná až POD ní díky padding-top */
+.hero-side > *{
+  position:relative;
+  z-index:1;
+}
+
+/* responzivní doladění */
+@media (max-width:880px){
+  .hero-side{
+    padding-top:215px;
+  }
+  .hero-side::before{
+    height:185px;
+  }
+}
+@media (max-width:420px){
+  .hero-side{
+    padding-top:200px;
+  }
+  .hero-side::before{
+    height:170px;
+  }
+}
     .hero-side::after{
       content:"";
       position:absolute;
