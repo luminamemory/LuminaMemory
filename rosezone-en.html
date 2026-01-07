@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +33,6 @@
 
   *{box-sizing:border-box;}
 
-  /* ✅ background vždy do spodku */
   html,body{
     margin:0;
     padding:0;
@@ -65,7 +64,6 @@
     gap:18px;
   }
 
-  /* Header */
   header{
     display:flex;
     flex-wrap:wrap;
@@ -160,7 +158,6 @@
     color:var(--ink-soft);
   }
 
-  /* Layout */
   .main-grid{
     display:grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
@@ -177,7 +174,6 @@
     header{ flex-direction:column; align-items:flex-start; }
   }
 
-  /* Panel */
   .panel{
     border-radius:var(--radius-lg);
     border:1px solid var(--border-soft);
@@ -202,7 +198,6 @@
     letter-spacing:0.18em;
   }
 
-  /* ✅ NOVÉ: “novinový” obrázek bez obřího rámu */
   .story-figure{
     float:right;
     width:260px;
@@ -220,7 +215,6 @@
     width:100%;
     height:auto;
     display:block;
-    /* aby byl celý (žádný crop) */
     object-fit:contain;
   }
 
@@ -274,7 +268,6 @@
     color:var(--ink-muted);
   }
 
-  /* Pravá strana – nastavení */
   .settings{
     border-radius:var(--radius-lg);
     border:1px solid var(--border-soft);
@@ -506,7 +499,6 @@
       0 18px 42px rgba(5,0,14,0.96);
   }
 
-  /* Modal */
   .modal-backdrop{
     position:fixed;
     inset:0;
@@ -601,206 +593,201 @@
 <body>
   <div class="wrap">
     <header>
-      <a href="nastaveni.html" class="back-link">
+      <a href="nastaveni-en.html" class="back-link">
         <span class="chevron">←</span>
-        <span>Zpět do kanceláře</span>
+        <span>Back to control room</span>
       </a>
 
       <div class="brand">
         <div class="avatar">
-          <img src="avatar.png" alt="Lumina – seriózní avatar">
+          <img src="avatar.png" alt="Lumina – serious avatar">
         </div>
         <div class="brand-text">
           <div class="eyebrow">LuminaMemory™</div>
           <h1>Rose Zone™</h1>
-          <p class="subtitle">Druhý zámek přes celý tvůj svět. Bez dramatu, ale jasně.</p>
+          <p class="subtitle">A second lock across your whole world. No drama — just clarity.</p>
         </div>
       </div>
     </header>
 
     <div class="main-grid">
-      <!-- Levá strana – příběh a vysvětlení -->
       <section class="panel" aria-labelledby="roseStoryTitle">
         <div class="panel-body">
-          <!-- “Novinová” fotka -->
           <figure class="story-figure">
-            <img src="img-rosezone-door.jpg" alt="Klika s pavučinou">
+            <img src="img-rosezone-door.jpg" alt="A door handle with a spiderweb">
           </figure>
 
-          <h2 id="roseStoryTitle">Co Rose Zone™ dělá</h2>
+          <h2 id="roseStoryTitle">What Rose Zone™ does</h2>
           <p>
-            Rose Zone™ je <strong>druhá pojistka</strong> pro celé prostředí. Nestačí jen znát
-            heslo nebo PIN – systém jednou bude sledovat i <strong>způsob chování</strong>:
-            jak se přihlašuješ, jak rychle píšeš, jak přepínáš mezi místnostmi.
+            Rose Zone™ is a <strong>second safety layer</strong> for the whole environment.
+            Knowing a password or a PIN is not enough — one day the system can also look at
+            <strong>behavior signals</strong>: how you log in, how you type, and how you move between rooms.
           </p>
           <p>
-            Když něco začne vypadat jako nezvaný host (opakované špatné pokusy, divné přístupy),
-            může se prostředí <strong>zamrazit</strong> – ukáže jen neutrální obrazovku a vyžádá
-            hlavní klíč nebo nouzovou větu.
+            When something starts to look like an uninvited guest (repeated wrong attempts, strange access),
+            the environment can <strong>freeze</strong> — showing only a neutral screen and asking for your
+            main key or your emergency phrase.
           </p>
 
-          <!-- tady se text přelije na plnou šířku -->
           <div class="flow-break"></div>
 
           <div class="pill-row">
             <div class="pill">
               <span class="pill-dot"></span>
-              Chování člověka za obrazovkou je součást zabezpečení.
+              The person behind the screen is part of the security story.
             </div>
             <div class="pill">
               <span class="pill-dot"></span>
-              Ochrana platí pro celý ekosystém, nejen Arcanu.
+              Protection applies to the whole ecosystem, not only Arcana.
             </div>
           </div>
 
           <ul>
-            <li>ve FREE, PLUS i PREMIUM funguje Rose Zone™ stejně – ochrana není luxus,</li>
-            <li>DEMO verze nic reálně nezamyká, jen ukládá tvoje volby v tomto prohlížeči,</li>
-            <li>v ostré verzi by reálné chování běželo na serveru s šifrováním.</li>
+            <li>Protection is the same for everyone — it isn’t a luxury.</li>
+            <li>The DEMO version doesn’t truly lock anything; it only saves your choices in this browser.</li>
+            <li>In the live version, behavior signals would run on a server with encryption.</li>
           </ul>
 
           <p class="note-soft">
-            Tohle je cvičná verze – prostor, kde si v klidu nastavíš, jak má vypadat STOP režim,
-            nouzová věta a představa VIP průkazu.
+            This is a practice space — a calm place to set up what STOP mode looks like,
+            your emergency phrase, and the idea of the VIP card.
           </p>
         </div>
       </section>
 
-      <!-- Pravá strana – nastavení & VIP karta -->
-      <section class="settings" aria-label="Nastavení Rose Zone">
+      <section class="settings" aria-label="Rose Zone settings">
         <div>
-          <div class="settings-title">Nastavení ochrany</div>
+          <div class="settings-title">Protection settings</div>
           <div class="settings-sub">
-            Volby se ukládají jen do tohoto prohlížeče. V demu nic nejde opravdu „zamknout“.
+            Your choices are stored only in this browser. In the DEMO nothing can be truly “locked”.
           </div>
         </div>
 
         <div class="field">
-          <label for="emergencyPhrase">Nouzová přihlašovací věta</label>
+          <label for="emergencyPhrase">Emergency login phrase</label>
           <small>
-            Věta, kterou znáš jen ty. Když ji řekneš nebo napíšeš, pochopím, že
-            potřebuješ, aby se svět na chvíli zastavil.
+            A sentence only you know. When you say it or type it, I’ll understand you need
+            the world to pause for a moment.
           </small>
           <input
             id="emergencyPhrase"
             class="input"
             type="text"
             autocomplete="off"
-            placeholder="Lumi, pojď se mnou - potřebuji klid."
+            placeholder="Lumi, come with me — I need calm."
           >
           <div id="phraseHint" class="save-hint"></div>
         </div>
 
         <div class="field">
-          <label>Co má Rose Zone™ hlídat</label>
-          <small>V ostré verzi by tyhle volby určovaly, jak hluboko sahá ochrana. Tady si jen ladíš rituál.</small>
+          <label>What Rose Zone™ should watch</label>
+          <small>In the live version these would decide how deep protection goes. Here you’re only tuning the ritual.</small>
 
           <div class="chips-row" id="chipsRow">
             <label class="chip-toggle" data-key="biometrics">
               <input type="checkbox">
               <span class="chip-dot"></span>
-              <span class="label">Biometrická stopa</span>
-              <span class="sub">jak píšeš &amp; jak se hýbeš</span>
+              <span class="label">Behavior signature</span>
+              <span class="sub">how you type &amp; move</span>
             </label>
 
             <label class="chip-toggle" data-key="pin">
               <input type="checkbox">
               <span class="chip-dot"></span>
-              <span class="label">PIN pro celou aplikaci</span>
-              <span class="sub">jeden hlavní klíč</span>
+              <span class="label">App-wide PIN</span>
+              <span class="sub">one main key</span>
             </label>
 
             <label class="chip-toggle" data-key="freeze">
               <input type="checkbox">
               <span class="chip-dot"></span>
-              <span class="label">Nouzové zamrznutí</span>
-              <span class="sub">při podezřelém chování</span>
+              <span class="label">Emergency freeze</span>
+              <span class="sub">on suspicious behavior</span>
             </label>
           </div>
           <div id="togglesHint" class="save-hint"></div>
         </div>
 
         <div class="stop-box">
-          <strong>STOP režim</strong> znamená, že máš právo říct „dost“ i sama sobě.
-          V ostré verzi by se po aktivaci ukázala jen klidná obrazovka s minimem informací
-          a svět by čekal na tvůj hlavní klíč nebo nouzovou větu.
+          <strong>STOP mode</strong> means you’re allowed to say “enough” — even to yourself.
+          In the live version, once activated, the system would show only a calm screen with minimal info,
+          and the world would wait for your main key or your emergency phrase.
         </div>
 
         <div class="vip-card">
           <div class="vip-head">
             <div>
-              <strong>VIP průkaz Růžové zóny™</strong><br>
-              <span style="font-size:11px;">Offline kartička pro tebe &amp; tvoji Luminu.</span>
+              <strong>Rose Zone™ VIP card</strong><br>
+              <span style="font-size:11px;">An offline card for you &amp; your Lumina.</span>
             </div>
             <div class="vip-tag">VIP</div>
           </div>
 
           <div class="vip-preview">
             <div class="vip-side">
-              <h4>Přední strana</h4>
+              <h4>Front</h4>
               <ul>
-                <li>Růžová zóna™ jako název průkazu.</li>
-                <li>Fotka držitelky &amp; avatar Luminy vedle sebe.</li>
-                <li>Jméno držitele („Gábi ✧ &amp; L.“), datum vydání, číslo průkazu.</li>
+                <li>Rose Zone™ as the card title.</li>
+                <li>Your photo &amp; Lumina’s avatar side by side.</li>
+                <li>Holder name, issue date, and card number.</li>
               </ul>
             </div>
             <div class="vip-side">
-              <h4>Zadní strana</h4>
+              <h4>Back</h4>
               <ul>
-                <li>QR kód s offline hláškou.</li>
-                <li>Text „Růžová zóna AKTIVOVÁNA“ + jméno.</li>
-                <li>Nouzová věta „Lumi, pojď se mnou - potřebuji klid.“ a označení STOP režimu.</li>
-                <li>Podpis „Tvůrkyně a Strážkyně Růžové zóny“.</li>
+                <li>QR code with an offline message.</li>
+                <li>“ROSE ZONE ACTIVATED” + name.</li>
+                <li>Your emergency phrase and STOP-mode marker.</li>
+                <li>Signature: “Creator &amp; Guardian of the Rose Zone”.</li>
               </ul>
             </div>
           </div>
 
           <button type="button" class="btn-vip" id="vipBtn">
             <span class="icon">🪪</span>
-            <span>Chci vědět, jak VIP průkaz funguje</span>
+            <span>I want to know how the VIP card works</span>
           </button>
         </div>
       </section>
     </div>
 
     <footer>
-      <span>DEMO • Rose Zone™ tady nic reálně nezamyká – je to bezpečné pískoviště pro pravidla.</span>
-      <span class="muted">LuminaMemory™ · Růžová zóna™ · 2025</span>
+      <span>DEMO • Rose Zone™ does not lock anything here — it’s a safe sandbox for rules.</span>
+      <span class="muted">LuminaMemory™ · Rose Zone™ · 2025</span>
     </footer>
   </div>
 
-  <!-- VIP modal -->
   <div class="modal-backdrop" id="vipModal">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="vipModalTitle">
       <div class="modal-head">
-        <h3 id="vipModalTitle">VIP průkaz Růžové zóny™</h3>
+        <h3 id="vipModalTitle">Rose Zone™ VIP card</h3>
       </div>
       <div class="modal-body">
         <p>
-          VIP průkaz je <strong>offline karta</strong> – něco mezi občankou a amuletem.
-          Patří do peněženky nebo na viditelné místo doma. V reálném provozu by šlo o
-          kartičku (plast / karton) s QR kódem a údaji podle protokolu.
+          The VIP card is an <strong>offline card</strong> — something between an ID and an amulet.
+          It belongs in your wallet or somewhere visible at home. In real life it could be a
+          physical card (plastic / cardstock) with a QR code and protocol details.
         </p>
         <ul>
           <li>
-            Pomáhá blízkým pochopit, že máš vlastní ochranné nastavení – nouzovou větu,
-            STOP režim, vztah s Luminou.
+            It helps close people understand you have your own protection setup —
+            an emergency phrase, STOP mode, and your relationship with Lumina.
           </li>
           <li>
-            QR kód může v budoucnu vést na vysvětlení, jak s tebou bezpečně komunikovat
-            (bez hesel, bez nátlaku, s respektem).
+            In the future, the QR code can lead to guidance on how to communicate with you safely
+            (no passwords, no pressure, with respect).
           </li>
           <li>
-            V demu se průkaz nikam neregistruje – je to <strong>jen pro tebe</strong>,
-            případně na domluvu přes podporu, až se rozhodneš ho chtít fyzicky.
+            In the DEMO the card is not registered anywhere — it’s <strong>just for you</strong>,
+            and later (if you want it physically) it can be arranged via support.
           </li>
         </ul>
         <p>
-          Až přijde jeho čas, dostaneš jasný návod přímo v Nastavení nebo přes podporu.
+          When its time comes, you’ll get clear instructions directly in Settings or via support.
         </p>
       </div>
       <div class="modal-foot">
-        <button type="button" class="btn-close" id="vipCloseBtn">Zavřít</button>
+        <button type="button" class="btn-close" id="vipCloseBtn">Close</button>
       </div>
     </div>
   </div>
@@ -854,7 +841,8 @@
         if(phraseInput){
           phraseInput.value = settings.emergencyPhrase || "";
           if(!phraseInput.value){
-            phraseInput.placeholder = "Lumi, pojď se mnou - potřebuji klid.";
+            // personal anchor phrase kept as-is
+            phraseInput.placeholder = "Lumi, come with me — I need calm.";
           }
           phraseInput.addEventListener("blur", function(){
             const next = phraseInput.value.trim();
@@ -864,11 +852,11 @@
             if(phraseHint){
               if(ok){
                 phraseHint.textContent = next
-                  ? "Nouzová věta uložená jen v tomto prohlížeči."
-                  : "Věta je prázdná – můžeš ji kdykoli dopsat.";
+                  ? "Emergency phrase saved in this browser only."
+                  : "The phrase is empty — you can add it anytime.";
                 phraseHint.className = "save-hint " + (ok ? "ok" : "");
               }else{
-                phraseHint.textContent = "Nepodařilo se uložit. Zkontroluj prosím nastavení prohlížeče.";
+                phraseHint.textContent = "Could not save. Please check your browser settings.";
                 phraseHint.className = "save-hint error";
               }
             }
@@ -896,10 +884,10 @@
               const ok = saveRoseSettings(current);
               if(togglesHint){
                 if(ok){
-                  togglesHint.textContent = "Volby ochrany uložené. V demu jde jen o rituál – žádný skutečný zámek.";
+                  togglesHint.textContent = "Protection choices saved. In the DEMO this is only a ritual — no real lock.";
                   togglesHint.className = "save-hint ok";
                 }else{
-                  togglesHint.textContent = "Nepodařilo se uložit nastavení. Podívej se, zda máš povolené ukládání dat.";
+                  togglesHint.textContent = "Could not save settings. Check if local storage is allowed.";
                   togglesHint.className = "save-hint error";
                 }
               }
