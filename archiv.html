@@ -308,7 +308,7 @@
     }
 
     .office-image::after {
-      content: "Ukázková kancelář archivu · DEMO";
+      content: "Ukázková kancelář archivu";
       position: absolute;
       left: 12px;
       bottom: 10px;
@@ -536,15 +536,14 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <div class="mark">★</div>
+        <div class="mark">🗄</div>
         <div class="title">
           <b>LuminaMemory™</b>
-          <span>Life Mission Archive™ · DEMO</span>
+          <span>Life Mission Archive™</span>
         </div>
       </div>
       <div class="header-right">
         <a class="back-link" href="nastaveni.html">← Zpět do kanceláře</a>
-        <div class="crumb" id="crumbPlan">📦 Zálohy &amp; export · DEMO · FREE tarif</div>
       </div>
     </header>
 
@@ -668,7 +667,7 @@
 
     <footer>
       <div class="foot-left">
-        <span>📦 Life Mission Archive™ · DEMO náhled</span>
+        <span>📦 Life Mission Archive™ · DEMO</span>
         <span>Export reálných dat: zatím <strong>v přípravě</strong>.</span>
       </div>
       <div class="foot-right">
@@ -744,22 +743,18 @@
       if (planTextEl) {
         if (plan === "free") {
           planTextEl.innerHTML =
-            'V tarifu FREE se z Life Mission Archive™ stává zatím jen ukázková kancelář. ' +
-            'Žádné skutečné zálohy se nevytvářejí – můžeš si ale prohlédnout, jak bude export jednou vypadat.';
+            'V tarifu FREE se z Life Mission Archive™ stává jen ukázková kancelář. ' +
+            'Žádné zálohy se nevytvářejí.';
         } else if (plan === "plus") {
           planTextEl.innerHTML =
             'V tarifu PLUS by v ostré verzi běžely <strong>pravidelné zálohy podle plánu</strong> ' +
-            '(například jednou měsíčně). V DEMO verzi je tu zatím jen ukázkový dokument a náhled struktury.';
+            '(například jednou měsíčně).';
         } else if (plan === "premium") {
           planTextEl.innerHTML =
             'V tarifu PREMIUM bys měl(a) všechno z PLUS a navíc možnost spustit ' +
             '<strong>mimořádnou zálohu kdykoli</strong>. ' +
             'Tahle logika se připravuje pro ostrou verzi – tady je zatím jen výhled.';
         }
-      }
-
-      if (crumbEl) {
-        crumbEl.textContent = "📦 Zálohy & export · DEMO · " + currentLabel;
       }
     })();
 
