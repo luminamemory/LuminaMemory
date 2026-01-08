@@ -137,10 +137,6 @@
       background: rgba(32, 20, 12, 0.98);
     }
 
-    .crumb {
-      opacity: 0.8;
-    }
-
     main {
       flex: 1;
       padding-top: 18px;
@@ -207,13 +203,6 @@
       letter-spacing: 0.12em;
       color: rgba(231, 183, 90, 0.95);
       margin-top: 4px;
-    }
-
-    .section-title {
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 6px;
-      margin-bottom: 3px;
     }
 
     .section-text {
@@ -296,15 +285,16 @@
       flex-direction: column;
     }
 
+    /* ✅ ZVĚTŠENO */
     .office-image {
       position: relative;
-      padding-top: 58%;
+      padding-top: 76%;               /* bylo 58% */
       background-image: url("office.png");
-      background-size: contain;        /* celá fotka, bez ořezu */
+      background-size: contain;       /* stále bez ořezu */
       background-repeat: no-repeat;
       background-position: center;
       border-bottom: 1px solid rgba(255, 235, 210, 0.25);
-      background-color: #120b07;       /* okraje kolem fotky */
+      background-color: #120b07;
     }
 
     .office-image::after {
@@ -500,6 +490,139 @@
       opacity: 0.9;
     }
 
+    /* ✅ MODAL pro FREE export */
+    .lm-modal {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.62);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+      z-index: 10000;
+    }
+
+    .lm-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lm-modal-card {
+      width: min(520px, 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 235, 210, 0.22);
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 244, 210, 0.16), transparent 55%),
+        rgba(14, 9, 6, 0.98);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.88);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lm-modal-head {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid rgba(255, 235, 210, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .lm-modal-title {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255, 236, 210, 0.9);
+    }
+
+    .lm-modal-close {
+      border: 1px solid rgba(255, 235, 210, 0.45);
+      background: rgba(18, 10, 6, 0.8);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .lm-modal-close:hover {
+      background: rgba(32, 20, 12, 0.98);
+    }
+
+    .lm-modal-body {
+      padding: 14px 14px 14px;
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .lm-modal-paper {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 235, 210, 0.18);
+      background:
+        radial-gradient(circle at 50% 40%, rgba(0,0,0,0) 0, rgba(0,0,0,0.18) 100%),
+        rgba(12, 7, 4, 0.8);
+      overflow: hidden;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.75);
+    }
+
+    .lm-modal-paper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.02) contrast(1.06);
+      opacity: 0.95;
+    }
+
+    .lm-modal-text h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      letter-spacing: .02em;
+    }
+
+    .lm-modal-text p {
+      margin: 0 0 10px;
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .lm-modal-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .lm-mini-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 235, 210, 0.35);
+      background: rgba(40, 24, 12, 0.7);
+      font-size: 11px;
+      color: rgba(255, 236, 210, 0.92);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lm-mini-pill.primary {
+      border-color: rgba(231, 183, 90, 0.9);
+      background: radial-gradient(circle at 20% 0,
+          rgba(255, 244, 210, 0.16),
+          rgba(53, 30, 9, 0.96));
+      color: #fff5d8;
+    }
+
     @media (max-width: 880px) {
       body {
         padding: 14px 10px;
@@ -520,13 +643,27 @@
         grid-template-columns: minmax(0, 1fr);
       }
 
+      /* ✅ ZVĚTŠENO i na mobile */
       .office-image {
-        padding-top: 64%;
+        padding-top: 84%; /* bylo 64% */
+      }
+
+      .lm-modal-body {
+        grid-template-columns: 120px minmax(0, 1fr);
       }
 
       footer {
         flex-direction: column;
         align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 420px){
+      .lm-modal-body {
+        grid-template-columns: 1fr;
+      }
+      .lm-modal-paper{
+        max-width: 220px;
       }
     }
   </style>
@@ -591,7 +728,7 @@
 
           <p class="section-text">
             Cílem je, aby ses jednou mohl(a) rozhodnout: <em>„Chci celý tenhle svět
-            přenést jinam, nebo jen uložit do šuplíku jako kroniku jednoho období?“</em>
+              přenést jinam, nebo jen uložit do šuplíku jako kroniku jednoho období?“</em>
           </p>
 
           <div class="tag">2 · Jak vypadá ukázková záloha (DEMO)</div>
@@ -629,11 +766,12 @@
 
               <p class="section-text">
                 Tady se neřeší emoce ani drama – tady se <strong>počítá, třídí
-                a podepisuje</strong>. Přehledně, klidně, bez technické hrůzy.
+                  a podepisuje</strong>. Přehledně, klidně, bez technické hrůzy.
               </p>
 
               <div class="btn-row">
-                <a href="backup.pdf"
+                <a id="downloadPdf"
+                   href="backup.pdf"
                    class="lm-pill-btn lm-pill-primary"
                    target="_blank"
                    rel="noopener"
@@ -697,6 +835,38 @@
     <button class="demo-toast-close" type="button" onclick="hideInfoToast()">Zavřít ✕</button>
   </div>
 
+  <!-- ✅ Modal: FREE export blokace -->
+  <div class="lm-modal" id="exportModal" aria-hidden="true">
+    <div class="lm-modal-card" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
+      <div class="lm-modal-head">
+        <div class="lm-modal-title" id="exportModalTitle">Export do PDF</div>
+        <button class="lm-modal-close" type="button" onclick="closeExportModal()">Zavřít ✕</button>
+      </div>
+
+      <div class="lm-modal-body">
+        <div class="lm-modal-paper" aria-hidden="true">
+          <img src="backup.png" alt="">
+        </div>
+
+        <div class="lm-modal-text">
+          <h3>Ve verzi FREE export není možný</h3>
+          <p>
+            V tarifu <strong>FREE</strong> je Life Mission Archive™ jen ukázka.
+            Reálné zálohy ani export do PDF se teď nevytváří.
+          </p>
+          <p>
+            Pro export bude v ostré verzi potřeba <strong>PLUS</strong> nebo <strong>PREMIUM</strong>.
+          </p>
+
+          <div class="lm-modal-actions">
+            <button class="lm-mini-pill" type="button" onclick="closeExportModal()">Rozumím</button>
+            <a class="lm-mini-pill primary" href="nastaveni.html">Mrknout na předplatné</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // čtení tarifu z localStorage
     (function () {
@@ -723,10 +893,10 @@
       }
 
       const plan = readPlan();
+      window.LM_PLAN = plan; // ✅ aby to šlo použít v click handleru
 
       const planNameEl = document.getElementById("planName");
       const planTextEl = document.getElementById("planText");
-      const crumbEl = document.getElementById("crumbPlan");
 
       const labelMap = {
         free: "FREE tarif",
@@ -756,6 +926,22 @@
             'Tahle logika se připravuje pro ostrou verzi – tady je zatím jen výhled.';
         }
       }
+
+      // ✅ FREE: klik na PDF otevře modal
+      const dl = document.getElementById("downloadPdf");
+      if (dl) {
+        dl.addEventListener("click", function (e) {
+          if ((window.LM_PLAN || "free") === "free") {
+            e.preventDefault();
+            openExportModal();
+          }
+        });
+      }
+
+      // ESC zavírá modal
+      document.addEventListener("keydown", function(e){
+        if (e.key === "Escape") closeExportModal();
+      });
     })();
 
     function showDemoToast() {
@@ -776,6 +962,29 @@
 
     function hideInfoToast() {
       document.getElementById('infoToast').classList.remove('is-visible');
+    }
+
+    function openExportModal(){
+      const m = document.getElementById("exportModal");
+      if(!m) return;
+      m.classList.add("is-open");
+      m.setAttribute("aria-hidden","false");
+      // klik na pozadí zavře
+      m.addEventListener("click", backdropCloseOnce);
+    }
+
+    function closeExportModal(){
+      const m = document.getElementById("exportModal");
+      if(!m) return;
+      m.classList.remove("is-open");
+      m.setAttribute("aria-hidden","true");
+      m.removeEventListener("click", backdropCloseOnce);
+    }
+
+    function backdropCloseOnce(e){
+      if(e.target && e.target.id === "exportModal"){
+        closeExportModal();
+      }
     }
   </script>
 </body>
