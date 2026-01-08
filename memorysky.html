@@ -34,86 +34,48 @@ html,body{height:100%}
 body{
   font-family: system-ui,-apple-system,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
   color: var(--ink);
-  /* ⬅️ světlejší pozadí */
-  background: radial-gradient(circle at 50% 0%, #241a55 0, #081027 55%, #03051a 100%);
+  background:#050615; /* fallback, když se nenačte wall.png */
   overflow-x:hidden;
 }
-/* HORNÍ POZADÍ (za hlavičkou) – stejný mood jako původní panel */
-body::before{
-  content:"";
-  position:fixed;
-  left:0; right:0; top:0;
-  height:var(--header-h);
-  background:
-    radial-gradient(circle at 100% 100%, rgba(255,255,255,.12), transparent 60%),
-    linear-gradient(135deg,
-      rgba(255, 63,184,.14) 0%,
-      rgba(47,31,112,.22) 35%,
-      rgba(24,36,112,.26) 100%
-    );
-  border-top:1px solid rgba(255,255,255,.14);
-  box-shadow:0 -18px 55px rgba(0,0,0,.55);
-  backdrop-filter:blur(14px) saturate(1.15);
-  -webkit-backdrop-filter:blur(14px) saturate(1.15);
-}
-/* jemná linka dole (volitelné, můžeš smazat) */
-body::after{
-  content:"";
-  position:fixed;
-  left:0; right:0;
-  top:calc(var(--header-h) - 1px);
-  height:1px;
-  background:rgba(255,255,255,.14);
-  pointer-events:none;
-  z-index:1;
-}
 
-/* === Background image – začne přesně pod hlavičkou (bez pruhu) === */
 .bg{
   position:fixed;
-  left:0; right:0;
-  top:var(--header-h);
-  bottom:0;
+  inset:0;                 /* top:0; right:0; bottom:0; left:0 */
   background:url("wall.png") center/cover no-repeat;
   transform:translateZ(0);
   z-index:0;
 }
-.bg::after{
-  content:"";
-  position:absolute; inset:0;
-  /* ⬅️ světlejší overlay */
-  background:
-    radial-gradient(circle at 50% 0%, rgba(26,20,78,.64), transparent 60%),
-    radial-gradient(circle at 50% 100%, rgba(0,0,0,.66), transparent 58%),
-    linear-gradient(180deg, rgba(12,2,36,.60), rgba(2,4,16,.82));
-  mix-blend-mode:multiply;
-  pointer-events:none;
-  display:none; /* ✅ vypne tmavící vrstvu */
+
+.glass-panel{
+  background: rgba(12, 7, 32, .55);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 18px 55px rgba(0,0,0,.55);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
 }
 
-/* === Glass hlavička (fixed) === */
 .ms-header-shell{
   position:fixed;
   top:0; left:0; right:0;
   z-index:3;
-  padding:10px 14px 0;
-  pointer-events:none; /* aby neblokovala klik pod sebou mimo panel */
+  padding:12px 14px 0;
+  pointer-events:none;
 }
 
 .ms-header{
   pointer-events:auto;
   max-width:1040px;
   margin:0 auto;
-  padding:10px 16px 12px;
-  border-radius:0;                 /* už to není krabice */
-  border:none;                      /* pryč linka */
-  background:transparent;           /* pryč výplň */
-  box-shadow:none;                  /* pryč stín */
-  backdrop-filter:blur(12px);
+  padding:12px 16px 12px;
+  border-radius:22px;
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
   gap:14px;
+}
+
+/* panel vzhled */
+.ms-header.glass-panel{
 }
 
 .ms-header-left{
@@ -180,36 +142,25 @@ body::after{
   .ms-plan-pill{ align-self:flex-end; }
 }
 
-/* === Spodní info pruh (fixed) – užší sklo === */
 .ms-footer-shell{
   position:fixed;
   left:0; right:0; bottom:0;
   z-index:3;
-  padding:0;
+  padding:0 14px 12px;  /* trochu odsazení od okrajů */
   pointer-events:none;
-
-  /* skleněný pruh (stejný styl jako nahoře, jen subtilnější) */
-  background:
-    radial-gradient(circle at 100% 100%, rgba(255,255,255,.12), transparent 60%),
-    linear-gradient(135deg,
-      rgba(255, 63,184,.14) 0%,
-      rgba(47,31,112,.22) 35%,
-      rgba(24,36,112,.26) 100%
-    );
-  border-top:1px solid rgba(255,255,255,.14);
-  box-shadow:0 -18px 55px rgba(0,0,0,.55);
-  backdrop-filter:blur(14px) saturate(1.15);
-  -webkit-backdrop-filter:blur(14px) saturate(1.15);
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
 }
 
 .ms-footer{
   pointer-events:auto;
-  max-width:1040px;
+  max-width:860px;          /* ⬅️ užší provedení */
   margin:0 auto;
-  padding:6px 16px 7px;   /* užší */
-  background:transparent;
-  border:none;
-  box-shadow:none;
+  padding:8px 14px 9px;
+  border-radius:18px;
 
   display:flex;
   justify-content:space-between;
@@ -218,6 +169,9 @@ body::after{
 
   font-size:11px;
   color:rgba(235,225,255,.92);
+}
+
+.ms-footer.glass-panel{
 }
 
 .ms-footer-right{
