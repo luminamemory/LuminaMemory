@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+
+  <style>
+/* stejné CSS jako v originálu */
+:root{
+  --ink: #fdf7ff;
+  --muted: rgba(244,233,255,.86);
+  --pill: 999px;
+
+  --shadow-strong: 0 26px 90px rgba(0,0,0,.72);
+  --shadow-soft:   0 18px 55px rgba(0,0,0,.46);
+
+  --header-h: 160px;
+  --footer-h: 88px;
+
+  --cloud-gap: 24px;
+
+  --hot-pink:  #ff3fb8;
+  --pink:      #ff66cc;
+  --violet:    #a45bff;
+  --deep-vio:  #6d2dff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+
+body{
+  font-family: system-ui,-apple-system,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
+  color: var(--ink);
+  background:#050615;
+  overflow-x:hidden;
+}
+
+.bg{
+  position:fixed;
+  inset:0;
+  background:url("wall.png") center/cover no-repeat;
+  transform:translateZ(0);
+  z-index:0;
+}
+
+.glass-panel{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(120, 60, 255, .22),
+      rgba(5, 4, 20, .92)
+    ),
+    rgba(8, 6, 28, .70);
+
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 26px 90px rgba(0,0,0,.72);
+
+  backdrop-filter: blur(18px) saturate(1.15) brightness(.90) contrast(1.12);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15) brightness(.90) contrast(1.12);
+}
+
+.ms-header h1,
+.ms-header-sub,
+.ms-footer{
+  color: rgba(255,255,255,.96);
+  text-shadow: 0 3px 14px rgba(0,0,0,.65);
+}
+
+.ms-header-shell{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:3;
+  padding:12px 14px 0;
+  pointer-events:none;
+}
+
+.ms-header{
+  pointer-events:auto;
+  max-width:1040px;
+  margin:0 auto;
+  padding:12px 16px 12px;
+  border-radius:22px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.ms-header.glass-panel{}
+
+.ms-header-left{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  min-width:0;
+}
+
+.btn-back{
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 12px;
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.55);
+  background:rgba(9,6,36,.9);
+  color:var(--ink);
+  font-size:12px;
+  box-shadow:0 16px 42px rgba(0,0,0,.7);
+  white-space:nowrap;
+  margin-top:1px;
+}
+.btn-back:hover{ background:rgba(18,12,62,.98); }
+
+.ms-header-text{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+}
+.ms-header-text h1{
+  font-size:17px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  text-shadow:0 12px 32px rgba(0,0,0,.8);
+  line-height:1.15;
+}
+.ms-header-sub{
+  font-size:12px;
+  line-height:1.6;
+  color:var(--muted);
+  text-shadow:0 10px 26px rgba(0,0,0,.8);
+  max-width:720px;
+}
+
+.ms-plan-pill{
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.7);
+  padding:7px 13px;
+  background:radial-gradient(circle at 0 0, rgba(255,255,255,.18), transparent 55%) rgba(18,15,70,.9);
+  color:rgba(246,237,255,.96);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  text-shadow:0 10px 24px rgba(0,0,0,.88);
+  margin-top:2px;
+}
+
+@media (max-width:720px){
+  .ms-header{ flex-direction:column; align-items:flex-start; gap:8px; }
+  .ms-plan-pill{ align-self:flex-end; }
+}
+
+.ms-footer-shell{
+  position:fixed;
+  left:0; right:0; bottom:0;
+  z-index:3;
+  padding:0 14px 12px;
+  pointer-events:none;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+
+.ms-footer{
+  pointer-events:auto;
+  max-width:860px;
+  margin:0 auto;
+  padding:8px 14px 9px;
+  border-radius:18px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+
+  font-size:11px;
+  color:rgba(235,225,255,.92);
+}
+
+.ms-footer.glass-panel{}
+
+.ms-footer-right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  max-width:560px;
+}
+
+@media (max-width:840px){
+  .ms-footer{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+    padding:8px 16px 9px;
+  }
+  .ms-footer-right{ max-width:none; }
+}
+
+.lumina-avatar{
+  width:26px;height:26px;border-radius:999px;overflow:hidden;
+  flex-shrink:0;
+  box-shadow:0 0 22px rgba(194,224,255,.9);
+}
+.lumina-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+.lumina-note{font-size:11px;color:rgba(247,240,255,.96);}
+
+@media (max-width:840px){
+  .ms-footer{flex-direction:column;align-items:flex-start;}
+}
+
+/* Wolken */
+.cloud-strip{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom: calc(var(--footer-h) + var(--cloud-gap));
+  width:min(1040px, calc(100% - 28px));
+  z-index:2;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  padding:0 8px;
+}
+
+.cloud-pair{
+  display:flex;
+  gap:14px;
+  align-items:flex-end;
+}
+
+.cloud-btn{
+  position:relative;
+  border:none;
+  background:transparent;
+  padding:0;
+  cursor:pointer;
+  outline:none;
+  transition:transform .16s ease, filter .16s ease;
+}
+.cloud-btn:focus-visible{
+  box-shadow:0 0 0 2px #fff, 0 0 0 5px rgba(255,255,255,.4);
+  border-radius:24px;
+}
+.cloud-btn:hover{ transform:translateY(-4px); filter:brightness(1.03); }
+.cloud-btn:active{ transform:translateY(-1px); }
+
+.cloud-img{
+  display:block;
+  width:min(320px,40vw);
+  height:auto;
+  filter:drop-shadow(0 20px 46px rgba(0,0,0,.65));
+  opacity:.96;
+}
+
+.cloud-btn--small .cloud-img{ width:min(220px,30vw); }
+
+#btnExport.cloud-btn--small .cloud-img{ width:min(320px,40vw); }
+
+.cloud-label{
+  position:absolute;
+  left:50%;
+  bottom:10px;
+  transform:translateX(-50%);
+  padding:5px 10px 4px;
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.45);
+  background:rgba(15,6,38,.86);
+  color:rgba(245,235,255,.92);
+  font-size:10.5px;
+  letter-spacing:.06em;
+  white-space:nowrap;
+  text-shadow:0 10px 26px rgba(0,0,0,.8);
+  backdrop-filter:blur(10px);
+}
+
+.cloud-label--free  {border-color:rgba(255,255,255,.55);}
+.cloud-label--plus  {border-color:rgba(214,255,255,.82);}
+.cloud-label--prem  {border-color:rgba(238,210,255,.92);}
+
+.cloud-solo{ margin-left:auto; transform:translateY(10px); }
+
+.cloud-lock{
+  position:absolute;
+  top:8px;
+  right:14px;
+  width:22px;
+  height:22px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.6);
+  background:rgba(15,7,36,.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  box-shadow:0 16px 40px rgba(0,0,0,.8);
+}
+
+@media (max-width:840px){
+  .cloud-strip{flex-direction:column;align-items:center; gap:10px;}
+  .cloud-pair{width:100%;justify-content:center;}
+  .cloud-solo{margin-left:0;transform:none;}
+}
+
+/* Modale */
+.ms-modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(5,4,16,.78);
+  backdrop-filter:blur(14px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:20;
+}
+.ms-modal-backdrop.is-open{display:flex;}
+
+.ms-modal{
+  width:min(720px,100%);
+  max-height:calc(100vh - 48px);
+  background:radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 55%) rgba(10,4,32,.97);
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.35);
+  box-shadow:var(--shadow-strong);
+  overflow:hidden;
+  color:rgba(244,233,255,.88);
+  display:flex;
+  flex-direction:column;
+}
+.ms-modal--small{ width:min(520px,100%); }
+
+.ms-modal-head{
+  padding:12px 16px 8px;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+}
+.ms-modal-title{
+  font-size:13px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#ffeaff;
+}
+.ms-modal-head p{
+  margin-top:4px;
+  font-size:12px;
+  line-height:1.6;
+}
+.ms-modal-close{
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(17,7,40,.96);
+  color:rgba(244,233,255,.9);
+  padding:6px 10px;
+  font-size:12px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.ms-modal-close:hover{background:rgba(28,13,64,.98);}
+
+.ms-modal-body{
+  padding:14px 16px 14px;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.ms-tagline{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:rgba(255,232,255,.9);
+}
+
+.pill-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+.pill{
+  padding:4px 9px;
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.4);
+  background:rgba(20,9,52,.9);
+  font-size:11px;
+  color:rgba(244,233,255,.88);
+}
+
+/* Treppe */
+.stair-wrap{
+  position:relative;
+  margin-top:4px;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.4);
+  box-shadow:var(--shadow-soft);
+  background:#050615;
+}
+.stair-img{
+  width:100%;
+  height:auto;
+  display:block;
+  opacity:.96;
+  filter:drop-shadow(0 20px 58px rgba(0,0,0,.86));
+}
+
+.stair-color{
+  --fill: 40%;
+  position:absolute;
+  inset:0;
+
+  background: linear-gradient(
+    0deg,
+    var(--hot-pink) 0%,
+    var(--pink) 22%,
+    #d85bff 40%,
+    var(--violet) 55%,
+    var(--deep-vio) 65%,
+    var(--deep-vio) 100%
+  );
+
+  mix-blend-mode: normal;
+  opacity: .92;
+  filter: saturate(2.35) contrast(1.12) brightness(1.08);
+  pointer-events:none;
+
+  clip-path: inset(calc(100% - var(--fill)) 0 0 0);
+
+  -webkit-mask-image: url("light-stair.png");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+
+  mask-image: url("light-stair.png");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+.stair-percent{
+  position:absolute;
+  top:10px;
+  right:12px;
+  padding:6px 10px 5px;
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.6);
+  background:rgba(15,6,32,.96);
+  box-shadow:0 14px 36px rgba(0,0,0,.85);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:2px;
+}
+.stair-percent strong{ font-size:13px; color:#ffe9ff; }
+.stair-percent span{
+  font-size:10px;
+  color:rgba(244,233,255,.86);
+  text-transform:uppercase;
+  letter-spacing:.14em;
+}
+
+.stair-note{ margin-top:8px; font-size:12px; }
+
+/* Bereiche */
+.realm-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:6px;
+}
+@media (max-width:720px){ .realm-grid{grid-template-columns:1fr;} }
+
+.realm-card{
+  border-radius:16px;
+  padding:8px 8px 9px;
+  border:1px solid rgba(255,255,255,.4);
+  background:rgba(13,6,34,.9);
+  box-shadow:0 18px 48px rgba(0,0,0,.75);
+  cursor:pointer;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.realm-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(255,255,255,.9);
+  box-shadow:0 22px 56px rgba(0,0,0,.9);
+}
+.realm-img{
+  width:100%;
+  border-radius:12px;
+  display:block;
+  margin-bottom:6px;
+  opacity:.96;
+  filter:drop-shadow(0 12px 30px rgba(0,0,0,.78));
+}
+.realm-title{
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#ffeaff;
+}
+.realm-sub{ font-size:11px; color:rgba(244,233,255,.86); margin-top:3px; }
+
+.mini-meter{
+  margin-top:8px;
+  height:8px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(40,23,86,.9);
+  border:1px solid rgba(255,255,255,.3);
+}
+.mini-meter-fill{
+  height:100%;
+  width:60%;
+  background:linear-gradient(90deg, rgba(255, 63, 184, .95), rgba(109, 45, 255, .95));
+}
+.mini-meter-fill.free{width:28%;}
+.mini-meter-fill.plus{width:64%;}
+.mini-meter-fill.premium{width:88%;}
+
+.detail-list{ margin-top:4px; font-size:12px; padding-left:18px; }
+.detail-list li{ margin-bottom:4px; }
+
+/* Export */
+.export-wrap{
+  margin-top:6px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.45);
+  background:radial-gradient(circle at 0 0,rgba(255,255,255,.18),transparent 55%) rgba(10,4,32,.98);
+  padding:12px 12px 14px;
+  box-shadow:var(--shadow-soft);
+  text-align:center;
+}
+
+.export-icons{
+  display:flex;
+  justify-content:center;
+  margin-bottom:8px;
+
+  opacity:0;
+  transform:translateY(6px);
+  pointer-events:none;
+  transition:opacity .22s ease, transform .22s ease;
+}
+.export-icons.is-visible{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.export-icons-img{
+  width:min(520px, 92%);
+  height:auto;
+  display:block;
+  filter:drop-shadow(0 16px 42px rgba(0,0,0,.72));
+  opacity:.98;
+}
+
+.export-suitcase{
+  margin-top:2px;
+  width:min(340px,80%);
+  cursor:pointer;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  filter:drop-shadow(0 20px 52px rgba(0,0,0,.86));
+  transition:transform .18s ease;
+}
+.export-suitcase:hover{transform:translateY(-2px);}
+
+.export-note{ margin-top:6px; font-size:12px; color:rgba(244,233,255,.86); }
+.export-warning{ margin-top:6px; font-size:11px; color:#ffe9bf; opacity:.9; }
+
+.export-actions{
+  margin-top:10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:center;
+}
+
+.btn-export-kind{
+  padding:7px 12px;
+  border-radius:var(--pill);
+  border:1px solid rgba(255,255,255,.6);
+  background:rgba(26,11,64,.96);
+  color:var(--ink);
+  font-size:12px;
+  cursor:pointer;
+}
+.btn-export-kind:hover{background:rgba(38,18,90,.98);}
+
+.data-screen{
+  margin-top:2px;
+  max-height:260px;
+  overflow:auto;
+  background:#04050f;
+  color:#dce6ff;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  font-size:11px;
+  line-height:1.5;
+  padding:10px 11px;
+  border-radius:12px;
+  white-space:pre-wrap;
+  word-break:break-word;
+  border:1px solid rgba(255,255,255,0.25);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:calc(var(--footer-h) + 20px);
+  transform:translateX(-50%) translateY(20px);
+  padding:9px 12px;
+  border-radius:999px;
+  background:rgba(13,7,34,.96);
+  border:1px solid rgba(255,255,255,.4);
+  color:rgba(244,233,255,.88);
+  font-size:11px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .22s ease, transform .22s ease;
+  z-index:40;
+}
+.toast.is-visible{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+</style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <!-- KOPFZEILE -->
+  <header class="ms-header-shell" id="headerShell">
+    <div class="ms-header glass-panel" id="headerPanel">
+      <div class="ms-header-left">
+        <a href="nastaveni-de.html" class="btn-back">← Zurück ins Büro</a>
+        <div class="ms-header-text">
+          <h1>LuminaMemory™</h1>
+          <p class="ms-header-sub">
+            MemorySky™ ist ein visueller Himmel für deine Daten. Er zeigt, wie viel Platz du in FREE / PLUS / PREMIUM hast
+            und wie du deine Welt eines Tages in einen „Rucksack für den Weg“ packen kannst.
+          </p>
+        </div>
+      </div>
+      <div class="ms-plan-pill" id="crumbPlan">DEMO · FREE Tarif</div>
+    </div>
+  </header>
+
+  <!-- WOLKEN -->
+  <section class="cloud-strip" aria-label="MemorySky-Steuerung">
+    <div class="cloud-pair">
+      <!-- 1) ganzer Himmel -->
+      <button class="cloud-btn" id="btnFullSky" type="button">
+        <img src="cloud-1.png" alt="Gesamter Palastspeicher" class="cloud-img" />
+        <div class="cloud-label" id="labelFull">Dein Himmel</div>
+      </button>
+
+      <!-- 2) detaillierte Nutzung -->
+      <button class="cloud-btn cloud-btn--small" id="btnDetail" type="button">
+        <img src="cloud-2.png" alt="Detaillierte Himmelnutzung" class="cloud-img" />
+        <div class="cloud-label" id="labelDetail">Himmelnutzung</div>
+      </button>
+    </div>
+
+    <!-- 3) Export -->
+    <button class="cloud-btn cloud-btn--small cloud-solo" id="btnExport" type="button">
+      <img src="cloud-3.png" alt="Export – Rucksack für den Weg" class="cloud-img" />
+      <div class="cloud-label" id="labelExport">Rucksack für den Weg</div>
+      <div class="cloud-lock" id="exportLock" aria-hidden="true">🔒</div>
+    </button>
+  </section>
+
+  <!-- UNTERER PANEL -->
+  <section class="ms-footer-shell" id="footerShell">
+    <div class="ms-footer glass-panel" id="footerPanel">
+      <div>
+        DEMO läuft lokal in deinem Browser. Prozente und Export arbeiten nur mit ausgedachten Daten.
+      </div>
+      <div class="ms-footer-right">
+        <div class="lumina-avatar"><img src="avatar.png" alt="Lumina" /></div>
+        <div class="lumina-note" id="footNote">
+          Vorschau auf das Verhalten von MemorySky™ je nach Tarif. In der Live-Version wird es an den echten Speicherstand angebunden.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL 1: ganzer Himmel -->
+  <div class="ms-modal-backdrop" id="modalFullSky">
+    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="fullTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="fullTitle">Gesamter Palastspeicher</div>
+          <p id="fullLead">Die Treppe färbt sich je nach Füllstand.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalFullSky">Schließen ✕</button>
+      </div>
+
+      <div class="ms-modal-body">
+        <div class="ms-tagline">An den Tarif gekoppelt</div>
+        <div class="pill-row" id="fullTariffLine"></div>
+
+        <div class="stair-wrap">
+          <img src="light-stair.png" alt="Treppe in MemorySky" class="stair-img" />
+          <div class="stair-color" id="stairColor"></div>
+
+          <div class="stair-percent" id="stairPercent">
+            <strong>0 %</strong>
+            <span>Füllstand</span>
+          </div>
+        </div>
+
+        <p class="stair-note" id="stairNote">
+          In der Live-Version siehst du hier deine echte Historie. Jetzt ist es nur eine sichere Demo-Vorschau.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Kapazität -->
+  <div class="ms-modal-backdrop" id="modalDetail">
+    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="detailTitle">Detaillierte Himmelnutzung</div>
+          <p>Wie sich der Raum zwischen Praetorium, Arcana und Configuratio aufteilt.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalDetail">Schließen ✕</button>
+      </div>
+
+      <div class="ms-modal-body">
+        <div class="ms-tagline">Drei Hauptbereiche des Himmels</div>
+
+        <div class="realm-grid">
+          <article class="realm-card" data-open="modalPrae">
+            <img src="light-praetorium.png" alt="Praetorium" class="realm-img" />
+            <div class="realm-title">Praetorium</div>
+            <div class="realm-sub">Chronica · Sigma · Proiecta</div>
+            <div class="mini-meter"><div class="mini-meter-fill" id="meterPrae"></div></div>
+          </article>
+
+          <article class="realm-card" data-open="modalArcana">
+            <img src="arcana.png" alt="Arcana" class="realm-img" />
+            <div class="realm-title">Arcana</div>
+            <div class="realm-sub">Clavis · Pecunia · Vitae · Medica</div>
+            <div class="mini-meter"><div class="mini-meter-fill" id="meterArcana"></div></div>
+          </article>
+
+          <article class="realm-card" data-open="modalConfig">
+            <img src="configuratio.png" alt="Configuratio" class="realm-img" />
+            <div class="realm-title">Configuratio</div>
+            <div class="realm-sub">Deine Identität & Palast-Software</div>
+            <div class="mini-meter"><div class="mini-meter-fill" id="meterConfig"></div></div>
+          </article>
+        </div>
+
+        <p style="font-size:12px;opacity:.92">
+          In der Demo-Version sind die Füllstände nur ein Entwurf – in der Live-Version werden sie den echten Speicherstand zeigen.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini-Modale -->
+  <div class="ms-modal-backdrop" id="modalPrae">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="praeTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="praeTitle">Praetorium</div>
+          <p>Chronica · Sigma · Proiecta</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalPrae">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <ul class="detail-list">
+          <li><b>Chronica</b> – Tagebücher, Momente.</li>
+          <li><b>Sigma</b> – Rituale, Erinnerungen.</li>
+          <li><b>Proiecta</b> – Projekte und Missionen.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ms-modal-backdrop" id="modalArcana">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="arcTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="arcTitle">Arcana</div>
+          <p>Clavis · Pecunia · Vitae · Medica</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalArcana">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <ul class="detail-list">
+          <li><b>Arcana Clavis</b> – Zugänge (Konzept).</li>
+          <li><b>Arcana Pecunia</b> – Finanzen.</li>
+          <li><b>Codex Vitae</b> – Dokumente.</li>
+          <li><b>Corpus Medica</b> – Gesundheit.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ms-modal-backdrop" id="modalConfig">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="cfgTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="cfgTitle">Configuratio</div>
+          <p>Nutzerdaten & Palast-Software</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalConfig">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <ul class="detail-list">
+          <li><b>Karte</b> – Name, Anrede, Ruf-Satz.</li>
+          <li><b>Rhythmus</b> – Tagesrhythmus.</li>
+          <li><b>Ton</b> – Einstellungen von Lumina.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Export -->
+  <div class="ms-modal-backdrop" id="modalExport">
+    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="expTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="expTitle">Export – Rucksack für den Weg</div>
+          <p>Ein Demo-Datenexport.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalExport">Schließen ✕</button>
+      </div>
+
+      <div class="ms-modal-body">
+        <div class="export-wrap">
+          <div class="export-icons" id="exportIcons">
+            <img src="icons.png" alt="Export-Icons" class="export-icons-img" />
+          </div>
+
+          <img src="export-closed.png" alt="Archivkoffer" id="suitcaseImg" class="export-suitcase" />
+
+          <div class="export-note" id="exportNote">
+            Im DEMO ist der Koffer ein Symbol. Wenn du ihn öffnest, siehst du die „Ausrüstung“ und kannst den Export starten.
+          </div>
+
+          <div class="export-warning" id="exportWarning">
+            PLUS/PREMIUM: Die Datei wird heruntergeladen, aber der Inhalt ist fiktiv.
+          </div>
+
+          <div class="export-actions">
+            <button class="btn-export-kind" type="button" id="btnExportData">
+              Datenpaket exportieren
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export im FREE Tarif -->
+  <div class="ms-modal-backdrop" id="modalExportBlocked">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="blockedTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="blockedTitle">Export im FREE Tarif</div>
+          <p>In diesem Tarif ist Export nicht möglich.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalExportBlocked">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body" style="font-size:12px;">
+        FREE ist ein leichtes Demo-Himmel. Export gibt es erst in PLUS oder PREMIUM.
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Daten + Download -->
+  <div class="ms-modal-backdrop" id="modalDownload">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="dlTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="dlTitle">Datenexport (DEMO)</div>
+          <p id="dlLead">Vorschau der ausgedachten Daten und Download-Möglichkeit.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalDownload">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <pre class="data-screen" id="jsonPreview"></pre>
+        <button class="btn-export-kind" type="button" id="btnConfirmDownload">
+          Datei herunterladen (DEMO)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastExport">
+    DEMO: Die heruntergeladene Datei enthält nur ausgedachte Daten – Vorschau auf den zukünftigen Export.
+  </div>
+
+  <script>
+    /* Tarif – localStorage */
+    const PLAN_KEY = "lm_plan";
+
+    function normalizePlan(p){
+      if(!p) return "free";
+      p = String(p).toLowerCase();
+      return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+    }
+
+    function readPlan(){
+      try{
+        const fromKey = localStorage.getItem(PLAN_KEY);
+        if(fromKey) return normalizePlan(fromKey);
+        const rawUser = localStorage.getItem("miniLuminaUser");
+        if(rawUser){
+          const u = JSON.parse(rawUser);
+          if(u && u.plan) return normalizePlan(u.plan);
+        }
+      }catch(e){}
+      return "free";
+    }
+
+    const currentPlan = readPlan();
+    const planLabelMap = {free:"FREE Tarif", plus:"PLUS Tarif", premium:"PREMIUM Tarif"};
+    const planNice = planLabelMap[currentPlan] || "FREE Tarif";
+
+    const crumb = document.getElementById("crumbPlan");
+    if(crumb) crumb.textContent = "DEMO · " + planNice;
+
+    const footNote = document.getElementById("footNote");
+    if(footNote){
+      if(currentPlan === "free"){
+        footNote.textContent =
+          "In der FREE Version hast du einen schlanken Himmel – wenig Platz zum Ausprobieren. Export ist gesperrt.";
+      }else if(currentPlan === "plus"){
+        footNote.textContent =
+          "PLUS: Arbeits-Himmel – solide Kapazität und Demo-Datenexport.";
+      }else{
+        footNote.textContent =
+          "PREMIUM: großer Himmel – Demo-Export + größte Kapazität.";
+      }
+    }
+
+    /* Labels einfärben */
+    const fullLblEl   = document.getElementById("labelFull");
+    const detailLblEl = document.getElementById("labelDetail");
+    const exportLblEl = document.getElementById("labelExport");
+
+    const cls =
+      currentPlan === "free" ? "cloud-label--free" :
+      currentPlan === "plus" ? "cloud-label--plus" : "cloud-label--prem";
+
+    [fullLblEl, detailLblEl, exportLblEl].forEach(el=>el && el.classList.add(cls));
+
+    const exportLock = document.getElementById("exportLock");
+    if(currentPlan !== "free" && exportLock) exportLock.style.display = "none";
+
+    /* Meter */
+    const meterPrae   = document.getElementById("meterPrae");
+    const meterArcana = document.getElementById("meterArcana");
+    const meterConfig = document.getElementById("meterConfig");
+    [meterPrae, meterArcana, meterConfig].forEach(el=>{
+      if(!el) return;
+      el.classList.add(currentPlan === "free" ? "free" :
+                       currentPlan === "plus" ? "plus" : "premium");
+    });
+
+    /* Modale */
+    function openModal(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.add("is-open");
+      if(id === "modalFullSky") startStairAnimation();
+    }
+    function closeModal(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.remove("is-open");
+    }
+
+    document.getElementById("btnFullSky").addEventListener("click", ()=>openModal("modalFullSky"));
+    document.getElementById("btnDetail").addEventListener("click",   ()=>openModal("modalDetail"));
+    document.getElementById("btnExport").addEventListener("click",   ()=>{
+      if(currentPlan === "free") openModal("modalExportBlocked");
+      else openModal("modalExport");
+    });
+
+    document.querySelectorAll(".ms-modal-close").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const id = btn.getAttribute("data-close");
+        if(id) closeModal(id);
+      });
+    });
+
+    document.querySelectorAll(".ms-modal-backdrop").forEach(back=>{
+      back.addEventListener("click", (e)=>{
+        if(e.target === back) back.classList.remove("is-open");
+      });
+    });
+
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape"){
+        document.querySelectorAll(".ms-modal-backdrop.is-open")
+          .forEach(m=>m.classList.remove("is-open"));
+      }
+    });
+
+    document.querySelectorAll(".realm-card").forEach(card=>{
+      const target = card.getAttribute("data-open");
+      if(!target) return;
+      card.addEventListener("click", ()=>openModal(target));
+    });
+
+    /* Layout-Sync */
+    const headerShell = document.getElementById("headerShell");
+    const footerShell = document.getElementById("footerShell");
+
+    function syncLayoutHeights(){
+      const headerH = headerShell ? headerShell.getBoundingClientRect().height : 160;
+      const footerH = footerShell ? footerShell.getBoundingClientRect().height : 88;
+      document.documentElement.style.setProperty("--header-h", Math.ceil(headerH) + "px");
+      document.documentElement.style.setProperty("--footer-h", Math.ceil(footerH) + "px");
+    }
+
+    window.addEventListener("load", syncLayoutHeights);
+    window.addEventListener("resize", syncLayoutHeights);
+
+    /* Treppen-Animation */
+    const STAIR_RANGES = {
+      free:    {from: 15, to: 35, label:"FREE – schlanker Himmel"},
+      plus:    {from: 35, to: 55, label:"PLUS – Himmel, über den man reden kann"},
+      premium: {from: 45, to: 65, label:"PREMIUM – großer Himmel"}
+    };
+
+    const stairColor     = document.getElementById("stairColor");
+    const stairPercent   = document.getElementById("stairPercent");
+    const fullTariffLine = document.getElementById("fullTariffLine");
+    const fullLead       = document.getElementById("fullLead");
+    const stairNote      = document.getElementById("stairNote");
+    let stairAnimId = null;
+
+    if(fullTariffLine){
+      const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
+      const p1 = document.createElement("span");
+      p1.className = "pill";
+      p1.textContent = cfg.label;
+      fullTariffLine.appendChild(p1);
+
+      const p2 = document.createElement("span");
+      p2.className = "pill";
+      p2.textContent = "Demo-Visualisierung pink → violett";
+      fullTariffLine.appendChild(p2);
+    }
+
+    if(fullLead){
+      fullLead.textContent =
+        "Kräftige pinke Füllung wächst von unten und geht nach oben in Violett über. Die Demo endet bei etwa 65 %.";
+    }
+
+    function startStairAnimation(){
+      if(!stairColor || !stairPercent) return;
+      if(stairAnimId) cancelAnimationFrame(stairAnimId);
+
+      const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
+      const duration = 3200;
+      const start = performance.now();
+      const numEl = stairPercent.querySelector("strong");
+
+      function frame(now){
+        let t = (now - start) / duration;
+        if(t > 1) t = 1;
+
+        const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
+        const value = cfg.from + (cfg.to - cfg.from) * eased;
+
+        stairColor.style.setProperty("--fill", value + "%");
+        if(numEl) numEl.textContent = Math.round(value) + " %";
+
+        if(t < 1) stairAnimId = requestAnimationFrame(frame);
+      }
+
+      stairColor.style.setProperty("--fill", cfg.from + "%");
+      if(numEl) numEl.textContent = cfg.from + " %";
+      stairAnimId = requestAnimationFrame(frame);
+
+      if(stairNote){
+        stairNote.textContent =
+          "In der Live-Version werden die Prozente mit echten Daten verbunden. In der DEMO zeigen wir nur Logik und Farbfüllung.";
+      }
+    }
+
+    /* Koffer + Icons */
+    const suitcaseImg  = document.getElementById("suitcaseImg");
+    const exportIcons  = document.getElementById("exportIcons");
+    const exportNote   = document.getElementById("exportNote");
+    const exportWarning= document.getElementById("exportWarning");
+
+    let suitcaseOpen = false;
+
+    if(exportWarning){
+      exportWarning.textContent =
+        (currentPlan === "plus" || currentPlan === "premium")
+          ? "Die Datei wird heruntergeladen, aber die Daten sind ausgedacht – nur eine Struktur-Vorschau."
+          : "FREE: Export ist gesperrt.";
+    }
+
+    if(suitcaseImg){
+      suitcaseImg.addEventListener("click", ()=>{
+        suitcaseOpen = !suitcaseOpen;
+        suitcaseImg.src = suitcaseOpen ? "export-open.png" : "export-closed.png";
+
+        if(exportIcons){
+          exportIcons.classList.toggle("is-visible", suitcaseOpen);
+        }
+
+        if(exportNote){
+          exportNote.textContent = suitcaseOpen
+            ? "Koffer geöffnet. Unten kannst du den Export des Datenpakets starten."
+            : "Koffer geschlossen. Öffne ihn, um die Export-Ausrüstung zu sehen.";
+        }
+      });
+    }
+
+    /* Daten-Export */
+    const btnExportData      = document.getElementById("btnExportData");
+    const modalDownload      = document.getElementById("modalDownload");
+    const jsonPreview        = document.getElementById("jsonPreview");
+    const dlLead             = document.getElementById("dlLead");
+    const btnConfirmDownload = document.getElementById("btnConfirmDownload");
+    const toast              = document.getElementById("toastExport");
+
+    let currentDownload = null;
+
+    function showToast(){
+      if(!toast) return;
+      toast.classList.add("is-visible");
+      setTimeout(()=>toast.classList.remove("is-visible"), 4200);
+    }
+
+    function openDownloadModal(payload){
+      currentDownload = payload;
+      dlLead.textContent = payload.lead;
+      jsonPreview.textContent = payload.preview;
+      modalDownload.classList.add("is-open");
+    }
+
+    function demoJsonExport(){
+      const now = new Date();
+      const data = {
+        type: "MemorySkyDemoExport",
+        plan: currentPlan.toUpperCase(),
+        created_at: now.toISOString(),
+        human_time: now.toLocaleString("de-DE"),
+        summary: {
+          chronica_days: 42,
+          sigma_rituals_active: currentPlan === "premium" ? 9 : 4,
+          proiecta_projects: currentPlan === "free" ? 1 : (currentPlan === "plus" ? 4 : 7)
+        },
+        sections: [
+          { id:"chronica", label:"Chronica", demo: ["Einträge", "Meilensteine", "Momente"] },
+          { id:"sigma",    label:"Sigma",    demo: ["Rituale", "Erinnerungen", "Tagesrhythmus"] },
+          { id:"proiecta", label:"Proiecta", demo: ["Projekte", "Missionen", "Werkstatt"] },
+          { id:"arcana",   label:"Arcana",   demo: ["Tresor – Vorschau", "keine sensiblen Daten"] },
+          { id:"config",   label:"Configuratio", demo: ["Profil", "Ton", "Software"] }
+        ],
+        note: "Alle Daten sind ausgedacht – Vorschau auf den zukünftigen Export."
+      };
+      const text = JSON.stringify(data, null, 2);
+      return {
+        filename: "memorysky-demo-export.json",
+        mime: "application/json",
+        preview: text,
+        lead: "Export-Vorschau (DEMO) – klicke unten, um die Datei herunterzuladen.",
+        content: text
+      };
+    }
+
+    if(btnExportData){
+      btnExportData.addEventListener("click", ()=>{
+        const payload = demoJsonExport();
+        openDownloadModal(payload);
+      });
+    }
+
+    if(btnConfirmDownload){
+      btnConfirmDownload.addEventListener("click", ()=>{
+        if(!currentDownload) return;
+        try{
+          const blob = new Blob([currentDownload.content], {type: currentDownload.mime});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = currentDownload.filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(()=>URL.revokeObjectURL(url), 800);
+          showToast();
+        }catch(e){}
+      });
+    }
+  </script>
+</body>
+</html>
