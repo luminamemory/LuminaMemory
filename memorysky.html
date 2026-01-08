@@ -47,15 +47,20 @@ body{
 }
 
 .glass-panel{
-  background: linear-gradient(
-    135deg,
-    rgba(160, 90, 255, .45),
-    rgba(10, 8, 40, .72)
-  );
-  border: 1px solid rgba(255,255,255,.26);
-  box-shadow: 0 22px 70px rgba(0,0,0,.62);
-  backdrop-filter: blur(16px) saturate(1.25) contrast(1.08);
-  -webkit-backdrop-filter: blur(16px) saturate(1.25) contrast(1.08);
+  /* tmavší “sklo” – víc temnoty, míň světlého fialového nádechu */
+  background:
+    linear-gradient(
+      135deg,
+      rgba(120, 60, 255, .22),
+      rgba(5, 4, 20, .92)
+    ),
+    rgba(8, 6, 28, .70);
+
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 26px 90px rgba(0,0,0,.72);
+
+  backdrop-filter: blur(18px) saturate(1.15) brightness(.90) contrast(1.12);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15) brightness(.90) contrast(1.12);
 }
 
 .ms-header h1,
@@ -657,7 +662,7 @@ body{
 
   <!-- HLAVIČKA -->
   <header class="ms-header-shell" id="headerShell">
-    <div class="ms-header" id="headerPanel">
+      <div class="ms-header glass-panel" id="headerPanel">
       <div class="ms-header-left">
         <a href="nastaveni.html" class="btn-back">← Zpět do kanceláře</a>
         <div class="ms-header-text">
@@ -698,7 +703,7 @@ body{
 
   <!-- SPODNÍ PANEL -->
   <section class="ms-footer-shell" id="footerShell">
-    <div class="ms-footer" id="footerPanel">
+      <div class="ms-footer glass-panel" id="footerPanel">
       <div>
         DEMO běží lokálně v prohlížeči. Procenta i export pracují jen s vymyšlenými daty.
       </div>
