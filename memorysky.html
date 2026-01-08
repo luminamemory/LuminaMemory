@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow" />
 
   <style>
-  :root{
+:root{
   --ink: #fdf7ff;
   --muted: rgba(244,233,255,.86);
   --pill: 999px;
@@ -37,6 +37,35 @@ body{
   /* ⬅️ světlejší pozadí */
   background: radial-gradient(circle at 50% 0%, #241a55 0, #081027 55%, #03051a 100%);
   overflow-x:hidden;
+}
+/* HORNÍ POZADÍ (za hlavičkou) – stejný mood jako původní panel */
+body::before{
+  content:"";
+  position:fixed;
+  left:0; right:0; top:0;
+  height:var(--header-h);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255,255,255,.14), transparent 55%),
+    linear-gradient(135deg,
+      rgba(255, 63,184,.55) 0%,
+      rgba(47,31,112,.78) 35%,
+      rgba(24,36,112,.88) 100%
+    );
+  /* měkké “sklo” bez krabice */
+  filter:saturate(1.2) brightness(1.05);
+  pointer-events:none;
+  z-index:1;
+}
+/* jemná linka dole (volitelné, můžeš smazat) */
+body::after{
+  content:"";
+  position:fixed;
+  left:0; right:0;
+  top:calc(var(--header-h) - 1px);
+  height:1px;
+  background:rgba(255,255,255,.14);
+  pointer-events:none;
+  z-index:1;
 }
 
 /* === Background image – začne přesně pod hlavičkou (bez pruhu) === */
@@ -69,18 +98,17 @@ body{
   padding:10px 14px 0;
   pointer-events:none; /* aby neblokovala klik pod sebou mimo panel */
 }
+
 .ms-header{
   pointer-events:auto;
   max-width:1040px;
   margin:0 auto;
   padding:10px 16px 12px;
-  border-radius:24px;
-  border:1px solid rgba(255,255,255,.4);
-  background:
-    radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 55%),
-    linear-gradient(135deg, rgba(47,31,112,.94), rgba(24,36,112,.95));
-  box-shadow:0 22px 60px rgba(0,0,0,.9);
-  backdrop-filter:blur(14px);
+  border-radius:0;                 /* už to není krabice */
+  border:none;                      /* pryč linka */
+  background:transparent;           /* pryč výplň */
+  box-shadow:none;                  /* pryč stín */
+  backdrop-filter:blur(12px);
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
@@ -420,8 +448,8 @@ body{
 
   /* výraznější barvy */
   mix-blend-mode: normal;          /* <-- nejdůležitější změna (už to není jen "nádech") */
-  opacity: .98;
-  filter: saturate(2.9) contrast(1.18) brightness(1.12);
+  opacity: .92;
+  filter: saturate(2.35) contrast(1.12) brightness(1.08);
   pointer-events:none;
 
   /* barva roste odspodu */
@@ -641,9 +669,9 @@ body{
       <div class="ms-header-left">
         <a href="nastaveni.html" class="btn-back">← Zpět do kanceláře</a>
         <div class="ms-header-text">
-          <h1>MemorySky™</h1>
+          <h1>LuminaMemory™</h1>
           <p class="ms-header-sub">
-            Vizuální nebe pro tvoje data. Ukazuje, kolik místa máš ve FREE / PLUS / PREMIUM
+            MemorySky™ je vizuální nebe pro tvoje data. Ukazuje, kolik místa máš ve FREE / PLUS / PREMIUM
             a jak jednou půjde tvůj svět sbalit do „batohu na cestu“.
           </p>
         </div>
@@ -729,13 +757,13 @@ body{
       <div class="ms-modal-head">
         <div>
           <div class="ms-modal-title" id="detailTitle">Podrobé využití nebe</div>
-          <p>Rozdělení mezi Praetorium, Arcana a Configuratio.</p>
+          <p>Rozdělení prostoru mezi Praetorium, Arcana a Configuratio.</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalDetail">Zavřít ✕</button>
       </div>
 
       <div class="ms-modal-body">
-        <div class="ms-tagline">Tři hlavní šuplíky nebe</div>
+        <div class="ms-tagline">Tři hlavní části nebe</div>
 
         <div class="realm-grid">
           <article class="realm-card" data-open="modalPrae">
@@ -761,7 +789,7 @@ body{
         </div>
 
         <p style="font-size:12px;opacity:.92">
-          Metry jsou demo nástřel – v ostré verzi se napojí skutečný stav paměti.
+          Zaplnění je v demo verzi jen jako nástřel – v ostré verzi se napojí skutečný stav paměti.
         </p>
       </div>
     </div>
@@ -855,7 +883,7 @@ body{
 
           <div class="export-actions">
             <button class="btn-export-kind" type="button" id="btnExportData">
-              Export datového balíčku (.json)
+              Export datového balíčku
             </button>
           </div>
         </div>
@@ -935,11 +963,11 @@ body{
     const footNote = document.getElementById("footNote");
     if(footNote){
       if(currentPlan === "free"){
-        footNote.textContent = "Ve FREE verzi máš dietní nebe – malý prostor na zkoušení. Export je zamčený.";
+        footNote.textContent = "Ve FREE verzi máš dietní nebe – malý prostor na zkoušku. Export je zamčený.";
       }else if(currentPlan === "plus"){
         footNote.textContent = "PLUS: pracovní nebe – rozumná kapacita a demo export dat.";
       }else{
-        footNote.textContent = "PREMIUM: velké nebe – demo export + největší kapacita (v ostré verzi).";
+        footNote.textContent = "PREMIUM: velké nebe – demo export + největší kapacita.";
       }
     }
 
@@ -1028,9 +1056,9 @@ body{
 
     /* === 1. mrak: animace schodů (max cca 65%) === */
     const STAIR_RANGES = {
-      free:    {from: 18, to: 34, label:"FREE – dietní nebe"},
-      plus:    {from: 30, to: 55, label:"PLUS – nebe, co stojí za řeč"},
-      premium: {from: 48, to: 65, label:"PREMIUM – velké nebe"}
+      free:    {from: 15, to: 35, label:"FREE – dietní nebe"},
+      plus:    {from: 35, to: 55, label:"PLUS – nebe, co stojí za řeč"},
+      premium: {from: 45, to: 65, label:"PREMIUM – velké nebe"}
     };
 
     const stairColor     = document.getElementById("stairColor");
@@ -1086,7 +1114,7 @@ body{
 
       if(stairNote){
         stairNote.textContent =
-          "V ostré verzi se procenta napojí na reálná data. V DEMU ukazujeme jen vizuální logiku a barevné plnění schodů.";
+          "V ostré verzi se procenta napojí na reálná data. V DEMU ukazujeme jen vizuální logiku a barevné plnění.";
       }
     }
 
@@ -1171,7 +1199,7 @@ body{
         filename: "memorysky-demo-export.json",
         mime: "application/json",
         preview: text,
-        lead: "Náhled exportu (DEMO) – klikem níže stáhneš JSON soubor.",
+        lead: "Náhled exportu (DEMO) – klikem níže stáhneš soubor.",
         content: text
       };
     }
