@@ -401,27 +401,30 @@ body{
   1) ořízneme ho "odspodu nahoru" pomocí clip-path podle --fill
   2) a hlavně ho maskujeme stejným PNG (light-stair.png), aby se barvilo jen "sklo"
 */
+
 .stair-color{
   --fill: 40%;
   position:absolute;
   inset:0;
 
-  /* ⬅️ sytější + růžová → fialová, „dojetí“ v 65 % */
-  background:linear-gradient(
+  /* silnější a plynulejší gradient */
+  background: linear-gradient(
     0deg,
-    rgba(255, 63, 184, 1)   0%,
-    rgba(255,102, 204, .98) 32%,
-    rgba(164, 91, 255, .98) 65%,
-    rgba(164, 91, 255, .98) 100%
+    var(--hot-pink) 0%,
+    var(--pink) 22%,
+    #d85bff 40%,
+    var(--violet) 55%,
+    var(--deep-vio) 65%,
+    var(--deep-vio) 100%
   );
 
-  /* jen sytější (jinak necháno) */
-  filter: blur(.7px) saturate(1.55);
-  mix-blend-mode: screen;
-  opacity: 1;
+  /* výraznější barvy */
+  mix-blend-mode: normal;          /* <-- nejdůležitější změna (už to není jen "nádech") */
+  opacity: .98;
+  filter: saturate(2.9) contrast(1.18) brightness(1.12);
   pointer-events:none;
 
-  /* ukrojíme horní část podle fill (barva roste odspodu) */
+  /* barva roste odspodu */
   clip-path: inset(calc(100% - var(--fill)) 0 0 0);
 
   /* maska: barví jen tvar schodů */
@@ -641,7 +644,7 @@ body{
           <h1>MemorySky™</h1>
           <p class="ms-header-sub">
             Vizuální nebe pro tvoje data. Ukazuje, kolik místa máš ve FREE / PLUS / PREMIUM
-            a jak jednou půjde tvůj svět sbalit do „batohu na cestu“. Tahle verze je DEMO.
+            a jak jednou půjde tvůj svět sbalit do „batohu na cestu“.
           </p>
         </div>
       </div>
@@ -655,20 +658,20 @@ body{
       <!-- 1) celé nebe -->
       <button class="cloud-btn" id="btnFullSky" type="button">
         <img src="cloud-1.png" alt="Celá paměť paláce" class="cloud-img" />
-        <div class="cloud-label" id="labelFull">Celé nebe</div>
+        <div class="cloud-label" id="labelFull">Tvoje nebe</div>
       </button>
 
       <!-- 2) podrobná kapacita -->
       <button class="cloud-btn cloud-btn--small" id="btnDetail" type="button">
-        <img src="cloud-2.png" alt="Podrobná kapacita nebe" class="cloud-img" />
-        <div class="cloud-label" id="labelDetail">Kapacita nebe</div>
+        <img src="cloud-2.png" alt="Podrobé využití nebe" class="cloud-img" />
+        <div class="cloud-label" id="labelDetail">Využití nebe</div>
       </button>
     </div>
 
     <!-- 3) export -->
     <button class="cloud-btn cloud-btn--small cloud-solo" id="btnExport" type="button">
       <img src="cloud-3.png" alt="Export – batoh na cestu" class="cloud-img" />
-      <div class="cloud-label" id="labelExport">Export / batoh</div>
+      <div class="cloud-label" id="labelExport">Batoh na cestu</div>
       <div class="cloud-lock" id="exportLock" aria-hidden="true">🔒</div>
     </button>
   </section>
@@ -677,7 +680,7 @@ body{
   <section class="ms-footer-shell" id="footerShell">
     <div class="ms-footer" id="footerPanel">
       <div>
-        DEMO běží lokálně v prohlížeči (bez serveru). Procenta i export pracují jen s vymyšlenými daty.
+        DEMO běží lokálně v prohlížeči. Procenta i export pracují jen s vymyšlenými daty.
       </div>
       <div class="ms-footer-right">
         <div class="lumina-avatar"><img src="avatar.png" alt="Lumina" /></div>
@@ -694,7 +697,7 @@ body{
       <div class="ms-modal-head">
         <div>
           <div class="ms-modal-title" id="fullTitle">Celá paměť paláce</div>
-          <p id="fullLead">Schody se barví od růžové po fialovou – demo znázornění zaplnění.</p>
+          <p id="fullLead">Schody se zbarvují podle stavu zaplnění.</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalFullSky">Zavřít ✕</button>
       </div>
@@ -714,7 +717,7 @@ body{
         </div>
 
         <p class="stair-note" id="stairNote">
-          V ostré verzi se sem promítne reálná historie. Teď jen bezpečný demo-náhled.
+          V ostré verzi se sem promítne reálná historie. Teď je jen bezpečný demo-náhled.
         </p>
       </div>
     </div>
@@ -725,7 +728,7 @@ body{
     <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="detailTitle">Podrobná kapacita nebe</div>
+          <div class="ms-modal-title" id="detailTitle">Podrobé využití nebe</div>
           <p>Rozdělení mezi Praetorium, Arcana a Configuratio.</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalDetail">Zavřít ✕</button>
@@ -752,7 +755,7 @@ body{
           <article class="realm-card" data-open="modalConfig">
             <img src="configuratio.png" alt="Configuratio" class="realm-img" />
             <div class="realm-title">Configuratio</div>
-            <div class="realm-sub">Tvoje identita & software</div>
+            <div class="realm-sub">Tvoje identita & software paláce</div>
             <div class="mini-meter"><div class="mini-meter-fill" id="meterConfig"></div></div>
           </article>
         </div>
@@ -809,7 +812,7 @@ body{
       <div class="ms-modal-head">
         <div>
           <div class="ms-modal-title" id="cfgTitle">Configuratio</div>
-          <p>uživatelská data & software</p>
+          <p>uživatelská data & software paláce</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalConfig">Zavřít ✕</button>
       </div>
@@ -829,7 +832,7 @@ body{
       <div class="ms-modal-head">
         <div>
           <div class="ms-modal-title" id="expTitle">Export – batoh na cestu</div>
-          <p>Jeden demo export dat (JSON) – prohlížeč nabídne uložení souboru.</p>
+          <p>Jeden demo export dat.</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalExport">Zavřít ✕</button>
       </div>
@@ -847,7 +850,7 @@ body{
           </div>
 
           <div class="export-warning" id="exportWarning">
-            PLUS/PREMIUM: soubor se stáhne, ale obsah je fiktivní (demo struktury).
+            PLUS/PREMIUM: soubor se stáhne, ale obsah je fiktivní.
           </div>
 
           <div class="export-actions">
@@ -1027,7 +1030,7 @@ body{
     const STAIR_RANGES = {
       free:    {from: 18, to: 34, label:"FREE – dietní nebe"},
       plus:    {from: 30, to: 55, label:"PLUS – nebe, co stojí za řeč"},
-      premium: {from: 48, to: 65, label:"PREMIUM – velké nebe (demo max 65%)"}
+      premium: {from: 48, to: 65, label:"PREMIUM – velké nebe"}
     };
 
     const stairColor     = document.getElementById("stairColor");
