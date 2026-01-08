@@ -770,13 +770,10 @@
               </p>
 
               <div class="btn-row">
-                <a id="downloadPdf"
-                   href="backup.pdf"
-                   class="lm-pill-btn lm-pill-primary"
-                   target="_blank"
-                   rel="noopener"
-                   download>
-                  Stáhnout ukázkovou zálohu (PDF)
+               <a id="openPdfWindow"
+                  href="backup.pdf"
+                  class="lm-pill-btn lm-pill-primary">
+                  Otevřít ukázkovou zálohu (PDF)
                 </a>
                 <button type="button" class="btn-ghost" onclick="showInfoToast()">
                   <span>ℹ️</span> Jak bude vypadat skutečný export?
@@ -822,7 +819,7 @@
       V téhle fázi si stahuješ jen ukázkový dokument <code>backup.pdf</code> –
       opravdový chytrý export přijde až v ostré verzi.
     </div>
-    <button class="demo-toast-close" type="button" onclick="hideDemoToast()">Zavřít ✕</button>
+    <button class="demo-toast-close" type="button" onclick="hideDemoToast()">✕</button>
   </div>
 
   <!-- Info toast component -->
@@ -832,7 +829,7 @@
       <strong>Informace</strong><br>
       V DEMO verzi ještě nevytváříme skutečný export – jen ukázkový dokument <code>backup.pdf</code> 😊
     </div>
-    <button class="demo-toast-close" type="button" onclick="hideInfoToast()">Zavřít ✕</button>
+    <button class="demo-toast-close" type="button" onclick="hideInfoToast()">✕</button>
   </div>
 
   <!-- ✅ Modal: FREE export blokace -->
@@ -840,7 +837,7 @@
     <div class="lm-modal-card" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
       <div class="lm-modal-head">
         <div class="lm-modal-title" id="exportModalTitle">Export do PDF</div>
-        <button class="lm-modal-close" type="button" onclick="closeExportModal()">Zavřít ✕</button>
+        <button class="lm-modal-close" type="button" onclick="closeExportModal()">✕</button>
       </div>
 
       <div class="lm-modal-body">
@@ -852,7 +849,7 @@
           <h3>Ve verzi FREE export není možný</h3>
           <p>
             V tarifu <strong>FREE</strong> je Life Mission Archive™ jen ukázka.
-            Reálné zálohy ani export do PDF se teď nevytváří.
+            Reálné zálohy ani export do PDF se nevytváří.
           </p>
           <p>
             Pro export bude v ostré verzi potřeba <strong>PLUS</strong> nebo <strong>PREMIUM</strong>.
@@ -986,6 +983,29 @@
         closeExportModal();
       }
     }
+
+document.getElementById("openPdfWindow")?.addEventListener("click", function(e){
+  e.preventDefault();
+
+  // FREE si necháš blokované modalem (pokud to chceš stejně jako teď)
+  const plan = (window.LM_PLAN || "free");
+  if(plan === "free"){
+    openExportModal();
+    return;
+  }
+
+  // otevření v novém okně
+  const w = Math.min(1100, window.screen.width - 120);
+  const h = Math.min(820,  window.screen.height - 140);
+  const left = Math.max(30, (window.screen.width - w) / 2);
+  const top  = Math.max(30, (window.screen.height - h) / 2);
+
+  window.open(
+    "backup.pdf",
+    "LM_BackupPDF",
+    `popup=yes,width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes`
+  );
+});
   </script>
 </body>
 
