@@ -86,6 +86,7 @@ Disallow: /lumina-pruvodce.html
 Disallow: /lumina-pruvodce-en.html
 Disallow: /lumina-pruvodce-de.html
 
+Disallow: /manifest-nastenka
 Disallow: /manifest-nastenka.html
 Disallow: /manifest-nastenka-en.html
 Disallow: /manifest-nastenka-de.html
