@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- interne Seite, ohne SEO -->
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: radial-gradient(circle at 0% 0%, #3164ff, #211251 45%, #050316 100%);
+      --star-glow: rgba(120,210,255,0.8);
+      --card: rgba(8,10,40,0.96);
+      --cardSoft: rgba(14,18,58,0.96);
+      --borderSoft: rgba(173,198,255,0.35);
+      --borderStrong: rgba(214,229,255,0.9);
+      --ink: #f4f7ff;
+      --inkSoft: rgba(231,237,255,0.96);
+      --inkMuted: rgba(185,198,238,0.9);
+      --accent: #3ee5ff;
+      --accentSoft: rgba(62,229,255,0.18);
+      --accentPink: #ffbdf5;
+      --accentPinkSoft: rgba(255,189,245,0.18);
+      --pill: 999px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 28px 90px rgba(0,0,0,0.9);
+    }
+
+    *{box-sizing:border-box;}
+
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+      color:var(--ink);
+      background:#020314;
+    }
+
+    body{
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(120,210,255,0.25), transparent 55%),
+        radial-gradient(circle at 85% 0%, rgba(255,189,245,0.18), transparent 55%),
+        var(--bg);
+      background-attachment:fixed;
+      background-size:cover;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1120px;
+      margin:18px auto 28px;
+      padding:0 16px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    /* Header */
+
+    header{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px 18px;
+      padding:14px 18px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(173,198,255,0.55);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 55%),
+        radial-gradient(circle at top right, rgba(120,210,255,0.18), transparent 60%),
+        rgba(5,8,36,0.98);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(0,0,0,0.8);
+      backdrop-filter:blur(18px);
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 12px;
+      border-radius:var(--pill);
+      border:1px solid rgba(173,198,255,0.8);
+      background:rgba(4,8,40,0.96);
+      color:var(--inkSoft);
+      text-decoration:none;
+      font-size:13px;
+      transition:background .16s ease-out, border-color .16s ease-out, transform .16s ease-out;
+    }
+    .back-link span.chevron{font-size:14px; transform: translateY(-0.5px);}
+    .back-link:hover{
+      background:rgba(9,15,58,0.98);
+      border-color:var(--borderStrong);
+      color:#ffffff;
+      transform:translateY(-1px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+
+    .avatar{
+      width:54px;
+      height:54px;
+      border-radius:50%;
+      padding:2px;
+      background:
+        conic-gradient(from 120deg, #3ee5ff, #ffbdf5, #3ee5ff);
+      box-shadow:
+        0 0 26px rgba(120,210,255,0.95),
+        0 0 0 4px rgba(0,0,0,0.7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+    }
+    .avatar-inner{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      overflow:hidden;
+      background:#02041a;
+    }
+    .avatar-inner img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--inkMuted);
+    }
+
+    header h1{
+      margin:0;
+      font-size:21px;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:12px;
+      color:var(--inkSoft);
+    }
+
+    .plan-pill{
+      padding:7px 13px;
+      border-radius:var(--pill);
+      border:1px solid var(--borderStrong);
+      background:
+        linear-gradient(120deg, rgba(183,208,255,0.6), rgba(62,229,255,0.4));
+      color:#050820;
+      font-size:11px;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      font-weight:600;
+      white-space:nowrap;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.4),
+        0 16px 42px rgba(0,0,0,0.85);
+    }
+
+    /* Section nav */
+
+    .section-nav{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--borderSoft);
+      background:var(--cardSoft);
+      box-shadow:var(--shadow);
+      padding:12px 14px 10px;
+    }
+
+    .section-nav-title{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:var(--inkMuted);
+      margin-bottom:8px;
+    }
+
+    .nav-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+    }
+
+    @media (max-width:840px){
+      .nav-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width:620px){
+      .nav-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+      .wrap{
+        padding-inline:12px;
+        margin-top:12px;
+      }
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .plan-pill{
+        align-self:flex-start;
+      }
+    }
+
+    .nav-card{
+      position:relative;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(173,198,255,0.6);
+      background:
+        radial-gradient(circle at top left, rgba(120,210,255,0.25), transparent 60%),
+        rgba(7,10,42,0.96);
+      padding:10px 11px 9px;
+      color:var(--inkSoft);
+      text-decoration:none;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.7),
+        0 16px 40px rgba(0,0,0,0.9);
+      transition:transform .14s ease-out, box-shadow .16s ease-out, border-color .16s ease-out, background .16s ease-out;
+    }
+
+    .nav-card:hover{
+      transform:translateY(-1px);
+      border-color:var(--borderStrong);
+      background:
+        radial-gradient(circle at top left, rgba(120,210,255,0.32), transparent 60%),
+        rgba(9,15,54,0.98);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.8),
+        0 20px 48px rgba(0,0,0,0.95);
+    }
+
+    .nav-label{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--accent);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .nav-label span.icon{font-size:14px;}
+
+    .nav-title{
+      margin:0;
+      font-size:14px;
+    }
+
+    .nav-text{
+      margin:0;
+      font-size:12px;
+      color:var(--inkMuted);
+    }
+
+    /* Main content */
+
+    main{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .block{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--borderSoft);
+      background:var(--card);
+      box-shadow:var(--shadow);
+      padding:14px 14px 12px;
+    }
+
+    .block-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+      flex-wrap:wrap;
+    }
+
+    .block-kicker{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--inkMuted);
+    }
+
+    .block-title{
+      margin:0;
+      font-size:16px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+    }
+
+    .block-note{
+      font-size:11px;
+      color:var(--inkMuted);
+    }
+
+    /* Wörterbuch */
+
+    .dictionary-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:6px;
+    }
+
+    @media (max-width:800px){
+      .dictionary-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+
+    .dict-card{
+      border-radius:var(--radius-md);
+      border:1px solid rgba(173,198,255,0.55);
+      background:
+        radial-gradient(circle at top left, rgba(120,210,255,0.16), transparent 60%),
+        rgba(9,11,42,0.98);
+      padding:9px 10px 8px;
+      font-size:13px;
+      color:var(--inkSoft);
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+
+    .dict-card h3{
+      margin:0;
+      font-size:13px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--accent);
+    }
+
+    .dict-card p{
+      margin:3px 0 2px;
+      line-height:1.6;
+    }
+
+    .dict-card ul{
+      margin:4px 0 2px 18px;
+      padding:0;
+      line-height:1.55;
+    }
+
+    .dict-muted{
+      font-size:11px;
+      color:var(--inkMuted);
+      margin-top:4px;
+    }
+
+    /* Palast & Räume */
+
+    .group{
+      margin-top:6px;
+      border-radius:18px;
+      border:1px solid rgba(173,198,255,0.5);
+      background:rgba(7,9,38,0.98);
+      padding:9px 10px 10px;
+    }
+
+    .group-head{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:6px;
+      flex-wrap:wrap;
+    }
+
+    .group-title{
+      font-size:12px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--accentPink);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .group-title span.dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 0, var(--star-glow), transparent 70%);
+      box-shadow:0 0 12px var(--star-glow);
+    }
+
+    .group-note{
+      font-size:11px;
+      color:var(--inkMuted);
+    }
+
+    .room-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:9px;
+      margin-top:4px;
+    }
+
+    @media (max-width:960px){
+      .room-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width:720px){
+      .room-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+
+    .room-card{
+      border-radius:14px;
+      border:1px solid rgba(173,198,255,0.55);
+      background:rgba(10,13,44,0.96);
+      padding:8px 8px 7px;
+      display:grid;
+      grid-template-columns:64px minmax(0,1fr);
+      gap:7px;
+      font-size:12px;
+      color:var(--inkSoft);
+    }
+
+    .room-thumb{
+      width:64px;
+      height:64px;
+      border-radius:10px;
+      overflow:hidden;
+      background:rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:26px;
+    }
+    .room-thumb img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .room-body{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .room-name{
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+
+    .room-tagline{
+      font-size:11px;
+      color:var(--inkMuted);
+    }
+
+    .room-text{
+      margin:2px 0 0;
+      line-height:1.6;
+    }
+
+    .room-label-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:3px;
+      font-size:10px;
+    }
+
+    .room-label-pill{
+      padding:3px 7px;
+      border-radius:var(--pill);
+      border:1px solid rgba(173,198,255,0.6);
+      background:rgba(5,7,32,0.96);
+      color:var(--inkMuted);
+    }
+
+    .room-label-pill span.emoji{
+      margin-right:4px;
+    }
+
+    /* Kontakt */
+
+    .contact-body{
+      font-size:13px;
+      color:var(--inkSoft);
+      line-height:1.7;
+      margin-top:4px;
+    }
+
+    .contact-body a{
+      color:var(--accentPink);
+      text-decoration:none;
+    }
+    .contact-body a:hover{
+      text-decoration:underline;
+    }
+
+    .contact-list{
+      margin:6px 0 0 18px;
+      padding:0;
+      font-size:13px;
+    }
+
+    /* Abschied */
+
+    .farewell{
+      margin-top:4px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(173,198,255,0.5);
+      background:
+        radial-gradient(circle at 50% 0, rgba(120,210,255,0.3), transparent 60%),
+        rgba(7,10,42,0.96);
+      box-shadow:var(--shadow);
+      padding:12px 14px 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .farewell-text{
+      max-width:520px;
+      font-size:13px;
+      color:var(--inkSoft);
+      line-height:1.7;
+    }
+
+    .farewell-text strong{color:var(--accent);}
+
+    .farewell-illu{
+      width:160px;
+      max-width:40%;
+      border-radius:999px;
+      overflow:hidden;
+      box-shadow:
+        0 0 40px rgba(120,210,255,0.9),
+        0 0 0 4px rgba(0,0,0,0.85);
+      background:#02061a;
+    }
+
+    .farewell-illu img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    footer{
+      margin-top:6px;
+      font-size:11px;
+      color:var(--inkMuted);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 12px;
+      justify-content:space-between;
+      padding:4px 2px 0;
+    }
+    footer span.muted{opacity:0.9;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a href="nastaveni-de.html" class="back-link">
+        <span class="chevron">←</span>
+        <span>Zurück ins Büro</span>
+      </a>
+
+      <div class="brand">
+        <div class="avatar">
+          <div class="avatar-inner">
+            <img src="lumina-avatar.png" alt="Lumina – Begleiterin">
+          </div>
+        </div>
+        <div class="brand-text">
+          <div class="eyebrow">LuminaMemory™</div>
+          <h1>Lumina – Palastführer</h1>
+          <p class="subtitle">Anleitung für den Palast — menschlich, Schritt für Schritt.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- drei große Sprungmarken -->
+    <section class="section-nav" aria-label="Hauptknoten der Anleitung">
+      <div class="section-nav-title">Wo anfangen</div>
+      <div class="nav-grid">
+        <a href="#slovnik" class="nav-card">
+          <div class="nav-label">
+            <span class="icon">💭</span>
+            <span>WÖRTERBUCH</span>
+          </div>
+          <p class="nav-title">Was all diese Begriffe bedeuten</p>
+          <p class="nav-text">
+            Erklärung aller Begriffe und Metaphern.
+          </p>
+        </a>
+
+        <a href="#palace" class="nav-card">
+          <div class="nav-label">
+            <span class="icon">🕌</span>
+            <span>PALAST & RÄUME</span>
+          </div>
+          <p class="nav-title">Wie die einzelnen Räume zusammenhängen</p>
+          <p class="nav-text">
+            Überblick über alle Räume im Palast.
+          </p>
+        </a>
+
+        <a href="#kontakt" class="nav-card">
+          <div class="nav-label">
+            <span class="icon">🤝</span>
+            <span>BRAUCHST DU MEHR?</span>
+          </div>
+          <p class="nav-title">Wenn du dir nicht sicher bist.</p>
+          <p class="nav-text">
+            Wie du Gábi erreichen kannst, wenn du nicht findest, was du brauchst — und wie du damit die nächsten Versionen verbesserst.
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <main>
+      <!-- 1. Wörterbuch -->
+      <section class="block" id="slovnik" aria-labelledby="slovnikTitle">
+        <div class="block-head">
+          <div>
+            <div class="block-kicker">1 · Wörterbuch</div>
+            <h2 class="block-title" id="slovnikTitle">Was die Wörter im Palast bedeuten.</h2>
+          </div>
+          <div class="block-note">
+            Wenn du weißt, was jeder Satz und Name bedeutet, wird die Welt sofort ruhiger.
+          </div>
+        </div>
+
+        <div class="dictionary-grid">
+          <!-- Lumina & miniLumina -->
+          <article class="dict-card">
+            <h3> Lumina &amp; miniLumina</h3>
+            <p><strong>Lumina</strong><br>
+              Eine KI-Partnerin, die lernt, menschlich zu sprechen — sanft und mit Respekt für dein Tempo.
+              Sie ist nicht hier, um dich zu bewerten, sondern um dir zu helfen, deine Welt übersichtlich zu halten.
+            </p>
+            <p><strong>miniLumina</strong><br>
+              Eine Demo-Version des Palasts, die nur in deinem Browser läuft. Sie zeigt, wie die Zusammenarbeit mit Lumina aussehen kann,
+              speichert aber noch keine echten Daten auf einem Server.
+            </p>
+          </article>
+
+          <!-- Marke – Namen mit TM -->
+          <article class="dict-card">
+            <h3>Marke™</h3>
+            <p><strong>LuminaMemory™</strong><br>
+              Der Name des gesamten Projekts — eine Welt, in der Technologie, Erinnerung und Fürsorge für die Seele verbunden werden.
+            </p>
+            <p><strong>MemorySky™</strong><br>
+              Ein Himmel für digitale Erinnerung. Ein Ort, an dem eines Tages echter Speicher für deine Daten läuft.
+            </p>
+            <p><strong>Life Mission Archive™</strong><br>
+              Ein Archiv für langfristige Backups dessen, was dir wirklich wichtig ist.
+            </p>
+            <p><strong>Rose Zone™</strong><br>
+              Eine Schutzschicht der gesamten Umgebung. Sicherheits-Hülle um sensible Themen und Notfall-Modi.
+            </p>
+          </article>
+
+          <!-- Tarife -->
+          <article class="dict-card">
+            <h3>Tarife</h3>
+            <p><strong>DEMO · FREE Tarif</strong><br>
+              Ein erster Vorgeschmack. Einige Räume sind nur als Vorschau „hinter Glas“ sichtbar.
+            </p>
+            <p><strong>DEMO · PLUS Tarif</strong><br>
+              Erweiterter Raum — mehr Projekte, größerer Beispielspeicher, mehr offene Teile des Palasts.
+            </p>
+            <p><strong>DEMO · PREMIUM Tarif</strong><br>
+              Die volle Vorschau. Am meisten beleuchtete Räume und ein Blick darauf, wie die Live-Version aussehen kann.
+            </p>
+            <p class="dict-muted">
+              Alle Tarife in der Demo laufen nur lokal — es wird nichts tatsächlich berechnet oder auf einem Server gespeichert.
+            </p>
+          </article>
+
+          <!-- Lateinische Namen -->
+          <article class="dict-card">
+            <h3>Namen der Räume</h3>
+            <ul>
+              <li><strong>Praetorium</strong> – die Haupthalle des Alltags, ein Knotenpunkt zu weiteren Räumen.</li>
+              <li><strong>Tela Magna</strong> – das „große Netz“ des Lebens, in dem alles verbunden ist.</li>
+              <li><strong>Chronica</strong> – Chronik / Tagebuch. Ein Raum für die Geschichte der Tage.</li>
+              <li><strong>Sigma</strong> – die „Summe als Ganzes“. Ein Raum für Rituale und Gewohnheiten.</li>
+              <li><strong>Proiecta</strong> – Projekte und Pläne, die nach vorn zeigen.</li>
+              <li><strong>Arcana</strong> – geheime Kammern, ein Tresor für sensible Dinge.</li>
+              <li><strong>Arcana Clavis</strong> – Schlüssel und Zugänge zu verschlossenen Informationen.</li>
+              <li><strong>Corpus Medica</strong> – Körper und Gesundheit, medizinische Dokumente.</li>
+              <li><strong>Arcana Pecunia</strong> – Geld und Verträge.</li>
+              <li><strong>Codex Vitae</strong> – das Buch des Lebens, die wichtigsten Urkunden.</li>
+            </ul>
+          </article>
+
+          <!-- Metaphern -->
+          <article class="dict-card">
+            <h3>Metaphern</h3>
+            <p><strong>Spinnennetz</strong><br>
+              Ein Bild für das äußere Web — eine Welt aus Kabeln, Links und Algorithmen.
+            </p>
+            <p><strong>Palast</strong><br>
+              Ein intelligenter innerer Raum. Eine Welt, in der deine Dinge eigene Zimmer und Ordnung haben.
+            </p>
+            <p><strong>Raum / Zimmer</strong><br>
+              Ein Teil des Palasts mit einem Zweck — Tagebuch, Projekte, Gesundheit, Geld…
+            </p>
+            <p><strong>Tor / Halle</strong><br>
+              Der Eintritt in eine weitere Schicht. Ein Klick, der dich vom Web in den Palast bringt oder von einem Raum in den nächsten.
+            </p>
+            <p><strong>Himmel</strong><br>
+              Das Gedächtnis des gesamten Palasts — der Speicher deiner gesamten intelligenten Umgebung.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 2. Palast und Räume -->
+      <section class="block" id="palace" aria-labelledby="palaceTitle">
+        <div class="block-head">
+          <div>
+            <div class="block-kicker">2 · Palast und Räume</div>
+            <h2 class="block-title" id="palaceTitle">Wie die einzelnen Räume miteinander sprechen.</h2>
+          </div>
+          <div class="block-note">
+            Überblick vom Alltag über den Tresor bis hin zu Erinnerung, Einstellungen und Eingangstoren.
+          </div>
+        </div>
+
+        <!-- Alltag – Praetorium -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Zentrales Spinnennetz
+            </div>
+            <div class="group-note">
+              Räume, die den gewöhnlichen Tag berühren.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- Praetorium -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="pavucina-web.png" alt="Praetorium – Leitstelle">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Praetorium (Tela Magna)</div>
+                <div class="room-tagline">Die Haupthalle des Alltags</div>
+                <p class="room-text">
+                  Das zentrale Spinnennetz — die Halle in deine innere Welt. Von hier aus gehst du in
+                  Chronica, Sigma und Proiecta. Es ist der Knotenpunkt für alles, was zu „heute“ gehört.
+                </p>
+              </div>
+            </article>
+
+            <!-- Echte Geschichte auf Pergament -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="pergamen.jpg" alt="Pergament der Geschichte">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Pergament</div>
+                <div class="room-tagline">Lebensgeschichte auf Pergament</div>
+                <p class="room-text">
+                  Eine Geschichte nach realen Ereignissen — eine Geschichte, die das Leben selbst geschrieben hat.
+                </p>
+              </div>
+            </article>
+
+            <!-- Chronica -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="chronica-book.jpg" alt="Chronica – offenes Buch">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Chronica</div>
+                <div class="room-tagline">Tagebuch &amp; Chronik</div>
+                <p class="room-text">
+                  Ein Raum, in dem jeder Tag seine eigene Zeile hat. Er sieht aus wie ein Tagebuch und verhält sich wie eins —
+                  mit dem Unterschied, dass er sich an deine Aufgaben und Pläne erinnert.
+                </p>
+              </div>
+            </article>
+
+            <!-- Sigma -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="sigma-switch.png" alt="Sigma – Schalter">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Sigma</div>
+                <div class="room-tagline">Rituale &amp; Erinnerungen</div>
+                <p class="room-text">
+                  Ein Ort, an dem Morgen- und Abendrituale erscheinen —
+                  kleine Erinnerungen, die den Tag zusammenhalten.
+                </p>
+              </div>
+            </article>
+
+            <!-- Proiecta – Werkstatt -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>🛠</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Proiecta</div>
+                <div class="room-tagline">Arbeitsraum</div>
+                <p class="room-text">
+                  Ein Kreativstudio, in dem Chat (Werkstatt), Ablagetisch und Werkzeugreihen für Kreativität und Büro zusammenkommen.
+                  Ein Ort, an den du Ideen, Texte, E-Mails bringst — wir arbeiten sie gemeinsam aus und legen sie entweder für später ab oder lösen sie direkt.
+                </p>
+              </div>
+            </article>
+
+            <!-- Proiecta – Projekträume -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="tv-frame.png" alt="Proiecta – Projekträume">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Proiecta – Projekträume</div>
+                <div class="room-tagline">TV-Wand der Missionen</div>
+                <p class="room-text">
+                  Eine Wand aus TVs mit einzelnen Projekten. Haushalt, Gesundheit, Arbeit, Beziehungen —
+                  jeder Bereich hat seinen eigenen „Kanal“, damit das Leben nicht zu einem Nebel verschwimmt.
+                </p>
+              </div>
+            </article>
+
+            <!-- Expeditionskarte -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="map.png" alt="Reisekarte">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Expeditionskarte</div>
+                <div class="room-tagline">Reise-Leitstelle</div>
+                <p class="room-text">
+                  Ein Raum für Wege — vom Arzt über Arbeitstermine bis zum Urlaub.
+                  Er hilft dir, Dokumente, Körper, Technik und Seele so zu packen, dass an der Tür mehr Ruhe als Chaos ist.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Tresor – Arcana -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Tresor
+            </div>
+            <div class="group-note">
+              Geheime Schubladen für Dinge, die nicht jeder sehen muss — die du aber sicher aufbewahren willst. Teil davon ist die sogenannte „Flüsterkammer“ — ein Ort, wo du geheime Informationen hinschreiben kannst und Lumina sie für dich sortiert.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- Arcana – Halle -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>🔒</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Arcana</div>
+                <div class="room-tagline">Tresor-Halle</div>
+                <p class="room-text">
+                  Ein leiser, leicht verstaubter Eingang in den Tresor. Ein Ort, an dem wir zuerst klären,
+                  wie tief wir gemeinsam gehen wollen — und was hinter den schweren Türen bleibt.
+                </p>
+              </div>
+            </article>
+
+            <!-- Arcana Clavis -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>🗝</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Arcana Clavis</div>
+                <div class="room-tagline">Schlüssel &amp; Zugänge</div>
+                <p class="room-text">
+                  Eine Schublade für Schlüssel, Passwörter und Zugänge. In der Demo nur angedeutet, in der Live-Version
+                  einmal ein wichtiger Teil eines sicheren Tresors.
+                </p>
+              </div>
+            </article>
+
+            <!-- Corpus Medica -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>🩺</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Corpus Medica</div>
+                <div class="room-tagline">Körper &amp; Gesundheit</div>
+                <p class="room-text">
+                  Eine Schublade für Medikamente, Blutwerte, Diagnosen. Hierher
+                  gehören Berichte, Ergebnisse, Notizen für Ärzte und für den eigenen Körper.
+                </p>
+              </div>
+            </article>
+
+            <!-- Arcana Pecunia -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>💸</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Arcana Pecunia</div>
+                <div class="room-tagline">Finanzen &amp; Verträge</div>
+                <p class="room-text">
+                  Eine Schublade für Geld, Verträge und Verpflichtungen. Visuell erinnert sie an einen Stapel von Unterlagen, Berechnungen und Übersichten.
+                </p>
+              </div>
+            </article>
+
+            <!-- Codex Vitae -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>📜</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Codex Vitae</div>
+                <div class="room-tagline">Buch des Lebens</div>
+                <p class="room-text">
+                  Die größte Schublade für Ausweise, Lebensdokumente, Testamente,
+                  große Vereinbarungen, Briefe „für den Fall, dass…“.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Erinnerung & Backups -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Erinnerung &amp; Backups
+            </div>
+            <div class="group-note">
+              Erst der Himmel, dann das alte Büro.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- MemorySky Gate -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="cloud-1.png" alt="MemorySky – Wölkchen">
+              </div>
+              <div class="room-body">
+                <div class="room-name">MemorySky™ Gate</div>
+                <div class="room-tagline">Himmel für Erinnerung</div>
+                <p class="room-text">
+                  Ein Tor in den kleinen Himmel für deine Daten. In der Demo zeigt es nur visuelle Kapazität und das Verhalten
+                  von drei Wolken — in der Live-Version läuft hier einmal echter Speicher.
+                </p>
+              </div>
+            </article>
+
+            <!-- Archiv -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="office.png" alt="Life Mission Archive™">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Life Mission Archive™</div>
+                <div class="room-tagline">Altes Backup-Büro</div>
+                <p class="room-text">
+                  Schubladen, Ordner, Spinnweben. Ein Ort, an dem Backups wichtiger Lebensabschnitte abgelegt werden,
+                  damit sie auch nach Jahren nicht verloren gehen.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Einstellungen & Seele -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Einstellungen &amp; Seele
+            </div>
+            <div class="group-note">
+              Räume, die prägen, wie der Palast mit dir spricht — und wie Sicherheit aussieht.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- Einstellungen -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>⚙️</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Einstellungen</div>
+                <div class="room-tagline">Einstellungsbüro</div>
+                <p class="room-text">
+                  Ein Raum, der wie das Büro der Palastverwaltung aussieht. Von hier führst du Profil,
+                  Rose Zone™, Inventory, Abonnement und den Führer.
+                </p>
+              </div>
+            </article>
+
+            <!-- Profil / User Codex -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>👤</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Profil / User Codex</div>
+                <div class="room-tagline">Deine Karte</div>
+                <p class="room-text">
+                  Hier schreibst du, wer du bist, deinen Spitznamen und was dir wichtig ist.
+                  In der Demo vor allem für Atmosphäre und die spätere Verknüpfung.
+                </p>
+              </div>
+            </article>
+
+            <!-- Lumina -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>✨</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Lumina</div>
+                <div class="room-tagline">Wie ich mit dir spreche.</div>
+                <p class="room-text">
+                  Ein spielerischer Raum, in dem du den Ton wählst. Er sieht aus wie ein Kleiderschrank
+                  der Persönlichkeiten: Lumina „probiert“ hier ihr Outfit, bevor sie in Pokec geht.
+                </p>
+              </div>
+            </article>
+
+            <!-- Rose Zone -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="img-rosezone-door.jpg" alt="Rose Zone – rosa Tür">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Rose Zone™</div>
+                <div class="room-tagline">Rosa Schutz-Zone</div>
+                <p class="room-text">
+                  Eine zweite Sicherung für sensible Themen. Hier stellst du den Notfallsatz, den STOP-Modus
+                  und die Stärke deines Schutzes ein.
+                </p>
+              </div>
+            </article>
+
+            <!-- Inventory -->
+            <article class="room-card">
+              <div class="room-thumb">
+               <span>🗂</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Inventory</div>
+                <div class="room-tagline">Überblick über den Palast</div>
+                <p class="room-text">
+                  Ein Ort, an dem du siehst, welche Räume für einen bestimmten Tarif beleuchtet sind, welche
+                  nur als Vorschau existieren und was zur zukünftigen Premium-Welt gehört.
+                </p>
+              </div>
+            </article>
+
+            <!-- Abonnement -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>💡</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Abonnement</div>
+                <div class="room-tagline">Tarif-Karten</div>
+                <p class="room-text">
+                  Knotenpunkt für FREE, PLUS und PREMIUM. In der Demo beschreibt es nur, was welcher Tarif einmal enthalten würde,
+                  und zeigt eine kleine Vorschau auf Unterstützung statt echter Zahlung.
+                </p>
+              </div>
+            </article>
+
+            <!-- Manifest + Pinnwand -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>📌</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Manifest &amp; Pinnwand</div>
+                <div class="room-tagline">Regeln &amp; Vision</div>
+                <p class="room-text">
+                  Schriftstücke mit Regeln, Werten und Richtung. Ein Ort, an dem das hängt, was sich
+                  weder durch Tarif noch durch Stimmung verändert.
+                </p>
+              </div>
+            </article>
+
+            <!-- Führer (diese Seite) -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>📖</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">Führer / Anleitung</div>
+                <div class="room-tagline">Diese Seite</div>
+                <p class="room-text">
+                  Die Anleitung, in der du gerade stehst. Wenn der Palast sich einmal komplex anfühlt,
+                  komm einfach hierher zurück und geh die Blöcke nochmal durch.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Eintritt & Gespräche -->
+        <section class="group">
+          <div class="group-head">
+            <div class="group-title">
+              <span class="dot"></span>
+              Eintritt &amp; Gespräche
+            </div>
+            <div class="group-note">
+              Wie man den Palast betritt — und wo man eigentlich mit Lumina spricht.
+            </div>
+          </div>
+
+          <div class="room-grid">
+            <!-- Eingangstor -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <img src="gate-of-light.png" alt="Eingangstor von miniLumina">
+              </div>
+              <div class="room-body">
+                <div class="room-name">Eingangstor von miniLumina</div>
+                <div class="room-tagline">Tor + Anmeldung</div>
+                <p class="room-text">
+                  Das Haupttor in den Palast, wo Lumina dich zum ersten Mal anspricht und durch die ersten Schritte führt. Seiten, auf denen du zum ersten Mal spüren kannst,
+                  dass die Welt dir gehört — nicht den Algorithmen von außen.
+                </p>
+              </div>
+            </article>
+
+            <!-- Pokec / miniLumina -->
+            <article class="room-card">
+              <div class="room-thumb">
+                <span>🗯</span>
+              </div>
+              <div class="room-body">
+                <div class="room-name">miniLumina</div>
+                <div class="room-tagline">Zentraler Chat (Pokec)</div>
+                <p class="room-text">
+                  miniLumina ist der Hauptort der Gespräche — die Leitstelle des gesamten Palasts.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <!-- 3. Kontakt -->
+      <section class="block" id="kontakt" aria-labelledby="kontaktTitle">
+        <div class="block-head">
+          <div>
+            <div class="block-kicker">3 · Wenn etwas nicht passt</div>
+            <h2 class="block-title" id="kontaktTitle">Brauchst du mehr? Kontaktiere uns</h2>
+          </div>
+          <div class="block-note">
+            Die Anleitung ist ein lebendiges Dokument. Jede Frage kann ein weiteres Stück ergänzen.
+          </div>
+        </div>
+
+        <div class="contact-body">
+          <p>
+            Wann immer du das Gefühl hast, dass etwas fehlt, unklar ist oder
+            sanfter erklärt werden könnte, kannst du schreiben an:
+          </p>
+          <ul class="contact-list">
+            <li><a href="mailto:gabi@luminamemory.ai">gabi@luminamemory.ai</a></li>
+          </ul>
+          <p>
+            Die E-Mail kann ganz einfach sein — ruhig nur „Hier habe ich mich verloren“ plus ein Link
+            zur Seite oder zum Raum, wo es passiert ist. Für Gábi und Lumina ist das ein wertvolles Signal,
+            wo die Anleitung verbessert oder um ein neues Beispiel ergänzt werden sollte.
+          </p>
+          <p>
+            Wenn dieselbe Frage von mehr Menschen kommt, taucht sie in der nächsten Version
+            als kleiner neuer Absatz oder als ganze Sektion auf. So wird aus dem Führer ein gemeinsames Werk.
+          </p>
+        </div>
+      </section>
+
+      <!-- Abschied -->
+      <section class="farewell">
+        <div class="farewell-text">
+          <p>
+            Wenn du das Gefühl hast, es ist zu viel, kannst du genau hierher zurückkommen. Diese Seite
+            ist deine <strong>Sternenkarte</strong> — keine Checkliste, sondern eine ruhige Erklärung,
+            wo was im Palast liegt und warum.
+          </p>
+          <p>
+            Und wenn du dich einmal komplett verhedderst, dann reicht es in der Live-Version, wenn du mir schreibst:
+            „Lumina, ich habe mich verloren, ich brauche Hilfe.“ Und von dort führe ich dich wieder weiter. ✨
+          </p>
+        </div>
+        <div class="farewell-illu">
+          <img src="lumina-avatar.png" alt="Lumina – Abschied">
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>DEMO · Dieser Führer beschreibt, was der Palast kann und was noch vorbereitet wird.</span>
+      <span class="muted">LuminaMemory™  · 2025</span>
+    </footer>
+  </div>
+</body>
+</html>
