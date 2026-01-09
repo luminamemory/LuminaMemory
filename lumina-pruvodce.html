@@ -1061,7 +1061,7 @@
                 <div class="room-name">Profil / User Codex</div>
                 <div class="room-tagline">Karta o tobě</div>
                 <p class="room-text">
-                  Tady si píšeš, kdo jsi, jakOÚ máš přezdívku a co je pro tebe důležité.
+                  Tady si píšeš, kdo jsi, jakou máš přezdívku a co je pro tebe důležité.
                   V demu hlavně pro atmosféru a budoucí propojení.
                 </p>
               </div>
@@ -1181,7 +1181,7 @@
                 <div class="room-name">Vstupní brána miniLuminy</div>
                 <div class="room-tagline">Brána + přihlášení</div>
                 <p class="room-text">
-                  Hlavní brána do paláce, kde tě poprvé oslovuje Lumina a provází tě prvními kroky. Stránky, Tady můžeš poprvé citit,
+                  Hlavní brána do paláce, kde tě poprvé oslovuje Lumina a provází tě prvními kroky. Stránky, tady můžeš poprvé cítit,
                   že svět začíná být tvůj – ne algoritmů zvenku.
                 </p>
               </div>
@@ -1260,42 +1260,5 @@
       <span class="muted">LuminaMemory™  · 2025</span>
     </footer>
   </div>
-
-  <script>
-    (function(){
-      const PLAN_KEY = "lm_plan";
-      const USER_KEY = "miniLuminaUser";
-
-      function normalizePlan(p){
-        if(!p) return "free";
-        p = String(p).toLowerCase();
-        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
-      }
-
-      function readPlan(){
-        try{
-          const fromKey = localStorage.getItem(PLAN_KEY);
-          if(fromKey) return normalizePlan(fromKey);
-
-          const rawUser = localStorage.getItem(USER_KEY);
-          if(rawUser){
-            const user = JSON.parse(rawUser);
-            if(user && user.plan) return normalizePlan(user.plan);
-          }
-        }catch(e){
-          // ignore
-        }
-        return "free";
-      }
-
-      (function applyPlanBadge(){
-        const plan = readPlan();
-        const badge = document.getElementById("planBadge");
-        if(badge){
-          badge.textContent = PLAN_LABEL[plan] || PLAN_LABEL.free;
-        }
-      })();
-    })();
-  </script>
 </body>
 </html>
