@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="robots" content="noindex,nofollow" />
 
   <style>
@@ -40,6 +40,16 @@ body{
   overflow-y:auto;
   -webkit-overflow-scrolling: touch; /* iOS */
 }
+/* iOS/Safari: když je všechno fixed, stránka nemá co scrollovat.
+   V landscape přidáme malý "scroll shim", aby šlo stránku popotáhnout
+   a Safari tím odkryje horní/spodní části. */
+@media (orientation: landscape){
+  body::after{
+    content:"";
+    display:block;
+    height: 260px; /* můžeš zkusit 180–360 podle pocitu */
+  }
+}
 
 .bg{
   position:fixed;
@@ -47,14 +57,6 @@ body{
   background:url("wall.png") center/cover no-repeat;
   transform:translateZ(0);
   z-index:0;
-}
-/* iPhone landscape: taky radši contain */
-@media (max-width: 900px) and (orientation: landscape){
-  .bg{
-    background-size: contain;
-    background-position: center;
-    background-color:#050615;
-  }
 }
 
 .glass-panel{
