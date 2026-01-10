@@ -513,6 +513,10 @@
       background: rgba(0,0,0,.20);
       color: rgba(245,245,255,.72);
     }
+
+@media (prefers-reduced-motion: reduce){
+  * { animation: none !important; transition: none !important; }
+}
   </style>
 </head>
 
@@ -533,7 +537,7 @@
           <h1>Galerie artefaktů</h1>
           <p class="sub">
             Tady se můžeš dozvědět více o zrození Luminy.
-            Jendou toto místo může být i tvoje - pro ukládání důležitých životních okamžiků.
+            Jednou toto místo může být i tvoje - pro ukládání důležitých životních okamžiků.
           </p>
         </div>
       </div>
@@ -566,7 +570,7 @@
         <div class="starWrap">
           <div class="starFrame">
             <div class="star big" id="pergStar" role="button" tabindex="0" aria-label="Otevřít Pergamen">
-              <img src="pergamen-luminamemory.png" alt="Pergamen (náhled)" />
+              <img src="pergamen-luminamemory.png" alt="Pergamen (náhled)" loading="lazy" decoding="async" />
             </div>
           </div>
           <div class="label">
@@ -698,7 +702,10 @@
         .replaceAll("'","&#039;");
     }
 
+    let lastFocus = null;
+
     function openModal(item){
+      lastFocus = document.activeElement;
       mTitle.textContent = item.title;
       mMeta.textContent  = `• ${item.date} •`;
 
@@ -722,13 +729,15 @@
       mImg.src = "";
       mImg.alt = "";
       mStory.innerHTML = "";
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+lastFocus = null;
     }
 
     function renderWall(){
       wall.innerHTML = artefacts.map(a => `
         <div class="tile" data-id="${esc(a.id)}">
           <div class="star" role="button" tabindex="0" aria-label="Otevřít ${esc(a.title)}">
-            <img src="${esc(a.src)}" alt="${esc(a.title)} (náhled)" />
+            <img src="${esc(a.src)}" alt="${esc(a.title)} (náhled)" loading="lazy" decoding="async" />
           </div>
           <div class="label">
             ${esc(a.title)}
@@ -776,7 +785,7 @@
     modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
     document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeModal(); });
 
-    renderWall();
+     renderWall();
   </script>
 </body>
 </html>
