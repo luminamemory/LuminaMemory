@@ -392,7 +392,6 @@ display:flex;
 .ms-modal-close:hover{
 background:rgba(28,13,64,.98);
 }
-
 .ms-modal-body{
   padding:14px 16px 14px;
   overflow:auto;
@@ -409,13 +408,6 @@ background:rgba(28,13,64,.98);
 /* Výška modálu: iOS stabilní viewport (vh fix) */
 .ms-modal{
   max-height: calc((var(--vh) * 100) - 48px);
-}
-/* fallbacky, kdyby --vh z nějakého důvodu neběžel */
-@supports (height: 100dvh){
-  .ms-modal{ max-height: calc(100dvh - 48px); }
-}
-@supports not (height: 100dvh){
-  .ms-modal{ max-height: calc(100vh - 48px); }
 }
 /* klíčové pro flex+overflow v Safari */
 .ms-modal-body{
