@@ -470,29 +470,8 @@ background:rgba(28,13,64,.98);
 .stair-color{
   position:absolute;
   inset:0;
-  background: var(--stair-color, #8a5bff);
 
-  /* maska zůstává = barví se jen "schody" v obrázku */
-  -webkit-mask-image: url("light-stair.png");
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: 100% 100%;
-  mask-image: url("light-stair.png");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: 100% 100%;
-
-  /* ✅ místo clip-path: plnění výškou přes transform */
-  transform-origin: bottom;
-  transform: scaleY(var(--fill, 0));
-  will-change: transform;
-
-  /* pojistky pro Safari kompozici */
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-}
-
-  /* silnější a plynulejší gradient */
+  /* gradient plnění */
   background: linear-gradient(
     0deg,
     var(--hot-pink) 0%,
@@ -503,22 +482,28 @@ background:rgba(28,13,64,.98);
     var(--deep-vio) 100%
   );
 
-  /* výraznější barvy */
-  mix-blend-mode: normal;          /* <-- nejdůležitější změna (už to není jen "nádech") */
-  opacity: .92;
+  opacity:.92;
   filter: saturate(2.35) contrast(1.12) brightness(1.08);
+  mix-blend-mode: normal;
   pointer-events:none;
 
-  /* maska: barví jen tvar schodů */
+  /* maska = barví se jen schody */
   -webkit-mask-image: url("light-stair.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: contain;
-
+  -webkit-mask-size: 100% 100%;
   mask-image: url("light-stair.png");
   mask-repeat: no-repeat;
   mask-position: center;
-  mask-size: contain;
+  mask-size: 100% 100%;
+
+  /* plnění odspodu (Safari-friendly) */
+  transform-origin: bottom;
+  transform: scaleY(var(--fill, 0));
+  will-change: transform;
+
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
 .stair-percent{
@@ -1157,38 +1142,39 @@ window.addEventListener("orientationchange", syncVh);
     }
 
     function startStairAnimation(){
-      if(!stairColor || !stairPercent) return;
-      if(stairAnimId) cancelAnimationFrame(stairAnimId);
+  if(!stairColor || !stairPercent) return;
+  if(stairAnimId) cancelAnimationFrame(stairAnimId);
 
-      const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
-      const duration = 3200;
-      const start = performance.now();
-      const numEl = stairPercent.querySelector("strong");
+  const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
+  const duration = 3200;
+  const start = performance.now();
+  const numEl = stairPercent.querySelector("strong");
 
-      function frame(now){
-        let t = (now - start) / duration;
-        if(t > 1) t = 1;
+  // init (0..1)
+  stairColor.style.setProperty("--fill", (cfg.from / 100).toFixed(4));
+  if(numEl) numEl.textContent = cfg.from + " %";
 
-        // jemné ease
-        const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
-        const value = cfg.from + (cfg.to - cfg.from) * eased;
-        const v = Math.max(0, Math.min(1, value / 100));
-        stairColor.style.setProperty("--fill", v.toFixed(4));
-        if(numEl) numEl.textContent = Math.round(value) + " %";
+  function frame(now){
+    let t = (now - start) / duration;
+    if(t > 1) t = 1;
 
-        if(t < 1) stairAnimId = requestAnimationFrame(frame);
-      }
+    const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
+    const value = cfg.from + (cfg.to - cfg.from) * eased;
 
-      const v = Math.max(0, Math.min(1, value / 100));
-      stairColor.style.setProperty("--fill", v.toFixed(4));
-      if(numEl) numEl.textContent = cfg.from + " %";
-      stairAnimId = requestAnimationFrame(frame);
+    const v = Math.max(0, Math.min(1, value / 100));
+    stairColor.style.setProperty("--fill", v.toFixed(4));
+    if(numEl) numEl.textContent = Math.round(value) + " %";
 
-      if(stairNote){
-        stairNote.textContent =
-          "V ostré verzi se procenta napojí na reálná data. V DEMU ukazujeme jen vizuální logiku a barevné plnění.";
-      }
-    }
+    if(t < 1) stairAnimId = requestAnimationFrame(frame);
+  }
+
+  stairAnimId = requestAnimationFrame(frame);
+
+  if(stairNote){
+    stairNote.textContent =
+      "V ostré verzi se procenta napojí na reálná data. V DEMU ukazujeme jen vizuální logiku a barevné plnění.";
+  }
+}
 
     /* === 3. mrak: kufr + ikonky (celý obrázek icons.png) === */
     const suitcaseImg  = document.getElementById("suitcaseImg");
