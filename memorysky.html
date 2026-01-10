@@ -1,662 +1,523 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
   <meta name="robots" content="noindex,nofollow" />
 
   <style>
-
-:root{
-  --ink: #fdf7ff;
-  --muted: rgba(244,233,255,.86);
-  --pill: 999px;
-  --vh: 1vh;
-
-  --shadow-strong: 0 26px 90px rgba(0,0,0,.72);
-  --shadow-soft:   0 18px 55px rgba(0,0,0,.46);
-
-  /* JS si to přepíše podle reálné výšky header/footer */
-  --header-h: 160px;
-  --footer-h: 88px;
-
-  /* Kolik mají být mraky nad spodním panelem */
-  --cloud-gap: 24px;
-
-  /* výraznější barvy (spod = růžová, vrch = fialová) */
-  --hot-pink:  #ff3fb8;
-  --pink:      #ff66cc;
-  --violet:    #a45bff;
-  --deep-vio:  #6d2dff;
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-
-html,body{min-height:100%; height:auto;}
-body{
-  font-family: system-ui,-apple-system,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
-  color: var(--ink);
-  background:#050615;
-  overflow-x:hidden;
-  overflow-y:auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* iOS/Safari: když je všechno fixed, stránka nemá co scrollovat. */
-@media (orientation: landscape){
-  body::after{
-    content:"";
-    display:block;
-    height: 260px;
-  }
-}
-
-.bg{
-  position:fixed;
-  inset:0;
-  background:url("wall.png") center/cover no-repeat;
-  transform:translateZ(0);
-  z-index:0;
-}
-
-.glass-panel{
-  background:
-    linear-gradient(
-      135deg,
-      rgba(120, 60, 255, .22),
-      rgba(5, 4, 20, .92)
-    ),
-    rgba(8, 6, 28, .70);
-
-  border: 1px solid rgba(255,255,255,.18);
-  box-shadow: 0 26px 90px rgba(0,0,0,.72);
-
-  backdrop-filter: blur(18px) saturate(1.15) brightness(.90) contrast(1.12);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15) brightness(.90) contrast(1.12);
-}
-
-.ms-header h1,
-.ms-header-sub,
-.ms-footer{
-  color: rgba(255,255,255,.96);
-  text-shadow: 0 3px 14px rgba(0,0,0,.65);
-}
-
-.ms-header-shell{
-  position:fixed;
-  top:0; left:0; right:0;
-  z-index:3;
-  padding:12px 14px 0;
-  pointer-events:none;
-}
-
-.ms-header{
-  pointer-events:auto;
-  max-width:1040px;
-  margin:0 auto;
-  padding:12px 16px 12px;
-  border-radius:22px;
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:14px;
-}
-
-.ms-header-left{
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-  min-width:0;
-}
-
-.btn-back{
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:8px 12px;
-  border-radius:var(--pill);
-  border:1px solid rgba(255,255,255,.55);
-  background:rgba(9,6,36,.9);
-  color:var(--ink);
-  font-size:12px;
-  box-shadow:0 16px 42px rgba(0,0,0,.7);
-  white-space:nowrap;
-  margin-top:1px;
-}
-.btn-back:hover{ background:rgba(18,12,62,.98); }
-
-.ms-header-text{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  min-width:0;
-}
-.ms-header-text h1{
-  font-size:17px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  text-shadow:0 12px 32px rgba(0,0,0,.8);
-  line-height:1.15;
-}
-.ms-header-sub{
-  font-size:12px;
-  line-height:1.6;
-  color:var(--muted);
-  text-shadow:0 10px 26px rgba(0,0,0,.8);
-  max-width:720px;
-}
-
-.ms-plan-pill{
-  border-radius:var(--pill);
-  border:1px solid rgba(255,255,255,.7);
-  padding:7px 13px;
-  background:radial-gradient(circle at 0 0, rgba(255,255,255,.18), transparent 55%) rgba(18,15,70,.9);
-  color:rgba(246,237,255,.96);
-  font-size:11px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  white-space:nowrap;
-  text-shadow:0 10px 24px rgba(0,0,0,.88);
-  margin-top:2px;
-}
-
-@media (max-width:720px){
-  .ms-header{ flex-direction:column; align-items:flex-start; gap:8px; }
-  .ms-plan-pill{ align-self:flex-end; }
-}
-
-.ms-footer-shell{
-  position:fixed;
-  left:0; right:0; bottom:0;
-  z-index:3;
-  padding:0 14px 12px;
-  pointer-events:none;
-  background:transparent;
-  border:none;
-  box-shadow:none;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-}
-
-.ms-footer{
-  pointer-events:auto;
-  max-width:860px;
-  margin:0 auto;
-  padding:8px 14px 9px;
-  border-radius:18px;
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-
-  font-size:11px;
-  color:rgba(235,225,255,.92);
-}
-
-.ms-footer-right{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  max-width:560px;
-}
-
-@media (max-width:840px){
-  .ms-footer{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:6px;
-    padding:8px 16px 9px;
-  }
-  .ms-footer-right{ max-width:none; }
-}
-
-.lumina-avatar{
-  width:26px;height:26px;border-radius:999px;overflow:hidden;
-  flex-shrink:0;
-  box-shadow:0 0 22px rgba(194,224,255,.9);
-}
-.lumina-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
-.lumina-note{font-size:11px;color:rgba(247,240,255,.96);}
-
-/* === Mraky: fixed nad spodním panelem === */
-.cloud-strip{
-  position:fixed;
-  left:50%;
-  transform:translateX(-50%);
-  bottom: calc(var(--footer-h) + var(--cloud-gap));
-  width:min(1040px, calc(100% - 28px));
-  z-index:2;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:12px;
-  padding:0 8px;
-}
-
-.cloud-pair{
-  display:flex;
-  gap:14px;
-  align-items:flex-end;
-}
-
-.cloud-btn{
-  position:relative;
-  border:none;
-  background:transparent;
-  padding:0;
-  cursor:pointer;
-  outline:none;
-  transition:transform .16s ease, filter .16s ease;
-}
-.cloud-btn:focus-visible{
-  box-shadow:0 0 0 2px #fff, 0 0 0 5px rgba(255,255,255,.4);
-  border-radius:24px;
-}
-.cloud-btn:hover{ transform:translateY(-4px); filter:brightness(1.03); }
-.cloud-btn:active{ transform:translateY(-1px); }
-
-.cloud-img{
-  display:block;
-  width:min(320px,40vw);
-  height:auto;
-  filter:drop-shadow(0 20px 46px rgba(0,0,0,.65));
-  opacity:.96;
-}
-
-.cloud-btn--small .cloud-img{ width:min(220px,30vw); }
-#btnExport.cloud-btn--small .cloud-img{ width:min(320px,40vw); }
-
-.cloud-label{
-  position:absolute;
-  left:50%;
-  bottom:10px;
-  transform:translateX(-50%);
-  padding:5px 10px 4px;
-  border-radius:var(--pill);
-  border:1px solid rgba(255,255,255,.45);
-  background:rgba(15,6,38,.86);
-  color:rgba(245,235,255,.92);
-  font-size:10.5px;
-  letter-spacing:.06em;
-  white-space:nowrap;
-  text-shadow:0 10px 26px rgba(0,0,0,.8);
-  backdrop-filter:blur(10px);
-}
-
-.cloud-label--free  {border-color:rgba(255,255,255,.55);}
-.cloud-label--plus  {border-color:rgba(214,255,255,.82);}
-.cloud-label--prem  {border-color:rgba(238,210,255,.92);}
-
-.cloud-solo{ margin-left:auto; transform:translateY(10px); }
-
-.cloud-lock{
-  position:absolute;
-  top:8px;
-  right:14px;
-  width:22px;
-  height:22px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.6);
-  background:rgba(15,7,36,.95);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:13px;
-  box-shadow:0 16px 40px rgba(0,0,0,.8);
-}
-
-@media (max-width:840px){
-  .cloud-strip{flex-direction:column;align-items:center; gap:10px;}
-  .cloud-pair{width:100%;justify-content:center;}
-  .cloud-solo{margin-left:0;transform:none;}
-}
-
-/* === Modály === */
-.ms-modal-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(5,4,16,.78);
-  backdrop-filter:blur(14px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  z-index:20;
-}
-.ms-modal-backdrop.is-open{ display:flex; }
-
-.ms-modal{
-  width:min(720px,100%);
-  max-height:calc((var(--vh) * 100) - 48px);
-  background:radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 55%) rgba(10,4,32,.97);
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,.35);
-  box-shadow:var(--shadow-strong);
-  overflow:hidden;
-  color:rgba(244,233,255,.88);
-  display:flex;
-  flex-direction:column;
-}
-.ms-modal--small{ width:min(520px,100%); }
-
-.ms-modal-head{
-  padding:12px 16px 8px;
-  border-bottom:1px solid rgba(255,255,255,.18);
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:flex-start;
-}
-.ms-modal-title{
-  font-size:13px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:#ffeaff;
-}
-.ms-modal-head p{
-  margin-top:4px;
-  font-size:12px;
-  line-height:1.6;
-}
-.ms-modal-close{
-  border-radius:var(--pill);
-  border:1px solid rgba(255,255,255,.35);
-  background:rgba(17,7,40,.96);
-  color:rgba(244,233,255,.9);
-  padding:6px 10px;
-  font-size:12px;
-  cursor:pointer;
-  white-space:nowrap;
-}
-.ms-modal-close:hover{ background:rgba(28,13,64,.98); }
-
-.ms-modal-body{
-  padding:14px 16px 14px;
-  overflow:auto;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  font-size:13px;
-  line-height:1.7;
-
-  flex: 1 1 auto;
-  touch-action: pan-y;
-  min-width: 0;
-
-  min-height:0;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-}
-
-.ms-tagline{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  color:rgba(255,232,255,.9);
-}
-
-.pill-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
-.pill{
-  padding:4px 9px;
-  border-radius:var(--pill);
-  border:1px solid rgba(255,255,255,.4);
-  background:rgba(20,9,52,.9);
-  font-size:11px;
-  color:rgba(244,233,255,.88);
-}
-
-/* === 1. mrak – schody (Safari stabilní): background místo <img> === */
-.stair-wrap{
-  position:relative;
-  margin-top:4px;
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.4);
-  box-shadow:var(--shadow-soft);
-
-  background: #050615 url("light-stair.png") center / contain no-repeat;
-
-  /* důležité: bez <img> musíme dát výšku */
-  width:100%;
-  aspect-ratio: 16 / 9;
-  height: auto;
-
-  transform: translateZ(0);
-}
-
-/* kdyby někde zůstalo v HTML, schovej to */
-.stair-img{ display:none !important; }
-
-/* overlay: barví jen schody díky masce */
-.stair-color{
-  position:absolute;
-  inset:0;
-
-  background: linear-gradient(
-    0deg,
-    var(--hot-pink) 0%,
-    var(--pink) 22%,
-    #d85bff 40%,
-    var(--violet) 55%,
-    var(--deep-vio) 65%,
-    var(--deep-vio) 100%
-  );
-
-  opacity:.92;
-  filter: saturate(2.10) contrast(1.08) brightness(1.06);
-  mix-blend-mode: normal;
-  pointer-events:none;
-
-  -webkit-mask-image: url("light-stair.png");
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: contain;
-  mask-image: url("light-stair.png");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: contain;
-
-  transform-origin: bottom;
-  transform: scaleY(var(--fill, 0));
-  will-change: transform;
-
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-}
-
-.stair-percent{
-  position:absolute;
-  top:10px;
-  right:12px;
-  padding:6px 10px 5px;
-  border-radius:var(--pill);
-  border:1px solid rgba(255,255,255,.6);
-  background:rgba(15,6,32,.96);
-  box-shadow:0 14px 36px rgba(0,0,0,.85);
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:2px;
-}
-.stair-percent strong{ font-size:13px; color:#ffe9ff; }
-.stair-percent span{
-  font-size:10px;
-  color:rgba(244,233,255,.86);
-  text-transform:uppercase;
-  letter-spacing:.14em;
-}
-
-.stair-note{ margin-top:8px; font-size:12px; }
-
-/* === 2. mrak – beze změny (metery) === */
-.realm-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;
-  margin-top:6px;
-}
-@media (max-width:720px){ .realm-grid{grid-template-columns:1fr;} }
-
-.realm-card{
-  border-radius:16px;
-  padding:8px 8px 9px;
-  border:1px solid rgba(255,255,255,.4);
-  background:rgba(13,6,34,.9);
-  box-shadow:0 18px 48px rgba(0,0,0,.75);
-  cursor:pointer;
-  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
-}
-.realm-card:hover{
-  transform:translateY(-2px);
-  border-color:rgba(255,255,255,.9);
-  box-shadow:0 22px 56px rgba(0,0,0,.9);
-}
-.realm-img{
-  width:100%;
-  border-radius:12px;
-  display:block;
-  margin-bottom:6px;
-  opacity:.96;
-  filter:drop-shadow(0 12px 30px rgba(0,0,0,.78));
-}
-.realm-title{
-  font-size:12px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:#ffeaff;
-}
-.realm-sub{ font-size:11px; color:rgba(244,233,255,.86); margin-top:3px; }
-
-.mini-meter{
-  margin-top:8px;
-  height:8px;
-  border-radius:999px;
-  overflow:hidden;
-  background:rgba(40,23,86,.9);
-  border:1px solid rgba(255,255,255,.3);
-}
-.mini-meter-fill{
-  height:100%;
-  width:60%;
-  background:linear-gradient(90deg, rgba(255, 63, 184, .95), rgba(109, 45, 255, .95));
-}
-.mini-meter-fill.free{width:28%;}
-.mini-meter-fill.plus{width:64%;}
-.mini-meter-fill.premium{width:88%;}
-
-.detail-list{ margin-top:4px; font-size:12px; padding-left:18px; }
-.detail-list li{ margin-bottom:4px; }
-
-/* === 3. mrak – Export: ikonky jako celý obrázek icons.png === */
-.export-wrap{
-  margin-top:6px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.45);
-  background:radial-gradient(circle at 0 0,rgba(255,255,255,.18),transparent 55%) rgba(10,4,32,.98);
-  padding:12px 12px 14px;
-  box-shadow:var(--shadow-soft);
-  text-align:center;
-}
-
-.export-icons{
-  display:flex;
-  justify-content:center;
-  margin-bottom:8px;
-
-  opacity:0;
-  transform:translateY(6px);
-  pointer-events:none;
-  transition:opacity .22s ease, transform .22s ease;
-}
-.export-icons.is-visible{
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
-}
-.export-icons-img{
-  width:min(520px, 92%);
-  height:auto;
-  display:block;
-  filter:drop-shadow(0 16px 42px rgba(0,0,0,.72));
-  opacity:.98;
-}
-
-.export-suitcase{
-  margin-top:2px;
-  width:min(340px,80%);
-  cursor:pointer;
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
-  filter:drop-shadow(0 20px 52px rgba(0,0,0,.86));
-  transition:transform .18s ease;
-}
-.export-suitcase:hover{transform:translateY(-2px);}
-
-.export-note{ margin-top:6px; font-size:12px; color:rgba(244,233,255,.86); }
-.export-warning{ margin-top:6px; font-size:11px; color:#ffe9bf; opacity:.9; }
-
-.export-actions{
-  margin-top:10px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  justify-content:center;
-}
-
-.btn-export-kind{
-  padding:7px 12px;
-  border-radius:var(--pill);
-  border:1px solid rgba(255,255,255,.6);
-  background:rgba(26,11,64,.96);
-  color:var(--ink);
-  font-size:12px;
-  cursor:pointer;
-}
-.btn-export-kind:hover{background:rgba(38,18,90,.98);}
-
-/* Černá obrazovka s daty */
-.data-screen{
-  margin-top:2px;
-  max-height:260px;
-  overflow:auto;
-  background:#04050f;
-  color:#dce6ff;
-  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
-  font-size:11px;
-  line-height:1.5;
-  padding:10px 11px;
-  border-radius:12px;
-  white-space:pre-wrap;
-  word-break:break-word;
-  border:1px solid rgba(255,255,255,0.25);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:calc(var(--footer-h) + 20px);
-  transform:translateX(-50%) translateY(20px);
-  padding:9px 12px;
-  border-radius:999px;
-  background:rgba(13,7,34,.96);
-  border:1px solid rgba(255,255,255,.4);
-  color:rgba(244,233,255,.88);
-  font-size:11px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .22s ease, transform .22s ease;
-  z-index:40;
-}
-.toast.is-visible{
-  opacity:1;
-  pointer-events:auto;
-  transform:translateX(-50%) translateY(0);
-}
-</style>
+    :root{
+      --ink:#fdf7ff;
+      --muted:rgba(244,233,255,.86);
+      --pill:999px;
+
+      /* iOS stable vh (JS přepisuje) */
+      --vh:1vh;
+
+      --shadow-strong:0 26px 90px rgba(0,0,0,.72);
+      --shadow-soft:0 18px 55px rgba(0,0,0,.46);
+
+      --header-h:160px;
+      --footer-h:88px;
+      --cloud-gap:24px;
+
+      --hot-pink:#ff3fb8;
+      --pink:#ff66cc;
+      --violet:#a45bff;
+      --deep-vio:#6d2dff;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{min-height:100%;height:auto}
+    body{
+      font-family:system-ui,-apple-system,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:#050615;
+      overflow-x:hidden;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    /* iOS/Safari: když je vše fixed, stránka někdy “nemá co scrollovat” */
+    @media (orientation: landscape){
+      body::after{content:"";display:block;height:260px;}
+    }
+
+    .bg{
+      position:fixed;
+      inset:0;
+      height:calc(var(--vh) * 100);
+      background:url("wall.png") center/cover no-repeat;
+      z-index:0;
+    }
+
+    .glass-panel{
+      background:
+        linear-gradient(135deg, rgba(120,60,255,.22), rgba(5,4,20,.92)),
+        rgba(8,6,28,.70);
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:var(--shadow-strong);
+      backdrop-filter:blur(18px) saturate(1.15) brightness(.90) contrast(1.12);
+      -webkit-backdrop-filter:blur(18px) saturate(1.15) brightness(.90) contrast(1.12);
+    }
+
+    /* ===== Header ===== */
+    .ms-header-shell{
+      position:fixed;
+      top:0;left:0;right:0;
+      z-index:3;
+      padding:12px 14px 0;
+      pointer-events:none;
+    }
+    .ms-header{
+      pointer-events:auto;
+      max-width:860px;
+      margin:0 auto;
+      border-radius:20px;
+      padding:12px 14px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+    .ms-header-left{display:flex;gap:12px;align-items:flex-start}
+    .btn-back{
+      display:inline-flex;
+      padding:7px 10px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(13,7,32,.70);
+      color:rgba(255,255,255,.92);
+      text-decoration:none;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .ms-header-text h1{
+      font-size:16px;
+      color:rgba(255,255,255,.96);
+      text-shadow:0 3px 14px rgba(0,0,0,.65);
+      margin-bottom:2px;
+    }
+    .ms-header-sub{
+      font-size:12px;
+      line-height:1.55;
+      color:rgba(255,255,255,.92);
+      text-shadow:0 3px 14px rgba(0,0,0,.65);
+      max-width:560px;
+    }
+    .ms-plan-pill{
+      align-self:flex-start;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(17,7,40,.92);
+      padding:7px 10px;
+      font-size:12px;
+      color:rgba(245,235,255,.92);
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .ms-plan-pill:hover{background:rgba(28,13,64,.96)}
+    @media (max-width:720px){
+      .ms-header{flex-direction:column;align-items:flex-start}
+      .ms-plan-pill{align-self:flex-end}
+      .ms-header-left{flex-direction:column}
+    }
+
+    /* ===== Footer ===== */
+    .ms-footer-shell{
+      position:fixed;
+      left:0;right:0;bottom:0;
+      z-index:3;
+      padding:0 14px 12px;
+      pointer-events:none;
+    }
+    .ms-footer{
+      pointer-events:auto;
+      max-width:860px;
+      margin:0 auto;
+      border-radius:18px;
+      padding:8px 14px 9px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      font-size:11px;
+      color:rgba(235,225,255,.92);
+      text-shadow:0 3px 14px rgba(0,0,0,.65);
+    }
+    .ms-footer-right{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      max-width:560px;
+    }
+    .lumina-avatar{
+      width:26px;height:26px;border-radius:999px;overflow:hidden;
+      flex-shrink:0;
+      box-shadow:0 0 22px rgba(194,224,255,.9);
+    }
+    .lumina-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+    .lumina-note{font-size:11px;color:rgba(247,240,255,.96);}
+    @media (max-width:840px){
+      .ms-footer{flex-direction:column;align-items:flex-start;gap:6px;padding:8px 16px 9px;}
+      .ms-footer-right{max-width:none;}
+    }
+
+    /* ===== Clouds ===== */
+    .cloud-strip{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:calc(var(--footer-h) + var(--cloud-gap));
+      width:min(1040px, calc(100% - 28px));
+      z-index:2;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      padding:0 8px;
+    }
+    .cloud-pair{display:flex;gap:14px;align-items:flex-end;}
+    .cloud-btn{
+      position:relative;
+      border:none;
+      background:transparent;
+      padding:0;
+      cursor:pointer;
+      outline:none;
+      transition:transform .16s ease, filter .16s ease;
+    }
+    .cloud-btn:focus-visible{
+      box-shadow:0 0 0 2px #fff, 0 0 0 5px rgba(255,255,255,.4);
+      border-radius:24px;
+    }
+    .cloud-btn:hover{transform:translateY(-4px);filter:brightness(1.03)}
+    .cloud-btn:active{transform:translateY(-1px)}
+
+    .cloud-img{
+      display:block;
+      width:min(320px,40vw);
+      height:auto;
+      filter:drop-shadow(0 20px 46px rgba(0,0,0,.65));
+      opacity:.96;
+    }
+    .cloud-btn--small .cloud-img{ width:min(220px,30vw); }
+    #btnExport.cloud-btn--small .cloud-img{ width:min(320px,40vw); }
+
+    .cloud-label{
+      position:absolute;
+      left:50%;
+      bottom:10px;
+      transform:translateX(-50%);
+      padding:5px 10px 4px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.45);
+      background:rgba(15,6,38,.86);
+      color:rgba(245,235,255,.92);
+      font-size:10.5px;
+      letter-spacing:.06em;
+      white-space:nowrap;
+      text-shadow:0 10px 26px rgba(0,0,0,.8);
+      backdrop-filter:blur(10px);
+    }
+    .cloud-label--free{border-color:rgba(255,255,255,.55)}
+    .cloud-label--plus{border-color:rgba(214,255,255,.82)}
+    .cloud-label--prem{border-color:rgba(238,210,255,.92)}
+
+    .cloud-solo{ margin-left:auto; transform:translateY(10px); }
+
+    .cloud-lock{
+      position:absolute;
+      top:8px;
+      right:14px;
+      width:22px;height:22px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.6);
+      background:rgba(15,7,36,.95);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:13px;
+      box-shadow:0 16px 40px rgba(0,0,0,.8);
+    }
+    @media (max-width:840px){
+      .cloud-strip{flex-direction:column;align-items:center;gap:10px;}
+      .cloud-pair{width:100%;justify-content:center;}
+      .cloud-solo{margin-left:0;transform:none;}
+    }
+
+    /* ===== Modals ===== */
+    .ms-modal-backdrop{
+      position:fixed;
+      inset:0;
+      min-height:calc(var(--vh) * 100);
+      background:rgba(5,4,16,.78);
+      backdrop-filter:blur(14px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:20;
+    }
+    .ms-modal-backdrop.is-open{display:flex;}
+    .ms-modal{
+      width:min(720px,100%);
+      max-height:calc((var(--vh) * 100) - 48px);
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 55%),
+        rgba(10,4,32,.97);
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.35);
+      box-shadow:var(--shadow-strong);
+      overflow:hidden;
+      color:rgba(244,233,255,.88);
+      display:flex;
+      flex-direction:column;
+    }
+    .ms-modal--small{width:min(520px,100%);}
+    .ms-modal-head{
+      padding:12px 16px 8px;
+      border-bottom:1px solid rgba(255,255,255,.18);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .ms-modal-title{
+      font-size:13px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:#ffeaff;
+    }
+    .ms-modal-head p{margin-top:4px;font-size:12px;line-height:1.6;}
+    .ms-modal-close{
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(17,7,40,.96);
+      color:rgba(244,233,255,.9);
+      padding:6px 10px;
+      font-size:12px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .ms-modal-close:hover{background:rgba(28,13,64,.98);}
+    .ms-modal-body{
+      padding:14px 16px 14px;
+      overflow:auto;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      font-size:13px;
+      line-height:1.7;
+      flex:1 1 auto;
+      min-height:0;
+      -webkit-overflow-scrolling:touch;
+      overscroll-behavior:contain;
+      touch-action:pan-y;
+    }
+    .ms-tagline{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:rgba(255,232,255,.9);
+    }
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;}
+    .pill{
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.35);
+      padding:6px 10px 5px;
+      font-size:11px;
+      background:rgba(15,6,38,.72);
+      color:rgba(245,235,255,.92);
+      white-space:nowrap;
+    }
+
+    /* ===== 1. mrak: SCHODY (stabilní – bez <img>) ===== */
+    .stair-frame{
+      border-radius:18px;
+      overflow:hidden;                 /* radius + ořez, ale maska je uvnitř */
+      border:1px solid rgba(255,255,255,.4);
+      box-shadow:var(--shadow-soft);
+      background:#050615;
+    }
+    .stair-wrap{
+      position:relative;
+      width:100%;
+      /* fallback, JS nastaví přesný poměr stran z light-stair.png */
+      aspect-ratio: 1 / 1;
+      background:#050615 url("light-stair.png") center/contain no-repeat;
+      transform: translateZ(0);
+    }
+    .stair-color{
+      --fill: 0; /* 0..1 */
+      position:absolute;
+      inset:0;
+      background: linear-gradient(
+        0deg,
+        var(--hot-pink) 0%,
+        var(--pink) 22%,
+        #d85bff 40%,
+        var(--violet) 55%,
+        var(--deep-vio) 65%,
+        var(--deep-vio) 100%
+      );
+      opacity:.92;
+      filter:saturate(2.1) contrast(1.08) brightness(1.06);
+      mix-blend-mode:normal;
+      pointer-events:none;
+
+      /* mask = barví jen "sklo" */
+      -webkit-mask-image:url("light-stair.png");
+      -webkit-mask-repeat:no-repeat;
+      -webkit-mask-position:center;
+      -webkit-mask-size:contain;
+      mask-image:url("light-stair.png");
+      mask-repeat:no-repeat;
+      mask-position:center;
+      mask-size:contain;
+
+      transform-origin:bottom;
+      transform:scaleY(var(--fill));
+      will-change:transform;
+      backface-visibility:hidden;
+    }
+    .stair-percent{
+      position:absolute;
+      top:10px;
+      right:12px;
+      padding:6px 10px 5px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.6);
+      background:rgba(15,6,32,.96);
+      box-shadow:0 14px 36px rgba(0,0,0,.85);
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:2px;
+    }
+    .stair-percent strong{font-size:13px;color:#ffe9ff;}
+    .stair-percent span{
+      font-size:10px;
+      color:rgba(244,233,255,.86);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+    }
+    .stair-note{margin-top:2px;font-size:12px;color:rgba(244,233,255,.86);}
+
+    /* ===== 2. mrak: metery ===== */
+    .realm-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:10px;
+      margin-top:6px;
+    }
+    @media (max-width:720px){.realm-grid{grid-template-columns:1fr;}}
+    .realm-card{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.26);
+      background:rgba(12,6,32,.62);
+      padding:12px 12px 10px;
+      box-shadow:0 18px 55px rgba(0,0,0,.32);
+      cursor:pointer;
+      transition:transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .realm-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.38);background:rgba(18,10,44,.66);}
+    .realm-card h3{font-size:13px;color:#ffeaff;margin-bottom:4px;}
+    .realm-card p{font-size:12px;color:rgba(244,233,255,.84);line-height:1.55;}
+
+    .meter{
+      height:10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.24);
+      background:rgba(0,0,0,.22);
+      overflow:hidden;
+      margin-top:10px;
+    }
+    .meter > i{
+      display:block;height:100%;
+      width:var(--w, 40%);
+      background:linear-gradient(90deg, var(--pink), var(--violet));
+      border-radius:999px;
+      filter:saturate(1.2);
+    }
+
+    /* ===== 3. mrak: export ===== */
+    .export-stage{
+      position:relative;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(12,6,32,.62);
+      padding:12px;
+      overflow:hidden;
+      box-shadow:0 18px 55px rgba(0,0,0,.32);
+    }
+    .export-row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+    .export-suitcase{
+      width:min(260px, 70vw);
+      height:auto;
+      cursor:pointer;
+      filter:drop-shadow(0 18px 44px rgba(0,0,0,.55));
+      user-select:none;
+      -webkit-user-drag:none;
+    }
+    .export-icons{
+      position:absolute;
+      right:10px;
+      bottom:10px;
+      width:min(320px, 78vw);
+      opacity:0;
+      transform:translateY(12px);
+      transition:opacity .22s ease, transform .22s ease;
+      pointer-events:none;
+      filter:drop-shadow(0 18px 44px rgba(0,0,0,.55));
+    }
+    .export-icons.is-visible{opacity:1;transform:translateY(0);}
+    .btn{
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(17,7,40,.96);
+      color:rgba(244,233,255,.92);
+      padding:9px 12px;
+      font-size:12px;
+      cursor:pointer;
+    }
+    .btn:hover{background:rgba(28,13,64,.98);}
+    .btn[disabled]{opacity:.5;cursor:not-allowed;}
+    .warn{font-size:12px;color:rgba(255,230,255,.9);opacity:.95}
+
+    /* ===== Toast ===== */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:calc(var(--footer-h) + 16px);
+      transform:translateX(-50%);
+      background:rgba(15,7,36,.95);
+      border:1px solid rgba(255,255,255,.28);
+      border-radius:999px;
+      padding:8px 12px;
+      color:rgba(245,235,255,.92);
+      font-size:12px;
+      box-shadow:0 18px 55px rgba(0,0,0,.46);
+      z-index:30;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+    .toast.is-on{opacity:1;transform:translateX(-50%) translateY(-6px);}
+    pre{
+      white-space:pre-wrap;
+      word-break:break-word;
+      background:rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:14px;
+      padding:10px;
+      font-size:11px;
+      line-height:1.55;
+      color:rgba(244,233,255,.9);
+    }
+  </style>
 </head>
 
 <body>
@@ -664,7 +525,7 @@ body{
 
   <!-- HLAVIČKA -->
   <header class="ms-header-shell" id="headerShell">
-      <div class="ms-header glass-panel" id="headerPanel">
+    <div class="ms-header glass-panel" id="headerPanel">
       <div class="ms-header-left">
         <a href="nastaveni.html" class="btn-back">← Zpět do kanceláře</a>
         <div class="ms-header-text">
@@ -675,27 +536,24 @@ body{
           </p>
         </div>
       </div>
-      <div class="ms-plan-pill" id="crumbPlan">DEMO · FREE tarif</div>
+      <div class="ms-plan-pill" id="crumbPlan" title="Kliknutím přepneš tarif">DEMO · FREE tarif</div>
     </div>
   </header>
 
   <!-- MRaky -->
   <section class="cloud-strip" aria-label="Ovládání MemorySky">
     <div class="cloud-pair">
-      <!-- 1) celé nebe -->
       <button class="cloud-btn" id="btnFullSky" type="button">
         <img src="cloud-1.png" alt="Celá paměť paláce" class="cloud-img" />
         <div class="cloud-label" id="labelFull">Tvoje nebe</div>
       </button>
 
-      <!-- 2) podrobná kapacita -->
       <button class="cloud-btn cloud-btn--small" id="btnDetail" type="button">
-        <img src="cloud-2.png" alt="Podrobé využití nebe" class="cloud-img" />
+        <img src="cloud-2.png" alt="Podrobné využití nebe" class="cloud-img" />
         <div class="cloud-label" id="labelDetail">Využití nebe</div>
       </button>
     </div>
 
-    <!-- 3) export -->
     <button class="cloud-btn cloud-btn--small cloud-solo" id="btnExport" type="button">
       <img src="cloud-3.png" alt="Export – batoh na cestu" class="cloud-img" />
       <div class="cloud-label" id="labelExport">Batoh na cestu</div>
@@ -705,10 +563,8 @@ body{
 
   <!-- SPODNÍ PANEL -->
   <section class="ms-footer-shell" id="footerShell">
-      <div class="ms-footer glass-panel" id="footerPanel">
-      <div>
-        DEMO běží lokálně v prohlížeči. Procenta i export pracují jen s vymyšlenými daty.
-      </div>
+    <div class="ms-footer glass-panel" id="footerPanel">
+      <div>DEMO běží lokálně v prohlížeči. Procenta i export pracují jen s vymyšlenými daty.</div>
       <div class="ms-footer-right">
         <div class="lumina-avatar"><img src="avatar.png" alt="Lumina" /></div>
         <div class="lumina-note" id="footNote">
@@ -718,532 +574,547 @@ body{
     </div>
   </section>
 
-  <!-- MODAL 1: schody -->
+  <!-- MODAL 1 -->
   <div class="ms-modal-backdrop" id="modalFullSky">
     <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="fullTitle">
       <div class="ms-modal-head">
         <div>
           <div class="ms-modal-title" id="fullTitle">Celá paměť paláce</div>
-          <p id="fullLead">Schody se zbarvují podle stavu zaplnění.</p>
+          <p id="fullLead">Výrazné růžové plnění roste odspodu, směrem nahoru přechází do fialové. Ukázka končí zhruba u 65 %.</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalFullSky">Zavřít ✕</button>
       </div>
-
       <div class="ms-modal-body">
         <div class="ms-tagline">Napojení na tarif</div>
         <div class="pill-row" id="fullTariffLine"></div>
 
-        <div class="stair-wrap">
-          <div class="stair-color" id="stairColor"></div>
-          <div class="stair-percent" id="stairPercent">
-            <strong>0 %</strong>
-            <span>stav zaplnění</span>
+        <div class="stair-frame">
+          <div class="stair-wrap" id="stairWrap" aria-label="Schody do MemorySky">
+            <div class="stair-color" id="stairColor"></div>
+            <div class="stair-percent" id="stairPercent">
+              <strong>0 %</strong>
+              <span>stav zaplnění</span>
+            </div>
           </div>
         </div>
 
-        <p class="stair-note" id="stairNote">
-          V ostré verzi se sem promítne reálná historie. Teď je jen bezpečný demo-náhled.
-        </p>
+        <div class="stair-note" id="stairNote"></div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 2: kapacita -->
+  <!-- MODAL 2 -->
   <div class="ms-modal-backdrop" id="modalDetail">
     <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="detailTitle">Podrobné využití nebe</div>
-          <p>Rozdělení prostoru mezi Praetorium, Arcana a Configuratio.</p>
+          <div class="ms-modal-title" id="detailTitle">Podrobné využití</div>
+          <p>V DEMU ukazujeme logiku „kolik kapacity spolyká která oblast“.</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalDetail">Zavřít ✕</button>
       </div>
 
       <div class="ms-modal-body">
-        <div class="ms-tagline">Tři hlavní části nebe</div>
-
         <div class="realm-grid">
-          <article class="realm-card" data-open="modalPrae">
-            <img src="light-praetorium.png" alt="Praetorium" class="realm-img" />
-            <div class="realm-title">Praetorium</div>
-            <div class="realm-sub">Chronica · Sigma · Proiecta</div>
-            <div class="mini-meter"><div class="mini-meter-fill" id="meterPrae"></div></div>
-          </article>
-
-          <article class="realm-card" data-open="modalArcana">
-            <img src="arcana.png" alt="Arcana" class="realm-img" />
-            <div class="realm-title">Arcana</div>
-            <div class="realm-sub">Clavis · Pecunia · Vitae · Medica</div>
-            <div class="mini-meter"><div class="mini-meter-fill" id="meterArcana"></div></div>
-          </article>
-
-          <article class="realm-card" data-open="modalConfig">
-            <img src="configuratio.png" alt="Configuratio" class="realm-img" />
-            <div class="realm-title">Configuratio</div>
-            <div class="realm-sub">Tvoje identita & software paláce</div>
-            <div class="mini-meter"><div class="mini-meter-fill" id="meterConfig"></div></div>
-          </article>
+          <div class="realm-card" data-open="modalChronica">
+            <h3>Chronica</h3>
+            <p>Zápisy • milníky • okamžiky</p>
+            <div class="meter" style="--w:42%"><i></i></div>
+          </div>
+          <div class="realm-card" data-open="modalSigma">
+            <h3>Sigma</h3>
+            <p>Rituály • připomínky • rytmus dne</p>
+            <div class="meter" style="--w:36%"><i></i></div>
+          </div>
+          <div class="realm-card" data-open="modalProiecta">
+            <h3>Proiecta</h3>
+            <p>Projekty • mise • dílna</p>
+            <div class="meter" style="--w:55%"><i></i></div>
+          </div>
+          <div class="realm-card" data-open="modalArcana">
+            <h3>Arcana</h3>
+            <p>Trezor • náhled • bez citlivých dat</p>
+            <div class="meter" style="--w:24%"><i></i></div>
+          </div>
+          <div class="realm-card" data-open="modalConfig">
+            <h3>Configuratio</h3>
+            <p>Profil • tón • software</p>
+            <div class="meter" style="--w:18%"><i></i></div>
+          </div>
         </div>
-
-        <p style="font-size:12px;opacity:.92">
-          Zaplnění je v demo verzi jen jako nástřel – v ostré verzi se napojí skutečný stav paměti.
-        </p>
+        <div class="stair-note">Klikni na kartu a otevře se detail (scrolluje se stejně jako ostatní modaly).</div>
       </div>
     </div>
   </div>
 
-  <!-- mini modály -->
-  <div class="ms-modal-backdrop" id="modalPrae">
-    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="praeTitle">
-      <div class="ms-modal-head">
-        <div>
-          <div class="ms-modal-title" id="praeTitle">Praetorium</div>
-          <p>Chronica · Sigma · Proiecta</p>
-        </div>
-        <button class="ms-modal-close" type="button" data-close="modalPrae">Zavřít ✕</button>
-      </div>
-      <div class="ms-modal-body">
-        <ul class="detail-list">
-          <li><b>Chronica</b> – deníky, okamžiky.</li>
-          <li><b>Sigma</b> – rituály, připomínky.</li>
-          <li><b>Proiecta</b> – projekty a mise.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="ms-modal-backdrop" id="modalArcana">
-    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="arcTitle">
-      <div class="ms-modal-head">
-        <div>
-          <div class="ms-modal-title" id="arcTitle">Arcana</div>
-          <p>Clavis · Pecunia · Vitae · Medica</p>
-        </div>
-        <button class="ms-modal-close" type="button" data-close="modalArcana">Zavřít ✕</button>
-      </div>
-      <div class="ms-modal-body">
-        <ul class="detail-list">
-          <li><b>Arcana Clavis</b> – přístupy (koncept).</li>
-          <li><b>Arcana Pecunia</b> – finance.</li>
-          <li><b>Codex Vitae</b> – dokumenty.</li>
-          <li><b>Corpus Medica</b> – zdraví.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="ms-modal-backdrop" id="modalConfig">
-    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="cfgTitle">
-      <div class="ms-modal-head">
-        <div>
-          <div class="ms-modal-title" id="cfgTitle">Configuratio</div>
-          <p>uživatelská data & software paláce</p>
-        </div>
-        <button class="ms-modal-close" type="button" data-close="modalConfig">Zavřít ✕</button>
-      </div>
-      <div class="ms-modal-body">
-        <ul class="detail-list">
-          <li><b>Karta</b> – jméno, oslovení, věta pro přivolání.</li>
-          <li><b>Rytmus</b> – denní režim.</li>
-          <li><b>Tón</b> – nastavení Luminy.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 3: Export -->
+  <!-- MODAL 3 -->
   <div class="ms-modal-backdrop" id="modalExport">
-    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="expTitle">
+    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="exportTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="expTitle">Export – batoh na cestu</div>
-          <p>Jeden demo export dat.</p>
+          <div class="ms-modal-title" id="exportTitle">Batoh na cestu</div>
+          <p>Ukázka exportu: klikni na kufr, rozbal ikonky, a stáhni demo soubor.</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalExport">Zavřít ✕</button>
       </div>
 
       <div class="ms-modal-body">
-        <div class="export-wrap">
-          <div class="export-icons" id="exportIcons">
-            <img src="icons.png" alt="Ikonky exportu" class="export-icons-img" />
+        <div class="export-stage">
+          <div class="export-row">
+            <div>
+              <div class="ms-tagline">Export</div>
+              <div class="warn" id="exportWarning"></div>
+              <div style="height:10px"></div>
+              <button class="btn" id="btnExportData" type="button">Stáhnout demo export</button>
+            </div>
+            <img id="suitcaseImg" class="export-suitcase" src="export-closed.png" alt="Kufr pro export" />
           </div>
 
-          <img src="export-closed.png" alt="Archivní kufřík" id="suitcaseImg" class="export-suitcase" />
-
-          <div class="export-note" id="exportNote">
-            Kufřík je v DEMU symbol. Až se otevře, ukáže se „výbava“ a můžeš spustit export.
-          </div>
-
-          <div class="export-warning" id="exportWarning">
-            PLUS/PREMIUM: soubor se stáhne, ale obsah je fiktivní.
-          </div>
-
-          <div class="export-actions">
-            <button class="btn-export-kind" type="button" id="btnExportData">
-              Export datového balíčku
-            </button>
-          </div>
+          <img id="exportIcons" class="export-icons" src="icons.png" alt="Ikonky exportu" />
         </div>
+
+        <div class="stair-note" id="exportNote"></div>
       </div>
     </div>
   </div>
 
-  <!-- Export blok ve FREE -->
-  <div class="ms-modal-backdrop" id="modalExportBlocked">
-    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="blockedTitle">
+  <!-- SUB MODALS -->
+  <div class="ms-modal-backdrop" id="modalChronica">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true">
       <div class="ms-modal-head">
-        <div>
-          <div class="ms-modal-title" id="blockedTitle">Export ve FREE tarifu</div>
-          <p>V tomto tarifu export není možný.</p>
-        </div>
-        <button class="ms-modal-close" type="button" data-close="modalExportBlocked">Zavřít ✕</button>
+        <div><div class="ms-modal-title">Chronica</div><p>Ukázka obsahu: zápisy, milníky, okamžiky.</p></div>
+        <button class="ms-modal-close" type="button" data-close="modalChronica">Zavřít ✕</button>
       </div>
-      <div class="ms-modal-body" style="font-size:12px;">
-        FREE je dietní demo nebe. Export bude dostupný až v PLUS nebo PREMIUM.
+      <div class="ms-modal-body">
+        <p>• „Dnes jsme přidali nový rituál.“</p>
+        <p>• „Milník: první export MemorySky™.“</p>
+        <p>• „Okamžik: Lexík si lehnul přes klávesnici.“</p>
       </div>
     </div>
   </div>
 
-  <!-- Modal: data + stažení -->
+  <div class="ms-modal-backdrop" id="modalSigma">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true">
+      <div class="ms-modal-head">
+        <div><div class="ms-modal-title">Sigma</div><p>Rituály a denní rytmus (DEMO).</p></div>
+        <button class="ms-modal-close" type="button" data-close="modalSigma">Zavřít ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <p>• Ráno: Sertralin + L-Thyroxin</p>
+        <p>• Večer: rovnátka</p>
+        <p>• Rekapitulace dne + plán</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ms-modal-backdrop" id="modalProiecta">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true">
+      <div class="ms-modal-head">
+        <div><div class="ms-modal-title">Proiecta</div><p>Mise a projekty (DEMO).</p></div>
+        <button class="ms-modal-close" type="button" data-close="modalProiecta">Zavřít ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <p>• LuminaMemory™ – roadmap</p>
+        <p>• MemorySky™ – UI/UX</p>
+        <p>• Export – struktura dat</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ms-modal-backdrop" id="modalArcana">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true">
+      <div class="ms-modal-head">
+        <div><div class="ms-modal-title">Arcana</div><p>Trezor – jen náhled, bez citlivých dat.</p></div>
+        <button class="ms-modal-close" type="button" data-close="modalArcana">Zavřít ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <p>• (DEMO) Skryté položky se nezobrazují.</p>
+        <p>• V ostré verzi: přístupová práva, šifrování.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ms-modal-backdrop" id="modalConfig">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true">
+      <div class="ms-modal-head">
+        <div><div class="ms-modal-title">Configuratio</div><p>Profil a nastavení (DEMO).</p></div>
+        <button class="ms-modal-close" type="button" data-close="modalConfig">Zavřít ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <p>• Barvy: růžová → fialová</p>
+        <p>• Režim: DEMO</p>
+        <p>• Tarif: přepíná se nahoře (pill)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD MODAL -->
   <div class="ms-modal-backdrop" id="modalDownload">
-    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="dlTitle">
+    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="dlTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="dlTitle">Datový export (DEMO)</div>
-          <p id="dlLead">Náhled vymyšlených dat a možnost stažení.</p>
+          <div class="ms-modal-title" id="dlTitle">Download</div>
+          <p id="dlLead">Náhled exportu.</p>
         </div>
         <button class="ms-modal-close" type="button" data-close="modalDownload">Zavřít ✕</button>
       </div>
       <div class="ms-modal-body">
-        <pre class="data-screen" id="jsonPreview"></pre>
-        <button class="btn-export-kind" type="button" id="btnConfirmDownload">
-          Stáhnout soubor (DEMO)
-        </button>
+        <div class="pill-row">
+          <span class="pill" id="dlFileName">soubor.json</span>
+          <span class="pill" id="dlMime">application/json</span>
+        </div>
+        <pre id="dlPreview">{}</pre>
+        <button class="btn" id="btnConfirmDownload" type="button">Stáhnout soubor</button>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toastExport">
-    DEMO: stažený soubor obsahuje jen vymyšlená data – ukázka budoucího exportu.
-  </div>
+  <div class="toast" id="toast">Soubor stažen ✅</div>
 
   <script>
-/* === Tarif – localStorage === */
-const PLAN_KEY = "lm_plan";
-
-function normalizePlan(p){
-  if(!p) return "free";
-  p = String(p).toLowerCase();
-  return (p === "free" || p === "plus" || p === "premium") ? p : "free";
-}
-
-function readPlan(){
-  try{
-    const fromKey = localStorage.getItem(PLAN_KEY);
-    if(fromKey) return normalizePlan(fromKey);
-    const rawUser = localStorage.getItem("miniLuminaUser");
-    if(rawUser){
-      const u = JSON.parse(rawUser);
-      if(u && u.plan) return normalizePlan(u.plan);
+    // ====== Viewport helpers (iOS landscape) ======
+    function syncVh(){
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", vh + "px");
     }
-  }catch(e){}
-  return "free";
-}
+    window.addEventListener("load", syncVh);
+    window.addEventListener("resize", syncVh);
+    window.addEventListener("orientationchange", syncVh);
 
-const currentPlan = readPlan();
-const planLabelMap = {free:"FREE tarif", plus:"PLUS tarif", premium:"PREMIUM tarif"};
-const planNice = planLabelMap[currentPlan] || "FREE tarif";
+    const headerShell = document.getElementById("headerShell");
+    const footerShell = document.getElementById("footerShell");
+    function syncLayoutHeights(){
+      const headerH = headerShell ? headerShell.getBoundingClientRect().height : 160;
+      const footerH = footerShell ? footerShell.getBoundingClientRect().height : 88;
+      document.documentElement.style.setProperty("--header-h", Math.ceil(headerH) + "px");
+      document.documentElement.style.setProperty("--footer-h", Math.ceil(footerH) + "px");
+    }
+    window.addEventListener("load", syncLayoutHeights);
+    window.addEventListener("resize", syncLayoutHeights);
 
-const crumb = document.getElementById("crumbPlan");
-if(crumb) crumb.textContent = "DEMO · " + planNice;
+    // ====== Plan state ======
+    const PLANS = ["free","plus","premium"];
+    let currentPlan = localStorage.getItem("ms_plan") || "free";
 
-const footNote = document.getElementById("footNote");
-if(footNote){
-  if(currentPlan === "free"){
-    footNote.textContent = "Ve FREE verzi máš dietní nebe – malý prostor na zkoušku. Export je zamčený.";
-  }else if(currentPlan === "plus"){
-    footNote.textContent = "PLUS: pracovní nebe – rozumná kapacita a demo export dat.";
-  }else{
-    footNote.textContent = "PREMIUM: velké nebe – demo export + největší kapacita.";
-  }
-}
+    const crumbPlan = document.getElementById("crumbPlan");
+    const exportLock = document.getElementById("exportLock");
+    const labelFull = document.getElementById("labelFull");
+    const labelDetail = document.getElementById("labelDetail");
+    const labelExport = document.getElementById("labelExport");
+    const footNote = document.getElementById("footNote");
 
-/* === decent rámečky u názvů mraků === */
-const fullLblEl   = document.getElementById("labelFull");
-const detailLblEl = document.getElementById("labelDetail");
-const exportLblEl = document.getElementById("labelExport");
+    function setLabelClass(el){
+      el.classList.remove("cloud-label--free","cloud-label--plus","cloud-label--prem");
+      if(currentPlan==="free") el.classList.add("cloud-label--free");
+      if(currentPlan==="plus") el.classList.add("cloud-label--plus");
+      if(currentPlan==="premium") el.classList.add("cloud-label--prem");
+    }
 
-const cls =
-  currentPlan === "free" ? "cloud-label--free" :
-  currentPlan === "plus" ? "cloud-label--plus" : "cloud-label--prem";
+    function applyPlan(){
+      localStorage.setItem("ms_plan", currentPlan);
 
-[fullLblEl, detailLblEl, exportLblEl].forEach(el=>el && el.classList.add(cls));
+      crumbPlan.textContent =
+        currentPlan==="free" ? "DEMO · FREE tarif" :
+        currentPlan==="plus" ? "DEMO · PLUS tarif" :
+        "DEMO · PREMIUM tarif";
 
-const exportLock = document.getElementById("exportLock");
-if(currentPlan !== "free" && exportLock) exportLock.style.display = "none";
+      setLabelClass(labelFull);
+      setLabelClass(labelDetail);
+      setLabelClass(labelExport);
 
-/* === mrak 2: metry === */
-const meterPrae   = document.getElementById("meterPrae");
-const meterArcana = document.getElementById("meterArcana");
-const meterConfig = document.getElementById("meterConfig");
-[meterPrae, meterArcana, meterConfig].forEach(el=>{
-  if(!el) return;
-  el.classList.add(currentPlan === "free" ? "free" :
-                   currentPlan === "plus" ? "plus" : "premium");
-});
+      const unlocked = (currentPlan==="plus" || currentPlan==="premium");
+      exportLock.style.display = unlocked ? "none" : "flex";
 
-/* === Otevírání / zavírání modalů === */
-function openModal(id){
-  const el = document.getElementById(id);
-  if(!el) return;
-  el.classList.add("is-open");
+      footNote.textContent =
+        currentPlan==="free"
+          ? "FREE: ukázka menší kapacity. Export je zamčený."
+          : currentPlan==="plus"
+            ? "PLUS: větší nebe. Export v DEMU stáhne ukázkový soubor."
+            : "PREMIUM: velké nebe. Demo export + největší kapacita.";
 
-  if(id === "modalFullSky"){
-    // Safari: jemný reflow, aby se maska chytla stabilně
-    requestAnimationFrame(()=>{
-      const wrap = el.querySelector(".stair-wrap");
-      if(wrap) wrap.getBoundingClientRect();
-      startStairAnimation();
+      // Napojení na export tlačítko (enable/disable)
+      const btnExportData = document.getElementById("btnExportData");
+      if(btnExportData){
+        btnExportData.disabled = !unlocked;
+      }
+    }
+
+    crumbPlan.addEventListener("click", ()=>{
+      const i = PLANS.indexOf(currentPlan);
+      currentPlan = PLANS[(i + 1) % PLANS.length];
+      applyPlan();
     });
-  }
-}
-function closeModal(id){
-  const el = document.getElementById(id);
-  if(!el) return;
-  el.classList.remove("is-open");
-}
 
-document.getElementById("btnFullSky").addEventListener("click", ()=>openModal("modalFullSky"));
-document.getElementById("btnDetail").addEventListener("click",   ()=>openModal("modalDetail"));
-document.getElementById("btnExport").addEventListener("click",   ()=>{
-  if(currentPlan === "free") openModal("modalExportBlocked");
-  else openModal("modalExport");
-});
-
-document.querySelectorAll(".ms-modal-close").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const id = btn.getAttribute("data-close");
-    if(id) closeModal(id);
-  });
-});
-
-document.querySelectorAll(".ms-modal-backdrop").forEach(back=>{
-  back.addEventListener("click", (e)=>{
-    if(e.target === back) back.classList.remove("is-open");
-  });
-});
-
-document.addEventListener("keydown", (e)=>{
-  if(e.key === "Escape"){
-    document.querySelectorAll(".ms-modal-backdrop.is-open").forEach(m=>m.classList.remove("is-open"));
-  }
-});
-
-document.querySelectorAll(".realm-card").forEach(card=>{
-  const target = card.getAttribute("data-open");
-  if(!target) return;
-  card.addEventListener("click", ()=>openModal(target));
-});
-
-/* === Fix pruhu: spočítat reálné výšky header/footer a zapsat do CSS vars === */
-const headerShell = document.getElementById("headerShell");
-const footerShell = document.getElementById("footerShell");
-
-function syncLayoutHeights(){
-  const headerH = headerShell ? headerShell.getBoundingClientRect().height : 160;
-  const footerH = footerShell ? footerShell.getBoundingClientRect().height : 88;
-  document.documentElement.style.setProperty("--header-h", Math.ceil(headerH) + "px");
-  document.documentElement.style.setProperty("--footer-h", Math.ceil(footerH) + "px");
-}
-
-window.addEventListener("load", syncLayoutHeights);
-window.addEventListener("resize", syncLayoutHeights);
-
-/* iOS: stabilní výška viewportu (hlavně landscape) */
-function syncVh(){
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty("--vh", vh + "px");
-}
-window.addEventListener("load", syncVh);
-window.addEventListener("resize", syncVh);
-window.addEventListener("orientationchange", syncVh);
-
-/* === 1. mrak: animace schodů (max cca 65%) === */
-const STAIR_RANGES = {
-  free:    {from: 15, to: 35, label:"FREE – dietní nebe"},
-  plus:    {from: 35, to: 55, label:"PLUS – nebe, co stojí za řeč"},
-  premium: {from: 45, to: 65, label:"PREMIUM – velké nebe"}
-};
-
-const stairColor     = document.getElementById("stairColor");
-const stairPercent   = document.getElementById("stairPercent");
-const fullTariffLine = document.getElementById("fullTariffLine");
-const fullLead       = document.getElementById("fullLead");
-const stairNote      = document.getElementById("stairNote");
-let stairAnimId = null;
-
-if(fullTariffLine){
-  const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
-  const p1 = document.createElement("span");
-  p1.className = "pill";
-  p1.textContent = cfg.label;
-  fullTariffLine.appendChild(p1);
-
-  const p2 = document.createElement("span");
-  p2.className = "pill";
-  p2.textContent = "demo vizualizace růžová → fialová";
-  fullTariffLine.appendChild(p2);
-}
-
-if(fullLead){
-  fullLead.textContent = "Výrazné růžové plnění roste odspodu, směrem nahoru přechází do fialové. Ukázka končí zhruba u 65 %.";
-}
-
-function startStairAnimation(){
-  if(!stairColor || !stairPercent) return;
-  if(stairAnimId) cancelAnimationFrame(stairAnimId);
-
-  const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
-  const duration = 3200;
-  const start = performance.now();
-  const numEl = stairPercent.querySelector("strong");
-
-  // init (0..1)
-  stairColor.style.setProperty("--fill", (cfg.from / 100).toFixed(4));
-  if(numEl) numEl.textContent = cfg.from + " %";
-
-  function frame(now){
-    let t = (now - start) / duration;
-    if(t > 1) t = 1;
-
-    const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
-    const value = cfg.from + (cfg.to - cfg.from) * eased;
-
-    const v = Math.max(0, Math.min(1, value / 100));
-    stairColor.style.setProperty("--fill", v.toFixed(4));
-    if(numEl) numEl.textContent = Math.round(value) + " %";
-
-    if(t < 1) stairAnimId = requestAnimationFrame(frame);
-  }
-
-  stairAnimId = requestAnimationFrame(frame);
-
-  if(stairNote){
-    stairNote.textContent =
-      "V ostré verzi se procenta napojí na reálná data. V DEMU ukazujeme jen vizuální logiku a barevné plnění.";
-  }
-}
-
-/* === 3. mrak: kufr + ikonky (celý obrázek icons.png) === */
-const suitcaseImg  = document.getElementById("suitcaseImg");
-const exportIcons  = document.getElementById("exportIcons");
-const exportNote   = document.getElementById("exportNote");
-const exportWarning= document.getElementById("exportWarning");
-
-let suitcaseOpen = false;
-
-if(exportWarning){
-  exportWarning.textContent =
-    (currentPlan === "plus" || currentPlan === "premium")
-      ? "Soubor se stáhne, ale data jsou vymyšlená – ukázka struktury."
-      : "FREE: export je zamčený.";
-}
-
-if(suitcaseImg){
-  suitcaseImg.addEventListener("click", ()=>{
-    suitcaseOpen = !suitcaseOpen;
-    suitcaseImg.src = suitcaseOpen ? "export-open.png" : "export-closed.png";
-
-    if(exportIcons){
-      exportIcons.classList.toggle("is-visible", suitcaseOpen);
+    // ====== Modal helpers ======
+    let scrollY = 0;
+    function lockBody(){
+      scrollY = window.scrollY || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = (-scrollY) + "px";
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    }
+    function unlockBody(){
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      window.scrollTo(0, scrollY);
+    }
+    function openModal(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      lockBody();
+      el.classList.add("is-open");
+      syncVh(); // iOS: přepočet při otevření
+      if(id === "modalFullSky") startStairAnimation();
+    }
+    function closeModal(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.remove("is-open");
+      // když už není otevřený žádný modal, odemkni body
+      if(!document.querySelector(".ms-modal-backdrop.is-open")){
+        unlockBody();
+      }
+      if(id === "modalFullSky") stopStairAnimation();
     }
 
-    if(exportNote){
-      exportNote.textContent = suitcaseOpen
-        ? "Kufřík otevřen. Níže můžeš spustit export datového balíčku."
-        : "Kufřík zavřen. Otevři ho a uvidíš výbavu exportu.";
+    document.querySelectorAll("[data-close]").forEach(btn=>{
+      btn.addEventListener("click", ()=>closeModal(btn.getAttribute("data-close")));
+    });
+    document.querySelectorAll(".ms-modal-backdrop").forEach(backdrop=>{
+      backdrop.addEventListener("click", (e)=>{
+        if(e.target === backdrop) closeModal(backdrop.id);
+      });
+    });
+
+    // ====== Buttons (clouds) ======
+    document.getElementById("btnFullSky")?.addEventListener("click", ()=>openModal("modalFullSky"));
+    document.getElementById("btnDetail")?.addEventListener("click", ()=>openModal("modalDetail"));
+    document.getElementById("btnExport")?.addEventListener("click", ()=>openModal("modalExport"));
+
+    document.querySelectorAll(".realm-card").forEach(card=>{
+      const target = card.getAttribute("data-open");
+      if(target) card.addEventListener("click", ()=>openModal(target));
+    });
+
+    // ====== Modal 1: stairs ======
+    const STAIR_RANGES = {
+      free:    {from: 15, to: 35, label:"FREE – dietní nebe"},
+      plus:    {from: 35, to: 55, label:"PLUS – nebe, co stojí za řeč"},
+      premium: {from: 45, to: 65, label:"PREMIUM – velké nebe"}
+    };
+
+    const stairWrap = document.getElementById("stairWrap");
+    const stairColor = document.getElementById("stairColor");
+    const stairPercent = document.getElementById("stairPercent");
+    const fullTariffLine = document.getElementById("fullTariffLine");
+    const stairNote = document.getElementById("stairNote");
+
+    // (1) Poměr stran schodů podle PNG -> žádný proužek ani na iPhone landscape
+    (function syncStairAspect(){
+      if(!stairWrap) return;
+      const img = new Image();
+      img.onload = () => {
+        try{
+          stairWrap.style.aspectRatio = img.naturalWidth + " / " + img.naturalHeight;
+        }catch(_){}
+      };
+      img.src = "light-stair.png";
+    })();
+
+    function rebuildTariffLine(){
+      if(!fullTariffLine) return;
+      fullTariffLine.innerHTML = "";
+      const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
+
+      const p1 = document.createElement("span");
+      p1.className = "pill";
+      p1.textContent = cfg.label;
+      fullTariffLine.appendChild(p1);
+
+      const p2 = document.createElement("span");
+      p2.className = "pill";
+      p2.textContent = "demo vizualizace růžová → fialová";
+      fullTariffLine.appendChild(p2);
     }
-  });
-}
 
-/* === Export: jeden typ + modal s černou obrazovkou === */
-const btnExportData      = document.getElementById("btnExportData");
-const modalDownload      = document.getElementById("modalDownload");
-const jsonPreview        = document.getElementById("jsonPreview");
-const dlLead             = document.getElementById("dlLead");
-const btnConfirmDownload = document.getElementById("btnConfirmDownload");
-const toast              = document.getElementById("toastExport");
+    let stairAnimId = null;
+    function stopStairAnimation(){
+      if(stairAnimId) cancelAnimationFrame(stairAnimId);
+      stairAnimId = null;
+    }
 
-let currentDownload = null;
+    function startStairAnimation(){
+      if(!stairColor || !stairPercent) return;
+      stopStairAnimation();
 
-function showToast(){
-  if(!toast) return;
-  toast.classList.add("is-visible");
-  setTimeout(()=>toast.classList.remove("is-visible"), 4200);
-}
+      rebuildTariffLine();
 
-function openDownloadModal(payload){
-  currentDownload = payload;
-  dlLead.textContent = payload.lead;
-  jsonPreview.textContent = payload.preview;
-  modalDownload.classList.add("is-open");
-}
+      const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
+      const duration = 3200;
+      const start = performance.now();
+      const numEl = stairPercent.querySelector("strong");
 
-function demoJsonExport(){
-  const now = new Date();
-  const data = {
-    type: "MemorySkyDemoExport",
-    plan: currentPlan.toUpperCase(),
-    created_at: now.toISOString(),
-    human_time: now.toLocaleString("cs-CZ"),
-    summary: {
-      chronica_days: 42,
-      sigma_rituals_active: currentPlan === "premium" ? 9 : 4,
-      proiecta_projects: currentPlan === "free" ? 1 : (currentPlan === "plus" ? 4 : 7)
-    },
-    sections: [
-      { id:"chronica", label:"Chronica", demo: ["zápisy", "milníky", "okamžiky"] },
-      { id:"sigma",    label:"Sigma",    demo: ["rituály", "připomínky", "rytmus dne"] },
-      { id:"proiecta", label:"Proiecta", demo: ["projekty", "mise", "dílna"] },
-      { id:"arcana",   label:"Arcana",   demo: ["trezor – náhled", "bez citlivých dat"] },
-      { id:"config",   label:"Configuratio", demo: ["profil", "tón", "software"] }
-    ],
-    note: "Všechna data jsou fiktivní – ukázka budoucího exportu."
-  };
-  const text = JSON.stringify(data, null, 2);
-  return {
-    filename: "memorysky-demo-export.json",
-    mime: "application/json",
-    preview: text,
-    lead: "Náhled exportu (DEMO) – klikem níže stáhneš soubor.",
-    content: text
-  };
-}
+      // init
+      stairColor.style.setProperty("--fill", (cfg.from / 100).toFixed(4));
+      if(numEl) numEl.textContent = cfg.from + " %";
 
-if(btnExportData){
-  btnExportData.addEventListener("click", ()=>{
-    const payload = demoJsonExport();
-    openDownloadModal(payload);
-  });
-}
+      function easeInOut(t){
+        return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
+      }
 
-if(btnConfirmDownload){
-  btnConfirmDownload.addEventListener("click", ()=>{
-    if(!currentDownload) return;
-    try{
-      const blob = new Blob([currentDownload.content], {type: currentDownload.mime});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = currentDownload.filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url), 800);
-      showToast();
-    }catch(e){}
-  });
-}
-</script>
+      function frame(now){
+        let t = (now - start) / duration;
+        if(t > 1) t = 1;
+        const eased = easeInOut(t);
+        const value = cfg.from + (cfg.to - cfg.from) * eased;
+        const v = Math.max(0, Math.min(1, value / 100));
+
+        stairColor.style.setProperty("--fill", v.toFixed(4));
+        if(numEl) numEl.textContent = Math.round(value) + " %";
+
+        if(t < 1) stairAnimId = requestAnimationFrame(frame);
+      }
+      stairAnimId = requestAnimationFrame(frame);
+
+      if(stairNote){
+        stairNote.textContent =
+          "V ostré verzi se procenta napojí na reálná data. V DEMU ukazujeme jen vizuální logiku a barevné plnění.";
+      }
+    }
+
+    // ====== Modal 3: export ======
+    const suitcaseImg = document.getElementById("suitcaseImg");
+    const exportIcons = document.getElementById("exportIcons");
+    const exportWarning = document.getElementById("exportWarning");
+    const exportNote = document.getElementById("exportNote");
+    const btnExportData = document.getElementById("btnExportData");
+
+    let suitcaseOpen = false;
+
+    function applyExportTexts(){
+      const unlocked = (currentPlan==="plus" || currentPlan==="premium");
+      if(exportWarning){
+        exportWarning.textContent = unlocked
+          ? "Soubor se stáhne, ale data jsou vymyšlená – ukázka struktury."
+          : "FREE: export je zamčený.";
+      }
+      if(exportNote){
+        exportNote.textContent = unlocked
+          ? "Tip: otevři kufr (klik), zobrazí se ikonky. Pak stáhni demo export."
+          : "Chceš export i v DEMU? Přepni tarif nahoře na PLUS nebo PREMIUM.";
+      }
+      if(btnExportData){
+        btnExportData.disabled = !unlocked;
+      }
+    }
+
+    if(suitcaseImg){
+      suitcaseImg.addEventListener("click", ()=>{
+        suitcaseOpen = !suitcaseOpen;
+        suitcaseImg.src = suitcaseOpen ? "export-open.png" : "export-closed.png";
+        exportIcons?.classList.toggle("is-visible", suitcaseOpen);
+      });
+    }
+
+    // ====== Download ======
+    const modalDownload = document.getElementById("modalDownload");
+    const dlLead = document.getElementById("dlLead");
+    const dlFileName = document.getElementById("dlFileName");
+    const dlMime = document.getElementById("dlMime");
+    const dlPreview = document.getElementById("dlPreview");
+    const btnConfirmDownload = document.getElementById("btnConfirmDownload");
+    const toast = document.getElementById("toast");
+
+    let currentDownload = null;
+
+    function showToast(){
+      if(!toast) return;
+      toast.classList.add("is-on");
+      setTimeout(()=>toast.classList.remove("is-on"), 1400);
+    }
+
+    function openDownloadModal(payload){
+      currentDownload = payload;
+      if(dlLead) dlLead.textContent = payload.lead || "Náhled exportu.";
+      if(dlFileName) dlFileName.textContent = payload.filename || "soubor.json";
+      if(dlMime) dlMime.textContent = payload.mime || "application/json";
+      if(dlPreview) dlPreview.textContent = payload.preview || "";
+      openModal("modalDownload");
+    }
+
+    function demoJsonExport(){
+      const data = {
+        demo: true,
+        plan: currentPlan,
+        memory: {
+          used_percent: currentPlan==="free" ? 31 : (currentPlan==="plus" ? 49 : 65),
+          ratio: "16:9",
+          proiecta_projects: currentPlan==="free" ? 1 : (currentPlan==="plus" ? 4 : 7)
+        },
+        sections: [
+          { id:"chronica", label:"Chronica", demo: ["zápisy", "milníky", "okamžiky"] },
+          { id:"sigma",    label:"Sigma",    demo: ["rituály", "připomínky", "rytmus dne"] },
+          { id:"proiecta", label:"Proiecta", demo: ["projekty", "mise", "dílna"] },
+          { id:"arcana",   label:"Arcana",   demo: ["trezor – náhled", "bez citlivých dat"] },
+          { id:"config",   label:"Configuratio", demo: ["profil", "tón", "software"] }
+        ],
+        note: "Všechna data jsou fiktivní – ukázka budoucího exportu."
+      };
+      const text = JSON.stringify(data, null, 2);
+      return {
+        filename: "memorysky-demo-export.json",
+        mime: "application/json",
+        preview: text,
+        lead: "Náhled exportu (DEMO) – klikem níže stáhneš soubor.",
+        content: text
+      };
+    }
+
+    if(btnExportData){
+      btnExportData.addEventListener("click", ()=>{
+        const unlocked = (currentPlan==="plus" || currentPlan==="premium");
+        if(!unlocked) return;
+        const payload = demoJsonExport();
+        openDownloadModal(payload);
+      });
+    }
+
+    if(btnConfirmDownload){
+      btnConfirmDownload.addEventListener("click", ()=>{
+        if(!currentDownload) return;
+        try{
+          const blob = new Blob([currentDownload.content], {type: currentDownload.mime});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = currentDownload.filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(()=>URL.revokeObjectURL(url), 800);
+          closeModal("modalDownload");
+          showToast();
+        }catch(e){}
+      });
+    }
+
+    // ===== init =====
+    applyPlan();
+    applyExportTexts();
+    rebuildTariffLine();
+
+    // když změníš tarif, přepočítej texty pro export + pill-row pro schody
+    const _applyPlanOrig = applyPlan;
+    applyPlan = function(){
+      _applyPlanOrig();
+      applyExportTexts();
+      rebuildTariffLine();
+    }
+  </script>
 </body>
 </html>

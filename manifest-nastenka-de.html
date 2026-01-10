@@ -124,6 +124,34 @@
             gap: 26px;
         }
 
+@media (max-width: 720px) {
+  body {
+    padding: 16px;
+  }
+  .board {
+    padding: 22px 18px 20px;
+    gap: 18px;
+  }
+
+  /* ✅ fix: na mobilu už back-link nepřekrývá nadpis */
+  header {
+    margin-bottom: 18px;
+  }
+  .back-link {
+    position: static;      /* zruší absolute */
+    transform: none;       /* zruší translateY */
+    display: inline-flex;
+    margin: 0 0 10px 0;    /* udělá místo nad nadpisem */
+    padding: 0;
+    max-width: 100%;
+    white-space: normal;   /* když je úzký mobil, klidně zalomí */
+  }
+  h1 {
+    font-size: 1rem;       /* lehce menší na mobil */
+    letter-spacing: 0.12em;
+  }
+}
+
         .note {
             position: relative;
             background: transparent;
