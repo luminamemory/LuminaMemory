@@ -60,9 +60,10 @@ Disallow: /map-en.html
 Disallow: /map-de.html
 
 # Artifacts / internal docs (if kept internal)
-Disallow: /pergamen-luminamemory.html
-Disallow: /pergamen-luminamemory-en.html
-Disallow: /pergamen-luminamemory-de.html
+Disallow: /galerie
+Disallow: /galerie.html
+Disallow: /galerie-en.html
+Disallow: /galerie-de.html
 
 # Arcana – hala (internal)
 Disallow: /arcana
