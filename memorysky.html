@@ -10,6 +10,7 @@
   --ink: #fdf7ff;
   --muted: rgba(244,233,255,.86);
   --pill: 999px;
+  --vh: 1vh;
 
   --shadow-strong: 0 26px 90px rgba(0,0,0,.72);
   --shadow-soft:   0 18px 55px rgba(0,0,0,.46);
@@ -29,21 +30,41 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
 
+html,body{min-height:100%; height:auto;}
 body{
   font-family: system-ui,-apple-system,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
   color: var(--ink);
-  background:#050615; /* fallback, když se nenačte wall.png */
+  background:#050615;
   overflow-x:hidden;
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch; /* iOS */
 }
 
 .bg{
   position:fixed;
-  inset:0;                 /* top:0; right:0; bottom:0; left:0 */
+  inset:0;
   background:url("wall.png") center/cover no-repeat;
   transform:translateZ(0);
   z-index:0;
+}
+
+/* iPhone / malé displeje: neřezat text v obrázku */
+@media (max-width: 520px){
+  .bg{
+    background-size: contain;
+    background-position: center top;
+    background-color:#050615; /* vyplní prázdné okraje */
+  }
+}
+
+/* iPhone landscape: taky radši contain */
+@media (max-width: 900px) and (orientation: landscape){
+  .bg{
+    background-size: contain;
+    background-position: center;
+    background-color:#050615;
+  }
 }
 
 .glass-panel{
@@ -329,8 +350,9 @@ body{
   padding:18px;
   z-index:20;
 }
-.ms-modal-backdrop.is-open{display:flex;}
-
+.ms-modal-backdrop.is-open{
+display:flex;
+}
 .ms-modal{
   width:min(720px,100%);
   max-height:calc(100vh - 48px);
@@ -343,8 +365,9 @@ body{
   display:flex;
   flex-direction:column;
 }
-.ms-modal--small{ width:min(520px,100%); }
-
+.ms-modal--small{
+ width:min(520px,100%); 
+}
 .ms-modal-head{
   padding:12px 16px 8px;
   border-bottom:1px solid rgba(255,255,255,.18);
@@ -374,8 +397,9 @@ body{
   cursor:pointer;
   white-space:nowrap;
 }
-.ms-modal-close:hover{background:rgba(28,13,64,.98);}
-
+.ms-modal-close:hover{
+background:rgba(28,13,64,.98);
+}
 .ms-modal-body{
   padding:14px 16px 14px;
   overflow:auto;
@@ -384,6 +408,16 @@ body{
   gap:12px;
   font-size:13px;
   line-height:1.7;
+}
+/* Výška modálu: iOS stabilní viewport (vh fix) */
+.ms-modal{
+  max-height: calc((var(--vh, 1vh) * 100) - 48px);
+}
+/* klíčové pro flex+overflow v Safari */
+.ms-modal-body{
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .ms-tagline{
@@ -1050,6 +1084,15 @@ body{
 
     window.addEventListener("load", syncLayoutHeights);
     window.addEventListener("resize", syncLayoutHeights);
+
+/* iOS: stabilní výška viewportu (hlavně landscape) */
+function syncVh(){
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", vh + "px");
+}
+window.addEventListener("load", syncVh);
+window.addEventListener("resize", syncVh);
+window.addEventListener("orientationchange", syncVh);
 
     /* === 1. mrak: animace schodů (max cca 65%) === */
     const STAIR_RANGES = {
