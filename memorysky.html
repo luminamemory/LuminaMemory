@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex,nofollow" />
 
   <style>
@@ -41,17 +41,6 @@ body{
   -webkit-overflow-scrolling: touch; /* iOS */
 }
 
-/* iOS/Safari: když je všechno fixed, stránka nemá co scrollovat.
-   V landscape přidáme malý "scroll shim", aby šlo stránku popotáhnout
-   a Safari tím odkryje horní/spodní části. */
-@media (orientation: landscape){
-  body::after{
-    content:"";
-    display:block;
-    height: 260px; /* můžeš zkusit 180–360 podle pocitu */
-  }
-}
-
 .bg{
   position:fixed;
   inset:0;
@@ -63,17 +52,17 @@ body{
 /* iPhone / malé displeje: neřezat text v obrázku */
 @media (max-width: 520px){
   .bg{
-    background-size: cover;
-    background-position: 50% 12%; /* posun výřezu trochu nahoru – často zachrání text */
-    background-color:#050615;
+    background-size: contain;
+    background-position: center top;
+    background-color:#050615; /* vyplní prázdné okraje */
   }
 }
 
 /* iPhone landscape: taky radši contain */
 @media (max-width: 900px) and (orientation: landscape){
   .bg{
-    background-size: cover;
-    background-position: 50% 30%;
+    background-size: contain;
+    background-position: center;
     background-color:#050615;
   }
 }
@@ -191,8 +180,10 @@ body{
 }
 
 .ms-footer-shell{
-  /* ...co už tam máš... */
-  padding: 0 14px calc(12px + env(safe-area-inset-bottom));
+  position:fixed;
+  left:0; right:0; bottom:0;
+  z-index:3;
+  padding:0 14px 12px;  /* trochu odsazení od okrajů */
   pointer-events:none;
   background:transparent;
   border:none;
@@ -249,9 +240,12 @@ body{
   .ms-footer{flex-direction:column;align-items:flex-start;}
 }
 
+/* === Mraky: fixed nad spodním panelem === */
 .cloud-strip{
-  /* ...co už tam máš... */
-  bottom: calc(var(--footer-h) + var(--cloud-gap) + env(safe-area-inset-bottom));
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom: calc(var(--footer-h) + var(--cloud-gap));
   width:min(1040px, calc(100% - 28px));
   z-index:2;
   display:flex;
@@ -417,7 +411,14 @@ background:rgba(28,13,64,.98);
 }
 /* Výška modálu: iOS stabilní viewport (vh fix) */
 .ms-modal{
-  max-height: calc((var(--vh, 1vh) * 100) - 48px);
+  max-height: calc((var(--vh) * 100) - 48px);
+}
+/* fallbacky, kdyby --vh z nějakého důvodu neběžel */
+@supports (height: 100dvh){
+  .ms-modal{ max-height: calc(100dvh - 48px); }
+}
+@supports not (height: 100dvh){
+  .ms-modal{ max-height: calc(100vh - 48px); }
 }
 /* klíčové pro flex+overflow v Safari */
 .ms-modal-body{
