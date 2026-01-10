@@ -462,20 +462,20 @@
       <!-- LEFT: Pergamen -->
       <section class="card" aria-label="Pergamen">
         <div class="pergHead">
-          <div>
-            <b>Pergamen</b>
-            <div class="meta">detaily najdeš v náhledu</div>
+  <div>
+    <b>Pergamen</b>
+    <div class="meta"> • detaily se otevřou v náhledu</div>
+  </div>
 
-          <button class="openBtn" id="openPerg" type="button" title="Otevřít pergamen" aria-label="Otevřít pergamen">
-            <!-- expand icon -->
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 4H4v5" stroke="rgba(242,240,255,.92)" stroke-width="2" stroke-linecap="round"/>
-              <path d="M15 20h5v-5" stroke="rgba(242,240,255,.92)" stroke-width="2" stroke-linecap="round"/>
-              <path d="M4 9l6-6" stroke="rgba(242,240,255,.92)" stroke-width="2" stroke-linecap="round"/>
-              <path d="M20 15l-6 6" stroke="rgba(242,240,255,.92)" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-        </div>
+  <button class="openBtn" id="openPerg" type="button" title="Otevřít pergamen" aria-label="Otevřít pergamen">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M9 4H4v5" stroke="rgba(242,240,255,.92)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M15 20h5v-5" stroke="rgba(242,240,255,.92)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M4 9l6-6" stroke="rgba(242,240,255,.92)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M20 15l-6 6" stroke="rgba(242,240,255,.92)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
 
         <div class="pergBody">
           <div class="previewFrame">
@@ -488,7 +488,7 @@
       <section class="card" aria-label="Galerie">
         <div class="galHead">
           <b>Artefakty</b>
-          <div class="meta">klikni na kartu pro velký náhled</div>
+          <div class="meta"> • klikni na kartu pro velký náhled</div>
         </div>
 
         <div class="list" id="list"></div>
@@ -551,13 +551,14 @@
         tags:["story","Lexík"]
       },
       {
-        id:"manifest-poster",
-        src:"manifest-poster.png",
-        title:"Manifest",
-        date:"15. 10. 2025",
-        desc:"Hodnoty, které drží směr, i když se svět rozběhne.",
-        tags:["values","anchor"]
-    ];
+  id:"manifest-poster",
+  src:"manifest-poster.png",
+  title:"Manifest",
+  date:"15. 10. 2025",
+  desc:"Hodnoty, které drží směr, i když se svět rozběhne.",
+  tags:["values","anchor"]
+}
+];
 
     const list = document.getElementById("list");
 
