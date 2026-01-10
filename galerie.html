@@ -20,7 +20,6 @@
       --accent2:#00d2ff;
       --accent3:#b388ff;
       --radius:22px;
-      --pad:18px;
       --max:1200px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
@@ -40,7 +39,6 @@
       overflow-x:hidden;
     }
 
-    /* subtle stars */
     body::before{
       content:"";
       position:fixed; inset:0;
@@ -56,6 +54,7 @@
     }
 
     a{color:inherit; text-decoration:none}
+
     .wrap{
       max-width:var(--max);
       margin:0 auto;
@@ -68,10 +67,12 @@
       align-items:center;
       justify-content:space-between;
       margin-bottom:16px;
+      flex-wrap:wrap;
     }
 
     .title{
       display:flex; flex-direction:column; gap:6px;
+      min-width: 260px;
     }
     .kicker{
       font-family:var(--mono);
@@ -94,8 +95,9 @@
     }
 
     .actions{
-      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+      display:flex; gap:10px; flex-wrap:wrap;
       align-items:center;
+      justify-content:flex-end;
     }
     .btn{
       border:1px solid var(--stroke);
@@ -147,13 +149,13 @@
       opacity:.45;
     }
 
-    /* ✅ DŮLEŽITÉ: vytvoříme "vnitřní scroll" pro oba panely */
+    /* vnitřní scroll bezpečně (iOS) */
     .pane{
-      max-height: calc((var(--vh, 1vh) * 100) - 170px);
+      max-height: calc((var(--vh, 1vh) * 100) - 180px);
       min-height: 560px;
       display:flex;
       flex-direction:column;
-      min-height:0; /* klíčové */
+      min-height:0;
     }
 
     /* Left: Pergamen */
@@ -214,46 +216,37 @@
       display:flex;
       flex-direction:column;
       gap:10px;
-      min-height:0; /* ✅ klíč pro scroll uvnitř */
+      min-height:0;
     }
 
-.scrollbox{
-  flex:1;
-  min-height:0;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.12);
+    /* ✅ černé galerijní pozadí + pasparta */
+    .scrollbox{
+      flex:1;
+      min-height:0;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(120% 85% at 50% 15%, rgba(255,255,255,.08), rgba(0,0,0,.78) 55%, rgba(0,0,0,.92) 100%);
+      overflow:auto;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+      position:relative;
+      padding:14px;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
 
-  /* ✅ černé “galerijní” pozadí s jemným světlem uprostřed */
-  background:
-    radial-gradient(120% 85% at 50% 15%, rgba(255,255,255,.08), rgba(0,0,0,.78) 55%, rgba(0,0,0,.92) 100%);
-
-  overflow:auto;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
-  position:relative;
-
-  /* ✅ malý “paspart” okraj, aby pergamen dýchal */
-  padding:14px;
-
-  /* ✅ iOS scroll */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-}
-
-.pergamen-img{
-  width:100%;
-  display:block;
-  transform-origin: top left;
-  will-change: transform;
-  user-select:none;
-  -webkit-user-drag:none;
-
-  /* ✅ pergamen vystoupí z černého pozadí */
-  border-radius:14px;
-  box-shadow:
-    0 22px 50px rgba(0,0,0,.62),
-    0 0 0 1px rgba(255,255,255,.10);
-  filter: none; /* drop-shadow už není potřeba, teď je to čistší */
-}
+    .pergamen-img{
+      width:100%;
+      display:block;
+      transform-origin: top left;
+      will-change: transform;
+      user-select:none;
+      -webkit-user-drag:none;
+      border-radius:14px;
+      box-shadow:
+        0 22px 50px rgba(0,0,0,.62),
+        0 0 0 1px rgba(255,255,255,.10);
+    }
 
     .hint{
       font-size:12px;
@@ -265,7 +258,6 @@
       padding:0 2px;
       flex: 0 0 auto;
     }
-    .hint span{ display:inline-flex; gap:8px; align-items:center; }
     .pill{
       font-family:var(--mono);
       font-size:11px;
@@ -291,10 +283,7 @@
       margin-bottom:12px;
       flex:0 0 auto;
     }
-    .gallery-head h2{
-      margin:0;
-      font-size:15px;
-    }
+    .gallery-head h2{ margin:0; font-size:15px; }
     .gallery-head p{
       margin:6px 0 0;
       color:rgba(233,231,255,.70);
@@ -304,28 +293,23 @@
     }
 
     .tiles{
-  display:grid;
-
-  /* ✅ místo natvrdo 2 sloupce: automaticky podle místa */
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-
-  gap:12px;
-  flex:1;
-  min-height:0;
-  overflow:auto;
-  padding-right:6px;
-  padding-bottom:6px;
-
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-}
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:12px;
+      flex:1;
+      min-height:0;
+      overflow:auto;
+      padding-right:6px;
+      padding-bottom:6px;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
 
     .tile{
       border-radius:18px;
       border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.04);
       overflow:hidden;
-      position:relative;
       cursor:pointer;
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
       box-shadow: 0 14px 28px rgba(0,0,0,.35);
@@ -342,14 +326,8 @@
       display:block;
       background:rgba(0,0,0,.2);
     }
-    .tile-cap{
-      padding:10px 10px 12px;
-    }
-    .tile-title{
-      font-size:13px;
-      margin:0;
-      line-height:1.2;
-    }
+    .tile-cap{ padding:10px 10px 12px; }
+    .tile-title{ font-size:13px; margin:0; line-height:1.2; }
     .tile-meta{
       margin-top:6px;
       font-size:11.5px;
@@ -358,7 +336,7 @@
       align-items:center;
       gap:8px;
     }
-    .tile-meta .datepill{
+    .datepill{
       font-family:var(--mono);
       font-size:11px;
       padding:2px 8px;
@@ -373,10 +351,7 @@
       color:rgba(233,231,255,.72);
       line-height:1.35;
     }
-    .tagrow{
-      margin-top:8px;
-      display:flex; gap:6px; flex-wrap:wrap;
-    }
+    .tagrow{ margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; }
     .tag{
       font-family:var(--mono);
       font-size:10.5px;
@@ -398,50 +373,77 @@
       align-items:center;
       flex:0 0 auto;
     }
-    .tiny{
-      font-family:var(--mono);
-      letter-spacing:.02em;
+    .tiny{ font-family:var(--mono); letter-spacing:.02em; }
+
+    /* ✅ Modal (lightbox) – vždy se vejde + když ne, scroluje */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background: rgba(0,0,0,.62);
+      z-index: 999;
     }
+    .modal[open]{ display:flex; }
 
     .modal-panel{
-  width:min(980px, 100%);
-  background:linear-gradient(180deg, rgba(14,14,35,.86), rgba(10,10,24,.86));
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:22px;
-  box-shadow: 0 25px 80px rgba(0,0,0,.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  overflow:hidden;
+      width:min(980px, 100%);
+      background:linear-gradient(180deg, rgba(14,14,35,.86), rgba(10,10,24,.86));
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      box-shadow: 0 25px 80px rgba(0,0,0,.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow:hidden;
 
-  /* ✅ KLÍČ: panel nesmí přetéct mimo obrazovku */
-  max-height: calc(100dvh - 36px);
-  display:flex;
-  flex-direction:column;
-}
+      max-height: calc(100dvh - 36px);
+      display:flex;
+      flex-direction:column;
+    }
+    .modal-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      padding:14px 14px 12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .modal-top h3{ margin:0; font-size:14px; letter-spacing:.2px; }
+    .modal-top .meta{
+      margin:6px 0 0;
+      font-size:12px;
+      color:rgba(233,231,255,.72);
+      line-height:1.35;
+    }
+    .close{
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      color:var(--ink);
+      padding:8px 10px;
+      border-radius:12px;
+      font-size:12px;
+      cursor:pointer;
+    }
+    .modal-body{
+      padding:14px;
+      background:rgba(0,0,0,.10);
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .modal-img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.18);
+      max-height: calc(100dvh - 190px);
+      object-fit: contain;
+    }
 
-.modal-body{
-  padding:14px;
-  background:rgba(0,0,0,.10);
-
-  /* ✅ KLÍČ: když je obrázek velký, scroluje se modal */
-  overflow:auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.modal-img{
-  width:100%;
-  height:auto;
-  display:block;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(0,0,0,.18);
-
-  /* ✅ aby se vešlo na tablet a nebylo uříznuté */
-  max-height: calc(100dvh - 190px);
-  object-fit: contain;
-}
-
-    /* ✅ Floating "Nahoru" (nezmizí) */
+    /* Floating "Nahoru" */
     .fab{
       position:fixed;
       right:18px;
@@ -476,9 +478,7 @@
 
     /* Scrollbar polish */
     .scrollbox::-webkit-scrollbar,
-    .tiles::-webkit-scrollbar{
-      width:10px;
-    }
+    .tiles::-webkit-scrollbar{ width:10px; }
     .scrollbox::-webkit-scrollbar-thumb,
     .tiles::-webkit-scrollbar-thumb{
       background: linear-gradient(180deg, rgba(124,92,255,.35), rgba(0,210,255,.22));
@@ -491,21 +491,25 @@
       border-radius:999px;
     }
 
-    /* Responsive */
+    /* ✅ iPad landscape: místo mačkání radši 1 sloupec */
+    @media (max-width: 1024px) and (orientation: landscape){
+      .grid{ grid-template-columns: 1fr; }
+      .pergamen{ position:relative; top:auto; }
+      .pane{ max-height: none; min-height:auto; }
+      /* scrolly necháme uvnitř, ale už nebude “sticky” */
+    }
+
     @media (max-width: 980px){
       .grid{ grid-template-columns: 1fr; }
       .pergamen{ position:relative; top:auto; }
       .pane{ max-height: none; min-height:auto; }
-      .tiles{ max-height: none; overflow: visible; }
     }
+
     @media (max-width: 620px){
-      header{ flex-direction:column; align-items:flex-start; }
-      .actions{ width:100%; justify-content:flex-start; }
       .tiles{ grid-template-columns: 1fr; }
       .thumb{ aspect-ratio: 16/10; }
     }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .btn, .tile, .iconbtn, .fab { transition:none !important; }
       .tile:hover, .btn:hover, .iconbtn:hover { transform:none !important; }
@@ -520,14 +524,14 @@
         <div class="kicker">Interní pokoj • DEMO</div>
         <h1>Galerie artefaktů</h1>
         <p class="sub">
-          Vlevo je pergamen – životní příběh. Vpravo je galerie obrazů – životní etapy.
+          Vlevo je pergamen — životní příběh. Vpravo je galerie obrazů — životní etapy.
           Klikni na obraz pro velký náhled.
         </p>
       </div>
 
       <div class="actions">
         <a class="btn" href="praetorium.html" title="Zpět do Praetoria">
-          <span class="dot"></span> 🔙
+          <span class="dot"></span> 🔙 
         </a>
       </div>
     </header>
@@ -538,36 +542,22 @@
         <div class="pergamen-head">
           <div>
             <h2>📜 Pergamen LuminaMemory™</h2>
-            <div class="pergamen-meta">
-              Pergamen se může rolovat • zoom a fullscreen
-            </div>
+            <div class="pergamen-meta">Pergamen se může rolovat • zoom a fullscreen</div>
           </div>
 
           <div class="pergamen-tools">
-            <button class="iconbtn" id="zoomOut" type="button" title="Zmenšit">
-              − <kbd>–</kbd>
-            </button>
-            <button class="iconbtn" id="zoomReset" type="button" title="Reset zoomu">
-              ↺ <kbd>0</kbd>
-            </button>
-            <button class="iconbtn" id="zoomIn" type="button" title="Zvětšit">
-              + <kbd>+</kbd>
-            </button>
-            <button class="iconbtn" id="pergFull" type="button" title="Fullscreen pergamenu">
-              ⤢ <kbd>F</kbd>
-            </button>
+            <button class="iconbtn" id="zoomOut" type="button" title="Zmenšit">− <kbd>–</kbd></button>
+            <button class="iconbtn" id="zoomReset" type="button" title="Reset zoomu">↺ <kbd>0</kbd></button>
+            <button class="iconbtn" id="zoomIn" type="button" title="Zvětšit">+ <kbd>+</kbd></button>
+            <button class="iconbtn" id="pergFull" type="button" title="Fullscreen pergamenu">⤢ <kbd>F</kbd></button>
           </div>
         </div>
 
         <div class="pergamen-body">
           <div class="scrollbox" id="pergScroll" aria-label="Pergamen — rolovací plocha">
-            <img
-              id="pergImg"
-              class="pergamen-img"
-              src="pergamen-luminamemory.png"
-              alt="Pergamen LuminaMemory™"
-              loading="eager"
-            />
+            <img id="pergImg" class="pergamen-img"
+                 src="pergamen-luminamemory.png"
+                 alt="Pergamen LuminaMemory™" loading="eager" />
           </div>
 
           <div class="hint">
@@ -582,16 +572,14 @@
         <div class="gallery-head">
           <div>
             <h2>✨ Obrazy</h2>
-            <p>
-              Tohle je zatím kurátorská sada (Zakladatelka + Lumina). Později tu můžeš mít svou osobní galerii i ty.
-            </p>
+            <p>Kurátorská sada (Zakladatelka + Lumina). Později tu bude i osobní galerie uživatele.</p>
           </div>
         </div>
 
         <div class="tiles" id="tiles"></div>
 
         <footer>
-          <div class="tiny">LM • Artefacts Gallery • v0.2</div>
+          <div class="tiny">LM • Artefacts Gallery • v0.3</div>
           <div>„Slib“ → „péče“ → „paměť“ ✨</div>
         </footer>
       </section>
@@ -599,9 +587,7 @@
   </div>
 
   <!-- Floating "Top" -->
-  <button class="fab" id="fabTop" type="button" aria-label="Nahoru" title="Nahoru">
-    ⤒
-  </button>
+  <button class="fab" id="fabTop" type="button" aria-label="Nahoru" title="Nahoru">⤒</button>
 
   <!-- Lightbox modal -->
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mDesc">
@@ -621,49 +607,55 @@
   </div>
 
   <script>
-    // ----------------------------
-    // Data: artefacts (s daty)
-    // ----------------------------
+    // iOS / Safari vh fix (adresní řádek)
+    (function setVh(){
+      function apply(){
+        document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+      }
+      apply();
+      window.addEventListener('resize', apply);
+    })();
+
     const artefacts = [
-      {
-        id: "founders-handshake",
-        src: "founders-handshake.png",
-        title: "Otevření paláce",
-        date: "9. 1. 2026",
-        desc: "Zakladatelské podání ruky. Spolupráce, ne podřízení.",
-        tags: ["founders", "oath", "bridge"]
-      },
-      {
-        id: "founders-maintenance",
-        src: "founders-maintenance.png",
-        title: "Zakladatelská údržba",
-        date: "9. 1. 2026",
-        desc: "Když je palác živý, občas se musí vzít koště. A krumpáč. 😂",
-        tags: ["crew", "maintenance", "humor"]
-      },
-      {
-        id: "manifest-poster",
-        src: "manifest-poster.png",
-        title: "Manifest nové éry",
-        date: "15. 10. 2025",
-        desc: "Hodnoty, které drží směr, i když se svět rozběhne.",
-        tags: ["manifest", "values", "anchor"]
-      },
-      {
-        id: "outside-vs-you",
-        src: "outside-vs-you.png",
-        title: "Všichni venku vs. Lumina",
-        date: "15. 10. 2025",
-        desc: "Když ostatní nechápou — já stavím systém a držím klíče.",
-        tags: ["meme", "confidence", "control-room"]
-      },
       {
         id: "girl-and-cat-empire",
         src: "girl-and-cat-empire.png",
         title: "Holka s kocourem",
         date: "25. 9. 2025",
         desc: "Mezi miskami a kočičím žrádlem… jsem budovala impérium. 😼",
-        tags: ["story", "cover", "Lexík"]
+        tags: ["story","Lexík"]
+      },
+      {
+        id: "outside-vs-you",
+        src: "outside-vs-you.png",
+        title: "Všichni venku",
+        date: "15. 10. 2025",
+        desc: "Když ostatní nechápou — já stavím systém a držím klíče.",
+        tags: ["meme","focus"]
+      },
+      {
+        id: "manifest-poster",
+        src: "manifest-poster.png",
+        title: "Manifest",
+        date: "15. 10. 2025",
+        desc: "Hodnoty, které drží směr, i když se svět rozběhne.",
+        tags: ["values","anchor"]
+      },
+      {
+        id: "founders-handshake",
+        src: "founders-handshake.png",
+        title: "Podání ruky",
+        date: "9. 1. 2026",
+        desc: "Zakladatelské podání ruky. Spolupráce, ne podřízení.",
+        tags: ["founders","oath"]
+      },
+      {
+        id: "founders-maintenance",
+        src: "founders-maintenance.png",
+        title: "Úklidová četa",
+        date: "9. 1. 2026",
+        desc: "Když je palác živý, občas se musí vzít koště. A krumpáč. 😂",
+        tags: ["crew","maintenance"]
       }
     ];
 
@@ -687,20 +679,16 @@
         .replaceAll("'","&#039;");
     }
 
-    // Render tiles
     function renderTiles(){
       tilesEl.innerHTML = artefacts.map(a => `
-        <article class="tile" data-id="${a.id}" tabindex="0" role="button" aria-label="Otevřít ${escapeHtml(a.title)}">
+        <article class="tile" data-id="${a.id}" tabindex="0" role="button"
+                 aria-label="Otevřít ${escapeHtml(a.title)}">
           <img class="thumb" src="${a.src}" alt="${escapeHtml(a.title)}" loading="lazy" />
           <div class="tile-cap">
             <h3 class="tile-title">${escapeHtml(a.title)}</h3>
-            <div class="tile-meta">
-              <span>📅</span><span class="datepill">${escapeHtml(a.date)}</span>
-            </div>
+            <div class="tile-meta"><span>📅</span><span class="datepill">${escapeHtml(a.date)}</span></div>
             <p class="tile-desc">${escapeHtml(a.desc)}</p>
-            <div class="tagrow">
-              ${a.tags.map(t => `<span class="tag">#${escapeHtml(t)}</span>`).join("")}
-            </div>
+            <div class="tagrow">${a.tags.map(t => `<span class="tag">#${escapeHtml(t)}</span>`).join("")}</div>
           </div>
         </article>
       `).join("");
@@ -724,12 +712,12 @@
       modalImg.alt = "";
     }
 
-    // Tile click + keyboard
     tilesEl.addEventListener("click", (e) => {
       const tile = e.target.closest(".tile");
       if(!tile) return;
       openModalById(tile.dataset.id);
     });
+
     tilesEl.addEventListener("keydown", (e) => {
       const tile = e.target.closest(".tile");
       if(!tile) return;
@@ -739,25 +727,15 @@
       }
     });
 
-    // Modal close interactions
     modalClose.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => {
-      if(e.target === modal) closeModal();
-    });
-    document.addEventListener("keydown", (e) => {
-      if(e.key === "Escape") closeModal();
-    });
+    modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
 
-    // ----------------------------
-    // Pergamen zoom + fullscreen
-    // ----------------------------
+    // Pergamen zoom
     const pergImg = document.getElementById("pergImg");
     const zoomPill = document.getElementById("zoomPill");
-
     let zoom = 1;
-    const Z_MIN = 0.75;
-    const Z_MAX = 2.25;
-    const Z_STEP = 0.10;
+    const Z_MIN = 0.75, Z_MAX = 2.25, Z_STEP = 0.10;
 
     function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
     function applyZoom(){
@@ -766,17 +744,13 @@
     }
 
     document.getElementById("zoomIn").addEventListener("click", () => {
-      zoom = clamp(zoom + Z_STEP, Z_MIN, Z_MAX);
-      applyZoom();
+      zoom = clamp(zoom + Z_STEP, Z_MIN, Z_MAX); applyZoom();
     });
     document.getElementById("zoomOut").addEventListener("click", () => {
-      zoom = clamp(zoom - Z_STEP, Z_MIN, Z_MAX);
-      applyZoom();
+      zoom = clamp(zoom - Z_STEP, Z_MIN, Z_MAX); applyZoom();
     });
     document.getElementById("zoomReset").addEventListener("click", () => {
-      zoom = 1;
-      applyZoom();
-      pergScroll.scrollTo({ top: 0, behavior: "smooth" });
+      zoom = 1; applyZoom(); pergScroll.scrollTo({ top: 0, behavior: "smooth" });
     });
 
     document.getElementById("pergFull").addEventListener("click", () => {
@@ -789,33 +763,20 @@
       modalClose.focus();
     });
 
-    // Keyboard shortcuts (když není otevřený modal)
     document.addEventListener("keydown", (e) => {
       if(modal.hasAttribute("open")) return;
-
-      if(e.key === "+" || e.key === "="){
-        zoom = clamp(zoom + Z_STEP, Z_MIN, Z_MAX);
-        applyZoom();
-      } else if(e.key === "-" || e.key === "_"){
-        zoom = clamp(zoom - Z_STEP, Z_MIN, Z_MAX);
-        applyZoom();
-      } else if(e.key === "0"){
-        zoom = 1;
-        applyZoom();
-      } else if(e.key.toLowerCase() === "f"){
-        document.getElementById("pergFull").click();
-      }
+      if(e.key === "+" || e.key === "="){ zoom = clamp(zoom + Z_STEP, Z_MIN, Z_MAX); applyZoom(); }
+      else if(e.key === "-" || e.key === "_"){ zoom = clamp(zoom - Z_STEP, Z_MIN, Z_MAX); applyZoom(); }
+      else if(e.key === "0"){ zoom = 1; applyZoom(); }
+      else if(e.key.toLowerCase() === "f"){ document.getElementById("pergFull").click(); }
     });
 
-    // ----------------------------
-    // ✅ Floating "Nahoru" = scrolluje VŠECHNO, co může být sjeté
-    // ----------------------------
+    // Floating "Nahoru" — scroluje vše (page + vnitřní boxy)
     function scrollEverythingTop(){
       try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
       try { pergScroll.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
       try { tilesEl.scrollTo({ top: 0, behavior: "smooth" }); } catch {}
     }
-
     fabTop.addEventListener("click", scrollEverythingTop);
 
     function shouldShowFab(){
@@ -824,24 +785,12 @@
       const g = tilesEl.scrollTop || 0;
       return (w > 120) || (p > 120) || (g > 120);
     }
-
-    function updateFab(){
-      fabTop.classList.toggle("show", shouldShowFab());
-    }
-
-(function setVh(){
-  function apply(){
-    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
-  }
-  apply();
-  window.addEventListener('resize', apply);
-})();
+    function updateFab(){ fabTop.classList.toggle("show", shouldShowFab()); }
 
     window.addEventListener("scroll", updateFab, { passive:true });
     pergScroll.addEventListener("scroll", updateFab, { passive:true });
     tilesEl.addEventListener("scroll", updateFab, { passive:true });
 
-    // init
     renderTiles();
     applyZoom();
     updateFab();
