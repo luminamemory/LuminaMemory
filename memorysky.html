@@ -450,18 +450,18 @@ background:rgba(28,13,64,.98);
   opacity:.96;
   filter:drop-shadow(0 20px 58px rgba(0,0,0,.86));
 }
-/* iOS: schody nesmí spadnout na úzký proužek + musí pustit scroll */
-.stair-wrap{
-  width: 100%;
-  align-self: stretch;
-  touch-action: pan-y;
-}
-.stair-img{
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  touch-action: pan-y;
+/* iOS Safari FIX: drop-shadow + overflow:hidden + mask občas zúží <img> na "proužek" */
+@supports (-webkit-touch-callout: none){
+  .stair-wrap{
+    width:100%;
+    max-width:100%;
+    transform: translateZ(0); /* stabilizace vykreslení */
+  }
+  .stair-img{
+    width:100%;
+    max-width:100%;
+    filter:none !important;   /* ← tohle je klíč */
+  }
 }
 
 /*
