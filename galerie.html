@@ -517,6 +517,13 @@
 @media (prefers-reduced-motion: reduce){
   * { animation: none !important; transition: none !important; }
 }
+
+/* Sticky levý panel (Pergamen) */
+.grid > :first-child{
+  position: sticky;
+  top: 18px;
+  align-self: start;
+}
   </style>
 </head>
 
@@ -731,7 +738,7 @@
       mStory.innerHTML = "";
       if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
 lastFocus = null;
-    }
+    } // ✅ TADY chyběla závorka
 
     function renderWall(){
       wall.innerHTML = artefacts.map(a => `
