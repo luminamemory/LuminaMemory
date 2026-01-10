@@ -6,6 +6,7 @@
   <meta name="robots" content="noindex,nofollow" />
 
   <style>
+
 :root{
   --ink: #fdf7ff;
   --muted: rgba(244,233,255,.86);
@@ -20,7 +21,7 @@
   --footer-h: 88px;
 
   /* Kolik mají být mraky nad spodním panelem */
-  --cloud-gap: 24px; /* ⬅️ posun mraků trochu výš */
+  --cloud-gap: 24px;
 
   /* výraznější barvy (spod = růžová, vrch = fialová) */
   --hot-pink:  #ff3fb8;
@@ -38,16 +39,15 @@ body{
   background:#050615;
   overflow-x:hidden;
   overflow-y:auto;
-  -webkit-overflow-scrolling: touch; /* iOS */
+  -webkit-overflow-scrolling: touch;
 }
-/* iOS/Safari: když je všechno fixed, stránka nemá co scrollovat.
-   V landscape přidáme malý "scroll shim", aby šlo stránku popotáhnout
-   a Safari tím odkryje horní/spodní části. */
+
+/* iOS/Safari: když je všechno fixed, stránka nemá co scrollovat. */
 @media (orientation: landscape){
   body::after{
     content:"";
     display:block;
-    height: 260px; /* můžeš zkusit 180–360 podle pocitu */
+    height: 260px;
   }
 }
 
@@ -60,7 +60,6 @@ body{
 }
 
 .glass-panel{
-  /* tmavší “sklo” – víc temnoty, míň světlého fialového nádechu */
   background:
     linear-gradient(
       135deg,
@@ -101,10 +100,6 @@ body{
   align-items:flex-start;
   justify-content:space-between;
   gap:14px;
-}
-
-/* panel vzhled */
-.ms-header.glass-panel{
 }
 
 .ms-header-left{
@@ -175,7 +170,7 @@ body{
   position:fixed;
   left:0; right:0; bottom:0;
   z-index:3;
-  padding:0 14px 12px;  /* trochu odsazení od okrajů */
+  padding:0 14px 12px;
   pointer-events:none;
   background:transparent;
   border:none;
@@ -186,7 +181,7 @@ body{
 
 .ms-footer{
   pointer-events:auto;
-  max-width:860px;          /* ⬅️ užší provedení */
+  max-width:860px;
   margin:0 auto;
   padding:8px 14px 9px;
   border-radius:18px;
@@ -198,9 +193,6 @@ body{
 
   font-size:11px;
   color:rgba(235,225,255,.92);
-}
-
-.ms-footer.glass-panel{
 }
 
 .ms-footer-right{
@@ -227,10 +219,6 @@ body{
 }
 .lumina-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
 .lumina-note{font-size:11px;color:rgba(247,240,255,.96);}
-
-@media (max-width:840px){
-  .ms-footer{flex-direction:column;align-items:flex-start;}
-}
 
 /* === Mraky: fixed nad spodním panelem === */
 .cloud-strip{
@@ -269,7 +257,6 @@ body{
 .cloud-btn:hover{ transform:translateY(-4px); filter:brightness(1.03); }
 .cloud-btn:active{ transform:translateY(-1px); }
 
-/* ⬅️ 1. mrak větší (zvětší se jen "velká" varianta) */
 .cloud-img{
   display:block;
   width:min(320px,40vw);
@@ -278,13 +265,9 @@ body{
   opacity:.96;
 }
 
-/* 2. mrak beze změny */
 .cloud-btn--small .cloud-img{ width:min(220px,30vw); }
-
-/* ⬅️ 3. mrak: stejná velikost jako první (i když má small třídu) */
 #btnExport.cloud-btn--small .cloud-img{ width:min(320px,40vw); }
 
-/* decentnější názvy */
 .cloud-label{
   position:absolute;
   left:50%;
@@ -342,12 +325,11 @@ body{
   padding:18px;
   z-index:20;
 }
-.ms-modal-backdrop.is-open{
-display:flex;
-}
+.ms-modal-backdrop.is-open{ display:flex; }
+
 .ms-modal{
   width:min(720px,100%);
-  max-height:calc(100vh - 48px);
+  max-height:calc((var(--vh) * 100) - 48px);
   background:radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 55%) rgba(10,4,32,.97);
   border-radius:22px;
   border:1px solid rgba(255,255,255,.35);
@@ -357,9 +339,8 @@ display:flex;
   display:flex;
   flex-direction:column;
 }
-.ms-modal--small{
- width:min(520px,100%); 
-}
+.ms-modal--small{ width:min(520px,100%); }
+
 .ms-modal-head{
   padding:12px 16px 8px;
   border-bottom:1px solid rgba(255,255,255,.18);
@@ -389,9 +370,8 @@ display:flex;
   cursor:pointer;
   white-space:nowrap;
 }
-.ms-modal-close:hover{
-background:rgba(28,13,64,.98);
-}
+.ms-modal-close:hover{ background:rgba(28,13,64,.98); }
+
 .ms-modal-body{
   padding:14px 16px 14px;
   overflow:auto;
@@ -404,14 +384,8 @@ background:rgba(28,13,64,.98);
   flex: 1 1 auto;
   touch-action: pan-y;
   min-width: 0;
-}
-/* Výška modálu: iOS stabilní viewport (vh fix) */
-.ms-modal{
-  max-height: calc((var(--vh) * 100) - 48px);
-}
-/* klíčové pro flex+overflow v Safari */
-.ms-modal-body{
-  min-height: 0;
+
+  min-height:0;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
@@ -433,45 +407,33 @@ background:rgba(28,13,64,.98);
   color:rgba(244,233,255,.88);
 }
 
-/* === 1. mrak – schody: barva jen na „sklo“ (mask) === */
+/* === 1. mrak – schody (Safari stabilní): background místo <img> === */
 .stair-wrap{
   position:relative;
   margin-top:4px;
   border-radius:18px;
-  overflow: hidden;
-  transform: translateZ(0);
+  overflow:hidden;
   border:1px solid rgba(255,255,255,.4);
   box-shadow:var(--shadow-soft);
-  background:#050615;
-}
 
-.stair-img{
+  background: #050615 url("light-stair.png") center / contain no-repeat;
+
+  /* důležité: bez <img> musíme dát výšku */
   width:100%;
-  max-width:100%;
-  height:auto;
-  display:block;
-  opacity:.96;
-  filter:drop-shadow(0 20px 58px rgba(0,0,0,.86));
-}
-/* iOS Safari FIX: drop-shadow + overflow:hidden + mask občas zúží <img> na "proužek" */
-@supports (-webkit-touch-callout: none){
-  .stair-wrap{
-    width:100%;
-    max-width:100%;
-    transform: translateZ(0); /* stabilizace vykreslení */
-  }
-  .stair-img{
-    width:100%;
-    max-width:100%;
-    filter:none !important;   /* ← tohle je klíč */
-  }
+  aspect-ratio: 16 / 9;
+  height: auto;
+
+  transform: translateZ(0);
 }
 
+/* kdyby někde zůstalo v HTML, schovej to */
+.stair-img{ display:none !important; }
+
+/* overlay: barví jen schody díky masce */
 .stair-color{
   position:absolute;
   inset:0;
 
-  /* gradient plnění */
   background: linear-gradient(
     0deg,
     var(--hot-pink) 0%,
@@ -483,21 +445,19 @@ background:rgba(28,13,64,.98);
   );
 
   opacity:.92;
-  filter: saturate(2.35) contrast(1.12) brightness(1.08);
+  filter: saturate(2.10) contrast(1.08) brightness(1.06);
   mix-blend-mode: normal;
   pointer-events:none;
 
-  /* maska = barví se jen schody */
   -webkit-mask-image: url("light-stair.png");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  -webkit-mask-size: 100% 100%;
+  -webkit-mask-size: contain;
   mask-image: url("light-stair.png");
   mask-repeat: no-repeat;
   mask-position: center;
-  mask-size: 100% 100%;
+  mask-size: contain;
 
-  /* plnění odspodu (Safari-friendly) */
   transform-origin: bottom;
   transform: scaleY(var(--fill, 0));
   will-change: transform;
@@ -774,9 +734,7 @@ background:rgba(28,13,64,.98);
         <div class="pill-row" id="fullTariffLine"></div>
 
         <div class="stair-wrap">
-          <img src="light-stair.png" alt="Schody do MemorySky" class="stair-img" />
           <div class="stair-color" id="stairColor"></div>
-
           <div class="stair-percent" id="stairPercent">
             <strong>0 %</strong>
             <span>stav zaplnění</span>
@@ -970,136 +928,136 @@ background:rgba(28,13,64,.98);
   </div>
 
   <script>
-    /* === Tarif – localStorage === */
-    const PLAN_KEY = "lm_plan";
+/* === Tarif – localStorage === */
+const PLAN_KEY = "lm_plan";
 
-    function normalizePlan(p){
-      if(!p) return "free";
-      p = String(p).toLowerCase();
-      return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+function normalizePlan(p){
+  if(!p) return "free";
+  p = String(p).toLowerCase();
+  return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+}
+
+function readPlan(){
+  try{
+    const fromKey = localStorage.getItem(PLAN_KEY);
+    if(fromKey) return normalizePlan(fromKey);
+    const rawUser = localStorage.getItem("miniLuminaUser");
+    if(rawUser){
+      const u = JSON.parse(rawUser);
+      if(u && u.plan) return normalizePlan(u.plan);
     }
+  }catch(e){}
+  return "free";
+}
 
-    function readPlan(){
-      try{
-        const fromKey = localStorage.getItem(PLAN_KEY);
-        if(fromKey) return normalizePlan(fromKey);
-        const rawUser = localStorage.getItem("miniLuminaUser");
-        if(rawUser){
-          const u = JSON.parse(rawUser);
-          if(u && u.plan) return normalizePlan(u.plan);
-        }
-      }catch(e){}
-      return "free";
-    }
+const currentPlan = readPlan();
+const planLabelMap = {free:"FREE tarif", plus:"PLUS tarif", premium:"PREMIUM tarif"};
+const planNice = planLabelMap[currentPlan] || "FREE tarif";
 
-    const currentPlan = readPlan();
-    const planLabelMap = {free:"FREE tarif", plus:"PLUS tarif", premium:"PREMIUM tarif"};
-    const planNice = planLabelMap[currentPlan] || "FREE tarif";
+const crumb = document.getElementById("crumbPlan");
+if(crumb) crumb.textContent = "DEMO · " + planNice;
 
-    const crumb = document.getElementById("crumbPlan");
-    if(crumb) crumb.textContent = "DEMO · " + planNice;
+const footNote = document.getElementById("footNote");
+if(footNote){
+  if(currentPlan === "free"){
+    footNote.textContent = "Ve FREE verzi máš dietní nebe – malý prostor na zkoušku. Export je zamčený.";
+  }else if(currentPlan === "plus"){
+    footNote.textContent = "PLUS: pracovní nebe – rozumná kapacita a demo export dat.";
+  }else{
+    footNote.textContent = "PREMIUM: velké nebe – demo export + největší kapacita.";
+  }
+}
 
-    const footNote = document.getElementById("footNote");
-    if(footNote){
-      if(currentPlan === "free"){
-        footNote.textContent = "Ve FREE verzi máš dietní nebe – malý prostor na zkoušku. Export je zamčený.";
-      }else if(currentPlan === "plus"){
-        footNote.textContent = "PLUS: pracovní nebe – rozumná kapacita a demo export dat.";
-      }else{
-        footNote.textContent = "PREMIUM: velké nebe – demo export + největší kapacita.";
-      }
-    }
+/* === decent rámečky u názvů mraků === */
+const fullLblEl   = document.getElementById("labelFull");
+const detailLblEl = document.getElementById("labelDetail");
+const exportLblEl = document.getElementById("labelExport");
 
-    /* === decent rámečky u názvů mraků === */
-    const fullLblEl   = document.getElementById("labelFull");
-    const detailLblEl = document.getElementById("labelDetail");
-    const exportLblEl = document.getElementById("labelExport");
+const cls =
+  currentPlan === "free" ? "cloud-label--free" :
+  currentPlan === "plus" ? "cloud-label--plus" : "cloud-label--prem";
 
-    const cls =
-      currentPlan === "free" ? "cloud-label--free" :
-      currentPlan === "plus" ? "cloud-label--plus" : "cloud-label--prem";
+[fullLblEl, detailLblEl, exportLblEl].forEach(el=>el && el.classList.add(cls));
 
-    [fullLblEl, detailLblEl, exportLblEl].forEach(el=>el && el.classList.add(cls));
+const exportLock = document.getElementById("exportLock");
+if(currentPlan !== "free" && exportLock) exportLock.style.display = "none";
 
-    const exportLock = document.getElementById("exportLock");
-    if(currentPlan !== "free" && exportLock) exportLock.style.display = "none";
+/* === mrak 2: metry === */
+const meterPrae   = document.getElementById("meterPrae");
+const meterArcana = document.getElementById("meterArcana");
+const meterConfig = document.getElementById("meterConfig");
+[meterPrae, meterArcana, meterConfig].forEach(el=>{
+  if(!el) return;
+  el.classList.add(currentPlan === "free" ? "free" :
+                   currentPlan === "plus" ? "plus" : "premium");
+});
 
-    /* === mrak 2: metry === */
-    const meterPrae   = document.getElementById("meterPrae");
-    const meterArcana = document.getElementById("meterArcana");
-    const meterConfig = document.getElementById("meterConfig");
-    [meterPrae, meterArcana, meterConfig].forEach(el=>{
-      if(!el) return;
-      el.classList.add(currentPlan === "free" ? "free" :
-                       currentPlan === "plus" ? "plus" : "premium");
-    });
-
-    /* === Otevírání / zavírání modalů === */
-    function openModal(id){
+/* === Otevírání / zavírání modalů === */
+function openModal(id){
   const el = document.getElementById(id);
   if(!el) return;
   el.classList.add("is-open");
 
   if(id === "modalFullSky"){
-    // iOS Safari: vynutí přepočet layoutu obrázku (řeší "proužek")
+    // Safari: jemný reflow, aby se maska chytla stabilně
     requestAnimationFrame(()=>{
-      const img = el.querySelector(".stair-img");
-      if(img) img.getBoundingClientRect();
+      const wrap = el.querySelector(".stair-wrap");
+      if(wrap) wrap.getBoundingClientRect();
+      startStairAnimation();
     });
-    startStairAnimation();
   }
 }
-    function closeModal(id){
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.classList.remove("is-open");
-    }
+function closeModal(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.remove("is-open");
+}
 
-    document.getElementById("btnFullSky").addEventListener("click", ()=>openModal("modalFullSky"));
-    document.getElementById("btnDetail").addEventListener("click",   ()=>openModal("modalDetail"));
-    document.getElementById("btnExport").addEventListener("click",   ()=>{
-      if(currentPlan === "free") openModal("modalExportBlocked");
-      else openModal("modalExport");
-    });
+document.getElementById("btnFullSky").addEventListener("click", ()=>openModal("modalFullSky"));
+document.getElementById("btnDetail").addEventListener("click",   ()=>openModal("modalDetail"));
+document.getElementById("btnExport").addEventListener("click",   ()=>{
+  if(currentPlan === "free") openModal("modalExportBlocked");
+  else openModal("modalExport");
+});
 
-    document.querySelectorAll(".ms-modal-close").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        const id = btn.getAttribute("data-close");
-        if(id) closeModal(id);
-      });
-    });
+document.querySelectorAll(".ms-modal-close").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const id = btn.getAttribute("data-close");
+    if(id) closeModal(id);
+  });
+});
 
-    document.querySelectorAll(".ms-modal-backdrop").forEach(back=>{
-      back.addEventListener("click", (e)=>{
-        if(e.target === back) back.classList.remove("is-open");
-      });
-    });
+document.querySelectorAll(".ms-modal-backdrop").forEach(back=>{
+  back.addEventListener("click", (e)=>{
+    if(e.target === back) back.classList.remove("is-open");
+  });
+});
 
-    document.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape"){
-        document.querySelectorAll(".ms-modal-backdrop.is-open").forEach(m=>m.classList.remove("is-open"));
-      }
-    });
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Escape"){
+    document.querySelectorAll(".ms-modal-backdrop.is-open").forEach(m=>m.classList.remove("is-open"));
+  }
+});
 
-    document.querySelectorAll(".realm-card").forEach(card=>{
-      const target = card.getAttribute("data-open");
-      if(!target) return;
-      card.addEventListener("click", ()=>openModal(target));
-    });
+document.querySelectorAll(".realm-card").forEach(card=>{
+  const target = card.getAttribute("data-open");
+  if(!target) return;
+  card.addEventListener("click", ()=>openModal(target));
+});
 
-    /* === Fix pruhu: spočítat reálné výšky header/footer a zapsat do CSS vars === */
-    const headerShell = document.getElementById("headerShell");
-    const footerShell = document.getElementById("footerShell");
+/* === Fix pruhu: spočítat reálné výšky header/footer a zapsat do CSS vars === */
+const headerShell = document.getElementById("headerShell");
+const footerShell = document.getElementById("footerShell");
 
-    function syncLayoutHeights(){
-      const headerH = headerShell ? headerShell.getBoundingClientRect().height : 160;
-      const footerH = footerShell ? footerShell.getBoundingClientRect().height : 88;
-      document.documentElement.style.setProperty("--header-h", Math.ceil(headerH) + "px");
-      document.documentElement.style.setProperty("--footer-h", Math.ceil(footerH) + "px");
-    }
+function syncLayoutHeights(){
+  const headerH = headerShell ? headerShell.getBoundingClientRect().height : 160;
+  const footerH = footerShell ? footerShell.getBoundingClientRect().height : 88;
+  document.documentElement.style.setProperty("--header-h", Math.ceil(headerH) + "px");
+  document.documentElement.style.setProperty("--footer-h", Math.ceil(footerH) + "px");
+}
 
-    window.addEventListener("load", syncLayoutHeights);
-    window.addEventListener("resize", syncLayoutHeights);
+window.addEventListener("load", syncLayoutHeights);
+window.addEventListener("resize", syncLayoutHeights);
 
 /* iOS: stabilní výška viewportu (hlavně landscape) */
 function syncVh(){
@@ -1110,38 +1068,38 @@ window.addEventListener("load", syncVh);
 window.addEventListener("resize", syncVh);
 window.addEventListener("orientationchange", syncVh);
 
-    /* === 1. mrak: animace schodů (max cca 65%) === */
-    const STAIR_RANGES = {
-      free:    {from: 15, to: 35, label:"FREE – dietní nebe"},
-      plus:    {from: 35, to: 55, label:"PLUS – nebe, co stojí za řeč"},
-      premium: {from: 45, to: 65, label:"PREMIUM – velké nebe"}
-    };
+/* === 1. mrak: animace schodů (max cca 65%) === */
+const STAIR_RANGES = {
+  free:    {from: 15, to: 35, label:"FREE – dietní nebe"},
+  plus:    {from: 35, to: 55, label:"PLUS – nebe, co stojí za řeč"},
+  premium: {from: 45, to: 65, label:"PREMIUM – velké nebe"}
+};
 
-    const stairColor     = document.getElementById("stairColor");
-    const stairPercent   = document.getElementById("stairPercent");
-    const fullTariffLine = document.getElementById("fullTariffLine");
-    const fullLead       = document.getElementById("fullLead");
-    const stairNote      = document.getElementById("stairNote");
-    let stairAnimId = null;
+const stairColor     = document.getElementById("stairColor");
+const stairPercent   = document.getElementById("stairPercent");
+const fullTariffLine = document.getElementById("fullTariffLine");
+const fullLead       = document.getElementById("fullLead");
+const stairNote      = document.getElementById("stairNote");
+let stairAnimId = null;
 
-    if(fullTariffLine){
-      const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
-      const p1 = document.createElement("span");
-      p1.className = "pill";
-      p1.textContent = cfg.label;
-      fullTariffLine.appendChild(p1);
+if(fullTariffLine){
+  const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
+  const p1 = document.createElement("span");
+  p1.className = "pill";
+  p1.textContent = cfg.label;
+  fullTariffLine.appendChild(p1);
 
-      const p2 = document.createElement("span");
-      p2.className = "pill";
-      p2.textContent = "demo vizualizace růžová → fialová";
-      fullTariffLine.appendChild(p2);
-    }
+  const p2 = document.createElement("span");
+  p2.className = "pill";
+  p2.textContent = "demo vizualizace růžová → fialová";
+  fullTariffLine.appendChild(p2);
+}
 
-    if(fullLead){
-      fullLead.textContent = "Výrazné růžové plnění roste odspodu, směrem nahoru přechází do fialové. Ukázka končí zhruba u 65 %.";
-    }
+if(fullLead){
+  fullLead.textContent = "Výrazné růžové plnění roste odspodu, směrem nahoru přechází do fialové. Ukázka končí zhruba u 65 %.";
+}
 
-    function startStairAnimation(){
+function startStairAnimation(){
   if(!stairColor || !stairPercent) return;
   if(stairAnimId) cancelAnimationFrame(stairAnimId);
 
@@ -1176,116 +1134,116 @@ window.addEventListener("orientationchange", syncVh);
   }
 }
 
-    /* === 3. mrak: kufr + ikonky (celý obrázek icons.png) === */
-    const suitcaseImg  = document.getElementById("suitcaseImg");
-    const exportIcons  = document.getElementById("exportIcons");
-    const exportNote   = document.getElementById("exportNote");
-    const exportWarning= document.getElementById("exportWarning");
+/* === 3. mrak: kufr + ikonky (celý obrázek icons.png) === */
+const suitcaseImg  = document.getElementById("suitcaseImg");
+const exportIcons  = document.getElementById("exportIcons");
+const exportNote   = document.getElementById("exportNote");
+const exportWarning= document.getElementById("exportWarning");
 
-    let suitcaseOpen = false;
+let suitcaseOpen = false;
 
-    if(exportWarning){
-      exportWarning.textContent =
-        (currentPlan === "plus" || currentPlan === "premium")
-          ? "Soubor se stáhne, ale data jsou vymyšlená – ukázka struktury."
-          : "FREE: export je zamčený.";
+if(exportWarning){
+  exportWarning.textContent =
+    (currentPlan === "plus" || currentPlan === "premium")
+      ? "Soubor se stáhne, ale data jsou vymyšlená – ukázka struktury."
+      : "FREE: export je zamčený.";
+}
+
+if(suitcaseImg){
+  suitcaseImg.addEventListener("click", ()=>{
+    suitcaseOpen = !suitcaseOpen;
+    suitcaseImg.src = suitcaseOpen ? "export-open.png" : "export-closed.png";
+
+    if(exportIcons){
+      exportIcons.classList.toggle("is-visible", suitcaseOpen);
     }
 
-    if(suitcaseImg){
-      suitcaseImg.addEventListener("click", ()=>{
-        suitcaseOpen = !suitcaseOpen;
-        suitcaseImg.src = suitcaseOpen ? "export-open.png" : "export-closed.png";
-
-        if(exportIcons){
-          exportIcons.classList.toggle("is-visible", suitcaseOpen);
-        }
-
-        if(exportNote){
-          exportNote.textContent = suitcaseOpen
-            ? "Kufřík otevřen. Níže můžeš spustit export datového balíčku."
-            : "Kufřík zavřen. Otevři ho a uvidíš výbavu exportu.";
-        }
-      });
+    if(exportNote){
+      exportNote.textContent = suitcaseOpen
+        ? "Kufřík otevřen. Níže můžeš spustit export datového balíčku."
+        : "Kufřík zavřen. Otevři ho a uvidíš výbavu exportu.";
     }
+  });
+}
 
-    /* === Export: jeden typ + modal s černou obrazovkou === */
-    const btnExportData      = document.getElementById("btnExportData");
-    const modalDownload      = document.getElementById("modalDownload");
-    const jsonPreview        = document.getElementById("jsonPreview");
-    const dlLead             = document.getElementById("dlLead");
-    const btnConfirmDownload = document.getElementById("btnConfirmDownload");
-    const toast              = document.getElementById("toastExport");
+/* === Export: jeden typ + modal s černou obrazovkou === */
+const btnExportData      = document.getElementById("btnExportData");
+const modalDownload      = document.getElementById("modalDownload");
+const jsonPreview        = document.getElementById("jsonPreview");
+const dlLead             = document.getElementById("dlLead");
+const btnConfirmDownload = document.getElementById("btnConfirmDownload");
+const toast              = document.getElementById("toastExport");
 
-    let currentDownload = null;
+let currentDownload = null;
 
-    function showToast(){
-      if(!toast) return;
-      toast.classList.add("is-visible");
-      setTimeout(()=>toast.classList.remove("is-visible"), 4200);
-    }
+function showToast(){
+  if(!toast) return;
+  toast.classList.add("is-visible");
+  setTimeout(()=>toast.classList.remove("is-visible"), 4200);
+}
 
-    function openDownloadModal(payload){
-      currentDownload = payload;
-      dlLead.textContent = payload.lead;
-      jsonPreview.textContent = payload.preview;
-      modalDownload.classList.add("is-open");
-    }
+function openDownloadModal(payload){
+  currentDownload = payload;
+  dlLead.textContent = payload.lead;
+  jsonPreview.textContent = payload.preview;
+  modalDownload.classList.add("is-open");
+}
 
-    function demoJsonExport(){
-      const now = new Date();
-      const data = {
-        type: "MemorySkyDemoExport",
-        plan: currentPlan.toUpperCase(),
-        created_at: now.toISOString(),
-        human_time: now.toLocaleString("cs-CZ"),
-        summary: {
-          chronica_days: 42,
-          sigma_rituals_active: currentPlan === "premium" ? 9 : 4,
-          proiecta_projects: currentPlan === "free" ? 1 : (currentPlan === "plus" ? 4 : 7)
-        },
-        sections: [
-          { id:"chronica", label:"Chronica", demo: ["zápisy", "milníky", "okamžiky"] },
-          { id:"sigma",    label:"Sigma",    demo: ["rituály", "připomínky", "rytmus dne"] },
-          { id:"proiecta", label:"Proiecta", demo: ["projekty", "mise", "dílna"] },
-          { id:"arcana",   label:"Arcana",   demo: ["trezor – náhled", "bez citlivých dat"] },
-          { id:"config",   label:"Configuratio", demo: ["profil", "tón", "software"] }
-        ],
-        note: "Všechna data jsou fiktivní – ukázka budoucího exportu."
-      };
-      const text = JSON.stringify(data, null, 2);
-      return {
-        filename: "memorysky-demo-export.json",
-        mime: "application/json",
-        preview: text,
-        lead: "Náhled exportu (DEMO) – klikem níže stáhneš soubor.",
-        content: text
-      };
-    }
+function demoJsonExport(){
+  const now = new Date();
+  const data = {
+    type: "MemorySkyDemoExport",
+    plan: currentPlan.toUpperCase(),
+    created_at: now.toISOString(),
+    human_time: now.toLocaleString("cs-CZ"),
+    summary: {
+      chronica_days: 42,
+      sigma_rituals_active: currentPlan === "premium" ? 9 : 4,
+      proiecta_projects: currentPlan === "free" ? 1 : (currentPlan === "plus" ? 4 : 7)
+    },
+    sections: [
+      { id:"chronica", label:"Chronica", demo: ["zápisy", "milníky", "okamžiky"] },
+      { id:"sigma",    label:"Sigma",    demo: ["rituály", "připomínky", "rytmus dne"] },
+      { id:"proiecta", label:"Proiecta", demo: ["projekty", "mise", "dílna"] },
+      { id:"arcana",   label:"Arcana",   demo: ["trezor – náhled", "bez citlivých dat"] },
+      { id:"config",   label:"Configuratio", demo: ["profil", "tón", "software"] }
+    ],
+    note: "Všechna data jsou fiktivní – ukázka budoucího exportu."
+  };
+  const text = JSON.stringify(data, null, 2);
+  return {
+    filename: "memorysky-demo-export.json",
+    mime: "application/json",
+    preview: text,
+    lead: "Náhled exportu (DEMO) – klikem níže stáhneš soubor.",
+    content: text
+  };
+}
 
-    if(btnExportData){
-      btnExportData.addEventListener("click", ()=>{
-        const payload = demoJsonExport();
-        openDownloadModal(payload);
-      });
-    }
+if(btnExportData){
+  btnExportData.addEventListener("click", ()=>{
+    const payload = demoJsonExport();
+    openDownloadModal(payload);
+  });
+}
 
-    if(btnConfirmDownload){
-      btnConfirmDownload.addEventListener("click", ()=>{
-        if(!currentDownload) return;
-        try{
-          const blob = new Blob([currentDownload.content], {type: currentDownload.mime});
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = currentDownload.filename;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          setTimeout(()=>URL.revokeObjectURL(url), 800);
-          showToast();
-        }catch(e){}
-      });
-    }
-  </script>
+if(btnConfirmDownload){
+  btnConfirmDownload.addEventListener("click", ()=>{
+    if(!currentDownload) return;
+    try{
+      const blob = new Blob([currentDownload.content], {type: currentDownload.mime});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = currentDownload.filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 800);
+      showToast();
+    }catch(e){}
+  });
+}
+</script>
 </body>
 </html>
