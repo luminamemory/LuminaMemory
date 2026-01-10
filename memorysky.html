@@ -438,11 +438,13 @@ background:rgba(28,13,64,.98);
   position:relative;
   margin-top:4px;
   border-radius:18px;
-  overflow:hidden;
+  overflow: hidden;
+  transform: translateZ(0);
   border:1px solid rgba(255,255,255,.4);
   box-shadow:var(--shadow-soft);
   background:#050615;
 }
+
 .stair-img{
   width:100%;
   max-width:100%;
@@ -451,8 +453,6 @@ background:rgba(28,13,64,.98);
   opacity:.96;
   filter:drop-shadow(0 20px 58px rgba(0,0,0,.86));
 }
-/* iOS Safari FIX: drop-shadow + overflow:hidden + mask občas zúží <img> na "proužek" */
-
 /* iOS Safari FIX: drop-shadow + overflow:hidden + mask občas zúží <img> na "proužek" */
 @supports (-webkit-touch-callout: none){
   .stair-wrap{
@@ -467,16 +467,30 @@ background:rgba(28,13,64,.98);
   }
 }
 
-/*
-  Overlay je přes celý obrázek, ale:
-  1) ořízneme ho "odspodu nahoru" pomocí clip-path podle --fill
-  2) a hlavně ho maskujeme stejným PNG (light-stair.png), aby se barvilo jen "sklo"
-*/
-
 .stair-color{
-  --fill: 40%;
   position:absolute;
   inset:0;
+  background: var(--stair-color, #8a5bff);
+
+  /* maska zůstává = barví se jen "schody" v obrázku */
+  -webkit-mask-image: url("light-stair.png");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 100% 100%;
+  mask-image: url("light-stair.png");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+
+  /* ✅ místo clip-path: plnění výškou přes transform */
+  transform-origin: bottom;
+  transform: scaleY(var(--fill, 0));
+  will-change: transform;
+
+  /* pojistky pro Safari kompozici */
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
 
   /* silnější a plynulejší gradient */
   background: linear-gradient(
@@ -494,9 +508,6 @@ background:rgba(28,13,64,.98);
   opacity: .92;
   filter: saturate(2.35) contrast(1.12) brightness(1.08);
   pointer-events:none;
-
-  /* barva roste odspodu */
-  clip-path: inset(calc(100% - var(--fill)) 0 0 0);
 
   /* maska: barví jen tvar schodů */
   -webkit-mask-image: url("light-stair.png");
@@ -1161,14 +1172,15 @@ window.addEventListener("orientationchange", syncVh);
         // jemné ease
         const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
         const value = cfg.from + (cfg.to - cfg.from) * eased;
-
-        stairColor.style.setProperty("--fill", value + "%");
+        const v = Math.max(0, Math.min(1, value / 100));
+        stairColor.style.setProperty("--fill", v.toFixed(4));
         if(numEl) numEl.textContent = Math.round(value) + " %";
 
         if(t < 1) stairAnimId = requestAnimationFrame(frame);
       }
 
-      stairColor.style.setProperty("--fill", cfg.from + "%");
+      const v = Math.max(0, Math.min(1, value / 100));
+      stairColor.style.setProperty("--fill", v.toFixed(4));
       if(numEl) numEl.textContent = cfg.from + " %";
       stairAnimId = requestAnimationFrame(frame);
 
