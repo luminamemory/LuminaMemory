@@ -392,6 +392,7 @@ display:flex;
 .ms-modal-close:hover{
 background:rgba(28,13,64,.98);
 }
+
 .ms-modal-body{
   padding:14px 16px 14px;
   overflow:auto;
@@ -400,6 +401,10 @@ background:rgba(28,13,64,.98);
   gap:12px;
   font-size:13px;
   line-height:1.7;
+
+  flex: 1 1 auto;
+  touch-action: pan-y;
+  min-width: 0;
 }
 /* Výška modálu: iOS stabilní viewport (vh fix) */
 .ms-modal{
@@ -452,6 +457,19 @@ background:rgba(28,13,64,.98);
   display:block;
   opacity:.96;
   filter:drop-shadow(0 20px 58px rgba(0,0,0,.86));
+}
+/* iOS: schody nesmí spadnout na úzký proužek + musí pustit scroll */
+.stair-wrap{
+  width: 100%;
+  align-self: stretch;
+  touch-action: pan-y;
+}
+.stair-img{
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  touch-action: pan-y;
 }
 
 /*
