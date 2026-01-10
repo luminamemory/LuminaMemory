@@ -445,11 +445,14 @@ background:rgba(28,13,64,.98);
 }
 .stair-img{
   width:100%;
+  max-width:100%;
   height:auto;
   display:block;
   opacity:.96;
   filter:drop-shadow(0 20px 58px rgba(0,0,0,.86));
 }
+/* iOS Safari FIX: drop-shadow + overflow:hidden + mask občas zúží <img> na "proužek" */
+
 /* iOS Safari FIX: drop-shadow + overflow:hidden + mask občas zúží <img> na "proužek" */
 @supports (-webkit-touch-callout: none){
   .stair-wrap{
@@ -1037,11 +1040,19 @@ background:rgba(28,13,64,.98);
 
     /* === Otevírání / zavírání modalů === */
     function openModal(id){
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.classList.add("is-open");
-      if(id === "modalFullSky") startStairAnimation();
-    }
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.add("is-open");
+
+  if(id === "modalFullSky"){
+    // iOS Safari: vynutí přepočet layoutu obrázku (řeší "proužek")
+    requestAnimationFrame(()=>{
+      const img = el.querySelector(".stair-img");
+      if(img) img.getBoundingClientRect();
+    });
+    startStairAnimation();
+  }
+}
     function closeModal(id){
       const el = document.getElementById(id);
       if(!el) return;
