@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +16,7 @@
 
       --footer-h: 88px;
 
-      --bg: #000000; /* sytě černá */
+      --bg: #000000; /* tiefes Schwarz */
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -29,7 +29,7 @@
       overflow-x:hidden;
     }
 
-    /* Jemný „vignette“ (neobrázkové, stále černé) */
+    /* Sanfte Vignette (kein Bild, bleibt schwarz) */
     .bg-vignette{
       position:fixed;
       inset:0;
@@ -595,16 +595,16 @@
   <header class="ms-header-shell" id="headerShell">
     <div class="ms-header glass-panel" id="headerPanel">
       <div class="ms-header-left">
-        <a href="nastaveni.html" class="btn-back">← Zpět do kanceláře</a>
+        <a href="nastaveni-de.html" class="btn-back">← Zurück ins Büro</a>
         <div class="ms-header-text">
           <h1>MEMORYSKY™</h1>
           <p class="ms-header-sub">
-            MemorySky™ je srdce celého tvého světa v LuminaMemory™.
+            MemorySky™ ist das Herz deiner ganzen Welt in LuminaMemory™.
           </p>
         </div>
       </div>
 
-      <div class="ms-plan-pill" id="crumbPlan">DEMO · FREE tarif</div>
+      <div class="ms-plan-pill" id="crumbPlan">DEMO · FREE Tarif</div>
     </div>
   </header>
 
@@ -612,28 +612,28 @@
   <main class="main">
     <div class="wrap">
 
-      <!-- CARD 1: Hlavní schody + cloud-1 -->
+      <!-- CARD 1: Haupttreppe + cloud-1 -->
       <section class="card glass-panel">
-        <div class="card-title">Tvoje nebe</div>
+        <div class="card-title">Dein Himmel</div>
 
         <div class="stair-wrap">
-          <img src="light-stair.png" alt="Hlavní schody" class="stair-img" />
+          <img src="light-stair.png" alt="Haupttreppe" class="stair-img" />
 
           <!-- cloud-1 -->
           <button class="cloud-btn main-cloud" id="btnMainCloud" type="button">
-            <img src="cloud-1.png" alt="Paměť celého paláce" class="cloud-img" />
-            <div class="cloud-label" id="lblMain">Paměť celého paláce</div>
+            <img src="cloud-1.png" alt="Speicher des ganzen Palasts" class="cloud-img" />
+            <div class="cloud-label" id="lblMain">Speicher des ganzen Palasts</div>
           </button>
         </div>
 
         <div class="note">
-          Klikni na mrak a uvidíš stav paměti, napojení na tarif a přehled částí.
+          Klicke auf eine Wolke und du siehst den Speicherstand, die Verbindung zum Tarif und eine Übersicht der Bereiche.
         </div>
       </section>
 
-      <!-- CARD 2: 3 schody + mraky cloud-2/3/4 -->
+      <!-- CARD 2: 3 Treppen + Wolken cloud-2/3/4 -->
       <section class="card glass-panel">
-        <div class="card-title">Části nebe</div>
+        <div class="card-title">Bereiche des Himmels</div>
 
         <div class="triple">
           <!-- Arcana -->
@@ -665,25 +665,25 @@
         </div>
 
         <div class="note">
-          Každá část má svůj obsah a vlastní stav zaplnění.
+          Jeder Bereich hat seinen eigenen Inhalt und seinen eigenen Füllstand.
         </div>
       </section>
 
-      <!-- CARD 3: Batoh cloud-5 -->
+      <!-- CARD 3: Rucksack cloud-5 -->
       <section class="card glass-panel">
-        <div class="card-title">Batoh</div>
+        <div class="card-title">Rucksack</div>
 
         <div class="backpack-row">
           <div class="backpack-left">
             <div class="note" style="margin-top:0">
-              Tady můžešjednou sbalit celý svůj svět a odejít jinam, protože LuminaMemory™ není vězení.
+              Eines Tages kannst du deine ganze Welt packen und woanders hingehen — denn LuminaMemory™ ist kein Gefängnis.
             </div>
           </div>
 
           <div class="backpack-right">
             <button class="cloud-btn backpack-cloud" id="btnBackpack" type="button">
-              <img src="cloud-5.png" alt="Export – cestovní batoh" class="cloud-img" />
-              <div class="cloud-label" id="lblBag">Export – cestovní batoh</div>
+              <img src="cloud-5.png" alt="Export – Reiserucksack" class="cloud-img" />
+              <div class="cloud-label" id="lblBag">Export – Reiserucksack</div>
               <div class="lock-pill" id="exportLock" aria-hidden="true">🔒</div>
             </button>
           </div>
@@ -697,12 +697,12 @@
   <section class="ms-footer-shell" id="footerShell">
     <div class="ms-footer glass-panel" id="footerPanel">
       <div>
-        DEMO běží lokálně ve tvém prohlížeči. Procenta a export fungují jen s fiktivními daty.
+        Die DEMO läuft lokal in deinem Browser. Prozente und Export funktionieren nur mit fiktiven Daten.
       </div>
       <div class="ms-footer-right">
         <div class="lumina-avatar"><img src="avatar.png" alt="Lumina" /></div>
         <div class="lumina-note" id="footNote">
-          Náhled chování MemorySky™ podle tarifu. V živé verzi se napojí na skutečné využití paměti.
+          Vorschau des Verhaltens von MemorySky™ je nach Tarif. In der Live-Version wird es mit der tatsächlichen Speichernutzung verbunden.
         </div>
       </div>
     </div>
@@ -713,10 +713,10 @@
     <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="mainTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="mainTitle">Paměť celého paláce</div>
-          <p>Schody budou měnit barvu podle toho, jak plné nebe je.</p>
+          <div class="ms-modal-title" id="mainTitle">Speicher des ganzen Palasts</div>
+          <p>Die Treppe ändert ihre Farbe je nachdem, wie voll der Himmel ist.</p>
         </div>
-        <button class="ms-modal-close" type="button" data-close="modalMain">Zavřít ✕</button>
+        <button class="ms-modal-close" type="button" data-close="modalMain">Schließen ✕</button>
       </div>
 
       <div class="ms-modal-body">
@@ -724,19 +724,19 @@
 
         <div class="percent-badge">
           <strong id="mainPercent">0 %</strong>
-          <span>úroveň zaplnění</span>
+          <span>Füllstand</span>
         </div>
 
-        <div class="meter" aria-label="Zaplnění paměti">
+        <div class="meter" aria-label="Speicherfüllstand">
           <div class="meter-fill" id="mainMeter"></div>
         </div>
 
         <div class="note">
-          V ostré verzi budou procenta navázaná na skutečná data. V DEMO ukazujeme jen logiku a strukturu.
+          In der Live-Version sind die Prozente an echte Daten gebunden. In der DEMO zeigen wir nur Logik und Struktur.
         </div>
 
         <div style="font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,232,255,.9); margin-top:4px;">
-          Tři hlavní části nebe
+          Drei Hauptbereiche des Himmels
         </div>
 
         <div style="display:flex; flex-direction:column; gap:10px;">
@@ -758,7 +758,7 @@
 
           <div>
             <div style="display:flex; justify-content:space-between; gap:10px;">
-              <div><b>Configuratio</b> – Karta · Rytmus · Tón</div>
+              <div><b>Configuratio</b> – Karte · Rhythmus · Ton</div>
               <div id="txtCfgPct" style="opacity:.9;">—</div>
             </div>
             <div class="meter"><div class="meter-fill" id="meterCfg"></div></div>
@@ -776,23 +776,23 @@
           <div class="ms-modal-title" id="arcTitle">Arcana</div>
           <p>Clavis · Pecunia · Vitae · Medica</p>
         </div>
-        <button class="ms-modal-close" type="button" data-close="modalArcana">Zavřít ✕</button>
+        <button class="ms-modal-close" type="button" data-close="modalArcana">Schließen ✕</button>
       </div>
       <div class="ms-modal-body">
         <div class="pill-row" id="arcPills"></div>
 
         <div class="percent-badge">
           <strong id="arcPercent">0 %</strong>
-          <span>zaplnění části</span>
+          <span>Füllstand des Bereichs</span>
         </div>
 
         <div class="meter"><div class="meter-fill" id="arcMeter"></div></div>
 
         <ul style="margin-top:6px; padding-left:18px; font-size:12px;">
-          <li><b>Arcana Clavis</b> – přístup.</li>
-          <li><b>Arcana Pecunia</b> – finance.</li>
-          <li><b>Codex Vitae</b> – dokumenty.</li>
-          <li><b>Corpus Medica</b> – zdraví.</li>
+          <li><b>Arcana Clavis</b> – Zugang.</li>
+          <li><b>Arcana Pecunia</b> – Finanzen.</li>
+          <li><b>Codex Vitae</b> – Dokumente.</li>
+          <li><b>Corpus Medica</b> – Gesundheit.</li>
         </ul>
       </div>
     </div>
@@ -806,22 +806,22 @@
           <div class="ms-modal-title" id="praeTitle">Praetorium</div>
           <p>Chronica · Sigma · Proiecta</p>
         </div>
-        <button class="ms-modal-close" type="button" data-close="modalPrae">Zavřít ✕</button>
+        <button class="ms-modal-close" type="button" data-close="modalPrae">Schließen ✕</button>
       </div>
       <div class="ms-modal-body">
         <div class="pill-row" id="praePills"></div>
 
         <div class="percent-badge">
           <strong id="praePercent">0 %</strong>
-          <span>zaplnění části</span>
+          <span>Füllstand des Bereichs</span>
         </div>
 
         <div class="meter"><div class="meter-fill" id="praeMeter"></div></div>
 
         <ul style="margin-top:6px; padding-left:18px; font-size:12px;">
-          <li><b>Chronica</b> – deníky, momenty.</li>
-          <li><b>Sigma</b> – rituály, připomínky.</li>
-          <li><b>Proiecta</b> – projekty a mise.</li>
+          <li><b>Chronica</b> – Tagebücher, Momente.</li>
+          <li><b>Sigma</b> – Rituale, Erinnerungen.</li>
+          <li><b>Proiecta</b> – Projekte und Missionen.</li>
         </ul>
       </div>
     </div>
@@ -833,24 +833,24 @@
       <div class="ms-modal-head">
         <div>
           <div class="ms-modal-title" id="cfgTitle">Configuratio</div>
-          <p>uživatelská data & software paláce</p>
+          <p>Benutzerdaten & Palast-Software</p>
         </div>
-        <button class="ms-modal-close" type="button" data-close="modalConfig">Zavřít ✕</button>
+        <button class="ms-modal-close" type="button" data-close="modalConfig">Schließen ✕</button>
       </div>
       <div class="ms-modal-body">
         <div class="pill-row" id="cfgPills"></div>
 
         <div class="percent-badge">
           <strong id="cfgPercent">0 %</strong>
-          <span>zaplnění části</span>
+          <span>Füllstand des Bereichs</span>
         </div>
 
         <div class="meter"><div class="meter-fill" id="cfgMeter"></div></div>
 
         <ul style="margin-top:6px; padding-left:18px; font-size:12px;">
-          <li><b>Karta</b> – jméno, forma oslovení, přivolávací věta.</li>
-          <li><b>Rytmus</b> – denní rutina.</li>
-          <li><b>Tón</b> – nastavení Luminy.</li>
+          <li><b>Karte</b> – Name, Anredeform, Ruf-Satz.</li>
+          <li><b>Rhythmus</b> – Tagesroutine.</li>
+          <li><b>Ton</b> – Lumina-Einstellungen.</li>
         </ul>
       </div>
     </div>
@@ -861,31 +861,31 @@
     <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="expTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="expTitle">Export – cestovní batoh</div>
-          <p>Jeden demo export dat.</p>
+          <div class="ms-modal-title" id="expTitle">Export – Reiserucksack</div>
+          <p>Ein Demo-Datenexport.</p>
         </div>
-        <button class="ms-modal-close" type="button" data-close="modalExport">Zavřít ✕</button>
+        <button class="ms-modal-close" type="button" data-close="modalExport">Schließen ✕</button>
       </div>
 
       <div class="ms-modal-body">
         <div class="export-wrap">
-          <img src="export-closed.png" alt="Archivní kufřík" id="suitcaseImg" class="export-suitcase" />
+          <img src="export-closed.png" alt="Archivkoffer" id="suitcaseImg" class="export-suitcase" />
 
           <div class="export-icons" id="exportIcons">
-            <img src="icons.png" alt="Ikony exportu" class="export-icons-img" />
+            <img src="icons.png" alt="Export-Icons" class="export-icons-img" />
           </div>
 
           <div class="export-note" id="exportNote">
-            V DEMO je kufřík symbol. Jakmile ho otevřeš, uvidíš „výbavu“ a můžeš spustit export.
+            In der DEMO ist der Koffer ein Symbol. Sobald du ihn öffnest, siehst du die „Ausrüstung“ und kannst den Export starten.
           </div>
 
           <div class="export-warning" id="exportWarning">
-            PLUS/PREMIUM: soubor se stáhne, ale obsah je fiktivní.
+            PLUS/PREMIUM: Die Datei wird heruntergeladen, aber der Inhalt ist fiktiv.
           </div>
 
           <div class="export-actions">
             <button class="btn-export-kind" type="button" id="btnExportData">
-              Exportovat balíček dat
+              Datenpaket exportieren
             </button>
           </div>
         </div>
@@ -898,13 +898,13 @@
     <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="blockedTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="blockedTitle">Export v tarifu FREE</div>
-          <p>V tomto tarifu export není dostupný.</p>
+          <div class="ms-modal-title" id="blockedTitle">Export im FREE Tarif</div>
+          <p>In diesem Tarif ist Export nicht verfügbar.</p>
         </div>
-        <button class="ms-modal-close" type="button" data-close="modalExportBlocked">Zavřít ✕</button>
+        <button class="ms-modal-close" type="button" data-close="modalExportBlocked">Schließen ✕</button>
       </div>
       <div class="ms-modal-body" style="font-size:12px;">
-        FREE je zkušební demo nebe. Export bude dostupný jen v PLUS nebo PREMIUM.
+        FREE ist ein Test-Demo-Himmel. Export wird nur in PLUS oder PREMIUM verfügbar sein.
       </div>
     </div>
   </div>
@@ -914,22 +914,22 @@
     <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="dlTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="dlTitle">Export dat</div>
-          <p id="dlLead">Náhled fiktivních dat a možnost stáhnout soubor.</p>
+          <div class="ms-modal-title" id="dlTitle">Datenexport</div>
+          <p id="dlLead">Vorschau fiktiver Daten und Download der Datei.</p>
         </div>
-        <button class="ms-modal-close" type="button" data-close="modalDownload">Zavřít ✕</button>
+        <button class="ms-modal-close" type="button" data-close="modalDownload">Schließen ✕</button>
       </div>
       <div class="ms-modal-body">
         <pre class="data-screen" id="jsonPreview"></pre>
         <button class="btn-export-kind" type="button" id="btnConfirmDownload">
-          Stáhnout soubor
+          Datei herunterladen
         </button>
       </div>
     </div>
   </div>
 
   <div class="toast" id="toastExport">
-    DEMO: stažený soubor obsahuje jen fiktivní data – náhled budoucího exportu.
+    DEMO: Die heruntergeladene Datei enthält nur fiktive Daten – Vorschau eines zukünftigen Exports.
   </div>
 
   <script>
@@ -957,28 +957,28 @@
 
     const plan = readPlan();
 
-    // Badge: přesně ve formátu + pořadí
+    // Badge: exakt im Format + Reihenfolge
     const badge =
-      plan === "plus" ? "DEMO · PLUS tarif" :
-      plan === "premium" ? "DEMO · PREMIUM tarif" :
-      "DEMO · FREE tarif";
+      plan === "plus" ? "DEMO · PLUS Tarif" :
+      plan === "premium" ? "DEMO · PREMIUM Tarif" :
+      "DEMO · FREE Tarif";
 
     const crumb = document.getElementById("crumbPlan");
     if(crumb) crumb.textContent = badge;
 
-    // Footer note (jemně dle tarifu)
+    // Footer note (leicht je Tarif)
     const footNote = document.getElementById("footNote");
     if(footNote){
       if(plan === "free"){
-        footNote.textContent = "Ve verzi FREE máš dietní nebe – malý prostor na vyzkoušení. Export je zamčený.";
+        footNote.textContent = "In FREE bekommst du einen Diät-Himmel – wenig Platz zum Ausprobieren. Export ist gesperrt.";
       }else if(plan === "plus"){
-        footNote.textContent = "PLUS: nebe co stojí za řeč a demo export dat.";
+        footNote.textContent = "PLUS: ein Himmel, über den man reden kann — und ein Demo-Datenexport.";
       }else{
-        footNote.textContent = "PREMIUM: opravdu velká část nebe a demo export. Tady můžeš tvořit téměř bez omezení.";
+        footNote.textContent = "PREMIUM: wirklich viel Himmel und ein Demo-Export. Hier kannst du nahezu unbegrenzt gestalten.";
       }
     }
 
-    // Label styling per plan
+    // Label styling per tarif
     const cls =
       plan === "free" ? "cloud-label--free" :
       plan === "plus" ? "cloud-label--plus" : "cloud-label--prem";
@@ -994,9 +994,9 @@
 
     // Percent + meters (demo logic like old)
     const R = {
-      free:    { overall: 28, prae: 28, arc: 28, cfg: 28, label: "FREE – dietní nebe" },
-      plus:    { overall: 48, prae: 64, arc: 64, cfg: 64, label: "PLUS – nebe, co stojí za řeč" },
-      premium: { overall: 62, prae: 88, arc: 88, cfg: 88, label: "PREMIUM – opravdu velká část nebe" }
+      free:    { overall: 28, prae: 28, arc: 28, cfg: 28, label: "FREE – Diät-Himmel" },
+      plus:    { overall: 48, prae: 64, arc: 64, cfg: 64, label: "PLUS – ein Himmel, über den man reden kann" },
+      premium: { overall: 62, prae: 88, arc: 88, cfg: 88, label: "PREMIUM – wirklich viel Himmel" }
     };
     const cfg = R[plan] || R.free;
 
@@ -1127,8 +1127,8 @@
     if(exportWarning){
       exportWarning.textContent =
         (plan === "plus" || plan === "premium")
-          ? "Soubor se stáhne, ale data jsou fiktivní – jen ukázka struktury."
-          : "FREE: export je zamčený.";
+          ? "Die Datei wird heruntergeladen, aber die Daten sind fiktiv — nur eine Struktur-Demo."
+          : "FREE: Export ist gesperrt.";
     }
 
     if(suitcaseImg){
@@ -1139,8 +1139,8 @@
 
         if(exportNote){
           exportNote.textContent = suitcaseOpen
-            ? "Kufřík otevřený. Níže můžeš spustit export datového balíčku."
-            : "Kufřík zavřený. Otevři ho, ať uvidíš výbavu pro export.";
+            ? "Koffer geöffnet. Unten kannst du den Export des Datenpakets starten."
+            : "Koffer geschlossen. Öffne ihn, um die Export-Ausrüstung zu sehen.";
         }
       });
     }
@@ -1169,36 +1169,36 @@
     }
 
     function demoJsonExport(){
-  const now = new Date();
-  const data = {
-    type: "MemorySkyDemoExport",
-    plan: plan.toUpperCase(),
-    created_at: now.toISOString(),
-    human_time: now.toLocaleString("cs-CZ"),
-    summary: {
-      chronica_days: 42,
-      sigma_rituals_active: plan === "premium" ? 9 : 4,
-      proiecta_projects: plan === "free" ? 1 : (plan === "plus" ? 4 : 7)
-    },
-    sections: [
-      { id:"chronica", label:"Chronica", demo: ["zápisy", "milníky", "momenty"] },
-      { id:"sigma",    label:"Sigma",    demo: ["rituály", "připomínky", "denní rytmus"] },
-      { id:"proiecta", label:"Proiecta", demo: ["projekty", "mise", "pracovní plocha"] },
-      { id:"arcana",   label:"Arcana",   demo: ["trezor – náhled", "žádná citlivá data"] },
-      { id:"config",   label:"Configuratio", demo: ["profil", "tón", "software"] }
-    ],
-    note: "Všechna data jsou fiktivní – náhled budoucího exportu."
-  };
+      const now = new Date();
+      const data = {
+        type: "MemorySkyDemoExport",
+        tarif: plan.toUpperCase(),
+        created_at: now.toISOString(),
+        human_time: now.toLocaleString("de-DE"),
+        summary: {
+          chronica_days: 42,
+          sigma_rituals_active: plan === "premium" ? 9 : 4,
+          proiecta_projects: plan === "free" ? 1 : (plan === "plus" ? 4 : 7)
+        },
+        sections: [
+          { id:"chronica", label:"Chronica", demo: ["Einträge", "Meilensteine", "Momente"] },
+          { id:"sigma",    label:"Sigma",    demo: ["Rituale", "Erinnerungen", "Tagesrhythmus"] },
+          { id:"proiecta", label:"Proiecta", demo: ["Projekte", "Missionen", "Arbeitsbereich"] },
+          { id:"arcana",   label:"Arcana",   demo: ["Tresor – Vorschau", "keine sensiblen Daten"] },
+          { id:"config",   label:"Configuratio", demo: ["Profil", "Ton", "Software"] }
+        ],
+        note: "Alle Daten sind fiktiv — Vorschau eines zukünftigen Exports."
+      };
 
-  const text = JSON.stringify(data, null, 2);
-  return {
-    filename: "memorysky-demo-export.json",
-    mime: "application/json",
-    preview: text,
-    lead: "Náhled exportu (DEMO) – klikni níže pro stažení souboru.",
-    content: text
-  };
-}
+      const text = JSON.stringify(data, null, 2);
+      return {
+        filename: "memorysky-demo-export.json",
+        mime: "application/json",
+        preview: text,
+        lead: "Export-Vorschau (DEMO) — klicke unten, um die Datei herunterzuladen.",
+        content: text
+      };
+    }
 
     if(btnExportData){
       btnExportData.addEventListener("click", ()=>{
