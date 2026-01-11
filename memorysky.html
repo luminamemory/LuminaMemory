@@ -20,14 +20,12 @@
 
       --header-h:160px;
       --footer-h:88px;
+      --cloud-gap:24px;
 
       --hot-pink:#ff3fb8;
       --pink:#ff66cc;
       --violet:#a45bff;
       --deep-vio:#6d2dff;
-
-      /* mraky */
-      --cloud-field-gap: 10px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -41,6 +39,7 @@
       -webkit-overflow-scrolling:touch;
     }
 
+    /* iOS/Safari: když je vše fixed, stránka někdy “nemá co scrollovat” */
     @media (orientation: landscape){
       body::after{content:"";display:block;height:260px;}
     }
@@ -53,29 +52,16 @@
       z-index:0;
     }
 
-    /* ===== Průhlednější glass panely (čitelnost přes tmavý scrim) ===== */
+    /* PRŮHLEDNĚJŠÍ SKLO (tmavé pozadí -> čitelný text) */
     .glass-panel{
-      position:relative;
-      background: rgba(10, 6, 26, .14);            /* výrazně průhlednější */
-      border:1px solid rgba(255,255,255,.16);
-      box-shadow:0 18px 70px rgba(0,0,0,.55);
-      backdrop-filter: blur(16px) saturate(1.18) contrast(1.10);
-      -webkit-backdrop-filter: blur(16px) saturate(1.18) contrast(1.10);
-      overflow:hidden;
+      background:
+        linear-gradient(135deg, rgba(120,60,255,.10), rgba(5,4,20,.35)),
+        rgba(8,6,28,.22);
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:var(--shadow-strong);
+      backdrop-filter:blur(20px) saturate(1.15) brightness(.92) contrast(1.14);
+      -webkit-backdrop-filter:blur(20px) saturate(1.15) brightness(.92) contrast(1.14);
     }
-    .glass-panel::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(
-        180deg,
-        rgba(0,0,0,.55) 0%,
-        rgba(0,0,0,.30) 45%,
-        rgba(0,0,0,.50) 100%
-      );
-      pointer-events:none;
-    }
-    .glass-panel > *{position:relative;z-index:1;}
 
     /* ===== Header ===== */
     .ms-header-shell{
@@ -102,40 +88,39 @@
       padding:7px 10px;
       border-radius:var(--pill);
       border:1px solid rgba(255,255,255,.28);
-      background:rgba(13,7,32,.35);
-      color:rgba(255,255,255,.94);
+      background:rgba(13,7,32,.40);
+      color:rgba(255,255,255,.92);
       text-decoration:none;
       font-size:12px;
       white-space:nowrap;
-      text-shadow:0 2px 14px rgba(0,0,0,.72);
     }
     .ms-header-text h1{
       font-size:16px;
-      color:rgba(255,255,255,.97);
-      text-shadow:0 3px 18px rgba(0,0,0,.85);
+      color:rgba(255,255,255,.96);
+      text-shadow:0 3px 14px rgba(0,0,0,.72);
       margin-bottom:2px;
     }
     .ms-header-sub{
       font-size:12px;
       line-height:1.55;
       color:rgba(255,255,255,.92);
-      text-shadow:0 3px 18px rgba(0,0,0,.85);
+      text-shadow:0 3px 14px rgba(0,0,0,.72);
       max-width:560px;
     }
     .ms-plan-pill{
       align-self:flex-start;
       border-radius:var(--pill);
-      border:1px solid rgba(255,255,255,.34);
-      background:rgba(17,7,40,.35);
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(17,7,40,.55);
       padding:7px 10px;
       font-size:12px;
-      color:rgba(245,235,255,.94);
+      color:rgba(245,235,255,.92);
       cursor:pointer;
       user-select:none;
       white-space:nowrap;
-      text-shadow:0 2px 16px rgba(0,0,0,.85);
+      text-shadow:0 3px 14px rgba(0,0,0,.72);
     }
-    .ms-plan-pill:hover{background:rgba(28,13,64,.42)}
+    .ms-plan-pill:hover{background:rgba(28,13,64,.64)}
     @media (max-width:720px){
       .ms-header{flex-direction:column;align-items:flex-start}
       .ms-plan-pill{align-self:flex-end}
@@ -162,7 +147,7 @@
       gap:12px;
       font-size:11px;
       color:rgba(235,225,255,.92);
-      text-shadow:0 3px 18px rgba(0,0,0,.90);
+      text-shadow:0 3px 14px rgba(0,0,0,.72);
     }
     .ms-footer-right{
       display:flex;
@@ -182,126 +167,105 @@
       .ms-footer-right{max-width:none;}
     }
 
-    /* ===== Mini mraky (5 ks, cik-cak, 2 aktivní) ===== */
+    /* ===== Clouds (5 ks, cik-cak v dolní polovině) ===== */
     .cloud-field{
       position:fixed;
-      left:0; right:0;
-      bottom:calc(var(--footer-h) + var(--cloud-field-gap));
+      inset:0;
       z-index:2;
-      pointer-events:none; /* aktivní mraky si to zapnou */
-      height:120px; /* prostor pro cik-cak */
+      pointer-events:none;
     }
-
-    .mini-cloud{
-      --x: 50%;
-      --y: 0px;
-      --s: 92px;
-      --rot: 0deg;
-
+    .cloud-btn{
       position:absolute;
-      left:var(--x);
-      bottom:0;
-      transform: translateX(-50%) translateY(var(--y)) rotate(var(--rot));
-      width:var(--s);
-      height:calc(var(--s) * 0.62);
       border:none;
       background:transparent;
       padding:0;
-      cursor:pointer;
       outline:none;
+      transition:transform .16s ease, filter .16s ease, opacity .16s ease;
+      pointer-events:none;
+    }
+    .cloud-btn--active{
+      cursor:pointer;
       pointer-events:auto;
-      filter: drop-shadow(0 16px 34px rgba(0,0,0,.65));
-      transition: transform .18s ease, filter .18s ease, opacity .18s ease;
-      opacity:.95;
     }
-
-    .mini-cloud:focus-visible{
-      border-radius:18px;
-      box-shadow:0 0 0 2px #fff, 0 0 0 6px rgba(255,255,255,.25);
+    .cloud-btn:focus-visible{
+      box-shadow:0 0 0 2px #fff, 0 0 0 5px rgba(255,255,255,.4);
+      border-radius:24px;
     }
+    .cloud-btn--active:hover{transform:translateY(-4px);filter:brightness(1.06)}
+    .cloud-btn--active:active{transform:translateY(-1px)}
 
-    .mini-cloud__img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
+    .cloud-img{
       display:block;
-      opacity:.90;
+      width:min(220px, 42vw);
+      height:auto;
+      filter:drop-shadow(0 20px 46px rgba(0,0,0,.70));
+      opacity:.96;
       user-select:none;
       -webkit-user-drag:none;
     }
 
-    /* overlay fill (jen pro cloud-1) */
-    .mini-cloud__fill{
-      --fill: 0; /* 0..1 */
-      position:absolute;
-      inset:0;
-      background: linear-gradient(
-        0deg,
-        var(--hot-pink) 0%,
-        var(--pink) 22%,
-        #d85bff 40%,
-        var(--violet) 55%,
-        var(--deep-vio) 70%,
-        var(--deep-vio) 100%
-      );
-      opacity:.95;
-      filter:saturate(2.1) contrast(1.08) brightness(1.08);
-      transform-origin:bottom;
-      transform:scaleY(var(--fill));
-      will-change:transform;
-      pointer-events:none;
-
-      -webkit-mask-image: var(--mask);
-      -webkit-mask-repeat:no-repeat;
-      -webkit-mask-position:center;
-      -webkit-mask-size:contain;
-      mask-image: var(--mask);
-      mask-repeat:no-repeat;
-      mask-position:center;
-      mask-size:contain;
+    .cloud-btn--ghost{
+      opacity:.22;
+      filter:grayscale(1) contrast(1.05) brightness(.85);
     }
 
-    .mini-cloud__stack{position:relative;width:100%;height:100%;}
-    .mini-cloud__label{
+    .cloud-label{
       position:absolute;
       left:50%;
-      bottom:-10px;
+      bottom:10px;
       transform:translateX(-50%);
-      padding:4px 9px 4px;
+      padding:5px 10px 4px;
       border-radius:var(--pill);
-      border:1px solid rgba(255,255,255,.40);
-      background:rgba(0,0,0,.40);
-      color:rgba(255,255,255,.92);
-      font-size:10px;
+      border:1px solid rgba(255,255,255,.45);
+      background:rgba(15,6,38,.62);
+      color:rgba(245,235,255,.92);
+      font-size:10.5px;
       letter-spacing:.06em;
       white-space:nowrap;
-      text-shadow:0 2px 18px rgba(0,0,0,.90);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      text-shadow:0 10px 26px rgba(0,0,0,.85);
+      backdrop-filter:blur(10px);
+    }
+    .cloud-label--free{border-color:rgba(255,255,255,.55)}
+    .cloud-label--plus{border-color:rgba(214,255,255,.82)}
+    .cloud-label--prem{border-color:rgba(238,210,255,.92)}
+
+    .cloud-lock{
+      position:absolute;
+      top:8px;
+      right:14px;
+      width:22px;height:22px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.6);
+      background:rgba(15,7,36,.72);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:13px;
+      box-shadow:0 16px 40px rgba(0,0,0,.8);
     }
 
-    .mini-cloud.is-inactive{
-      pointer-events:none;
-      opacity:.20;
-      filter: drop-shadow(0 10px 24px rgba(0,0,0,.55));
-    }
-    .mini-cloud.is-inactive .mini-cloud__label{display:none;}
-
-    /* aktivní: lehce pulzuje a je výraznější */
+    /* pulz (jen pro aktivní) */
     @keyframes cloudPulse{
-      0%,100%{transform: translateX(-50%) translateY(var(--y)) rotate(var(--rot)) scale(1);}
-      50%{transform: translateX(-50%) translateY(calc(var(--y) - 2px)) rotate(var(--rot)) scale(1.04);}
+      0%{transform:translateY(0) scale(1); filter:brightness(1.00)}
+      50%{transform:translateY(-2px) scale(1.015); filter:brightness(1.06)}
+      100%{transform:translateY(0) scale(1); filter:brightness(1.00)}
     }
-    .mini-cloud.is-active{
-      animation: cloudPulse 2.4s ease-in-out infinite;
-      filter:
-        drop-shadow(0 16px 34px rgba(0,0,0,.70))
-        drop-shadow(0 0 18px rgba(255, 72, 188, .25));
-    }
-    .mini-cloud.is-active:hover{
-      filter:
-        drop-shadow(0 18px 40px rgba(0,0,0,.78))
-        drop-shadow(0 0 22px rgba(177, 121, 255, .30));
+    .cloud-btn--pulse{animation:cloudPulse 1.9s ease-in-out infinite;}
+
+    /* pozice cik-cak (dolní polovina) */
+    .cloud-pos-1{left:10%; top:56%;}
+    .cloud-pos-2{left:62%; top:60%;}
+    .cloud-pos-3{left:22%; top:72%;}
+    .cloud-pos-4{left:70%; top:76%;}
+    .cloud-pos-5{left:38%; top:84%;}
+
+    @media (max-width:840px){
+      .cloud-img{width:min(200px, 62vw);}
+      .cloud-pos-1{left:8%; top:54%;}
+      .cloud-pos-2{left:48%; top:62%;}
+      .cloud-pos-3{left:10%; top:74%;}
+      .cloud-pos-4{left:52%; top:78%;}
+      .cloud-pos-5{left:22%; top:88%;}
     }
 
     /* ===== Modals ===== */
@@ -326,7 +290,7 @@
         rgba(10,4,32,.97);
       border-radius:22px;
       border:1px solid rgba(255,255,255,.35);
-      box-shadow:0 26px 90px rgba(0,0,0,.72);
+      box-shadow:var(--shadow-strong);
       overflow:hidden;
       color:rgba(244,233,255,.88);
       display:flex;
@@ -390,71 +354,100 @@
       white-space:nowrap;
     }
 
-    /* ===== Tvoje nebe: hlavní kapacita (bez animace) ===== */
-    .sky-hero{
+    /* ===== 1. mrak: SCHODY (stabilní – bez <img>) ===== */
+    .stair-frame{
       border-radius:18px;
-      border:1px solid rgba(255,255,255,.26);
-      background:rgba(12,6,32,.62);
-      box-shadow:0 18px 55px rgba(0,0,0,.32);
-      padding:12px;
       overflow:hidden;
+      border:1px solid rgba(255,255,255,.4);
+      box-shadow:var(--shadow-soft);
+      background:#050615;
     }
-    .sky-hero-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .sky-hero-cloud{
+    .stair-wrap{
       position:relative;
-      width:min(420px, 92vw);
-      margin:6px auto 0;
-      filter:drop-shadow(0 18px 44px rgba(0,0,0,.55));
-      user-select:none;
-      -webkit-user-drag:none;
+      width:100%;
+      aspect-ratio: 1 / 1;
+      background:#050615 url("light-stair.png") center/contain no-repeat;
+      transform: translateZ(0);
     }
-    .sky-hero-cloud img{width:100%;height:auto;display:block;}
-    .sky-hero-badge{
+    .stair-color{
+      --fill: 0; /* 0..1 */
+      position:absolute;
+      inset:0;
+      background: linear-gradient(
+        0deg,
+        var(--hot-pink) 0%,
+        var(--pink) 22%,
+        #d85bff 40%,
+        var(--violet) 55%,
+        var(--deep-vio) 65%,
+        var(--deep-vio) 100%
+      );
+      opacity:.92;
+      filter:saturate(2.1) contrast(1.08) brightness(1.06);
+      mix-blend-mode:normal;
+      pointer-events:none;
+
+      -webkit-mask-image:url("light-stair.png");
+      -webkit-mask-repeat:no-repeat;
+      -webkit-mask-position:center;
+      -webkit-mask-size:contain;
+      mask-image:url("light-stair.png");
+      mask-repeat:no-repeat;
+      mask-position:center;
+      mask-size:contain;
+
+      transform-origin:bottom;
+      transform:scaleY(var(--fill));
+      will-change:transform;
+      backface-visibility:hidden;
+    }
+    .stair-percent{
       position:absolute;
       top:10px;
-      right:10px;
+      right:12px;
       padding:6px 10px 5px;
       border-radius:var(--pill);
-      border:1px solid rgba(255,255,255,.55);
-      background:rgba(0,0,0,.45);
-      box-shadow:0 14px 36px rgba(0,0,0,.75);
+      border:1px solid rgba(255,255,255,.6);
+      background:rgba(15,6,32,.96);
+      box-shadow:0 14px 36px rgba(0,0,0,.85);
       display:flex;
       flex-direction:column;
       align-items:flex-end;
       gap:2px;
-      text-shadow:0 2px 18px rgba(0,0,0,.9);
     }
-    .sky-hero-badge strong{font-size:13px;color:#ffe9ff;}
-    .sky-hero-badge span{
+    .stair-percent strong{font-size:13px;color:#ffe9ff;}
+    .stair-percent span{
       font-size:10px;
       color:rgba(244,233,255,.86);
       text-transform:uppercase;
       letter-spacing:.14em;
     }
+    .stair-note{margin-top:2px;font-size:12px;color:rgba(244,233,255,.86);}
 
-    .capacity-bar{
-      height:10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.24);
-      background:rgba(0,0,0,.22);
-      overflow:hidden;
-      margin-top:10px;
+    /* mini schody (jen obrázky) */
+    .mini-stairs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:2px;
     }
-    .capacity-bar > i{
-      display:block;height:100%;
-      width:var(--w, 0%);
-      background:linear-gradient(90deg, var(--pink), var(--violet));
-      border-radius:999px;
-      filter:saturate(1.2);
+    .mini-stair{
+      width:110px;
+      height:auto;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.26);
+      background:rgba(12,6,32,.62);
+      box-shadow:0 18px 55px rgba(0,0,0,.32);
+      padding:8px;
+      cursor:pointer;
+      transition:transform .12s ease, background .12s ease, border-color .12s ease;
     }
+    .mini-stair:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.38);background:rgba(18,10,44,.66);}
+    .mini-stair:active{transform:translateY(-1px);}
+    .mini-stair .stair-wrap{border-radius:10px; overflow:hidden;}
+    .mini-stair .stair-percent{display:none;}
 
-    /* ===== Podrobnosti (původní “Detail” obsah) ===== */
+    /* ===== 2. mrak: metery ===== */
     .realm-grid{
       display:grid;
       grid-template-columns:repeat(3, minmax(0,1fr));
@@ -474,6 +467,7 @@
     .realm-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.38);background:rgba(18,10,44,.66);}
     .realm-card h3{font-size:13px;color:#ffeaff;margin-bottom:4px;}
     .realm-card p{font-size:12px;color:rgba(244,233,255,.84);line-height:1.55;}
+
     .meter{
       height:10px;
       border-radius:999px;
@@ -489,9 +483,8 @@
       border-radius:999px;
       filter:saturate(1.2);
     }
-    .stair-note{margin-top:2px;font-size:12px;color:rgba(244,233,255,.86);}
 
-    /* ===== Batoh (původní export modal) ===== */
+    /* ===== 3. mrak: export ===== */
     .export-stage{
       position:relative;
       border-radius:18px;
@@ -579,8 +572,8 @@
         <div class="ms-header-text">
           <h1>LuminaMemory™</h1>
           <p class="ms-header-sub">
-            MemorySky™ je vizuální nebe pro tvoje data. Dole vidíš malé mraky — aktivní jsou jen „Tvoje nebe“ a „Batoh“.
-            Tarif přepínáš vpravo.
+            MemorySky™ je vizuální nebe pro tvoje data. Ukazuje, kolik místa máš ve FREE / PLUS / PREMIUM
+            a jak jednou půjde tvůj svět sbalit do „batohu na cestu“.
           </p>
         </div>
       </div>
@@ -588,48 +581,33 @@
     </div>
   </header>
 
-  <!-- 5x mini mraky (cik-cak dole); aktivní jen 2 -->
-  <section class="cloud-field" aria-label="Mini mraky MemorySky">
-    <!-- cloud-1 (aktivní, plnění odspodu, růžová → fialová) -->
-    <button class="mini-cloud is-active" id="miniCloud1" type="button"
-      style="--x:18%;--y:-6px;--s:98px;--rot:-7deg;">
-      <span class="mini-cloud__stack">
-        <img src="cloud-1.png" alt="" class="mini-cloud__img" />
-        <span class="mini-cloud__fill" id="miniFill1" aria-hidden="true" style="--mask:url('cloud-1.png')"></span>
-      </span>
-      <span class="mini-cloud__label">Tvoje nebe</span>
+  <!-- MRaky (5 ks, jen 2 aktivní) -->
+  <section class="cloud-field" aria-label="Ovládání MemorySky">
+    <!-- cloud-1 (aktivní) -->
+    <button class="cloud-btn cloud-btn--active cloud-btn--pulse cloud-pos-1" id="btnFullSky" type="button">
+      <img src="cloud-1.png" alt="Celá paměť paláce" class="cloud-img" />
+      <div class="cloud-label" id="labelFull">Tvoje nebe</div>
     </button>
 
-    <!-- cloud-2 (aktivní Batoh) -->
-    <button class="mini-cloud is-active" id="miniCloud2" type="button"
-      style="--x:62%;--y:-22px;--s:90px;--rot:6deg;">
-      <span class="mini-cloud__stack">
-        <img src="cloud-3.png" alt="" class="mini-cloud__img" />
-      </span>
-      <span class="mini-cloud__label">Batoh</span>
+    <!-- cloud-2 (aktivní) – dle původního cloud-3 -->
+    <button class="cloud-btn cloud-btn--active cloud-btn--pulse cloud-pos-2" id="btnExport" type="button">
+      <img src="cloud-3.png" alt="Export – batoh na cestu" class="cloud-img" />
+      <div class="cloud-label" id="labelExport">Batoh na cestu</div>
+      <div class="cloud-lock" id="exportLock" aria-hidden="true">🔒</div>
     </button>
 
-    <!-- cloud-3/4/5 neaktivní klony -->
-    <div class="mini-cloud is-inactive" aria-hidden="true"
-      style="--x:36%;--y:-14px;--s:70px;--rot:3deg;">
-      <span class="mini-cloud__stack">
-        <img src="cloud-2.png" alt="" class="mini-cloud__img" />
-      </span>
-    </div>
+    <!-- cloud-3/4/5 (neaktivní klony) -->
+    <button class="cloud-btn cloud-btn--ghost cloud-pos-3" type="button" disabled aria-disabled="true">
+      <img src="cloud-2.png" alt="Podrobné využití nebe" class="cloud-img" />
+    </button>
 
-    <div class="mini-cloud is-inactive" aria-hidden="true"
-      style="--x:78%;--y:-4px;--s:66px;--rot:-4deg;">
-      <span class="mini-cloud__stack">
-        <img src="cloud-2.png" alt="" class="mini-cloud__img" />
-      </span>
-    </div>
+    <button class="cloud-btn cloud-btn--ghost cloud-pos-4" type="button" disabled aria-disabled="true">
+      <img src="cloud-1.png" alt="Celá paměť paláce" class="cloud-img" />
+    </button>
 
-    <div class="mini-cloud is-inactive" aria-hidden="true"
-      style="--x:8%;--y:-26px;--s:64px;--rot:9deg;">
-      <span class="mini-cloud__stack">
-        <img src="cloud-2.png" alt="" class="mini-cloud__img" />
-      </span>
-    </div>
+    <button class="cloud-btn cloud-btn--ghost cloud-pos-5" type="button" disabled aria-disabled="true">
+      <img src="cloud-2.png" alt="Podrobné využití nebe" class="cloud-img" />
+    </button>
   </section>
 
   <!-- SPODNÍ PANEL -->
@@ -645,40 +623,54 @@
     </div>
   </section>
 
-  <!-- MODAL: Tvoje nebe (sloučené pův. cloud-1 + cloud-2, bez animace) -->
-  <div class="ms-modal-backdrop" id="modalSky">
-    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="skyTitle">
+  <!-- MODAL 1 (sloučený obsah původního cloud-1 + cloud-2; schody bez animace) -->
+  <div class="ms-modal-backdrop" id="modalFullSky">
+    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="fullTitle">
       <div class="ms-modal-head">
         <div>
-          <div class="ms-modal-title" id="skyTitle">Tvoje nebe</div>
-          <p id="skyLead">Celková kapacita + podrobnosti. Bez animace růstu, jen aktuální stav dle tarifu.</p>
+          <div class="ms-modal-title" id="fullTitle">Celá paměť paláce</div>
+          <p id="fullLead">Výrazné růžové plnění roste odspodu, směrem nahoru přechází do fialové. Ukázka končí zhruba u 65 %.</p>
         </div>
-        <button class="ms-modal-close" type="button" data-close="modalSky">Zavřít ✕</button>
+        <button class="ms-modal-close" type="button" data-close="modalFullSky">Zavřít ✕</button>
       </div>
-
       <div class="ms-modal-body">
         <div class="ms-tagline">Napojení na tarif</div>
-        <div class="pill-row" id="skyTariffLine"></div>
+        <div class="pill-row" id="fullTariffLine"></div>
 
-        <div class="sky-hero">
-          <div class="sky-hero-top">
-            <div>
-              <div class="ms-tagline">Celková kapacita</div>
-              <div class="stair-note" id="skyNote"></div>
-              <div class="capacity-bar" style="--w:0%" id="skyBar"><i></i></div>
-            </div>
-          </div>
-
-          <div class="sky-hero-cloud" aria-label="Celková kapacita nebe">
-            <img src="cloud-1.png" alt="Celková kapacita" />
-            <div class="sky-hero-badge" id="skyBadge">
+        <div class="stair-frame">
+          <div class="stair-wrap" id="stairWrap" aria-label="Schody do MemorySky">
+            <div class="stair-color" id="stairColor"></div>
+            <div class="stair-percent" id="stairPercent">
               <strong>0 %</strong>
-              <span>zaplnění</span>
+              <span>stav zaplnění</span>
             </div>
           </div>
         </div>
 
-        <div class="ms-tagline">Podrobnosti využití</div>
+        <div class="mini-stairs" id="miniStairs">
+          <div class="mini-stair" data-open="modalProiecta">
+            <div class="stair-wrap" aria-label="Schody do MemorySky">
+              <div class="stair-color" style="--fill:.55"></div>
+            </div>
+          </div>
+          <div class="mini-stair" data-open="modalArcana">
+            <div class="stair-wrap" aria-label="Schody do MemorySky">
+              <div class="stair-color" style="--fill:.24"></div>
+            </div>
+          </div>
+          <div class="mini-stair" data-open="modalConfig">
+            <div class="stair-wrap" aria-label="Schody do MemorySky">
+              <div class="stair-color" style="--fill:.18"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stair-note" id="stairNote"></div>
+
+        <div class="ms-tagline">Využití nebe</div>
+        <div class="ms-modal-title" id="detailTitle">Podrobné využití</div>
+        <p>V DEMU ukazujeme logiku „kolik kapacity spolyká která oblast“.</p>
+
         <div class="realm-grid">
           <div class="realm-card" data-open="modalChronica">
             <h3>Chronica</h3>
@@ -706,13 +698,12 @@
             <div class="meter" style="--w:18%"><i></i></div>
           </div>
         </div>
-
-        <div class="stair-note">Klikni na kartu a otevře se pod-modal s informací (stejně jako dřív).</div>
+        <div class="stair-note">Klikni na kartu a otevře se detail (scrolluje se stejně jako ostatní modaly).</div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: Batoh (původní export) -->
+  <!-- MODAL 3 (Batoh) -->
   <div class="ms-modal-backdrop" id="modalExport">
     <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="exportTitle">
       <div class="ms-modal-head">
@@ -857,99 +848,119 @@
     window.addEventListener("load", syncLayoutHeights);
     window.addEventListener("resize", syncLayoutHeights);
 
-    // ====== Plan state ======
+    // ====== Plan state (napojení stejně jako nastaveni.html) ======
+    const PLAN_KEY = "lm_plan";
     const PLANS = ["free","plus","premium"];
-    let currentPlan = localStorage.getItem("ms_plan") || "free";
 
-    // konzistentní "demo" procenta jako dřív (export JSON)
-    const USED_PERCENT = {
-      free: 31,
-      plus: 49,
-      premium: 65
-    };
+    function normalizePlan(p){
+      if(!p) return "free";
+      p = String(p).toLowerCase();
+      return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+    }
+
+    function readPlan(){
+      try{
+        const fromKey = localStorage.getItem(PLAN_KEY);
+        if(fromKey) return normalizePlan(fromKey);
+
+        const legacy = localStorage.getItem("ms_plan");
+        if(legacy) return normalizePlan(legacy);
+
+        const rawUser = localStorage.getItem("miniLuminaUser");
+        if(rawUser){
+          const user = JSON.parse(rawUser);
+          if(user && user.plan) return normalizePlan(user.plan);
+        }
+      }catch(e){}
+      return "free";
+    }
+
+    function writePlan(plan){
+      plan = normalizePlan(plan);
+      try{ localStorage.setItem(PLAN_KEY, plan); }catch(e){}
+      try{ localStorage.setItem("ms_plan", plan); }catch(e){}
+
+      try{
+        const rawUser = localStorage.getItem("miniLuminaUser");
+        if(rawUser){
+          const user = JSON.parse(rawUser);
+          if(user && typeof user === "object"){
+            user.plan = plan;
+            localStorage.setItem("miniLuminaUser", JSON.stringify(user));
+          }
+        }
+      }catch(e){}
+    }
+
+    let currentPlan = readPlan();
 
     const crumbPlan = document.getElementById("crumbPlan");
+    const exportLock = document.getElementById("exportLock");
+    const labelFull = document.getElementById("labelFull");
+    const labelExport = document.getElementById("labelExport");
     const footNote = document.getElementById("footNote");
 
-    const miniFill1 = document.getElementById("miniFill1");
-
-    const skyTariffLine = document.getElementById("skyTariffLine");
-    const skyNote = document.getElementById("skyNote");
-    const skyBadge = document.getElementById("skyBadge");
-    const skyBar = document.getElementById("skyBar");
-
-    function planLabel(){
-      return currentPlan==="free" ? "DEMO · FREE tarif"
-        : currentPlan==="plus" ? "DEMO · PLUS tarif"
-        : "DEMO · PREMIUM tarif";
-    }
-
-    function applyMiniCloudFill(){
-      const used = USED_PERCENT[currentPlan] ?? 31;
-      const v = Math.max(0, Math.min(1, used / 100));
-      if(miniFill1) miniFill1.style.setProperty("--fill", v.toFixed(4));
-    }
-
-    function rebuildTariffLine(){
-      if(!skyTariffLine) return;
-      skyTariffLine.innerHTML = "";
-
-      const p1 = document.createElement("span");
-      p1.className = "pill";
-      p1.textContent =
-        currentPlan==="free" ? "FREE – menší nebe"
-        : currentPlan==="plus" ? "PLUS – větší nebe"
-        : "PREMIUM – velké nebe";
-      skyTariffLine.appendChild(p1);
-
-      const p2 = document.createElement("span");
-      p2.className = "pill";
-      p2.textContent = "barvy: neon růžová → fialová";
-      skyTariffLine.appendChild(p2);
-    }
-
-    function applySkyHero(){
-      const used = USED_PERCENT[currentPlan] ?? 31;
-
-      if(skyNote){
-        skyNote.textContent =
-          currentPlan==="free"
-            ? "FREE: základní kapacita. Export je zamčený."
-            : currentPlan==="plus"
-              ? "PLUS: větší kapacita. Export v DEMU funguje."
-              : "PREMIUM: největší kapacita. Export v DEMU funguje.";
-      }
-
-      if(skyBadge){
-        const strong = skyBadge.querySelector("strong");
-        if(strong) strong.textContent = used + " %";
-      }
-      if(skyBar){
-        skyBar.style.setProperty("--w", used + "%");
-      }
+    function setLabelClass(el){
+      if(!el) return;
+      el.classList.remove("cloud-label--free","cloud-label--plus","cloud-label--prem");
+      if(currentPlan==="free") el.classList.add("cloud-label--free");
+      if(currentPlan==="plus") el.classList.add("cloud-label--plus");
+      if(currentPlan==="premium") el.classList.add("cloud-label--prem");
     }
 
     function applyPlan(){
-      localStorage.setItem("ms_plan", currentPlan);
-      crumbPlan.textContent = planLabel();
+      writePlan(currentPlan);
 
-      footNote.textContent =
-        currentPlan==="free"
-          ? "FREE: ukázka menší kapacity. Export je zamčený."
-          : currentPlan==="plus"
-            ? "PLUS: větší nebe. Export v DEMU stáhne ukázkový soubor."
-            : "PREMIUM: velké nebe. Demo export + největší kapacita.";
+      if(crumbPlan){
+        crumbPlan.textContent =
+          currentPlan==="free" ? "DEMO · FREE tarif" :
+          currentPlan==="plus" ? "DEMO · PLUS tarif" :
+          "DEMO · PREMIUM tarif";
+      }
 
-      applyMiniCloudFill();
+      setLabelClass(labelFull);
+      setLabelClass(labelExport);
+
+      const unlocked = (currentPlan==="plus" || currentPlan==="premium");
+      if(exportLock) exportLock.style.display = unlocked ? "none" : "flex";
+
+      if(footNote){
+        footNote.textContent =
+          currentPlan==="free"
+            ? "FREE: ukázka menší kapacity. Export je zamčený."
+            : currentPlan==="plus"
+              ? "PLUS: větší nebe. Export v DEMU stáhne ukázkový soubor."
+              : "PREMIUM: velké nebe. Demo export + největší kapacita.";
+      }
+
+      // Napojení na export tlačítko (enable/disable)
+      const btnExportData = document.getElementById("btnExportData");
+      if(btnExportData){
+        btnExportData.disabled = !unlocked;
+      }
+
+      // Schody bez animace: jen nastavit stav podle tarifu
+      applyStairsStatic();
       rebuildTariffLine();
-      applySkyHero();
       applyExportTexts();
     }
 
-    crumbPlan.addEventListener("click", ()=>{
-      const i = PLANS.indexOf(currentPlan);
-      currentPlan = PLANS[(i + 1) % PLANS.length];
-      applyPlan();
+    if(crumbPlan){
+      crumbPlan.addEventListener("click", ()=>{
+        const i = PLANS.indexOf(currentPlan);
+        currentPlan = PLANS[(i + 1) % PLANS.length];
+        applyPlan();
+      });
+    }
+
+    window.addEventListener("storage", (e)=>{
+      if(e.key === PLAN_KEY || e.key === "miniLuminaUser"){
+        const next = readPlan();
+        if(next !== currentPlan){
+          currentPlan = next;
+          applyPlan();
+        }
+      }
     });
 
     // ====== Modal helpers ======
@@ -976,11 +987,7 @@
       lockBody();
       el.classList.add("is-open");
       syncVh();
-      // vždy refresh UI (bez animací)
-      if(id === "modalSky"){
-        rebuildTariffLine();
-        applySkyHero();
-      }
+      if(id === "modalFullSky") applyStairsStatic();
     }
     function closeModal(id){
       const el = document.getElementById(id);
@@ -1000,16 +1007,81 @@
       });
     });
 
-    // ====== Mini cloud buttons ======
-    document.getElementById("miniCloud1")?.addEventListener("click", ()=>openModal("modalSky"));
-    document.getElementById("miniCloud2")?.addEventListener("click", ()=>openModal("modalExport"));
+    // ====== Buttons (clouds) ======
+    document.getElementById("btnFullSky")?.addEventListener("click", ()=>openModal("modalFullSky"));
+    document.getElementById("btnExport")?.addEventListener("click", ()=>openModal("modalExport"));
 
     document.querySelectorAll(".realm-card").forEach(card=>{
       const target = card.getAttribute("data-open");
       if(target) card.addEventListener("click", ()=>openModal(target));
     });
+    document.querySelectorAll(".mini-stair[data-open]").forEach(card=>{
+      const target = card.getAttribute("data-open");
+      if(target) card.addEventListener("click", ()=>openModal(target));
+    });
 
-    // ====== Export (zůstává jako dřív) ======
+    // ====== Modal 1: stairs (bez animace) ======
+    const STAIR_RANGES = {
+      free:    {from: 15, to: 35, label:"FREE – dietní nebe"},
+      plus:    {from: 35, to: 55, label:"PLUS – nebe, co stojí za řeč"},
+      premium: {from: 45, to: 65, label:"PREMIUM – velké nebe"}
+    };
+
+    const stairWrap = document.getElementById("stairWrap");
+    const stairColor = document.getElementById("stairColor");
+    const stairPercent = document.getElementById("stairPercent");
+    const fullTariffLine = document.getElementById("fullTariffLine");
+    const stairNote = document.getElementById("stairNote");
+
+    // Poměr stran schodů podle PNG
+    (function syncStairAspect(){
+      if(!stairWrap) return;
+      const img = new Image();
+      img.onload = () => {
+        try{
+          stairWrap.style.aspectRatio = img.naturalWidth + " / " + img.naturalHeight;
+        }catch(_){}
+      };
+      img.src = "light-stair.png";
+    })();
+
+    function rebuildTariffLine(){
+      if(!fullTariffLine) return;
+      fullTariffLine.innerHTML = "";
+      const cfg = STAIR_RANGES[currentPlan] || STAIR_RANGES.free;
+
+      const p1 = document.createElement("span");
+      p1.className = "pill";
+      p1.textContent = cfg.label;
+      fullTariffLine.appendChild(p1);
+
+      const p2 = document.createElement("span");
+      p2.className = "pill";
+      p2.textContent = "demo vizualizace růžová → fialová";
+      fullTariffLine.appendChild(p2);
+    }
+
+    function applyStairsStatic(){
+      if(!stairColor || !stairPercent) return;
+
+      const used =
+        currentPlan==="free" ? 31 :
+        currentPlan==="plus" ? 49 :
+        65;
+
+      const v = Math.max(0, Math.min(1, used / 100));
+      stairColor.style.setProperty("--fill", v.toFixed(4));
+
+      const numEl = stairPercent.querySelector("strong");
+      if(numEl) numEl.textContent = used + " %";
+
+      if(stairNote){
+        stairNote.textContent =
+          "V ostré verzi se procenta napojí na reálná data. V DEMU ukazujeme jen vizuální logiku a barevné plnění.";
+      }
+    }
+
+    // ====== Modal 3: export ======
     const suitcaseImg = document.getElementById("suitcaseImg");
     const exportIcons = document.getElementById("exportIcons");
     const exportWarning = document.getElementById("exportWarning");
@@ -1073,7 +1145,9 @@
         demo: true,
         plan: currentPlan,
         memory: {
-          used_percent: USED_PERCENT[currentPlan] ?? 31
+          used_percent: currentPlan==="free" ? 31 : (currentPlan==="plus" ? 49 : 65),
+          ratio: "16:9",
+          proiecta_projects: currentPlan==="free" ? 1 : (currentPlan==="plus" ? 4 : 7)
         },
         sections: [
           { id:"chronica", label:"Chronica", demo: ["zápisy", "milníky", "okamžiky"] },
