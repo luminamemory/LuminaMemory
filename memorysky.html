@@ -308,7 +308,7 @@
       </div>
 
       <!-- BADGE (přesně ve formátu) -->
-      <div class="ms-plan-pill" id="crumbPlan">DEMO . FREE tarif</div>
+      <div class="ms-plan-pill" id="crumbPlan">DEMO · FREE tarif</div>
     </div>
   </header>
 
@@ -362,11 +362,11 @@
 
     const plan = readPlan();
 
-    // přesně: ‼️DEMO . FREE / PLUS / PREMIUM tarif‼️ (dle aktuálního tarifu)
+    // přesně: ‼️DEMO · FREE / PLUS / PREMIUM tarif‼️ (dle aktuálního tarifu)
     const label =
-      plan === "plus" ? "DEMO . PLUS tarif" :
-      plan === "premium" ? "DEMO . PREMIUM tarif" :
-      "DEMO . FREE tarif";
+      plan === "plus" ? "DEMO · PLUS tarif" :
+      plan === "premium" ? "DEMO · PREMIUM tarif" :
+      "DEMO · FREE tarif";
 
     const crumb = document.getElementById("crumbPlan");
     if(crumb) crumb.textContent = label;
@@ -375,11 +375,11 @@
     const footNote = document.getElementById("footNote");
     if(footNote){
       if(plan === "free"){
-        footNote.textContent = "Ve verzi FREE máš dietní nebe – malý prostor na vyzkoušení.";
+        footNote.textContent = "Ve verzi FREE máš dietní nebe.";
       }else if(plan === "plus"){
-        footNote.textContent = "PLUS: nebe co stojí za už za řeč.";
+        footNote.textContent = "PLUS: nebe co stojí za řeč.";
       }else{
-        footNote.textContent = "PREMIUM: opravdu velká část nebe - tady můžeš tvořit téměř bez omezení.";
+        footNote.textContent = "PREMIUM: opravdu velká část nebe.";
       }
     }
   </script>

@@ -308,7 +308,7 @@
       </div>
 
       <!-- BADGE (exact format) -->
-      <div class="ms-plan-pill" id="crumbPlan">DEMO . FREE tarif</div>
+      <div class="ms-plan-pill" id="crumbPlan">DEMO · FREE tarif</div>
     </div>
   </header>
 
@@ -364,9 +364,9 @@
 
     // exact: DEMO . FREE / PLUS / PREMIUM plan (based on current plan)
     const label =
-      plan === "plus" ? "DEMO . PLUS tarif" :
-      plan === "premium" ? "DEMO . PREMIUM tarif" :
-      "DEMO . FREE tarif";
+      plan === "plus" ? "DEMO · PLUS tarif" :
+      plan === "premium" ? "DEMO · PREMIUM tarif" :
+      "DEMO · FREE tarif";
 
     const crumb = document.getElementById("crumbPlan");
     if(crumb) crumb.textContent = label;
@@ -375,11 +375,11 @@
     const footNote = document.getElementById("footNote");
     if(footNote){
       if(plan === "free"){
-        footNote.textContent = "In FREE, you get a light sky — a small space to try it out.";
+        footNote.textContent = "In FREE, you get a light sky.";
       }else if(plan === "plus"){
         footNote.textContent = "PLUS: a sky worth talking about.";
       }else{
-        footNote.textContent = "PREMIUM: a truly big piece of sky — here you can create almost without limits.";
+        footNote.textContent = "PREMIUM: a truly big piece of sky.";
       }
     }
   </script>

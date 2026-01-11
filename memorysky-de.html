@@ -308,7 +308,7 @@
       </div>
 
       <!-- BADGE (exaktes Format) -->
-      <div class="ms-plan-pill" id="crumbPlan">DEMO . FREE Tarif</div>
+      <div class="ms-plan-pill" id="crumbPlan">DEMO · FREE Tarif</div>
     </div>
   </header>
 
@@ -362,11 +362,11 @@
 
     const plan = readPlan();
 
-    // exakt: DEMO . FREE / PLUS / PREMIUM Tarif (je nach aktuellem Tarif)
+    // exakt: DEMO · FREE / PLUS / PREMIUM Tarif (je nach aktuellem Tarif)
     const label =
-      plan === "plus" ? "DEMO . PLUS Tarif" :
-      plan === "premium" ? "DEMO . PREMIUM Tarif" :
-      "DEMO . FREE Tarif";
+      plan === "plus" ? "DEMO · PLUS Tarif" :
+      plan === "premium" ? "DEMO · PREMIUM Tarif" :
+      "DEMO · FREE Tarif";
 
     const crumb = document.getElementById("crumbPlan");
     if(crumb) crumb.textContent = label;
@@ -375,11 +375,11 @@
     const footNote = document.getElementById("footNote");
     if(footNote){
       if(plan === "free"){
-        footNote.textContent = "In FREE hast du einen Diät-Himmel – wenig Platz zum Ausprobieren.";
+        footNote.textContent = "In FREE hast du einen Diät-Himmel.";
       }else if(plan === "plus"){
         footNote.textContent = "PLUS: ein Himmel, über den man schon reden kann.";
       }else{
-        footNote.textContent = "PREMIUM: wirklich viel Himmel – hier kannst du fast ohne Grenzen gestalten.";
+        footNote.textContent = "PREMIUM: wirklich viel Himmel.";
       }
     }
   </script>
