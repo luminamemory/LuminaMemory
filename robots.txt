@@ -134,3 +134,8 @@ Disallow: /memorysky
 Disallow: /memorysky.html
 Disallow: /memorysky-en.html
 Disallow: /memorysky-de.html
+
+Disallow: /your-sky
+Disallow: /your-sky.html
+Disallow: /your-sky-en.html
+Disallow: /your-sky-de.html
