@@ -308,14 +308,14 @@
       </div>
 
       <!-- BADGE (exact format) -->
-      <div class="ms-plan-pill" id="crumbPlan">DEMO . FREE plan</div>
+      <div class="ms-plan-pill" id="crumbPlan">DEMO . FREE tarif</div>
     </div>
   </header>
 
   <!-- MAIN (single button) -->
   <main class="main" role="main">
     <div class="portal">
-      <a class="btn-portal" href="yoursky-en.html" aria-label="Go to YourSky">
+      <a class="btn-portal" href="your-sky-en.html" aria-label="Go to YourSky">
         <span><i class="portal-dot" aria-hidden="true"></i> Enter Your Sky</span>
       </a>
     </div>
@@ -364,9 +364,9 @@
 
     // exact: DEMO . FREE / PLUS / PREMIUM plan (based on current plan)
     const label =
-      plan === "plus" ? "DEMO . PLUS plan" :
-      plan === "premium" ? "DEMO . PREMIUM plan" :
-      "DEMO . FREE plan";
+      plan === "plus" ? "DEMO . PLUS tarif" :
+      plan === "premium" ? "DEMO . PREMIUM tarif" :
+      "DEMO . FREE tarif";
 
     const crumb = document.getElementById("crumbPlan");
     if(crumb) crumb.textContent = label;
