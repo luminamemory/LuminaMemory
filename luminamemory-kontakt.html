@@ -108,7 +108,7 @@
         .logo img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             display: block;
         }
 
@@ -334,11 +334,12 @@
 <body>
     <div class="shell">
         <main class="card" aria-labelledby="kontakt-heading">
-            <header class="card-header">
-<div class="brand-logo" aria-hidden="true">
-  <img src="/images/favicon.png"
-       alt="Logo LuminaMemory™">
-</div>
+
+<header class="card-header">
+    <div class="logo" aria-hidden="true">
+        <img src="/favicon.png" alt="LuminaMemory™ logo">
+    </div>
+
                 <div>
                     <div class="brand-title" id="kontakt-heading">LuminaMemory™</div>
                     <div class="brand-subtitle">Praetorium • Kontakt &amp; mini-průzkum projektu</div>
@@ -357,11 +358,15 @@
                     </div>
 
                     <div class="contact-layout">
-<div class="avatar" aria-hidden="true">
-    <img src="/images/gabi-portrait.jpg"
-         alt="Gabi - portrait"
-         loading="lazy">
+
+<div class="avatar">
+  <img
+    src="gabi-portrait.jpg"
+    alt="Gabriela Zakova – LuminaMemory™ Founder"
+    loading="lazy"
+  >
 </div>
+
                         <div class="contact-main">
                             <div class="name">Gabriela Zakova</div>
                             <div class="role">Founder &amp; Creative Director of LuminaMemory™</div>
