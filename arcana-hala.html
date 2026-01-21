@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: #050608;
+      --bg-soft: #0b0f13;
+      --bg-softer: #10151b;
+      --bg-deep: #07090d;
+
+      --ink: #f5f5f5;
+      --ink-soft: #c6c8cd;
+      --ink-soft2: #a5a8af;
+      --ink-muted: #81858d;
+
+      --border-soft: rgba(255,255,255,.12);
+      --border-strong: rgba(255,255,255,.26);
+
+      --danger: #ff4d4f;
+      --danger-soft: rgba(255,77,79,.16);
+
+      --radius-lg: 20px;
+      --radius-md: 13px;
+      --radius-pill: 999px;
+
+      --shadow-soft: 0 18px 40px rgba(0,0,0,.8);
+      --shadow-chip: 0 10px 26px rgba(0,0,0,.85);
+
+      --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    *{ box-sizing:border-box; }
+
+    [hidden]{
+      display:none !important;
+    }
+
+    html{
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.05) 0, transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(0,0,0,.8) 0, transparent 55%),
+        var(--bg);
+      color:var(--ink);
+      font-family:var(--font-sans);
+    }
+
+    .shell{
+      min-height:100vh;
+      max-width:1120px;
+      margin:0 auto;
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    @media (min-width:960px){
+      .shell{
+        padding:22px 22px 26px;
+      }
+    }
+
+    /* Header */
+
+    .shell-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+
+    .brand-logo{
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.24);
+      background:#11151b;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      box-shadow:0 10px 24px rgba(0,0,0,.9);
+    }
+
+    .brand-logo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .brand-title{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .brand-title-main{
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .brand-title-sub{
+      font-size:12px;
+      color:var(--ink-soft2);
+    }
+
+    .shell-nav{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .nav-link{
+      font-size:12px;
+      padding:7px 11px;
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(7,9,12,.96);
+      color:var(--ink-soft);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:var(--shadow-chip);
+    }
+
+    .nav-link span:first-child{
+      font-size:14px;
+    }
+
+    .nav-link:hover{
+      border-color:rgba(255,255,255,.35);
+      color:var(--ink);
+    }
+
+    .plan-badge{
+      font-size:11px;
+      padding:6px 10px;
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.2);
+      background:#0b0f13;
+      color:var(--ink-soft);
+      box-shadow:var(--shadow-chip);
+      white-space:nowrap;
+    }
+
+    /* Main panel */
+
+    .shell-main{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      position:relative;
+    }
+
+    .halo{
+      position:absolute;
+      inset:auto;
+      left:50%;
+      top:40%;
+      width:420px;
+      height:420px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.07) 0, transparent 65%);
+      opacity:.45;
+      filter:blur(12px);
+      transform:translateX(-50%);
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .panel-main{
+      position:relative;
+      border-radius:24px;
+      background:var(--bg-soft);
+      border:1px solid var(--border-soft);
+      box-shadow:var(--shadow-soft);
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      overflow:hidden;
+    }
+
+    @media (min-width:960px){
+      .panel-main{
+        padding:20px;
+        gap:20px;
+      }
+    }
+
+    .panel-header{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-bottom:4px;
+    }
+
+    .panel-kicker{
+      font-size:11px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--ink-muted);
+    }
+
+    .panel-title-row{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .panel-title{
+      font-size:18px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .panel-lead{
+      font-size:13px;
+      color:var(--ink-soft);
+      max-width:560px;
+    }
+
+    .panel-note{
+      font-size:11px;
+      color:var(--ink-muted);
+    }
+
+    .panel-note .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    /* Lock overlay */
+
+    .lock-overlay{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 50% 0, rgba(0,0,0,.7) 0, rgba(0,0,0,.92) 65%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:24px 18px;
+      text-align:center;
+      gap:8px;
+      z-index:5;
+    }
+
+    .lock-title{
+      font-size:14px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--ink-soft);
+    }
+
+    .lock-text{
+      font-size:12px;
+      color:var(--ink-soft2);
+      max-width:360px;
+    }
+
+    .lock-chip{
+      font-size:11px;
+      padding:4px 9px;
+      border-radius:var(--radius-pill);
+      border:1px solid var(--danger);
+      background:var(--danger-soft);
+      color:var(--danger);
+    }
+
+    /* Layout 2 columns */
+
+    .content-grid{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    @media (min-width:960px){
+      .content-grid{
+        flex-direction:row;
+        align-items:flex-start;
+      }
+      .col-zones{
+        flex:0 0 40%;
+      }
+      .col-whisper{
+        flex:1;
+      }
+    }
+
+    .col-zones,
+    .col-whisper{
+      border-radius:var(--radius-lg);
+      background:var(--bg-softer);
+      border:1px solid var(--border-soft);
+      padding:12px;
+      position:relative;
+    }
+
+    @media (min-width:960px){
+      .col-zones,
+      .col-whisper{
+        padding:14px 14px 15px;
+      }
+    }
+
+    .section-title{
+      font-size:13px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--ink-soft2);
+      margin-bottom:4px;
+    }
+
+    .section-sub{
+      font-size:12px;
+      color:var(--ink-soft2);
+      margin-bottom:10px;
+    }
+
+    /* Zóny trezoru */
+
+    .zone-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    @media (max-width:540px){
+      .zone-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .zone-card{
+      position:relative;
+      padding:9px 9px 8px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:#0b0f13;
+      color:var(--ink-soft);
+      text-align:left;
+      cursor:pointer;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      box-shadow:0 10px 22px rgba(0,0,0,.85);
+      min-height:72px;
+      transition:border-color .16s ease, box-shadow .16s ease, transform .1s ease, background .16s ease;
+    }
+
+    .zone-card:hover{
+      border-color:var(--border-strong);
+      box-shadow:0 12px 26px rgba(0,0,0,.95);
+      transform:translateY(-1px);
+    }
+
+    .zone-card.is-active{
+      border-color:var(--border-strong);
+      background:#141922;
+      box-shadow:0 14px 30px rgba(0,0,0,.95);
+    }
+
+    .zone-card.locked{
+      cursor:default;
+      opacity:.7;
+      border-style:dashed;
+      border-color:rgba(255,255,255,.24);
+      background:
+        repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 2px, rgba(0,0,0,.7) 2px, rgba(0,0,0,.7) 4px);
+      box-shadow:none;
+      transform:none;
+    }
+
+    .zone-name-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:6px;
+    }
+
+    .zone-name{
+      font-size:12.5px;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      color:var(--ink-soft);
+    }
+
+    .zone-tag,
+    .zone-lock{
+      font-size:10px;
+      padding:2px 7px 3px;
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.18);
+      background:#090c10;
+      color:var(--ink-soft2);
+      white-space:nowrap;
+    }
+
+    .zone-lock{
+      border-color:var(--danger);
+      background:var(--danger-soft);
+      color:var(--danger);
+    }
+
+    .zone-desc{
+      font-size:11px;
+      color:var(--ink-soft2);
+    }
+
+    .zone-foot{
+      font-size:10px;
+      color:var(--ink-muted);
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+
+    .zone-dot{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.7) 0, rgba(255,255,255,.15) 60%);
+      box-shadow:0 0 0 1px rgba(255,255,255,.3);
+    }
+
+    .zone-card.zone-pulse{
+      box-shadow: 0 0 0 1px rgba(255,255,255,.4),
+                  0 0 24px rgba(255,245,200,.75);
+      transform: translateY(-1px);
+      transition: box-shadow .25s ease, transform .25s ease;
+    }
+
+    /* Šeptárna */
+
+    .whisper-header{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .whisper-avatar-wrap{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.22);
+      overflow:hidden;
+      box-shadow:0 10px 24px rgba(0,0,0,.9);
+      flex-shrink:0;
+    }
+
+    .whisper-avatar-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .whisper-title{
+      font-size:13px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--ink-soft2);
+      margin-bottom:2px;
+    }
+
+    .whisper-lead{
+      font-size:12px;
+      color:var(--ink-soft);
+      margin-bottom:4px;
+    }
+
+    .whisper-rules{
+      font-size:11px;
+      color:var(--ink-muted);
+      list-style:none;
+      padding-left:0;
+      margin:0;
+    }
+
+    .whisper-rules li{
+      display:flex;
+      align-items:flex-start;
+      gap:6px;
+      margin-bottom:2px;
+    }
+
+    .whisper-rules span.bullet{
+      font-size:11px;
+      margin-top:1px;
+    }
+
+    .whisper-rules .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    .whisper-chat{
+      border-radius:var(--radius-md);
+      border:1px solid var(--border-soft);
+      background:var(--bg-deep);
+      padding:8px 8px 6px;
+      margin-bottom:8px;
+      height:160px;
+      max-height:190px;
+      overflow-y:auto;
+      scroll-behavior:smooth;
+    }
+
+    @media (min-width:960px){
+      .whisper-chat{
+        height:170px;
+        max-height:200px;
+      }
+    }
+
+    .whisper-chat-inner{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-size:11px;
+    }
+
+    .whisper-row{
+      display:flex;
+      align-items:flex-start;
+      gap:6px;
+    }
+
+    .whisper-left{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .bubble{
+      max-width:100%;
+      padding:7px 8px;
+      border-radius:11px;
+      line-height:1.4;
+      white-space:pre-wrap;
+      word-wrap:break-word;
+    }
+
+    .bubble.user{
+      align-self:flex-start;
+      background:#121720;
+      border:1px solid rgba(255,255,255,.18);
+      color:var(--ink);
+    }
+
+    .bubble-meta{
+      display:flex;
+      justify-content:flex-start;
+      align-items:center;
+      gap:4px;
+      font-size:10px;
+      color:var(--ink-muted);
+      margin-top:2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .whisper-delete{
+      border:none;
+      background:transparent;
+      color:var(--ink-muted);
+      font-size:11px;
+      cursor:pointer;
+      padding:0 2px;
+      margin-top:4px;
+      flex-shrink:0;
+    }
+
+    .whisper-delete:hover{
+      color:var(--danger);
+    }
+
+    .whisper-empty{
+      font-size:11px;
+      color:var(--ink-muted);
+    }
+
+    .whisper-form{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .whisper-label-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .whisper-label{
+      font-size:12px;
+      color:var(--ink-soft);
+    }
+
+    .whisper-zone-active{
+      font-size:11px;
+      color:var(--ink-soft2);
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+
+    .pill-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 20%, rgba(255,255,255,.75) 0, rgba(255,255,255,.1) 60%);
+      box-shadow:0 0 0 1px rgba(255,255,255,.4);
+    }
+
+    .whisper-input{
+      font-family:var(--font-sans);
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:var(--radius-md);
+      border:1px solid var(--border-soft);
+      background:#090c11;
+      color:var(--ink);
+      resize:vertical;
+      min-height:52px;
+      max-height:120px;
+    }
+
+    .whisper-input::placeholder{
+      color:var(--ink-muted);
+    }
+
+    .whisper-input:focus{
+      outline:none;
+      border-color:var(--border-strong);
+      box-shadow:0 0 0 1px var(--border-strong);
+    }
+
+    .whisper-controls{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:6px;
+    }
+
+    .whisper-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      justify-content:flex-end;
+    }
+
+    .whisper-hint{
+      font-size:10px;
+      color:var(--ink-muted);
+      margin-top:2px;
+    }
+
+    .whisper-hint .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    .btn{
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.18);
+      background:#121720;
+      color:var(--ink-soft);
+      font-size:12px;
+      padding:7px 13px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:var(--shadow-chip);
+    }
+
+    .btn.primary{
+      background:#f5f5f5;
+      color:#050608;
+      border-color:rgba(255,255,255,.24);
+      font-weight:500;
+    }
+
+    .btn:disabled{
+      opacity:.6;
+      cursor:default;
+      box-shadow:none;
+    }
+
+    .btn-ghost{
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.2);
+      background:#0b0f13;
+      color:var(--ink-soft2);
+      font-size:11px;
+      padding:4px 9px;
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+    }
+
+    /* Toast */
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%) translateY(120%);
+      background:var(--bg-deep);
+      color:var(--ink-soft);
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.2);
+      padding:7px 12px;
+      font-size:11px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:0 16px 34px rgba(0,0,0,.9);
+      opacity:0;
+      transition:opacity .18s, transform .18s;
+      z-index:50;
+      max-width:90vw;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .toast-icon{
+      font-size:13px;
+    }
+
+    .toast-text{
+      white-space:normal;
+    }
+
+  </style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="shell-header">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="favicon.png" alt="Lumina – průvodkyně v Arcaně">
+      </div>
+      <div class="brand-title">
+        <div class="brand-title-main">Arcana</div>
+        <div class="brand-title-sub">Citlivé věci, ale v bezpečné zkratce</div>
+      </div>
+    </div>
+
+    <div class="shell-nav">
+      <a class="nav-link" href="lumina-demo.html">
+        <span>🗯</span><span>Pokec</span>
+      </a>
+      <a class="nav-link" href="chronica.html">
+        <span>📖</span><span>Chronica</span>
+      </a>
+      <div id="planBadge" class="plan-badge">DEMO · FREE tarif</div>
+    </div>
+  </header>
+
+  <main class="shell-main">
+    <div class="halo" aria-hidden="true"></div>
+
+    <section class="panel-main" aria-label="Arcana – trezorová hala">
+      <div id="lockOverlay" class="lock-overlay" hidden>
+        <div class="lock-title">Arcana je zatím zamčená</div>
+        <div class="lock-text">
+          Běžíš ve FREE tarifu. Trezor Arcana (Clavis, Pecunia, Corpus Medica, Codex Vitae)
+          je tady v DEMU jen na ukázku. V ostré verzi by se otevíral od tarifu
+          <strong>PLUS</strong> a výš.
+        </div>
+        <div class="lock-chip">DEMO náhled pro FREE</div>
+      </div>
+
+      <header class="panel-header">
+        <div class="panel-kicker">Trezorová hala</div>
+        <div class="panel-title-row">
+          <h1 class="panel-title">Arcana – Trezor</h1>
+        </div>
+        <p class="panel-lead">
+          Tady třídíme citlivější věci do zón: Arcana Clavis (hesla),
+          Arcana Pecunia (peníze), Corpus Medica (zdraví), Codex Vitae (doklady).
+          Pro Chronica vytváříme jen bezpečné zkratky – bez plných čísel a diagnóz.
+        </p>
+        <p id="planHint" class="panel-note">
+          Zjišťuju, jaký tarif máš… 💾
+        </p>
+        <p class="panel-note">
+          <span class="warning">DŮLEŽITÉ:</span> Tahle trezorová hala je <strong>DEMO</strong>.
+          Nezadávej skutečná hesla, rodná čísla, čísla karet ani celé lékařské zprávy.
+        </p>
+      </header>
+
+      <div class="content-grid">
+        <!-- LEVÁ STRANA – zóny trezoru -->
+        <section class="col-zones" aria-label="Zóny trezoru">
+          <h2 class="section-title">Zóny trezoru</h2>
+          <p class="section-sub">
+            Vyber, kam zhruba patří to, co chceš hlídat.  
+            V ostré verzi se tyhle zóny budou chovat jako specializovaní správci.
+          </p>
+
+          <div class="zone-grid" id="zoneGrid">
+            <button type="button" class="zone-card" data-zone="pecunia" data-min-plan="plus">
+              <div class="zone-name-row">
+                <div class="zone-name">Arcana Pecunia</div>
+                <span class="zone-tag">peníze &amp; platby</span>
+              </div>
+              <div class="zone-desc">
+                Mimořádné platby, splátky, vyšší zálohy, všechny věci, které se mají připomenout v rozpočtu.
+              </div>
+              <div class="zone-foot">
+                <span class="zone-dot"></span><span>Maják pro tvůj rozpočet.</span>
+              </div>
+            </button>
+
+            <button type="button" class="zone-card" data-zone="medica" data-min-plan="plus">
+              <div class="zone-name-row">
+                <div class="zone-name">Corpus Medica</div>
+                <span class="zone-tag">doktoři &amp; zdraví</span>
+              </div>
+              <div class="zone-desc">
+                Kontroly, vyšetření, objednání. Chronica dostane jen větu typu
+                „kontrola u zubaře“ – ne celou zprávu.
+              </div>
+              <div class="zone-foot">
+                <span class="zone-dot"></span><span>Hlídá zdraví bez odhalování detailů.</span>
+              </div>
+            </button>
+
+            <button type="button" class="zone-card" data-zone="vitae" data-min-plan="plus">
+              <div class="zone-name-row">
+                <div class="zone-name">Codex Vitae</div>
+                <span class="zone-tag">doklady &amp; platnost</span>
+              </div>
+              <div class="zone-desc">
+                Občanka, pas, řidičák, technická… Jen připomínka typu
+                „občanka končí za 2 měsíce“ – čísla zůstávají v trezoru.
+              </div>
+              <div class="zone-foot">
+                <span class="zone-dot"></span><span>Hlídá data konce a obnovy.</span>
+              </div>
+            </button>
+
+            <button type="button" class="zone-card" data-zone="clavis" data-min-plan="premium">
+              <div class="zone-name-row">
+                <div class="zone-name">Arcana Clavis</div>
+                <span class="zone-lock">PREMIUM zóna · hesla</span>
+              </div>
+              <div class="zone-desc">
+                Správce hesel, PINů a přístupů. V DEMU jen náhled, ostrá verze
+                by musela hesla šifrovat a nikdy je neposílat mimo trezor.
+              </div>
+              <div class="zone-foot">
+                <span class="zone-dot"></span><span>V DEMU je jen na ukázku.</span>
+              </div>
+            </button>
+          </div>
+        </section>
+
+        <!-- PRAVÁ STRANA – Šeptárna -->
+        <section class="col-whisper" aria-label="Šeptárna – chat pro třídění">
+          <div class="whisper-header">
+            <div class="whisper-avatar-wrap">
+              <img src="avatar.png" alt="Lumina – strážkyně trezoru">
+            </div>
+            <div>
+              <div class="whisper-title">Šeptárna</div>
+              <div class="whisper-lead">
+                Sem můžeš psát věty, které nechceš dávat do běžného Pokecu.
+                Já z nich v DEMU udělám jen zkrácený zápis pro Chronica.
+              </div>
+              <ul class="whisper-rules">
+                <li><span class="bullet">•</span><span class="warning">Tahle verze je DEMO – prosím nezadávej skutečná hesla, rodná čísla, čísla karet ani celé lékařské zprávy.</span></li>
+                <li><span class="bullet">•</span><span>Šeptárna v DEMU ukládá záznamy jen <strong>lokálně do tvého prohlížeče</strong>.</span></li>
+                <li><span class="bullet">•</span><span>V ostré verzi by citlivá data byla šifrovaná a navržená v souladu s ochranou osobních údajů.</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="whisper-chat" aria-live="polite">
+            <div id="whisperChatInner" class="whisper-chat-inner"></div>
+          </div>
+
+          <form id="whisperForm" class="whisper-form">
+            <div class="whisper-label-row">
+              <label class="whisper-label" for="whisperInput">
+                Co chceš, abych ti v Arcaně hlídala?
+              </label>
+              <div class="whisper-zone-active">
+                <span class="pill-dot"></span>
+                <span id="activeZoneLabel">Zóna: automaticky podle textu</span>
+              </div>
+            </div>
+
+            <textarea
+              id="whisperInput"
+              class="whisper-input"
+              placeholder="Např.: „kontrola u zubaře v květnu“, „příští měsíc vyšší záloha za elektřinu“, „občanka končí na konci roku“"></textarea>
+
+            <div class="whisper-controls">
+              <button type="button" class="btn-ghost" id="btnZoneAuto">
+                🔄 Nech zónu vybrat automaticky
+              </button>
+              <div class="whisper-actions">
+                <button type="button" class="btn" id="btnArcanaOnly">
+                  🕯 Jen v Arcaně
+                </button>
+                <button type="button" class="btn primary" id="btnChronica">
+                  💾 Arcana + Chronica
+                </button>
+              </div>
+            </div>
+
+            <p class="whisper-hint">
+              <span class="warning">DEMO:</span> Zápisy se ukládají jen jako zkrácené věty do tvého prohlížeče.
+              Do Chronica posíláme jen bezpečné shrnutí bez hesel, čísel karet a diagnóz.
+            </p>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite">
+  <span id="toastIcon" class="toast-icon">💬</span>
+  <span id="toastText" class="toast-text"></span>
+</div>
+
+<script>
+(function(){
+  const PLAN_RANK    = { free: 0, plus: 1, premium: 2 };
+  const STATE_KEY    = "ARCANA_HALA_DEMO_STATE_V3";
+  const CHRONICA_KEY = "chronica";
+
+  function normalizePlan(p){
+    if(!p) return "free";
+    p = String(p).toLowerCase();
+    return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+  }
+
+  function readStoredPlan(){
+    try{
+      const fromKey = localStorage.getItem("lm_plan");
+      if(fromKey) return normalizePlan(fromKey);
+
+      const rawUser = localStorage.getItem("miniLuminaUser");
+      if(rawUser){
+        const user = JSON.parse(rawUser);
+        if(user && user.plan) return normalizePlan(user.plan);
+      }
+    }catch(e){}
+    return "free";
+  }
+
+  const planBadge   = document.getElementById("planBadge");
+  const planHint    = document.getElementById("planHint");
+  const lockOverlay = document.getElementById("lockOverlay");
+
+  const zoneGrid  = document.getElementById("zoneGrid");
+  const zoneCards = zoneGrid ? Array.from(zoneGrid.querySelectorAll(".zone-card")) : [];
+
+  const activeZoneLabel = document.getElementById("activeZoneLabel");
+  const btnZoneAuto     = document.getElementById("btnZoneAuto");
+
+  const whisperForm      = document.getElementById("whisperForm");
+  const whisperInput     = document.getElementById("whisperInput");
+  const whisperChatInner = document.getElementById("whisperChatInner");
+  const btnArcanaOnly    = document.getElementById("btnArcanaOnly");
+  const btnChronica      = document.getElementById("btnChronica");
+
+  const toast     = document.getElementById("toast");
+  const toastIcon = document.getElementById("toastIcon");
+  const toastText = document.getElementById("toastText");
+
+  let plan       = readStoredPlan();
+  let state      = loadState();
+  let activeZone = state.activeZone || "auto";
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STATE_KEY);
+      if(!raw) return { activeZone:"auto", whispers:[] };
+      const parsed = JSON.parse(raw);
+      if(!parsed || typeof parsed !== "object") return { activeZone:"auto", whispers:[] };
+      if(!Array.isArray(parsed.whispers)) parsed.whispers = [];
+      if(!parsed.activeZone) parsed.activeZone = "auto";
+      return parsed;
+    }catch(e){
+      return { activeZone:"auto", whispers:[] };
+    }
+  }
+
+  function saveState(){
+    try{
+      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }catch(e){}
+  }
+
+  function showToast(pill, msg, ms){
+    if(!toast) return;
+    // delší default – aby to šlo v klidu přečíst
+    const dur = (typeof ms === "number" && ms > 0) ? ms : 6500;
+    if(toastIcon) toastIcon.textContent = pill || "DEMO";
+    if(toastText) toastText.textContent = msg || "";
+    toast.classList.add("show");
+    clearTimeout(window.__arcanaHalaToastT);
+    window.__arcanaHalaToastT = setTimeout(()=>{
+      toast.classList.remove("show");
+    }, dur);
+  }
+
+  function labelForPlan(p){
+    if(p === "plus") return "DEMO · PLUS";
+    if(p === "premium") return "DEMO · PREMIUM";
+    return "DEMO · FREE";
+  }
+
+  function initPlanUI(){
+    if(!planBadge || !planHint || !lockOverlay) return;
+
+    planBadge.textContent = labelForPlan(plan);
+
+    let hint = "";
+
+    if(plan === "free"){
+      hint = "FREE demo: hala je jen světelný náhled. Zóny fungují symbolicky, nic se naplno nepropojuje.";
+      lockOverlay.removeAttribute("hidden");
+    }else if(plan === "plus"){
+      hint = "PLUS demo: Pecunia / Corpus Medica / Codex Vitae reagují na šepoty. Arcana Clavis zůstává zamčená.";
+      lockOverlay.setAttribute("hidden","true");
+    }else{
+      hint = "PREMIUM demo: všechny čtyři zóny se chovají jako živý trezor. Data běží jen lokálně v tomto prohlížeči.";
+      lockOverlay.setAttribute("hidden","true");
+    }
+
+    planHint.textContent = hint;
+  }
+
+  function findZoneName(id){
+    if(id === "pecunia") return "Arcana Pecunia • peníze";
+    if(id === "medica")  return "Corpus Medica • zdraví";
+    if(id === "vitae")   return "Codex Vitae • doklady";
+    if(id === "clavis")  return "Arcana Clavis • hesla";
+    return "";
+  }
+
+  function updateZoneLabel(){
+    if(!activeZoneLabel) return;
+    if(activeZone === "auto"){
+      activeZoneLabel.textContent = "Zóna: automaticky podle textu";
+    }else{
+      const name = findZoneName(activeZone) || activeZone.toUpperCase();
+      activeZoneLabel.textContent = "Zóna: " + name;
+    }
+  }
+
+  function flashZone(zoneId){
+    if(!zoneGrid) return;
+    const card = zoneCards.find(c => c.dataset.zone === zoneId);
+    if(!card) return;
+    card.classList.add("zone-pulse");
+    setTimeout(()=> card.classList.remove("zone-pulse"), 700);
+  }
+
+  function setActiveZone(zoneId, fromUser){
+    activeZone = zoneId;
+    state.activeZone = zoneId;
+    saveState();
+
+    if(zoneGrid){
+      zoneCards.forEach(card=>{
+        const z = card.dataset.zone;
+        card.classList.toggle("is-active", z === zoneId);
+      });
+    }
+
+    updateZoneLabel();
+
+    if(fromUser){
+      if(zoneId === "auto"){
+        showToast("ARCANA","Nechávám zónu vybírat automaticky podle textu.",4200);
+      }else{
+        showToast("ARCANA","Šeptoty teď posílám hlavně do zóny: " + (findZoneName(zoneId) || zoneId.toUpperCase()),4200);
+      }
+    }
+  }
+
+  function initZones(){
+    if(!zoneGrid) return;
+
+    zoneCards.forEach(card=>{
+      const zoneId = card.dataset.zone;
+      const minPlan = normalizePlan(card.dataset.minPlan || "free");
+
+      card.addEventListener("click", ()=>{
+        const rank = PLAN_RANK[plan] ?? 0;
+        const need = PLAN_RANK[minPlan] ?? 0;
+
+        if(zoneId === "clavis" && plan !== "premium"){
+          showToast("🔒","Arcana Clavis je dostupná až v PREMIUM verzi. Tady ji ukazuju jen jako světelný náhled.",5200);
+          return;
+        }
+
+        if(rank < need){
+          showToast("ARCANA","Tahle zóna by v ostré verzi byla až ve vyšším tarifu. V demu ji jen ukazuju jako náhled.",5200);
+          return;
+        }
+
+        setActiveZone(zoneId, true);
+      });
+    });
+
+    if(btnZoneAuto){
+      btnZoneAuto.addEventListener("click", ()=>{
+        if(plan === "free"){
+          showToast("ARCANA","V FREE demu hlídáme jen jednoduchý náhled. V PLUS/PREMIUM by šel plný automat.",5200);
+          return;
+        }
+        setActiveZone("auto", true);
+      });
+    }
+
+    if(plan === "free"){
+      setActiveZone("auto", false);
+    }else{
+      setActiveZone(activeZone || "auto", false);
+    }
+  }
+
+  // --- zóna z textu ---
+
+  function getZoneForText(text){
+    const t = (text || "").toLowerCase();
+    if(!t.trim()) return "auto";
+
+    if(/\b(heslo|hesla|password|login|lognout|přihlášení|prihlaseni|pin|puk|ověřovací kód|overovaci kod|2fa|dvoufaktor|bezpečnostní kód|bezpecnostni kod)\b/.test(t)){
+      return "clavis";
+    }
+
+    if(/\b(úvěr|uver|úvěru|uveru|kreditka|kreditní karta|hypot[eě]ka|hypoteka|spl[aá]tka|splatka|splatnost|faktura|fakturu|nájem|najmu|inkaso|platba|zaplatit|poji[sš]t[eě]ní|pojistka|pojistn[eí]|výplata|vyplata|mzda|dan[eě]|dph|energie|elektřina|elektrina|plyn|internet|trval[yý] příkaz|trvaly prikaz)\b/.test(t)){
+      return "pecunia";
+    }
+
+    if(/\b(zubař|zubarka|zubní|zubni|doktor|doktorka|praktik|prakticka|gynekolog|psychiatr|psycholog|terapie|terapeut|kontrola|prohlídka|prohlidka|vyšetření|vysetreni|operace|ordinace|rehabilitace|rehabka|lékárna|lekarna|recept|vakcína|vakcina|očkování|ockovani|antibiotika|ultrazvuk|sono|magnetick[aá] rezonance)\b/.test(t)){
+      return "medica";
+    }
+
+    if(/\b(občanka|obcanka|občanský průkaz|obcansky prukaz|pas|cestovn[ií] pas|řidičák|ridicak|řidičský průkaz|ridicsky prukaz|doklady|dokumenty|pojistná karta|pojistna karta|kartička pojišťovny|karticka pojistovny|technický průkaz|technicky prukaz|spz|registrace|visa|viza|pobytová karta|pobytova karta|průkaz|prukaz|oprávnění|opravneni|končí platnost|konec platnosti|expirace|expiruje|platnost do)\b/.test(t)){
+      return "vitae";
+    }
+
+    return "vitae";
+  }
+
+  function getEffectiveZone(text){
+    if(activeZone && activeZone !== "auto") return activeZone;
+    return getZoneForText(text);
+  }
+
+  // --- sanitizace pro Chronicu ---
+
+  function extractDateFragment(text){
+    if(!text) return "";
+    const dateRegex = /(\d{1,2}\.\s*\d{1,2}\.\s*\d{2,4}|\d{1,2}\.\s*\d{1,2}\.)/;
+    const monthRegex = /\b(leden|ledna|únor|února|březen|března|duben|dubna|květen|května|červen|června|červenec|července|srpen|srpna|září|říjen|října|listopad|listopadu|prosinec|prosince)\b/i;
+
+    const m1 = text.match(dateRegex);
+    if(m1) return m1[0].trim();
+
+    const m2 = text.match(monthRegex);
+    if(m2) return m2[0].trim();
+
+    return "";
+  }
+
+  function sanitizeForChronica(zoneId, text){
+    const original = text || "";
+    const t = original.toLowerCase();
+    const datePart = extractDateFragment(original);
+
+    // Pecunia – peníze
+    if(zoneId === "pecunia"){
+      let base = "Peníze – připomínka bez čísel účtů";
+      if(/hypot[eě]ka|uver|úvěr|spl[aá]tka/.test(t)){
+        base = "Půjčka / hypotéka – bez čísla účtu";
+      }else if(/nájem|najmu/.test(t)){
+        base = "Platba nájmu – bez čísla účtu";
+      }else if(/elektr[ií]na|energie|plyn/.test(t)){
+        base = "Platba za energie – bez čísla účtu";
+      }else if(/poji[sš]t[eě]n[ií]|pojistka/.test(t)){
+        base = "Pojištění – platba nebo obnova (bez čísla účtu)";
+      }
+      if(datePart){
+        return base + " – připomenout kolem " + datePart;
+      }
+      return base;
+    }
+
+    // Medica – zdraví
+    if(zoneId === "medica"){
+      let base = "Zdravotní termín – bez diagnózy";
+      if(/zubař|zubni/.test(t)){
+        base = "Kontrola u zubaře – bez diagnózy";
+      }else if(/gynekolog/.test(t)){
+        base = "Kontrola u gynekologa – bez diagnózy";
+      }else if(/praktik|praktick[aá]/.test(t)){
+        base = "Kontrola u praktického lékaře – bez diagnózy";
+      }else if(/psychiatr|psycholog|terapie/.test(t)){
+        base = "Termín u terapeuta / psychologa – bez diagnózy";
+      }
+      if(datePart){
+        return base + " (" + datePart + ")";
+      }
+      return base;
+    }
+
+    // Vitae – doklady
+    if(zoneId === "vitae"){
+      let base = "Doklady – platnost bez čísla dokladu, adresy a rodného čísla";
+      if(/občanka|obcanka|občanský průkaz|obcansky prukaz/.test(t)){
+        base = "Platnost občanského průkazu – bez čísla dokladu, adresy a rodného čísla";
+      }else if(/pas|cestovn[ií] pas/.test(t)){
+        base = "Platnost cestovního pasu – bez čísla dokladu, adresy a rodného čísla";
+      }else if(/řidičák|ridicak|řidičský průkaz|ridicsky prukaz/.test(t)){
+        base = "Platnost řidičského průkazu – bez čísla dokladu, adresy a rodného čísla";
+      }else if(/technick[ýy] pr[ůu]kaz|stk|technick[aá]/.test(t)){
+        base = "Technická prohlídka / technický průkaz – bez registrační značky a VIN";
+      }
+      if(datePart){
+        return base + " (okolo " + datePart + ")";
+      }
+      return base;
+    }
+
+    // fallback – neutrální shrnutí
+    let base = "Připomínka z trezoru Arcana – bezpečné shrnutí bez citlivých údajů";
+    if(datePart){
+      return base + " (" + datePart + ")";
+    }
+    return base;
+  }
+
+  function pushToChronica(zoneId, text){
+    if(zoneId === "clavis" || zoneId === "auto") return;
+
+    const title = sanitizeForChronica(zoneId, text || "");
+    if(!title) return;
+
+    let tag;
+    if(zoneId === "pecunia") tag = "peníze";
+    else if(zoneId === "medica") tag = "zdraví";
+    else if(zoneId === "vitae") tag = "doklady";
+    else tag = "poznámka";
+
+    try{
+      const raw = localStorage.getItem(CHRONICA_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      const now = new Date();
+
+      arr.unshift({
+        id: "arcana-" + now.getTime(),
+        title,
+        tag,
+        mood: "",
+        done: false,
+        createdAt: now.toISOString()
+      });
+
+      localStorage.setItem(CHRONICA_KEY, JSON.stringify(arr));
+    }catch(e){}
+  }
+
+  function getEmptyWhisperText(){
+    if(whisperChatInner && whisperChatInner.dataset && whisperChatInner.dataset.emptyText){
+      return whisperChatInner.dataset.emptyText;
+    }
+    return "Ještě nic nešeptáš. Můžeš sem napsat drobnou starost, kterou nechceš nosit jen v hlavě.";
+  }
+
+  function removeWhisper(id){
+    state.whispers = state.whispers.filter(entry => entry.id !== id);
+    saveState();
+    renderWhispers();
+    showToast("ARCANA","Šeptání bylo smazáno jen z tohoto prohlížeče.",3600);
+  }
+
+  function renderWhispers(){
+    if(!whisperChatInner) return;
+    whisperChatInner.innerHTML = "";
+
+    if(!state.whispers.length){
+      const empty = document.createElement("p");
+      empty.className = "whisper-empty";
+      empty.textContent = getEmptyWhisperText();
+      whisperChatInner.appendChild(empty);
+      return;
+    }
+
+    const slice = state.whispers.slice(-12);
+    slice.forEach(entry=>{
+      const row = document.createElement("div");
+      row.className = "whisper-row";
+
+      const left = document.createElement("div");
+      left.className = "whisper-left";
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble user";
+      bubble.textContent = entry.text;
+
+      const meta = document.createElement("div");
+      meta.className = "bubble-meta";
+      const label = document.createElement("span");
+      const zonePart = entry.zone && entry.zone !== "auto"
+        ? " · " + (findZoneName(entry.zone) || entry.zone.toUpperCase())
+        : "";
+      label.textContent = (entry.when || "") + zonePart;
+      meta.appendChild(label);
+
+      left.appendChild(bubble);
+      left.appendChild(meta);
+
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "whisper-delete";
+      del.textContent = "✕";
+      del.addEventListener("click", ()=> removeWhisper(entry.id));
+
+      row.appendChild(left);
+      row.appendChild(del);
+      whisperChatInner.appendChild(row);
+    });
+
+    whisperChatInner.scrollTop = whisperChatInner.scrollHeight;
+  }
+
+  function handleWhisper(toChronica){
+    if(!whisperInput) return;
+    const text = whisperInput.value.trim();
+    if(!text) return;
+
+    const zoneId = getEffectiveZone(text);
+    const now = new Date();
+    const when = now.toLocaleString("cs-CZ", {
+      day:"2-digit", month:"2-digit", year:"numeric",
+      hour:"2-digit", minute:"2-digit"
+    });
+
+    // uložit do lokální Šeptárny (Arcana)
+    state.whispers.push({
+      id: now.getTime(),
+      text,
+      zone: zoneId,
+      when
+    });
+    if(state.whispers.length > 120){
+      state.whispers = state.whispers.slice(-120);
+    }
+    saveState();
+    renderWhispers();
+
+    if(zoneId !== "auto"){
+      flashZone(zoneId);
+    }
+
+    if(toChronica){
+      // CLAVIS – nikdy neukládáme do Chronica
+      if(zoneId === "clavis"){
+        showToast(
+          "🔒",
+          "Tohle vypadá jako heslo nebo přístupový údaj. Do Chronica ho neukládám – zůstává jen v Arcaně.",
+          8000
+        );
+      }else{
+        pushToChronica(zoneId, text);
+
+        let msg;
+        if(zoneId === "pecunia"){
+          msg = "Uloženo do Chronica jako připomínka peněz – bez čísel účtů a karet.";
+        }else if(zoneId === "medica"){
+          msg = "Uloženo do Chronica jako zdravotní termín – bez diagnózy a detailního nálezu.";
+        }else if(zoneId === "vitae"){
+          msg = "Uloženo do Chronica jako připomínka dokladů – bez čísla dokladu, adresy a rodného čísla.";
+        }else{
+          msg = "Zapsáno do trezoru a do Chronica jako bezpečné shrnutí bez citlivých údajů.";
+        }
+
+        showToast("💾", msg, 7500);
+      }
+    }else{
+      // jen Arcana
+      showToast("ARCANA","Zapsáno jen v Arcaně. Do Chronica nic neposílám.",6500);
+    }
+
+    whisperInput.value = "";
+  }
+
+  function initWhisper(){
+    if(!whisperForm || !whisperInput) return;
+
+    if(btnArcanaOnly){
+      btnArcanaOnly.addEventListener("click", ()=>{
+        handleWhisper(false);
+      });
+    }
+
+    if(btnChronica){
+      btnChronica.addEventListener("click", ()=>{
+        handleWhisper(true);
+      });
+    }
+
+    whisperForm.addEventListener("submit", (ev)=>{
+      ev.preventDefault();
+      if(btnChronica){
+        btnChronica.click();
+      }else{
+        handleWhisper(true);
+      }
+    });
+
+    renderWhispers();
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    initPlanUI();
+    initZones();
+    initWhisper();
+  });
+})();
+</script>
+</body>
+</html>

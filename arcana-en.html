@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: #050608;
+      --bg-soft: #0b0f13;
+      --bg-softer: #10151b;
+      --ink: #f5f5f5;
+      --ink-soft: #c5c7cb;
+      --ink-muted: #9a9da3;
+      --ink-dim: #70737a;
+
+      --border-soft: rgba(255,255,255,.12);
+      --border-strong: rgba(255,255,255,.26);
+
+      --danger: #ff4d4f;
+      --danger-soft: rgba(255,77,79,.1);
+
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+
+      --shadow-soft: 0 18px 40px rgba(0,0,0,.8);
+      --shadow-chip: 0 10px 26px rgba(0,0,0,.85);
+
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", Roboto, sans-serif;
+    }
+
+    *{ box-sizing:border-box; }
+
+    html{
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:var(--font-sans);
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.05) 0, transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(0,0,0,.8) 0, transparent 55%),
+        #050608;
+      display:flex;
+      flex-direction:column;
+      overflow-x:hidden;
+    }
+
+    header.top{
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      background:linear-gradient(180deg, rgba(5,6,8,.96), rgba(5,6,8,.8), transparent);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      padding:8px 14px 6px;
+    }
+
+    .top-inner{
+      max-width:960px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      min-width:0;
+    }
+
+    .brand-icon{
+      width:28px;
+      height:28px;
+      border-radius:10px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.24);
+      background:#12151b;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 24px rgba(0,0,0,.9);
+    }
+
+    .brand-icon img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+    }
+
+    .brand-text strong{
+      font-size:13px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .brand-text span{
+      font-size:11px;
+      color:var(--ink-muted);
+      white-space:nowrap;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .nav .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.3);
+      background:rgba(5,6,8,.9);
+      color:var(--ink-soft);
+      font-size:11px;
+      text-decoration:none;
+      box-shadow:0 10px 26px rgba(0,0,0,.9);
+    }
+
+    .nav .pill:hover{
+      background:rgba(15,18,24,.95);
+      border-color:rgba(255,255,255,.5);
+    }
+
+    .main{
+      flex:1;
+      padding:18px 14px 26px;
+    }
+
+    .shell{
+      max-width:960px;
+      margin:0 auto;
+    }
+
+    .card{
+      background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(0,0,0,.7));
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border-soft);
+      box-shadow:var(--shadow-soft);
+      overflow:hidden;
+    }
+
+    .card-inner{
+      display:grid;
+      grid-template-columns:minmax(0, 1.5fr) minmax(0, 1.15fr);
+      gap:24px;
+      padding:18px 20px 20px;
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.04) 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(0,0,0,.9) 0, transparent 60%),
+        rgba(5,6,8,.94);
+    }
+
+    .col-info{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      min-width:0;
+      border-right:1px solid rgba(255,255,255,.06);
+      padding-right:4px;
+    }
+
+    .intro-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .intro-main h1{
+      margin:0 0 6px;
+      font-size:20px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .intro-main p{
+      margin:0;
+      font-size:13px;
+      line-height:1.6;
+      color:var(--ink-soft);
+    }
+
+    .badge-plan{
+      align-self:flex-start;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(10,14,22,.9);
+      box-shadow:0 10px 26px rgba(0,0,0,.85);
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .intro-bubble-row{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .avatar-frame{
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.28);
+      background:#11151d;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 26px rgba(0,0,0,.9);
+      overflow:hidden;
+      flex-shrink:0;
+    }
+
+    .avatar-frame img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .speech{
+      flex:1;
+      min-width:0;
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.06) 0, rgba(6,8,14,1) 55%);
+      border-radius:14px;
+      padding:9px 11px 9px;
+      border:1px solid rgba(255,255,255,.18);
+      font-size:12.5px;
+      color:var(--ink-soft);
+      box-shadow:0 14px 30px rgba(0,0,0,.85);
+    }
+
+    .speech strong{
+      display:block;
+      margin-bottom:4px;
+      font-size:12.5px;
+    }
+
+    .speech p{
+      margin:0 0 4px;
+    }
+
+    .speech p.small{
+      font-size:11.5px;
+      color:var(--ink-muted);
+      margin-bottom:0;
+    }
+
+    .rules{
+      margin-top:10px;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(255,255,255,.16);
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.04) 0, rgba(7,9,14,1) 60%);
+      padding:9px 11px 10px;
+    }
+
+    .rules ul{
+      margin:0 0 6px;
+      padding-left:17px;
+      list-style:disc;
+      font-size:11.5px;
+      color:var(--ink-soft);
+    }
+
+    .rules li{
+      margin-bottom:4px;
+    }
+
+    .rules .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    .rules-note{
+      font-size:11.5px;
+      color:var(--ink-dim);
+      border-top:1px solid rgba(255,255,255,.1);
+      padding-top:5px;
+    }
+
+    /* Right column */
+
+    .col-panel{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      min-width:0;
+    }
+
+    .panel-header h2{
+      margin:0 0 4px;
+      font-size:14px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+
+    .panel-header span{
+      font-size:11.5px;
+      color:var(--ink-soft);
+    }
+
+    .plan-row{
+      margin-top:6px;
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+    }
+
+    .seg{
+      display:inline-flex;
+      padding:2px;
+      border-radius:999px;
+      background:rgba(6,8,14,.95);
+      border:1px solid rgba(255,255,255,.24);
+      box-shadow:var(--shadow-chip);
+      gap:2px;
+    }
+
+    .seg button{
+      border:0;
+      background:transparent;
+      color:var(--ink-soft);
+      font-size:11px;
+      padding:5px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      min-width:0;
+    }
+
+    .seg button.active{
+  background:#f5f5f5;
+  color:#050608;
+  font-weight:600;
+}
+
+    .status{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:11.5px;
+      color:var(--ink-soft);
+    }
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.6);
+      box-shadow:0 0 0 1px rgba(0,0,0,.8);
+    }
+
+    .dot.lock{
+      background:radial-gradient(circle at 30% 0, #ffcc70, #ff4d4f);
+    }
+
+    .dot.open{
+      background:radial-gradient(circle at 30% 0, #7bffb0, #26c281);
+    }
+
+    .unlock-grid{
+      margin-top:10px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .method{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      padding:7px 9px;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(255,255,255,.2);
+      background:rgba(8,10,16,.96);
+      box-shadow:0 8px 22px rgba(0,0,0,.8);
+      cursor:pointer;
+      transition:border-color .16s, background .16s, transform .08s;
+    }
+
+    .method.disabled{
+      opacity:.45;
+      cursor:default;
+      border-style:dashed;
+      box-shadow:none;
+    }
+
+    .method:not(.disabled):hover{
+      border-color:rgba(255,255,255,.45);
+      background:rgba(11,14,22,.98);
+      transform:translateY(-1px);
+    }
+
+    .method .icon{
+      font-size:16px;
+      margin-top:1px;
+      flex-shrink:0;
+    }
+
+    .method .meta{
+      flex:1;
+      min-width:0;
+    }
+
+    .method .meta b{
+      display:block;
+      font-size:12px;
+      margin-bottom:2px;
+    }
+
+    .method .meta span{
+      display:block;
+      font-size:11px;
+      color:var(--ink-soft);
+    }
+
+    .method input[type="radio"]{
+      margin-left:6px;
+      margin-top:3px;
+      accent-color:#f7c6ff;
+    }
+
+    .footnote{
+      margin-top:9px;
+      font-size:11px;
+      color:var(--ink-dim);
+      border-top:1px solid rgba(255,255,255,.12);
+      padding-top:6px;
+    }
+
+    .footnote .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    .cta-row{
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.cta-row small{
+  font-size:11px;
+  color:var(--ink-dim);
+  max-width:260px;
+}
+
+    .btn{
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.2);
+      background:#f5f5f5;
+      color:#050608;
+      padding:8px 12px 9px;
+      font-size:12px;
+      font-weight:600;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:var(--shadow-chip);
+      white-space:nowrap;
+    }
+
+    .btn:disabled{
+      opacity:.5;
+      cursor:default;
+      box-shadow:none;
+    }
+
+    .main-foot{
+      margin-top:12px;
+      font-size:10.5px;
+      color:var(--ink-muted);
+      text-align:right;
+    }
+
+    .main-foot .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    /* Toast */
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%) translateY(120%);
+      background:rgba(6,8,14,.98);
+      color:var(--ink-soft);
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.24);
+      padding:7px 11px;
+      font-size:11px;
+      display:flex;
+      align-items:center;
+      gap:7px;
+      box-shadow:0 16px 40px rgba(0,0,0,.95);
+      opacity:0;
+      transition:opacity .18s, transform .18s;
+      z-index:50;
+      max-width:92vw;
+    }
+
+    .toast.show{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .toast-pill{
+      font-size:10px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      padding:3px 7px 4px;
+      border-radius:999px;
+      background:#11151b;
+      border:1px solid rgba(255,255,255,.32);
+      flex-shrink:0;
+    }
+
+    .toast-msg{
+      flex:1;
+      min-width:0;
+      line-height:1.4;
+    }
+
+    .toast-msg .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    @media (max-width:800px){
+      .card-inner{
+        grid-template-columns:1fr;
+        padding:14px 13px 15px;
+        gap:16px;
+      }
+      .col-info{
+        border-right:0;
+        border-bottom:1px solid rgba(255,255,255,.08);
+        padding-right:0;
+        padding-bottom:10px;
+      }
+    }
+
+    @media (max-width:640px){
+      header.top{
+        padding:7px 10px 5px;
+      }
+      .top-inner{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .nav{
+        align-self:stretch;
+        justify-content:flex-end;
+      }
+      .intro-main p{ font-size:12.5px; }
+      .speech{ font-size:12px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div class="brand" aria-label="LuminaMemory brand">
+        <div class="brand-icon">
+          <img src="favicon.png" alt="LuminaMemory favicon">
+        </div>
+        <div class="brand-text">
+          <strong>ARCANA</strong>
+          <span>gate to the vault</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Navigation">
+        <a class="pill" href="lumina-demo-en.html">
+          <span class="label">🗯 Back</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="shell">
+      <section class="card" aria-label="Arcana – vault gate">
+        <div class="card-inner">
+          <!-- LEFT – explanation + safety frame -->
+          <div class="col-info">
+            <div class="intro-head">
+              <div class="intro-main">
+                <h1>ARCANA – GATE</h1>
+                <p>
+                  Here begins the vault for your most sensitive things:
+                  passwords, money, health, documents. The gate only decides who
+                  may continue into the Arcana Hall (Arcana Clavis, Pecunia, Corpus Medica, Codex Vitae).
+                </p>
+              </div>
+              <div class="badge-plan" id="badgePlan">DEMO · FREE</div>
+            </div>
+
+            <div class="intro-bubble-row">
+              <div class="avatar-frame">
+                <img src="avatar.png" alt="Lumina – guardian of Arcana">
+              </div>
+              <div class="speech">
+                <strong>🔐 “A vault is a different mode.”</strong>
+                <p>
+                  Arcana is not a normal chat. In the live version it will become a
+                  <strong>manager for passwords, documents, money and health reminders</strong>.
+                </p>
+                <p class="small">
+                  This page is only a <strong>DEMO preview</strong> of behaviour. We show the logic
+                  of plans and unlocking, but <strong>no real sensitive data is stored here</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div class="rules">
+              <ul>
+                <li>
+                  <span class="warning">1) This version of Arcana is a DEMO.</span>
+                  It serves only as a preview of look and logic. It is not a real password manager
+                  and not real management of health or financial data.
+                </li>
+                <li>
+                  <span class="warning">2) Do not enter real passwords, ID numbers, card numbers or full medical reports.</span>
+                  Use only examples and “safe sentences”.
+                </li>
+                <li>
+                  3) The live version of Arcana will be designed to meet legal
+                  requirements for protecting personal data (e.g. GDPR) and to avoid sharing
+                  data with third parties without your consent.
+                </li>
+              </ul>
+              <div class="rules-note" id="planNote">
+                FREE: in this plan Arcana runs only as a preview. For a real vault you would need at least PLUS.
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT – plan + unlocking methods -->
+          <div class="col-panel" aria-label="Arcana plan and demo unlocking">
+            <div class="panel-header">
+              <h2>Demo mode · Plan</h2>
+              <span>
+                Switch plans and see how the Arcana gate would behave
+                in FREE / PLUS / PREMIUM. Everything here is still only a demo.
+              </span>
+            </div>
+
+            <div class="plan-row">
+              <div class="seg" role="tablist" aria-label="Plan switcher">
+                <button type="button" class="active" data-plan="free" role="tab" aria-selected="true">FREE</button>
+                <button type="button" data-plan="plus" role="tab" aria-selected="false">PLUS</button>
+                <button type="button" data-plan="premium" role="tab" aria-selected="false">PREMIUM</button>
+              </div>
+              <div class="status" aria-live="polite">
+                <span class="dot lock" id="statusDot"></span>
+                <span id="statusText">In this demo Arcana is locked (FREE).</span>
+              </div>
+            </div>
+
+            <div class="unlock-grid" aria-label="Unlock methods (demo)">
+              <label class="method disabled" id="m-pin">
+                <div class="icon">🔑</div>
+                <div class="meta">
+                  <b>PIN (demo)</b>
+                  <span>Preview of a simple way to unlock the vault in PLUS and above.</span>
+                </div>
+                <input type="radio" name="unlock" value="PIN" disabled>
+              </label>
+
+              <label class="method disabled" id="m-pass">
+                <div class="icon">🗝️</div>
+                <div class="meta">
+                  <b>Strong password (demo)</b>
+                  <span>Preview of a stronger method for Arcana Clavis in the PREMIUM plan.</span>
+                </div>
+                <input type="radio" name="unlock" value="Password" disabled>
+              </label>
+
+              <label class="method disabled" id="m-bio">
+                <div class="icon">🫧</div>
+                <div class="meta">
+                  <b>FaceID / TouchID (demo)</b>
+                  <span>Preview only. The live version will depend on what the device can do.</span>
+                </div>
+                <input type="radio" name="unlock" value="Biometrics" disabled>
+              </label>
+            </div>
+
+            <div class="footnote" id="planFoot">
+              FREE: everything is locked, you can only watch. In a real app the vault
+              would only open from the PLUS plan upwards.
+              <br>
+              <span class="warning">This demo never stores any real passwords or numbers.</span>
+            </div>
+
+            <div class="cta-row">
+              <small>
+                In this DEMO the button only simulates entering the Arcana Hall.
+              </small>
+              <button class="btn" id="unlockBtn" type="button" disabled>
+                🔒 Unlock and enter (DEMO)
+              </button>
+            </div>
+
+            <div class="main-foot">
+              © 2025 LuminaMemory™ · Demo Arcana (gate)
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <div class="toast-pill" id="toastPill">DEMO</div>
+    <div class="toast-msg" id="toastMsg"></div>
+  </div>
+
+  <script>
+    (function(){
+      const PLAN_KEY = "lm_plan";
+
+      function normalizePlan(p){
+        if(!p) return "free";
+        p = String(p).toLowerCase();
+        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+      }
+
+      function readStoredPlan(){
+        try{
+          const fromKey = localStorage.getItem(PLAN_KEY);
+          if(fromKey) return normalizePlan(fromKey);
+
+          const rawUser = localStorage.getItem("miniLuminaUser");
+          if(rawUser){
+            const user = JSON.parse(rawUser);
+            if(user && user.plan) return normalizePlan(user.plan);
+          }
+        }catch(e){}
+        return "free";
+      }
+
+      function writeStoredPlan(plan){
+        try{
+          localStorage.setItem(PLAN_KEY, normalizePlan(plan));
+        }catch(e){}
+      }
+
+      const segButtons = Array.from(document.querySelectorAll(".seg button"));
+      const badgePlan  = document.getElementById("badgePlan");
+      const statusDot  = document.getElementById("statusDot");
+      const statusText = document.getElementById("statusText");
+
+      const mPin  = document.getElementById("m-pin");
+      const mPass = document.getElementById("m-pass");
+      const mBio  = document.getElementById("m-bio");
+
+      const planNote = document.getElementById("planNote");
+      const planFoot = document.getElementById("planFoot");
+
+      const unlockBtn = document.getElementById("unlockBtn");
+
+      const toast     = document.getElementById("toast");
+      const toastPill = document.getElementById("toastPill");
+      const toastMsg  = document.getElementById("toastMsg");
+
+      function showToast(pill, msg, ms){
+        if(!toast) return;
+        const dur = (typeof ms === "number" && ms > 0) ? ms : 6200;
+        if(toastPill) toastPill.textContent = pill || "DEMO";
+        if(toastMsg)  toastMsg.textContent  = msg || "";
+        toast.classList.add("show");
+        clearTimeout(window.__arcanaGateToast);
+        window.__arcanaGateToast = setTimeout(()=>{
+          toast.classList.remove("show");
+        }, dur);
+      }
+
+      function setMethodState(el, enabled){
+        if(!el) return;
+        const input = el.querySelector('input[type="radio"]');
+        if(enabled){
+          el.classList.remove("disabled");
+          if(input) input.disabled = false;
+        }else{
+          el.classList.add("disabled");
+          if(input){
+            input.disabled = true;
+            input.checked  = false;
+          }
+        }
+      }
+
+      function updateUIForPlan(plan){
+        plan = normalizePlan(plan);
+
+        if(badgePlan){
+          if(plan === "plus"){
+            badgePlan.textContent = "DEMO · PLUS";
+          }else if(plan === "premium"){
+            badgePlan.textContent = "DEMO · PREMIUM";
+          }else{
+            badgePlan.textContent = "DEMO · FREE";
+          }
+        }
+
+        if(statusDot){
+          statusDot.classList.remove("lock","open");
+          if(plan === "free"){
+            statusDot.classList.add("lock");
+          }else{
+            statusDot.classList.add("open");
+          }
+        }
+
+        if(statusText){
+          if(plan === "free"){
+            statusText.textContent = "In this demo Arcana is locked (FREE).";
+          }else if(plan === "plus"){
+            statusText.textContent = "In this demo Arcana symbolically opens in PLUS, but no real vault is running.";
+          }else{
+            statusText.textContent = "In this demo Arcana behaves like PREMIUM, but still without real encryption.";
+          }
+        }
+
+        // Left info block
+        if(planNote){
+          if(plan === "free"){
+            planNote.textContent =
+              "FREE: in this plan Arcana runs only as a preview. For a real vault you would need at least PLUS.";
+          }else if(plan === "plus"){
+            planNote.textContent =
+              "PLUS: in the live version Arcana Pecunia, Corpus Medica and Codex Vitae would open. Password management (Arcana Clavis) would be limited.";
+          }else{
+            planNote.textContent =
+              "PREMIUM: in the live version all vault zones would be active – including Arcana Clavis for passwords and access codes.";
+          }
+        }
+
+        if(planFoot){
+          if(plan === "free"){
+            planFoot.innerHTML =
+              "FREE: everything is locked, you can only watch. In a real app the vault would open only from the PLUS plan upwards." +
+              '<br><span class="warning">This demo never stores any real passwords or numbers.</span>';
+          }else if(plan === "plus"){
+            planFoot.innerHTML =
+              "PLUS: in this DEMO we only simulate entering. In the live version the gate into the Arcana Hall would open without password management yet." +
+              '<br><span class="warning">We still do not store any real passwords or card numbers.</span>';
+          }else{
+            planFoot.innerHTML =
+              "PREMIUM: this DEMO only shows the behaviour – in the live version Arcana Clavis for passwords would also be unlocked." +
+              '<br><span class="warning">This demo does not perform encryption or real access control.</span>';
+          }
+        }
+
+        // Unlock methods
+        const enablePin  = (plan === "plus" || plan === "premium");
+        const enablePass = (plan === "premium");
+        const enableBio  = (plan === "premium");
+
+        setMethodState(mPin,  enablePin);
+        setMethodState(mPass, enablePass);
+        setMethodState(mBio,  enableBio);
+
+        if(unlockBtn){
+          unlockBtn.disabled = (plan === "free");
+        }
+      }
+
+      function applyPlan(plan, silent){
+        plan = normalizePlan(plan);
+
+        segButtons.forEach(btn=>{
+          const isActive = btn.dataset.plan === plan;
+          btn.classList.toggle("active", isActive);
+          btn.setAttribute("aria-selected", String(isActive));
+        });
+
+        updateUIForPlan(plan);
+        writeStoredPlan(plan);
+
+        if(!silent){
+          showToast("DEMO", `Switched to ${plan.toUpperCase()}.`, 2600);
+        }
+      }
+
+      segButtons.forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          applyPlan(btn.dataset.plan, false);
+        });
+      });
+
+      if(unlockBtn){
+        unlockBtn.addEventListener("click", ()=>{
+          const plan = readStoredPlan();
+          if(plan === "free"){
+            showToast(
+              "ARCANA",
+              "In the FREE plan Arcana is only a preview in this demo. To enter you would need at least PLUS.",
+              5200
+            );
+            return;
+          }
+          const selected = document.querySelector('input[name="unlock"]:checked');
+          if(!selected){
+            showToast(
+              "ARCANA",
+              "Choose an unlocking method (PIN / Password / FaceID). In this demo nothing is stored – we only simulate entering the vault.",
+              5400
+            );
+            return;
+          }
+          showToast(
+            "ARCANA",
+            `DEMO: imagine you unlock the vault using “${selected.value}”. Opening the gate into the Arcana Hall…`,
+            5200
+          );
+          setTimeout(()=>{
+            window.location.href = "arcana-hala-en.html";
+          }, 5200);
+        });
+      }
+
+      const url = new URL(window.location.href);
+      const denied = url.searchParams.get("denied");
+
+      applyPlan(readStoredPlan(), true);
+
+      if(denied){
+        showToast(
+          "ARCANA",
+          "This path into Arcana was locked for the chosen plan. In the demo you can switch the plan above – still without storing any sensitive data.",
+          6200
+        );
+        url.searchParams.delete("denied");
+        window.history.replaceState({}, "", url.toString());
+      }
+    })();
+  </script>
+</body>
+</html>

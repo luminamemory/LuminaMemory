@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: #050608;
+      --bg-soft: #0b0f13;
+      --bg-softer: #10151b;
+      --ink: #f5f5f5;
+      --ink-soft: #c5c7cb;
+      --ink-muted: #9a9da3;
+      --ink-dim: #70737a;
+
+      --border-soft: rgba(255,255,255,.12);
+      --border-strong: rgba(255,255,255,.26);
+
+      --danger: #ff4d4f;
+      --danger-soft: rgba(255,77,79,.1);
+
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+
+      --shadow-soft: 0 18px 40px rgba(0,0,0,.8);
+      --shadow-chip: 0 10px 26px rgba(0,0,0,.85);
+
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", Roboto, sans-serif;
+    }
+
+    *{ box-sizing:border-box; }
+
+    html{
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:var(--font-sans);
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 0 0, rgba(255,255,255,.05) 0, transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(0,0,0,.8) 0, transparent 55%),
+        #050608;
+    }
+
+    body{
+      display:flex;
+      flex-direction:column;
+      overflow-x:hidden;
+    }
+
+    header.top{
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      background:linear-gradient(180deg, rgba(5,6,8,.96), rgba(5,6,8,.8), transparent);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      padding:8px 14px 6px;
+    }
+
+    .top-inner{
+      max-width:960px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      min-width:0;
+    }
+
+    .brand-icon{
+      width:28px;
+      height:28px;
+      border-radius:10px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.24);
+      background:#12151b;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 24px rgba(0,0,0,.9);
+    }
+
+    .brand-icon img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+    }
+
+    .brand-text strong{
+      font-size:13px;
+      letter-spacing:.09em;
+      text-transform:uppercase;
+    }
+
+    .brand-text span{
+      font-size:11px;
+      color:var(--ink-muted);
+    }
+
+    nav.nav{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 11px 8px;
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(7,9,12,.96);
+      color:var(--ink-soft);
+      text-decoration:none;
+      font-size:12px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      box-shadow:var(--shadow-chip);
+    }
+
+    .pill span.label{ font-weight:600; }
+
+    .pill:hover{
+      border-color:rgba(255,255,255,.35);
+      color:var(--ink);
+    }
+
+    main.main{
+      flex:1;
+      padding:16px 14px 22px;
+    }
+
+    .shell{
+      max-width:960px;
+      margin:0 auto;
+    }
+
+    .card{
+      border-radius:20px;
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.04) 0, transparent 55%), #090c10;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:var(--shadow-soft);
+      padding:14px;
+    }
+
+    .card-inner{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    @media (min-width:860px){
+      .card-inner{
+        flex-direction:row;
+        align-items:stretch;
+      }
+      .col-info{ flex:1.15; }
+      .col-panel{ flex:1; }
+    }
+
+    .col-info,
+    .col-panel{
+      border-radius:var(--radius-md);
+      background:var(--bg-soft);
+      border:1px solid var(--border-soft);
+      padding:12px 11px 13px;
+    }
+
+    .col-panel{
+      background:var(--bg-softer);
+    }
+
+    /* Info-Teil */
+
+    .intro-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .intro-main h1{
+      margin:0 0 4px;
+      font-size:17px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+
+    .intro-main p{
+      margin:0;
+      font-size:13px;
+      color:var(--ink-soft);
+      line-height:1.5;
+    }
+
+    .badge-plan{
+      align-self:flex-start;
+      padding:5px 9px 6px;
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.2);
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--ink-muted);
+      background:#090c10;
+      white-space:nowrap;
+    }
+
+    .intro-bubble-row{
+      margin-top:10px;
+      display:flex;
+      gap:9px;
+      align-items:flex-start;
+    }
+
+    .avatar-frame{
+      width:50px;
+      height:50px;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.25);
+      background:#14171e;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 12px 26px rgba(0,0,0,.9);
+      flex-shrink:0;
+    }
+
+    .avatar-frame img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .speech{
+      position:relative;
+      flex:1;
+      border-radius:12px;
+      background:#090c10;
+      border:1px solid rgba(255,255,255,.22);
+      padding:7px 9px 8px;
+    }
+
+    .speech::before{
+      content:"";
+      position:absolute;
+      left:-7px;
+      top:18px;
+      border-width:7px;
+      border-style:solid;
+      border-color:transparent #090c10 transparent transparent;
+    }
+
+    .speech strong{
+      display:block;
+      font-size:13px;
+      margin-bottom:2px;
+    }
+
+    .speech p{
+      margin:3px 0;
+      font-size:12px;
+      color:var(--ink-soft);
+      line-height:1.45;
+    }
+
+    .speech p.small{
+      font-size:11px;
+      color:var(--ink-muted);
+      margin-top:4px;
+    }
+
+    .rules{
+      margin-top:10px;
+      padding:8px 9px 9px;
+      border-radius:12px;
+      background:#080a0e;
+      border:1px dashed rgba(255,255,255,.2);
+      font-size:11.5px;
+      color:var(--ink-muted);
+      line-height:1.5;
+    }
+
+    .rules ul{
+      margin:0 0 4px 16px;
+      padding:0;
+    }
+
+    .rules li{
+      margin-bottom:3px;
+    }
+
+    .rules .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    .rules-note{
+      font-size:11px;
+      color:var(--ink-dim);
+      margin-top:4px;
+    }
+
+    /* Panel – Tarif und Entsperren */
+
+    .panel-header{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      margin-bottom:8px;
+    }
+
+    .panel-header h2{
+      margin:0;
+      font-size:13px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--ink-soft);
+    }
+
+    .panel-header span{
+      font-size:11.5px;
+      color:var(--ink-dim);
+    }
+
+    .plan-row{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:8px;
+    }
+
+    .seg{
+      display:flex;
+      gap:4px;
+      padding:3px;
+      border-radius:var(--radius-pill);
+      background:#090c10;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:var(--shadow-chip);
+    }
+
+    .seg button{
+      border:0;
+      border-radius:var(--radius-pill);
+      padding:7px 10px 8px;
+      background:transparent;
+      color:var(--ink-muted);
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .seg button.active{
+      background:#f5f5f5;
+      color:#050608;
+    }
+
+    .status{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:11.5px;
+      color:var(--ink-soft);
+    }
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:rgba(255,255,255,.4);
+      box-shadow:0 0 0 2px rgba(255,255,255,.1);
+      flex-shrink:0;
+    }
+
+    .dot.ok{
+      background:#9fd29f;
+      box-shadow:0 0 0 2px rgba(159,210,159,.3);
+    }
+
+    .dot.lock{
+      background:var(--danger);
+      box-shadow:0 0 0 2px var(--danger-soft);
+    }
+
+    .unlock-grid{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+      margin-top:4px;
+    }
+
+    .method{
+      display:flex;
+      align-items:flex-start;
+      gap:9px;
+      border-radius:11px;
+      padding:8px 8px 7px;
+      border:1px solid rgba(255,255,255,.16);
+      background:#090c10;
+    }
+
+    .method.disabled{
+      opacity:.45;
+    }
+
+    .icon{
+      width:32px;
+      height:32px;
+      border-radius:11px;
+      background:#11151b;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      font-size:16px;
+    }
+
+    .method .meta{
+      flex:1;
+      min-width:0;
+    }
+
+    .method .meta b{
+      font-size:12.5px;
+      display:block;
+      margin-bottom:2px;
+    }
+
+    .method .meta span{
+      font-size:11px;
+      color:var(--ink-muted);
+      display:block;
+    }
+
+    .method input{
+      margin-top:4px;
+      flex-shrink:0;
+      accent-color:#d0d2d6;
+    }
+
+    .footnote{
+      margin-top:8px;
+      font-size:11px;
+      color:var(--ink-dim);
+      line-height:1.45;
+    }
+
+    .footnote .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    .cta-row{
+      margin-top:10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .cta-row small{
+      font-size:11px;
+      color:var(--ink-dim);
+      max-width:260px;
+    }
+
+    .btn{
+      border-radius:var(--radius-pill);
+      border:1px solid rgba(255,255,255,.2);
+      background:#f5f5f5;
+      color:#050608;
+      padding:8px 12px 9px;
+      font-size:12px;
+      font-weight:600;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      box-shadow:var(--shadow-chip);
+      white-space:nowrap;
+    }
+
+    .btn:disabled{
+      opacity:.5;
+      cursor:default;
+      box-shadow:none;
+    }
+
+    footer.foot{
+      margin-top:9px;
+      font-size:11px;
+      color:var(--ink-dim);
+      text-align:right;
+    }
+
+    /* Toast */
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%) translateY(12px);
+      background:#07090d;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.24);
+      color:var(--ink-soft);
+      padding:7px 10px 8px;
+      font-size:11.5px;
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      max-width:min(720px, calc(100vw - 24px));
+      box-shadow:0 18px 38px rgba(0,0,0,.9);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease-out, transform .18s ease-out;
+      z-index:40;
+    }
+
+    .toast.show{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .toast-pill{
+      font-size:10px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      padding:3px 7px 4px;
+      border-radius:999px;
+      background:#11151b;
+      border:1px solid rgba(255,255,255,.32);
+      flex-shrink:0;
+    }
+
+    .toast-msg{
+      flex:1;
+      min-width:0;
+      line-height:1.4;
+    }
+
+    .toast-msg .warning{
+      color:var(--danger);
+      font-weight:600;
+    }
+
+    @media (max-width:640px){
+      .intro-main p{ font-size:12.5px; }
+      .speech{ font-size:12px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <div class="brand" aria-label="LuminaMemory Marke">
+        <div class="brand-icon">
+          <img src="favicon.png" alt="LuminaMemory Favicon">
+        </div>
+        <div class="brand-text">
+          <strong>ARCANA</strong>
+          <span>Tor zum Tresor</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Navigation">
+        <a class="pill" href="lumina-demo-de.html">
+          <span class="label">🗯 Zurück</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="shell">
+      <section class="card" aria-label="Arcana – Tresor-Eingang">
+        <div class="card-inner">
+          <!-- LINKE SEITE – Erklärung + Rahmen -->
+          <div class="col-info">
+            <div class="intro-head">
+              <div class="intro-main">
+                <h1>ARCANA – TOR</h1>
+                <p>
+                  Hier beginnt der Tresor für deine sensibelsten Dinge:
+                  Passwörter, Finanzen, Gesundheit, Dokumente. Das Tor achtet nur darauf, wer
+                  weiter in die Arcana-Halle darf (Arcana Clavis, Pecunia, Corpus Medica, Codex Vitae).
+                </p>
+              </div>
+              <div class="badge-plan" id="badgePlan">DEMO · FREE</div>
+            </div>
+
+            <div class="intro-bubble-row">
+              <div class="avatar-frame">
+                <img src="avatar.png" alt="Lumina – Hüterin von Arcana">
+              </div>
+              <div class="speech">
+                <strong>🔐 „Ein Tresor ist ein anderer Modus.“</strong>
+                <p>
+                  Arcana ist kein normaler Pokec. Die Live-Version wird zu einer
+                  <strong>Verwaltung für Passwörter, Dokumente, Finanzen und Gesundheits-Erinnerungen</strong>.
+                </p>
+                <p class="small">
+                  Das hier ist nur eine <strong>DEMO-Vorschau</strong> des Verhaltens. Wir zeigen die Logik
+                  von Tarif und Entsperren, aber <strong>keine echten sensiblen Daten werden hier gespeichert</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div class="rules">
+              <ul>
+                <li>
+                  <span class="warning">1) Diese Version von Arcana ist eine DEMO.</span>
+                  Sie dient nur als Vorschau auf Aussehen und Logik. Sie ist kein echter Passwort-Manager
+                  und keine echte Verwaltung von Gesundheits- oder Finanzdaten.
+                </li>
+                <li>
+                  <span class="warning">2) Gib keine echten Passwörter, Ausweisnummern, Kartennummern oder vollständigen Arztberichte ein.</span>
+                  Nutze nur Beispiele und „sichere Sätze“.
+                </li>
+                <li>
+                  3) Die Live-Version von Arcana wird so gestaltet, dass sie die geltenden
+                  rechtlichen Anforderungen zum Schutz personenbezogener Daten (z. B. DSGVO) erfüllt
+                  und Daten nicht ohne deine Einwilligung an Dritte weitergibt.
+                </li>
+              </ul>
+              <div class="rules-note" id="planNote">
+                FREE: In diesem Tarif läuft Arcana nur als Vorschau. Für einen echten Tresor bräuchtest du mindestens PLUS.
+              </div>
+            </div>
+          </div>
+
+          <!-- RECHTE SEITE – Tarif + Entsperr-Methoden -->
+          <div class="col-panel" aria-label="Arcana-Tarif und Demo-Entsperren">
+            <div class="panel-header">
+              <h2>Demo-Modus · Tarif</h2>
+              <span>
+                Wechsle den Tarif und sieh dir an, wie sich das Arcana-Tor
+                in FREE / PLUS / PREMIUM verhalten würde. Alles ist weiterhin nur eine Demo.
+              </span>
+            </div>
+
+            <div class="plan-row">
+              <div class="seg" role="tablist" aria-label="Tarif-Umschalter">
+                <button type="button" class="active" data-plan="free" role="tab" aria-selected="true">FREE</button>
+                <button type="button" data-plan="plus" role="tab" aria-selected="false">PLUS</button>
+                <button type="button" data-plan="premium" role="tab" aria-selected="false">PREMIUM</button>
+              </div>
+              <div class="status" aria-live="polite">
+                <span class="dot lock" id="statusDot"></span>
+                <span id="statusText">In der Demo ist Arcana gesperrt (FREE).</span>
+              </div>
+            </div>
+
+            <div class="unlock-grid" aria-label="Entsperr-Methoden (Demo)">
+              <label class="method disabled" id="m-pin">
+                <div class="icon">🔑</div>
+                <div class="meta">
+                  <b>PIN (Demo)</b>
+                  <span>Vorschau auf ein einfaches Entsperren des Tresors in PLUS und höher.</span>
+                </div>
+                <input type="radio" name="unlock" value="PIN" disabled>
+              </label>
+
+              <label class="method disabled" id="m-pass">
+                <div class="icon">🗝️</div>
+                <div class="meta">
+                  <b>Starkes Passwort (Demo)</b>
+                  <span>Vorschau auf eine stärkere Methode für Arcana Clavis im PREMIUM-Tarif.</span>
+                </div>
+                <input type="radio" name="unlock" value="Passwort" disabled>
+              </label>
+
+              <label class="method disabled" id="m-bio">
+                <div class="icon">🫧</div>
+                <div class="meta">
+                  <b>FaceID / TouchID (Demo)</b>
+                  <span>Nur Vorschau. Die Live-Version hängt von den Fähigkeiten des Geräts ab.</span>
+                </div>
+                <input type="radio" name="unlock" value="Biometrie" disabled>
+              </label>
+            </div>
+
+            <div class="footnote" id="planFoot">
+              FREE: Alles ist gesperrt, du kannst nur zuschauen. In einer echten App würde sich der Tresor
+              erst ab dem Tarif PLUS öffnen.
+              <br>
+              <span class="warning">In dieser Demo werden keine echten Passwörter oder realen Nummern gespeichert.</span>
+            </div>
+
+            <div class="cta-row">
+              <small>
+                Die Schaltfläche simuliert im DEMO-Modus nur den Übergang in die Arcana-Halle.
+              </small>
+              <button class="btn" id="unlockBtn" type="button" disabled>
+                🔒 Entsperren und eintreten (DEMO)
+              </button>
+            </div>
+
+            <footer class="foot">
+              © 2025 LuminaMemory™ · Demo Arcana (Tor)
+            </footer>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+      <span class="toast-pill" id="toastPill">DEMO</span>
+      <span class="toast-msg" id="toastMsg">…</span>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      const segButtons = Array.from(document.querySelectorAll(".seg button"));
+      const statusDot  = document.getElementById("statusDot");
+      const statusText = document.getElementById("statusText");
+      const planNote   = document.getElementById("planNote");
+      const planFoot   = document.getElementById("planFoot");
+      const unlockBtn  = document.getElementById("unlockBtn");
+      const badgePlan  = document.getElementById("badgePlan");
+
+      const mPin  = document.getElementById("m-pin");
+      const mPass = document.getElementById("m-pass");
+      const mBio  = document.getElementById("m-bio");
+
+      const toast    = document.getElementById("toast");
+      const toastMsg = document.getElementById("toastMsg");
+      const toastPill= document.getElementById("toastPill");
+
+      function normalizePlan(p){
+        if(!p) return "free";
+        p = String(p).toLowerCase();
+        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+      }
+
+      function readStoredPlan(){
+        try{
+          const fromKey  = localStorage.getItem("lm_plan");
+          if(fromKey) return normalizePlan(fromKey);
+          const user = JSON.parse(localStorage.getItem("miniLuminaUser") || "null");
+          if(user && user.plan) return normalizePlan(user.plan);
+        }catch(e){}
+        return "free";
+      }
+
+      function writeStoredPlan(plan){
+        plan = normalizePlan(plan);
+        try{
+          localStorage.setItem("lm_plan", plan);
+        }catch(e){}
+        try{
+          const u = JSON.parse(localStorage.getItem("miniLuminaUser") || "null") || {};
+          u.plan = plan;
+          localStorage.setItem("miniLuminaUser", JSON.stringify(u));
+        }catch(e){}
+      }
+
+      function showToast(pill, msg, ms){
+        if(!toast) return;
+        const dur = (typeof ms === "number" && ms > 0) ? ms : 4200;
+        if(toastPill) toastPill.textContent = pill || "DEMO";
+        if(toastMsg)  toastMsg.textContent  = msg  || "";
+        toast.classList.add("show");
+        clearTimeout(window.__arcanaToastT);
+        window.__arcanaToastT = setTimeout(()=> toast.classList.remove("show"), dur);
+      }
+
+      function setMethodState(el, enabled){
+        if(!el) return;
+        const radio = el.querySelector("input");
+        el.classList.toggle("disabled", !enabled);
+        if(radio){
+          radio.disabled = !enabled;
+          if(!enabled && radio.checked) radio.checked = false;
+        }
+      }
+
+      function updateUIForPlan(plan){
+        plan = normalizePlan(plan);
+
+        // Badge
+        if(badgePlan){
+          const label =
+            plan === "plus" ? "DEMO · PLUS" :
+            plan === "premium" ? "DEMO · PREMIUM" :
+            "DEMO · FREE";
+          badgePlan.textContent = label;
+        }
+
+        // Punkt + Status-Text
+        if(statusDot && statusText){
+          if(plan === "free"){
+            statusDot.className = "dot lock";
+            statusText.textContent = "In der Demo ist Arcana gesperrt (FREE).";
+          }else if(plan === "plus"){
+            statusDot.className = "dot ok";
+            statusText.textContent = "In dieser Demo könntest du Arcana mit einem PIN entsperren (PLUS).";
+          }else{
+            statusDot.className = "dot ok";
+            statusText.textContent = "In dieser Demo könntest du Arcana mit allen Methoden entsperren (PREMIUM).";
+          }
+        }
+
+        // Info links
+        if(planNote){
+          if(plan === "free"){
+            planNote.textContent =
+              "FREE: In diesem Tarif läuft Arcana nur als Vorschau. Für einen echten Tresor bräuchtest du mindestens PLUS.";
+          }else if(plan === "plus"){
+            planNote.textContent =
+              "PLUS: In der Live-Version würden sich Arcana Pecunia, Corpus Medica und Codex Vitae öffnen. Die Passwort-Verwaltung (Arcana Clavis) wäre begrenzt.";
+          }else{
+            planNote.textContent =
+              "PREMIUM: In der Live-Version wären alle Tresor-Zonen aktiv – einschließlich Arcana Clavis für Passwörter und Zugänge.";
+          }
+        }
+
+        if(planFoot){
+          if(plan === "free"){
+            planFoot.innerHTML =
+              "FREE: Alles ist gesperrt, du kannst nur beobachten. In einer echten App würde sich der Tresor erst ab dem Tarif PLUS öffnen." +
+              '<br><span class="warning">In dieser Demo werden keine echten Passwörter oder realen Nummern gespeichert.</span>';
+          }else if(plan === "plus"){
+            planFoot.innerHTML =
+              "PLUS: In dieser DEMO simulieren wir nur den Eintritt. In der Live-Version würde sich das Tor zur Arcana-Halle ohne Passwort-Verwaltung öffnen." +
+              '<br><span class="warning">Auch hier speichern wir keine echten Passwörter oder Kartennummern.</span>';
+          }else{
+            planFoot.innerHTML =
+              "PREMIUM: Diese DEMO zeigt nur das Verhalten – in der Live-Version würde auch Arcana Clavis für Passwörter freigeschaltet." +
+              '<br><span class="warning">Diese Demo führt keine Verschlüsselung und keine echte Zugangsverwaltung durch.</span>';
+          }
+        }
+
+        // Entsperr-Methoden
+        const enablePin  = (plan === "plus" || plan === "premium");
+        const enablePass = (plan === "premium");
+        const enableBio  = (plan === "premium");
+
+        setMethodState(mPin,  enablePin);
+        setMethodState(mPass, enablePass);
+        setMethodState(mBio,  enableBio);
+
+        // Button
+        if(unlockBtn){
+          unlockBtn.disabled = (plan === "free");
+        }
+      }
+
+      function applyPlan(plan, silent){
+        plan = normalizePlan(plan);
+
+        // UI-Segment
+        segButtons.forEach(btn=>{
+          const isActive = btn.dataset.plan === plan;
+          btn.classList.toggle("active", isActive);
+          btn.setAttribute("aria-selected", String(isActive));
+        });
+
+        updateUIForPlan(plan);
+        writeStoredPlan(plan);
+
+        if(!silent){
+          showToast("DEMO", "Auf " + plan.toUpperCase() + " umgeschaltet.", 2600);
+        }
+      }
+
+      // Tarif-Klicks
+      segButtons.forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          applyPlan(btn.dataset.plan, false);
+        });
+      });
+
+      // In der Demo entsperren
+      if(unlockBtn){
+        unlockBtn.addEventListener("click", ()=>{
+          const plan = readStoredPlan();
+          if(plan === "free"){
+            showToast(
+              "ARCANA",
+              "Im FREE-Tarif ist Arcana in dieser Demo nur eine Vorschau. Für den Eintritt bräuchtest du mindestens PLUS.",
+              5200
+            );
+            return;
+          }
+          const selected = document.querySelector('input[name="unlock"]:checked');
+          if(!selected){
+            showToast(
+              "ARCANA",
+              "Wähle eine Entsperr-Methode (PIN / Passwort / FaceID). In dieser Demo wird nichts gespeichert – wir simulieren nur den Eintritt in den Tresor.",
+              5400
+            );
+            return;
+          }
+          showToast(
+            "ARCANA",
+            'DEMO: Stell dir vor, du entsperrst den Tresor mit „' + selected.value + '“. Ich öffne das Tor zur Arcana-Halle…',
+            5200
+          );
+          setTimeout(()=>{
+            window.location.href = "arcana-hala-de.html";
+          }, 5200);
+        });
+      }
+
+      // Initialisierung + möglicher Rückweg mit ?denied=1
+      const url = new URL(window.location.href);
+      const denied = url.searchParams.get("denied");
+
+      applyPlan(readStoredPlan(), true);
+
+      if(denied){
+        showToast(
+          "ARCANA",
+          "Dieser Weg nach Arcana war für den gewählten Tarif gesperrt. In der Demo kannst du den Tarif oben wechseln – weiterhin ohne Speicherung sensibler Daten.",
+          6200
+        );
+        url.searchParams.delete("denied");
+        window.history.replaceState({}, "", url.toString());
+      }
+    })();
+  </script>
+</body>
+</html>
