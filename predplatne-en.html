@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- internal room, no SEO -->
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: radial-gradient(circle at top, #3a2a7a 0, #070412 45%, #020109 100%);
+      --card: rgba(9, 7, 30, 0.96);
+      --cardSoft: rgba(10, 9, 35, 0.9);
+      --border: rgba(255, 255, 255, 0.12);
+      --ink: #f8f4ff;
+      --soft: #c3bce5;
+      --muted: #8a84b2;
+      --accent: #f6b8ff;
+      --accentStrong: #ff6bd9;
+      --green: #46d6a2;
+      --pill-radius: 999px;
+      --shadow: 0 28px 90px rgba(0,0,0,0.7);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    *{box-sizing:border-box;}
+
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+      color: var(--ink);
+      background: #020109;
+    }
+
+    body{
+      background-image: var(--bg);
+      background-attachment: fixed;
+      background-size: cover;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1080px;
+      margin:18px auto 26px;
+      padding:0 16px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    header.topbar{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px 18px;
+      padding:14px 18px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(255,255,255,0.12);
+      background:
+        radial-gradient(circle at top left, rgba(248,189,255,0.16), transparent 55%),
+        radial-gradient(circle at top right, rgba(121,179,255,0.16), transparent 60%),
+        rgba(6,4,24,0.96);
+      box-shadow:0 18px 55px rgba(0,0,0,0.85);
+      backdrop-filter:blur(18px);
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 12px;
+      border-radius:var(--pill-radius);
+      border:1px solid rgba(255,255,255,0.18);
+      color:var(--soft);
+      text-decoration:none;
+      font-size:13px;
+      background:rgba(4,2,18,0.8);
+      transition:background .16s ease-out, border-color .16s ease-out, transform .16s ease-out;
+    }
+    .back-link span.chevron{font-size:14px; transform: translateY(-0.5px);}
+    .back-link:hover{
+      background:rgba(18,12,60,0.96);
+      border-color:rgba(246,184,255,0.8);
+      color:#fff;
+      transform:translateY(-1px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+
+    .avatar{
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,0.85);
+      box-shadow:
+        0 0 0 3px rgba(255,255,255,0.06),
+        0 14px 34px rgba(0,0,0,0.85);
+      object-fit:cover;
+      background: radial-gradient(circle at 30% 0, #ffffff, #a9d3ff 45%, #3e3c88 100%);
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    header h1{
+      margin:0;
+      font-size:21px;
+      letter-spacing:0.04em;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:13px;
+      color:var(--soft);
+    }
+
+    .plan-pill{
+      padding:7px 13px;
+      border-radius:var(--pill-radius);
+      border:1px solid rgba(255,255,255,0.18);
+      background:
+        linear-gradient(120deg, rgba(248,189,255,0.24), rgba(121,179,255,0.18));
+      color:#120818;
+      font-size:11px;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      font-weight:600;
+      white-space:nowrap;
+      box-shadow:0 10px 26px rgba(0,0,0,0.75);
+    }
+
+    main{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .intro{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      background:rgba(7,5,26,0.94);
+      box-shadow:var(--shadow);
+      padding:14px 16px 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 16px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+
+    .intro-text{
+      max-width:540px;
+      font-size:13px;
+      color:var(--soft);
+      line-height:1.6;
+    }
+
+    .intro-text b{color:var(--accent);}
+
+    .intro-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      color:var(--muted);
+    }
+
+    .price-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:14px;
+      align-items:stretch;
+    }
+
+    @media (max-width:900px){
+      .price-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+      .wrap{
+        max-width:720px;
+      }
+    }
+
+    .tier{
+      position:relative;
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      background:var(--card);
+      box-shadow:var(--shadow);
+      padding:16px 16px 14px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .tier::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top left, rgba(248,189,255,0.14), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(121,179,255,0.12), transparent 60%);
+      opacity:0.9;
+      pointer-events:none;
+    }
+
+    .tier-inner{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      height:100%;
+    }
+
+    .tier-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      color:var(--muted);
+    }
+
+    .tier-title{
+      display:flex;
+      align-items:baseline;
+      gap:6px;
+    }
+
+    .tier-title h2{
+      margin:0;
+      font-size:17px;
+      letter-spacing:0.05em;
+      text-transform:uppercase;
+    }
+
+    .tier-chip{
+      padding:3px 8px;
+      border-radius:var(--pill-radius);
+      border:1px solid rgba(255,255,255,0.28);
+      font-size:10px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:#120818;
+      background:rgba(255,255,255,0.85);
+    }
+
+    .tier-price{
+      font-size:18px;
+      font-weight:600;
+    }
+
+    .tier-price span.unit{
+      font-size:12px;
+      font-weight:400;
+      color:var(--soft);
+      margin-left:4px;
+    }
+
+    .tier-note{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .tier ul{
+      margin:6px 0 4px;
+      padding-left:18px;
+      font-size:12px;
+      color:var(--soft);
+    }
+    .tier ul li{margin-bottom:4px;}
+
+    .tier ul li::marker{
+      color:var(--accentStrong);
+    }
+
+    .tier-actions{
+      margin-top:auto;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .btn{
+      border-radius:var(--pill-radius);
+      border:none;
+      cursor:pointer;
+      font:inherit;
+      font-size:13px;
+      padding:8px 14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      text-decoration:none;
+      transition:background .18s ease-out, box-shadow .18s ease-out,
+                 transform .14s ease-out, border-color .18s ease-out;
+      white-space:nowrap;
+    }
+
+    .btn-primary{
+      background: radial-gradient(circle at 30% 0, #ffffff, #46d6a2 55%, #17866b 100%);
+      color:#04110d;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.25),
+        0 18px 40px rgba(0,0,0,0.85);
+      font-weight:600;
+    }
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.3),
+        0 22px 50px rgba(0,0,0,0.95);
+    }
+
+    .btn-ghost{
+      background:rgba(8,5,30,0.9);
+      color:var(--soft);
+      border:1px solid rgba(255,255,255,0.2);
+      font-size:11px;
+    }
+    .btn-ghost:hover{
+      background:rgba(16,10,52,0.96);
+      color:#fff;
+    }
+
+    .btn span.icon{font-size:15px;}
+
+    .tier-small{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .tier--active{
+      border-color:rgba(246,184,255,0.9);
+      box-shadow:
+        0 0 0 1px rgba(246,184,255,0.6),
+        0 28px 80px rgba(0,0,0,0.95);
+    }
+    .tier--active .tier-chip{
+      background:rgba(255,255,255,0.96);
+      border-color:rgba(246,184,255,0.9);
+      color:#1a081a;
+    }
+
+    .foot-note{
+      margin-top:4px;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .foot-note b{color:var(--soft);}
+
+    /* Modal support preview */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(2,4,12,0.78);
+      backdrop-filter:blur(12px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:50;
+    }
+    .modal-backdrop.is-visible{
+      display:flex;
+    }
+
+    .modal{
+      width:100%;
+      max-width:520px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(255,255,255,0.22);
+      background:
+        radial-gradient(circle at top left, rgba(157,123,255,0.2), transparent 60%),
+        rgba(7,9,32,0.98);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.8),
+        0 30px 90px rgba(0,0,0,0.95);
+      padding:16px 16px 14px;
+      color:var(--ink);
+      position:relative;
+    }
+
+    .modal-header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:6px;
+    }
+
+    .modal-title{
+      font-size:15px;
+      font-weight:600;
+    }
+
+    .modal-pill{
+      font-size:11px;
+      padding:4px 9px;
+      border-radius:var(--pill-radius);
+      border:1px solid rgba(255,255,255,0.35);
+      background:rgba(13,17,52,0.96);
+      color:var(--soft);
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+    }
+
+    .modal-close{
+      border-radius:var(--pill-radius);
+      border:1px solid rgba(255,255,255,0.24);
+      background:rgba(5,4,22,0.9);
+      color:var(--soft);
+      font-size:11px;
+      padding:5px 9px;
+      cursor:pointer;
+    }
+    .modal-close:hover{
+      background:rgba(12,9,40,0.98);
+      color:#fff;
+    }
+
+    .modal-body{
+      font-size:13px;
+      color:var(--soft);
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+
+    .modal-body b{color:var(--accent);}
+
+    .modal-support-mini{
+      margin-top:8px;
+      padding:10px 10px 9px;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(255,255,255,0.28);
+      background:
+        radial-gradient(circle at top left, rgba(157,123,255,0.45), rgba(8,14,32,0.96));
+      box-shadow:0 14px 40px rgba(0,0,0,0.9);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .modal-mini-avatar{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.9);
+      flex-shrink:0;
+      box-shadow:0 0 18px rgba(157,123,255,0.9);
+      background:radial-gradient(circle at 30% 0,#fff,#a9d3ff 55%,#3e3c88 100%);
+    }
+    .modal-mini-avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transform:translateY(-1px);
+    }
+
+    .modal-mini-text{
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .modal-mini-text .eyebrow{
+      font-size:10px;
+      margin-bottom:3px;
+      color:#fcebff;
+    }
+
+    .modal-foot{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:8px;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .modal-foot a{
+      color:#c3f1ff;
+      text-decoration:none;
+      border-bottom:1px dashed rgba(195,241,255,0.7);
+    }
+
+    .modal-foot a:hover{
+      border-bottom-style:solid;
+    }
+
+    @media (max-width:640px){
+      .wrap{
+        padding-inline:12px;
+        margin-top:12px;
+      }
+      header.topbar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .plan-pill{
+        align-self:flex-start;
+      }
+      .modal{
+        margin-inline:10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a href="nastaveni-en.html" class="back-link">
+        <span class="chevron">←</span>
+        <span>Back to control room</span>
+      </a>
+
+      <div class="brand">
+        <img src="avatar.png" alt="Lumina" class="avatar">
+        <div class="brand-text">
+          <div class="eyebrow">LuminaMemory™</div>
+          <h1>Subscription</h1>
+          <p class="subtitle">How big a world you want to open</p>
+        </div>
+      </div>
+
+      <div class="plan-pill" id="currentPlanBadge">
+        DEMO · FREE plan
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div class="intro-text">
+          <div class="intro-tag">DEMO settings</div>
+          <p>
+            Here in the DEMO version you can switch how the palace behaves:
+            <b>FREE</b>, <b>PLUS</b>, or <b>PREMIUM</b>. No real payments run here —
+            we’re only tuning the feeling and world logic.
+          </p>
+          <p>
+            Prices are <b>indicative</b>, so the direction is clear.
+            Real billing, terms, and the payment gateway will come in the live version.
+          </p>
+        </div>
+        <div class="foot-note">
+          <b>Tip:</b> what you choose here is already used by other rooms to decide their behavior.
+        </div>
+      </section>
+
+      <section class="price-grid">
+        <!-- FREE -->
+        <article class="tier" data-tier="free">
+          <div class="tier-inner">
+            <div class="tier-tag">We start together</div>
+            <div class="tier-title">
+              <h2>FREE</h2>
+              <span class="tier-chip">DEMO</span>
+            </div>
+            <div class="tier-price">
+              0 Kč<span class="unit">/ month</span>
+            </div>
+            <div class="tier-note">
+              A small trial sky. Ideal to see if Lumina fits you.
+            </div>
+
+            <ul>
+              <li>Pokec + basic workshop in Proiecta (DEMO mode)</li>
+              <li>Mini MemorySky™ – symbolic capacity to try things out</li>
+              <li>Life Mission Archive™ only as a showcase office</li>
+              <li>Everything runs purely in the browser, with no real data storage</li>
+            </ul>
+
+            <div class="tier-actions">
+              <button type="button" class="btn btn-primary" data-plan-select="free">
+                <span class="icon">✨</span>
+                <span>Set FREE (DEMO)</span>
+              </button>
+              <div class="tier-small">
+                In the real world, FREE stays as the always-available entry layer.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PLUS -->
+        <article class="tier" data-tier="plus">
+          <div class="tier-inner">
+            <div class="tier-tag">For the year you want to move forward</div>
+            <div class="tier-title">
+              <h2>PLUS</h2>
+              <span class="tier-chip">For everyday life</span>
+            </div>
+            <div class="tier-price">
+              240 Kč<span class="unit">/ month · ≈ 10 €</span>
+            </div>
+            <div class="tier-note">
+              A world where you can plan, record, and gently back things up.
+            </div>
+
+            <ul>
+              <li>Expanded Pokec + Proiecta for personal projects</li>
+              <li>Bigger MemorySky™ – capacity that’s “worth talking about”</li>
+              <li>Life Mission Archive™ with regular backups in the live version</li>
+              <li>Option to tie rituals in Sigma to specific days and focus areas</li>
+            </ul>
+
+            <div class="tier-actions">
+              <button type="button" class="btn btn-primary" data-plan-select="plus">
+                <span class="icon">🌙</span>
+                <span>Set PLUS (DEMO)</span>
+              </button>
+              <button type="button" class="btn btn-ghost" data-plan-support="plus">
+                <span class="icon">💸</span>
+                <span>Pay (DEMO preview)</span>
+              </button>
+              <div class="tier-small">
+                We see PLUS as the main working plan — calm, no ads, no selling data.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PREMIUM -->
+        <article class="tier" data-tier="premium">
+          <div class="tier-inner">
+            <div class="tier-tag">When you want a real sky</div>
+            <div class="tier-title">
+              <h2>PREMIUM</h2>
+              <span class="tier-chip">For deep work</span>
+            </div>
+            <div class="tier-price">
+              480 Kč<span class="unit">/ month · ≈ 20 €</span>
+            </div>
+            <div class="tier-note">
+              For those who want to work with memory, rituals, and projects in real depth.
+            </div>
+
+            <ul>
+              <li>Largest MemorySky™ – space for a long-term story</li>
+              <li>Life Mission Archive™ with on-demand extra backups</li>
+              <li>Rose Zone™ + other “heart tools” in the full version</li>
+              <li>Priority access to new rooms and experimental features</li>
+            </ul>
+
+            <div class="tier-actions">
+              <button type="button" class="btn btn-primary" data-plan-select="premium">
+                <span class="icon">⭐</span>
+                <span>Set PREMIUM (DEMO)</span>
+              </button>
+              <button type="button" class="btn btn-ghost" data-plan-support="premium">
+                <span class="icon">💸</span>
+                <span>Pay (DEMO preview)</span>
+              </button>
+              <div class="tier-small">
+                PREMIUM is the vision block: bigger sky, stronger backups, more space for soul rituals.
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <p class="foot-note">
+        <b>Reality:</b> the payment gateway isn’t live yet. All “Pay” buttons only show a small preview
+        of how supporting LuminaMemory™ will work one day — nothing is charged,
+        and no real payment details are sent anywhere.
+      </p>
+    </main>
+  </div>
+
+  <!-- Modal – simplified support preview -->
+  <div class="modal-backdrop" id="supportModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalTitle">The payment gateway is still closed</div>
+          <div class="modal-pill" id="modalPlanBadge">DEMO · FREE plan</div>
+        </div>
+        <button type="button" class="modal-close" id="btnCloseModal">Close ✕</button>
+      </div>
+
+      <div class="modal-body" id="modalBody">
+        This is only a preview of future support for LuminaMemory™. The prices you see are indicative
+        and may change before launch. No real payment or invoicing happens here — we’re only testing
+        the feeling and behavior of the palace.
+      </div>
+
+      <div class="modal-support-mini">
+        <div class="modal-mini-avatar">
+          <img src="gabi-portrait.jpg" alt="Gábi – LuminaMemory Founder">
+        </div>
+        <div class="modal-mini-text">
+          <div class="eyebrow">Message from Gábi</div>
+          <div>
+            I’m preparing the payment gateway to be safe and aligned with the character of LuminaMemory™.
+            I don’t want pressure — only the option of <b>calm support</b> when everything is technically
+            and legally ready.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <span>
+          If you want, you can open the full support page — it explains how we think about funding the project.
+        </span>
+        <a href="support-en.html" target="_blank" rel="noopener">
+          Open the support page (new window)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const PLAN_KEY = "lm_plan";
+      const USER_KEY = "miniLuminaUser";
+
+      const badge = document.getElementById("currentPlanBadge");
+      const tiers = document.querySelectorAll(".tier");
+      const modalBackdrop = document.getElementById("supportModal");
+      const modalPlanBadge = document.getElementById("modalPlanBadge");
+      const modalBody = document.getElementById("modalBody");
+      const btnCloseModal = document.getElementById("btnCloseModal");
+
+      const PLAN_LABEL = {
+        free: "DEMO · FREE plan",
+        plus: "DEMO · PLUS plan",
+        premium: "DEMO · PREMIUM plan"
+      };
+
+      function normalize(plan){
+        if(!plan) return "free";
+        const p = String(plan).toLowerCase();
+        return (p === "plus" || p === "premium" || p === "free") ? p : "free";
+      }
+
+      function readPlan(){
+        try{
+          const fromKey = localStorage.getItem(PLAN_KEY);
+          if(fromKey) return normalize(fromKey);
+
+          const rawUser = localStorage.getItem(USER_KEY);
+          if(rawUser){
+            const user = JSON.parse(rawUser);
+            if(user && user.plan) return normalize(user.plan);
+          }
+        }catch(e){
+          // fallback
+        }
+        return "free";
+      }
+
+      function writePlan(plan){
+        const p = normalize(plan);
+        try{
+          localStorage.setItem(PLAN_KEY, p);
+          const rawUser = localStorage.getItem(USER_KEY);
+          if(rawUser){
+            const user = JSON.parse(rawUser) || {};
+            user.plan = p;
+            localStorage.setItem(USER_KEY, JSON.stringify(user));
+          }
+        }catch(e){
+          console.warn("Failed to write plan:", e);
+        }
+        updateUI(p);
+      }
+
+      function updateUI(plan){
+        const p = normalize(plan);
+        if(badge){
+          badge.textContent = PLAN_LABEL[p] || PLAN_LABEL.free;
+        }
+        tiers.forEach(card=>{
+          const tier = card.getAttribute("data-tier");
+          if(tier === p){
+            card.classList.add("tier--active");
+          }else{
+            card.classList.remove("tier--active");
+          }
+        });
+      }
+
+      function openSupportModal(plan){
+        const p = normalize(plan);
+        modalPlanBadge.textContent = PLAN_LABEL[p] || PLAN_LABEL.free;
+
+        if(p === "free"){
+          modalBody.textContent =
+            "On the FREE plan nothing is paid — it will stay as the entry layer in the live version, " +
+            "so you can try LuminaMemory™ calmly. This button only shows you what the support preview " +
+            "will look like one day.";
+        } else if(p === "plus"){
+          modalBody.textContent =
+            "We see PLUS as the main working plan. The price you see here is still indicative. " +
+            "In the live version we’ll add clear terms, a secure payment gateway, and a precise description " +
+            "of what you get in the plan.";
+        } else if(p === "premium"){
+          modalBody.textContent =
+            "PREMIUM is the vision for those who want to work with memory and rituals in real depth. " +
+            "We’re still fine-tuning the price and terms — this screen is only a DEMO preview, " +
+            "with no real payment and no obligation.";
+        }
+
+        modalBackdrop.classList.add("is-visible");
+      }
+
+      function closeSupportModal(){
+        modalBackdrop.classList.remove("is-visible");
+      }
+
+      // Init UI
+      const current = readPlan();
+      updateUI(current);
+
+      // Handlers: plan switch
+      document.querySelectorAll("[data-plan-select]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const plan = btn.getAttribute("data-plan-select");
+          writePlan(plan);
+        });
+      });
+
+      // Handlers: DEMO "Pay"
+      document.querySelectorAll("[data-plan-support]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const plan = btn.getAttribute("data-plan-support");
+          // DEMO: on click we also switch the plan so the palace reacts
+          writePlan(plan);
+          openSupportModal(plan);
+        });
+      });
+
+      if(btnCloseModal){
+        btnCloseModal.addEventListener("click", closeSupportModal);
+      }
+      if(modalBackdrop){
+        modalBackdrop.addEventListener("click", (ev)=>{
+          if(ev.target === modalBackdrop){
+            closeSupportModal();
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

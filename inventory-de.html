@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- interní stránka, bez SEO -->
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg: radial-gradient(circle at 0% 0%, #3d2616, #140904 52%, #050207 100%);
+      --card: rgba(20, 12, 7, 0.96);
+      --cardSoft: rgba(15, 9, 6, 0.96);
+      --border: rgba(255, 227, 198, 0.16);
+      --ink: #fff6e7;
+      --soft: rgba(243, 223, 203, 0.88);
+      --muted: rgba(206, 184, 162, 0.8);
+      --accent: #e7b75a;
+      --accentSoft: rgba(231, 183, 90, 0.18);
+      --accentStrong: #ffce6e;
+      --warning: #f99b4d;
+      --danger: #ff6b7a;
+      --ok: #4bd3a6;
+      --pill: 999px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 28px 90px rgba(0,0,0,0.8);
+    }
+
+    *{box-sizing:border-box;}
+
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family: system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+      color:var(--ink);
+      background:#050207;
+    }
+
+    body{
+      background-image:var(--bg);
+      background-attachment:fixed;
+      background-size:cover;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1120px;
+      margin:18px auto 26px;
+      padding:0 16px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    /* Header */
+
+    header{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px 18px;
+      padding:14px 18px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(255,227,198,0.22);
+      background:
+        radial-gradient(circle at top left, rgba(255,232,188,0.28), transparent 55%),
+        radial-gradient(circle at top right, rgba(167,112,58,0.18), transparent 60%),
+        rgba(11, 6, 3, 0.98);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(0,0,0,0.7);
+      backdrop-filter:blur(18px);
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 12px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,227,198,0.6);
+      background:rgba(12,6,3,0.96);
+      color:var(--soft);
+      text-decoration:none;
+      font-size:13px;
+      transition:background .16s ease-out, border-color .16s ease-out, transform .16s ease-out;
+    }
+    .back-link span.chevron{font-size:14px; transform: translateY(-0.5px);}
+    .back-link:hover{
+      background:rgba(26,14,7,0.98);
+      border-color:rgba(231,183,90,0.9);
+      color:#fffaf0;
+      transform:translateY(-1px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+
+    .mark{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 30% 0, #ffecc4, #e7b75a 55%, #8b541f 100%);
+      box-shadow:
+        0 0 30px rgba(255,223,154,0.95),
+        0 0 0 4px rgba(0,0,0,0.55);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    header h1{
+      margin:0;
+      font-size:21px;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:12px;
+      color:var(--soft);
+    }
+
+    .plan-pill{
+      padding:7px 13px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,227,198,0.68);
+      background:
+        linear-gradient(120deg, rgba(255,236,188,0.26), rgba(141,100,46,0.52));
+      color:#201004;
+      font-size:11px;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      font-weight:600;
+      white-space:nowrap;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.25),
+        0 16px 42px rgba(0,0,0,0.9);
+    }
+
+    /* Intro */
+
+    .intro{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      background:var(--cardSoft);
+      box-shadow:var(--shadow);
+      padding:14px 16px 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 16px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+
+    .intro-main{
+      max-width:560px;
+      font-size:13px;
+      color:var(--soft);
+      line-height:1.65;
+    }
+
+    .intro-main b{color:var(--accentStrong);}
+
+    .intro-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      color:var(--muted);
+      margin-bottom:3px;
+    }
+
+    .legend{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .legend-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+
+    .legend-pill{
+      padding:4px 10px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,227,198,0.4);
+      background:rgba(22,12,5,0.96);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .legend-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      box-shadow:0 0 10px rgba(0,0,0,0.8);
+    }
+
+    .legend-dot.open{
+      background:radial-gradient(circle at 30% 0,#fff6d2,#ffd46f 60%,#c27e26 100%);
+    }
+    .legend-dot.dim{
+      background:radial-gradient(circle at 30% 0,#f7e8ce,#d7b88a 60%,#8c5a26 100%);
+      opacity:0.9;
+    }
+    .legend-dot.locked{
+      background:radial-gradient(circle at 30% 0,#b7a08a,#7b5f49 60%,#3a2616 100%);
+    }
+    .legend-dot.self{
+      background:radial-gradient(circle at 30% 0,#ffe9c0,#e7b75a 60%,#83531e 100%);
+      box-shadow:0 0 16px rgba(255,215,160,0.9);
+    }
+
+    /* Groups & rooms */
+
+    .groups{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .group{
+      border-radius:var(--radius-lg);
+      border:1px solid var(--border);
+      background:var(--card);
+      box-shadow:var(--shadow);
+      padding:14px 14px 12px;
+    }
+
+    .group-head{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:8px 12px;
+      margin-bottom:10px;
+      padding-bottom:8px;
+      border-bottom:1px solid rgba(255,227,198,0.26);
+    }
+
+    .group-title{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      color:rgba(255,236,210,0.9);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .group-title span.mark-small{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 0,#fff6d2,#ffce6e 70%);
+      box-shadow:0 0 12px rgba(255,215,160,0.95);
+      flex-shrink:0;
+    }
+
+    .group-note{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .group-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+    }
+
+    @media (max-width:900px){
+      .group-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+      .wrap{max-width:840px;}
+    }
+
+    @media (max-width:640px){
+      .wrap{
+        padding-inline:12px;
+        margin-top:12px;
+      }
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .plan-pill{
+        align-self:flex-start;
+      }
+      .group-grid{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+
+    .room-card{
+      position:relative;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(255,227,198,0.3);
+      background:rgba(19,11,7,0.96);
+      padding:9px 10px 8px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-height:78px;
+      overflow:hidden;
+      transition:border-color .18s ease-out, background .18s ease-out, transform .14s ease-out, box-shadow .18s ease-out;
+    }
+
+    .room-top{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+    }
+
+    .room-icon{
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(36,20,10,0.9);
+      box-shadow:0 0 12px rgba(0,0,0,0.8);
+      font-size:14px;
+      flex-shrink:0;
+    }
+
+    .room-label{
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+    }
+
+    .room-name{
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+    }
+
+    .room-status{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .room-note{
+      font-size:11px;
+      color:var(--soft);
+      margin-top:3px;
+      line-height:1.5;
+    }
+
+    .room-tag{
+      margin-top:2px;
+      font-size:10px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:rgba(255,229,196,0.9);
+      opacity:0.9;
+    }
+
+    /* Stavové barvy */
+
+    .room-card--open{
+      border-color:rgba(231,183,90,0.9);
+      background:
+        radial-gradient(circle at top left, rgba(255,236,196,0.18), transparent 60%),
+        rgba(23,13,6,0.98);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.6),
+        0 22px 55px rgba(0,0,0,0.95);
+    }
+    .room-card--open .room-status{
+      color:var(--ok);
+    }
+
+    .room-card--dim{
+      border-style:dashed;
+      border-color:rgba(255,227,198,0.55);
+      background:
+        radial-gradient(circle at top left, rgba(255,236,196,0.12), transparent 60%),
+        rgba(19,11,7,0.96);
+      opacity:0.95;
+    }
+
+    .room-card--locked{
+      border-color:rgba(96,68,44,0.9);
+      background:
+        linear-gradient(135deg, rgba(28,16,8,0.96), rgba(16,10,6,0.96));
+      opacity:0.82;
+    }
+    .room-card--locked::after{
+      content:"🔒";
+      position:absolute;
+      top:7px;
+      right:8px;
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:rgba(6,3,2,0.96);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:13px;
+      box-shadow:0 0 14px rgba(0,0,0,0.8);
+    }
+
+    .room-card--self{
+      border-color:rgba(255,233,196,0.95);
+      background:
+        radial-gradient(circle at top left, rgba(255,236,196,0.25), transparent 60%),
+        rgba(26,14,7,0.99);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.7),
+        0 24px 70px rgba(0,0,0,0.98);
+    }
+    .room-card--self .room-status{
+      color:var(--accentStrong);
+    }
+
+    .room-card:hover{
+      transform:translateY(-1px);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.6),
+        0 20px 55px rgba(0,0,0,0.95);
+    }
+
+    footer{
+      margin-top:6px;
+      font-size:11px;
+      color:rgba(255,233,200,0.9);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 12px;
+      justify-content:space-between;
+      padding:6px 2px 0;
+    }
+
+    footer span.muted{color:var(--muted);}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a href="nastaveni-de.html" class="back-link">
+        <span class="chevron">←</span>
+        <span>Zurück ins Büro</span>
+      </a>
+
+      <div class="brand">
+        <div class="mark">🗂️</div>
+        <div class="brand-text">
+          <div class="eyebrow">LuminaMemory™</div>
+          <h1>Inventory</h1>
+          <p class="subtitle">Übersicht, was in deinem Palast gerade leuchtet</p>
+        </div>
+      </div>
+
+      <div class="plan-pill" id="planBadge">
+        DEMO · FREE Tarif
+      </div>
+    </header>
+
+    <section class="intro">
+      <div class="intro-main">
+        <div class="intro-tag">DEMO-Vorschau</div>
+        <p>
+          Hier siehst du, welche Räume für deinen aktuellen Tarif
+          <b>offen</b> sind, welche vorerst nur <b>in der Vorschau</b> verfügbar sind, und was zum
+          <b>PREMIUM bonus</b> gehört. Inventory zeigt dir das übersichtlich an einem Ort.
+        </p>
+      </div>
+      <div class="legend">
+        <div>Status-Legende:</div>
+        <div class="legend-row">
+          <div class="legend-pill">
+            <span class="legend-dot open"></span>
+            <span>offen</span>
+          </div>
+          <div class="legend-pill">
+            <span class="legend-dot dim"></span>
+            <span>Vorschau / eingeschränkt</span>
+          </div>
+          <div class="legend-pill">
+            <span class="legend-dot locked"></span>
+            <span>Bonus / gesperrt</span>
+          </div>
+          <div class="legend-pill">
+            <span class="legend-dot self"></span>
+            <span>dieser Ort</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="groups">
+
+      <!-- miniLumina™ -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            miniLumina™
+          </div>
+          <div class="group-note">
+            Pokec – der Hauptchat mit Lumina, das Herz des Palasts.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="pokec">
+            <div class="room-top">
+              <div class="room-icon">🗯</div>
+              <div class="room-label">
+                <div class="room-name">Pokec</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Hauptchat</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Praetorium (Tela Magna) -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            Praetorium · Tela Magna
+          </div>
+          <div class="group-note">
+            Zentrales Netzwerk: Tageszentrale, Chronica, Sigma, Proiecta und Expeditionskarte.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="praetorium">
+            <div class="room-top">
+              <div class="room-icon">🕸</div>
+              <div class="room-label">
+                <div class="room-name">Praetorium</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Tageszentrale</div>
+          </article>
+
+          <article class="room-card" data-room="chronica">
+            <div class="room-top">
+              <div class="room-icon">📖</div>
+              <div class="room-label">
+                <div class="room-name">Chronica</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Tagebuch &amp; Einträge</div>
+          </article>
+
+          <article class="room-card" data-room="sigma">
+            <div class="room-top">
+              <div class="room-icon">🔔</div>
+              <div class="room-label">
+                <div class="room-name">Sigma</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Tagesrhythmus</div>
+          </article>
+
+          <article class="room-card" data-room="proiecta">
+            <div class="room-top">
+              <div class="room-icon">📂</div>
+              <div class="room-label">
+                <div class="room-name">Proiecta</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Werkstatt &amp; Projekte</div>
+          </article>
+
+          <article class="room-card" data-room="mapa">
+            <div class="room-top">
+              <div class="room-icon">🗺️</div>
+              <div class="room-label">
+                <div class="room-name">Expeditionskarte</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Proiecta-Bonus</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Arcana -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            Arcana · sensibler Tresor
+          </div>
+          <div class="group-note">
+            Eingangstor, Tresorhalle und Nebenräume.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="arcana-gate">
+            <div class="room-top">
+              <div class="room-icon">🔒</div>
+              <div class="room-label">
+                <div class="room-name">Arcana (Eingang)</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Anmeldung</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-hall">
+            <div class="room-top">
+              <div class="room-icon">🔒</div>
+              <div class="room-label">
+                <div class="room-name">Arcana (Tresor – Halle)</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Raumübersicht</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-medica">
+            <div class="room-top">
+              <div class="room-icon">🩺</div>
+              <div class="room-label">
+                <div class="room-name">Corpus Medica</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Gesundheitsdaten</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-codex">
+            <div class="room-top">
+              <div class="room-icon">📜</div>
+              <div class="room-label">
+                <div class="room-name">Codex Vitae</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Persönliche Dokumente</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-pecunia">
+            <div class="room-top">
+              <div class="room-icon">💸</div>
+              <div class="room-label">
+                <div class="room-name">Arcana Pecunia</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Finanzen</div>
+          </article>
+
+          <article class="room-card" data-room="arcana-clavis">
+            <div class="room-top">
+              <div class="room-icon">🗝️</div>
+              <div class="room-label">
+                <div class="room-name">Arcana Clavis</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Schlüssel &amp; Konten</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Einstellungen -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            Einstellungen · Palastzentrale
+          </div>
+          <div class="group-note">
+            Guide, deine Einstellungen und Abo-Übersicht.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="settings">
+            <div class="room-top">
+              <div class="room-icon">⚙️</div>
+              <div class="room-label">
+                <div class="room-name">Einstellungen (Zentrale)</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Zentrale</div>
+          </article>
+
+          <article class="room-card" data-room="guide">
+            <div class="room-top">
+              <div class="room-icon">📖</div>
+              <div class="room-label">
+                <div class="room-name">Leitfaden</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Palastkarte</div>
+          </article>
+
+          <article class="room-card" data-room="profil">
+            <div class="room-top">
+              <div class="room-icon">👤</div>
+              <div class="room-label">
+                <div class="room-name">Profil / User Codex</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Deine Karte</div>
+          </article>
+
+          <article class="room-card" data-room="mood">
+            <div class="room-top">
+              <div class="room-icon">✨</div>
+              <div class="room-label">
+                <div class="room-name">Lumina (Ton &amp; Wesen)</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Stimmungs-Outfit</div>
+          </article>
+
+          <article class="room-card" data-room="subscription">
+            <div class="room-top">
+              <div class="room-icon">💡</div>
+              <div class="room-label">
+                <div class="room-name">Abonnement</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">FREE / PLUS / PREMIUM</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Welt LuminaMemory™ -->
+      <section class="group">
+        <div class="group-head">
+          <div class="group-title">
+            <span class="mark-small"></span>
+            Welt von LuminaMemory™
+          </div>
+          <div class="group-note">
+            Schutz, Schubladen-Übersicht und Demo-Karten von Memory &amp; Backups.
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <article class="room-card" data-room="rosezone">
+            <div class="room-top">
+              <div class="room-icon">🌹</div>
+              <div class="room-label">
+                <div class="room-name">Rose Zone™</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Schutzkammer</div>
+          </article>
+
+          <article class="room-card" data-room="inventory">
+            <div class="room-top">
+              <div class="room-icon">🗂️</div>
+              <div class="room-label">
+                <div class="room-name">Inventory</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Schubladenkarte</div>
+          </article>
+
+          <article class="room-card" data-room="archive">
+            <div class="room-top">
+              <div class="room-icon">🗄</div>
+              <div class="room-label">
+                <div class="room-name">Life Mission Archive™</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Backup-Konzept</div>
+          </article>
+
+          <article class="room-card" data-room="memorysky">
+            <div class="room-top">
+              <div class="room-icon">☁️</div>
+              <div class="room-label">
+                <div class="room-name">MemorySky™ Gate</div>
+                <div class="room-status"></div>
+              </div>
+            </div>
+            <div class="room-note"></div>
+            <div class="room-tag">Kapazität &amp; Export</div>
+          </article>
+        </div>
+      </section>
+
+    </section>
+
+    <footer>
+      <span>DEMO • Inventory zeigt nur die Logik des Aufleuchtens — hier wird technisch nichts gesperrt oder freigeschaltet.</span>
+      <span class="muted">LuminaMemory™ · Mise ŽIVOT™ · 2025</span>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const PLAN_KEY = "lm_plan";
+      const USER_KEY = "miniLuminaUser";
+
+      function normalizePlan(p){
+        if(!p) return "free";
+        p = String(p).toLowerCase();
+        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+      }
+
+      function readPlan(){
+        try{
+          const fromKey = localStorage.getItem(PLAN_KEY);
+          if(fromKey) return normalizePlan(fromKey);
+
+          const rawUser = localStorage.getItem(USER_KEY);
+          if(rawUser){
+            const user = JSON.parse(rawUser);
+            if(user && user.plan) return normalizePlan(user.plan);
+          }
+        }catch(e){
+          // ignore
+        }
+        return "free";
+      }
+
+      const currentPlan = readPlan();
+      document.documentElement.setAttribute("data-plan", currentPlan);
+
+      const PLAN_LABEL = {
+        free: "DEMO · FREE Tarif",
+        plus: "DEMO · PLUS Tarif",
+        premium: "DEMO · PREMIUM Tarif"
+      };
+
+      const STATUS_LABELS = {
+        open: "offen",
+        dim: "Vorschau / eingeschränkt",
+        locked: "PREMIUM bonus",
+        self: "dieser Ort"
+      };
+
+      /** Config – Status je Tarif */
+      const ROOM_CONFIG = {
+        // miniLumina™
+        pokec:{
+          perPlan:{
+            free:   {status:"open", text:"miniLumina™ / Pokec – der Hauptchat mit Lumina. Immer offen."},
+            plus:   {status:"open", text:"miniLumina™ / Pokec – der Hauptchat mit Lumina. Immer offen."},
+            premium:{status:"open", text:"miniLumina™ / Pokec – der Hauptchat mit Lumina. Immer offen."}
+          }
+        },
+
+        // Praetorium (Tela Magna)
+        praetorium:{
+          perPlan:{
+            free:   {status:"open", text:"Praetorium – Tageszentrale, Überblick über Chronica / Sigma / Proiecta."},
+            plus:   {status:"open", text:"Praetorium – Tageszentrale, Überblick über Chronica / Sigma / Proiecta."},
+            premium:{status:"open", text:"Praetorium – Tageszentrale, Überblick über Chronica / Sigma / Proiecta."}
+          }
+        },
+        chronica:{
+          perPlan:{
+            free:   {status:"open", text:"Chronica – Tagebuch und zeitgesteuerte Einträge aus Pokec. Offen."},
+            plus:   {status:"open", text:"Chronica – Tagebuch und zeitgesteuerte Einträge aus Pokec. Offen."},
+            premium:{status:"open", text:"Chronica – Tagebuch und zeitgesteuerte Einträge aus Pokec. Offen."}
+          }
+        },
+        sigma:{
+          perPlan:{
+            free:   {status:"dim",  text:"Sigma – Tagesrhythmus. FREE hat nur Vorschau."},
+            plus:   {status:"open", text:"Sigma – volle Rituale und Erinnerungen."},
+            premium:{status:"open", text:"Sigma – volle Rituale mit Ton-Benachrichtigungen."}
+          }
+        },
+        proiecta:{
+          perPlan:{
+            free:   {status:"open", text:"Proiecta – Werkstatt und Projekte. FREE: offen, 1 Raum."},
+            plus:   {status:"open", text:"Proiecta – Werkstatt und Projekte. PLUS: offen, bis zu 5 Räume."},
+            premium:{status:"open", text:"Proiecta – Werkstatt und Projekte. PREMIUM: offen, unbegrenzt."}
+          }
+        },
+        mapa:{
+          perPlan:{
+            free:   {status:"locked", label:"PREMIUM bonus", text:"Expeditionskarte – Proiecta-Bonus. Zugriff nur in PREMIUM."},
+            plus:   {status:"locked", label:"PREMIUM bonus", text:"Expeditionskarte – Proiecta-Bonus. Zugriff nur in PREMIUM."},
+            premium:{status:"dim",  label:"DEMO · PREMIUM bonus", text:"Expeditionskarte – aktuell DEMO; in der Vollversion ist es ein PREMIUM-Bonus."}
+          }
+        },
+
+        // Arcana
+        "arcana-gate":{
+          perPlan:{
+            free:   {status:"open", text:"Arcana – Eingangstor. FREE: offen (Regeln lesen)."},
+            plus:   {status:"open", text:"Arcana – Eingangstor. PLUS: Anmeldung per PIN."},
+            premium:{status:"open", text:"Arcana – Eingangstor. PREMIUM: mehr Optionen (PIN / Passwort / Touch/FaceID)."}
+          }
+        },
+        "arcana-hall":{
+          perPlan:{
+            free:   {status:"locked", text:"Arcana – Tresor (Halle). FREE: kein Zugriff."},
+            plus:   {status:"dim",    text:"Arcana – Tresor (Halle). PLUS: eingeschränkter Zugriff."},
+            premium:{status:"open",   text:"Arcana – Tresor (Halle). PREMIUM: voller Zugriff."}
+          }
+        },
+        "arcana-medica":{
+          perPlan:{
+            free:   {status:"locked", text:"Corpus Medica – Gesundheitsdaten. Zugriff nur PLUS und PREMIUM (Konzept)."},
+            plus:   {status:"dim",    text:"Corpus Medica – Gesundheitsdaten. PLUS: als Konzept verfügbar."},
+            premium:{status:"dim",    text:"Corpus Medica – Gesundheitsdaten. PREMIUM: als Konzept verfügbar."}
+          }
+        },
+        "arcana-codex":{
+          perPlan:{
+            free:   {status:"locked", text:"Codex Vitae – persönliche Dokumente. Zugriff nur PLUS und PREMIUM (Konzept)."},
+            plus:   {status:"dim",    text:"Codex Vitae – persönliche Dokumente. PLUS: als Konzept verfügbar."},
+            premium:{status:"dim",    text:"Codex Vitae – persönliche Dokumente. PREMIUM: als Konzept verfügbar."}
+          }
+        },
+        "arcana-pecunia":{
+          perPlan:{
+            free:   {status:"locked", text:"Arcana Pecunia – Finanzen, Versicherungen, Verträge. Zugriff nur PLUS und PREMIUM (Konzept)."},
+            plus:   {status:"dim",    text:"Arcana Pecunia – Finanzen, Versicherungen, Verträge. PLUS: als Konzept verfügbar."},
+            premium:{status:"dim",    text:"Arcana Pecunia – Finanzen, Versicherungen, Verträge. PREMIUM: als Konzept verfügbar."}
+          }
+        },
+        "arcana-clavis":{
+          perPlan:{
+            free:   {status:"locked", text:"Arcana Clavis – Zugänge, Schlüssel, Konten. Nur PREMIUM (Konzept)."},
+            plus:   {status:"locked", text:"Arcana Clavis – Zugänge, Schlüssel, Konten. Nur PREMIUM (Konzept)."},
+            premium:{status:"dim",    text:"Arcana Clavis – Zugänge, Schlüssel, Konten. PREMIUM: Konzept."}
+          }
+        },
+
+        // Einstellungen
+        settings:{
+          perPlan:{
+            free:   {status:"open", text:"Einstellungen – Palastzentrale. Offen."},
+            plus:   {status:"open", text:"Einstellungen – Palastzentrale. Offen."},
+            premium:{status:"open", text:"Einstellungen – Palastzentrale. Offen."}
+          }
+        },
+        guide:{
+          perPlan:{
+            free:   {status:"open", text:"Lumina – Palast-Leitfaden: Sternenkarte, Glossar, Raum-Erklärungen."},
+            plus:   {status:"open", text:"Lumina – Palast-Leitfaden: Sternenkarte, Glossar, Raum-Erklärungen."},
+            premium:{status:"open", text:"Lumina – Palast-Leitfaden: Sternenkarte, Glossar, Raum-Erklärungen."}
+          }
+        },
+        profil:{
+          perPlan:{
+            free:   {status:"open", text:"Profil / User Codex – deine Karte: Name, Ansprache, Ruf-Satz, Tagesrhythmus."},
+            plus:   {status:"open", text:"Profil / User Codex – deine Karte: Name, Ansprache, Ruf-Satz, Tagesrhythmus."},
+            premium:{status:"open", text:"Profil / User Codex – deine Karte: Name, Ansprache, Ruf-Satz, Tagesrhythmus."}
+          }
+        },
+        mood:{
+          perPlan:{
+            free:   {status:"open", text:"Lumina – Ton & Wesen: Outfit der Stimmung wählen."},
+            plus:   {status:"open", text:"Lumina – Ton & Wesen: Outfit der Stimmung wählen."},
+            premium:{status:"open", text:"Lumina – Ton & Wesen: Outfit der Stimmung wählen."}
+          }
+        },
+        subscription:{
+          perPlan:{
+            free:   {status:"open", text:"Abonnement – Überblick über FREE / PLUS / PREMIUM (im DEMO nur als Karte der zukünftigen Leistung)."},
+            plus:   {status:"open", text:"Abonnement – Überblick über FREE / PLUS / PREMIUM (im DEMO nur als Karte der zukünftigen Leistung)."},
+            premium:{status:"open", text:"Abonnement – Überblick über FREE / PLUS / PREMIUM (im DEMO nur als Karte der zukünftigen Leistung)."}
+          }
+        },
+
+        // Welt LuminaMemory™
+        rosezone:{
+          perPlan:{
+            free:   {status:"open", text:"Rose Zone™ – Schutzkammer, Notfall-STOP-Modi und Sicherheitsritual."},
+            plus:   {status:"open", text:"Rose Zone™ – Schutzkammer, Notfall-STOP-Modi und Sicherheitsritual."},
+            premium:{status:"open", text:"Rose Zone™ – Schutzkammer, Notfall-STOP-Modi und Sicherheitsritual."}
+          }
+        },
+        inventory:{
+          perPlan:{
+            free:   {status:"self", text:"Inventory – Überblick über Ordner und Räume, die Schubladenkarte des Palasts."},
+            plus:   {status:"self", text:"Inventory – Überblick über Ordner und Räume, die Schubladenkarte des Palasts."},
+            premium:{status:"self", text:"Inventory – Überblick über Ordner und Räume, die Schubladenkarte des Palasts."}
+          }
+        },
+        archive:{
+          perPlan:{
+            free:   {status:"dim",  text:"Life Mission Archive™ – nur Beschreibung (keine Backups)."},
+            plus:   {status:"open", text:"Life Mission Archive™ – Beschreibung regelmäßiger Backups (DEMO-Visuals und Text)."},
+            premium:{status:"open", text:"Life Mission Archive™ – Beschreibung zusätzlicher Backups (DEMO-Visuals und Text)."}
+          }
+        },
+        memorysky:{
+          perPlan:{
+            free:   {status:"dim",  text:"MemorySky™ Gate – kleine Kapazität in der Vorschau; Backups/Export gesperrt."},
+            plus:   {status:"dim",  text:"MemorySky™ Gate – mittlere Kapazität in der Vorschau; Backups konzeptionell freigeschaltet."},
+            premium:{status:"open", text:"MemorySky™ Gate – große Kapazität; Backups + Export als DEMO-Showcase."}
+          }
+        }
+      };
+
+      function applyInventory(){
+        const plan = currentPlan;
+        const badge = document.getElementById("planBadge");
+        if(badge){
+          badge.textContent = PLAN_LABEL[plan] || PLAN_LABEL.free;
+        }
+
+        document.querySelectorAll(".room-card").forEach(card=>{
+          const id = card.getAttribute("data-room");
+          const conf = ROOM_CONFIG[id];
+          if(!conf) return;
+          const planConf = (conf.perPlan && conf.perPlan[plan]) || conf.perPlan.free;
+
+          const status = planConf.status || "dim";
+          const statusLbl = planConf.label || STATUS_LABELS[status] || "";
+
+          card.classList.remove(
+            "room-card--open",
+            "room-card--dim",
+            "room-card--locked",
+            "room-card--self"
+          );
+          card.classList.add("room-card--" + status);
+
+          const statusEl = card.querySelector(".room-status");
+          const noteEl = card.querySelector(".room-note");
+
+          if(statusEl) statusEl.textContent = statusLbl;
+          if(noteEl) noteEl.textContent = planConf.text || "";
+        });
+      }
+
+      applyInventory();
+    })();
+  </script>
+</body>
+</html>

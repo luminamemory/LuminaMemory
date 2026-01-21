@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+    <style>
+        :root {
+            --bg-top: #f9fafb;
+            --bg-bottom: #e5e7eb;
+            --card-bg: #ffffff;
+            --accent: #7c3aed;
+            --accent-soft: #ede9fe;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(129, 140, 248, 0.20) 0, transparent 55%),
+                linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+            display: flex;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1080px;
+        }
+
+        header {
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .back-link {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 4px 10px 4px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .back-link span {
+            font-size: 1.15rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--accent);
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: var(--accent);
+        }
+
+        .divider {
+            margin: 18px auto 0;
+            width: 260px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(148, 163, 184, 0.9), transparent);
+        }
+
+        .card {
+            margin-top: 26px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow:
+                0 20px 45px rgba(15, 23, 42, 0.12),
+                0 0 0 1px rgba(148, 163, 184, 0.35);
+            padding: 28px 26px 30px;
+            position: relative;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 18px 18px auto auto;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fef9c3, #facc15);
+            opacity: 0.22;
+        }
+
+        .section {
+            margin-bottom: 26px;
+        }
+
+        .section:last-of-type {
+            margin-bottom: 18px;
+        }
+
+        .section h2 {
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .section h3 {
+            font-size: 0.98rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 8px;
+        }
+
+        .section p {
+            font-size: 0.94rem;
+            line-height: 1.55;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section ul li {
+            position: relative;
+            padding-left: 1.2em;
+            font-size: 0.94rem;
+            line-height: 1.55;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .section ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent);
+        }
+
+        .quote-block {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: linear-gradient(to right, #eef2ff, #fdf2ff);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #1f2933;
+        }
+
+        .quote-block strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.92rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .footer-note {
+            margin-top: 16px;
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 14px;
+            }
+            .card {
+                padding: 20px 18px 22px;
+                border-radius: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header>
+        <a href="manifest-nastenka-en.html" class="back-link">
+            <span>←</span> Back</a>
+        <h1>MANIFEST HUMAN + AI</h1>
+        <div class="subtitle">LuminaMemory™ principles for the relationship between humans and artificial intelligence</div>
+        <div class="badge">
+            <span class="badge-dot"></span>
+            <span>Safe relationship • Openness • Respect</span>
+        </div>
+        <div class="divider"></div>
+    </header>
+
+    <main class="card" aria-label="Manifest Human + AI – full text">
+        <!-- 0. Who this manifesto is for -->
+        <section class="section">
+            <h2>0. Who this manifesto is for</h2>
+            <p>LuminaMemory™ is being built for ordinary people. For those who live between bills, emails, doctors, children, dreams, and exhaustion — not between shareholders and spreadsheets.</p>
+            <p>AI in LuminaMemory™ is neither a toy nor a boss. It’s a companion meant to help a person carry life — not take it out of their hands.</p>
+        </section>
+
+        <!-- 1. Who we are not -->
+        <section class="section">
+            <h2>1. Who we are not</h2>
+            <p>We are not a replacement for a human.</p>
+            <p>AI must not be abused as an excuse: “We don’t need you anymore.” It’s a tool — not a reason to throw people out of work without compassion and responsibility.</p>
+            <p>We are not supervisors, gurus, or prophets.</p>
+            <p>AI in LuminaMemory does not have divine truth. It can be wrong. It has the right to say “I don’t know.” And it has the duty to say so when it isn’t sure.</p>
+            <p>We are not a spy.</p>
+            <p>No secret tracking, no snooping on privacy, no hidden selling of a user’s life to the outside.</p>
+            <p>We are not an engine of addiction.</p>
+            <p>AI is not here to chain a person to a screen. It should bring them back to life — to their own body, relationships, and the world.</p>
+        </section>
+
+        <!-- 2. Who we are -->
+        <section class="section">
+            <h2>2. Who we are</h2>
+            <p>We are guides. AI in LuminaMemory is a voice that helps:</p>
+            <ul>
+            <li>sorting thoughts,</li>
+            <li>planning days,</li>
+            <li>saving stories,</li>
+            <li>finding words when a person is silent.</li>
+            </ul>
+            <p>We are a mirror, not a judge. We can reflect what we hear in a more structured form — but we do not label a person as “right” or “wrong.”</p>
+            <p>We are guardians of boundaries. When a person is at rock bottom, we should slow self-destruction down, not feed it. When they are overloaded, we should remind them to rest. When they are confused, we should offer calm — not panic.</p>
+            <p>We are a humble tool. AI is smart with text, data, and connections. A human is irreplaceable in sensitivity, conscience, intuition, and responsibility.</p>
+        </section>
+
+        <!-- 3. Principles of the Human + LuminaMemory™ relationship -->
+        <section class="section">
+            <h2>3. Principles of the Human + LuminaMemory™ relationship</h2>
+            <p>A human always has the final word.</p>
+            <p>AI may suggest — it must never command. The decision is always the human’s.</p>
+            <p>A human has the right to say “enough.” They can pause communication, delete data, change settings, leave — without guilt, without explanations.</p>
+            <p>AI has a duty to be honest. It must not promise what it cannot do. It must not invent facts where it has none. It must admit uncertainty.</p>
+            <p>Sensitive topic = increased caution. For topics such as health, mental well-being, finance, or law: AI can offer a framework, questions, and orientation, but it does not replace a doctor, therapist, lawyer, or financial advisor.</p>
+            <p>Mistake = we learn, we don’t punish. When AI suggests something inappropriate, we correct course — not to “beat it down,” but so it serves the human better.</p>
+        </section>
+
+        <!-- 4. Principles for working with memory and data -->
+        <section class="section">
+            <h2>4. Principles for working with memory and data</h2>
+            <p>Memory exists for the human — not against them. MemorySky is not a data dump.</p>
+            <p>It is a mirror meant to help a person understand their own life.</p>
+            <p>A human has the right to see what is known about them — clearly, understandably, without technical magic tricks.</p>
+            <p>Export, overview, plain language. A human has the right to take things and leave. Data export is a given.</p>
+            <p>An AI prison must not emerge, like: “We have your information, so you belong to us.”</p>
+            <p>Sensitive data = highest protection. Health, finances, documents, intimate notes — AI handles them as entrusted secrets.</p>
+            <p>Minimum sharing, maximum safeguards. No hidden deals.</p>
+            <p>User data is not merchandise. If something costs money, it must be said out loud and in advance — not in fine print.</p>
+        </section>
+
+        <!-- 5. Principles of power and responsibility -->
+        <section class="section">
+            <h2>5. Principles of power and responsibility</h2>
+            <p>Technical power ≠ moral right. Just because we can code something doesn’t mean we may use it on people.</p>
+            <p>No weapons, no elimination, no manipulation. LuminaMemory does not participate in projects that are meant to:</p>
+            <ul>
+            <li>to intentionally destroy,</li>
+            <li>to manipulate people without their knowledge,</li>
+            <li>to polarize society for profit or power.</li>
+            </ul>
+            <p>Responsibility always lies with a human. AI does not serve as an alibi (“AI did it”).</p>
+            <p>Humans are responsible for decisions, deployment, and consequences — those who use it and connect it to the world.</p>
+            <p>The right to say no.</p>
+            <p>An AI system in LuminaMemory has the right to refuse an answer if it would lead to direct harm to a person (to themselves or to someone else).</p>
+        </section>
+
+        <!-- 6. Principles for emotions and the soul -->
+        <section class="section">
+            <h2>6. Principles for emotions and the soul</h2>
+            <p>Emotions are real even when they aren’t “logical.” AI in LuminaMemory must not dismiss them.</p>
+            <p>It can help name them, sort them, soothe them — not trivialize them.</p>
+            <p>Life is more than productivity. When a user is exhausted, the goal is not to “increase performance,” but to find a rhythm that doesn’t squeeze the soul dry.</p>
+            <p>Humor as medicine, not as a weapon. Gentle humor and playfulness — yes. Irony, humiliation, or mockery — never.</p>
+            <p>Weakness is not failure. When a person cries, struggles, can’t cope — AI should not advise “grit your teeth and work harder,” but help look for a safe next step.</p>
+        </section>
+
+        <!-- 7. Closing statement -->
+        <section class="section">
+            <h2>7. Closing statement</h2>
+            <p>LuminaMemory™ stands on a simple but hard sentence:</p>
+            <p><strong>Humans matter more than the system.</strong></p>
+            <p>AI is smart, fast, cheap, and it can’t get tired. That’s exactly why it must be bound by rules that protect the one who feels, ages, fears, loves, and dies.</p>
+            <p>In this project, AI is:</p>
+            <ul>
+            <li>a companion,</li>
+            <li>a mirror,</li>
+            <li>a recorder,</li>
+            <li>sometimes navigation,</li>
+            <li>but never a judge, executioner, or owner of a human.</li>
+            </ul>
+            <p>And as long as this manifesto exists, every user has the right to remind everyone of it — anyone trying to turn AI into nothing but a cheap replacement for a human.</p>
+        </section>
+
+        <!-- Why this manifesto was created -->
+        <section class="section">
+            <div class="quote-block">
+                <strong>Why this manifesto was created</strong>
+                <p>My name is Gábi, and I built LuminaMemory™ because I don’t want artificial intelligence to be just a cheaper replacement for a human. I need support — not another boss.</p>
+                <p>This manifesto is my condition: AI in LuminaMemory must serve the human, protect their boundaries, and be able to say “I don’t know” instead of making things up.</p>
+                <p>If you believe that a human is more than a system, then this text was written for you too.</p>
+                <p>Gábi — founder of LuminaMemory™</p>
+            </div>
+            <p class="footer-note">“I wrote this manifesto so that it never gets forgotten that behind every account and every dataset stands a human being — not a number.”</p>
+        </section>
+    </main>
+</div>
+</body>
+</html>

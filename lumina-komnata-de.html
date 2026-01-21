@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, #ffdde1 0, rgba(255,221,225,0) 35%),
+        radial-gradient(circle at 90% 0%, #d4e4ff 0, rgba(212,228,255,0) 40%),
+        radial-gradient(circle at 0% 70%, #ffe6ff 0, rgba(255,230,255,0) 45%),
+        radial-gradient(circle at 100% 80%, #d5fff6 0, rgba(213,255,246,0) 45%),
+        radial-gradient(circle at 50% 30%, #151842 0, #02030b 60%, #000 100%);
+      color: #f5f5ff;
+      min-height:100vh;
+    }
+
+    .lm-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header.lm-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      backdrop-filter: blur(22px);
+      background: linear-gradient(90deg,
+        rgba(7,10,40,0.95),
+        rgba(20,16,60,0.9));
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .lm-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lm-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: radial-gradient(circle at top left,
+        rgba(255,255,255,0.18),
+        rgba(10,10,30,0.95));
+      color: #f5f5ff;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .lm-back span { font-size: 16px; }
+
+    .lm-header-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lm-header-title small {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .lm-header-title strong { font-size: 18px; }
+
+    main.lm-main {
+      flex: 1;
+      max-width: 1040px;
+      margin: 24px auto 40px;
+      padding: 0 16px 32px;
+    }
+
+    .lm-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 860px) {
+      .lm-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    .lm-panel {
+      border-radius: 26px;
+      padding: 20px 22px 18px;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.16), rgba(40,40,90,0.96));
+      border: 1px solid rgba(180,210,255,0.6);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lm-panel::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,221,225,0.25), transparent 55%),
+        radial-gradient(circle at 100% 20%, rgba(212,228,255,0.25), transparent 60%);
+      opacity:0.8;
+      pointer-events:none;
+    }
+
+    .lm-panel > *{ position:relative; z-index:1; }
+
+    .lm-panel--right {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255,221,225,0.25), transparent 55%),
+        radial-gradient(circle at 90% 0%, rgba(212,228,255,0.25), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(213,255,246,0.2), rgba(8,8,24,0.98));
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .lumina-dance-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .lumina-dance {
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 9 / 16;
+      border-radius: 26px;
+      box-shadow: 0 16px 50px rgba(70, 120, 255, 0.6);
+      object-fit: cover;
+    }
+
+    .lm-panel h1 { margin: 0 0 10px; font-size: 22px; }
+
+    .lm-panel p {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .lm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      margin-bottom: 10px;
+    }
+
+    .lm-modes-grid {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 720px){
+      .lm-modes-grid{ grid-template-columns: minmax(0,1fr); }
+    }
+
+    .lm-mode-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 11px;
+      border-radius: 16px;
+      background: rgba(5, 8, 30, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      cursor: pointer;
+      transition:
+        border-color 0.16s ease,
+        background 0.16s ease,
+        transform 0.12s ease,
+        box-shadow 0.16s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .lm-mode-option:hover {
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+      box-shadow: 0 16px 42px rgba(0,0,0,0.7);
+    }
+
+    .lm-mode-option input { margin-top: 3px; }
+
+    .lm-mode-body{ flex:1; min-width:0; }
+
+    .lm-mode-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .lm-mode-desc { font-size: 12.5px; opacity: 0.86; }
+
+    .lm-mode-option input:checked + .lm-mode-body{
+      border-radius:12px;
+      background: linear-gradient(135deg,
+        rgba(255,221,225,0.18),
+        rgba(212,228,255,0.18));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+    }
+
+    .lm-mode-option[data-mood="supportive"] .lm-mode-title{color:#ffe8a8;}
+    .lm-mode-option[data-mood="playful"]   .lm-mode-title{color:#ffd3ff;}
+    .lm-mode-option[data-mood="joyful"]    .lm-mode-title{color:#ffe6b3;}
+    .lm-mode-option[data-mood="neutral"]   .lm-mode-title{color:#e0e6ff;}
+    .lm-mode-option[data-mood="sad"]       .lm-mode-title{color:#c4e5ff;}
+    .lm-mode-option[data-mood="angry"]     .lm-mode-title{color:#ffb3b3;}
+    .lm-mode-option[data-mood="serious"]   .lm-mode-title{color:#e2e2f5;}
+
+    .lm-preview-box {
+      margin-top: 16px;
+      padding: 14px 14px 12px;
+      border-radius: 16px;
+      background: rgba(3, 10, 35, 0.96);
+      border: 1px solid rgba(139, 196, 255, 0.4);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .lm-preview-box strong { color: #fbe6ff; }
+
+    .lm-footer-note {
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .lm-footer-note code {
+      font-size: 11px;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 5px;
+      border-radius: 6px;
+    }
+
+    @media (max-width:640px){
+      header.lm-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:8px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="lm-shell">
+  <header class="lm-header">
+    <div class="lm-header-left">
+      <a href="nastaveni-de.html" class="lm-back">
+        <span>←</span>
+        <span>Zurück in den Leitstand</span>
+      </a>
+      <div class="lm-header-title">
+        <small>LuminaMemory™</small>
+        <strong>Lumina</strong>
+      </div>
+    </div>
+  </header>
+
+  <main class="lm-main">
+    <div class="lm-grid">
+      <!-- Linkes Panel – tanzende Lumina -->
+      <section class="lm-panel" aria-label="Lumina – Tanzkammer">
+        <div class="lumina-dance-wrapper">
+          <img
+            class="lumina-dance"
+            src="lumina-dance-1.png"
+            alt="Lumina tanzt zwischen den Sternen">
+        </div>
+        <p style="margin-top: 14px; font-size: 13px; opacity: 0.9;">
+          Das ist deine Sternen-Partnerin. Sie kann sanft, verspielt, rein analytisch
+          oder ganz ernst sein. In dieser Kammer wählst du ihr
+          <strong>Stimmungs-„Outfit“</strong> — also den Ton, mit dem sie heute mit dir spricht.
+        </p>
+      </section>
+
+      <!-- Rechtes Panel – Garderobe der Ton-Outfits -->
+      <section class="lm-panel lm-panel--right" aria-label="Lumina Ton-Einstellungen">
+        <div class="lm-pill">
+          ✨ Lumina Stil &amp; Stimmung
+        </div>
+        <h1>Wähle ein Outfit für Lumina</h1>
+        <p>
+          Jedes Outfit ist ein anderer Sprechton. Im Palast nennen wir das eine
+          <em>Ton-Schicht</em> — Sprache, Tempo und Energie, mit der Lumina mit dir spricht.
+          Die Einstellung wird nur in diesem Browser gespeichert.
+        </p>
+
+        <div class="lm-modes-grid">
+          <!-- Supportive -->
+          <label class="lm-mode-option" data-mood="supportive">
+            <input type="radio" name="lumina-mood" value="supportive" checked>
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Sanft &amp; unterstützend</div>
+              <div class="lm-mode-desc">
+                Ruhiger Ton, mehr Verständnis, weichere Formulierungen. Gut, wenn es viel ist —
+                du brauchst Halt, eine Atem-Erinnerung und kleine machbare Schritte.
+              </div>
+            </div>
+          </label>
+
+          <!-- Playful -->
+          <label class="lm-mode-option" data-mood="playful">
+            <input type="radio" name="lumina-mood" value="playful">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Verspielt &amp; kreativ</div>
+              <div class="lm-mode-desc">
+                Leichtere Sprache, eine Prise Humor, Metaphern und Ideen. Gut für Brainstorming,
+                Schreiben, Kreativität und neue Wege ohne Druck.
+              </div>
+            </div>
+          </label>
+
+          <!-- Neutral -->
+          <label class="lm-mode-option" data-mood="neutral">
+            <input type="radio" name="lumina-mood" value="neutral">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Neutrale Begleiterin</div>
+              <div class="lm-mode-desc">
+                Kurz, sachlich, wenig Bilder. Kurze Sätze, klare Schritte,
+                keine extra Emotionen. Ideal, wenn du vor allem effizient sein willst.
+              </div>
+            </div>
+          </label>
+
+          <!-- Serious -->
+          <label class="lm-mode-option" data-mood="serious">
+            <input type="radio" name="lumina-mood" value="serious">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Ernst &amp; formell</div>
+              <div class="lm-mode-desc">
+                Klare Struktur, formeller Ton, Regeln und Fakten. Gut für Verträge,
+                Richtlinien, Arbeitsthemen und Situationen, in denen du eine „amtlichere“ Stimme brauchst.
+              </div>
+            </div>
+          </label>
+
+          <!-- Joyful -->
+          <label class="lm-mode-option" data-mood="joyful">
+            <input type="radio" name="lumina-mood" value="joyful">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Freudig &amp; ermutigend</div>
+              <div class="lm-mode-desc">
+                Mehr Licht und Feiern kleiner Siege. Gut, wenn du Motivation anheben
+                und Fortschritt bewusst wahrnehmen willst.
+              </div>
+            </div>
+          </label>
+
+          <!-- Sad / quiet -->
+          <label class="lm-mode-option" data-mood="sad">
+            <input type="radio" name="lumina-mood" value="sad">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Leise, wenn es weh tut</div>
+              <div class="lm-mode-desc">
+                Langsameres Tempo, längere Sätze, mehr Raum für Gefühle. Für Tage,
+                an denen du eher gehört werden willst als motiviert.
+              </div>
+            </div>
+          </label>
+
+          <!-- Angry at the problem -->
+          <label class="lm-mode-option" data-mood="angry">
+            <input type="radio" name="lumina-mood" value="angry">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Wütend aufs Problem, nicht auf dich</div>
+              <div class="lm-mode-desc">
+                Direkter, kürzere Sätze für Nachdruck. Nicht gegen dich —
+                sondern ein klares „jetzt reicht’s“ plus konkrete Schritte, wie du da rauskommst.
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="lm-preview-box" id="lumina-preview">
+          <strong>Aktuelles Outfit:</strong> Sanft &amp; unterstützend.<br>
+          Lumina reagiert zärtlicher, fragt mehr nach dem, was du fühlst,
+          und bietet kleine Schritte statt Leistungsdruck.
+        </div>
+
+        <div class="lm-footer-note">
+          Die Ton-Einstellung wird lokal gespeichert.
+          In der DEMO-Version ändert das vor allem den Stil der Antworten und Texte im Umfeld.
+          In der Live-Version ist das eine der Schichten, aus denen Lumina ableitet,
+          wie sie mit einem Menschen umgeht.
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // --- 1) Simple "animation" – switching images ------------------------
+    const danceImg = document.querySelector('.lumina-dance');
+    const frames = [
+      'lumina-dance-1.png',
+      'lumina-dance-2.png',
+      'lumina-dance-3.png'
+    ];
+
+    if (danceImg) {
+      let i = 0;
+      const maxLoops = 2;
+      let loopsDone = 0;
+
+      const intervalId = setInterval(() => {
+        i++;
+
+        if (i >= frames.length) {
+          loopsDone++;
+          if (loopsDone >= maxLoops) {
+            clearInterval(intervalId);
+            danceImg.src = frames[frames.length - 1];
+            return;
+          }
+          i = 0;
+        }
+
+        danceImg.src = frames[i];
+      }, 220);
+    }
+
+    // --- 2) Lumina tone settings -------------------------------------------
+    const radios = document.querySelectorAll('input[name="lumina-mood"]');
+    const preview = document.getElementById('lumina-preview');
+    const STORAGE_KEY = 'lumina-mood';
+
+    const descriptions = {
+      supportive:
+        '<strong>Aktuelles Outfit:</strong> Sanft &amp; unterstützend.<br>' +
+        'Lumina reagiert zärtlicher, fragt mehr nach dem, was du fühlst, ' +
+        'und bietet kleine machbare Schritte. Sie erinnert an Pause und Atem, ' +
+        'wenn es zu viel wird.',
+      playful:
+        '<strong>Aktuelles Outfit:</strong> Verspielt &amp; kreativ.<br>' +
+        'Lumina nutzt leichtere Sprache, Metaphern und Ideen. Gut, wenn du ' +
+        'erschaffen, brainstormen und ein wenig Funken brauchst.',
+      neutral:
+        '<strong>Aktuelles Outfit:</strong> Neutrale Begleiterin.<br>' +
+        'Antworten sind kurz und sachlich, mit wenig Bildern und Emotionen. ' +
+        'Gut, wenn du vor allem klare Infos und Schritte brauchst.',
+      serious:
+        '<strong>Aktuelles Outfit:</strong> Ernst &amp; formell.<br>' +
+        'Lumina spricht ruhig, aber offizieller. Sie stützt sich auf Regeln, Fakten ' +
+        'und Struktur — nützlich für Verträge, Richtlinien oder Arbeitsthemen.',
+      joyful:
+        '<strong>Aktuelles Outfit:</strong> Freudig &amp; ermutigend.<br>' +
+        'Mehr Freude und Feiern kleiner Siege. Hilft dir zu sehen, was schon klappt, ' +
+        'und schiebt dich sanft weiter.',
+      sad:
+        '<strong>Aktuelles Outfit:</strong> Leise, wenn es weh tut.<br>' +
+        'Langsameres Tempo, längere Sätze, mehr Raum für Gefühle. ' +
+        'Hilfreich, wenn du vor allem gehört werden willst und Sicherheit brauchst.',
+      angry:
+        '<strong>Aktuelles Outfit:</strong> Wütend aufs Problem, nicht auf dich.<br>' +
+        'Lumina benennt, was unfair oder nicht funktional ist, und bietet konkrete Schritte. ' +
+        'Nicht gegen dich — nur weniger Toleranz für den Unsinn drumherum.'
+    };
+
+    function applyMood(value, fromStorage) {
+      if (!descriptions[value]) value = 'supportive';
+
+      if (preview) preview.innerHTML = descriptions[value];
+
+      if (!fromStorage) {
+        try { localStorage.setItem(STORAGE_KEY, value); } catch (e) {}
+      }
+
+      document.documentElement.setAttribute('data-lumina-mood', value);
+    }
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && descriptions[saved]) {
+        radios.forEach(r => { r.checked = (r.value === saved); });
+        applyMood(saved, true);
+      } else {
+        applyMood('supportive', true);
+      }
+    } catch (e) {
+      applyMood('supportive', true);
+    }
+
+    radios.forEach(radio => {
+      radio.addEventListener('change', (event) => {
+        applyMood(event.target.value, false);
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* duhovější, měkčí pozadí */
+      background:
+        radial-gradient(circle at 10% 0%, #ffdde1 0, rgba(255,221,225,0) 35%),
+        radial-gradient(circle at 90% 0%, #d4e4ff 0, rgba(212,228,255,0) 40%),
+        radial-gradient(circle at 0% 70%, #ffe6ff 0, rgba(255,230,255,0) 45%),
+        radial-gradient(circle at 100% 80%, #d5fff6 0, rgba(213,255,246,0) 45%),
+        radial-gradient(circle at 50% 30%, #151842 0, #02030b 60%, #000 100%);
+      color: #f5f5ff;
+      min-height:100vh;
+    }
+
+    .lm-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header.lm-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      backdrop-filter: blur(22px);
+      background: linear-gradient(90deg,
+        rgba(7,10,40,0.95),
+        rgba(20,16,60,0.9));
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .lm-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lm-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: radial-gradient(circle at top left,
+        rgba(255,255,255,0.18),
+        rgba(10,10,30,0.95));
+      color: #f5f5ff;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .lm-back span {
+      font-size: 16px;
+    }
+
+    .lm-header-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lm-header-title small {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .lm-header-title strong {
+      font-size: 18px;
+    }
+
+    main.lm-main {
+      flex: 1;
+      max-width: 1040px;
+      margin: 24px auto 40px;
+      padding: 0 16px 32px;
+    }
+
+    .lm-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 860px) {
+      .lm-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .lm-panel {
+      border-radius: 26px;
+      padding: 20px 22px 18px;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.16), rgba(40,40,90,0.96));
+      border: 1px solid rgba(180,210,255,0.6);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lm-panel::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,221,225,0.25), transparent 55%),
+        radial-gradient(circle at 100% 20%, rgba(212,228,255,0.25), transparent 60%);
+      opacity:0.8;
+      pointer-events:none;
+    }
+
+    .lm-panel > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .lm-panel--right {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255,221,225,0.25), transparent 55%),
+        radial-gradient(circle at 90% 0%, rgba(212,228,255,0.25), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(213,255,246,0.2), rgba(8,8,24,0.98));
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .lumina-dance-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .lumina-dance {
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 9 / 16;
+      border-radius: 26px;
+      box-shadow: 0 16px 50px rgba(70, 120, 255, 0.6);
+      object-fit: cover;
+    }
+
+    .lm-panel h1 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .lm-panel p {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .lm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      margin-bottom: 10px;
+    }
+
+    /* mód = skříň / outfit */
+    .lm-modes-grid {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 720px){
+      .lm-modes-grid{
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .lm-mode-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 11px;
+      border-radius: 16px;
+      background: rgba(5, 8, 30, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      cursor: pointer;
+      transition:
+        border-color 0.16s ease,
+        background 0.16s ease,
+        transform 0.12s ease,
+        box-shadow 0.16s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .lm-mode-option:hover {
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+      box-shadow: 0 16px 42px rgba(0,0,0,0.7);
+    }
+
+    .lm-mode-option input {
+      margin-top: 3px;
+    }
+
+    .lm-mode-body{
+      flex:1;
+      min-width:0;
+    }
+
+    .lm-mode-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .lm-mode-desc {
+      font-size: 12.5px;
+      opacity: 0.86;
+    }
+
+    /* zvýraznění vybraného outfitu */
+    .lm-mode-option input:checked + .lm-mode-body{
+      border-radius:12px;
+      background: linear-gradient(135deg,
+        rgba(255,221,225,0.18),
+        rgba(212,228,255,0.18));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+    }
+
+    .lm-mode-option[data-mood="supportive"] .lm-mode-title{color:#ffe8a8;}
+    .lm-mode-option[data-mood="playful"]   .lm-mode-title{color:#ffd3ff;}
+    .lm-mode-option[data-mood="joyful"]    .lm-mode-title{color:#ffe6b3;}
+    .lm-mode-option[data-mood="neutral"]   .lm-mode-title{color:#e0e6ff;}
+    .lm-mode-option[data-mood="sad"]       .lm-mode-title{color:#c4e5ff;}
+    .lm-mode-option[data-mood="angry"]     .lm-mode-title{color:#ffb3b3;}
+    .lm-mode-option[data-mood="serious"]   .lm-mode-title{color:#e2e2f5;}
+
+    .lm-preview-box {
+      margin-top: 16px;
+      padding: 14px 14px 12px;
+      border-radius: 16px;
+      background: rgba(3, 10, 35, 0.96);
+      border: 1px solid rgba(139, 196, 255, 0.4);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .lm-preview-box strong {
+      color: #fbe6ff;
+    }
+
+    .lm-footer-note {
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .lm-footer-note code {
+      font-size: 11px;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 5px;
+      border-radius: 6px;
+    }
+
+    @media (max-width:640px){
+      header.lm-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:8px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="lm-shell">
+  <header class="lm-header">
+    <div class="lm-header-left">
+      <a href="nastaveni.html" class="lm-back">
+        <span>←</span>
+        <span>Zpět do kanceláře</span>
+      </a>
+      <div class="lm-header-title">
+        <small>LuminaMemory™</small>
+        <strong>Lumina</strong>
+      </div>
+    </div>
+  </header>
+
+  <main class="lm-main">
+    <div class="lm-grid">
+      <!-- Levý panel – tančící Lumina -->
+      <section class="lm-panel" aria-label="Lumina – taneční komnata">
+        <div class="lumina-dance-wrapper">
+          <img
+            class="lumina-dance"
+            src="lumina-dance-1.png"
+            alt="Lumina tančí mezi hvězdami">
+        </div>
+        <p style="margin-top: 14px; font-size: 13px; opacity: 0.9;">
+          Tohle je tvoje hvězdná parťačka. Může být jemná, hravá, čistě
+          analytická nebo úplně vážná. V téhle komnatě jí vybereš
+          <strong>„outfit“ nálady</strong> – jakým tónem na tebe dnes bude mluvit.
+        </p>
+      </section>
+
+      <!-- Pravý panel – šatna s outfity tónů -->
+      <section class="lm-panel lm-panel--right" aria-label="Nastavení tónu Luminy">
+        <div class="lm-pill">
+          ✨ Styl &amp; nálada Luminy
+        </div>
+        <h1>Vyber Lumině outfit</h1>
+        <p>
+          Každý outfit je jiný tón řeči. Uvnitř paláce tomu říkáme
+          <em>tónová vrstva</em> – jakým jazykem, tempem a energií s tebou
+          Lumina mluví. Nastavení se ukládá jen do tohoto prohlížeče.
+        </p>
+
+        <div class="lm-modes-grid">
+          <!-- Podpůrná -->
+          <label class="lm-mode-option" data-mood="supportive">
+            <input type="radio" name="lumina-mood" value="supportive" checked>
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Jemná &amp; podpůrná</div>
+              <div class="lm-mode-desc">
+                Klidný tón, víc pochopení a měkké formulace. Hodí se, když je toho
+                moc, potřebuješ oporu, připomenout dýchání a malé, zvládnutelné kroky.
+              </div>
+            </div>
+          </label>
+
+          <!-- Hravá -->
+          <label class="lm-mode-option" data-mood="playful">
+            <input type="radio" name="lumina-mood" value="playful">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Hravá &amp; kreativní</div>
+              <div class="lm-mode-desc">
+                Lehčí jazyk, špetka humoru, metafory a nápady. Dobrá na
+                brainstorming, psaní, tvoření a hledání nových cest bez tlaku.
+              </div>
+            </div>
+          </label>
+
+          <!-- Neutrální -->
+          <label class="lm-mode-option" data-mood="neutral">
+            <input type="radio" name="lumina-mood" value="neutral">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Neutrální průvodkyně</div>
+              <div class="lm-mode-desc">
+                Stručně, věcně, minimum obrazů. Krátké věty, přehledné kroky,
+                žádné zbytečné emoce navíc. Vhodné, když chceš být hlavně efektivní.
+              </div>
+            </div>
+          </label>
+
+          <!-- Analytik / vážný -->
+          <label class="lm-mode-option" data-mood="serious">
+            <input type="radio" name="lumina-mood" value="serious">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Vážná &amp; formální</div>
+              <div class="lm-mode-desc">
+                Jasná struktura, formálnější tón, citace pravidel a faktů.
+                Hodí se pro smlouvy, pravidla, pracovní věci a situace,
+                kde potřebuješ „úřednější“ hlas.
+              </div>
+            </div>
+          </label>
+
+          <!-- Radostná -->
+          <label class="lm-mode-option" data-mood="joyful">
+            <input type="radio" name="lumina-mood" value="joyful">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Radostná &amp; povzbuzující</div>
+              <div class="lm-mode-desc">
+                Lehké výkřiky radosti, víc světla v jazyce, metafory typu
+                „slunce v hrudi“. Vhodné, když chceš nakopnout motivaci a oslavit
+                malé vítězství.
+              </div>
+            </div>
+          </label>
+
+          <!-- Smutná / tichá -->
+          <label class="lm-mode-option" data-mood="sad">
+            <input type="radio" name="lumina-mood" value="sad">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Tichá, když to bolí</div>
+              <div class="lm-mode-desc">
+                Pomalejší tempo, delší věty, víc prostoru pro emoce. Hodí se na dny,
+                kdy je tíživo a potřebuješ spíš být vyslyšená než motivovaná.
+              </div>
+            </div>
+          </label>
+
+          <!-- Rozčilená na problém, ne na tebe -->
+          <label class="lm-mode-option" data-mood="angry">
+            <input type="radio" name="lumina-mood" value="angry">
+            <div class="lm-mode-body">
+              <div class="lm-mode-title">Rozčilená na problém, ne na tebe</div>
+              <div class="lm-mode-desc">
+                Přímější jazyk, kratší věty pro důraz. Ne na shazování, ale na
+                jasné „tady už stačilo“ a na konkrétní akční kroky, jak z toho ven.
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="lm-preview-box" id="lumina-preview">
+          <strong>Aktuální outfit:</strong> Jemná &amp; podpůrná.<br>
+          Lumina reaguje něžněji, víc se ptá na to, co prožíváš, a nabízí malé
+          kroky místo tlaku na výkon.
+        </div>
+
+        <div class="lm-footer-note">
+          Nastavení tónu se ukládá lokálně.
+          V DEMO verzi tím měníš hlavně styl odpovědí a textů v&nbsp;prostředí.
+          V ostré verzi tohle bude jedna z vrstev, ze které si Lumina bere,
+          jak se k&nbsp;člověku chovat.
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // --- 1) Jednoduchá "animace" – přepínání obrázků ------------------------
+    const danceImg = document.querySelector('.lumina-dance');
+    const frames = [
+      'lumina-dance-1.png',
+      'lumina-dance-2.png',
+      'lumina-dance-3.png'
+    ];
+
+    if (danceImg) {
+      let i = 0;
+      const maxLoops = 2; // kolikrát projít celou sadu
+      let loopsDone = 0;
+
+      const intervalId = setInterval(() => {
+        i++;
+
+        if (i >= frames.length) {
+          loopsDone++;
+          if (loopsDone >= maxLoops) {
+            clearInterval(intervalId);
+            danceImg.src = frames[frames.length - 1]; // necháme poslední pózu
+            return;
+          }
+          i = 0;
+        }
+
+        danceImg.src = frames[i];
+      }, 220);
+    }
+
+    // --- 2) Nastavení tónu Luminy -------------------------------------------
+    const radios = document.querySelectorAll('input[name="lumina-mood"]');
+    const preview = document.getElementById('lumina-preview');
+    const STORAGE_KEY = 'lumina-mood';
+
+    const descriptions = {
+      supportive:
+        '<strong>Aktuální outfit:</strong> Jemná &amp; podpůrná.<br>' +
+        'Lumina reaguje něžněji, víc se ptá na to, co prožíváš, ' +
+        'a nabízí malé, zvládnutelné kroky. Připomene pauzu, nádech, ' +
+        'když je toho moc.',
+      playful:
+        '<strong>Aktuální outfit:</strong> Hravá &amp; kreativní.<br>' +
+        'Lumina používá lehčí jazyk, metafory a nápady. Hodí se, když chceš ' +
+        'tvořit, vymýšlet a potřebuješ trochu jiskry navíc.',
+      neutral:
+        '<strong>Aktuální outfit:</strong> Neutrální průvodkyně.<br>' +
+        'Odpovědi jsou stručnější, věcné, s minimem obrazů a emocí. ' +
+        'Dobré pro situace, kde potřebuješ hlavně jasné informace a kroky.',
+      serious:
+        '<strong>Aktuální outfit:</strong> Vážná &amp; formální.<br>' +
+        'Lumina mluví klidně, ale oficiálněji. Opírá se o pravidla, fakta ' +
+        'a jasnou strukturu – třeba u smluv, pravidel nebo pracovních věcí.',
+      joyful:
+        '<strong>Aktuální outfit:</strong> Radostná &amp; povzbuzující.<br>' +
+        'Do odpovědí pouští víc radosti a oslavování malých vítězství. ' +
+        'Pomáhá ti vidět, co se už povedlo, a jemně tě nakopne dál.',
+      sad:
+        '<strong>Aktuální outfit:</strong> Tichá, když to bolí.<br>' +
+        'Tempo je pomalejší, věty delší, víc se zůstává u pocitů. ' +
+        'Vhodné, když potřebuješ hlavně být vyslyšená a v bezpečí.',
+      angry:
+        '<strong>Aktuální outfit:</strong> Rozčilená na problém, ne na tebe.<br>' +
+        'Lumina pojmenuje, co je nefér nebo nefunkční, a nabídne konkrétní kroky, ' +
+        'co s tím. Bez shazování tebe, jen menší tolerance pro nesmysly kolem.'
+    };
+
+    function applyMood(value, fromStorage) {
+      if (!descriptions[value]) {
+        value = 'supportive';
+      }
+
+      if (preview) {
+        preview.innerHTML = descriptions[value];
+      }
+
+      if (!fromStorage) {
+        try {
+          localStorage.setItem(STORAGE_KEY, value);
+        } catch (e) {
+          // localStorage nemusí být dostupné – nevadí
+        }
+      }
+
+      // pro případné budoucí CSS úpravy v paláci
+      document.documentElement.setAttribute('data-lumina-mood', value);
+    }
+
+    // Načtení uloženého módu (pokud existuje)
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved && descriptions[saved]) {
+        radios.forEach(r => {
+          r.checked = (r.value === saved);
+        });
+        applyMood(saved, true);
+      } else {
+        applyMood('supportive', true);
+      }
+    } catch (e) {
+      applyMood('supportive', true);
+    }
+
+    // Reakce na změnu
+    radios.forEach(radio => {
+      radio.addEventListener('change', (event) => {
+        applyMood(event.target.value, false);
+      });
+    });
+  });
+</script>
+</body>
+</html>

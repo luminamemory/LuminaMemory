@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+    <style>
+        :root {
+            --bg-top: #020617;
+            --bg-bottom: #311250;
+            --board-bg: rgba(18, 10, 32, 0.96);
+            --note-bg: #ffffff;
+            --accent: #facc15;
+            --text-main: #f9fafb;
+            --text-muted: #cbd5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(96, 165, 250, 0.35) 0, transparent 45%),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.40) 1px, transparent 1px),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.40) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+            background-size:
+                100% 260px,
+                80px 40px,
+                80px 40px,
+                100% 100%;
+            background-blend-mode: normal, soft-light, soft-light, normal;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 1100px;
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 4px 10px 4px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.9;
+        }
+
+        .back-link span {
+            font-size: 1.1rem;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        h1 {
+            letter-spacing: 0.18em;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .divider {
+            margin: 18px auto 0;
+            width: 220px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(148, 163, 184, 0.9), transparent);
+        }
+
+        .board-wrapper {
+            margin-top: 26px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .board {
+            width: 100%;
+            max-width: 980px;
+            min-height: 340px;
+            background: radial-gradient(circle at 10% 10%, rgba(148, 163, 184, 0.15), transparent 55%),
+                        radial-gradient(circle at 90% 90%, rgba(148, 163, 184, 0.12), transparent 60%),
+                        var(--board-bg);
+            border-radius: 18px;
+            box-shadow:
+                inset 0 0 0 1px rgba(148, 163, 184, 0.25),
+                0 26px 60px rgba(15, 23, 42, 0.9);
+            padding: 32px 34px 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            grid-auto-rows: minmax(210px, auto);
+            gap: 26px;
+        }
+
+@media (max-width: 720px) {
+  body {
+    padding: 16px;
+  }
+  .board {
+    padding: 22px 18px 20px;
+    gap: 18px;
+  }
+
+  /* ✅ fix: na mobilu už back-link nepřekrývá nadpis */
+  header {
+    margin-bottom: 18px;
+  }
+  .back-link {
+    position: static;      /* zruší absolute */
+    transform: none;       /* zruší translateY */
+    display: inline-flex;
+    margin: 0 0 10px 0;    /* udělá místo nad nadpisem */
+    padding: 0;
+    max-width: 100%;
+    white-space: normal;   /* když je úzký mobil, klidně zalomí */
+  }
+  h1 {
+    font-size: 1rem;       /* lehce menší na mobil */
+    letter-spacing: 0.12em;
+  }
+}
+
+        .note {
+            position: relative;
+            background: transparent;
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .note-paper {
+            position: relative;
+            width: 100%;
+            background: var(--note-bg);
+            border-radius: 6px;
+            padding: 18px 16px 18px 18px;
+            box-shadow:
+                0 8px 16px rgba(15, 23, 42, 0.45),
+                0 0 0 1px rgba(15, 23, 42, 0.18);
+            transform: rotate(-1.5deg);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, translate 0.18s ease;
+        }
+
+        .note:nth-child(2) .note-paper {
+            transform: rotate(1.2deg);
+        }
+
+        .note-pin {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle at 30% 30%, #fef9c3, #facc15);
+            border-radius: 999px;
+            box-shadow: 0 4px 6px rgba(15, 23, 42, 0.6);
+        }
+
+        .note-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .note-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #4b5563;
+            margin-bottom: 10px;
+        }
+
+        .note-tag-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: #4b5563;
+        }
+
+        .note-text {
+            font-size: 0.88rem;
+            line-height: 1.35;
+            color: #374151;
+        }
+
+        .note-footer {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .note-footer span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .note-footer svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .note:hover .note-paper {
+            translate: 0 -4px;
+            box-shadow:
+                0 14px 28px rgba(15, 23, 42, 0.75),
+                0 0 0 1px rgba(15, 23, 42, 0.3);
+        }
+
+        .note:active .note-paper {
+            translate: 0 -1px;
+            box-shadow:
+                0 8px 16px rgba(15, 23, 42, 0.7),
+                0 0 0 1px rgba(15, 23, 42, 0.3);
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 16px;
+            }
+            .board {
+                padding: 22px 18px 20px;
+                gap: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header>
+        <a href="nastaveni-en.html" class="back-link">
+            <span>←</span> Back to the office</a>
+        <h1>MANIFEST BOARD</h1>
+        <div class="divider"></div>
+    </header>
+
+    <main class="board-wrapper">
+        <section class="board" aria-label="Manifest board">
+            <!-- Manifest 1 – What is LuminaMemory -->
+            <a class="note" href="manifest-en.html">
+                <div class="note-paper">
+                    <div class="note-pin" aria-hidden="true"></div>
+                    <div class="note-tag">
+                        <span class="note-tag-dot"></span>
+                        <span>Manifest #1</span>
+                    </div>
+                    <div class="note-title">What is LuminaMemory™</div>
+                    <div class="note-text">
+                        The manifest that describes why the project was created,
+                        who it is for, and what role Lumina plays in everyday life.
+                    </div>
+                    <div class="note-footer">
+                        <span>
+                            <svg viewBox="0 0 20 20" aria-hidden="true">
+                                <path fill="currentColor" d="M4 4.5A1.5 1.5 0 0 1 5.5 3h9A1.5 1.5 0 0 1 16 4.5v11a.5.5 0 0 1-.757.429L10 12.972l-5.243 2.957A.5.5 0 0 1 4 15.5v-11Z"/>
+                            </svg>
+                            Core project text
+                        </span>
+                        <span>Open</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Manifest 2 – Human + AI Manifest -->
+            <a class="note" href="manifest-human-ai-en.html">
+                <div class="note-paper">
+                    <div class="note-pin" aria-hidden="true"></div>
+                    <div class="note-tag">
+                        <span class="note-tag-dot"></span>
+                        <span>Manifest #2</span>
+                    </div>
+                    <div class="note-title">Human + AI Manifest</div>
+                    <div class="note-text">
+                        Principles of the relationship between a person and LuminaMemory™:  
+                        what AI in this world is allowed to do, what it is not – and why the human is always more important than the system.
+                    </div>
+                    <div class="note-footer">
+                        <span>
+                            <svg viewBox="0 0 20 20" aria-hidden="true">
+                                <path fill="currentColor" d="M3 5.5A2.5 2.5 0 0 1 5.5 3h9A2.5 2.5 0 0 1 17 5.5v9A2.5 2.5 0 0 1 14.5 17h-9A2.5 2.5 0 0 1 3 14.5v-9Zm3 1A1.5 1.5 0 0 0 4.5 8v4A1.5 1.5 0 0 0 6 13.5h6A1.5 1.5 0 0 0 13.5 12V8A1.5 1.5 0 0 0 12 6.5H6Z"/>
+                            </svg>
+                            Human + AI rules
+                        </span>
+                        <span>Open</span>
+                    </div>
+                </div>
+            </a>
+
+        </section>
+    </main>
+</div>
+</body>
+</html>

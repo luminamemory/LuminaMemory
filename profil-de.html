@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg-main: radial-gradient(circle at top, #2c2a5a 0, #060312 48%, #030109 100%);
+      --card-bg: rgba(10, 8, 30, 0.92);
+      --card-border: rgba(255, 255, 255, 0.06);
+      --accent: #f7b5ff;
+      --accent-soft: #c597ff;
+      --accent-strong: #ff6dd9;
+      --text-main: #f7f2ff;
+      --text-soft: #b8b0d9; 
+      --text-muted: #7f77a8;
+      --danger: #ff5b7c;
+      --ok: #4bd3a6;
+      --pill-bg: rgba(255,255,255,0.08);
+      --pill-border: rgba(255,255,255,0.16);
+      --shadow-soft: 0 24px 60px rgba(0,0,0,0.65);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-pill: 999px;
+      --input-bg: rgba(11, 9, 33, 0.95);
+      --input-border: rgba(255,255,255,0.12);
+      --input-border-focus: rgba(247,181,255,0.85);
+      --transition-fast: 0.16s ease-out;
+      --transition-med: 0.22s ease-out;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      margin:0; padding:0; height:100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text","Segoe UI", sans-serif;
+      color: var(--text-main);
+      background:#030109;
+    }
+
+    body{
+      background-image: var(--bg-main);
+      background-attachment: fixed;
+      background-size: cover;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1040px;
+      margin:18px auto 24px;
+      padding:0 16px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    header.topbar{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px 18px;
+      padding:14px 18px;
+      border-radius: var(--radius-lg);
+      border:1px solid rgba(255,255,255,0.08);
+      background:
+        radial-gradient(circle at top left, rgba(248,189,255,0.14), transparent 55%),
+        radial-gradient(circle at top right, rgba(169,215,255,0.14), transparent 50%),
+        rgba(5,3,23,0.94);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.75);
+      backdrop-filter: blur(18px);
+    }
+
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      color: var(--text-soft);
+      text-decoration:none;
+      font-size:13px;
+      line-height:1.3;
+      background: rgba(4,2,18,0.7);
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+                  color var(--transition-fast), transform var(--transition-fast);
+    }
+    .back-link span.chevron{ font-size:14px; transform: translateY(-0.5px); }
+    .back-link:hover{
+      background: rgba(15,10,48,0.95);
+      border-color: rgba(247,181,255,0.7);
+      color:#ffffff;
+      transform: translateY(-1px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+      flex:1 1 auto;
+    }
+
+    .avatar{
+      width:54px; height:54px;
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,0.85);
+      box-shadow:
+        0 0 0 4px rgba(255,255,255,0.06),
+        0 14px 30px rgba(0,0,0,0.8);
+      object-fit:cover;
+      background: radial-gradient(circle at 30% 0, #ffffff, #a9d3ff 45%, #3e3c88 100%);
+    }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color: var(--text-muted);
+    }
+
+    header h1{
+      font-size:22px;
+      letter-spacing:0.03em;
+      margin:0;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:13px;
+      color: var(--text-soft);
+    }
+
+    .plan-pill{
+      padding:7px 14px;
+      border-radius: var(--radius-pill);
+      border:1px solid var(--pill-border);
+      background: linear-gradient(120deg, rgba(248,189,255,0.24), rgba(121,179,255,0.1));
+      color:#1a0b28;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      font-weight:600;
+      white-space:nowrap;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.65);
+    }
+
+    main.content{
+      display:grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.8fr);
+      gap:18px;
+      align-items:start;
+    }
+
+    .card{
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border:1px solid var(--card-border);
+      box-shadow: var(--shadow-soft);
+      padding:18px 18px 16px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top left, rgba(247,181,255,0.08), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(112,215,255,0.08), transparent 65%);
+      opacity:0.9;
+      pointer-events:none;
+    }
+
+    .card-inner{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card h2{
+      font-size:16px;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+      margin:0;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .card h2 span.dot{
+      width:8px; height:8px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 0, #ffeefc, #ff6dd9 70%);
+      box-shadow: 0 0 14px rgba(255,109,217,0.85);
+      flex-shrink:0;
+    }
+
+    .card p.lead{
+      margin:0;
+      font-size:13px;
+      color: var(--text-soft);
+    }
+
+    .fields{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:4px;
+    }
+
+    label.field{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      font-size:12px;
+      color: var(--text-soft);
+    }
+
+    label.field span.label-main{
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-size:11px;
+      color: var(--text-muted);
+    }
+
+    label.field span.label-sub{ font-size:12px; }
+
+    input[type="text"],
+    textarea{
+      border-radius:12px;
+      border:1px solid var(--input-border);
+      background: var(--input-bg);
+      color: var(--text-main);
+      padding:8px 10px;
+      font: inherit;
+      font-size:13px;
+      outline:none;
+      resize:vertical;
+      min-height:34px;
+      transition: border-color var(--transition-med),
+                  box-shadow var(--transition-med),
+                  background var(--transition-fast);
+    }
+
+    textarea{ min-height:64px; line-height:1.4; }
+
+    input[type="text"]::placeholder,
+    textarea::placeholder{ color: rgba(209, 203, 240, 0.55); }
+
+    input[type="text"]:focus,
+    textarea:focus{
+      border-color: var(--input-border-focus);
+      box-shadow: 0 0 0 1px rgba(247,181,255,0.65),
+                  0 0 22px rgba(120, 188, 255, 0.28);
+      background: rgba(10, 7, 40, 0.98);
+    }
+
+    .tag-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap:8px;
+      margin-top:6px;
+    }
+
+    .tag-pill{
+      border-radius: var(--radius-pill);
+      padding:5px 9px;
+      font-size:12px;
+      border:1px dashed rgba(255,255,255,0.18);
+      background: rgba(10, 8, 35, 0.9);
+      color: var(--text-soft);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .tag-pill span.dot{
+      width:6px; height:6px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 0, #ffffff, var(--accent-soft));
+      opacity:0.9;
+    }
+
+    .note-box{
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,0.2);
+      padding:8px 10px;
+      font-size:11px;
+      color: var(--text-muted);
+      background: rgba(7,4,27,0.92);
+    }
+
+    .note-box strong{
+      color: var(--accent-soft);
+      font-weight:600;
+    }
+
+    .save-bar{
+      grid-column:1 / -1;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 16px;
+      border-radius: var(--radius-lg);
+      border:1px solid rgba(255,255,255,0.16);
+      background: linear-gradient(120deg, rgba(88, 215, 171, 0.18), rgba(88, 117, 255, 0.18));
+      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+      margin-top:-2px;
+    }
+
+    .save-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .btn{
+      border-radius: var(--radius-pill);
+      border:none;
+      cursor:pointer;
+      font: inherit;
+      font-size:13px;
+      padding:8px 16px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition: background var(--transition-med),
+                  box-shadow var(--transition-med),
+                  transform var(--transition-fast),
+                  opacity var(--transition-fast);
+      white-space:nowrap;
+    }
+
+    .btn-primary{
+      background: radial-gradient(circle at 30% 0, #ffffff, #4bd3a6 55%, #17866b 100%);
+      color:#04110d;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.2),
+        0 18px 40px rgba(0,0,0,0.75);
+      font-weight:600;
+    }
+
+    .btn-primary:hover{
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.25),
+        0 22px 50px rgba(0,0,0,0.9);
+    }
+
+    .btn-ghost{
+      background: rgba(6,3,25,0.7);
+      color: var(--text-soft);
+      border:1px solid rgba(255,255,255,0.22);
+    }
+
+    .btn-ghost:hover{
+      background: rgba(12,7,40,0.95);
+      color:#ffffff;
+    }
+
+    .btn span.icon{ font-size:15px; }
+
+    .save-status{
+      font-size:11px;
+      color: var(--text-soft);
+    }
+    .save-status.ok{ color: var(--ok); }
+    .save-status.error{ color: var(--danger); }
+
+    @media (max-width: 800px){
+      main.content{ grid-template-columns: minmax(0,1fr); }
+      .wrap{ max-width: 640px; }
+    }
+
+    @media (max-width: 520px){
+      header.topbar{ flex-direction:column; align-items:flex-start; }
+      .plan-pill{ align-self:flex-start; }
+      .wrap{ margin-top:12px; padding-inline:12px; }
+      .card{ padding:16px 14px 14px; }
+      .save-bar{ padding-inline:12px; }
+    }
+
+    /* ===== Lumina modal ===== */
+    .lm-modal-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
+    }
+    .lm-modal-backdrop.is-open{ display:flex; }
+
+    .lm-modal{
+      width: min(520px, 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background:
+        radial-gradient(circle at top left, rgba(247,181,255,0.12), transparent 55%),
+        radial-gradient(circle at top right, rgba(169,215,255,0.10), transparent 55%),
+        rgba(10, 8, 30, 0.96);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.75);
+      overflow: hidden;
+      transform: translateY(6px) scale(0.98);
+      opacity: 0;
+      transition: opacity var(--transition-med), transform var(--transition-med);
+    }
+    .lm-modal-backdrop.is-open .lm-modal{
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .lm-modal-inner{ padding: 16px 16px 14px; }
+
+    .lm-modal-title{
+      margin: 0 0 8px;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-main);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .lm-modal-title .dot{
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 0, #ffeefc, #ff6dd9 70%);
+      box-shadow: 0 0 14px rgba(255,109,217,0.85);
+      flex-shrink:0;
+    }
+
+    .lm-modal-text{
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .lm-modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      padding: 12px 16px 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(4,2,18,0.25);
+    }
+
+    .lm-btn{
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(6,3,25,0.65);
+      color: var(--text-soft);
+      padding: 8px 14px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background var(--transition-fast), border-color var(--transition-fast),
+                  transform var(--transition-fast), color var(--transition-fast);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .lm-btn:hover{
+      background: rgba(12,7,40,0.95);
+      color: #fff;
+      border-color: rgba(247,181,255,0.55);
+      transform: translateY(-1px);
+    }
+
+    .lm-btn-primary{
+      border: none;
+      background: radial-gradient(circle at 30% 0, #ffffff, #4bd3a6 55%, #17866b 100%);
+      color: #04110d;
+      font-weight: 650;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.75);
+    }
+    .lm-btn-primary:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 22px 52px rgba(0,0,0,0.9);
+      filter: brightness(1.02);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a href="nastaveni-de.html" class="back-link">
+        <span class="chevron">←</span>
+        <span>Zurück in den Leitstand</span>
+      </a>
+
+      <div class="brand">
+        <img src="avatar.png" alt="Lumina" class="avatar">
+        <div class="brand-text">
+          <div class="eyebrow">LuminaMemory™</div>
+          <h1>Profil</h1>
+          <p class="subtitle">Deine persönliche Karte</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- Links: Identität + über dich -->
+      <section class="card">
+        <div class="card-inner">
+          <div>
+            <h2><span class="dot"></span>Über dich – User Codex</h2>
+            <p class="lead">
+              Ein Ort, um aufzuschreiben, wer du heute bist. Nicht für die Außenwelt — nur für diesen Raum.
+            </p>
+          </div>
+
+          <div class="fields">
+            <label class="field">
+              <span class="label-main">Dein Spitzname</span>
+              <span class="label-sub">Wie soll ich dich im Palast nennen.</span>
+              <input id="fNickname" type="text" autocomplete="off"
+                     placeholder='Z. B. „Gabi“, „Gründerin“…'>
+            </label>
+
+            <label class="field">
+              <span class="label-main">Deine Rolle</span>
+              <span class="label-sub">Welche Rolle ist gerade am stärksten in deinem Leben.</span>
+              <input id="fVocation" type="text" autocomplete="off"
+                     placeholder='Z. B. „Designerin“, „Vollzeit-Mama“, „Studentin“…'>
+            </label>
+
+            <label class="field">
+              <span class="label-main">Ruf-Satz</span>
+              <span class="label-sub">Ein kurzer magischer Satz, mit dem du mich rufen kannst.</span>
+              <input id="fInvocation" type="text" autocomplete="off"
+                     placeholder='Z. B. „Lumi, komm mit mir — ich brauche Ruhe.“'>
+            </label>
+
+            <label class="field">
+              <span class="label-main">Mehr über dich</span>
+              <span class="label-sub">Ein paar Zeilen, die dich daran erinnern, wer du bist, wenn es verschwimmt.</span>
+              <textarea id="fAbout"
+                placeholder="Schreib hier eine sanfte Zusammenfassung: wer du bist, was dir wichtig ist, wem dein Herz gehört…"></textarea>
+            </label>
+          </div>
+
+          <div class="note-box">
+            <strong>Sicherheit:</strong> Diese Karte wird nur in diesem Browser gespeichert (localStorage).
+            Bitte keine Passwörter, PINs, Ausweisnummern oder andere extrem sensible Daten hier eintragen. 🌸
+          </div>
+        </div>
+      </section>
+
+      <!-- Rechts: Rhythmus & Fokus -->
+      <section class="card">
+        <div class="card-inner">
+          <div>
+            <h2><span class="dot"></span>Tagesrhythmus & Fokus</h2>
+            <p class="lead">
+              Was deinen Tag zusammenhält und worauf wir gerade gemeinsam achten wollen.
+            </p>
+          </div>
+
+          <div class="fields">
+            <label class="field">
+              <span class="label-main">Alltagsrituale</span>
+              <span class="label-sub">Kleine Dinge, die dir guttun, wenn du sie hältst.</span>
+              <textarea id="fRituals"
+                placeholder="Z. B. Abend-Recap, kurzer Spaziergang, Journaling, Tee vor dem Schlafen…"></textarea>
+            </label>
+
+            <label class="field">
+              <span class="label-main">Tägliche Erinnerungen</span>
+              <span class="label-sub">Was du nicht vergessen möchtest — sanft, ohne Peitsche.</span>
+              <textarea id="fReminders"
+                placeholder="Meds, Rücken strecken, trinken… alles, was ein zartes „nicht vergessen“ braucht."></textarea>
+            </label>
+
+            <label class="field">
+              <span class="label-main">Hauptbereiche, die wir gerade verfolgen</span>
+              <span class="label-sub">Du kannst sie ändern, wenn sich deine Mission verschiebt.</span>
+              <textarea id="fFocusAreas"
+                placeholder="Z. B. Gesundheit, Arbeit, Beziehungen, Zuhause, Kreativität…"></textarea>
+            </label>
+
+            <label class="field">
+              <span class="label-main">Weitere wichtige Dinge</span>
+              <span class="label-sub">Nützliche Kontakte oder kleine Details, die du nicht verlieren willst.</span>
+              <textarea id="fOther"
+                placeholder="Z. B. Name der Therapeutin, Notiz für dein Zukunfts-Ich…"></textarea>
+            </label>
+          </div>
+
+          <div class="tag-grid">
+            <div class="tag-pill"><span class="dot"></span><span>Ich als Mensch</span></div>
+            <div class="tag-pill"><span class="dot"></span><span>Mein Alltag</span></div>
+            <div class="tag-pill"><span class="dot"></span><span>Was wir jetzt halten</span></div>
+            <div class="tag-pill"><span class="dot"></span><span>Kleine praktische Dinge</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Save bar -->
+      <section class="save-bar">
+        <div class="save-actions">
+          <button type="button" class="btn btn-primary" id="btnSaveProfile">
+            <span class="icon">💾</span>
+            <span>In diesem Browser speichern (DEMO)</span>
+          </button>
+          <button type="button" class="btn btn-ghost" id="btnClearProfile">
+            <span class="icon">🧹</span>
+            <span>Lokales Profil löschen</span>
+          </button>
+        </div>
+        <div class="save-status" id="saveStatus">
+          DEMO: Daten bleiben nur in diesem Browser. Du kannst sie jederzeit löschen.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Lumina modal -->
+  <div class="lm-modal-backdrop" id="lmModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lm-modal" role="document">
+      <div class="lm-modal-inner">
+        <h3 class="lm-modal-title">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="lmModalTitle">Bestätigen</span>
+        </h3>
+        <p class="lm-modal-text" id="lmModalText">...</p>
+      </div>
+      <div class="lm-modal-actions">
+        <button type="button" class="lm-btn" id="lmModalCancel">Abbrechen</button>
+        <button type="button" class="lm-btn lm-btn-primary" id="lmModalOk">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const PROFILE_KEY = "LM_USER_CODEX_V1";
+      const USER_KEY = "miniLuminaUser";
+
+      const el = (id) => document.getElementById(id);
+
+      const fields = {
+        nickname:  el("fNickname"),
+        vocation:  el("fVocation"),
+        invocation:el("fInvocation"),
+        about:     el("fAbout"),
+        rituals:   el("fRituals"),
+        reminders: el("fReminders"),
+        focus:     el("fFocusAreas"),
+        other:     el("fOther")
+      };
+
+      const saveStatus = el("saveStatus");
+
+      function setStatus(msg, mode){
+        saveStatus.textContent = msg;
+        saveStatus.classList.remove("ok", "error");
+        if(mode === "ok") saveStatus.classList.add("ok");
+        if(mode === "error") saveStatus.classList.add("error");
+      }
+        }catch(e){}
+
+        const pill = el("planPill");
+        const text =
+          plan === "PREMIUM" ? "DEMO · PREMIUM Tarif" :
+          plan === "PLUS"    ? "DEMO · PLUS Tarif" :
+                               "DEMO · FREE Tarif";
+        pill.textContent = text;
+      }
+
+      function loadProfile(){
+        try{
+          const raw = localStorage.getItem(PROFILE_KEY);
+          if(!raw) return;
+          const data = JSON.parse(raw);
+          if(!data || typeof data !== "object") return;
+
+          if(typeof data.nickname === "string")  fields.nickname.value  = data.nickname;
+          if(typeof data.vocation === "string")  fields.vocation.value  = data.vocation;
+          if(typeof data.invocation === "string")fields.invocation.value= data.invocation;
+          if(typeof data.about === "string")     fields.about.value     = data.about;
+          if(typeof data.rituals === "string")   fields.rituals.value   = data.rituals;
+          if(typeof data.reminders === "string") fields.reminders.value = data.reminders;
+          if(typeof data.focus === "string")     fields.focus.value     = data.focus;
+          if(typeof data.other === "string")     fields.other.value     = data.other;
+        }catch(e){
+          console.warn("Profil konnte nicht geladen werden:", e);
+        }
+      }
+
+      function saveProfile(){
+        const payload = {
+          nickname:  fields.nickname.value.trim(),
+          vocation:  fields.vocation.value.trim(),
+          invocation:fields.invocation.value.trim(),
+          about:     fields.about.value.trim(),
+          rituals:   fields.rituals.value.trim(),
+          reminders: fields.reminders.value.trim(),
+          focus:     fields.focus.value.trim(),
+          other:     fields.other.value.trim(),
+          updatedAt: new Date().toISOString()
+        };
+        try{
+          localStorage.setItem(PROFILE_KEY, JSON.stringify(payload));
+          setStatus("In diesem Browser gespeichert. Wir können es jederzeit ändern.","ok");
+        }catch(e){
+          console.error("Speichern fehlgeschlagen:", e);
+          setStatus("Konnte nicht speichern. Bitte prüfe den verfügbaren Speicher im Browser.","error");
+        }
+      }
+
+      function luminaConfirm(message, opts){
+        opts = opts || {};
+        const modal = el("lmModal");
+        const t = el("lmModalTitle");
+        const m = el("lmModalText");
+        const btnCancel = el("lmModalCancel");
+        const btnOk = el("lmModalOk");
+
+        t.textContent = opts.title || "Bestätigen";
+        m.textContent = message;
+
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+
+        const prevActive = document.activeElement;
+        btnOk.focus();
+
+        return new Promise((resolve) => {
+          let done = false;
+
+          function cleanup(result){
+            if(done) return;
+            done = true;
+
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+
+            btnCancel.removeEventListener("click", onCancel);
+            btnOk.removeEventListener("click", onOk);
+            modal.removeEventListener("click", onBackdrop);
+            document.removeEventListener("keydown", onKey);
+
+            if(prevActive && prevActive.focus) prevActive.focus();
+            resolve(result);
+          }
+
+          function onCancel(){ cleanup(false); }
+          function onOk(){ cleanup(true); }
+
+          function onBackdrop(e){
+            if(e.target === modal) cleanup(false);
+          }
+
+          function onKey(e){
+            if(e.key === "Escape") cleanup(false);
+            if(e.key === "Enter") cleanup(true);
+          }
+
+          btnCancel.addEventListener("click", onCancel);
+          btnOk.addEventListener("click", onOk);
+          modal.addEventListener("click", onBackdrop);
+          document.addEventListener("keydown", onKey);
+        });
+      }
+
+      async function clearProfile(){
+        const ok = await luminaConfirm(
+          "Lokales Profil in diesem Browser löschen? Das kann nicht rückgängig gemacht werden.",
+          { title: "Profil löschen" }
+        );
+
+        if(!ok) return;
+
+        try{ localStorage.removeItem(PROFILE_KEY); }catch(e){}
+        Object.values(fields).forEach(f => f.value = "");
+        setStatus("Lokales Profil gelöscht. Du kannst mit einem sauberen Blatt starten.","ok");
+      }
+
+      el("btnSaveProfile").addEventListener("click", saveProfile);
+      el("btnClearProfile").addEventListener("click", clearProfile);
+
+      loadProfile();
+    })();
+  </script>
+</body>
+</html>

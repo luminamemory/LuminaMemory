@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+
+  <style>
+    :root{
+      --ink: #fdf7ff;
+      --muted: rgba(244,233,255,.86);
+      --pill: 999px;
+
+      --shadow-strong: 0 26px 90px rgba(0,0,0,.72);
+      --shadow-soft:   0 18px 55px rgba(0,0,0,.46);
+
+      --footer-h: 88px;
+
+      --bg: #000000; /* tiefes Schwarz */
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+
+    body{
+      font-family: system-ui,-apple-system,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* Sanfte Vignette (kein Bild, bleibt schwarz) */
+    .bg-vignette{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(130,90,255,.14), rgba(0,0,0,0) 55%),
+        radial-gradient(circle at 20% 90%, rgba(255,90,190,.08), rgba(0,0,0,0) 55%),
+        radial-gradient(circle at 80% 85%, rgba(90,160,255,.08), rgba(0,0,0,0) 55%),
+        radial-gradient(circle at 50% 50%, rgba(0,0,0,0), rgba(0,0,0,.85) 70%);
+      opacity:.75;
+    }
+
+    /* Glass panels */
+    .glass-panel{
+      background:
+        linear-gradient(135deg, rgba(160,120,255,.10), rgba(8,7,24,.38)),
+        rgba(8, 6, 28, .34);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 22px 78px rgba(0,0,0,.62);
+      backdrop-filter: blur(18px) saturate(1.12) brightness(.98) contrast(1.12);
+      -webkit-backdrop-filter: blur(18px) saturate(1.12) brightness(.98) contrast(1.12);
+    }
+
+    /* HEADER */
+    .ms-header-shell{
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:3;
+      padding:12px 14px 0;
+      pointer-events:none;
+    }
+    .ms-header{
+      pointer-events:auto;
+      max-width:1040px;
+      margin:0 auto;
+      padding:12px 16px 12px;
+      border-radius:22px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .ms-header-left{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      min-width:0;
+    }
+    .btn-back{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 12px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.55);
+      background:rgba(9,6,36,.72);
+      color:var(--ink);
+      font-size:12px;
+      box-shadow:0 16px 42px rgba(0,0,0,.7);
+      white-space:nowrap;
+      margin-top:1px;
+    }
+    .btn-back:hover{ background:rgba(18,12,62,.86); }
+
+    .ms-header-text{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+    .ms-header-text h1{
+      font-size:17px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      text-shadow:0 12px 32px rgba(0,0,0,.86);
+      line-height:1.15;
+      color: rgba(255,255,255,.96);
+    }
+    .ms-header-sub{
+      font-size:12px;
+      line-height:1.6;
+      color:var(--muted);
+      text-shadow:0 10px 26px rgba(0,0,0,.86);
+      max-width:720px;
+    }
+    .ms-plan-pill{
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.7);
+      padding:7px 13px;
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.14), transparent 55%) rgba(18,15,70,.64);
+      color:rgba(246,237,255,.96);
+      font-size:11px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      white-space:nowrap;
+      text-shadow:0 10px 24px rgba(0,0,0,.88);
+      margin-top:2px;
+    }
+    @media (max-width:720px){
+      .ms-header{ flex-direction:column; align-items:flex-start; gap:8px; }
+      .ms-plan-pill{ align-self:flex-end; }
+    }
+
+    /* FOOTER */
+    .ms-footer-shell{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      z-index:3;
+      padding:0 14px 12px;
+      pointer-events:none;
+    }
+    .ms-footer{
+      pointer-events:auto;
+      max-width:860px;
+      margin:0 auto;
+      padding:8px 14px 9px;
+      border-radius:18px;
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+
+      font-size:11px;
+      color:rgba(235,225,255,.92);
+      text-shadow: 0 3px 14px rgba(0,0,0,.72);
+    }
+    .ms-footer-right{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      max-width:560px;
+    }
+    @media (max-width:840px){
+      .ms-footer{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+        padding:8px 16px 9px;
+      }
+      .ms-footer-right{ max-width:none; }
+    }
+    .lumina-avatar{
+      width:26px;height:26px;border-radius:999px;overflow:hidden;
+      flex-shrink:0;
+      box-shadow:0 0 22px rgba(194,224,255,.9);
+    }
+    .lumina-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+    .lumina-note{font-size:11px;color:rgba(247,240,255,.96);}
+
+    /* MAIN LAYOUT */
+    .main{
+      position:relative;
+      z-index:2;
+      min-height:100vh;
+      padding: calc(140px + 14px) 14px calc(var(--footer-h) + 24px);
+    }
+    .wrap{
+      max-width:1040px;
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card{
+      border-radius:22px;
+      padding:14px 14px 16px;
+    }
+    .card-title{
+      font-size:12px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:rgba(255,232,255,.9);
+      margin-bottom:10px;
+      text-shadow:0 12px 32px rgba(0,0,0,.86);
+    }
+
+    /* IMAGE STAIR CONTAINERS */
+    .stair-wrap{
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:var(--shadow-soft);
+      background:rgba(0,0,0,.28);
+    }
+    .stair-img{
+      width:100%;
+      height:auto;
+      display:block;
+      opacity:.98;
+      filter:drop-shadow(0 20px 58px rgba(0,0,0,.86));
+    }
+
+    /* Clouds as buttons */
+    .cloud-btn{
+      position:absolute;
+      border:none;
+      background:transparent;
+      padding:0;
+      cursor:pointer;
+      outline:none;
+      transform:translateY(0);
+      transition:transform .16s ease, filter .16s ease;
+    }
+    .cloud-btn:hover{ transform:translateY(-2px); filter:brightness(1.03); }
+    .cloud-btn:active{ transform:translateY(0); filter:brightness(0.99); }
+    .cloud-btn:focus-visible{
+      box-shadow:0 0 0 2px #fff, 0 0 0 5px rgba(255,255,255,.35);
+      border-radius:24px;
+    }
+    .cloud-img{
+      display:block;
+      width:min(220px, 48vw);
+      height:auto;
+      opacity:.98;
+      filter:
+        drop-shadow(0 20px 46px rgba(0,0,0,.74))
+        drop-shadow(0 0 16px rgba(180,140,255,.16));
+    }
+    .cloud-label{
+      position:absolute;
+      left:50%;
+      bottom:10px;
+      transform:translateX(-50%);
+      padding:5px 10px 4px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.45);
+      background:rgba(15,6,38,.78);
+      color:rgba(245,235,255,.92);
+      font-size:10.5px;
+      letter-spacing:.06em;
+      white-space:nowrap;
+      text-shadow:0 10px 26px rgba(0,0,0,.86);
+      backdrop-filter:blur(10px);
+    }
+    .cloud-label--free  {border-color:rgba(255,255,255,.55);}
+    .cloud-label--plus  {border-color:rgba(214,255,255,.82);}
+    .cloud-label--prem  {border-color:rgba(238,210,255,.92);}
+
+    /* Big (main) card cloud placement */
+    .main-cloud{
+      left: clamp(10px, 3vw, 26px);
+      bottom: clamp(10px, 2.6vw, 22px);
+    }
+
+    /* Section grid for 3 cards */
+    .triple{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:10px;
+    }
+    @media (max-width:860px){
+      .triple{ grid-template-columns:1fr; }
+    }
+    .mini-stair{
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.26);
+      box-shadow:var(--shadow-soft);
+      min-height: 160px;
+    }
+    .mini-stair img{
+      width:100%;
+      height:auto;
+      display:block;
+      opacity:.98;
+      filter:drop-shadow(0 18px 46px rgba(0,0,0,.82));
+    }
+    .mini-cloud{
+      left: 10px;
+      bottom: 10px;
+    }
+    .mini-cloud .cloud-img{ width:min(170px, 62vw); }
+
+    /* Progress bars */
+    .meter{
+      margin-top:10px;
+      height:10px;
+      border-radius:999px;
+      overflow:hidden;
+      background:rgba(40,23,86,.86);
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+    }
+    .meter-fill{
+      height:100%;
+      width:50%;
+      background:linear-gradient(90deg, rgba(255, 63, 184, .92), rgba(109, 45, 255, .92));
+    }
+    .meter-fill.free{ width:28%; }
+    .meter-fill.plus{ width:64%; }
+    .meter-fill.premium{ width:88%; }
+
+    .note{
+      margin-top:10px;
+      font-size:12px;
+      color:rgba(244,233,255,.86);
+      line-height:1.65;
+    }
+
+    /* BACKPACK CARD */
+    .backpack-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .backpack-left{
+      min-width:220px;
+      flex: 1 1 380px;
+    }
+    .backpack-right{
+      flex: 0 0 auto;
+      position:relative;
+      min-height:120px;
+    }
+    .backpack-cloud{
+      position:relative;
+    }
+    .backpack-cloud .cloud-img{ width:min(210px, 60vw); }
+
+    /* MODALS */
+    .ms-modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(5,4,16,.78);
+      backdrop-filter:blur(14px);
+
+      display:none;
+      justify-content:center;
+
+      overflow:auto;
+      -webkit-overflow-scrolling:touch;
+      align-items:flex-start;
+      padding:18px 14px;
+
+      z-index:30;
+    }
+    .ms-modal-backdrop.is-open{display:flex;}
+
+    .ms-modal{
+      width:min(640px,100%);
+      max-height:calc(100vh - 48px);
+      margin:18px auto;
+
+      background:radial-gradient(circle at 0 0, rgba(255,255,255,.16), transparent 55%) rgba(10,4,32,.97);
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.30);
+      box-shadow:var(--shadow-strong);
+      overflow:hidden;
+      color:rgba(244,233,255,.90);
+      display:flex;
+      flex-direction:column;
+    }
+    .ms-modal--small{ width:min(520px,100%); }
+
+    .ms-modal-head{
+      padding:12px 16px 8px;
+      border-bottom:1px solid rgba(255,255,255,.16);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .ms-modal-title{
+      font-size:13px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:#ffeaff;
+      text-shadow:0 12px 32px rgba(0,0,0,.86);
+    }
+    .ms-modal-head p{
+      margin-top:4px;
+      font-size:12px;
+      line-height:1.6;
+      color:rgba(244,233,255,.86);
+    }
+    .ms-modal-close{
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(17,7,40,.96);
+      color:rgba(244,233,255,.9);
+      padding:6px 10px;
+      font-size:12px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .ms-modal-close:hover{background:rgba(28,13,64,.98);}
+
+    .ms-modal-body{
+      padding:14px 16px 14px;
+      overflow:auto;
+      -webkit-overflow-scrolling:touch;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      font-size:13px;
+      line-height:1.7;
+    }
+
+    .pill-row{ display:flex; flex-wrap:wrap; gap:6px; }
+    .pill{
+      padding:4px 9px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(20,9,52,.88);
+      font-size:11px;
+      color:rgba(244,233,255,.88);
+      letter-spacing:.04em;
+    }
+
+    .percent-badge{
+      display:inline-flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:2px;
+      padding:8px 10px 7px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(8,5,26,.78);
+      box-shadow:0 18px 44px rgba(0,0,0,.72);
+    }
+    .percent-badge strong{ font-size:16px; color:#ffe9ff; }
+    .percent-badge span{
+      font-size:10px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(244,233,255,.86);
+    }
+
+    /* Export modal */
+    .export-wrap{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.30);
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,.14),transparent 55%) rgba(10,4,32,.98);
+      padding:12px 12px 14px;
+      box-shadow:var(--shadow-soft);
+      text-align:center;
+    }
+    .export-suitcase{
+      margin-top:2px;
+      width:min(260px,74%);
+      cursor:pointer;
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
+      filter:drop-shadow(0 20px 52px rgba(0,0,0,.86));
+      transition:transform .18s ease;
+    }
+    .export-suitcase:hover{transform:translateY(-2px);}
+    .export-icons{
+      display:flex;
+      justify-content:center;
+      margin-top:10px;
+      margin-bottom:2px;
+
+      opacity:0;
+      transform:translateY(8px);
+      pointer-events:none;
+      transition:opacity .22s ease, transform .22s ease;
+    }
+    .export-icons.is-visible{
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+    .export-icons-img{
+      width:min(240px, 76%);
+      height:auto;
+      display:block;
+      filter:drop-shadow(0 14px 36px rgba(0,0,0,.72));
+      opacity:.98;
+    }
+    .export-note{ margin-top:6px; font-size:12px; color:rgba(244,233,255,.86); }
+    .export-warning{ margin-top:6px; font-size:11px; color:#ffe9bf; opacity:.9; }
+
+    .export-actions{
+      margin-top:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:center;
+    }
+    .btn-export-kind{
+      padding:7px 12px;
+      border-radius:var(--pill);
+      border:1px solid rgba(255,255,255,.6);
+      background:rgba(26,11,64,.96);
+      color:var(--ink);
+      font-size:12px;
+      cursor:pointer;
+    }
+    .btn-export-kind:hover{background:rgba(38,18,90,.98);}
+
+    .data-screen{
+      max-height:260px;
+      overflow:auto;
+      -webkit-overflow-scrolling:touch;
+      background:#04050f;
+      color:#dce6ff;
+      font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+      font-size:11px;
+      line-height:1.5;
+      padding:10px 11px;
+      border-radius:12px;
+      white-space:pre-wrap;
+      word-break:break-word;
+      border:1px solid rgba(255,255,255,0.25);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:calc(var(--footer-h) + 20px);
+      transform:translateX(-50%) translateY(20px);
+      padding:9px 12px;
+      border-radius:999px;
+      background:rgba(13,7,34,.96);
+      border:1px solid rgba(255,255,255,.4);
+      color:rgba(244,233,255,.88);
+      font-size:11px;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .22s ease, transform .22s ease;
+      z-index:50;
+    }
+    .toast.is-visible{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    /* lock icon */
+    .lock-pill{
+      position:absolute;
+      top:10px;
+      right:12px;
+      width:22px;height:22px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.6);
+      background:rgba(15,7,36,.92);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:13px;
+      box-shadow:0 16px 40px rgba(0,0,0,.8);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header class="ms-header-shell" id="headerShell">
+    <div class="ms-header glass-panel" id="headerPanel">
+      <div class="ms-header-left">
+        <a href="nastaveni-de.html" class="btn-back">← Zurück ins Büro</a>
+        <div class="ms-header-text">
+          <h1>MEMORYSKY™</h1>
+          <p class="ms-header-sub">
+            MemorySky™ ist das Herz deiner ganzen Welt in LuminaMemory™.
+          </p>
+        </div>
+      </div>
+
+      <div class="ms-plan-pill" id="crumbPlan">DEMO · FREE Tarif</div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="wrap">
+
+      <!-- CARD 1: Haupttreppe + cloud-1 -->
+      <section class="card glass-panel">
+        <div class="card-title">Dein Himmel</div>
+
+        <div class="stair-wrap">
+          <img src="light-stair.png" alt="Haupttreppe" class="stair-img" />
+
+          <!-- cloud-1 -->
+          <button class="cloud-btn main-cloud" id="btnMainCloud" type="button">
+            <img src="cloud-1.png" alt="Speicher des ganzen Palasts" class="cloud-img" />
+            <div class="cloud-label" id="lblMain">Speicher des ganzen Palasts</div>
+          </button>
+        </div>
+
+        <div class="note">
+          Klicke auf eine Wolke und du siehst den Speicherstand, die Verbindung zum Tarif und eine Übersicht der Bereiche.
+        </div>
+      </section>
+
+      <!-- CARD 2: 3 Treppen + Wolken cloud-2/3/4 -->
+      <section class="card glass-panel">
+        <div class="card-title">Bereiche des Himmels</div>
+
+        <div class="triple">
+          <!-- Arcana -->
+          <div class="mini-stair" role="button" tabindex="0" data-open="modalArcana">
+            <img src="light-arcana.png" alt="Arcana" />
+            <button class="cloud-btn mini-cloud" type="button" data-open="modalArcana">
+              <img src="cloud-2.png" alt="Arcana" class="cloud-img" />
+              <div class="cloud-label" id="lblArc">Arcana</div>
+            </button>
+          </div>
+
+          <!-- Praetorium -->
+          <div class="mini-stair" role="button" tabindex="0" data-open="modalPrae">
+            <img src="light-praetorium.png" alt="Praetorium" />
+            <button class="cloud-btn mini-cloud" type="button" data-open="modalPrae">
+              <img src="cloud-3.png" alt="Praetorium" class="cloud-img" />
+              <div class="cloud-label" id="lblPrae">Praetorium</div>
+            </button>
+          </div>
+
+          <!-- Configuratio -->
+          <div class="mini-stair" role="button" tabindex="0" data-open="modalConfig">
+            <img src="light-configuratio.png" alt="Configuratio" />
+            <button class="cloud-btn mini-cloud" type="button" data-open="modalConfig">
+              <img src="cloud-4.png" alt="Configuratio" class="cloud-img" />
+              <div class="cloud-label" id="lblCfg">Configuratio</div>
+            </button>
+          </div>
+        </div>
+
+        <div class="note">
+          Jeder Bereich hat seinen eigenen Inhalt und seinen eigenen Füllstand.
+        </div>
+      </section>
+
+      <!-- CARD 3: Rucksack cloud-5 -->
+      <section class="card glass-panel">
+        <div class="card-title">Rucksack</div>
+
+        <div class="backpack-row">
+          <div class="backpack-left">
+            <div class="note" style="margin-top:0">
+              Eines Tages kannst du deine ganze Welt packen und woanders hingehen — denn LuminaMemory™ ist kein Gefängnis.
+            </div>
+          </div>
+
+          <div class="backpack-right">
+            <button class="cloud-btn backpack-cloud" id="btnBackpack" type="button">
+              <img src="cloud-5.png" alt="Export – Reiserucksack" class="cloud-img" />
+              <div class="cloud-label" id="lblBag">Export – Reiserucksack</div>
+              <div class="lock-pill" id="exportLock" aria-hidden="true">🔒</div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <section class="ms-footer-shell" id="footerShell">
+    <div class="ms-footer glass-panel" id="footerPanel">
+      <div>
+        Die DEMO läuft lokal in deinem Browser. Prozente und Export funktionieren nur mit fiktiven Daten.
+      </div>
+      <div class="ms-footer-right">
+        <div class="lumina-avatar"><img src="avatar.png" alt="Lumina" /></div>
+        <div class="lumina-note" id="footNote">
+          Vorschau des Verhaltens von MemorySky™ je nach Tarif. In der Live-Version wird es mit der tatsächlichen Speichernutzung verbunden.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL: MAIN -->
+  <div class="ms-modal-backdrop" id="modalMain">
+    <div class="ms-modal" role="dialog" aria-modal="true" aria-labelledby="mainTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="mainTitle">Speicher des ganzen Palasts</div>
+          <p>Die Treppe ändert ihre Farbe je nachdem, wie voll der Himmel ist.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalMain">Schließen ✕</button>
+      </div>
+
+      <div class="ms-modal-body">
+        <div class="pill-row" id="mainPills"></div>
+
+        <div class="percent-badge">
+          <strong id="mainPercent">0 %</strong>
+          <span>Füllstand</span>
+        </div>
+
+        <div class="meter" aria-label="Speicherfüllstand">
+          <div class="meter-fill" id="mainMeter"></div>
+        </div>
+
+        <div class="note">
+          In der Live-Version sind die Prozente an echte Daten gebunden. In der DEMO zeigen wir nur Logik und Struktur.
+        </div>
+
+        <div style="font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,232,255,.9); margin-top:4px;">
+          Drei Hauptbereiche des Himmels
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; gap:10px;">
+              <div><b>Praetorium</b> – Chronica · Sigma · Proiecta</div>
+              <div id="txtPraePct" style="opacity:.9;">—</div>
+            </div>
+            <div class="meter"><div class="meter-fill" id="meterPrae"></div></div>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; gap:10px;">
+              <div><b>Arcana</b> – Clavis · Pecunia · Vitae · Medica</div>
+              <div id="txtArcPct" style="opacity:.9;">—</div>
+            </div>
+            <div class="meter"><div class="meter-fill" id="meterArc"></div></div>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; gap:10px;">
+              <div><b>Configuratio</b> – Karte · Rhythmus · Ton</div>
+              <div id="txtCfgPct" style="opacity:.9;">—</div>
+            </div>
+            <div class="meter"><div class="meter-fill" id="meterCfg"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ARCANA -->
+  <div class="ms-modal-backdrop" id="modalArcana">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="arcTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="arcTitle">Arcana</div>
+          <p>Clavis · Pecunia · Vitae · Medica</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalArcana">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <div class="pill-row" id="arcPills"></div>
+
+        <div class="percent-badge">
+          <strong id="arcPercent">0 %</strong>
+          <span>Füllstand des Bereichs</span>
+        </div>
+
+        <div class="meter"><div class="meter-fill" id="arcMeter"></div></div>
+
+        <ul style="margin-top:6px; padding-left:18px; font-size:12px;">
+          <li><b>Arcana Clavis</b> – Zugang.</li>
+          <li><b>Arcana Pecunia</b> – Finanzen.</li>
+          <li><b>Codex Vitae</b> – Dokumente.</li>
+          <li><b>Corpus Medica</b> – Gesundheit.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PRAETORIUM -->
+  <div class="ms-modal-backdrop" id="modalPrae">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="praeTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="praeTitle">Praetorium</div>
+          <p>Chronica · Sigma · Proiecta</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalPrae">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <div class="pill-row" id="praePills"></div>
+
+        <div class="percent-badge">
+          <strong id="praePercent">0 %</strong>
+          <span>Füllstand des Bereichs</span>
+        </div>
+
+        <div class="meter"><div class="meter-fill" id="praeMeter"></div></div>
+
+        <ul style="margin-top:6px; padding-left:18px; font-size:12px;">
+          <li><b>Chronica</b> – Tagebücher, Momente.</li>
+          <li><b>Sigma</b> – Rituale, Erinnerungen.</li>
+          <li><b>Proiecta</b> – Projekte und Missionen.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIGURATIO -->
+  <div class="ms-modal-backdrop" id="modalConfig">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="cfgTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="cfgTitle">Configuratio</div>
+          <p>Benutzerdaten & Palast-Software</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalConfig">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <div class="pill-row" id="cfgPills"></div>
+
+        <div class="percent-badge">
+          <strong id="cfgPercent">0 %</strong>
+          <span>Füllstand des Bereichs</span>
+        </div>
+
+        <div class="meter"><div class="meter-fill" id="cfgMeter"></div></div>
+
+        <ul style="margin-top:6px; padding-left:18px; font-size:12px;">
+          <li><b>Karte</b> – Name, Anredeform, Ruf-Satz.</li>
+          <li><b>Rhythmus</b> – Tagesroutine.</li>
+          <li><b>Ton</b> – Lumina-Einstellungen.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EXPORT -->
+  <div class="ms-modal-backdrop" id="modalExport">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="expTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="expTitle">Export – Reiserucksack</div>
+          <p>Ein Demo-Datenexport.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalExport">Schließen ✕</button>
+      </div>
+
+      <div class="ms-modal-body">
+        <div class="export-wrap">
+          <img src="export-closed.png" alt="Archivkoffer" id="suitcaseImg" class="export-suitcase" />
+
+          <div class="export-icons" id="exportIcons">
+            <img src="icons.png" alt="Export-Icons" class="export-icons-img" />
+          </div>
+
+          <div class="export-note" id="exportNote">
+            In der DEMO ist der Koffer ein Symbol. Sobald du ihn öffnest, siehst du die „Ausrüstung“ und kannst den Export starten.
+          </div>
+
+          <div class="export-warning" id="exportWarning">
+            PLUS/PREMIUM: Die Datei wird heruntergeladen, aber der Inhalt ist fiktiv.
+          </div>
+
+          <div class="export-actions">
+            <button class="btn-export-kind" type="button" id="btnExportData">
+              Datenpaket exportieren
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EXPORT BLOCKED -->
+  <div class="ms-modal-backdrop" id="modalExportBlocked">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="blockedTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="blockedTitle">Export im FREE Tarif</div>
+          <p>In diesem Tarif ist Export nicht verfügbar.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalExportBlocked">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body" style="font-size:12px;">
+        FREE ist ein Test-Demo-Himmel. Export wird nur in PLUS oder PREMIUM verfügbar sein.
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DOWNLOAD -->
+  <div class="ms-modal-backdrop" id="modalDownload">
+    <div class="ms-modal ms-modal--small" role="dialog" aria-modal="true" aria-labelledby="dlTitle">
+      <div class="ms-modal-head">
+        <div>
+          <div class="ms-modal-title" id="dlTitle">Datenexport</div>
+          <p id="dlLead">Vorschau fiktiver Daten und Download der Datei.</p>
+        </div>
+        <button class="ms-modal-close" type="button" data-close="modalDownload">Schließen ✕</button>
+      </div>
+      <div class="ms-modal-body">
+        <pre class="data-screen" id="jsonPreview"></pre>
+        <button class="btn-export-kind" type="button" id="btnConfirmDownload">
+          Datei herunterladen
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastExport">
+    DEMO: Die heruntergeladene Datei enthält nur fiktive Daten – Vorschau eines zukünftigen Exports.
+  </div>
+
+  <script>
+    /* === tariff – localStorage === */
+    const PLAN_KEY = "lm_plan";
+
+    function normalizePlan(p){
+      if(!p) return "free";
+      p = String(p).toLowerCase();
+      return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+    }
+
+    function readPlan(){
+      try{
+        const fromKey = localStorage.getItem(PLAN_KEY);
+        if(fromKey) return normalizePlan(fromKey);
+        const rawUser = localStorage.getItem("miniLuminaUser");
+        if(rawUser){
+          const u = JSON.parse(rawUser);
+          if(u && u.plan) return normalizePlan(u.plan);
+        }
+      }catch(e){}
+      return "free";
+    }
+
+    const plan = readPlan();
+
+    // Badge: exakt im Format + Reihenfolge
+    const badge =
+      plan === "plus" ? "DEMO · PLUS Tarif" :
+      plan === "premium" ? "DEMO · PREMIUM Tarif" :
+      "DEMO · FREE Tarif";
+
+    const crumb = document.getElementById("crumbPlan");
+    if(crumb) crumb.textContent = badge;
+
+    // Footer note (leicht je Tarif)
+    const footNote = document.getElementById("footNote");
+    if(footNote){
+      if(plan === "free"){
+        footNote.textContent = "In FREE bekommst du einen Diät-Himmel – wenig Platz zum Ausprobieren. Export ist gesperrt.";
+      }else if(plan === "plus"){
+        footNote.textContent = "PLUS: ein Himmel, über den man reden kann — und ein Demo-Datenexport.";
+      }else{
+        footNote.textContent = "PREMIUM: wirklich viel Himmel und ein Demo-Export. Hier kannst du nahezu unbegrenzt gestalten.";
+      }
+    }
+
+    // Label styling per tarif
+    const cls =
+      plan === "free" ? "cloud-label--free" :
+      plan === "plus" ? "cloud-label--plus" : "cloud-label--prem";
+
+    ["lblMain","lblArc","lblPrae","lblCfg","lblBag"].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.classList.add(cls);
+    });
+
+    // Lock visibility
+    const exportLock = document.getElementById("exportLock");
+    if(plan !== "free" && exportLock) exportLock.style.display = "none";
+
+    // Percent + meters (demo logic like old)
+    const R = {
+      free:    { overall: 28, prae: 28, arc: 28, cfg: 28, label: "FREE – Diät-Himmel" },
+      plus:    { overall: 48, prae: 64, arc: 64, cfg: 64, label: "PLUS – ein Himmel, über den man reden kann" },
+      premium: { overall: 62, prae: 88, arc: 88, cfg: 88, label: "PREMIUM – wirklich viel Himmel" }
+    };
+    const cfg = R[plan] || R.free;
+
+    function setFill(el, kind){
+      if(!el) return;
+      el.classList.remove("free","plus","premium");
+      el.classList.add(kind);
+    }
+
+    // Pills in modals
+    function setPills(containerId){
+      const c = document.getElementById(containerId);
+      if(!c) return;
+      c.innerHTML = "";
+      const p = document.createElement("span");
+      p.className = "pill";
+      p.textContent = cfg.label;
+      c.appendChild(p);
+    }
+    setPills("mainPills");
+    setPills("arcPills");
+    setPills("praePills");
+    setPills("cfgPills");
+
+    // Main modal values
+    const mainPercent = document.getElementById("mainPercent");
+    if(mainPercent) mainPercent.textContent = cfg.overall + " %";
+    setFill(document.getElementById("mainMeter"), plan);
+
+    // Section bars in main modal
+    setFill(document.getElementById("meterPrae"), plan);
+    setFill(document.getElementById("meterArc"), plan);
+    setFill(document.getElementById("meterCfg"), plan);
+
+    const txtPraePct = document.getElementById("txtPraePct");
+    const txtArcPct  = document.getElementById("txtArcPct");
+    const txtCfgPct  = document.getElementById("txtCfgPct");
+    if(txtPraePct) txtPraePct.textContent = (plan === "free" ? "28 %" : plan === "plus" ? "64 %" : "88 %");
+    if(txtArcPct)  txtArcPct.textContent  = (plan === "free" ? "28 %" : plan === "plus" ? "64 %" : "88 %");
+    if(txtCfgPct)  txtCfgPct.textContent  = (plan === "free" ? "28 %" : plan === "plus" ? "64 %" : "88 %");
+
+    // Section modal values
+    const arcPercent = document.getElementById("arcPercent");
+    const praePercent = document.getElementById("praePercent");
+    const cfgPercent = document.getElementById("cfgPercent");
+    const sectionPct = (plan === "free" ? 28 : plan === "plus" ? 64 : 88);
+
+    if(arcPercent) arcPercent.textContent = sectionPct + " %";
+    if(praePercent) praePercent.textContent = sectionPct + " %";
+    if(cfgPercent) cfgPercent.textContent = sectionPct + " %";
+
+    setFill(document.getElementById("arcMeter"), plan);
+    setFill(document.getElementById("praeMeter"), plan);
+    setFill(document.getElementById("cfgMeter"), plan);
+
+    /* MODALS open/close */
+    function openModal(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.add("is-open");
+    }
+    function closeModal(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.classList.remove("is-open");
+    }
+
+    // Main cloud -> main modal
+    const btnMainCloud = document.getElementById("btnMainCloud");
+    if(btnMainCloud) btnMainCloud.addEventListener("click", ()=>openModal("modalMain"));
+
+    // Triple opens
+    document.querySelectorAll("[data-open]").forEach(el=>{
+      el.addEventListener("click", (e)=>{
+        const id = el.getAttribute("data-open");
+        if(id) openModal(id);
+        e.stopPropagation();
+      });
+      // keyboard for mini-stair divs
+      el.addEventListener("keydown", (e)=>{
+        if(e.key === "Enter" || e.key === " "){
+          const id = el.getAttribute("data-open");
+          if(id) openModal(id);
+        }
+      });
+    });
+
+    // Backpack click
+    const btnBackpack = document.getElementById("btnBackpack");
+    if(btnBackpack){
+      btnBackpack.addEventListener("click", ()=>{
+        if(plan === "free") openModal("modalExportBlocked");
+        else openModal("modalExport");
+      });
+    }
+
+    // Close buttons
+    document.querySelectorAll(".ms-modal-close").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const id = btn.getAttribute("data-close");
+        if(id) closeModal(id);
+      });
+    });
+
+    // Click outside closes
+    document.querySelectorAll(".ms-modal-backdrop").forEach(back=>{
+      back.addEventListener("click", (e)=>{
+        if(e.target === back) back.classList.remove("is-open");
+      });
+    });
+
+    // ESC closes all
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape"){
+        document.querySelectorAll(".ms-modal-backdrop.is-open")
+          .forEach(m=>m.classList.remove("is-open"));
+      }
+    });
+
+    /* EXPORT (same behavior, smaller) */
+    const suitcaseImg   = document.getElementById("suitcaseImg");
+    const exportIcons   = document.getElementById("exportIcons");
+    const exportNote    = document.getElementById("exportNote");
+    const exportWarning = document.getElementById("exportWarning");
+
+    let suitcaseOpen = false;
+
+    if(exportWarning){
+      exportWarning.textContent =
+        (plan === "plus" || plan === "premium")
+          ? "Die Datei wird heruntergeladen, aber die Daten sind fiktiv — nur eine Struktur-Demo."
+          : "FREE: Export ist gesperrt.";
+    }
+
+    if(suitcaseImg){
+      suitcaseImg.addEventListener("click", ()=>{
+        suitcaseOpen = !suitcaseOpen;
+        suitcaseImg.src = suitcaseOpen ? "export-open.png" : "export-closed.png";
+        if(exportIcons) exportIcons.classList.toggle("is-visible", suitcaseOpen);
+
+        if(exportNote){
+          exportNote.textContent = suitcaseOpen
+            ? "Koffer geöffnet. Unten kannst du den Export des Datenpakets starten."
+            : "Koffer geschlossen. Öffne ihn, um die Export-Ausrüstung zu sehen.";
+        }
+      });
+    }
+
+    /* Download modal */
+    const btnExportData      = document.getElementById("btnExportData");
+    const modalDownload      = document.getElementById("modalDownload");
+    const jsonPreview        = document.getElementById("jsonPreview");
+    const dlLead             = document.getElementById("dlLead");
+    const btnConfirmDownload = document.getElementById("btnConfirmDownload");
+    const toast              = document.getElementById("toastExport");
+
+    let currentDownload = null;
+
+    function showToast(){
+      if(!toast) return;
+      toast.classList.add("is-visible");
+      setTimeout(()=>toast.classList.remove("is-visible"), 4200);
+    }
+
+    function openDownloadModal(payload){
+      currentDownload = payload;
+      if(dlLead) dlLead.textContent = payload.lead;
+      if(jsonPreview) jsonPreview.textContent = payload.preview;
+      if(modalDownload) modalDownload.classList.add("is-open");
+    }
+
+    function demoJsonExport(){
+      const now = new Date();
+      const data = {
+        type: "MemorySkyDemoExport",
+        tarif: plan.toUpperCase(),
+        created_at: now.toISOString(),
+        human_time: now.toLocaleString("de-DE"),
+        summary: {
+          chronica_days: 42,
+          sigma_rituals_active: plan === "premium" ? 9 : 4,
+          proiecta_projects: plan === "free" ? 1 : (plan === "plus" ? 4 : 7)
+        },
+        sections: [
+          { id:"chronica", label:"Chronica", demo: ["Einträge", "Meilensteine", "Momente"] },
+          { id:"sigma",    label:"Sigma",    demo: ["Rituale", "Erinnerungen", "Tagesrhythmus"] },
+          { id:"proiecta", label:"Proiecta", demo: ["Projekte", "Missionen", "Arbeitsbereich"] },
+          { id:"arcana",   label:"Arcana",   demo: ["Tresor – Vorschau", "keine sensiblen Daten"] },
+          { id:"config",   label:"Configuratio", demo: ["Profil", "Ton", "Software"] }
+        ],
+        note: "Alle Daten sind fiktiv — Vorschau eines zukünftigen Exports."
+      };
+
+      const text = JSON.stringify(data, null, 2);
+      return {
+        filename: "memorysky-demo-export.json",
+        mime: "application/json",
+        preview: text,
+        lead: "Export-Vorschau (DEMO) — klicke unten, um die Datei herunterzuladen.",
+        content: text
+      };
+    }
+
+    if(btnExportData){
+      btnExportData.addEventListener("click", ()=>{
+        const payload = demoJsonExport();
+        openDownloadModal(payload);
+      });
+    }
+
+    if(btnConfirmDownload){
+      btnConfirmDownload.addEventListener("click", ()=>{
+        if(!currentDownload) return;
+        try{
+          const blob = new Blob([currentDownload.content], {type: currentDownload.mime});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = currentDownload.filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(()=>URL.revokeObjectURL(url), 800);
+          showToast();
+        }catch(e){}
+      });
+    }
+  </script>
+</body>
+</html>

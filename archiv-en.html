@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root {
+      /* warmer, archival background */
+      --bg: radial-gradient(circle at 0% 0%, #3b2414, #120805 50%, #050308 100%);
+      --card: rgba(24, 16, 10, 0.96);
+      --cardSoft: rgba(19, 13, 9, 0.96);
+      --border: rgba(255, 215, 180, 0.12);
+      --ink: rgba(255, 247, 232, 0.96);
+      --muted: rgba(240, 220, 200, 0.78);
+      --accent: #e7b75a;
+      --accentSoft: rgba(231, 183, 90, 0.16);
+      --pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 24px 14px;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1120px;
+      min-height: 0;
+      background:
+        radial-gradient(circle at 0 0,
+          rgba(148, 104, 52, 0.25),
+          transparent 60%)
+        rgba(14, 9, 6, 0.97);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 235, 210, 0.12);
+      box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(0, 0, 0, 0.5);
+      padding: 18px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 235, 210, 0.2);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%,
+          #ffe9a8,
+          #f5b24b 48%,
+          #8a5020 100%);
+      box-shadow:
+        0 0 28px rgba(255, 214, 127, 0.95),
+        0 0 40px rgba(120, 78, 32, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 13px;
+    }
+
+    .title b {
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .title span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .back-link {
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 235, 210, 0.5);
+      background: rgba(18, 10, 6, 0.9);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-link:hover {
+      background: rgba(32, 20, 12, 0.98);
+    }
+
+    main {
+      flex: 1;
+      padding-top: 18px;
+      padding-bottom: 6px;
+      min-height: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 18px 18px 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .intro-kicker {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(20px, 2.2vw, 24px);
+    }
+
+    .intro-text {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 2px 0 8px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 235, 210, 0.35);
+      background: rgba(40, 24, 12, 0.7);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(231, 183, 90, 0.95);
+      margin-top: 4px;
+    }
+
+    .section-text {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+
+    .list {
+      margin: 4px 0 6px;
+      padding-left: 16px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .list li {
+      margin-bottom: 4px;
+    }
+
+    .note {
+      margin-top: 4px;
+      font-size: 11px;
+      color: rgba(255, 236, 210, 0.9);
+      border-left: 2px solid rgba(231, 183, 90, 0.9);
+      padding-left: 8px;
+    }
+
+    /* plan banner */
+    .plan-banner {
+      margin-top: 6px;
+      padding: 10px 11px 9px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 235, 210, 0.4);
+      background:
+        radial-gradient(circle at 0 0,
+          rgba(255, 244, 210, 0.18),
+          rgba(32, 18, 10, 0.98));
+      font-size: 11.5px;
+      line-height: 1.55;
+    }
+
+    .plan-label {
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: 10px;
+      color: rgba(255, 240, 215, 0.9);
+      margin-bottom: 2px;
+    }
+
+    .plan-name {
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .plan-name span {
+      opacity: .7;
+      font-weight: 400;
+      letter-spacing: .12em;
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .office-card {
+      flex: 1;
+      min-height: 0;
+      background: var(--cardSoft);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ✅ ENLARGED */
+    .office-image {
+      position: relative;
+      padding-top: 76%;
+      background-image: url("office.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-bottom: 1px solid rgba(255, 235, 210, 0.25);
+      background-color: #120b07;
+    }
+
+    .office-image::after {
+      content: "Sample archive office";
+      position: absolute;
+      left: 12px;
+      bottom: 10px;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(8, 4, 2, 0.86);
+      color: rgba(255, 244, 225, 0.95);
+      border: 1px solid rgba(255, 235, 210, 0.4);
+    }
+
+    .office-body {
+      padding: 14px 14px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .office-body b {
+      color: var(--ink);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .lm-pill-btn.lm-pill-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 12px;
+      border-radius: var(--pill);
+      border: 1px solid rgba(231, 183, 90, 0.9);
+      background: radial-gradient(circle at 20% 0,
+          rgba(255, 244, 210, 0.16),
+          rgba(53, 30, 9, 0.96));
+      color: #fff5d8;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lm-pill-btn.lm-pill-primary:hover {
+      box-shadow:
+        0 0 28px rgba(231, 183, 90, 0.55),
+        0 0 0 1px rgba(231, 183, 90, 0.85);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 11px;
+      border-radius: var(--pill);
+      border: 1px dashed rgba(255, 235, 210, 0.7);
+      background: rgba(18, 10, 6, 0.9);
+      color: var(--muted);
+      font-size: 11px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-ghost span {
+      font-size: 14px;
+    }
+
+    /* toasts */
+    .demo-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%) translateY(20px);
+      max-width: 460px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at top left,
+          rgba(255, 236, 210, 0.22),
+          transparent 55%),
+        rgba(18, 10, 6, 0.98);
+      border: 1px solid rgba(255, 235, 210, 0.7);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(18px);
+      color: #fff7eb;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 9999;
+    }
+
+    .demo-toast.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .demo-toast-icon {
+      font-size: 1.2rem;
+      margin-top: 2px;
+    }
+
+    .demo-toast strong {
+      color: #ffe28a;
+    }
+
+    .demo-toast-close {
+      margin-left: auto;
+      border: none;
+      background: transparent;
+      color: #ffe6b3;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .demo-toast-close:hover {
+      color: #ffffff;
+    }
+
+    .lumina-frame {
+      margin-top: 4px;
+      padding: 10px 11px 9px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 235, 210, 0.6);
+      background: radial-gradient(circle at 0 0,
+          rgba(255, 236, 210, 0.18),
+          rgba(26, 14, 8, 0.98));
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .lumina-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 0 26px rgba(255, 236, 210, 0.9);
+    }
+
+    .lumina-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lumina-frame h2 {
+      margin: 0 0 2px;
+      font-size: 12px;
+    }
+
+    .lumina-frame p {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    footer {
+      padding-top: 12px;
+      margin-top: 8px;
+      border-top: 1px solid rgba(255, 235, 210, 0.25);
+      font-size: 11px;
+      color: rgba(255, 236, 210, 0.9);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .foot-left {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .foot-right {
+      opacity: 0.9;
+    }
+
+    /* ✅ MODAL for FREE export */
+    .lm-modal {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.62);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+      z-index: 10000;
+    }
+
+    .lm-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lm-modal-card {
+      width: min(520px, 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 235, 210, 0.22);
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 244, 210, 0.16), transparent 55%),
+        rgba(14, 9, 6, 0.98);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.88);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lm-modal-head {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid rgba(255, 235, 210, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .lm-modal-title {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255, 236, 210, 0.9);
+    }
+
+    .lm-modal-close {
+      border: 1px solid rgba(255, 235, 210, 0.45);
+      background: rgba(18, 10, 6, 0.8);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .lm-modal-close:hover {
+      background: rgba(32, 20, 12, 0.98);
+    }
+
+    .lm-modal-body {
+      padding: 14px 14px 14px;
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .lm-modal-paper {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 235, 210, 0.18);
+      background:
+        radial-gradient(circle at 50% 40%, rgba(0,0,0,0) 0, rgba(0,0,0,0.18) 100%),
+        rgba(12, 7, 4, 0.8);
+      overflow: hidden;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.75);
+    }
+
+    .lm-modal-paper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.02) contrast(1.06);
+      opacity: 0.95;
+    }
+
+    .lm-modal-text h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      letter-spacing: .02em;
+    }
+
+    .lm-modal-text p {
+      margin: 0 0 10px;
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .lm-modal-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .lm-mini-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 235, 210, 0.35);
+      background: rgba(40, 24, 12, 0.7);
+      font-size: 11px;
+      color: rgba(255, 236, 210, 0.92);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lm-mini-pill.primary {
+      border-color: rgba(231, 183, 90, 0.9);
+      background: radial-gradient(circle at 20% 0,
+          rgba(255, 244, 210, 0.16),
+          rgba(53, 30, 9, 0.96));
+      color: #fff5d8;
+    }
+
+    @media (max-width: 880px) {
+      body {
+        padding: 14px 10px;
+      }
+
+      .wrap {
+        padding: 14px 14px 12px;
+        border-radius: 18px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      /* ✅ ENLARGED also on mobile */
+      .office-image {
+        padding-top: 84%;
+      }
+
+      .lm-modal-body {
+        grid-template-columns: 120px minmax(0, 1fr);
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 420px){
+      .lm-modal-body {
+        grid-template-columns: 1fr;
+      }
+      .lm-modal-paper{
+        max-width: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="mark">🗄</div>
+        <div class="title">
+          <b>LuminaMemory™</b>
+          <span>Life Mission Archive™</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <a class="back-link" href="nastaveni-en.html">← Back to office</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="layout">
+        <!-- Left panel – explanation -->
+        <section class="panel">
+          <div class="intro-kicker">WHERE YOU ARE</div>
+          <h1>Life Mission Archive™ – backups of your world</h1>
+          <p class="intro-text">
+            This isn’t a regular “settings export”. Life Mission Archive™ is a place where,
+            with one click, you save <strong>the story of your world</strong> — journals, rituals,
+            projects, notes, your missions. So you can take it and move elsewhere
+            — calmly, with your head held high.
+          </p>
+
+          <div class="pill-row">
+            <div class="pill">Readable PDF and a data package (in the full version)</div>
+            <div class="pill">For your lawyer, accountant, and a “go-bag”</div>
+            <div class="pill">DEMO: sample scenario only, no real data</div>
+          </div>
+
+          <!-- plan banner -->
+          <div class="plan-banner" id="planBanner">
+            <div class="plan-label">Current plan</div>
+            <div class="plan-name" id="planName">DEMO · FREE tarif</div>
+            <div id="planText">
+              On the FREE tarif, Life Mission Archive™ is currently only a sample office.
+              No real backups are created — but you can preview what export will look like.
+            </div>
+          </div>
+
+          <div class="tag">1 · What will be backed up later</div>
+          <p class="section-text">
+            In the full version, this will eventually include:
+          </p>
+          <ul class="list">
+            <li><strong>Chronica</strong> – selection of key entries and milestones.</li>
+            <li><strong>Sigma</strong> – core rituals, habits, and reminders.</li>
+            <li><strong>Proiecta</strong> – projects, plans, creative sketches.</li>
+            <li><strong>Arcana</strong> – links to the vault (without exposing sensitive data).</li>
+            <li><strong>World settings</strong> – how Lumina speaks to you, your plan, and how much MemorySky™ you have available.</li>
+          </ul>
+
+          <p class="section-text">
+            The goal is that one day you can decide: <em>“Do I want to move this whole world elsewhere,
+              or just store it in a drawer as a chronicle of one season?”</em>
+          </p>
+
+          <div class="tag">2 · What the sample backup looks like (DEMO)</div>
+          <p class="section-text">
+            In this DEMO version, I’m offering only a <strong>sample document</strong> —
+            a fictional “Soul Backup 001”. It looks like what your export could one day be:
+            for you, your lawyer, your therapist, or simply a binder titled
+            “This is who I was”.
+          </p>
+
+          <p class="section-text">
+            You’ll see structured chapters, mission summaries, a list of rituals,
+            and a project overview. No real data is backed up from the DEMO version
+            or sent anywhere — it’s just a <strong>paper mock-up</strong>.
+          </p>
+
+          <div class="note">
+            In the full version, you’ll be able to export both a <strong>readable PDF</strong>
+            and a <strong>machine-readable data package</strong> that can be connected to other systems
+            or archived with a notary.
+          </div>
+        </section>
+
+        <!-- Right panel – office + buttons -->
+        <section class="side">
+          <div class="office-card">
+            <div class="office-image"></div>
+            <div class="office-body">
+              <b>Archive office</b>
+              <p class="section-text">
+                Imagine this room as a small office behind the scenes of a temple:
+                a wooden desk, an old phone, a drawer full of folders, and cobwebs
+                that appear only where everything is already safely stored.
+              </p>
+
+              <p class="section-text">
+                This is not where emotions or drama are handled — this is where we
+                <strong>count, sort, and sign</strong>. Clearly, calmly, without tech dread.
+              </p>
+
+              <div class="btn-row">
+                <a id="openPdfWindow"
+                  href="backup-en.pdf"
+                  class="lm-pill-btn lm-pill-primary">
+                  Open sample backup (PDF)
+                </a>
+                <button type="button" class="btn-ghost" onclick="showInfoToast()">
+                  <span>ℹ️</span> What will the real export look like?
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lumina-frame">
+            <div class="lumina-avatar">
+              <img src="avatar.png" alt="Lumina">
+            </div>
+            <div>
+              <h2>How to use this right now</h2>
+              <p>
+                At this stage, treat Life Mission Archive™ more as a <strong>vision</strong>
+                than a finished feature. You can review the sample document, think through
+                which chapters you’d want in your real backup one day, and then we can tune together
+                what your world should contain.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="foot-left">
+        <span>📦 Life Mission Archive™ · DEMO</span>
+        <span>Export of real data: for now <strong>in preparation</strong>.</span>
+      </div>
+      <div class="foot-right">
+        LuminaMemory™ · Mission LIVE™ · 2025
+      </div>
+    </footer>
+  </div>
+
+  <!-- Demo toast component -->
+  <div class="demo-toast" id="demoToast">
+    <div class="demo-toast-icon">💾</div>
+    <div>
+      <strong>DEMO version</strong><br>
+      At this stage you’re downloading only the sample document <code>backup-en.pdf</code> —
+      the real smart export will come in the full version.
+    </div>
+    <button class="demo-toast-close" type="button" onclick="hideDemoToast()">✕</button>
+  </div>
+
+  <!-- Info toast component -->
+  <div class="demo-toast" id="infoToast">
+    <div class="demo-toast-icon">ℹ️</div>
+    <div>
+      <strong>Info</strong><br>
+      In DEMO we don’t create a real export yet — only a sample document <code>backup-en.pdf</code> 😊
+    </div>
+    <button class="demo-toast-close" type="button" onclick="hideInfoToast()">✕</button>
+  </div>
+
+  <!-- ✅ Modal: FREE export block -->
+  <div class="lm-modal" id="exportModal" aria-hidden="true">
+    <div class="lm-modal-card" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
+      <div class="lm-modal-head">
+        <div class="lm-modal-title" id="exportModalTitle">Export to PDF</div>
+        <button class="lm-modal-close" type="button" onclick="closeExportModal()">✕</button>
+      </div>
+
+      <div class="lm-modal-body">
+        <div class="lm-modal-paper" aria-hidden="true">
+          <img src="backup.png" alt="">
+        </div>
+
+        <div class="lm-modal-text">
+          <h3>On the FREE tarif, export isn’t available</h3>
+          <p>
+            On the <strong>FREE</strong> plan, Life Mission Archive™ is just a preview.
+            Real backups and PDF export are not generated.
+          </p>
+          <p>
+            In the full version, export will require <strong>PLUS</strong> or <strong>PREMIUM</strong>.
+          </p>
+
+          <div class="lm-modal-actions">
+            <button class="lm-mini-pill" type="button" onclick="closeExportModal()">Got it</button>
+            <a class="lm-mini-pill primary" href="nastaveni-en.html">Check subscription</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // read plan from localStorage
+    (function () {
+      const PLAN_KEY = "lm_plan";
+
+      function normalizePlan(p) {
+        if (!p) return "free";
+        p = String(p).toLowerCase();
+        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+      }
+
+      function readPlan() {
+        try {
+          const fromKey = localStorage.getItem(PLAN_KEY);
+          if (fromKey) return normalizePlan(fromKey);
+
+          const rawUser = localStorage.getItem("miniLuminaUser");
+          if (rawUser) {
+            const user = JSON.parse(rawUser);
+            if (user && user.plan) return normalizePlan(user.plan);
+          }
+        } catch (e) {}
+        return "free";
+      }
+
+      const plan = readPlan();
+      window.LM_PLAN = plan; // ✅ for click handler
+
+      const planNameEl = document.getElementById("planName");
+      const planTextEl = document.getElementById("planText");
+
+      const labelMap = {
+        free: "FREE tarif",
+        plus: "PLUS tarif",
+        premium: "PREMIUM tarif"
+      };
+
+      const currentLabel = labelMap[plan] || "FREE plan";
+
+      if (planNameEl) {
+        planNameEl.textContent = "DEMO · " + currentLabel;
+      }
+
+      if (planTextEl) {
+        if (plan === "free") {
+          planTextEl.innerHTML =
+            'On the FREE tarif, Life Mission Archive™ is just a sample office. ' +
+            'No backups are created.';
+        } else if (plan === "plus") {
+          planTextEl.innerHTML =
+            'On the PLUS tarif, in the full version you would have <strong>scheduled backups</strong> ' +
+            '(for example, once a month).';
+        } else if (plan === "premium") {
+          planTextEl.innerHTML =
+            'On the PREMIUM tarif, you’d get everything from PLUS and also the option to run ' +
+            '<strong>an on-demand backup anytime</strong>. ' +
+            'This logic is being prepared for the full version — here it’s only a preview.';
+        }
+      }
+
+      // ✅ FREE: clicking PDF opens modal (kept from original logic)
+      const dl = document.getElementById("downloadPdf");
+      if (dl) {
+        dl.addEventListener("click", function (e) {
+          if ((window.LM_PLAN || "free") === "free") {
+            e.preventDefault();
+            openExportModal();
+          }
+        });
+      }
+
+      // ESC closes modal
+      document.addEventListener("keydown", function(e){
+        if (e.key === "Escape") closeExportModal();
+      });
+    })();
+
+    function showDemoToast() {
+      const el = document.getElementById('demoToast');
+      el.classList.add('is-visible');
+      setTimeout(() => el.classList.remove('is-visible'), 7000);
+    }
+
+    function hideDemoToast() {
+      document.getElementById('demoToast').classList.remove('is-visible');
+    }
+
+    function showInfoToast() {
+      const el = document.getElementById('infoToast');
+      el.classList.add('is-visible');
+      setTimeout(() => el.classList.remove('is-visible'), 7000);
+    }
+
+    function hideInfoToast() {
+      document.getElementById('infoToast').classList.remove('is-visible');
+    }
+
+    function openExportModal(){
+      const m = document.getElementById("exportModal");
+      if(!m) return;
+      m.classList.add("is-open");
+      m.setAttribute("aria-hidden","false");
+      // click on backdrop closes
+      m.addEventListener("click", backdropCloseOnce);
+    }
+
+    function closeExportModal(){
+      const m = document.getElementById("exportModal");
+      if(!m) return;
+      m.classList.remove("is-open");
+      m.setAttribute("aria-hidden","true");
+      m.removeEventListener("click", backdropCloseOnce);
+    }
+
+    function backdropCloseOnce(e){
+      if(e.target && e.target.id === "exportModal"){
+        closeExportModal();
+      }
+    }
+
+    document.getElementById("openPdfWindow")?.addEventListener("click", function(e){
+      e.preventDefault();
+
+      // FREE stays blocked by modal
+      const plan = (window.LM_PLAN || "free");
+      if(plan === "free"){
+        openExportModal();
+        return;
+      }
+
+      // open in new window
+      const w = Math.min(1100, window.screen.width - 120);
+      const h = Math.min(820,  window.screen.height - 140);
+      const left = Math.max(30, (window.screen.width - w) / 2);
+      const top  = Math.max(30, (window.screen.height - h) / 2);
+
+      window.open(
+        "backup-en.pdf",
+        "LM_BackupPDF",
+        `popup=yes,width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes`
+      );
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root {
+      /* teplejší, archivní pozadí */
+      --bg: radial-gradient(circle at 0% 0%, #3b2414, #120805 50%, #050308 100%);
+      --card: rgba(24, 16, 10, 0.96);
+      --cardSoft: rgba(19, 13, 9, 0.96);
+      --border: rgba(255, 215, 180, 0.12);
+      --ink: rgba(255, 247, 232, 0.96);
+      --muted: rgba(240, 220, 200, 0.78);
+      --accent: #e7b75a;
+      --accentSoft: rgba(231, 183, 90, 0.16);
+      --pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      padding: 24px 14px;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1120px;
+      min-height: 0;
+      background:
+        radial-gradient(circle at 0 0,
+          rgba(148, 104, 52, 0.25),
+          transparent 60%)
+        rgba(14, 9, 6, 0.97);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 235, 210, 0.12);
+      box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(0, 0, 0, 0.5);
+      padding: 18px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 235, 210, 0.2);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%,
+          #ffe9a8,
+          #f5b24b 48%,
+          #8a5020 100%);
+      box-shadow:
+        0 0 28px rgba(255, 214, 127, 0.95),
+        0 0 40px rgba(120, 78, 32, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 13px;
+    }
+
+    .title b {
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .title span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .back-link {
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 235, 210, 0.5);
+      background: rgba(18, 10, 6, 0.9);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-link:hover {
+      background: rgba(32, 20, 12, 0.98);
+    }
+
+    main {
+      flex: 1;
+      padding-top: 18px;
+      padding-bottom: 6px;
+      min-height: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 18px 18px 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .intro-kicker {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(20px, 2.2vw, 24px);
+    }
+
+    .intro-text {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 2px 0 8px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 235, 210, 0.35);
+      background: rgba(40, 24, 12, 0.7);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(231, 183, 90, 0.95);
+      margin-top: 4px;
+    }
+
+    .section-text {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+
+    .list {
+      margin: 4px 0 6px;
+      padding-left: 16px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .list li {
+      margin-bottom: 4px;
+    }
+
+    .note {
+      margin-top: 4px;
+      font-size: 11px;
+      color: rgba(255, 236, 210, 0.9);
+      border-left: 2px solid rgba(231, 183, 90, 0.9);
+      padding-left: 8px;
+    }
+
+    /* banner s tarifem */
+    .plan-banner {
+      margin-top: 6px;
+      padding: 10px 11px 9px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 235, 210, 0.4);
+      background:
+        radial-gradient(circle at 0 0,
+          rgba(255, 244, 210, 0.18),
+          rgba(32, 18, 10, 0.98));
+      font-size: 11.5px;
+      line-height: 1.55;
+    }
+
+    .plan-label {
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: 10px;
+      color: rgba(255, 240, 215, 0.9);
+      margin-bottom: 2px;
+    }
+
+    .plan-name {
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .plan-name span {
+      opacity: .7;
+      font-weight: 400;
+      letter-spacing: .12em;
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .office-card {
+      flex: 1;
+      min-height: 0;
+      background: var(--cardSoft);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ✅ ZVĚTŠENO */
+    .office-image {
+      position: relative;
+      padding-top: 76%;               /* bylo 58% */
+      background-image: url("office.png");
+      background-size: contain;       /* stále bez ořezu */
+      background-repeat: no-repeat;
+      background-position: center;
+      border-bottom: 1px solid rgba(255, 235, 210, 0.25);
+      background-color: #120b07;
+    }
+
+    .office-image::after {
+      content: "Ukázková kancelář archivu";
+      position: absolute;
+      left: 12px;
+      bottom: 10px;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(8, 4, 2, 0.86);
+      color: rgba(255, 244, 225, 0.95);
+      border: 1px solid rgba(255, 235, 210, 0.4);
+    }
+
+    .office-body {
+      padding: 14px 14px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .office-body b {
+      color: var(--ink);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .lm-pill-btn.lm-pill-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 12px;
+      border-radius: var(--pill);
+      border: 1px solid rgba(231, 183, 90, 0.9);
+      background: radial-gradient(circle at 20% 0,
+          rgba(255, 244, 210, 0.16),
+          rgba(53, 30, 9, 0.96));
+      color: #fff5d8;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lm-pill-btn.lm-pill-primary:hover {
+      box-shadow:
+        0 0 28px rgba(231, 183, 90, 0.55),
+        0 0 0 1px rgba(231, 183, 90, 0.85);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 11px;
+      border-radius: var(--pill);
+      border: 1px dashed rgba(255, 235, 210, 0.7);
+      background: rgba(18, 10, 6, 0.9);
+      color: var(--muted);
+      font-size: 11px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-ghost span {
+      font-size: 14px;
+    }
+
+    /* toasty */
+    .demo-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%) translateY(20px);
+      max-width: 460px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at top left,
+          rgba(255, 236, 210, 0.22),
+          transparent 55%),
+        rgba(18, 10, 6, 0.98);
+      border: 1px solid rgba(255, 235, 210, 0.7);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(18px);
+      color: #fff7eb;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 9999;
+    }
+
+    .demo-toast.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .demo-toast-icon {
+      font-size: 1.2rem;
+      margin-top: 2px;
+    }
+
+    .demo-toast strong {
+      color: #ffe28a;
+    }
+
+    .demo-toast-close {
+      margin-left: auto;
+      border: none;
+      background: transparent;
+      color: #ffe6b3;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .demo-toast-close:hover {
+      color: #ffffff;
+    }
+
+    .lumina-frame {
+      margin-top: 4px;
+      padding: 10px 11px 9px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 235, 210, 0.6);
+      background: radial-gradient(circle at 0 0,
+          rgba(255, 236, 210, 0.18),
+          rgba(26, 14, 8, 0.98));
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .lumina-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 0 26px rgba(255, 236, 210, 0.9);
+    }
+
+    .lumina-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lumina-frame h2 {
+      margin: 0 0 2px;
+      font-size: 12px;
+    }
+
+    .lumina-frame p {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    footer {
+      padding-top: 12px;
+      margin-top: 8px;
+      border-top: 1px solid rgba(255, 235, 210, 0.25);
+      font-size: 11px;
+      color: rgba(255, 236, 210, 0.9);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+    }
+
+    .foot-left {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .foot-right {
+      opacity: 0.9;
+    }
+
+    /* ✅ MODAL pro FREE export */
+    .lm-modal {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.62);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+      z-index: 10000;
+    }
+
+    .lm-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lm-modal-card {
+      width: min(520px, 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 235, 210, 0.22);
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 244, 210, 0.16), transparent 55%),
+        rgba(14, 9, 6, 0.98);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.88);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lm-modal-head {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid rgba(255, 235, 210, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .lm-modal-title {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255, 236, 210, 0.9);
+    }
+
+    .lm-modal-close {
+      border: 1px solid rgba(255, 235, 210, 0.45);
+      background: rgba(18, 10, 6, 0.8);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .lm-modal-close:hover {
+      background: rgba(32, 20, 12, 0.98);
+    }
+
+    .lm-modal-body {
+      padding: 14px 14px 14px;
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .lm-modal-paper {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 235, 210, 0.18);
+      background:
+        radial-gradient(circle at 50% 40%, rgba(0,0,0,0) 0, rgba(0,0,0,0.18) 100%),
+        rgba(12, 7, 4, 0.8);
+      overflow: hidden;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.75);
+    }
+
+    .lm-modal-paper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.02) contrast(1.06);
+      opacity: 0.95;
+    }
+
+    .lm-modal-text h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+      letter-spacing: .02em;
+    }
+
+    .lm-modal-text p {
+      margin: 0 0 10px;
+      font-size: 12px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .lm-modal-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .lm-mini-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 235, 210, 0.35);
+      background: rgba(40, 24, 12, 0.7);
+      font-size: 11px;
+      color: rgba(255, 236, 210, 0.92);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lm-mini-pill.primary {
+      border-color: rgba(231, 183, 90, 0.9);
+      background: radial-gradient(circle at 20% 0,
+          rgba(255, 244, 210, 0.16),
+          rgba(53, 30, 9, 0.96));
+      color: #fff5d8;
+    }
+
+    @media (max-width: 880px) {
+      body {
+        padding: 14px 10px;
+      }
+
+      .wrap {
+        padding: 14px 14px 12px;
+        border-radius: 18px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      /* ✅ ZVĚTŠENO i na mobile */
+      .office-image {
+        padding-top: 84%; /* bylo 64% */
+      }
+
+      .lm-modal-body {
+        grid-template-columns: 120px minmax(0, 1fr);
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 420px){
+      .lm-modal-body {
+        grid-template-columns: 1fr;
+      }
+      .lm-modal-paper{
+        max-width: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="mark">🗄</div>
+        <div class="title">
+          <b>LuminaMemory™</b>
+          <span>Life Mission Archive™</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <a class="back-link" href="nastaveni.html">← Zpět do kanceláře</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="layout">
+        <!-- Levý panel – vysvětlení -->
+        <section class="panel">
+          <div class="intro-kicker">KDE PRÁVĚ JSI</div>
+          <h1>Life Mission Archive™ – zálohy tvého světa</h1>
+          <p class="intro-text">
+            Tohle není obyčejný „export nastavení“. Life Mission Archive™ je místo, kde
+            jedním kliknutím uložíš <strong>příběh svého světa</strong> – deníky, rituály,
+            projekty, poznámky, tvé mise. Tak, abys je mohl(a) vzít a odejít s nimi
+            jinam – v klidu a s hlavou nahoře.
+          </p>
+
+          <div class="pill-row">
+            <div class="pill">Přehledné PDF i datový balíček (v ostré verzi)</div>
+            <div class="pill">Pro advokáta, účetní i „batoh na cestu“</div>
+            <div class="pill">DEMO: jen ukázkový scénář, žádná reálná data</div>
+          </div>
+
+          <!-- banner s napojením na tarif -->
+          <div class="plan-banner" id="planBanner">
+            <div class="plan-label">Aktuální tarif</div>
+            <div class="plan-name" id="planName">DEMO · FREE tarif</div>
+            <div id="planText">
+              V tarifu FREE se z Life Mission Archive™ stává zatím jen ukázková kancelář.
+              Žádné skutečné zálohy se nevytvářejí – můžeš si ale prohlédnout, jak
+              bude export jednou vypadat.
+            </div>
+          </div>
+
+          <div class="tag">1 · Co se jednou bude zálohovat</div>
+          <p class="section-text">
+            V plné verzi se sem jednou budou ukládat:
+          </p>
+          <ul class="list">
+            <li><strong>Chronica</strong> – výběr důležitých zápisů a milníků.</li>
+            <li><strong>Sigma</strong> – klíčové rituály, návyky a připomínky.</li>
+            <li><strong>Proiecta</strong> – projekty, plány, kreativní náčrtky.</li>
+            <li><strong>Arcana</strong> – odkazy na trezor (bez citlivých dat v otevřené podobě).</li>
+            <li><strong>Nastavení světa</strong> – jak s tebou Lumina mluví, jaký máš tarif a jak velké MemorySky™ máš k dispozici.</li>
+          </ul>
+
+          <p class="section-text">
+            Cílem je, aby ses jednou mohl(a) rozhodnout: <em>„Chci celý tenhle svět
+              přenést jinam, nebo jen uložit do šuplíku jako kroniku jednoho období?“</em>
+          </p>
+
+          <div class="tag">2 · Jak vypadá ukázková záloha (DEMO)</div>
+          <p class="section-text">
+            V téhle DEMO verzi ti nabízím jen <strong>ukázkový dokument</strong> –
+            fiktivní „Záloha duše 001“. Vypadá tak, jak by jednou mohl vypadat
+            export pro tebe, tvého právníka, terapeuta nebo prostě pro šanon
+            s názvem „Tohle jsem byl(a) já“.
+          </p>
+
+          <p class="section-text">
+            Uvidíš strukturované kapitoly, shrnutí misí, seznam rituálů a
+            přehled projektů. Žádná skutečná data se z DEMO verze nezálohují
+            ani nikam neposílají – je to jen <strong>papírová maketa</strong>.
+          </p>
+
+          <div class="note">
+            V ostré verzi budeš mít možnost exportovat jak <strong>čitelné PDF</strong>,
+            tak i <strong>strojově čitelný datový balíček</strong>, který půjde
+            napojit na jiné systémy nebo archivovat u notáře.
+          </div>
+        </section>
+
+        <!-- Pravý panel – kancelář + tlačítka -->
+        <section class="side">
+          <div class="office-card">
+            <div class="office-image"></div>
+            <div class="office-body">
+              <b>Archivní kancelář</b>
+              <p class="section-text">
+                Představ si tuhle místnost jako malou kancelář v zákulisí chrámu:
+                dřevěný stůl, starý telefon, šuplík plný složek a pavučiny, které
+                se objevují jen tam, kde je už všechno bezpečně uložené.
+              </p>
+
+              <p class="section-text">
+                Tady se neřeší emoce ani drama – tady se <strong>počítá, třídí
+                  a podepisuje</strong>. Přehledně, klidně, bez technické hrůzy.
+              </p>
+
+              <div class="btn-row">
+               <a id="openPdfWindow"
+                  href="backup.pdf"
+                  class="lm-pill-btn lm-pill-primary">
+                  Otevřít ukázkovou zálohu (PDF)
+                </a>
+                <button type="button" class="btn-ghost" onclick="showInfoToast()">
+                  <span>ℹ️</span> Jak bude vypadat skutečný export?
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lumina-frame">
+            <div class="lumina-avatar">
+              <img src="avatar.png" alt="Lumina">
+            </div>
+            <div>
+              <h2>Jak s tím pracovat teď</h2>
+              <p>
+                V téhle fázi ber Life Mission Archive™ spíš jako <strong>vizi</strong>
+                než hotovou funkci. Můžeš si projít ukázkový dokument, promyslet,
+                jaké kapitoly bys jednou chtěl(a) mít ve své opravdové záloze,
+                a podle toho se mnou ladit, co všechno má tvůj svět obsahovat.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="foot-left">
+        <span>📦 Life Mission Archive™ · DEMO</span>
+        <span>Export reálných dat: zatím <strong>v přípravě</strong>.</span>
+      </div>
+      <div class="foot-right">
+        LuminaMemory™ · Mise ŽIVOT™ · 2025
+      </div>
+    </footer>
+  </div>
+
+  <!-- Demo toast component -->
+  <div class="demo-toast" id="demoToast">
+    <div class="demo-toast-icon">💾</div>
+    <div>
+      <strong>DEMO verze</strong><br>
+      V téhle fázi si stahuješ jen ukázkový dokument <code>backup.pdf</code> –
+      opravdový chytrý export přijde až v ostré verzi.
+    </div>
+    <button class="demo-toast-close" type="button" onclick="hideDemoToast()">✕</button>
+  </div>
+
+  <!-- Info toast component -->
+  <div class="demo-toast" id="infoToast">
+    <div class="demo-toast-icon">ℹ️</div>
+    <div>
+      <strong>Informace</strong><br>
+      V DEMO verzi ještě nevytváříme skutečný export – jen ukázkový dokument <code>backup.pdf</code> 😊
+    </div>
+    <button class="demo-toast-close" type="button" onclick="hideInfoToast()">✕</button>
+  </div>
+
+  <!-- ✅ Modal: FREE export blokace -->
+  <div class="lm-modal" id="exportModal" aria-hidden="true">
+    <div class="lm-modal-card" role="dialog" aria-modal="true" aria-labelledby="exportModalTitle">
+      <div class="lm-modal-head">
+        <div class="lm-modal-title" id="exportModalTitle">Export do PDF</div>
+        <button class="lm-modal-close" type="button" onclick="closeExportModal()">✕</button>
+      </div>
+
+      <div class="lm-modal-body">
+        <div class="lm-modal-paper" aria-hidden="true">
+          <img src="backup.png" alt="">
+        </div>
+
+        <div class="lm-modal-text">
+          <h3>Ve verzi FREE export není možný</h3>
+          <p>
+            V tarifu <strong>FREE</strong> je Life Mission Archive™ jen ukázka.
+            Reálné zálohy ani export do PDF se nevytváří.
+          </p>
+          <p>
+            Pro export bude v ostré verzi potřeba <strong>PLUS</strong> nebo <strong>PREMIUM</strong>.
+          </p>
+
+          <div class="lm-modal-actions">
+            <button class="lm-mini-pill" type="button" onclick="closeExportModal()">Rozumím</button>
+            <a class="lm-mini-pill primary" href="nastaveni.html">Mrknout na předplatné</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // čtení tarifu z localStorage
+    (function () {
+      const PLAN_KEY = "lm_plan";
+
+      function normalizePlan(p) {
+        if (!p) return "free";
+        p = String(p).toLowerCase();
+        return (p === "free" || p === "plus" || p === "premium") ? p : "free";
+      }
+
+      function readPlan() {
+        try {
+          const fromKey = localStorage.getItem(PLAN_KEY);
+          if (fromKey) return normalizePlan(fromKey);
+
+          const rawUser = localStorage.getItem("miniLuminaUser");
+          if (rawUser) {
+            const user = JSON.parse(rawUser);
+            if (user && user.plan) return normalizePlan(user.plan);
+          }
+        } catch (e) {}
+        return "free";
+      }
+
+      const plan = readPlan();
+      window.LM_PLAN = plan; // ✅ aby to šlo použít v click handleru
+
+      const planNameEl = document.getElementById("planName");
+      const planTextEl = document.getElementById("planText");
+
+      const labelMap = {
+        free: "FREE tarif",
+        plus: "PLUS tarif",
+        premium: "PREMIUM tarif"
+      };
+
+      const currentLabel = labelMap[plan] || "FREE tarif";
+
+      if (planNameEl) {
+        planNameEl.textContent = "DEMO · " + currentLabel;
+      }
+
+      if (planTextEl) {
+        if (plan === "free") {
+          planTextEl.innerHTML =
+            'V tarifu FREE se z Life Mission Archive™ stává jen ukázková kancelář. ' +
+            'Žádné zálohy se nevytvářejí.';
+        } else if (plan === "plus") {
+          planTextEl.innerHTML =
+            'V tarifu PLUS by v ostré verzi běžely <strong>pravidelné zálohy podle plánu</strong> ' +
+            '(například jednou měsíčně).';
+        } else if (plan === "premium") {
+          planTextEl.innerHTML =
+            'V tarifu PREMIUM bys měl(a) všechno z PLUS a navíc možnost spustit ' +
+            '<strong>mimořádnou zálohu kdykoli</strong>. ' +
+            'Tahle logika se připravuje pro ostrou verzi – tady je zatím jen výhled.';
+        }
+      }
+
+      // ✅ FREE: klik na PDF otevře modal
+      const dl = document.getElementById("downloadPdf");
+      if (dl) {
+        dl.addEventListener("click", function (e) {
+          if ((window.LM_PLAN || "free") === "free") {
+            e.preventDefault();
+            openExportModal();
+          }
+        });
+      }
+
+      // ESC zavírá modal
+      document.addEventListener("keydown", function(e){
+        if (e.key === "Escape") closeExportModal();
+      });
+    })();
+
+    function showDemoToast() {
+      const el = document.getElementById('demoToast');
+      el.classList.add('is-visible');
+      setTimeout(() => el.classList.remove('is-visible'), 7000);
+    }
+
+    function hideDemoToast() {
+      document.getElementById('demoToast').classList.remove('is-visible');
+    }
+
+    function showInfoToast() {
+      const el = document.getElementById('infoToast');
+      el.classList.add('is-visible');
+      setTimeout(() => el.classList.remove('is-visible'), 7000);
+    }
+
+    function hideInfoToast() {
+      document.getElementById('infoToast').classList.remove('is-visible');
+    }
+
+    function openExportModal(){
+      const m = document.getElementById("exportModal");
+      if(!m) return;
+      m.classList.add("is-open");
+      m.setAttribute("aria-hidden","false");
+      // klik na pozadí zavře
+      m.addEventListener("click", backdropCloseOnce);
+    }
+
+    function closeExportModal(){
+      const m = document.getElementById("exportModal");
+      if(!m) return;
+      m.classList.remove("is-open");
+      m.setAttribute("aria-hidden","true");
+      m.removeEventListener("click", backdropCloseOnce);
+    }
+
+    function backdropCloseOnce(e){
+      if(e.target && e.target.id === "exportModal"){
+        closeExportModal();
+      }
+    }
+
+document.getElementById("openPdfWindow")?.addEventListener("click", function(e){
+  e.preventDefault();
+
+  // FREE si necháš blokované modalem (pokud to chceš stejně jako teď)
+  const plan = (window.LM_PLAN || "free");
+  if(plan === "free"){
+    openExportModal();
+    return;
+  }
+
+  // otevření v novém okně
+  const w = Math.min(1100, window.screen.width - 120);
+  const h = Math.min(820,  window.screen.height - 140);
+  const left = Math.max(30, (window.screen.width - w) / 2);
+  const top  = Math.max(30, (window.screen.height - h) / 2);
+
+  window.open(
+    "backup.pdf",
+    "LM_BackupPDF",
+    `popup=yes,width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes`
+  );
+});
+  </script>
+</body>
+
+</html>
