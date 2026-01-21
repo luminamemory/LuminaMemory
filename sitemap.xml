@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Index -->
+  <url>
+    <loc>https://luminamemory.ai/</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/index-en.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/index-de.html</loc>
+  </url>
+
+  <!-- Manifest: Human + AI -->
+  <url>
+    <loc>https://luminamemory.ai/manifest-human-ai-index.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/manifest-human-ai-index-en.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/manifest-human-ai-index-de.html</loc>
+  </url>
+
+  <!-- Kontakt -->
+  <url>
+    <loc>https://luminamemory.ai/luminamemory-kontakt.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/luminamemory-kontakt-en.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/luminamemory-kontakt-de.html</loc>
+  </url>
+
+  <!-- Support -->
+  <url>
+    <loc>https://luminamemory.ai/support.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/support-en.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/support-de.html</loc>
+  </url>
+
+  <!-- Meditace / Ranní pozdrav -->
+  <url>
+    <loc>https://luminamemory.ai/ranni-pozdrav-final.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/ranni-pozdrav-final-en.html</loc>
+  </url>
+  <url>
+    <loc>https://luminamemory.ai/ranni-pozdrav-final-de.html</loc>
+  </url>
+
+</urlset>

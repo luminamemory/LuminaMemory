@@ -1,0 +1,141 @@
+User-agent: *
+Allow: /
+
+# Sitemap = oficiální veřejné dveře
+Sitemap: https://luminamemory.ai/sitemap.xml
+
+# =========================
+# Internal rooms (do not index)
+# =========================
+
+# Home / entry (internal)
+Disallow: /home
+Disallow: /home.html
+Disallow: /home-en.html
+Disallow: /home-de.html
+
+# Demo login + demo app shell
+Disallow: /mini-login
+Disallow: /mini-login.html
+Disallow: /mini-login-en.html
+Disallow: /mini-login-de.html
+
+Disallow: /lumina-demo
+Disallow: /lumina-demo.html
+Disallow: /lumina-demo-en.html
+Disallow: /lumina-demo-de.html
+
+# Core internal modules
+Disallow: /praetorium
+Disallow: /praetorium.html
+Disallow: /praetorium-en.html
+Disallow: /praetorium-de.html
+
+Disallow: /chronica 
+Disallow: /chronica.html
+Disallow: /chronica-en.html
+Disallow: /chronica-de.html
+
+Disallow: /sigma 
+Disallow: /sigma.html
+Disallow: /sigma-en.html
+Disallow: /sigma-de.html
+
+# Proiecta – dílna
+Disallow: /proiecta
+Disallow: /proiecta.html
+Disallow: /proiecta-en.html
+Disallow: /proiecta-de.html
+
+# Proiecta – projektové místnosti / TV stěna
+Disallow: /proiecta-projekty
+Disallow: /proiecta-projekty.html
+Disallow: /proiecta-projekty-en.html
+Disallow: /proiecta-projekty-de.html
+
+# Mapa výprav
+Disallow: /map
+Disallow: /map.html
+Disallow: /map-en.html
+Disallow: /map-de.html
+
+# Artifacts / internal docs (if kept internal)
+Disallow: /galerie
+Disallow: /galerie.html
+Disallow: /galerie-en.html
+Disallow: /galerie-de.html
+
+# Arcana – hala (internal)
+Disallow: /arcana
+Disallow: /arcana.html
+Disallow: /arcana-en.html
+Disallow: /arcana-de.html
+
+Disallow: /arcana-hala
+Disallow: /arcana-hala.html
+Disallow: /arcana-hala-en.html
+Disallow: /arcana-hala-de.html
+
+# Settings – internal rooms
+Disallow: /nastaveni
+Disallow: /nastaveni.html
+Disallow: /nastaveni-en.html
+Disallow: /nastaveni-de.html
+
+Disallow: /lumina-pruvodce
+Disallow: /lumina-pruvodce.html
+Disallow: /lumina-pruvodce-en.html
+Disallow: /lumina-pruvodce-de.html
+
+Disallow: /manifest-nastenka
+Disallow: /manifest-nastenka.html
+Disallow: /manifest-nastenka-en.html
+Disallow: /manifest-nastenka-de.html
+
+# Manifesty a nástěnka – interní verze (pokud je nechceš indexovat)
+Disallow: /manifest.html
+Disallow: /manifest-en.html
+Disallow: /manifest-de.html
+Disallow: /manifest-human-ai.html
+Disallow: /manifest-human-ai-en.html
+Disallow: /manifest-human-ai-de.html
+
+Disallow: /profil
+Disallow: /profil.html
+Disallow: /profil-en.html
+Disallow: /profil-de.html
+
+Disallow: /lumina-komnata
+Disallow: /lumina-komnata.html
+Disallow: /lumina-komnata-en.html
+Disallow: /lumina-komnata-de.html
+
+Disallow: /predplatne
+Disallow: /predplatne.html
+Disallow: /predplatne-en.html
+Disallow: /predplatne-de.html
+
+Disallow: /rosezone
+Disallow: /rosezone.html
+Disallow: /rosezone-en.html
+Disallow: /rosezone-de.html
+
+Disallow: /inventory
+Disallow: /inventory.html
+Disallow: /inventory-en.html
+Disallow: /inventory-de.html
+
+Disallow: /archiv
+Disallow: /archiv.html
+Disallow: /archiv-en.html
+Disallow: /archiv-de.html
+
+Disallow: /memorysky
+Disallow: /memorysky.html
+Disallow: /memorysky-en.html
+Disallow: /memorysky-de.html
+
+Disallow: /your-sky
+Disallow: /your-sky.html
+Disallow: /your-sky-en.html
+Disallow: /your-sky-de.html
