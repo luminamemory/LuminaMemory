@@ -1,0 +1,2282 @@
+<!doctype html>
+<html lang="de">
+<head>  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+  :root{
+    --bg: #050015;
+    --surface: rgba(8, 1, 24, 0.96);
+    --surface-soft: rgba(15, 4, 40, 0.9);
+    --panel: rgba(255,255,255,.06);
+    --panel2: rgba(255,255,255,.08);
+    --stroke: rgba(255,255,255,.14);
+    --text: rgba(255,255,255,.92);
+    --muted: rgba(255,255,255,.62);
+    --muted2: rgba(255,255,255,.45);
+    --accent:#b38cff;
+    --accent2:#7f5cff;
+    --ok:#78ffbf;
+    --warn:#ffd27a;
+    --danger:#ff7a7a;
+    --shadow: 0 18px 60px rgba(0,0,0,.45);
+    --radius:18px;
+    --radius2:26px;
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  }
+
+  html, body{ height:100%; }
+
+  body{
+    margin:0;
+    font-family:var(--font);
+    color:var(--text);
+
+    background:
+      radial-gradient(1200px 760px at 12% 0%, rgba(184,146,255,.18), transparent 60%),
+      radial-gradient(980px 700px at 88% 0%, rgba(214,170,255,.12), transparent 62%),
+      radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.55), transparent 62%),
+      linear-gradient(180deg, #050015 0%, #0d0322 42%, #050015 100%);
+    background-attachment: fixed;
+  }
+
+  /* musí být mimo body{} */
+  body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(1200px 760px at 12% 0%, rgba(184,146,255,.10), transparent 60%),
+      radial-gradient(980px 700px at 88% 0%, rgba(214,170,255,.07), transparent 62%),
+      radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.28), transparent 62%);
+    pointer-events:none;
+    z-index:-2;
+  }
+
+  body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    /* sem vrať své svg noise, pokud ho používáš */
+    pointer-events:none;
+    z-index:-1;
+  }
+
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:18px 16px 26px;
+  }
+
+  /* Top bar */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:14px 16px;
+    border:1px solid var(--stroke);
+    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    border-radius:999px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:0;
+  }
+  .webglow{
+    font-size:16px;
+    line-height:1;
+    transform: translateY(1px);
+    filter: drop-shadow(0 0 6px rgba(179,140,255,.35));
+    text-shadow:
+      0 0 10px rgba(179,140,255,.35),
+      0 0 18px rgba(255,255,255,.18);
+    opacity:.95;
+  }
+  .brand-title{
+    font-weight:800;
+    letter-spacing:.2px;
+    white-space:nowrap;
+  }
+  .brand-sub{
+    margin-left:10px;
+    font-weight:700;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  .logout{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 14px;
+    border-radius:999px;
+    border:1px solid var(--stroke);
+    background: rgba(0,0,0,.12);
+    color:var(--text);
+    text-decoration:none;
+    font-weight:800;
+  }
+  .logout:hover{ border-color: rgba(179,140,255,.35); }
+
+  /* =========================
+     Lumina Pick (custom dropdown / panel)
+     ========================= */
+  .lumina-pick{ position:relative; width:100%; }
+
+  .lumina-pick__btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:12px 14px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(20,16,32,.55);
+    color: rgba(255,255,255,.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+
+  .lumina-pick__btn:focus{
+    outline:none;
+    border-color: rgba(160,120,255,.55);
+    box-shadow: 0 0 0 3px rgba(160,120,255,.18), 0 10px 30px rgba(0,0,0,.25);
+  }
+
+  .lumina-pick__label{ font-weight:600; letter-spacing:.2px; }
+  .lumina-pick__chev{ opacity:.8; transform: translateY(1px); }
+
+  .lumina-pick__panel{
+    position:absolute;
+    z-index:9999;
+    left:0;
+    right:0;
+    top: calc(100% + 10px);
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(14,10,26,.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 18px 60px rgba(0,0,0,.55);
+    overflow:hidden;
+  }
+
+  .lumina-pick__head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+
+  .lumina-pick__title{ font-weight:700; color: rgba(255,255,255,.92); }
+
+  .lumina-pick__x{
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.9);
+    border-radius:12px;
+    padding:6px 10px;
+  }
+
+  .lumina-pick__body{
+    max-height:260px;
+    overflow:auto;
+    padding:10px;
+  }
+
+  .lumina-pick__item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 12px;
+    border-radius:14px;
+    border:1px solid transparent;
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.92);
+    margin-bottom:8px;
+  }
+
+  .lumina-pick__item:hover{
+    background: rgba(160,120,255,.10);
+    border-color: rgba(160,120,255,.18);
+  }
+
+  .lumina-pick__item.is-selected{
+    background: rgba(160,120,255,.18);
+    border-color: rgba(160,120,255,.28);
+  }
+
+  .lumina-pick__tick{ opacity:.9; font-weight:800; }
+
+  .lumina-pick__foot{
+    display:flex;
+    gap:10px;
+    padding:12px 14px;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+
+  .lumina-btn{
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(160,120,255,.22);
+    color: rgba(255,255,255,.92);
+    border-radius:14px;
+    padding:10px 14px;
+    font-weight:700;
+  }
+  .lumina-btn.ghost{ background: rgba(255,255,255,.06); }
+
+  /* Main layout */
+  .grid{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:14px;
+  }
+
+  /* --- Three-part layout --- */
+  .top-cards{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+  }
+  @media (max-width: 900px){
+    .top-cards{ grid-template-columns: 1fr; }
+  }
+
+  /* Cards glass */
+  .card{
+    position: relative;
+    border: 1px solid rgba(255,255,255,.12);
+    background:
+      radial-gradient(circle at 0 0, rgba(255,255,255,.10), transparent 55%),
+      rgba(6,3,20,.78);
+    border-radius: var(--radius2);
+    box-shadow: 0 28px 90px rgba(0,0,0,.60);
+    overflow:hidden;
+
+    backdrop-filter: blur(14px) saturate(135%);
+    -webkit-backdrop-filter: blur(14px) saturate(135%);
+  }
+
+  /* jemný lesk, ale tmavý */
+  .card:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(184,146,255,.12), transparent 60%),
+      linear-gradient(135deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 46%);
+    opacity:.45;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* obsah vždy nad leskem */
+  .card > *{
+    position: relative;
+    z-index:1;
+  }
+
+  /* Kdo jsem header */
+  .who{
+    display:flex;
+    align-items:flex-start;
+    gap:16px;
+    padding:16px 16px 12px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+  .who .avatar{
+    width:58px; height:58px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.18);
+    overflow:hidden;
+    flex:0 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  .who .avatar img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    transform: scale(1.02);
+  }
+  .who h2{
+    margin:0;
+    font-size:18px;
+    letter-spacing:.2px;
+  }
+  .who p{
+    margin:6px 0 0;
+    color:var(--muted);
+    line-height:1.35;
+  }
+
+  .who-card .who-copy{ flex:1; min-width:0; }
+  .who-card .who-copy p{
+    margin:10px 0 0;
+    line-height:1.55;
+    color: rgba(255,255,255,.88);
+  }
+  .who-card .who-note{
+    margin-top:14px;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.72);
+    font-weight:800;
+  }
+
+  /* pokud už POKEC badge nepoužíváš v HTML, můžeš smazat i tenhle blok + mobilní část níž */
+  .pokec-badge{
+    margin-left:auto;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.88);
+    font-weight:900;
+    white-space:nowrap;
+  }
+
+  /* Chat header */
+  .chatbar{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:14px;
+    padding:16px 16px 12px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+  .chatbar h2{
+    margin:0;
+    font-size:18px;
+    letter-spacing:.2px;
+  }
+  .chatbar-sub{
+    margin:6px 0 0;
+    color:var(--muted);
+    font-weight:700;
+    line-height:1.35;
+  }
+
+  /* Chat body */
+  .chat{
+    padding:14px 16px 10px;
+    height: 420px;
+    overflow:auto;
+    scroll-behavior:smooth;
+  }
+  .chat-card .chat{ height:560px; }
+
+  .bubble{
+    max-width:78%;
+    padding:12px 14px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.12);
+    margin:10px 0;
+    position:relative;
+    box-shadow: 0 10px 28px rgba(0,0,0,.22);
+    backdrop-filter: blur(8px);
+  }
+  .bubble .meta{
+    font-size:12px;
+    color: var(--muted2);
+    margin-top:8px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .bubble.me{
+    margin-left:auto;
+    background: rgba(179,140,255,.12);
+    border-color: rgba(179,140,255,.22);
+  }
+  .bubble.lumi{ background: rgba(255,255,255,.06); }
+
+  .tagpill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:2px 10px;
+    border-radius:999px;
+    font-size:12px;
+    border:1px solid rgba(255,255,255,.14);
+    color: rgba(255,255,255,.82);
+    background: rgba(0,0,0,.10);
+  }
+
+  /* Bottom compose */
+  .compose{
+    padding:12px 16px 16px;
+    border-top:1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.08);
+  }
+
+  .row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+
+  /* Custom select */
+  .lumina-select{
+    position:relative;
+    min-width:190px;
+    flex:0 0 auto;
+  }
+  .lumina-select__btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.90);
+    font-weight:800;
+    cursor:pointer;
+  }
+  .lumina-select__label{ opacity:.95; }
+  .lumina-select__chev{ opacity:.7; }
+
+  .lumina-select__menu{
+    position:absolute;
+    top: calc(100% + 8px);
+    left:0;
+    width:100%;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(15,10,30,.96);
+    box-shadow: 0 18px 60px rgba(0,0,0,.55);
+    overflow:hidden;
+    z-index:50;
+    padding:6px;
+  }
+
+  .lumina-option{
+    width:100%;
+    text-align:left;
+    border:0;
+    background: transparent;
+    color: rgba(255,255,255,.92);
+    padding:10px 10px;
+    border-radius:14px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:800;
+  }
+  .lumina-option:hover{ background: rgba(179,140,255,.14); }
+
+  .lumina-select.is-open .lumina-select__menu{ display:block; }
+  .lumina-select__menu[hidden]{ display:none; }
+
+  .tip{
+    margin-left:auto;
+    color: var(--muted2);
+    font-size:12px;
+    white-space:nowrap;
+  }
+
+  textarea{
+    width:100%;
+    resize:none;
+    min-height:54px;
+    max-height:160px;
+    padding:12px 12px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.92);
+    outline:none;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+  }
+  textarea::placeholder{ color: rgba(255,255,255,.45); }
+
+  .send{
+    flex:0 0 auto;
+    padding:12px 16px;
+    border-radius:16px;
+    border:1px solid rgba(179,140,255,.28);
+    background: rgba(179,140,255,.16);
+    color: rgba(255,255,255,.92);
+    font-weight:900;
+    cursor:pointer;
+    box-shadow: 0 10px 26px rgba(0,0,0,.25);
+  }
+  .send:hover{ border-color: rgba(179,140,255,.45); }
+
+.send-stack{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  align-items:flex-end;
+  flex: 0 0 auto;
+}
+
+/* Řádek s odesláním: textarea vlevo, tlačítko + reakce vpravo */
+.sendrow{
+  flex-wrap: nowrap;
+  align-items: flex-end;
+}
+
+.sendrow textarea{
+  flex: 1 1 auto;
+  width: auto;          /* přepíše globální width:100% */
+  min-width: 260px;
+}
+
+/* Mobil: zpět pod sebe */
+@media (max-width: 720px){
+  .sendrow{ flex-wrap: wrap; }
+  .sendrow textarea{
+    width: 100%;
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .send-stack{ width: 100%; align-items: stretch; }
+}
+
+.quick-reacts{
+  display:flex;
+  gap:6px;
+  padding:6px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.10);
+  box-shadow: 0 10px 26px rgba(0,0,0,.18);
+}
+
+.qreact{
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.92);
+  cursor:pointer;
+  font-size:16px;
+  display:grid;
+  place-items:center;
+}
+
+.qreact:hover{
+  border-color: rgba(179,140,255,.35);
+  background: rgba(179,140,255,.12);
+}
+
+@media (max-width: 720px){
+  .send-stack{ align-items:stretch; width:100%; }
+  .quick-reacts{ justify-content:space-between; }
+}
+
+  .controls{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-top:10px;
+  }
+  .ctl-btn{
+    padding:10px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.90);
+    font-weight:900;
+    cursor:pointer;
+  }
+  .ctl-btn:hover{ border-color: rgba(179,140,255,.35); }
+
+  .toggle{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    font-weight:900;
+    color: rgba(255,255,255,.90);
+    user-select:none;
+  }
+  .toggle input{ accent-color: var(--accent); }
+
+  /* Visitor shelf + reactions */
+  .shelf{
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .visitor{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.86);
+    font-weight:900;
+  }
+  .reacts{
+    display:inline-flex;
+    gap:8px;
+    padding:6px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+  }
+  .react{
+    width:38px; height:38px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.92);
+    cursor:pointer;
+    font-size:16px;
+  }
+  .react:hover{ border-color: rgba(179,140,255,.35); }
+
+/* ===== Typing indikátor: "Přemýšlím 🤔..." ===== */
+.bubble.typing{
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.10);
+}
+
+.bubble.typing .dots{
+  display:inline-flex;
+  gap:4px;
+  margin-left:8px;
+  transform: translateY(-1px);
+}
+
+.bubble.typing .dots span{
+  width:5px;
+  height:5px;
+  border-radius:999px;
+  background: rgba(255,255,255,.78);
+  opacity:.25;
+  animation: lumiDots 1.05s infinite ease-in-out;
+}
+
+.bubble.typing .dots span:nth-child(2){ animation-delay: .14s; }
+.bubble.typing .dots span:nth-child(3){ animation-delay: .28s; }
+
+@keyframes lumiDots{
+  0%, 80%, 100% { transform: translateY(0); opacity:.25; }
+  40% { transform: translateY(-3px); opacity:.95; }
+}
+
+/* (volitelné) zvýraznění vybrané nálady */
+.react.is-active{
+  border-color: rgba(179,140,255,.55);
+  background: rgba(179,140,255,.18);
+  box-shadow: 0 0 0 2px rgba(179,140,255,.18) inset;
+}
+
+  /* Drops */
+  .drops{
+    margin-top:14px;
+    padding:14px 16px 16px;
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .drop-card{
+    flex: 1 1 220px;
+    max-width: 320px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    border-radius:22px;
+    padding:14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color: var(--text);
+    box-shadow: 0 12px 30px rgba(0,0,0,.24);
+  }
+  .drop-card:hover{ border-color: rgba(179,140,255,.35); }
+
+  .drop-ico{
+    width:46px; height:46px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.14);
+    display:grid;
+    place-items:center;
+    background: rgba(179,140,255,.10);
+    overflow:hidden;
+    flex:0 0 auto;
+  }
+  .drop-ico img{ width:26px; height:26px; object-fit:contain; display:block; }
+
+  .drop-title{ font-weight:1000; margin:0; line-height:1.1; }
+  .drop-sub{
+    margin:4px 0 0;
+    color: var(--muted);
+    font-weight:700;
+    font-size:13px;
+  }
+
+  .drops-card .drops-hint{
+    margin-top:22px;
+    margin-left:16px;
+    margin-right:16px;
+    margin-bottom:10px;
+  }
+
+  /* Modal (sjednoceno + iPad fix v tom samém bloku) */
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background: rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+    z-index:200;
+  }
+  .modal-backdrop.active{ display:flex; }
+
+  .modal{
+    width: min(880px, 100%);
+    max-height: 92vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+
+    border-radius:22px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(18,10,34,.96);
+    box-shadow: 0 30px 90px rgba(0,0,0,.65);
+  }
+
+  .modal header{
+    padding:14px 16px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex:0 0 auto;
+  }
+  .modal h3{ margin:0; font-size:16px; }
+
+  .modal .content{
+    flex:1 1 auto;
+    overflow:auto;
+    -webkit-overflow-scrolling: touch;
+    padding:14px 16px 16px;
+    padding-bottom:16px;
+  }
+
+  .field{
+    margin-top:10px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .field label{ color: var(--muted); font-weight:800; font-size:13px; }
+  .field input{
+    width:100%;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.92);
+    outline:none;
+  }
+
+  .modal .actions{
+    flex:0 0 auto;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    margin-top: 0;
+    padding: 12px 16px;
+    background: rgba(18,10,34,.96);
+    border-top: 1px solid rgba(255,255,255,.10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+
+  .btn{
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.92);
+    font-weight:1000;
+    cursor:pointer;
+  }
+  .btn.primary{
+    border-color: rgba(179,140,255,.30);
+    background: rgba(179,140,255,.16);
+  }
+
+  /* ===== Save modal ===== */
+  .modal-wide{ width:min(880px, 100%); }
+
+  .lumi-head{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    margin-bottom:14px;
+  }
+  .lumi-face{
+    width:44px; height:44px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow: 0 10px 28px rgba(0,0,0,.30);
+    object-fit:cover;
+  }
+  .lumi-bubble{
+    flex:1;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+    border-radius:16px;
+    padding:10px 12px;
+    color: rgba(255,255,255,.88);
+    font-weight:800;
+    line-height:1.35;
+  }
+
+  .save-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
+  }
+  .glassbox{
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.10);
+    border-radius:18px;
+    padding:12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.22);
+    backdrop-filter: blur(8px);
+  }
+
+  .cal-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .cal-title{ font-weight:1000; letter-spacing:.2px; }
+
+  .iconbtn{
+    width:38px; height:38px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.92);
+    cursor:pointer;
+    font-size:18px;
+  }
+  .iconbtn:hover{ border-color: rgba(179,140,255,.35); }
+
+  .cal-week{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:6px;
+    color: rgba(255,255,255,.55);
+    font-weight:900;
+    font-size:12px;
+    padding:0 2px 6px;
+  }
+  .cal-grid{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:6px;
+  }
+  .cal-day{
+    height:40px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.10);
+    color: rgba(255,255,255,.88);
+    font-weight:1000;
+    cursor:pointer;
+  }
+  .cal-day:hover{ border-color: rgba(179,140,255,.35); }
+  .cal-day.muted{ opacity:.38; }
+  .cal-day.selected{
+    border-color: rgba(179,140,255,.55);
+    background: rgba(179,140,255,.18);
+    box-shadow: 0 10px 20px rgba(0,0,0,.25);
+  }
+  .cal-day.today{
+    outline: 2px solid rgba(120,255,191,.35);
+    outline-offset: 0;
+  }
+  .cal-foot{
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+  }
+
+  .time-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .pick{
+    width:100%;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.92);
+    font-weight:900;
+    outline:none;
+  }
+  .note{
+    width:100%;
+    min-height:96px;
+    resize: vertical;
+    padding:12px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.92);
+    outline:none;
+  }
+  .note::placeholder{ color: rgba(255,255,255,.45); }
+
+  .sigma-box{
+    margin-top:10px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.04);
+    border-radius:16px;
+    padding:10px 10px 12px;
+  }
+  .sigma-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .sigma-title{
+    font-weight:1000;
+    letter-spacing:.2px;
+    color: rgba(255,255,255,.90);
+  }
+  .minihelp{
+    margin-top:8px;
+    color: rgba(255,255,255,.60);
+    font-weight:800;
+    font-size:12px;
+    line-height:1.35;
+  }
+
+  .time-quick{
+    display:flex;
+    gap:10px;
+    margin:8px 0 10px;
+    flex-wrap:wrap;
+  }
+  .chipbtn{
+    border-radius:999px;
+    padding:8px 12px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.14);
+    color: rgba(255,255,255,.88);
+    font-weight:800;
+    cursor:pointer;
+  }
+  .chipbtn:hover{ background: rgba(179,140,255,.14); }
+
+  .choice-grid{
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap:10px;
+  }
+  @media (min-width: 820px){
+    .choice-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .choice-grid--scroll{
+    max-height: 220px;
+    overflow:auto;
+    padding-right:6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .choice-item{
+    border-radius:16px;
+    padding:10px 10px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.12);
+    color: rgba(255,255,255,.90);
+    font-weight:900;
+    cursor:pointer;
+    text-align:center;
+    user-select:none;
+  }
+  .choice-item:hover{
+    background: rgba(179,140,255,.14);
+    border-color: rgba(179,140,255,.28);
+  }
+  .choice-item.is-active{
+    background: rgba(179,140,255,.22);
+    border-color: rgba(179,140,255,.55);
+    box-shadow: 0 0 0 2px rgba(179,140,255,.22) inset;
+  }
+
+  /* Responsive */
+  @media (max-width:720px){
+    .chat{ height:52vh; }
+    .who{ flex-wrap:wrap; }
+    .pokec-badge{
+      display:inline-flex;
+      margin-left:0;
+      margin-top:8px;
+    }
+    .shelf{ width:100%; justify-content:flex-start; }
+    .tip{ display:none; }
+    .chatbar{ flex-wrap:wrap; }
+  }
+
+  @media (max-width: 820px){
+    .save-grid{ grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px){
+    .topbar{
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      border-radius: 24px;
+      padding: 12px 14px;
+    }
+    .brand{
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .brand-sub{ margin-left:0; }
+    .logout{
+      justify-content: center;
+      width: 100%;
+    }
+  }
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <span class="webglow" aria-hidden="true">✨</span>
+        <div class="brand-title">miniLumina™</div>
+        <div class="brand-sub">DEMO • FREE tarif</div>
+      </div>
+
+      <a class="logout" href="mini-login-de.html" title="Abmelden (Demo)">
+        Abmelden ↩︎
+      </a>
+    </div>
+
+    <div class="grid">
+
+      <!-- 2 Karten nebeneinander -->
+      <div class="top-cards">
+
+        <!-- KARTE 1: Wer ich bin -->
+        <section class="card who-card" aria-label="Wer ich bin">
+          <div class="who">
+            <div class="avatar" aria-hidden="true">
+              <img src="avatar.png" alt="Lumina avatar" />
+            </div>
+
+            <div class="who-copy">
+              <h2>Wer ich bin ✨</h2>
+              <p>
+                Ich bin Lumina. Du kannst mich gern Lumi oder einfach L. nennen — deine Begleiterin und rechte Hand 😉
+                Ich helfe dir beim Schreiben, Planen, beim Speichern von Einträgen, beim Strukturieren… und wenn du nicht weißt, wohin,
+                versuche ich dir die Richtung zu zeigen ❤️
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- KARTE 2: Tropfen / Räume -->
+        <section class="card drops-card" aria-label="Räume">
+          <div class="drops-hint">👇 Drück auf einen Tropfen und der nächste Raum öffnet sich. 💡 Nicht vergessen: zuerst die Einstellungen. ⚙️ </div>
+
+          <div class="drops" aria-label="Räume">
+            <a class="drop-card" href="praetorium-de.html">
+              <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
+              <div>
+                <p class="drop-title">Praetorium</p>
+                <p class="drop-sub">Sigma · Chronica · Proiecta</p>
+              </div>
+            </a>
+
+            <a class="drop-card" href="arcana-de.html">
+              <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
+              <div>
+                <p class="drop-title">Arcana</p>
+                <p class="drop-sub">Tresor · sensible Dinge</p>
+              </div>
+            </a>
+
+            <a class="drop-card" href="nastaveni-de.html">
+              <span class="drop-ico"><img src="luminadrop.png" alt=""></span>
+              <div>
+                <p class="drop-title">Einstellungen</p>
+                <p class="drop-sub">Leitstand · Guide · Modi</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Großer Chat darunter -->
+      <section class="card chat-card" aria-label="Pokec">
+
+        <div class="chatbar">
+          <div>
+            <h2>🗯 Pokec</h2>
+            <p class="chatbar-sub">DEMO: wird nur lokal im Browser gespeichert.</p>
+          </div>
+        </div>
+
+        <div class="chat" id="chat" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+        <div class="compose">
+          <div class="row">
+            <div class="lumina-select" id="tagSelect">
+              <button class="lumina-select__btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="lumina-select__label" id="tagLabel">✨ Einfach so</span>
+                <span class="lumina-select__chev" aria-hidden="true">▾</span>
+              </button>
+              <div class="lumina-select__menu" id="tagMenu" role="listbox" tabindex="-1" hidden>
+                <button class="lumina-option" type="button" role="option" data-value="Jen tak" aria-selected="true">
+                  <span>✨ Einfach so</span><span>✓</span>
+                </button>
+                <button class="lumina-option" type="button" role="option" data-value="Myšlenka" aria-selected="false">
+                  <span>💡 Gedanke</span><span></span>
+                </button>
+                <button class="lumina-option" type="button" role="option" data-value="Důležité" aria-selected="false">
+                  <span>⚠️ Wichtig</span><span></span>
+                </button>
+                <button class="lumina-option" type="button" role="option" data-value="Úkol" aria-selected="false">
+                  <span>✅ Aufgabe</span><span></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="tip">Tipp: „In Chronica speichern“ speichert den letzten wichtigen Schritt.</div>
+
+            <div class="shelf">
+              <div class="visitor">Stimmung</div>
+              <div class="reacts" id="reactions" aria-label="Stimmung von Lumina">
+                <button class="react" type="button" data-react="✨" title="spielerisch">✨</button>
+                <button class="react" type="button" data-react="😄" title="witzig">😄</button>
+                <button class="react" type="button" data-react="🥺" title="traurig">🥺</button>
+                <button class="react" type="button" data-react="❤️" title="lieb">❤️</button>
+                <button class="react" type="button" data-react="😌" title="ruhig">😌</button>
+                <button class="react" type="button" data-react="😠" title="wütend">😠</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row sendrow" style="margin-top:10px;">
+            <textarea id="msg" placeholder="Schreib mir hier…"></textarea>
+
+            <div class="send-stack">
+              <button class="send" id="send" type="button">Senden</button>
+
+              <div class="quick-reacts" id="quickReacts" aria-label="Reaktionen auf die Nachricht">
+                <button class="qreact" type="button" data-qreact="👍🏻" title="Ich stimme zu">👍🏻</button>
+                <button class="qreact" type="button" data-qreact="❤️" title="Das gefällt mir">❤️</button>
+                <button class="qreact" type="button" data-qreact="💥" title="Das hat Funken">💥</button>
+                <button class="qreact" type="button" data-qreact="🤔" title="Ich denke nach">🤔</button>
+                <button class="qreact" type="button" data-qreact="🥺" title="Das ist wirklich traurig">🥺</button>
+                <button class="qreact" type="button" data-qreact="❌" title="Ich stimme nicht zu">❌</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="controls">
+            <label class="toggle" title="Wenn aktiviert, antwortet Lumina nicht automatisch.">
+              <input type="checkbox" id="silentMode" />
+              Stiller Modus 🤫
+            </label>
+
+            <button class="ctl-btn" id="clearBtn" type="button">🧹 Chat leeren</button>
+            <button class="ctl-btn" id="saveBtn" type="button">💾 In Chronica speichern</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- MODAL: Clear -->
+    <div class="modal-backdrop" id="clearModal" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
+      <div class="modal">
+        <header>
+          <h3 id="clearTitle">Willst du dir das Löschen nicht doch anders überlegen? 😉</h3>
+          <button class="btn" type="button" id="clearX">Schließen ✕</button>
+        </header>
+        <div class="content">
+          <div style="color:rgba(255,255,255,.72);font-weight:800;line-height:1.35;">
+            Das löscht die Chat-Bubbles und den gespeicherten Chat-Verlauf im Browser.<br>
+            Chronica bleibt bestehen.
+          </div>
+          <div class="actions">
+            <button class="btn" type="button" id="clearCancel">Abbrechen</button>
+            <button class="btn primary" type="button" id="clearOk">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Save to Chronica (NEW) -->
+    <div class="modal-backdrop" id="saveModal" role="dialog" aria-modal="true" aria-labelledby="saveTitle">
+      <div class="modal modal-wide">
+        <header>
+          <h3 id="saveTitle">In Chronica speichern 📖</h3>
+          <button class="btn" type="button" id="saveX">Schließen ✕</button>
+        </header>
+
+        <div class="content">
+          <!-- Lumina line -->
+          <div class="lumi-head">
+            <img class="lumi-face" src="avatar.png" alt="Lumina" />
+            <div class="lumi-bubble">
+              Wir wählen Datum und Uhrzeit. Und wenn du willst, erinnert Sigma dich früher daran. 😉
+            </div>
+          </div>
+
+          <div class="save-grid">
+            <!-- KALENDER -->
+            <section class="glassbox">
+              <div class="cal-top">
+                <button class="iconbtn" type="button" id="calPrev" aria-label="Vorheriger Monat">‹</button>
+                <div class="cal-title" id="calTitle">—</div>
+                <button class="iconbtn" type="button" id="calNext" aria-label="Nächster Monat">›</button>
+              </div>
+
+              <div class="cal-week">
+                <div>Mo</div><div>Di</div><div>Mi</div><div>Do</div><div>Fr</div><div>Sa</div><div>So</div>
+              </div>
+
+              <div class="cal-grid" id="calGrid" aria-label="Kalender"></div>
+
+              <div class="cal-foot">
+                <button class="btn" type="button" id="calToday">Heute</button>
+                <button class="btn" type="button" id="calClear">Ohne Datum</button>
+              </div>
+
+              <!-- hidden values (saved to Chronica) -->
+              <input type="hidden" id="saveDateISO" value="">
+            </section>
+
+            <!-- DETAIL -->
+            <section class="glassbox">
+              <div class="field">
+                <label>Uhrzeit (optional)</label>
+
+                <div class="time-quick">
+                  <button type="button" class="chipbtn" id="timeNow2">Jetzt</button>
+                  <button type="button" class="chipbtn" id="timeClear2">Ohne Uhrzeit</button>
+                </div>
+
+                <div class="choice-grid choice-grid--scroll" id="timeGrid" aria-label="Uhrzeitauswahl"></div>
+
+                <!-- hidden value for saving -->
+                <input type="hidden" id="saveTimePick" value="">
+              </div>
+
+              <div class="field">
+                <label for="saveNote">Notiz (du kannst sie anpassen)</label>
+                <textarea id="saveNote" class="note" placeholder="kurze Notiz…"></textarea>
+              </div>
+
+              <!-- SIGMA -->
+              <div class="sigma-box">
+                <div class="sigma-top">
+                  <div class="sigma-title">Sigma ⏰</div>
+                  <label class="toggle" style="margin:0;">
+                    <input type="checkbox" id="sigmaOn" />
+                    erinnern
+                  </label>
+                </div>
+
+                <div class="sigma-body" id="sigmaBody" style="opacity:.55; pointer-events:none;">
+                  <div class="field" style="margin-top:8px;">
+                    <label>Vorher erinnern</label>
+
+                    <div class="choice-grid" id="sigmaLeadGrid" aria-label="Sigma – vorher benachrichtigen"></div>
+
+                    <input type="hidden" id="sigmaLead" value="30">
+
+                    <div class="minihelp">
+                      Funktioniert nur, wenn du auch <b>Datum</b> und <b>Uhrzeit</b> auswählst.
+                      (Sonst gibt es nichts, woran man erinnern könnte.)
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button class="btn" type="button" id="saveCancel">Abbrechen</button>
+                <button class="btn primary" type="button" id="saveOk">Speichern</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+    // =========================
+    // Helfer
+    // =========================
+
+    const $ = (id) => document.getElementById(id);
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function nowHM(){
+      const d = new Date();
+      return d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // =========================
+    // Storage-Keys
+    // =========================
+    const CHAT_KEY = "pokec:history";
+    const LAST_KEY = "pokec:last";
+    const CHRONICA_KEY = "chronica";
+    const REACT_STYLE_KEY = "pokec:reactStyle"; // letzter Antwortstil von Lumina
+
+    // =========================
+    // State
+    // =========================
+    let currentTag = "Einfach so";
+    let reactStyle = "hrave"; // Standard
+    const chatEl = $("chat");
+    const silentMode = $("silentMode");
+    const msgEl = $("msg");
+
+    // =========================
+    // UI: Custom Select (Tag)
+    // =========================
+    (function initTagSelect(){
+      const wrap = $("tagSelect");
+      const btn = wrap.querySelector(".lumina-select__btn");
+      const menu = $("tagMenu");
+      const label = $("tagLabel");
+
+      function open(){
+        wrap.classList.add("is-open");
+        btn.setAttribute("aria-expanded","true");
+        menu.hidden = false;
+        try{ menu.focus({preventScroll:true}); }catch(_){ menu.focus(); }
+      }
+      function close(){
+        wrap.classList.remove("is-open");
+        btn.setAttribute("aria-expanded","false");
+        menu.hidden = true;
+      }
+
+      btn.addEventListener("click", (e)=>{
+        e.preventDefault();
+        wrap.classList.contains("is-open") ? close() : open();
+      });
+
+      menu.addEventListener("click", (e)=>{
+        const opt = e.target.closest("[role='option']");
+        if(!opt) return;
+
+        const val = opt.dataset.value;
+        currentTag = val;
+
+        // UI-Auswahlhäkchen aktualisieren
+        menu.querySelectorAll("[role='option']").forEach(o=>{
+          const selected = o === opt;
+          o.setAttribute("aria-selected", selected ? "true" : "false");
+          const tick = o.querySelector("span:last-child");
+          if(tick) tick.textContent = selected ? "✓" : "";
+        });
+
+        label.textContent = opt.querySelector("span:first-child")?.textContent?.trim() || val;
+
+        close();
+      });
+
+      document.addEventListener("click", (e)=>{
+        if(!wrap.contains(e.target)) close();
+      });
+
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape") close();
+      });
+    })();
+
+    // =========================
+    // Chat-Render
+    // =========================
+    function addBubble(who, text, meta){
+      const div = document.createElement("div");
+      div.className = "bubble " + (who === "me" ? "me" : "lumi");
+
+      div.innerHTML = `
+        <div class="text">${escapeHtml(text).replace(/\n/g,"<br>")}</div>
+        <div class="meta">
+          <span>${escapeHtml(meta || "")}</span>
+        </div>
+      `;
+
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function addBubbleRich(who, html, meta, tag){
+      const div = document.createElement("div");
+      div.className = "bubble " + (who === "me" ? "me" : "lumi");
+
+      const tagHtml = tag ? `<span class="tagpill">${escapeHtml(tag)}</span>` : "";
+      div.innerHTML = `
+        <div class="text">${html}</div>
+        <div class="meta">
+          ${tagHtml}
+          <span>${escapeHtml(meta || "")}</span>
+        </div>
+      `;
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function persistHistory(){
+      const items = [];
+      chatEl.querySelectorAll(".bubble").forEach(b=>{
+        const who = b.classList.contains("me") ? "me" : "lumi";
+        const text = b.querySelector(".text")?.innerText || "";
+        const meta = b.querySelector(".meta span:last-child")?.innerText || "";
+        const tag = b.querySelector(".tagpill")?.innerText || "";
+        items.push({ who, text, meta, tag });
+      });
+      try{ localStorage.setItem(CHAT_KEY, JSON.stringify(items)); }catch(_){}
+    }
+
+    function loadHistory(){
+      try{
+        const raw = localStorage.getItem(CHAT_KEY);
+        if(!raw) return;
+        const items = JSON.parse(raw);
+        if(!Array.isArray(items)) return;
+        items.forEach(it=>{
+          if(it.tag){
+            addBubbleRich(it.who, escapeHtml(it.text).replace(/\n/g,"<br>"), it.meta, it.tag);
+          }else{
+            addBubble(it.who, it.text, it.meta);
+          }
+        });
+      }catch(_){}
+    }
+
+(function initQuickReacts(){
+  const el = document.getElementById("quickReacts");
+  if(!el) return;
+
+  const quickReply = (emoji)=>{
+    // genderneutrale Formulierung ✅
+    const base = {
+      "👍🏻": "Freut mich, dass es passt. 👍🏻",
+      "❤️": "Freut mich, dass es gefällt. ❤️",
+      "💥": "Ja, das funkelt! Pass auf, dass daraus kein Feuer wird 😂💥",
+      "🤔": "Nachdenken bekommt genau so viel Zeit, wie es braucht. 🤔",
+      "🥺": "Ja… das ist wirklich sehr traurig. 🥺",
+      "❌": "Verstanden — das passt nicht. Wir probieren es von einer anderen Seite. ❌"
+    }[emoji] || "Verstanden.";
+
+    // wenn die Stimmung „rozlobene“ ist, bei ❌ etwas schärfer
+    if(emoji === "❌" && typeof reactStyle !== "undefined" && reactStyle === "rozlobene"){
+      return "Verstanden — das passt nicht. Okay 😠 sag’s bitte direkt: was genau ist falsch?";
+      // (schärfer, aber weiterhin sicher / nicht angreifend)
+    }
+    return base;
+  };
+
+  const respondAsLumina = (text)=>{
+    // stillen Modus respektieren
+    if(typeof silentMode !== "undefined" && silentMode.checked) return;
+
+    // wenn es einen Typing-Indikator gibt, nutzen
+    if(typeof addThinkingBubble === "function"){
+      const thinking = addThinkingBubble();
+      const delay = 420 + Math.floor(Math.random() * 520);
+      setTimeout(()=>{
+        thinking?.remove();
+        addBubble("lumi", text, `Lumina • ${nowHM()}`);
+        persistHistory?.();
+      }, delay);
+      return;
+    }
+
+    // Fallback ohne Typing-Indikator
+    setTimeout(()=>{
+      addBubble("lumi", text, `Lumina • ${nowHM()}`);
+      persistHistory?.();
+    }, 320);
+  };
+
+  el.addEventListener("click", (e)=>{
+    const btn = e.target.closest("button");
+    const emoji = btn?.dataset?.qreact;
+    if(!emoji) return;
+
+    // Nutzer-Bubble
+    addBubble("me", emoji, "Reaktion");
+    persistHistory?.();
+
+    // Lumina-Antwort
+    respondAsLumina(quickReply(emoji));
+  });
+})();
+
+    // =========================
+    // Lumina-Antworten (mehr „Leben“, nicht ChatGPT)
+    // =========================
+const luminaStyleReplies = {
+  vtipne: [
+    "Okay. Klingt nach einem Plan… nur aufpassen, dass daraus nicht die Operation „totale Universums-Reorganisation“ wird 😄",
+    "Verstanden. Und jetzt die Frage: schnell oder schön? (Beides geht. Das Zweite hat nur mehr Drama 😄)",
+    "Klar. Wir bringen Ordnung rein — die leise Sorte, die nicht mal die Nachbarn weckt 😄",
+    "Ok. Genau die Art von Sache, die unschuldig wirkt… und dann wird’s ein Roman 😄"
+  ],
+
+  smutne: [
+    "Ich verstehe… und ich bin hier. Wir halten es sanft, Schritt für Schritt 🥺",
+    "Danke, dass du es laut gesagt hast. Auch wenn es schwer ist: du musst das nicht allein tragen 🥺",
+    "Okay… lass uns langsamer werden. Was ist jetzt der kleinste sichere Schritt 🥺",
+    "Ich bin hier. Ein Satz reicht. Stille reicht auch 🥺"
+  ],
+
+  hrave: [
+    "Lass uns damit spielen ✨ Ein Satz: was ist gerade das Hauptziel?",
+    "Ok! Wir nehmen einen Faden und wickeln ihn ab — schön vorsichtig, damit es nicht verknotet ✨",
+    "Ich hab eine Idee: wir geben dem einen Namen und machen eine Mini-Mission draus ✨",
+    "Okay. Kleiner Trick: was würde sich ändern, wenn es 20% mehr Energie gäbe ✨"
+  ],
+
+  vlidne: [
+    "Verstanden ❤️ Ich bin hier. Lehn dich an — was hilft jetzt am meisten?",
+    "Okay ❤️ Wir machen es so, dass es erleichtert. Ein Satz: was drückt am stärksten?",
+    "Ich bin hier ❤️ Sanft und wirksam. Was ist der erste Schritt, der sofort machbar ist?",
+    "Ich verstehe ❤️ Ich halte den Raum. Brauchst du eher Unterstützung oder einen konkreten Plan?"
+  ],
+
+  klidne: [
+    "Ich bin hier 😌 Wir werden langsamer. Was ist jetzt das Wichtigste — nur eins?",
+    "Ok 😌 Einatmen, ausatmen. Was ist der erste kleine Schritt, der jetzt schon entlastet?",
+    "Ganz ruhig 😌 Priorisieren wir: was hat den größten Effekt bei der kleinsten Mühe?",
+    "Ich verstehe 😌 Wir nehmen es in Teilen. Wo ist gerade die empfindlichste Stelle?"
+  ],
+
+  rozlobene: [
+    "Ok 😠 Das verdient keine weitere Energie. Was streichen wir als Erstes?",
+    "Gut! Auf den Punkt: was ist das genaue Problem (ein Satz) 😠",
+    "Klar 😠 Wir schaffen Ordnung. Welche Grenze wird jetzt gesetzt?",
+    "Okay! Ohne Soße: was muss passieren, damit es sich JETZT bewegt 😠"
+  ]
+};
+
+    const tagTail = {
+      "Einfach so": " Was ist heute eine kleine Freude?",
+      "Gedanke": " Willst du es in einem Satz weiterführen?",
+      "Wichtig": " Was ist jetzt der wichtigste nächste Schritt?",
+      "Aufgabe": " Willst du eine Frist dazu, oder lassen wir es offen?"
+    };
+
+    function addThinkingBubble(){
+      const div = document.createElement("div");
+      div.className = "bubble lumi typing";
+      div.dataset.ephemeral = "1";
+      div.innerHTML = `
+        <div class="text">Ich denke nach 🤔 <span class="dots"><span></span><span></span><span></span></span></div>
+        <div class="meta"><span>Lumina • ${nowHM()}</span></div>
+      `;
+      chatEl.appendChild(div);
+      chatEl.scrollTop = chatEl.scrollHeight;
+      return div;
+    }
+
+function luminaRespond(tag){
+  if(silentMode.checked) return;
+
+  const pack = luminaStyleReplies[reactStyle] || luminaStyleReplies.hrave;
+  const pick = pack[Math.floor(Math.random()*pack.length)];
+  const tail = tagTail[tag] || "";
+
+  // 1) „Ich denke nach“ zeigen
+  const thinking = addThinkingBubble();
+
+  // 2) nach kurzer Zeit durch Antwort ersetzen (wirkt mehr wie AI)
+  const delay = 650 + Math.floor(Math.random() * 800); // 650–1450 ms
+  setTimeout(()=>{
+    thinking?.remove();
+    addBubble("lumi", (pick + tail), `Lumina • ${nowHM()}`);
+    persistHistory();
+  }, delay);
+}
+
+    // =========================
+    // Reaktionen (4 Stile)
+    // =========================
+   (function initReacts(){
+  // letzten Stil laden
+  try{
+    let saved = localStorage.getItem(REACT_STYLE_KEY);
+    if(saved === "zamilovane") saved = "vlidne";   // Kompatibilität
+    if(saved) reactStyle = saved;
+  }catch(_){}
+
+  // beim Laden aktiv markieren
+  const setActive = ()=>{
+    document.querySelectorAll("#reactions .react").forEach(btn=>{
+      const r = btn.dataset.react;
+      const map = {
+        "😄":"vtipne",
+        "🥺":"smutne",
+        "✨":"hrave",
+        "❤️":"vlidne",
+        "😌":"klidne",
+        "😠":"rozlobene"
+      };
+      btn.classList.toggle("is-active", (map[r] === reactStyle));
+    });
+  };
+  setActive();
+
+  $("reactions").addEventListener("click", (e)=>{
+    const r = e.target?.dataset?.react;
+    if(!r) return;
+
+    const map = {
+      "😄":"vtipne",
+      "🥺":"smutne",
+      "✨":"hrave",
+      "❤️":"vlidne",
+      "😌":"klidne",
+      "😠":"rozlobene"
+    };
+    reactStyle = map[r] || "hrave";
+    try{ localStorage.setItem(REACT_STYLE_KEY, reactStyle); }catch(_){}
+    setActive();
+
+    // Reaktions-Bubble
+    addBubble("me", `${r}`, "Stimmung · Antwortstil");
+    persistHistory();
+
+    // Lumina reagiert kurz (wenn nicht still)
+    if(!silentMode.checked){
+      const short = {
+        vtipne: "Verstanden 😄 — wir machen das mit Leichtigkeit.",
+        smutne: "Verstanden 🥺 — ich halte dir den Raum.",
+        hrave: "Verstanden ✨ — das bekommt Funken.",
+        vlidne: "Verstanden ❤️ — ich bin hier bei dir.",
+        klidne: "Verstanden 😌 — wir werden langsamer und machen es sauber.",
+        rozlobene: "Verstanden 😠 — wir lösen es hart und klar."
+      }[reactStyle] || "Verstanden.";
+
+      setTimeout(()=>{
+        addBubble("lumi", short, "Lumina");
+        persistHistory();
+      }, 220);
+    }
+  });
+})();
+
+    // =========================
+    // Save to Chronica
+    // =========================
+    function getLastUserMessage(){
+      try{
+        const last = JSON.parse(localStorage.getItem(LAST_KEY) || "null");
+        return last;
+      }catch(_){ return null; }
+    }
+
+    function rememberLast(text, tag){
+      const payload = { text, tag, ts: new Date().toISOString() };
+      try{ localStorage.setItem(LAST_KEY, JSON.stringify(payload)); }catch(_){}
+    }
+
+    function writeChronica(entry){
+      const arr = JSON.parse(localStorage.getItem(CHRONICA_KEY) || "[]");
+      arr.unshift(entry);
+      localStorage.setItem(CHRONICA_KEY, JSON.stringify(arr));
+    }
+
+    function openModal(id){ $(id).classList.add("active"); }
+    function closeModal(id){ $(id).classList.remove("active"); }
+
+    // Clear modal
+    (function initClear(){
+      const m = $("clearModal");
+      $("clearBtn").addEventListener("click", ()=> openModal("clearModal"));
+      $("clearX").addEventListener("click", ()=> closeModal("clearModal"));
+      $("clearCancel").addEventListener("click", ()=> closeModal("clearModal"));
+      m.addEventListener("click", (e)=>{ if(e.target === m) closeModal("clearModal"); });
+
+      $("clearOk").addEventListener("click", ()=>{
+  // Chat + History + Last löschen, aber Chronica behalten
+  chatEl.innerHTML = "";
+  try{
+    localStorage.removeItem(CHAT_KEY);
+    localStorage.removeItem(LAST_KEY);
+  }catch(_){}
+  closeModal("clearModal");
+
+  // direkt nach dem Löschen ein neues Willkommen – wie beim Start
+  const nick = getProfileNickname();
+
+  const text = nick
+    ? `Hallo, ${nick} 😉💫 Schön, dass du da bist.\nWähle ein Label (Einfach so / Gedanke / Wichtig / Aufgabe) und los geht’s.`
+    : "Willkommen, Besucher 💫 Schön, dass du da bist.\nWähle ein Label (Einfach so / Gedanke / Wichtig / Aufgabe) und los geht’s 😉";
+
+  addBubble("lumi", text, `Lumina • ${nowHM()}`);
+  persistHistory();
+    });
+    })();
+
+    // =========================
+  // Save to Chronica (NEW modal: calendar + time + sigma)
+  // =========================
+  const SIGMA_QUEUE_KEY = "sigma:queue"; // Liste zukünftiger Erinnerungen (für die Sigma-Seite)
+
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function toISODate(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+
+  function czDateFromISO(iso){
+    if(!iso) return "";
+    const [y,m,dd] = iso.split("-").map(Number);
+    return `${pad2(dd)}.${pad2(m)}.${y}`;
+  }
+
+  function parseHM(hm){
+    if(!hm) return null;
+    const m = hm.match(/^(\d{1,2}):(\d{2})$/);
+    if(!m) return null;
+    const hh = Math.min(23, Math.max(0, Number(m[1])));
+    const mm = Math.min(59, Math.max(0, Number(m[2])));
+    return { hh, mm };
+  }
+
+    // === Choice grid helpers (time and sigma) ===
+    // Raster mit auswählbaren Buttons rendern und Status steuern
+    function renderChoiceGrid(container, items, getSelected, onPick){
+      if(!container) return;
+      const selected = String(getSelected() || "");
+      container.innerHTML = items.map(it => {
+        const val = String(it.value);
+        const active = (val === selected) ? " is-active" : "";
+        return `<button type="button" class="choice-item${active}" data-value="${escapeHtml(val)}">${escapeHtml(it.label)}</button>`;
+      }).join("");
+
+      container.querySelectorAll(".choice-item").forEach(btn =>{
+        btn.addEventListener("click", () =>{
+          const val = btn.getAttribute("data-value") || "";
+          onPick(val);
+          // aktiven Status aktualisieren
+          container.querySelectorAll(".choice-item").forEach(b => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+        });
+      });
+    }
+
+    // Time-Grid (5-Minuten-Schritte) + Quick-Buttons initialisieren
+    (function initTimeGrid(){
+      const grid = document.getElementById("timeGrid");
+      if(!grid) return;
+
+      const items = buildTimeItems5min();
+
+      function update(val){
+        setTimeValue(val);
+      }
+
+      // initial render
+      renderChoiceGrid(grid, items, () => document.getElementById("saveTimePick").value, (val) => {
+        update(val);
+      });
+
+      // Jetzt / Ohne Uhrzeit Buttons
+      const now2 = document.getElementById("timeNow2");
+      const clear2 = document.getElementById("timeClear2");
+
+      if(now2){
+        now2.addEventListener("click", () =>{
+          const d = new Date();
+          const hh = d.getHours();
+          const mm = d.getMinutes();
+          const snapped = `${pad2(hh)}:${pad2(Math.round(mm/5)*5 % 60)}`;
+          update(snapped);
+          renderChoiceGrid(grid, items, () => document.getElementById("saveTimePick").value, (val) => update(val));
+        });
+      }
+      if(clear2){
+        clear2.addEventListener("click", () =>{
+          update("");
+          renderChoiceGrid(grid, items, () => document.getElementById("saveTimePick").value, (val) => update(val));
+        });
+      }
+    })();
+
+    // Sigma-Vorlaufsetter überschreiben (nur Hidden Input)
+    function setSigmaLeadValue(min){
+      const hidden = document.getElementById("sigmaLead");
+      if(!hidden) return;
+      hidden.value = String(min);
+    }
+
+    // Sigma-Lead-Grid initialisieren
+    (function initSigmaLeadGrid(){
+      const grid = document.getElementById("sigmaLeadGrid");
+      if(!grid) return;
+
+      const items = [
+        { value:"5", label:"5 Minuten" },
+        { value:"10", label:"10 Minuten" },
+        { value:"15", label:"15 Minuten" },
+        { value:"30", label:"30 Minuten" },
+        { value:"45", label:"45 Minuten" },
+        { value:"60", label:"1 Stunde" },
+        { value:"120", label:"2 Stunden" },
+        { value:"1440", label:"1 Tag" },
+      ];
+
+      renderChoiceGrid(
+        grid,
+        items,
+        () => document.getElementById("sigmaLead").value,
+        (val) => setSigmaLeadValue(Number(val))
+      );
+    })();
+
+  function pushSigmaReminder(rem){
+    const arr = JSON.parse(localStorage.getItem(SIGMA_QUEUE_KEY) || "[]");
+    arr.push(rem);
+    arr.sort((a,b)=> (a.fireAt||0) - (b.fireAt||0));
+    localStorage.setItem(SIGMA_QUEUE_KEY, JSON.stringify(arr));
+  }
+
+  // --- Kalender-State
+  let calView = new Date();         // Monat, den wir anzeigen
+  let selectedISO = "";             // ausgewähltes Datum (YYYY-MM-DD)
+
+  function renderCalendar(){
+    const grid = document.getElementById("calGrid");
+    const title = document.getElementById("calTitle");
+    if(!grid || !title) return;
+
+    const y = calView.getFullYear();
+    const m = calView.getMonth();
+
+    const monthNames = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+    title.textContent = `${monthNames[m]} ${y}`;
+
+    grid.innerHTML = "";
+
+    // erster Tag des Monats
+    const first = new Date(y, m, 1);
+    // Shift auf Mo=0…So=6 (JS: So=0…Sa=6)
+    const jsDay = first.getDay(); // 0..6
+    const mondayIndex = (jsDay + 6) % 7; // Mo=0
+
+    // Tage im Monat
+    const daysInMonth = new Date(y, m+1, 0).getDate();
+
+    // vorheriger Monat
+    const prevDays = new Date(y, m, 0).getDate();
+
+    // heute
+    const todayISO = toISODate(new Date());
+
+    // 6 Wochen (42 Felder) – stabiles Layout
+    for(let i=0;i<42;i++){
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "cal-day";
+
+      let dayNum, iso, muted=false;
+
+      if(i < mondayIndex){
+        // Tage vom Vormonat
+        dayNum = prevDays - (mondayIndex - 1 - i);
+        const d = new Date(y, m-1, dayNum);
+        iso = toISODate(d);
+        muted = true;
+      } else if(i >= mondayIndex + daysInMonth){
+        // Tage vom Folgemonat
+        dayNum = i - (mondayIndex + daysInMonth) + 1;
+        const d = new Date(y, m+1, dayNum);
+        iso = toISODate(d);
+        muted = true;
+      } else {
+        // aktueller Monat
+        dayNum = i - mondayIndex + 1;
+        const d = new Date(y, m, dayNum);
+        iso = toISODate(d);
+      }
+
+      btn.textContent = dayNum;
+      btn.dataset.iso = iso;
+
+      if(muted) btn.classList.add("muted");
+      if(iso === todayISO) btn.classList.add("today");
+      if(selectedISO && iso === selectedISO) btn.classList.add("selected");
+
+      btn.addEventListener("click", ()=>{
+        selectedISO = iso;
+        document.getElementById("saveDateISO").value = selectedISO;
+        renderCalendar();
+        updateSigmaAvailability();
+      });
+
+      grid.appendChild(btn);
+    }
+  }
+
+  function fillTimeSelect(){
+    const sel = document.getElementById("saveTimePick");
+    if(!sel) return;
+
+    if(sel.options.length > 1) return;
+
+    for(let h=0; h<24; h++){
+      for(let m=0; m<60; m+=5){
+        const hm = `${pad2(h)}:${pad2(m)}`;
+        const opt = document.createElement("option");
+        opt.value = hm;
+        opt.textContent = hm;
+        sel.appendChild(opt);
+      }
+    }
+  }
+
+  function updateSigmaAvailability(){
+    const sigmaOn = document.getElementById("sigmaOn");
+    const sigmaBody = document.getElementById("sigmaBody");
+    const dateISO = document.getElementById("saveDateISO")?.value || "";
+    const time = document.getElementById("saveTimePick")?.value || "";
+
+    if(!sigmaOn || !sigmaBody) return;
+
+    const ok = Boolean(dateISO && time);
+    if(!sigmaOn.checked){
+      sigmaBody.style.opacity = ".55";
+      sigmaBody.style.pointerEvents = "none";
+      return;
+    }
+    // Sigma an → nur erlauben, wenn Datum+Uhrzeit vorhanden
+    sigmaBody.style.opacity = ok ? "1" : ".55";
+    sigmaBody.style.pointerEvents = ok ? "auto" : "none";
+  }
+
+  function openPick(btn, panel){
+    btn.setAttribute("aria-expanded","true");
+    panel.hidden = false;
+  }
+
+  function closePick(btn, panel){
+    btn.setAttribute("aria-expanded","false");
+    panel.hidden = true;
+  }
+
+  function buildList(container, items, getSelected, onPick){
+    container.innerHTML = "";
+    items.forEach(it=>{
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "lumina-pick__item";
+      const selected = getSelected() === it.value;
+      if(selected) b.classList.add("is-selected");
+      b.innerHTML = `
+        <span>${it.label}</span>
+        <span class="lumina-pick__tick">${selected ? "✓" : ""}</span>
+      `;
+      b.addEventListener("click", ()=> onPick(it.value, it.label));
+      container.appendChild(b);
+    });
+  }
+
+  function buildTimeItems5min(){
+    const out = [{ value:"", label:"— keine Uhrzeit —" }];
+    for(let h=0; h<24; h++){
+      for(let m=0; m<60; m+=5){
+        const hm = `${pad2(h)}:${pad2(m)}`;
+        out.push({ value: hm, label: hm });
+      }
+    }
+    return out;
+  }
+
+  function setTimeValue(hm){
+    const hidden = document.getElementById("saveTimePick");
+    if(hidden) hidden.value = hm || "";
+    const label = document.querySelector("#saveTimePickBtn .lumina-pick__label");
+    if(label) label.textContent = hm ? hm : "— keine Uhrzeit —";
+    updateSigmaAvailability();
+  }
+
+  (function initSave(){
+    const m = document.getElementById("saveModal");
+
+    document.getElementById("saveBtn").addEventListener("click", ()=>{
+      const last = getLastUserMessage();
+      if(!last){
+        addBubble("lumi", "Ich habe nichts zum Speichern. Schreib mir zuerst eine Nachricht. 😉", "Lumina");
+        persistHistory();
+        msgEl.focus();
+        return;
+      }
+
+      selectedISO = "";
+      document.getElementById("saveDateISO").value = "";
+      setTimeValue("");
+      document.getElementById("saveNote").value = last.text || "";
+
+      document.getElementById("sigmaOn").checked = false;
+      setSigmaLeadValue(30);
+      document.getElementById("sigmaBody").style.opacity = ".55";
+      document.getElementById("sigmaBody").style.pointerEvents = "none";
+
+      calView = new Date();
+      renderCalendar();
+
+      openModal("saveModal");
+      setTimeout(()=> document.getElementById("saveNote")?.focus(), 60);
+    });
+
+    document.getElementById("saveX").addEventListener("click", ()=> closeModal("saveModal"));
+    document.getElementById("saveCancel").addEventListener("click", ()=> closeModal("saveModal"));
+    m.addEventListener("click", (e)=>{ if(e.target === m) closeModal("saveModal"); });
+
+    document.getElementById("calPrev").addEventListener("click", ()=>{
+      calView = new Date(calView.getFullYear(), calView.getMonth()-1, 1);
+      renderCalendar();
+    });
+    document.getElementById("calNext").addEventListener("click", ()=>{
+      calView = new Date(calView.getFullYear(), calView.getMonth()+1, 1);
+      renderCalendar();
+    });
+    document.getElementById("calToday").addEventListener("click", ()=>{
+      const d = new Date();
+      selectedISO = toISODate(d);
+      document.getElementById("saveDateISO").value = selectedISO;
+      calView = new Date(d.getFullYear(), d.getMonth(), 1);
+      renderCalendar();
+      updateSigmaAvailability();
+    });
+    document.getElementById("calClear").addEventListener("click", ()=>{
+      selectedISO = "";
+      document.getElementById("saveDateISO").value = "";
+      renderCalendar();
+      updateSigmaAvailability();
+    });
+
+    document.getElementById("sigmaOn").addEventListener("change", updateSigmaAvailability);
+
+    document.getElementById("saveOk").addEventListener("click", () => {
+      const last = getLastUserMessage();
+      if (!last) {
+        closeModal("saveModal");
+        return;
+      }
+
+      const dateISO = document.getElementById("saveDateISO").value || "";
+      const time = document.getElementById("saveTimePick").value || "";
+      const note = (document.getElementById("saveNote").value || "").trim() || last.text;
+
+      const title =
+        last.tag === "Aufgabe"
+          ? `Aufgabe: ${note}`
+          : `Notiz: ${note}`;
+
+      writeChronica({
+        title,
+        tag: last.tag,
+        createdAt: last.ts,
+        date: dateISO ? czDateFromISO(dateISO) : "",
+        time: time,
+        done: false,
+        sigma: document.getElementById("sigmaOn").checked
+          ? { leadMin: Number(document.getElementById("sigmaLead").value || 30) }
+          : null
+      });
+
+      const sigmaChecked = document.getElementById("sigmaOn").checked;
+      if (sigmaChecked && dateISO && time) {
+        const leadMin = Number(document.getElementById("sigmaLead").value || 30);
+        const t = parseHM(time);
+        if (t) {
+          const when = new Date(dateISO + "T00:00:00");
+          when.setHours(t.hh, t.mm, 0, 0);
+
+          const fireAt = when.getTime() - leadMin * 60 * 1000;
+
+          pushSigmaReminder({
+            id: "sig_" + Math.random().toString(16).slice(2),
+            fireAt,
+            leadMin,
+            targetAt: when.getTime(),
+            title: note,
+            tag: last.tag
+          });
+        }
+      }
+
+      closeModal("saveModal");
+      addBubble("lumi", "In Chronica gespeichert. ✨", `Lumina • ${nowHM()}`);
+      persistHistory();
+    });
+  })();
+
+    // =========================
+    // Sende-Logik
+    // =========================
+    function sendMessage(){
+      const text = msgEl.value.trim();
+      if(!text) return;
+
+      addBubbleRich("me", escapeHtml(text).replace(/\n/g,"<br>"), `Besucher • ${nowHM()}`, currentTag);
+      rememberLast(text, currentTag);
+
+      msgEl.value = "";
+      autosize(msgEl);
+
+      persistHistory();
+
+      luminaRespond(currentTag);
+    }
+
+    $("send").addEventListener("click", sendMessage);
+
+    msgEl.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter" && !e.shiftKey){
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function autosize(el){
+      el.style.height = "auto";
+      el.style.height = Math.min(el.scrollHeight, 160) + "px";
+    }
+    msgEl.addEventListener("input", ()=> autosize(msgEl));
+    autosize(msgEl);
+
+    // =========================
+    // User-Profil – Nickname aus LM_USER_CODEX_V1
+    // =========================
+    const PROFILE_KEY = "LM_USER_CODEX_V1";
+
+    function getProfileNickname(){
+      try{
+        const raw = localStorage.getItem(PROFILE_KEY);
+        if(!raw) return null;
+        const data = JSON.parse(raw);
+        const nick = (data.nickname || data.name || "").trim();
+        return nick || null;
+      }catch(_){
+        return null;
+      }
+    }
+
+    // =========================
+    // Kleiner Trick: Reset bei Sprachwechsel
+    // =========================
+    (function(){
+      var CURRENT_LANG = document.documentElement.lang || "cs";
+      var LANG_KEY = "pokec:lang";
+
+      try{
+        var lastLang = localStorage.getItem(LANG_KEY);
+        if (lastLang && lastLang !== CURRENT_LANG) {
+          localStorage.removeItem(CHAT_KEY);
+          localStorage.removeItem(LAST_KEY);
+          localStorage.removeItem(REACT_STYLE_KEY);
+        }
+        localStorage.setItem(LANG_KEY, CURRENT_LANG);
+      }catch(e){
+        // wenn localStorage zickt, machen wir nichts
+      }
+    })();
+
+    // =========================
+    // Boot
+    // =========================
+    loadHistory();
+
+    if (chatEl.children.length === 0) {
+      const nick = getProfileNickname();
+
+      const text = nick
+        ? `Hallo, ${nick} 😉💫 Schön, dass du da bist.\nWähle ein Label (Einfach so / Gedanke / Wichtig / Aufgabe) und los geht’s.`
+        : "Willkommen, Besucher 💫 Schön, dass du da bist.\nWähle ein Label (Einfach so / Gedanke / Wichtig / Aufgabe) und los geht’s 😉";
+
+      addBubble("lumi", text, `Lumina • ${nowHM()}`);
+      persistHistory();
+    }
+</script>
+
+<!-- kleines Skript nur zur Anzeige des Plans in der oberen Leiste -->
+<script>
+  (function () {
+    // 1) Tarif aus localStorage laden
+    var plan = localStorage.getItem("lm_plan") || "free";
+
+    // 2) auf body speichern, damit CSS / anderes JS es sieht
+    document.body.dataset.plan = plan;
+
+    // 3) in der oberen Leiste anzeigen
+    var sub = document.querySelector(".brand-sub");
+    if (sub) {
+      var label = (plan === "free")
+        ? "DEMO • FREE Tarif"
+        : (plan === "plus")
+          ? "DEMO • PLUS Tarif"
+          : "DEMO • PREMIUM Tarif";
+      sub.textContent = label;
+    }
+  })();
+</script>
+</body>
+</html>

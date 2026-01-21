@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg-image: url("gate-of-light.png");
+
+      --ink: rgba(255,255,255,.92);
+      --ink2: rgba(255,255,255,.72);
+
+      --glass: rgba(10,6,26,.38);
+      --glass2: rgba(10,6,26,.55);
+      --stroke: rgba(255,255,255,.18);
+
+      --glowV: rgba(175,135,255,.55);
+      --glowC: rgba(80,210,255,.45);
+      --glowW: rgba(255,255,255,.18);
+    }
+
+    *{ box-sizing:border-box }
+
+    /* Prevent iOS from auto‑zooming text in landscape */
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    html,body{ height:100%; margin:0 }
+    body{
+      overflow:hidden;
+      font-family: system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:#000;
+    }
+
+    /* ===== Background ===== */
+    .bg{
+      position:fixed; inset:0;
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: 0;
+      filter: saturate(1.02) contrast(1.03);
+      transform: scale(1.01);
+    }
+    .bg::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(0,0,0,.10) 0, rgba(0,0,0,.42) 62%, rgba(0,0,0,.72) 100%);
+      pointer-events:none;
+    }
+
+    /* ===== Back button ===== */
+    .back{
+      position:fixed;
+      left:18px;
+      bottom:18px;
+      z-index: 5;
+      font-size:13px;
+      color:var(--ink2);
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.22);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: filter .18s ease, background .18s ease;
+    }
+    .back:hover{ filter:brightness(1.08); background:rgba(0,0,0,.30); }
+
+    /* ===== Center gate panel ===== */
+    .gateWrap{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      z-index: 4;
+      padding: 28px 18px 78px;
+      pointer-events:none;
+      text-align:center;
+    }
+
+    .gateCard{
+      pointer-events:auto;
+      width:min(560px, 100%);
+      border-radius: 26px;
+      border: 1px solid var(--stroke);
+      background: radial-gradient(circle at 0 0, rgba(175,135,255,.18), transparent 55%) var(--glass);
+      box-shadow:
+        0 28px 86px rgba(0,0,0,.74),
+        0 0 66px rgba(175,135,255,.32),
+        0 0 110px rgba(80,210,255,.20),
+        inset 0 1px 0 rgba(255,255,255,.14),
+        inset 0 -18px 30px rgba(0,0,0,.35);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 18px 18px 16px;
+    }
+
+    .gateTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--ink2);
+      font-size: 12px;
+    }
+
+    .badge b{ color: var(--ink); font-weight: 600; }
+
+    .title{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.86);
+      text-shadow: 0 0 14px rgba(0,0,0,.72);
+    }
+
+    .hint{
+      margin: 10px 0 14px;
+      font-size: 14px;
+      color: var(--ink2);
+    }
+
+    /* ===== Enter button ===== */
+    .enterBtn{
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      box-shadow:
+        0 16px 56px rgba(0,0,0,.55),
+        0 0 50px rgba(175,135,255,.30),
+        0 0 92px rgba(80,210,255,.20),
+        inset 0 1px 0 rgba(255,255,255,.16);
+      cursor:pointer;
+      position:relative;
+      padding: 14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 12px;
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+      outline:none;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .enterBtn:hover{
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+      box-shadow:
+        0 20px 68px rgba(0,0,0,.60),
+        0 0 62px rgba(175,135,255,.36),
+        0 0 110px rgba(80,210,255,.24),
+        inset 0 1px 0 rgba(255,255,255,.16);
+    }
+
+    .enterBtn.is-pressed{
+      transform: translateY(5px) scale(.985);
+      filter: brightness(1.08) saturate(1.06);
+      transition: transform .22s cubic-bezier(.2,.9,.2,1), filter .22s ease, box-shadow .22s ease;
+    }
+
+    .enterIcon{
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.20);
+      box-shadow: 0 0 20px rgba(175,135,255,.22), 0 0 40px rgba(80,210,255,.14);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex-shrink: 0;
+    }
+
+    .enterIcon img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+      transform: translateZ(0);
+    }
+
+    .enterText{
+      text-align:left;
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .enterText .big{
+      font-size: 16px;
+      color: var(--ink);
+      letter-spacing: .02em;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .enterText .small{
+      font-size: 13px;
+      color: var(--ink2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arrow{
+      margin-left:auto;
+      color: rgba(255,255,255,.70);
+      font-size: 20px;
+      padding-right: 6px;
+    }
+
+    /* ===== Flash overlay ===== */
+    .flash{
+      position:fixed; inset:0;
+      z-index: 30;
+      pointer-events:none;
+      opacity:0;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,255,255,.90), rgba(255,255,255,.22) 38%, rgba(255,255,255,0) 72%);
+      transition: opacity .18s ease;
+    }
+    .flash.is-on{ opacity:1; }
+
+    /* ===== Intro modal ===== */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: radial-gradient(circle at 50% 0%, rgba(9,4,30,.92), rgba(3,0,10,.94));
+      z-index: 40;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .22s ease;
+      padding: 18px;
+      /* prevent overscroll bounce on iOS */
+      overscroll-behavior: contain;
+    }
+    .modal-backdrop.is-open{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .modal{
+      width:min(520px, 100%);
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.18);
+      background: radial-gradient(circle at 0 0, rgba(175,135,255,.20), transparent 55%) rgba(8,4,26,.94);
+      box-shadow:0 26px 90px rgba(0,0,0,.86);
+      padding:22px 22px 18px;
+      color:var(--ink);
+      position:relative;
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      /* Enable internal scroll for modal */
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Lock page scroll when modal is open */
+    body.modal-open{
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .modal-close{
+      position:absolute;
+      top:10px;
+      right:12px;
+      border:none;
+      background:transparent;
+      color:var(--ink2);
+      font-size:20px;
+      cursor:pointer;
+      padding:4px 6px;
+    }
+
+    .modal-header{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      margin-bottom:10px;
+    }
+
+    .modal-avatar{
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.20);
+      background:radial-gradient(circle at 30% 0%, rgba(255,255,255,.22), transparent 60%);
+      object-fit:cover;
+      flex-shrink:0;
+    }
+
+    .modal-header h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.02em;
+    }
+
+    .modal-body{
+      font-size:14px;
+      line-height:1.55;
+      color:var(--ink2);
+    }
+
+    .modal-body ol{
+      padding-left:20px;
+      margin:10px 0 14px;
+    }
+    .modal-body li{ margin-bottom:6px; }
+
+    .note{
+      margin-top:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+    }
+
+    .modal-footer{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.22);
+      background:linear-gradient(135deg, rgba(175,135,255,.95), rgba(80,210,255,.95));
+      color:#050312;
+      padding:10px 18px;
+      font-size:14px;
+      cursor:pointer;
+      box-shadow:0 12px 36px rgba(0,0,0,.65);
+      font-weight: 700;
+    }
+    .btn-primary:hover{ filter:brightness(1.05); }
+
+    .btn-ghost{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.18);
+      color:var(--ink2);
+      padding:10px 14px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .btn-ghost:hover{ filter: brightness(1.06); }
+
+    /* Mobile tuning */
+    @media (max-width:520px){
+      .gateWrap{ padding-bottom: 62px; }
+      .title{ font-size: 16px; }
+      .enterText .big{ font-size: 15px; }
+      .enterText .small{ font-size: 12px; }
+      .enterIcon{ width: 40px; height: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .enterBtn{ transition:none !important; }
+      .flash{ transition:none !important; }
+      .modal-backdrop{ transition:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <a class="back" href="index.html">← Zpět na web</a>
+
+  <div class="gateWrap">
+    <div class="gateCard" aria-label="Vstupní brána">
+      <div class="gateTop">
+        <div class="badge" title="Demonstrační režim">
+          <b>DEMO</b> • zdarma 
+        </div>
+        <div class="badge" title="Krátký postup před vstupem">
+          Vstup do LuminaMemory™👇
+        </div>
+      </div>
+
+      <div class="title">Vstupní brána</div>
+
+      <button class="enterBtn" id="enterBtn" type="button" aria-label="Vstoupit do demo prostředí">
+        <span class="enterIcon">
+          <!-- může být favicon nebo avatar – tady logo, ať je to univerzální -->
+          <img src="favicon.png" alt="LuminaMemory™">
+        </span>
+        <span class="enterText">
+          <span class="big">Vstoupit do Luminy</span>
+          <span class="small">Zmáčkni tlačítko a já tě povedu dál ✨</span>
+        </span>
+        <span class="arrow">›</span>
+      </button>
+
+      <div class="hint">
+        Uvnitř tě čeká <b>miniLumina</b> a hlavně <b>Nastavení ⚙️ → Návod (průvodce)</b>, aby ses neztratil(a).
+      </div>
+    </div>
+  </div>
+
+  <div class="flash" id="flash" aria-hidden="true"></div>
+
+  <!-- Intro modal -->
+  <div class="modal-backdrop" id="introModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+      <button class="modal-close" type="button" id="introClose" aria-label="Zavřít">×</button>
+
+      <div class="modal-header">
+        <img src="lumina-avatar.png" alt="Lumina" class="modal-avatar">
+        <h1 id="introTitle">Vítej ✨ Než otevřu bránu…</h1>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Tohle je <b>DEMO</b>.
+        </p>
+
+        <ol>
+          <li>
+            <b>Teď se nic neplatí.</b> Přihlášení i „tarif“ jsou v demu jen orientační – <b>na oko</b>.
+          </li>
+          <li>
+            Po přihlášení uvidíš <b>miniLumina</b> (chat „POKEC“ + tlačítka místností).
+          </li>
+          <li>
+            Než začneš cokoliv zkoušet, otevři:
+            <b>Nastavení ⚙️ → Návod (průvodce)</b> – tam je celý palác popsaný krok za krokem.
+          </li>
+        </ol>
+
+        <div class="note">
+          Pokračováním potvrzuješ, že rozumíš: jde o demonstrační prostředí, které slouží k testování konceptu.
+          Přístupové údaje a volba tarifu jsou v této verzi pouze pro simulaci.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-ghost" type="button" id="introLater">Ještě se rozhlédnu</button>
+        <button class="btn-primary" type="button" id="introContinue">Rozumím, otevři bránu ✨</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const enterBtn   = document.getElementById("enterBtn");
+      const flash      = document.getElementById("flash");
+      const modal      = document.getElementById("introModal");
+      const continueBt = document.getElementById("introContinue");
+      const laterBt    = document.getElementById("introLater");
+      const closeBt    = document.getElementById("introClose");
+
+      // cílová stránka po potvrzení
+      const target = "mini-login.html";
+
+      function openModal(){
+        document.body.classList.add("modal-open");
+        modal.hidden = false;
+        requestAnimationFrame(() => modal.classList.add("is-open"));
+      }
+
+      function closeModal(){
+        modal.classList.remove("is-open");
+        document.body.classList.remove("modal-open");
+        setTimeout(() => { modal.hidden = true; }, 220);
+      }
+
+      enterBtn.addEventListener("click", () => {
+        enterBtn.classList.add("is-pressed");
+        flash.classList.add("is-on");
+
+        setTimeout(() => {
+          flash.classList.remove("is-on");
+          enterBtn.classList.remove("is-pressed");
+          openModal();
+        }, 360);
+      });
+
+      continueBt.addEventListener("click", () => {
+        flash.classList.add("is-on");
+        setTimeout(() => { window.location.href = target; }, 420);
+      });
+
+      laterBt.addEventListener("click", closeModal);
+      closeBt.addEventListener("click", closeModal);
+
+      // zavření klikem mimo modal (jemné UX)
+      modal.addEventListener("click", (e) => {
+        if(e.target === modal) closeModal();
+      });
+    })();
+  </script>
+</body>
+</html>
