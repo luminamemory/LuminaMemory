@@ -1,0 +1,1612 @@
+<!doctype html>
+<html lang="de">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+  /* sjednocená tmavší tyrkysová rodina */
+  --bg0:#020814;
+  --bg1:#03161d;
+  --bg2:#020814;
+
+  --ink:rgba(255,255,255,.94);
+  --ink2:rgba(255,255,255,.78);
+  --muted:rgba(255,255,255,.68);
+  --muted2:rgba(255,255,255,.55);
+
+  --border:rgba(148,227,255,.24);
+  --border-soft:rgba(148,227,255,.16);
+  --card:rgba(1,10,16,.88);
+  --shadow:0 26px 80px rgba(0,0,0,.8);
+
+  --accent:#2dd4bf;
+  --accent-soft:rgba(45,212,191,.18);
+  --accent-strong:#22c1af;
+  --danger:#f97373;
+  --danger-soft:rgba(248,113,113,.18);
+  --demo:#eab308;
+}
+
+body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 820px at 10% 0%, rgba(56,189,248,.24), transparent 60%),
+    radial-gradient(1000px 780px at 90% 8%, rgba(45,212,191,.18), transparent 60%),
+    /* tmavý spodek pro celou stránku */
+    radial-gradient(1200px 840px at 50% 120%, rgba(0,0,0,.75), transparent 65%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 42%, var(--bg2) 100%);
+  background-attachment: fixed;
+}
+
+    a{color:inherit}
+
+    /* Layout */
+    .page{min-height:100vh;display:flex;flex-direction:column;}
+    header{
+      position:sticky;top:0;z-index:40;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background:linear-gradient(180deg,rgba(1,9,15,.92),rgba(1,9,15,.6));
+      border-bottom:1px solid rgba(148,227,255,.28);
+    }
+    .wrap{max-width:1120px;margin:0 auto;padding:14px 18px 22px;}
+
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .brand-logo{
+      width:32px;
+      height:32px;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(148,227,255,.4);
+      box-shadow:0 8px 26px rgba(0,0,0,.7);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(148,227,255,.55), transparent 55%),
+        radial-gradient(circle at 80% 110%, rgba(94,234,212,.5), transparent 60%),
+        #020617;
+    }
+
+    .brand-text b{
+      font-family:"Cinzel",serif;
+      letter-spacing:.12em;
+      font-size:13px;
+      text-transform:uppercase;
+    }
+    .brand-text small{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .top-nav{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      color:var(--muted2);
+    }
+    .top-nav a{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid transparent;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:rgba(15,23,42,.4);
+    }
+    .top-nav a:hover{
+      border-color:rgba(148,227,255,.4);
+      background:rgba(15,23,42,.7);
+    }
+
+    main{flex:1}
+    .hero{
+      display:grid;
+      grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr);
+      gap:18px;
+      margin-top:12px;
+    }
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr;gap:16px;}
+    }
+
+    .hero-card{
+      border-radius:22px;
+      border:1px solid var(--border);
+      background:linear-gradient(145deg,rgba(3,16,23,.94),rgba(15,23,42,.96));
+      box-shadow:var(--shadow);
+      padding:18px 18px 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-kicker{
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--muted2);
+      margin-bottom:4px;
+    }
+    h1{
+      font-family:"Cinzel",serif;
+      font-size:clamp(18px,2.5vw,22px);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin:0 0 6px;
+    }
+    .hero-lead{
+      font-size:13px;
+      line-height:1.6;
+      color:var(--ink2);
+      margin:0 0 10px;
+    }
+    .hero-note{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.6;
+      margin:0;
+    }
+
+    .demo-pill-row{
+      margin-top:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:11px;
+    }
+    .demo-pill{
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px dashed rgba(234,179,8,.55);
+      background:rgba(234,179,8,.10);
+      color:rgba(252,211,77,.9);
+    }
+
+    .hero-side{
+      border-radius:22px;
+      border:1px solid var(--border-soft);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45,212,191,.24), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(56,189,248,.24), transparent 60%),
+        rgba(1,9,15,.92);
+      padding:22px 18px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      position:relative;
+      overflow:hidden;
+      text-align:center;
+    }
+
+    .hero-side::before{
+      content:"";
+      position:absolute;
+      inset:6px 10px;
+      background:url("/tv-frame.png") center/contain no-repeat;
+      opacity:0.85;
+      mix-blend-mode:normal;
+      filter:
+        drop-shadow(0 18px 28px rgba(0,0,0,.85))
+        saturate(1.08)
+        contrast(1.10);
+      pointer-events:none;
+    }
+
+    .hero-side > *{
+      position:relative;
+      z-index:1;
+    }
+    .hero-side::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      box-shadow:
+        inset 0 0 0 1px rgba(148,227,255,.35),
+        inset 0 20px 35px rgba(15,23,42,.85),
+        inset 0 -18px 30px rgba(0,0,0,.9);
+      opacity:0.85;
+      pointer-events:none;
+    }
+
+    .planBar-label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted2);
+    }
+    .planBar-main{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-top:2px;
+      flex-wrap:wrap;
+    }
+    .planName{
+      font-weight:600;
+      font-size:13px;
+    }
+    .planChip{
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:11px;
+      border:1px solid rgba(148,227,255,.6);
+      background:rgba(15,23,42,.9);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+    .planHint{
+      margin-top:6px;
+      font-size:11.5px;
+      color:var(--muted2);
+      line-height:1.6;
+    }
+
+    .hero-side-footer{
+      margin-top:auto;
+      border-top:1px solid rgba(148,227,255,.18);
+      padding-top:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      font-size:11px;
+      color:var(--muted2);
+    }
+
+    .section-title{
+      margin:24px 0 10px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:var(--muted2);
+    }
+
+    .tvGrid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:16px;
+    }
+
+    .tv{
+      position:relative;
+      border-radius:20px;
+      border:1px solid var(--border);
+      background:var(--card);
+      box-shadow:var(--shadow);
+      padding:10px 10px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      overflow:hidden;
+    }
+
+    .tvHd{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      position:relative;
+      z-index:2;
+    }
+    .pill{
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,227,255,.45);
+      background:rgba(15,23,42,.9);
+      font-size:11px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      color:var(--ink2);
+    }
+    .pill span{opacity:.85}
+    .badge{
+      min-width:18px;
+      padding:2px 7px;
+      border-radius:999px;
+      font-size:11px;
+      background:rgba(15,23,42,.85);
+      border:1px solid rgba(148,227,255,.4);
+      text-align:center;
+    }
+
+    .demoTag{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:-18px;
+      margin:auto;
+      width:max-content;
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:10px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      background:rgba(250,204,21,.96);
+      color:#1f2933;
+      box-shadow:0 10px 30px rgba(0,0,0,.55);
+    }
+
+    .screen{
+      position:relative;
+      border-radius:12px;
+      border:1px solid rgba(148,227,255,.35);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(45,212,191,.22), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(59,130,246,.26), transparent 60%),
+        rgba(15,23,42,.96);
+      padding:10px 10px 9px;
+      font-family:"SF Mono","JetBrains Mono","Menlo",monospace;
+      font-size:11.5px;
+      line-height:1.5;
+      color:rgba(241,245,249,.96);
+      min-height:92px;
+      overflow:hidden;
+    }
+    .screen pre{
+      margin:0;
+      white-space:pre-wrap;
+    }
+    .fadeEdge{
+      position:absolute;
+      inset:auto 0 0 0;
+      height:26px;
+      background:linear-gradient(180deg,transparent,rgba(15,23,42,.98));
+      pointer-events:none;
+    }
+
+    .tvFt{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      font-size:11.5px;
+      color:var(--muted);
+      flex-wrap:wrap;
+    }
+    .tvFt strong{
+      font-size:12px;
+      color:var(--ink2);
+      display:block;
+    }
+    .tvFt span{
+      display:block;
+    }
+
+    .tvFtActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      justify-content:flex-end;
+    }
+
+    .tv--demo .screen{
+      background:
+        radial-gradient(circle at 8% 0%, rgba(234,179,8,.22), transparent 60%),
+        radial-gradient(circle at 100% 80%, rgba(56,189,248,.20), transparent 60%),
+        rgba(15,23,42,.96);
+    }
+
+    .tv--bonus{
+      border-style:dashed;
+      border-color:rgba(45,212,191,.55);
+    }
+    .tv--bonus.is-locked{
+      opacity:.84;
+      border-color:rgba(148,163,184,.45);
+      background:rgba(15,23,42,.85);
+    }
+
+    .tv--bonus .screen{
+      font-size:11px;
+    }
+
+    .bonusHint{
+      font-size:11px;
+      color:var(--muted2);
+      margin-top:4px;
+    }
+
+    .helpText{
+      margin:8px 0 0;
+      font-size:11.5px;
+      color:var(--muted2);
+      line-height:1.6;
+    }
+
+    .btn{
+      border-radius:999px;
+      border:1px solid rgba(148,227,255,.45);
+      background:rgba(15,23,42,.95);
+      color:var(--ink);
+      padding:6px 12px;
+      font-size:11.5px;
+      font-weight:500;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      transition:all .15s ease-out;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      background:linear-gradient(135deg,var(--accent-strong),#60a5fa);
+      color:#0b1020;
+      box-shadow:0 14px 35px rgba(0,0,0,.65);
+    }
+    .btn--ghost{
+      border-color:rgba(148,227,255,.28);
+      background:rgba(15,23,42,.55);
+    }
+    .btn--ghost:hover{
+      background:rgba(15,23,42,.95);
+      color:var(--ink);
+    }
+    .btn--danger{
+      border-color:rgba(248,113,113,.65);
+      background:rgba(127,29,29,.9);
+    }
+    .btn--danger:hover{
+      background:rgba(220,38,38,.95);
+      color:#fff;
+    }
+    .btn--disabled,
+    .btn:disabled{
+      cursor:default;
+      opacity:.45;
+      box-shadow:none;
+      background:rgba(15,23,42,.6);
+    }
+
+    .hint{
+      font-size:11px;
+      color:var(--muted2);
+      margin-top:8px;
+    }
+
+    .emptyMsg{
+      font-size:11.5px;
+      color:var(--muted2);
+      margin:4px 0 0;
+    }
+
+    .queueSection{
+      margin-top:26px;
+      padding:16px 14px 14px;
+      border-radius:18px;
+      border:1px solid rgba(148,227,255,.28);
+      background:rgba(3,13,19,.93);
+      box-shadow:0 20px 60px rgba(0,0,0,.8);
+    }
+    .queueHeader{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .queueTitle{
+      font-size:13px;
+      font-weight:500;
+    }
+    .queueBadge{
+      font-size:11px;
+      padding:3px 9px;
+      border-radius:999px;
+      border:1px solid rgba(148,227,255,.45);
+      background:rgba(15,23,42,.9);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    #queueCount{font-weight:600;}
+
+    .queueDesc{
+      font-size:11.5px;
+      color:var(--muted2);
+      margin:0 0 10px;
+      line-height:1.6;
+    }
+
+    .queueList{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .queueItem{
+      padding:8px 9px;
+      border-radius:12px;
+      border:1px solid rgba(148,227,255,.24);
+      background:rgba(15,23,42,.9);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      font-size:11.5px;
+    }
+    .queueMain{
+      min-width:0;
+    }
+    .queueLabel{
+      font-weight:500;
+      margin-bottom:2px;
+    }
+    .queueMeta{
+      color:var(--muted2);
+    }
+    .queueActions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    footer{
+      margin-top:26px;
+      padding-top:12px;
+      border-top:1px solid rgba(148,227,255,.16);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:11px;
+      color:var(--muted2);
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,.72);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:60;
+    }
+    .modal-backdrop.is-open{display:flex;}
+
+    .modal{
+      max-width:520px;
+      width:100%;
+      border-radius:18px;
+      border:1px solid rgba(148,227,255,.4);
+      background:rgba(3,13,19,.98);
+      box-shadow:0 30px 90px rgba(0,0,0,.9);
+      padding:14px 16px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      align-items:flex-start;
+      margin-bottom:4px;
+    }
+    .modal-title{
+      font-size:14px;
+      font-weight:600;
+    }
+    .modal-sub{
+      font-size:11.5px;
+      color:var(--muted2);
+      margin-top:2px;
+    }
+    .modal-close{
+      border:none;
+      background:transparent;
+      color:var(--muted2);
+      cursor:pointer;
+      padding:2px 4px;
+    }
+    .modal-body{
+      font-size:12px;
+      color:var(--ink2);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .modal-body p{
+      margin:0;
+    }
+
+    textarea{
+      width:100%;
+      min-height:120px;
+      border-radius:10px;
+      border:1px solid rgba(148,227,255,.35);
+      background:rgba(15,23,42,.9);
+      color:var(--ink);
+      font-family:"Poppins",system-ui,sans-serif;
+      font-size:12px;
+      padding:8px;
+      resize:vertical;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      font-size:12px;
+    }
+    .field label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--muted2);
+    }
+    .field input{
+      border-radius:10px;
+      border:1px solid rgba(148,227,255,.35);
+      background:rgba(15,23,42,.9);
+      color:var(--ink);
+      font-size:12px;
+      padding:7px 8px;
+    }
+
+    .modal-footer{
+      margin-top:8px;
+      padding-top:8px;
+      border-top:1px solid rgba(148,227,255,.16);
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .dangerNote{
+      font-size:11px;
+      color:var(--danger);
+    }
+
+    @media (max-width:640px){
+      .hero-side-footer{flex-direction:column;align-items:flex-start;}
+      .tvFt{flex-direction:column;align-items:flex-start;}
+      .queueItem{flex-direction:column;align-items:flex-start;}
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <div class="brand-text">
+            <b>Proiecta</b>
+            <small>Projekträume</small>
+          </div>
+        </div>
+        <nav class="top-nav" aria-label="Navigation">
+          <a href="proiecta-de.html">← Zurück in die Werkstatt</a>
+          <a href="praetorium-de.html">← Praetorium</a>
+          <a href="chronica-de.html">← Chronica</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <section class="hero" aria-label="Übersicht der Projekträume">
+        <div class="hero-card">
+          <div class="hero-kicker">PROIECTA • RÄUME</div>
+          <h1>Projekträume — TV-Wand</h1>
+          <p class="hero-lead">
+            Hier werden wiederkehrende Themen zu <b>Projekträumen</b>.
+            Erst die Demo-TV-Bildschirme, dann deine eigenen Räume je nach Tarif
+            und zum Schluss eine Bonus-Karte für große Missionen.
+          </p>
+          <p class="hero-note">
+            Alles in diesem Demo läuft nur in deinem Browser – lokal, ohne
+            Speicherung auf einem Server. Du kannst Räume öffnen und löschen,
+            Notizen überschreiben und mit dem Ablagetisch spielen.
+          </p>
+          <div class="demo-pill-row">
+            <span class="demo-pill">🔎 Drei große TVs = <b>Demo-Räume</b></span>
+            <span class="demo-pill">📁 Bereich „Meine Räume“ = <b>deine Projekte</b></span>
+            <span class="demo-pill">🧭 Bonus: <b>KARTE</b> nur für PREMIUM (hier als Vorschau)</span>
+          </div>
+        </div>
+
+        <aside class="hero-side" aria-label="Aktiver Tarif in Proiecta">
+          <div class="planBar-label">DEMO • TARIF</div>
+          <div class="planBar-main">
+            <span class="planName" id="projPlanName">FREE (Demo)</span>
+            <span class="planChip" id="projPlanChip" data-plan="free">FREE</span>
+          </div>
+          <p class="planHint" id="projPlanHint">
+            In diesem Demo gelten einfache Limits: FREE → 1 eigener Raum,
+            PLUS → 5 Räume, PREMIUM → unbegrenzt.
+          </p>
+          <div class="hero-side-footer">
+            <span>Tipp: den Tarif stellst du im Mini-Login oder in den Einstellungen ein.</span>
+          </div>
+        </aside>
+      </section>
+
+      <!-- 1) Demo-Bildschirme -->
+      <h2 class="section-title">1 • Demo-Projekträume (DEMO)</h2>
+      <section class="tvGrid" aria-label="Demo-TV-Räume">
+        <!-- HAUSHALT -->
+        <article class="tv tv--demo" data-room="demo_domacnost">
+          <header class="tvHd">
+            <div class="pill">
+              <span>🏠 HAUSHALT</span>
+            </div>
+            <div class="badge">∞</div>
+            <span class="demoTag">DEMO</span>
+          </header>
+          <div class="screen" aria-hidden="true">
+            <pre>
+MONTAG
+  • Mülleimer leeren + Flur wischen
+  • Katzenstreu nachfüllen
+  • Kühlschrank checken (Ablaufdaten)
+
+MITTWOCH
+  • schneller „Hotel“-Putz
+  • Wäsche → Waschmaschine → Ständer
+            </pre>
+            <div class="fadeEdge"></div>
+          </div>
+          <footer class="tvFt">
+            <div>
+              <strong>Raum: „Haushalt – Alltag“</strong>
+              <span>Alltägliche Dinge, die immer wiederkommen – Putzen, Einkaufen, Katzenstreu, Papierkram…</span>
+              <span class="helpText">
+                In der Live-Version würden hier kleine Haushaltsprojekte laufen.
+                Hier ist es nur ein Demo-Bildschirm.
+              </span>
+            </div>
+          </footer>
+        </article>
+
+        <!-- REZEPTE -->
+        <article class="tv tv--demo" data-room="demo_recepty">
+          <header class="tvHd">
+            <div class="pill">
+              <span>🍲 REZEPTE</span>
+            </div>
+            <div class="badge">∞</div>
+            <span class="demoTag">DEMO</span>
+          </header>
+          <div class="screen" aria-hidden="true">
+            <pre>
+REZEPTE FÜR DEN WINTER
+  • Pilzsuppe wie bei Mama
+  • „glutenfreier“ Kartoffelsalat
+  • Universal-Teig für Kekse
+
+TIPPS FÜR DEN SOMMER
+  • kalte Suppen
+  • einfache Salate für Lunchboxen
+            </pre>
+            <div class="fadeEdge"></div>
+          </div>
+          <footer class="tvFt">
+            <div>
+              <strong>Raum: „Rezepte & Küchenideen“</strong>
+              <span>Alles rund ums Kochen, Backen und das ewige „Was essen wir heute?“.</span>
+              <span class="helpText">
+                Das ist nur ein Demo-TV – damit man sieht, wie ein Projekt
+                außerhalb des täglichen Chats leben kann.
+              </span>
+            </div>
+          </footer>
+        </article>
+
+        <!-- GROßES PROJEKT -->
+        <article class="tv tv--demo" data-room="demo_velky">
+          <header class="tvHd">
+            <div class="pill">
+              <span>🌍 GROSSES PROJEKT</span>
+            </div>
+            <div class="badge">∞</div>
+            <span class="demoTag">DEMO</span>
+          </header>
+          <div class="screen" aria-hidden="true">
+            <pre>
+GROSSES PROJEKT
+  • Umzug / Renovierung / größere Lebensveränderung
+  • Liste von Schritten für Monate im Voraus
+  • Kontrollpunkte und Termine
+
+HIER WÄRE:
+  • Zeitachse
+  • Notizen
+  • Links zu Dateien
+            </pre>
+            <div class="fadeEdge"></div>
+          </div>
+          <footer class="tvFt">
+            <div>
+              <strong>Raum: „Großes Projekt“</strong>
+              <span>Beispiel dafür, wie eine eigene Wand für ein großes Lebensprojekt aussehen kann.</span>
+              <span class="helpText">
+                Echte Projekte findest du weiter unten im Bereich <b>Meine Projekträume</b>.
+              </span>
+            </div>
+          </footer>
+        </article>
+      </section>
+
+      <!-- 2) Meine Projekträume -->
+      <h2 class="section-title">2 • Meine Projekträume (je nach Tarif)</h2>
+      <section class="tvGrid" aria-label="Deine Projekträume">
+        <article class="tv tv--new">
+          <header class="tvHd">
+            <div class="pill">
+              <span>🧰 DEINE RÄUME</span>
+            </div>
+          </header>
+          <div class="screen">
+            <p><b>Eigene Projekträume</b></p>
+            <p>
+              Hier im Demo kannst du echte Projekträume öffnen – zum Beispiel
+              „Umzug“, „Sprachkurs“ oder „Renovierung Wohnzimmer“.
+            </p>
+            <ul style="margin:6px 0 0 16px;padding:0;font-size:11.5px;line-height:1.4;">
+              <li><b>FREE</b>: 1 eigener Projektraum. Keine zusätzlichen „Plus“-Räume.</li>
+              <li><b>PLUS</b>: bis zu 5 eigene Räume. Ebenfalls ohne Extra-„Plus“-Räume.</li>
+              <li><b>PREMIUM</b>: ein Start-Raum + Möglichkeit für unbegrenzt viele Projekte.</li>
+            </ul>
+            <p class="hint" id="btnNewRoomHint">
+              Das Tarif-Limit wird automatisch überwacht. Sobald du es erreichst, wird der Button gesperrt.
+            </p>
+          </div>
+          <footer class="tvFt">
+            <div>
+              <strong>So funktioniert es im Demo</strong>
+              <span>Jedes Projekt ist ein eigener Raum mit eigenem Notizbereich.</span>
+            </div>
+            <div class="tvFtActions">
+              <button class="btn" type="button" id="btnNewRoom">
+                ➕ Neuen Projektraum öffnen
+              </button>
+            </div>
+          </footer>
+        </article>
+
+        <div id="customRoomsMount" class="tvGrid" aria-label="Liste deiner Projekträume">
+          <!-- gefüllt per JS -->
+        </div>
+      </section>
+
+      <!-- 3) PREMIUM-Boni – Reisekarte -->
+      <h2 class="section-title">3 • PREMIUM-Boni – Reisekarte</h2>
+      <section class="tvGrid" aria-label="PREMIUM-Bonusräume">
+        <article class="tv tv--bonus" id="tvMap">
+          <header class="tvHd">
+            <div class="pill">
+              <span>🧭 BONUS: Reisekarte</span>
+            </div>
+          </header>
+          <div class="screen" aria-hidden="true">
+            <pre>
+REISEKARTE (VORSCHAU)
+  • BLOCK 1 – Ziel & Strecke
+  • BLOCK 2 – Pack-Checkliste
+  • BLOCK 3 – Unterlagen & Buchungen
+  • BLOCK 4 – Kleinigkeiten „für die Seelenruhe“
+
+IN DER LIVE-VERSION:
+  • Urlaube, Ausflüge, Arzttermine & Meetings auf einer Karte
+  • Verbindung mit Chronica (Termine) und Sigma (Erinnerungen)
+  • Export als persönlicher „Reiserucksack“
+            </pre>
+            <div class="fadeEdge"></div>
+          </div>
+          <footer class="tvFt">
+            <div>
+              <strong>Reisekarte (PREMIUM-Bonus)</strong>
+              <span class="bonusHint tvMapTag">
+                Ernsthafte Dinge (Reisen, Ärzte, Termine) in spielerischer Form. In der Live-Version wird das ein wichtiger PREMIUM-Raum – hier siehst du eine Vorschau.
+              </span>
+            </div>
+            <div class="tvFtActions">
+              <button class="btn btn--ghost" type="button" id="btnOpenMap">
+                🧭 Reisekarte öffnen
+              </button>
+            </div>
+          </footer>
+        </article>
+      </section>
+
+      <!-- Ablagetisch -->
+      <section class="queueSection" aria-label="Ablagetisch – Demo">
+        <div class="queueHeader">
+          <div>
+            <div class="queueTitle">Ablagetisch – Warteschlange aus der Werkstatt (DEMO)</div>
+            <p class="queueDesc">
+              Hier im Demo hast du ein paar Beispiel-Einträge „aus der Werkstatt“.
+              Du kannst daraus <b>einen Projektraum machen</b> oder sie <b>löschen</b>.
+              Im Demo kannst du Dinge direkt aus der Werkstatt (Chat)
+              über den Button <b>„📦 In Projekt“</b> auf den Ablagetisch legen.
+            </p>
+          </div>
+          <div class="queueBadge">
+            <span>Auf dem Tisch:</span>
+            <span id="queueCount">0</span>
+          </div>
+        </div>
+        <div id="queueMount" class="queueList">
+          <!-- per JS gefüllt -->
+        </div>
+      </section>
+
+      <footer>
+        <span>Proiecta • Projekträume</span>
+        <span>DEMO • alle Daten bleiben nur in deinem Browser.</span>
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<!-- Modal: Projektraum-Detail -->
+<div class="modal-backdrop" id="roomModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="roomModalTitle">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="roomModalTitle" data-room-title>Projektraum</div>
+        <div class="modal-sub" data-room-purpose>Eigener Projektraum.</div>
+      </div>
+      <button class="modal-close" type="button" data-close-room>✕</button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Das hier ist eine einfache Vorschau, wie ein Schreibbereich in einem Projektraum aussehen kann.
+        Alles, was du hier schreibst, wird nur in deinem Browser gespeichert.
+      </p>
+      <div class="field">
+        <label for="roomNotes">Notizen zum Projekt</label>
+        <textarea id="roomNotes" placeholder="Hier gehören Projektgerüst, Meilensteine, Ideen… hin."></textarea>
+      </div>
+      <p class="dangerNote">
+        Achtung: In der DEMO-Version kann nichts exportiert werden. Das Löschen eines Raums kann nicht rückgängig gemacht werden.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn--ghost" type="button" data-delete-room>🗑 Raum löschen</button>
+      <button class="btn btn--ghost" type="button" data-close-room>Schließen</button>
+      <button class="btn" type="button" data-save-room>💾 Notizen speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: neuen Raum erstellen -->
+<div class="modal-backdrop" id="createRoomModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="createRoomTitle">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="createRoomTitle">Neuer Projektraum</div>
+        <div class="modal-sub">
+          Gib dem Projekt einen kurzen Namen und schreib, warum es einen eigenen Raum verdient.
+        </div>
+      </div>
+      <button class="modal-close" type="button" onclick="(function(){document.getElementById('createRoomModal').classList.remove('is-open');})();">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="createRoomForm" onsubmit="return false;">
+        <div class="field">
+          <label for="roomName">Name des Raums</label>
+          <input id="roomName" name="roomName" type="text" maxlength="60"
+                 placeholder="Z.B. Sprachkurs, Wohnungsrenovierung…" required>
+        </div>
+        <div class="field">
+          <label for="roomPurpose">Warum dieser Raum?</label>
+          <input id="roomPurpose" name="roomPurpose" type="text" maxlength="140"
+                 placeholder="Kurz: Wozu dient dieses Projekt?">
+        </div>
+      </form>
+      <p class="hint">
+        Im Demo entsteht ein einfacher Raum mit einem einzigen Notizfeld.
+        Keine Daten verlassen deinen Browser.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn--ghost" type="button"
+              onclick="(function(){document.getElementById('createRoomModal').classList.remove('is-open');})();">
+        Abbrechen
+      </button>
+      <button class="btn" type="button" id="btnCreateRoom">
+        ✅ Raum erstellen
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Info zur Karte für Nicht-PREMIUM -->
+<div class="modal-backdrop" id="mapInfoModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mapInfoTitle">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="mapInfoTitle">Reisekarte – PREMIUM-Bonus</div>
+        <div class="modal-sub">
+          Das ist ein PREMIUM-Demorraum. Im Demo kannst du nur eine Vorschau sehen – die vollen Funktionen kommen in der Live-Version.
+        </div>
+      </div>
+      <button class="modal-close" type="button" data-close-map>✕</button>
+    </div>
+    <div class="modal-body">
+      <p>
+        In der Live-Version wird die Reisekarte Urlaube, Ausflüge, Arzttermine und berufliche Termine verwalten, verbunden mit Chronica und Sigma.
+      </p>
+      <p>
+        Hier im Demo kannst du nur sehen, worum es geht. Es werden keine Daten auf einen Server geschickt.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn--ghost" type="button" data-close-map>Schließen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Löschbestätigung -->
+<div class="modal-backdrop" id="confirmModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-header">
+      <div class="modal-title" id="confirmTitle">Projektraum löschen?</div>
+      <button class="modal-close" type="button" data-cancel-delete>✕</button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Möchtest du diesen Projektraum wirklich löschen?
+        Alles, was du darin geschrieben hast, geht im Demo endgültig verloren.
+      </p>
+      <p class="dangerNote">
+        In der Live-Version könnte der Raum ins Archiv verschoben werden. Hier im Demo ist das Löschen endgültig.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn--ghost" type="button" data-cancel-delete>Nein, behalten</button>
+      <button class="btn btn--danger" type="button" data-confirm-delete>Ja, löschen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const PLAN_KEY = 'lm_plan';
+  const PLAN_LIMITS = {
+    FREE: 1,
+    PLUS: 5,
+    PREMIUM: Infinity
+  };
+
+  const KEY_ROOMS = 'LM_PROIECTA_CUSTOM_ROOMS_V1';
+  const KEY_ROOM_TEXTS = 'LM_PROIECTA_ROOM_TEXTS_V1';
+  const KEY_QUEUE = "LM_PROIECTA_QUEUE_DEMO_DE";
+
+  let rooms = [];
+  let roomTexts = {};
+  let queue = [];
+  let activeRoomKey = null;
+  let deleteRoomKey = null;
+  let queueSourceItemIndex = null;
+
+  function getPlan() {
+    const raw = (typeof localStorage !== 'undefined')
+      ? localStorage.getItem(PLAN_KEY)
+      : null;
+    const norm = (raw || 'FREE').toUpperCase();
+    if (norm === 'PLUS' || norm === 'PREMIUM') return norm;
+    return 'FREE';
+  }
+
+  function planLabel(plan) {
+    if (plan === 'PLUS') return 'PLUS (mittleres Stockwerk)';
+    if (plan === 'PREMIUM') return 'PREMIUM (alles geöffnet)';
+    return 'FREE (Basis-Demo)';
+  }
+
+  function saveRooms() {
+    if (typeof localStorage === 'undefined') return;
+    localStorage.setItem(KEY_ROOMS, JSON.stringify(rooms));
+  }
+
+  function saveTexts() {
+    if (typeof localStorage === 'undefined') return;
+    localStorage.setItem(KEY_ROOM_TEXTS, JSON.stringify(roomTexts));
+  }
+
+  function saveQueue() {
+    if (typeof localStorage === 'undefined') return;
+    localStorage.setItem(KEY_QUEUE, JSON.stringify(queue));
+  }
+
+  function renderPlanBar() {
+    const plan = getPlan();
+    const limit = PLAN_LIMITS[plan] ?? PLAN_LIMITS.FREE;
+    const count = rooms.length;
+
+    const nameEl = document.getElementById('projPlanName');
+    const chip = document.getElementById('projPlanChip');
+    const hint = document.getElementById('projPlanHint');
+    const btnNew = document.getElementById('btnNewRoom');
+    const newHint = document.getElementById('btnNewRoomHint');
+
+    if (nameEl) nameEl.textContent = planLabel(plan);
+    if (chip) {
+      chip.textContent = plan;
+      chip.setAttribute('data-plan', plan.toLowerCase());
+    }
+
+    if (hint) {
+      if (plan === 'PREMIUM') {
+        hint.textContent = 'PREMIUM im Demo: Du kannst so viele Projekträume öffnen, wie du ausprobieren möchtest.';
+      } else if (plan === 'PLUS') {
+        hint.textContent = 'PLUS im Demo: bis zu 5 eigene Projekträume. Ideal für mehrere größere Themen nebeneinander.';
+      } else {
+        hint.textContent = 'FREE im Demo: ein echter Projektraum. Reicht, um zu sehen, ob dir dieses System liegt.';
+      }
+    }
+
+    if (btnNew && newHint) {
+      if (limit !== Infinity && count >= limit) {
+        btnNew.disabled = true;
+        btnNew.classList.add('btn--disabled');
+        newHint.textContent =
+          plan === 'FREE'
+            ? 'Im FREE-Tarif ist im Demo 1 Projektraum vorgesehen. Mehr wäre eher Stress als Hilfe.'
+            : 'Im PLUS-Tarif liegt die Grenze bei 5 Projekträumen – für das Demo völlig ausreichend.';
+      } else {
+        btnNew.disabled = false;
+        btnNew.classList.remove('btn--disabled');
+        if (limit === Infinity) {
+          newHint.textContent = 'PREMIUM: Du kannst nach Bedarf weitere Projekträume öffnen.';
+        } else {
+          const remaining = limit - count;
+          newHint.textContent =
+            'Du kannst noch ' + remaining +
+            (remaining === 1 ? ' Raum in deinem aktuellen Tarif hinzufügen.' : ' Räume in deinem aktuellen Tarif hinzufügen.');
+        }
+      }
+    }
+
+    const tvMap = document.getElementById('tvMap');
+    const mapTag = document.querySelector('.tvMapTag');
+    const btnMap = document.getElementById('btnOpenMap');
+
+    if (tvMap && mapTag && btnMap) {
+      if (plan === 'PREMIUM') {
+        tvMap.classList.remove('is-locked');
+        mapTag.textContent = 'PREMIUM-Vorschau – in der Live-Version wird dieser Raum ein Bonus nur für PREMIUM sein. Hier im Demo hast du einen Zugang zur Karte.';
+        btnMap.disabled = false;
+        btnMap.classList.remove('btn--disabled');
+        btnMap.setAttribute('aria-disabled', 'false');
+      } else {
+        tvMap.classList.add('is-locked');
+        mapTag.textContent = 'Dieser Raum ist als PREMIUM-Bonus gedacht. Im Demo siehst du ihn, aber der Zugang zur Karte ist gesperrt.';
+        btnMap.disabled = false;
+        btnMap.classList.remove('btn--disabled');
+        btnMap.setAttribute('aria-disabled', 'true');
+      }
+    }
+  }
+
+  function renderRooms() {
+    const mount = document.getElementById('customRoomsMount');
+    if (!mount) return;
+    mount.innerHTML = '';
+
+    if (!rooms.length) {
+      const p = document.createElement('p');
+      p.className = 'emptyMsg';
+      p.textContent = 'Du hast noch keine eigenen Projekträume. Fang mit „Neuen Projektraum öffnen“ an.';
+      mount.appendChild(p);
+      return;
+    }
+
+    rooms.forEach(room => {
+      const art = document.createElement('article');
+      art.className = 'tv tv--custom';
+      art.dataset.roomId = room.key;
+
+      const hd = document.createElement('header');
+      hd.className = 'tvHd';
+      const pill = document.createElement('div');
+      pill.className = 'pill';
+      pill.innerHTML = '<span>📁 ' + (room.name || 'Projekt ohne Titel') + '</span>';
+      hd.appendChild(pill);
+      art.appendChild(hd);
+
+      const screen = document.createElement('div');
+      screen.className = 'screen';
+      const purpose = room.purpose || 'Eigener Projektraum.';
+      const html = [
+        '<p><b>' + (room.name || 'Projekt ohne Titel') + '</b></p>',
+        '<p class="muted">' + purpose + '</p>'
+      ].join('');
+      screen.innerHTML = html + '<div class="fadeEdge"></div>';
+      art.appendChild(screen);
+
+      const ft = document.createElement('footer');
+      ft.className = 'tvFt';
+
+      const left = document.createElement('div');
+      const created = room.createdAt ? new Date(room.createdAt) : new Date();
+      left.innerHTML =
+        '<strong>Raumstatus</strong>' +
+        '<span>Geöffnet für deine Notizen.</span>' +
+        '<span class="helpText">Angelegt: ' + created.toLocaleDateString('de-DE') + '</span>';
+
+      const actions = document.createElement('div');
+      actions.className = 'tvFtActions';
+
+      const btnOpen = document.createElement('button');
+      btnOpen.type = 'button';
+      btnOpen.className = 'btn btn--ghost';
+      btnOpen.textContent = '✏️ Projekt öffnen';
+      btnOpen.addEventListener('click', () => openRoom(room.key));
+
+      const btnDelete = document.createElement('button');
+      btnDelete.type = 'button';
+      btnDelete.className = 'btn btn--danger';
+      btnDelete.textContent = '🗑 Löschen';
+      btnDelete.addEventListener('click', () => askDeleteRoom(room.key));
+
+      actions.appendChild(btnOpen);
+      actions.appendChild(btnDelete);
+
+      ft.appendChild(left);
+      ft.appendChild(actions);
+
+      art.appendChild(ft);
+      mount.appendChild(art);
+    });
+  }
+
+  function renderQueue() {
+    const mount = document.getElementById('queueMount');
+    const counter = document.getElementById('queueCount');
+    if (!mount || !counter) return;
+
+    mount.innerHTML = '';
+
+    if (!queue.length) {
+      counter.textContent = '0';
+      const p = document.createElement('p');
+      p.className = 'emptyMsg';
+      p.textContent = 'Der Ablagetisch ist leer. Im Demo lagen hier Beispiel-Einträge – jetzt wartet er auf deine Projekte.';
+      mount.appendChild(p);
+      return;
+    }
+
+    counter.textContent = String(queue.length);
+
+    queue.forEach((item, index) => {
+      const row = document.createElement('div');
+      row.className = 'queueItem';
+
+      const main = document.createElement('div');
+      main.className = 'queueMain';
+
+      const label = document.createElement('div');
+      label.className = 'queueLabel';
+      label.textContent = item.title || item.label || item.topic || ('Eintrag ' + (index + 1));
+
+      const meta = document.createElement('div');
+      meta.className = 'queueMeta';
+      if (item.createdAt) {
+        const d = new Date(item.createdAt);
+        meta.textContent = 'Eingetragen: ' + d.toLocaleString('de-DE');
+      } else {
+        meta.textContent = 'Beispiel-Eintrag aus der Proiecta-Werkstatt (Demo).';
+      }
+
+      main.appendChild(label);
+      main.appendChild(meta);
+
+      const actions = document.createElement('div');
+      actions.className = 'queueActions';
+
+      const btnProject = document.createElement('button');
+      btnProject.type = 'button';
+      btnProject.className = 'btn btn--ghost';
+      btnProject.textContent = '➡ Projekt aus Eintrag erstellen';
+      btnProject.addEventListener('click', () => {
+        queueSourceItemIndex = index;
+        openCreateRoomFromQueue(item);
+      });
+
+      const btnDelete = document.createElement('button');
+      btnDelete.type = 'button';
+      btnDelete.className = 'btn btn--danger';
+      btnDelete.textContent = '✖ Vom Tisch entfernen';
+      btnDelete.addEventListener('click', () => {
+        queue.splice(index, 1);
+        saveQueue();
+        renderQueue();
+      });
+
+      actions.appendChild(btnProject);
+      actions.appendChild(btnDelete);
+
+      row.appendChild(main);
+      row.appendChild(actions);
+      mount.appendChild(row);
+    });
+  }
+
+  function openRoom(key) {
+    const modal = document.getElementById('roomModal');
+    if (!modal) return;
+    const room = rooms.find(r => r.key === key);
+    if (!room) return;
+
+    activeRoomKey = key;
+
+    const titleEl = modal.querySelector('[data-room-title]');
+    const purposeEl = modal.querySelector('[data-room-purpose]');
+    const notes = document.getElementById('roomNotes');
+
+    if (titleEl) titleEl.textContent = room.name || 'Projekt ohne Titel';
+    if (purposeEl) purposeEl.textContent = room.purpose || 'Eigener Projektraum.';
+    if (notes) notes.value = roomTexts[key] || '';
+
+    modal.classList.add('is-open');
+  }
+
+  function askDeleteRoom(key) {
+    deleteRoomKey = key;
+    const modal = document.getElementById('confirmModal');
+    if (modal) modal.classList.add('is-open');
+  }
+
+  function saveRoomNotes() {
+    if (!activeRoomKey) return;
+    const notes = document.getElementById('roomNotes');
+    if (!notes) return;
+    roomTexts[activeRoomKey] = notes.value || '';
+    saveTexts();
+  }
+
+  function createRoomFromForm() {
+    const form = document.getElementById('createRoomForm');
+    if (!form) return;
+    const name = (form.roomName.value || '').trim();
+    const purpose = (form.roomPurpose.value || '').trim();
+    if (!name) {
+      form.roomName.focus();
+      return;
+    }
+
+    const plan = getPlan();
+    const limit = PLAN_LIMITS[plan] ?? PLAN_LIMITS.FREE;
+    if (rooms.length >= limit) {
+      return;
+    }
+
+    const key = 'room_' + Date.now();
+    rooms.push({
+      key,
+      name,
+      purpose,
+      state: 'open',
+      createdAt: Date.now()
+    });
+    saveRooms();
+
+    if (queueSourceItemIndex !== null && queueSourceItemIndex >= 0 && queueSourceItemIndex < queue.length) {
+      queue.splice(queueSourceItemIndex, 1);
+      queueSourceItemIndex = null;
+      saveQueue();
+    }
+
+    const modal = document.getElementById('createRoomModal');
+    if (modal) modal.classList.remove('is-open');
+
+    renderRooms();
+    renderQueue();
+    renderPlanBar();
+
+    openRoom(key);
+  }
+
+  function openCreateRoomFromQueue(item) {
+    const modal = document.getElementById('createRoomModal');
+    const form = document.getElementById('createRoomForm');
+    if (!modal || !form) return;
+
+    form.reset();
+    form.roomName.value = (item.title || item.label || item.topic || '').toString().slice(0, 60);
+    const descSource = item.text || item.body || item.note || '';
+    form.roomPurpose.value = descSource
+      ? descSource.toString().slice(0, 120)
+      : 'Projekt, das aus dem Ablagetisch entstanden ist.';
+
+    modal.classList.add('is-open');
+  }
+
+  function closeModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.remove('is-open');
+  }
+
+  function init() {
+    try {
+      const rawRooms = localStorage.getItem(KEY_ROOMS);
+      rooms = rawRooms ? JSON.parse(rawRooms) : [];
+    } catch (e) {
+      rooms = [];
+    }
+
+    try {
+      const rawTexts = localStorage.getItem(KEY_ROOM_TEXTS);
+      roomTexts = rawTexts ? JSON.parse(rawTexts) : {};
+    } catch (e) {
+      roomTexts = {};
+    }
+
+    try {
+      const rawQueue = localStorage.getItem(KEY_QUEUE);
+      if (rawQueue) {
+        queue = JSON.parse(rawQueue) || [];
+      } else {
+        queue = [
+          {
+            id: 'demo1',
+            title: 'Englisch – Kurse',
+            text: 'Häufiges Thema in der Werkstatt: Sprache systematisch lernen, nicht nur in Phasen.'
+          },
+          {
+            id: 'demo2',
+            title: 'Teilrenovierung der Wohnung',
+            text: 'Großes Projekt in Etappen – guter Kandidat für einen eigenen Raum.'
+          },
+          {
+            id: 'demo3',
+            title: 'Umzug / neues Nest',
+            text: 'Packlisten, Ämter, Papierkram und Papierchaos – ideales Beispiel für eine Projektkarte.'
+          }
+        ];
+        saveQueue();
+      }
+    } catch (e) {
+      queue = [];
+    }
+
+    renderPlanBar();
+    renderRooms();
+    renderQueue();
+
+    const btnNewRoom = document.getElementById('btnNewRoom');
+    if (btnNewRoom) {
+      btnNewRoom.addEventListener('click', () => {
+        queueSourceItemIndex = null;
+        const modal = document.getElementById('createRoomModal');
+        const form = document.getElementById('createRoomForm');
+        if (form) form.reset();
+        if (modal) modal.classList.add('is-open');
+      });
+    }
+
+    const btnCreateRoom = document.getElementById('btnCreateRoom');
+    if (btnCreateRoom) {
+      btnCreateRoom.addEventListener('click', createRoomFromForm);
+    }
+
+    const roomModal = document.getElementById('roomModal');
+    if (roomModal) {
+      roomModal.querySelectorAll('[data-close-room]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          closeModal('roomModal');
+          activeRoomKey = null;
+        });
+      });
+      const btnSave = roomModal.querySelector('[data-save-room]');
+      if (btnSave) {
+        btnSave.addEventListener('click', () => {
+          saveRoomNotes();
+          closeModal('roomModal');
+        });
+      }
+      const btnDelete = roomModal.querySelector('[data-delete-room]');
+      if (btnDelete) {
+        btnDelete.addEventListener('click', () => {
+          if (!activeRoomKey) return;
+          askDeleteRoom(activeRoomKey);
+        });
+      }
+    }
+
+    const confirmModal = document.getElementById('confirmModal');
+    if (confirmModal) {
+      const btnCancel = confirmModal.querySelector('[data-cancel-delete]');
+      const btnConfirm = confirmModal.querySelector('[data-confirm-delete]');
+      if (btnCancel) {
+        btnCancel.addEventListener('click', () => {
+          deleteRoomKey = null;
+          closeModal('confirmModal');
+        });
+      }
+      if (btnConfirm) {
+        btnConfirm.addEventListener('click', () => {
+          if (!deleteRoomKey) return;
+          rooms = rooms.filter(r => r.key !== deleteRoomKey);
+          delete roomTexts[deleteRoomKey];
+          saveRooms();
+          saveTexts();
+          renderRooms();
+          renderPlanBar();
+          closeModal('confirmModal');
+          if (activeRoomKey === deleteRoomKey) {
+            activeRoomKey = null;
+            closeModal('roomModal');
+          }
+        });
+      }
+    }
+
+    const btnMap = document.getElementById('btnOpenMap');
+    if (btnMap) {
+      btnMap.addEventListener('click', () => {
+        const plan = getPlan();
+        if (plan !== 'PREMIUM') {
+          const info = document.getElementById('mapInfoModal');
+          if (info) info.classList.add('is-open');
+          return;
+        }
+        window.location.href = 'map-de.html';
+      });
+    }
+
+    const mapInfoModal = document.getElementById('mapInfoModal');
+    if (mapInfoModal) {
+      mapInfoModal.querySelectorAll('[data-close-map]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          mapInfoModal.classList.remove('is-open');
+        });
+      });
+    }
+
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') {
+        closeModal('roomModal');
+        closeModal('createRoomModal');
+        closeModal('confirmModal');
+        closeModal('mapInfoModal');
+        activeRoomKey = null;
+        deleteRoomKey = null;
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

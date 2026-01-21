@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+      --bg0:#050015;
+      --bg1:#0d0322;
+      --bg2:#050015;
+      --ink:rgba(255,255,255,.92);
+      --ink2:rgba(255,255,255,.74);
+      --muted:rgba(255,255,255,.62);
+      --border:rgba(255,255,255,.14);
+      --card:rgba(6,3,20,.80);
+      --shadow:0 24px 80px rgba(0,0,0,.72);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 740px at 18% 10%, rgba(184,146,255,.24), transparent 60%),
+        radial-gradient(980px 760px at 86% 25%, rgba(214,170,255,.16), transparent 62%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 48%, var(--bg2));
+    }
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(8,3,26,.86), rgba(8,3,26,.35));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 18px;}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .brand b{font-family:"Cinzel",serif;letter-spacing:.06em}
+    .brand small{display:block;margin-top:2px;color:var(--ink2);font-size:12px}
+    .nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{
+      text-decoration:none;color:var(--ink);font-weight:800;font-size:12.5px;
+      border-radius:999px;padding:10px 12px;border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.14);
+    }
+    .pill:hover{filter:brightness(1.05)}
+
+    /* Stage: keep the whole book visible (no stretching, centered) */
+    main{
+      padding:18px 18px 34px;
+      min-height: calc(100vh - 86px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .chronica-book{
+      position:relative;
+      width: min(980px, 96vw);
+      height: min(76vh, 720px);
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(199,167,255,.18), transparent 40%),
+        radial-gradient(circle at 80% 90%, rgba(255,184,108,.14), transparent 45%),
+        rgba(8,7,12,.55);
+    }
+
+    /* Book image: show the whole book (contain), never crop */
+    .book-bg{
+      position:absolute; inset:0;
+      background: center/contain no-repeat url("chronica-book.jpg");
+      opacity: 0.95;
+      filter: saturate(.95) contrast(1.02);
+      pointer-events:none;
+    }
+
+    .book-inner{
+      position:absolute; inset:0;
+    }
+
+    /* Flip overlay (zatemnění při otočení strany) */
+    .flip-overlay{
+      position:absolute; inset:0;
+      background: rgba(0,0,0,.62);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .28s ease;
+      z-index:20;
+    }
+    .flip-overlay.on{opacity:1}
+
+    /* Pages sit "inside" the book — so the book edges stay visible */
+    .page{
+      position:absolute;
+      inset: clamp(26px, 3.6vw, 42px);
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(8,6,14,.46);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: clamp(14px, 2.2vw, 22px);
+      overflow:auto;
+      opacity:0;
+      transform: perspective(1200px) rotateY(14deg) translateX(10px);
+      transform-origin:left center;
+      transition: transform .55s ease, opacity .25s ease;
+      z-index:10;
+      pointer-events:none;
+    }
+    .page.active{
+      opacity:1;
+      transform: perspective(1200px) rotateY(0deg) translateX(0);
+      pointer-events:auto;
+    }
+
+    .page-top{display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap}
+    .page-title{display:flex; flex-direction:column; gap:6px; min-width: min(520px, 100%)}
+    h1{margin:0; font-size:24px}
+    .sub{color:var(--muted); font-size:13px; line-height:1.55; max-width: 78ch}
+    .page-chip{
+      font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.86);
+      white-space:nowrap;
+    }
+    .actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; align-items:center}
+    .btn{
+      appearance:none; cursor:pointer;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.16);
+      color:var(--ink);
+      padding:10px 12px;
+      font-weight:800;
+      font-size:12.5px;
+    }
+    .btn:hover{filter:brightness(1.05)}
+
+    .book-cols{display:grid; grid-template-columns: 1fr; gap:14px; margin-top:14px}
+    .section-h{
+      font-family:"Cinzel",serif;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-size:12px;
+      color:rgba(255,255,255,.78);
+      margin:10px 0 10px;
+    }
+    .examples{
+      border-radius:16px; border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.10);
+      padding:14px 14px 10px;
+    }
+    .examples ul{margin:0; padding-left:18px; color:rgba(255,255,255,.92)}
+    .examples li{margin:8px 0}
+
+    /* Tasks list (from localStorage) */
+    .list{display:grid; gap:10px; margin-top:4px}
+    .item{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.12);
+      border-radius:16px;
+      padding:12px;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      align-items:start;
+    }
+    .check{display:flex;align-items:center;justify-content:center;margin-top:2px}
+    input[type="checkbox"]{width:18px;height:18px;accent-color:#c7a7ff}
+    .title{font-weight:700;line-height:1.35}
+    .meta{color:var(--ink2);font-size:12px;margin-top:6px;display:flex;gap:8px;flex-wrap:wrap}
+    .tag{
+      font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+      padding:4px 8px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+    }
+    .empty{padding:20px 12px;color:var(--muted);text-align:center}
+    .empty b{color:var(--ink)}
+
+    /* Notes */
+    .note{
+      border-radius:16px; border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.10);
+      padding:14px;
+      position:relative;
+    }
+    .note-area{
+      min-height:140px;
+      outline:none;
+      border-radius:12px;
+      padding:12px 12px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.08);
+      white-space:pre-wrap;
+      color:rgba(255,255,255,.92);
+    }
+    .note-area:empty:before{
+      content: attr(data-placeholder);
+      color: rgba(255,255,255,.55);
+    }
+
+    /* Writing page: clean sheet inside the book, pen visible, nothing overlaps */
+    .paper{
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      padding:14px;
+      position:relative;
+    }
+    .paper .note-area{
+      background: rgba(0,0,0,.10);
+      min-height: 320px;
+      padding-right: 86px;   /* reserve space so the pen never covers text */
+      padding-bottom: 40px;
+    }
+
+    .feather{
+      position:absolute;
+      width:78px;
+      right:14px;
+      top:12px;
+      opacity:0;
+      transform: rotate(-10deg);
+      transition: opacity .18s ease;
+      pointer-events:none;
+      filter: drop-shadow(0 10px 22px rgba(0,0,0,.55));
+      z-index:30;
+    }
+    .feather.writing{
+      opacity:1;
+      animation: write .6s infinite alternate ease-in-out;
+    }
+    @keyframes write{
+      from{ transform: translateY(0) rotate(-10deg); }
+      to{ transform: translateY(7px) rotate(-6deg); }
+    }
+
+    .pager{display:flex; justify-content:space-between; gap:12px; margin-top:12px}
+
+    .row-actions{display:flex; gap:8px; align-items:center; justify-content:flex-end}
+    .iconbtn{
+      appearance:none; cursor:pointer;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.14);
+      color:var(--ink);
+      width:34px;height:34px;
+      display:inline-flex;align-items:center;justify-content:center;
+      font-size:14px;
+    }
+    .iconbtn:hover{filter:brightness(1.06)}
+    .saved{
+      font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;
+      padding:4px 8px;border-radius:999px;
+      border:1px solid rgba(90,255,200,.28);
+      background:rgba(90,255,200,.10);
+      color:rgba(200,255,236,.92);
+      white-space:nowrap;
+    }
+    .task-writer .hint{margin-top:8px; color:var(--muted); font-size:12px}
+
+    /* Custom confirm modal (trash) */
+    .modal-backdrop{
+      position:fixed; inset:0; z-index:999;
+      background: rgba(0,0,0,.66);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px;
+    }
+    .modal-backdrop.on{display:flex}
+    .modal{
+      width:min(520px, 96vw);
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(8,6,14,.92);
+      box-shadow: var(--shadow);
+      padding:16px 16px 14px;
+    }
+    .modal-top{display:flex;gap:12px;align-items:flex-start}
+    .trash{
+      width:44px;height:44px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-size:20px;
+      flex:0 0 auto;
+    }
+    .modal h2{margin:0; font-size:16px}
+    .modal p{margin:6px 0 0; color:var(--ink2); line-height:1.5}
+    .modal-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:14px; flex-wrap:wrap}
+    .btn.danger{border-color: rgba(255,120,120,.32); background: rgba(255,120,120,.10)}
+
+    .pager button{min-width: 160px}
+
+    
+    /* Lined background (thin notebook lines) */
+    .lined-bg{
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.08) 0px,
+        rgba(255,255,255,.08) 1px,
+        transparent 1px,
+        transparent 24px
+      );
+      background-attachment: local;
+    }
+
+    /* Task list as notebook lines (for stored tasks from Chat / direct) */
+    .tasklines{
+      padding: 10px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background-color: rgba(0,0,0,.08);
+    }
+    .tasklines .item{
+      border:0;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      border-radius:0;
+      background: transparent;
+      padding: 6px 2px;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .tasklines .item:last-child{ border-bottom:0; }
+    .tasklines .meta{ margin-top:2px; }
+
+@media (max-width:720px){
+      main{min-height: calc(100vh - 108px)}
+      .chronica-book{height: min(78vh, 760px)}
+      .page{inset: 18px; padding:16px}
+      h1{font-size:20px}
+      .pager button{min-width:0; flex:1}
+      .feather{width:66px}
+      .paper .note-area{min-height: 360px}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand">
+          <b>Chronica</b>
+          <small class="brand-sub">DEMO • FREE tarif</small>
+          <small>was besprochen wurde, was wichtig ist… und was als Nächstes dran ist</small>
+        </div>
+        <nav class="nav" aria-label="Navigation">
+          <a class="pill" href="praetorium-en.html">🕸 Back</a>
+          <a class="pill" href="lumina-demo-en.html">🗯 Pokec</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="chronica-book" aria-label="Chronica book">
+      <div class="book-bg" aria-hidden="true"></div>
+
+      <div class="book-inner">
+        <div class="flip-overlay" id="flipOverlay" aria-hidden="true"></div>
+
+        <!-- Page 1 -->
+        <section class="page active" data-page="1" aria-label="Page 1/2 • Today">
+          <div class="page-top">
+            <div class="page-title">
+              <h1>Chronica</h1>
+              <div class="sub">
+        Entries from the miniLumina chat (button <b>Save</b>) will appear here.
+        You can tick them off when they’re done. In this DEMO version, everything
+        is stored only locally in your browser.
+        <br><br>
+        Chronica is available in all plans – FREE, PLUS and PREMIUM.
+        Plan differences mainly affect Sigma and Proiecta. Here you always have
+        your basic space for notes and daily reflections.
+               </div>
+            </div>
+            <div class="actions" aria-label="Actions">
+              <span class="page-chip">Page 1/2 • Today</span>
+              <button class="btn" id="clearDone" type="button">Delete completed</button>
+              <button class="btn" id="clearAll" type="button">Clear all</button>
+            </div>
+          </div>
+
+          <div class="book-cols">
+            <div class="examples" aria-label="Examples">
+              <div class="section-h">Example entries (fictional)</div>
+              <ul>
+                <li>⬜ March — spring cleaning (kitchen + bathroom)</li>
+                <li>✅ Today — meds (morning/evening)</li>
+                <li>⬜ 04/23/2026 — car service</li>
+                <li>⬜ Friday — order cat food</li>
+              </ul>
+            </div>
+
+            <div class="section-h">Chronica • tasks from Chat</div>
+            <div class="list lined-bg tasklines" id="list"></div>
+            <div class="empty" id="empty" hidden>Nothing here yet. 🙂<br>Open <b>Chat</b>, write a message, and click <b>Save</b>.</div>
+</div>
+
+            <div class="pager">
+              <span></span>
+              <button class="btn next" type="button">Next page →</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Page 2 (writing sheet) -->
+        <section class="page" data-page="2" aria-label="Page 2/2 • Blank page">
+          <div class="page-top">
+            <div class="page-title">
+              <h1>Blank page</h1>
+              <div class="sub">Click on the sheet and write.</div>
+            </div>
+            <div class="actions" aria-label="Actions">
+              <span class="page-chip">Page 2/2 • Writing sheet</span>
+              <button class="btn prev" type="button">← Back</button>
+            </div>
+          </div>
+
+          <div class="book-cols">
+            <div class="paper" aria-label="Writing paper">
+              <div class="section-h">Add tasks directly</div>
+
+              <div class="task-writer">
+                <div class="note-area lined-bg" id="taskInput" contenteditable="true"
+                  data-placeholder="Write a task… and press Enter (it will be saved)"></div>
+                <div class="hint">Tip: Enter = save the line. Shift+Enter = new line (without saving).</div>
+              </div>
+
+              <div class="section-h">Saved tasks</div>
+              <div class="list lined-bg tasklines" id="directList"></div>
+              <div class="empty" id="directEmpty" hidden>Nothing has been added here yet. 🙂</div>
+
+              <img class="feather" id="feather" src="feather.png" alt="" aria-hidden="true">
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const KEY = "chronica";
+
+    const DIRECT_KEY = "chronica:direct";
+
+    // --- Custom confirm (trash) ---
+    const trashModal = document.getElementById("trashModal");
+    const trashText  = document.getElementById("trashText");
+    const trashYes   = document.getElementById("trashYes");
+    const trashNo    = document.getElementById("trashNo");
+    let trashOnYes = null;
+
+    function closeTrash(){
+      if(!trashModal) return;
+      trashModal.classList.remove("on");
+      trashModal.setAttribute("aria-hidden","true");
+      trashOnYes = null;
+    }
+    function confirmTrash(text, onYes){
+      if(!trashModal) return (onYes && onYes());
+      trashText.textContent = text || "Delete for sure?";
+      trashOnYes = typeof onYes === "function" ? onYes : null;
+      trashModal.classList.add("on");
+      trashModal.setAttribute("aria-hidden","false");
+      // focus default: No
+      setTimeout(()=> trashNo && trashNo.focus(), 0);
+    }
+
+    trashNo?.addEventListener("click", closeTrash);
+    trashModal?.addEventListener("click", (e)=>{ if(e.target === trashModal) closeTrash(); });
+    document.addEventListener("keydown",(e)=>{ if(e.key === "Escape") closeTrash(); });
+    trashYes?.addEventListener("click", ()=>{
+      const fn = trashOnYes;
+      closeTrash();
+      try{ fn && fn(); }catch(e){}
+    });
+
+    // --- Direct tasks (page 2) ---
+    function loadDirect(){ return JSON.parse(localStorage.getItem(DIRECT_KEY) || "[]"); }
+    function saveDirect(arr){ localStorage.setItem(DIRECT_KEY, JSON.stringify(arr)); }
+
+    function renderDirect(){
+      const box = document.getElementById("directList");
+      const empty = document.getElementById("directEmpty");
+      if(!box || !empty) return;
+
+      const ids = new Set(loadDirect().map(x=>x.id));
+      const items = loadItems().filter(x => ids.has(x.id));
+
+      box.innerHTML = "";
+      if(!items.length){
+        empty.hidden = false;
+        return;
+      }
+      empty.hidden = true;
+
+      items.forEach((it)=>{
+        const row = document.createElement("div");
+        row.className = "item";
+
+        const left = document.createElement("div");
+        left.className = "check";
+        left.innerHTML = `<input type="checkbox" ${it.done ? "checked" : ""} aria-label="Mark as done">`;
+
+        const main = document.createElement("div");
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = it.title || "Task";
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        const saved = document.createElement("span");
+        saved.className = "saved";
+        saved.textContent = "saved";
+        meta.appendChild(saved);
+        main.appendChild(title);
+        main.appendChild(meta);
+
+        const actions = document.createElement("div");
+        actions.className = "row-actions";
+        const del = document.createElement("button");
+        del.className = "iconbtn";
+        del.type = "button";
+        del.title = "Delete task";
+        del.textContent = "🗑";
+        actions.appendChild(del);
+
+        row.appendChild(left);
+        row.appendChild(main);
+        row.appendChild(actions);
+
+        left.querySelector("input").addEventListener("change", (e)=>{
+          const arr = loadItems();
+          const idx = arr.findIndex(x=>x.id===it.id);
+          if(idx<0) return;
+          arr[idx].done = e.target.checked;
+          saveItems(arr);
+          renderItems();
+          renderDirect();
+        });
+
+        del.addEventListener("click", ()=>{
+          confirmTrash(`Do you really want to delete this task?\n\n“${(it.title||"Task").slice(0,120)}”`, ()=>{
+            const arr = loadItems().filter(x=>x.id!==it.id);
+            saveItems(arr);
+            saveDirect(loadDirect().filter(x=>x.id!==it.id));
+            renderItems();
+            renderDirect();
+          });
+        });
+
+        if(it.done) row.style.opacity = ".6";
+        box.appendChild(row);
+      });
+    }
+
+
+    function fmt(ts){
+      try{
+        const d = new Date(ts);
+        return d.toLocaleString("en-US",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+      }catch(e){ return ""; }
+    }
+
+    function fmtPlanned(it){
+      if(!it) return "";
+      const d = (it.date || "").trim();
+      const t = (it.time || "").trim();
+
+      if(!d && !t) return "";
+
+      if(d && t) return `📌 Planned for: ${d} ${t}`;
+      if(d)       return `📌 Planned for: ${d}`;
+      return `📌 Planned for: ${t}`;
+    }
+
+    function loadItems(){
+      const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
+      let changed = false;
+      arr.forEach(it=>{ if(!it.id){ it.id = crypto?.randomUUID ? crypto.randomUUID() : (Date.now()+Math.random()).toString(16); changed = true; } });
+      if(changed) localStorage.setItem(KEY, JSON.stringify(arr));
+      return arr;
+    }
+    function saveItems(arr){
+      localStorage.setItem(KEY, JSON.stringify(arr));
+    }
+
+    function renderItems(){
+      const list = document.getElementById("list");
+      const empty = document.getElementById("empty");
+      const items = loadItems();
+
+      list.innerHTML = "";
+      if(!items.length){
+        empty.hidden = false;
+        return;
+      }
+      empty.hidden = true;
+
+      items.forEach((it, idx) => {
+        const row = document.createElement("div");
+        row.className = "item";
+
+        const left = document.createElement("div");
+        left.className = "check";
+        left.innerHTML = `<input type="checkbox" ${it.done ? "checked" : ""} aria-label="Mark as done">`;
+
+        const main = document.createElement("div");
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = it.title || "Note";
+
+                const meta = document.createElement("div");
+        meta.className = "meta";
+
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = it.tag || "note";
+
+        const mood = document.createElement("span");
+        mood.textContent = (it.mood || "") ? `mood: ${it.mood}` : "";
+
+        // 📌 main – when it should be done
+        const plannedText = fmtPlanned(it);
+
+        // ✏️ when it was logged (from Pokec / Chronica)
+        const createdText = it.createdAt ? fmt(it.createdAt) : "";
+
+        meta.appendChild(tag);
+
+        if(plannedText){
+          const planned = document.createElement("span");
+          planned.textContent = plannedText;
+          meta.appendChild(planned);
+        }
+
+        if(mood.textContent){
+          meta.appendChild(mood);
+        }
+
+        if(createdText){
+          const created = document.createElement("span");
+          created.textContent = `✏️ Logged: ${createdText}`;
+          meta.appendChild(created);
+        }
+
+        main.appendChild(title);
+        main.appendChild(meta);
+
+
+        const actions = document.createElement("div");
+        actions.className = "row-actions";
+
+        const del = document.createElement("button");
+        del.className = "iconbtn";
+        del.type = "button";
+        del.title = "Delete task";
+        del.setAttribute("aria-label","Delete task");
+        del.textContent = "🗑";
+
+        actions.appendChild(del);
+
+        row.appendChild(left);
+        row.appendChild(main);
+        row.appendChild(actions);
+left.querySelector("input").addEventListener("change", (e) => {
+          const arr = loadItems();
+          if(!arr[idx]) return;
+          arr[idx].done = e.target.checked;
+          saveItems(arr);
+          renderItems();
+        });
+
+
+        del.addEventListener("click", ()=>{
+          confirmTrash(`Do you really want to delete this task?\n\n“${(it.title||"Task").slice(0,120)}”`, ()=>{
+            const arr = loadItems();
+            arr.splice(idx,1);
+            saveItems(arr);
+            renderItems();
+            renderDirect();
+          });
+        });
+
+        if(it.done){ row.style.opacity = ".6"; }
+
+        list.appendChild(row);
+      });
+    }
+
+    // Actions
+    document.getElementById("clearDone").addEventListener("click", () => {
+      const doneCount = loadItems().filter(x => x.done).length;
+      if(!doneCount) return;
+      confirmTrash(`Do you really want to delete completed tasks?\n\nCount: ${doneCount}`, ()=>{
+        const arr = loadItems().filter(x => !x.done);
+        saveItems(arr);
+        renderItems();
+        renderDirect();
+      });
+    });
+
+    document.getElementById("clearAll").addEventListener("click", () => {
+      const count = loadItems().length;
+      if(!count) return;
+      confirmTrash(`Do you really want to delete all tasks?\n\nCount: ${count}`, ()=>{
+        saveItems([]);
+        localStorage.removeItem(DIRECT_KEY);
+        renderItems();
+        renderDirect();
+      });
+    });
+
+    // Live update (another tab)
+    window.addEventListener("storage", (e) => {
+      if(e.key === KEY){ renderItems(); renderDirect(); }
+      if(e.key === DIRECT_KEY) renderDirect();
+    });
+
+    // --- Book paging + flip effect ---
+    const pages = Array.from(document.querySelectorAll(".page"));
+    const overlay = document.getElementById("flipOverlay");
+    let pageIndex = 0;
+
+    function showOverlay(on){
+      overlay.classList.toggle("on", !!on);
+    }
+
+    function showPage(idx, animate=true){
+      idx = Math.max(0, Math.min(idx, pages.length - 1));
+      if(idx === pageIndex) return;
+
+      if(animate){
+        showOverlay(true);
+        // swap page mid-fade so it feels like a flip
+        setTimeout(() => {
+          pages.forEach((p,k)=>p.classList.toggle("active", k===idx));
+          pageIndex = idx;
+        }, 170);
+
+        setTimeout(() => showOverlay(false), 340);
+      }else{
+        pages.forEach((p,k)=>p.classList.toggle("active", k===idx));
+        pageIndex = idx;
+      }
+    }
+
+    document.addEventListener("click",(e)=>{
+      const t = e.target;
+      if(t.classList.contains("next")) showPage(pageIndex + 1, true);
+      if(t.classList.contains("prev")) showPage(pageIndex - 1, true);
+    });
+
+
+    // --- Page 2: write a task, press Enter to save ---
+    const taskInput = document.getElementById("taskInput");
+
+    function addTask(title){
+      title = (title || "").trim();
+      if(!title) return;
+      const arr = loadItems();
+      const id = crypto?.randomUUID ? crypto.randomUUID() : (Date.now()+Math.random()).toString(16);
+      arr.unshift({
+        id,
+        title,
+        tag: "task",
+        mood: "",
+        done: false,
+        createdAt: Date.now()
+      });
+      saveItems(arr);
+
+      const direct = loadDirect();
+      direct.unshift({id});
+      saveDirect(direct);
+
+      renderItems();
+      renderDirect();
+    }
+
+    // --- Feather (pen) visibility + animation ---
+    const feather = document.getElementById("feather");
+    let featherTimer = null;
+
+    function showFeather(){
+      if(!feather) return;
+      feather.classList.add("writing");
+      clearTimeout(featherTimer);
+      featherTimer = setTimeout(() => feather.classList.remove("writing"), 600);
+    }
+
+    // pen follows caret in taskInput
+    function moveFeatherToCaret(){
+      if(!feather || !taskInput) return;
+      const sel = window.getSelection();
+      if(!sel || sel.rangeCount === 0) return;
+      const range = sel.getRangeAt(0);
+      if(!taskInput.contains(range.startContainer)) return;
+
+      const rects = range.getClientRects();
+      const r = rects.length ? rects[0] : taskInput.getBoundingClientRect();
+      const paper = taskInput.closest(".paper") || taskInput.parentElement;
+      const pb = paper.getBoundingClientRect();
+
+      // position the pen near the caret (right-lower a bit)
+      const x = Math.min(pb.right - 26, Math.max(pb.left + 10, r.left + 18));
+      const y = Math.min(pb.bottom - 26, Math.max(pb.top + 10, r.top + 14));
+
+      feather.style.left = (x - pb.left) + "px";
+      feather.style.top  = (y - pb.top) + "px";
+      feather.style.right = "auto";
+      feather.style.position = "absolute";
+    }
+
+    if(taskInput){
+      taskInput.addEventListener("keydown",(e)=>{
+        if(e.key === "Enter" && !e.shiftKey){
+          e.preventDefault();
+          addTask(taskInput.textContent);
+          taskInput.textContent = "";
+          showFeather();
+          moveFeatherToCaret();
+        }
+      });
+      taskInput.addEventListener("input", ()=>{ showFeather(); moveFeatherToCaret(); });
+      taskInput.addEventListener("focus", ()=>{ showFeather(); moveFeatherToCaret(); });
+      taskInput.addEventListener("click", moveFeatherToCaret);
+      document.addEventListener("selectionchange", moveFeatherToCaret);
+    }
+
+    // Initial render
+    renderItems();
+    renderDirect();
+  </script>
+
+  <!-- Custom confirm modal -->
+  <div class="modal-backdrop" id="trashModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="trashTitle">
+      <div class="modal-top">
+        <div class="trash" aria-hidden="true">🗑</div>
+        <div>
+          <h2 id="trashTitle">Delete for sure?</h2>
+          <p id="trashText">…</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="trashNo" type="button">No</button>
+        <button class="btn danger" id="trashYes" type="button">Yes, delete</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  (function () {
+    var plan = localStorage.getItem("lm_plan") || "free";
+    document.body.dataset.plan = plan;
+
+    var sub = document.querySelector(".brand-sub");
+    if (sub) {
+      var label =
+        (plan === "free")
+          ? "DEMO • FREE tarif"
+          : (plan === "plus")
+            ? "DEMO • PLUS tarif"
+            : "DEMO • PREMIUM tarif";
+      sub.textContent = label;
+    }
+  })();
+</script>
+
+</body>
+</html>

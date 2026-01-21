@@ -1,0 +1,1872 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+  --bg0:#020814;
+  --bg1:#03161d;
+
+  --glass: rgba(255,255,255,.06);
+  --line: rgba(255,255,255,.10);
+  --line2: rgba(255,255,255,.14);
+  --ink:#EAF7F6;
+  --muted: rgba(234,247,246,.72);
+
+  --accent:#24D2C1;
+  --accent2:#7CE7FF;
+
+  --shadow: 0 18px 60px rgba(0,0,0,.45);
+  --shadow2: 0 10px 26px rgba(0,0,0,.34);
+
+  --radius: 22px;
+  --max: 1180px;
+
+  /* 🎨 Proiecta – barvy skvrn */
+  --paintY: rgba(255, 214, 74, .45);   /* žlutá */
+  --paintP: rgba(255,  86, 176, .36);  /* růžová */
+  --paintV: rgba(160,  90, 255, .34);  /* fialová */
+  --paintB: rgba( 86, 166, 255, .32);  /* modrá */
+  --paintG: rgba( 72, 220, 150, .30);  /* zelená */
+}
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color: var(--ink);
+
+  /* základ zůstává tmavý, aby glass design byl čitelný */
+  background:
+    radial-gradient(1200px 700px at 15% -10%, rgba(36,210,193,.14), transparent 58%),
+    radial-gradient(900px 650px at 85% 0%, rgba(124,231,255,.10), transparent 55%),
+    radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.78), transparent 65%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 100%);
+  background-attachment: fixed;
+  overflow-x:hidden;
+}
+
+/* 🎨 Skvrny + odkapávání barvy */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-80px -60px -140px -60px;
+  pointer-events:none;
+  z-index:0;
+
+  background:
+    /* velké skvrny */
+    radial-gradient(280px 220px at 12% 18%, var(--paintY), transparent 70%),
+    radial-gradient(320px 240px at 72% 10%, var(--paintP), transparent 72%),
+    radial-gradient(360px 280px at 92% 34%, var(--paintV), transparent 74%),
+    radial-gradient(340px 260px at 18% 72%, var(--paintB), transparent 74%),
+    radial-gradient(420px 320px at 78% 78%, var(--paintG), transparent 76%),
+
+    /* menší cákance */
+    radial-gradient(120px 100px at 26% 36%, rgba(255,214,74,.22), transparent 70%),
+    radial-gradient(140px 120px at 64% 44%, rgba(160,90,255,.18), transparent 70%),
+    radial-gradient(130px 110px at 86% 66%, rgba(86,166,255,.16), transparent 70%),
+    radial-gradient(150px 120px at 42% 82%, rgba(255,86,176,.16), transparent 70%),
+
+    /* horní “pás barvy” */
+    linear-gradient(to bottom,
+      rgba(255,255,255,0) 0px,
+      rgba(255,255,255,0) 8px,
+      rgba(255,214,74,.12) 30px,
+      rgba(255,86,176,.10) 70px,
+      rgba(160,90,255,.10) 120px,
+      rgba(86,166,255,.08) 170px,
+      rgba(72,220,150,.08) 220px,
+      rgba(0,0,0,0) 280px
+    ),
+
+    /* odkapávání (svislé pruhy jen nahoře) */
+    repeating-linear-gradient(90deg,
+      rgba(0,0,0,0) 0 14px,
+      rgba(255,214,74,.14) 14px 18px,
+      rgba(0,0,0,0) 18px 30px,
+      rgba(255,86,176,.12) 30px 34px,
+      rgba(0,0,0,0) 34px 52px,
+      rgba(160,90,255,.12) 52px 56px,
+      rgba(0,0,0,0) 56px 78px,
+      rgba(86,166,255,.10) 78px 82px,
+      rgba(0,0,0,0) 82px 108px,
+      rgba(72,220,150,.10) 108px 112px,
+      rgba(0,0,0,0) 112px 140px
+    );
+
+  /* každá vrstva jinak */
+  background-repeat:
+    no-repeat, no-repeat, no-repeat, no-repeat, no-repeat,
+    no-repeat, no-repeat, no-repeat, no-repeat,
+    no-repeat,
+    repeat-x;
+
+  /* poslední 2 vrstvy jen nahoře, skvrny přes plátno */
+  background-size:
+    auto, auto, auto, auto, auto,
+    auto, auto, auto, auto,
+    100% 320px,
+    100% 260px;
+
+  background-position:
+    0 0, 0 0, 0 0, 0 0, 0 0,
+    0 0, 0 0, 0 0, 0 0,
+    0 0,
+    0 0;
+
+  /* aby to bylo “malířské” a ne křiklavé */
+  opacity:.78;
+  filter: saturate(1.08) contrast(1.05) blur(.15px);
+  mix-blend-mode: screen;
+}
+
+/* 🧱 Praskliny / roztržení + jemný lesk (ponechává čitelnost) */
+body::after{
+  content:"";
+  position:fixed;
+  inset:-40px;
+  pointer-events:none;
+  z-index:0;
+
+  background:
+    /* jemný lesk jako předtím */
+    radial-gradient(1200px 700px at 30% 30%, rgba(255,255,255,.10), rgba(255,255,255,0) 60%),
+
+    /* praskliny */
+    repeating-linear-gradient(135deg,
+      rgba(255,255,255,0) 0 22px,
+      rgba(255,255,255,.06) 22px 23px,
+      rgba(0,0,0,0) 23px 64px
+    ),
+    repeating-linear-gradient(42deg,
+      rgba(0,0,0,0) 0 28px,
+      rgba(0,0,0,.22) 28px 29px,
+      rgba(0,0,0,0) 29px 80px
+    ),
+
+    /* “roztržené” okraje v rozích */
+    conic-gradient(from 210deg at 0% 0%,
+      rgba(0,0,0,.55), rgba(0,0,0,0) 22%, rgba(0,0,0,0) 100%
+    ),
+    conic-gradient(from -30deg at 100% 0%,
+      rgba(0,0,0,.50), rgba(0,0,0,0) 20%, rgba(0,0,0,0) 100%
+    );
+
+  mix-blend-mode: overlay;
+  opacity:.22;
+}
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+      position:relative;
+      z-index:1;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom: 14px;
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 240px;
+    }
+    .brand .t{ display:flex; flex-direction:column; line-height:1.08; }
+    .brand .t strong{ font-size:16px; letter-spacing:.2px; }
+    .brand .t span{ font-size:12.5px; color: var(--muted); }
+
+    nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .navbtn, .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--ink);
+      text-decoration:none;
+      box-shadow: 0 8px 22px rgba(0,0,0,.22);
+      backdrop-filter: blur(12px);
+      cursor:pointer;
+      font-weight: 780;
+      letter-spacing:.1px;
+      white-space:nowrap;
+      user-select:none;
+    }
+    .navbtn:hover, .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{
+      border-color: rgba(36,210,193,.45);
+      background: rgba(36,210,193,.10);
+    }
+    .btn.ghost{ opacity:.92; }
+    .btn:disabled{ opacity:.55; cursor:not-allowed; transform:none; }
+
+    .hero{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      margin: 10px 0 16px;
+      padding: 18px 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(14px);
+    }
+    .hero h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+    }
+    .hero p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      max-width: 76ch;
+    }
+
+    .pillrow{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; align-items:center; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 720;
+      backdrop-filter: blur(12px);
+    }
+    .pill b{ color: var(--ink); font-weight:860; }
+    .dot{
+      width:9px; height:9px; border-radius:99px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(36,210,193,.12);
+    }
+    .seg{
+      display:inline-flex;
+      border:1px solid var(--line);
+      border-radius:999px;
+      overflow:hidden;
+      background: rgba(255,255,255,.05);
+    }
+    .seg button{
+      border:0;
+      background:transparent;
+      color: var(--muted);
+      font-weight:850;
+      padding: 8px 10px;
+      cursor:pointer;
+    }
+    .seg button.active{
+      color: var(--ink);
+      background: rgba(36,210,193,.12);
+    }
+
+    .card{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow:hidden;
+    }
+    .hd{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.05);
+    }
+    .title{ display:flex; flex-direction:column; gap:2px; }
+    .title strong{ font-size: 13.5px; }
+    .title span{ font-size: 12px; color: var(--muted); }
+    .actions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+
+    .studio{
+      height: min(90vh, 880px);
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+      min-height:0;
+      padding: 14px 16px 16px;
+    }
+
+    .chatlog{
+      flex: 1 1 auto;
+      min-height:0;
+      overflow:auto;
+      padding: 12px 12px 6px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      background: rgba(0,0,0,.12);
+      scrollbar-gutter: stable both-edges;
+    }
+
+    .msg{
+      display:flex;
+      gap:10px;
+      margin: 10px 0;
+      align-items:flex-start;
+    }
+    .avatar{
+      width:34px; height:34px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex: 0 0 auto;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .avatar .letter{ font-weight:900; font-size: 14px; color: var(--ink); }
+
+    .bubble{
+      max-width: 78%;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 8px 22px rgba(0,0,0,.20);
+    }
+    .bubble.user{
+      background: rgba(36,210,193,.09);
+      border-color: rgba(36,210,193,.20);
+    }
+    .bubble p{ margin:0; font-size: 13.5px; line-height:1.45; color: var(--ink); }
+    .meta{
+      margin-top:7px;
+      font-size: 11px;
+      color: rgba(234,247,246,.70);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(124,231,255,.10);
+      border: 1px solid rgba(124,231,255,.16);
+      color: rgba(234,247,246,.92);
+      font-weight: 780;
+    }
+
+    .thumbRow{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .thumbMini{
+      width: 140px;
+      border-radius: 14px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      cursor: pointer;
+    }
+    .thumbMini img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+    .fileChip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.16);
+      color: var(--ink);
+      text-decoration:none;
+      font-weight: 780;
+      font-size: 12.5px;
+    }
+    .fileChip small{ color: var(--muted); font-weight:700; }
+
+    .composer{
+      display:flex;
+      gap:10px;
+      align-items:stretch;
+    }
+    .composer input[type="text"]{
+      flex:1;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.16);
+      outline:none;
+      font-size: 14px;
+      color: var(--ink);
+    }
+    .composer input[type="text"]::placeholder{ color: rgba(234,247,246,.60); }
+    .composer input[type="text"]:focus{ box-shadow: 0 0 0 5px rgba(36,210,193,.16); }
+
+    .toolrow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 8px;
+    }
+    .toolhint{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height:1.35;
+    }
+    .toolsection{
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    .shelf{
+      flex: 0 0 clamp(190px, 30%, 290px);
+      min-height: 190px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top: 10px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .shelfLabel{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 860;
+    }
+    .shelfWrap{
+      flex:1 1 auto;
+      min-height:0;
+      overflow:auto;
+      scrollbar-gutter: stable both-edges;
+      padding-right: 2px;
+    }
+    .feed{
+      display:grid;
+      gap:10px;
+    }
+
+    .shelfFilters{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      margin: 6px 0 6px;
+      font-size: 12px;
+    }
+    .chipRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .chip{
+      border-radius:999px;
+      border:1px solid var(--line);
+      padding:4px 9px;
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:11.5px;
+      cursor:pointer;
+      font-weight:780;
+    }
+    .chip.is-active{
+      background: rgba(36,210,193,.14);
+      border-color: rgba(36,210,193,.55);
+      color: var(--ink);
+    }
+
+    .item{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      border-radius: 16px;
+      padding: 12px 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+    .item .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 8px;
+    }
+    .badge{
+      font-size: 11px;
+      font-weight: 900;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      white-space:nowrap;
+      color: var(--ink);
+    }
+    .itTitle{
+      min-width:0;
+      margin-left: 8px;
+      flex:1;
+    }
+    .itTitle strong{
+      display:block;
+      font-size: 13px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .itTitle span{
+      display:block;
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .itemTopic{
+      margin-top:3px;
+      font-size:11px;
+      color: var(--muted);
+    }
+    .item .body{
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--ink);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .itemActions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .linkbtn{
+      padding: 7px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      font-weight: 850;
+      font-size: 12px;
+      color: var(--ink);
+    }
+    .linkbtn:hover{ transform: translateY(-1px); }
+    .linkbtn.danger{ border-color: rgba(239,68,68,.30); background: rgba(239,68,68,.10); }
+    .linkbtn.ghost{ opacity:.92; }
+
+    .empty{
+      color: var(--muted);
+      font-size: 13px;
+      text-align:center;
+      padding: 14px 0 6px;
+      line-height:1.45;
+    }
+
+    footer{
+      margin-top: 14px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+      color: rgba(234,247,246,.60);
+      font-size: 12px;
+      padding: 0 4px;
+    }
+
+    @media (max-width: 480px) {
+      .item .top{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+
+      .itemActions{
+        justify-content: flex-start;
+        row-gap: 4px;
+      }
+    }
+
+    .modalOverlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+    }
+    .modalOverlay.show{ display:flex; }
+
+    .modal{
+      width: min(760px, 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(6,34,37,.92);
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modalHd{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+    .modalHd strong{ font-size: 14px; }
+    .modalHd span{ display:block; color: var(--muted); font-size: 12.5px; margin-top: 4px; line-height:1.35; }
+    .modalBd{ padding: 14px 16px 16px; }
+    .modalBd p{ margin: 0 0 10px; color: var(--ink); font-size: 13.5px; line-height: 1.5; }
+    .modalBtns{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      margin-top: 12px;
+    }
+    .xBtn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .imgFrame{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      max-height: min(70vh, 680px);
+      overflow:auto;
+      margin-top: 10px;
+    }
+    .imgFrame img{
+      width:100%;
+      height:auto;
+      display:block;
+      cursor: zoom-out;
+    }
+
+    textarea{
+      width:100%;
+      min-height: 120px;
+      resize: vertical;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.16);
+      outline:none;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    textarea::placeholder{ color: rgba(234,247,246,.58); }
+    textarea:focus{ box-shadow: 0 0 0 5px rgba(36,210,193,.16); }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .bubble{ max-width: 92%; }
+      .hero{ align-items:flex-start; flex-direction:column; }
+      .pillrow{ justify-content:flex-start; }
+      .grid2{ grid-template-columns: 1fr; }
+    }
+
+    @media (max-height: 600px) {
+      .studio{
+        height: auto;
+        max-height: none;
+      }
+
+      .shelfWrap{
+        margin-top: 10px;
+      }
+
+      .feed{
+        max-height: 200px;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .wrap{
+        padding: 16px 12px 28px;
+      }
+
+      header{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      nav{
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .navbtn,
+      .btn{
+        padding: 9px 10px;
+        font-size: 13px;
+      }
+
+      .hero{
+        padding: 14px 14px;
+        margin: 8px 0 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .hero h1{
+        font-size: 16px;
+      }
+
+      .hero p{
+        font-size: 13px;
+      }
+
+      .studio{
+        padding: 12px 12px 14px;
+      }
+
+      .composer{
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .composer input[type="text"]{
+        width: 100%;
+      }
+
+      .composer .btn{
+        width: 100%;
+        justify-content: center;
+      }
+
+      .toolrow{
+        gap: 6px;
+      }
+
+      .toolrow .btn{
+        flex: 1 1 calc(50% - 6px);
+        justify-content: flex-start;
+      }
+
+      .bubble{
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand" aria-label="Proiecta">
+        <div class="t">
+          <strong>Proiecta</strong>
+          <span>Lumina’s creative studio ✨</span>
+        </div>
+      </div>
+
+      <nav aria-label="Navigation">
+        <a class="navbtn" href="praetorium-en.html" title="Back">⬅️ Back</a>
+        <a class="navbtn" href="lumina-demo-en.html" title="Pokec">🗯 Pokec</a>
+        <a class="navbtn" href="proiecta-projekty-en.html" title="Project room">📺 Projects</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Proiecta — structured creation. 🛡️✨</h1>
+        <p>
+          Most of the work happens in the workshop (chat). Below you have the “holding shelf” for things that are still in progress.
+        </p>
+      </div>
+
+      <div class="pillrow" aria-label="Status and plan">
+        <div class="pill"><span class="dot"></span> <b>Live:</b> DEMO</div>
+        <div class="pill">✨ Lumina: <b>creative mode</b></div>
+
+        <div class="pill" title="DEMO plan switch">
+          💳 Plan:
+          <span class="seg" role="group" aria-label="Plan">
+            <button id="planFree" type="button">Free</button>
+            <button id="planPlus" type="button">Plus</button>
+            <button id="planPremium" type="button">Premium</button>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <section class="card" aria-label="Creative studio">
+        <div class="hd">
+          <div class="title">
+            <strong>🛠 Workshop</strong>
+            <span>The chat is the centre of everything. The holding shelf keeps your in-progress pieces together.</span>
+          </div>
+          <div class="actions">
+            <button class="btn ghost" id="btnExport" title="Download the holding shelf as .txt">⬇️ Export</button>
+            <button class="btn" id="btnClear" title="Clear chat + holding shelf">🧹 Clear</button>
+          </div>
+        </div>
+
+        <div class="studio">
+          <div class="chatlog" id="chatlog" aria-live="polite" aria-label="Chat messages"></div>
+
+          <div class="composer" aria-label="Chat input">
+            <input id="chatInput" type="text" placeholder="Type what you want to create or pick a tool 👇…">
+            <button class="btn primary" id="btnSend">✨ Send</button>
+          </div>
+
+          <div class="toolsection" aria-label="Tools">
+            <div class="toolhint">🏢 Office tools</div>
+            <div class="toolrow" aria-label="Office tools">
+              <button class="btn" id="btnEmail">📧 Email</button>
+              <button class="btn" id="btnTranslate">🌍 Translation</button>
+              <button class="btn" id="btnAttach">📎 Add file</button>
+              <button class="btn" id="btnNote">📝 Park a note</button>
+              <input id="fileInput" type="file" multiple hidden />
+            </div>
+
+            <div class="toolhint" style="margin-top:10px;">🎨 Creative tools</div>
+            <div class="toolrow" aria-label="Creative tools">
+              <button class="btn" id="btnSuggest">💡 Ideas</button>
+              <button class="btn" id="btnImageFlow">🖼 Image generation</button>
+            </div>
+
+            <div class="toolhint">
+              ✨ Tip: If you don’t want to lose something in the flow of chat, park it on the shelf 🗃️
+            </div>
+          </div>
+
+          <div class="shelf" aria-label="Holding shelf">
+            <div class="shelfLabel">
+              <span>🗃️ Holding shelf (in progress)</span>
+              <span id="planHint" style="color: rgba(234,247,246,.65); font-weight: 780;"></span>
+            </div>
+
+            <div class="shelfFilters" id="shelfFilters" aria-label="Holding shelf filter">
+              <button type="button" class="chip is-active" data-topic="__all">All</button>
+              <button type="button" class="chip" data-topic="__none">No topic</button>
+              <div class="chipRow" id="topicChips"></div>
+            </div>
+
+            <div class="shelfWrap" id="shelfWrap">
+              <div class="feed" id="feed">
+                <div class="empty" id="feedEmpty">Nothing is parked here yet. Add a note, file, or image ✨</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>DEMO • everything is stored locally in your browser.</div>
+      <div>Proiecta • 📺 Projects</div>
+    </footer>
+  </div>
+
+  <!-- MODALS -->
+  <div class="modalOverlay" id="clearModal" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="clearTitle">🧹 Clear the studio?</strong>
+          <span>This will clear the workshop and the holding shelf.</span>
+        </div>
+        <button class="xBtn" data-close="clearModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <p>Really clear everything? No take-backs 😉</p>
+        <div class="modalBtns">
+          <button class="btn" data-close="clearModal">Leave it</button>
+          <button class="btn primary" id="btnConfirmClear">Yes, clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalOverlay" id="imgModal" role="dialog" aria-modal="true" aria-labelledby="imgTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="imgTitle">🖼 Preview</strong>
+          <span id="imgSubtitle">Click the image</span>
+        </div>
+        <button class="xBtn" data-close="imgModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <div class="imgFrame" id="imgFrame"></div>
+        <div class="modalBtns">
+          <button class="btn" data-close="imgModal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalOverlay" id="noteModal" role="dialog" aria-modal="true" aria-labelledby="noteTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="noteTitle">📝 Park a note</strong>
+          <span>Short and clear. You can always come back to it.</span>
+        </div>
+        <button class="xBtn" data-close="noteModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <div class="grid2">
+          <div>
+            <p style="margin-top:0"><b>Title</b></p>
+            <input
+              id="noteTitleInput"
+              type="text"
+              style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;"
+              placeholder="E.g. ‘Text for web – make sure it displays correctly’">
+          </div>
+          <div>
+            <p style="margin-top:0"><b>Type</b></p>
+            <div class="toolrow" style="margin-top:0">
+              <button class="btn" type="button" data-note-type="idea">💡 Idea</button>
+              <button class="btn" type="button" data-note-type="task">✅ Task</button>
+              <button class="btn" type="button" data-note-type="note">📝 Note</button>
+            </div>
+            <div class="toolhint">
+              Selected type: <span id="noteTypeHint">📝 Note</span>
+            </div>
+          </div>
+        </div>
+
+        <p><b>Content</b></p>
+        <textarea id="noteBodyInput" placeholder="Write your note…"></textarea>
+
+        <p><b>Topic / drawer (optional)</b></p>
+        <input
+          id="noteTopicInput"
+          type="text"
+          style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;"
+          placeholder="E.g. ‘flyer’, ‘web’, ‘school’…">
+        <div class="toolhint">
+          The topic helps you group things on the holding shelf into one drawer 🗂️
+        </div>
+
+        <div class="modalBtns">
+          <button class="btn" data-close="noteModal">Cancel</button>
+          <button class="btn primary" id="btnSaveNote">Add to shelf 🗃️</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalOverlay" id="imageFlowModal" role="dialog" aria-modal="true" aria-labelledby="imgFlowTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="imgFlowTitle">🖼 Image generation</strong>
+          <span>Write a prompt and send it. In the demo version, Lumina has a few images prepared for you.</span>
+        </div>
+        <button class="xBtn" data-close="imageFlowModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <p><b>Prompt</b></p>
+        <textarea id="imgPromptInput" placeholder="E.g. ‘web, Lumina, chaos, ...’"></textarea>
+        <div class="modalBtns">
+          <button class="btn" data-close="imageFlowModal">Cancel</button>
+          <button class="btn primary" id="btnSendImagePrompt">Send 🎨</button>
+        </div>
+        <div class="toolhint" id="imgFlowStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalOverlay" id="moveModal" role="dialog" aria-modal="true" aria-labelledby="moveTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="moveTitle">📦 Move to project</strong>
+          <span id="moveSubtitle">DEMO logic based on plan.</span>
+        </div>
+        <button class="xBtn" data-close="moveModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <p style="margin-top:0"><b>Select project</b></p>
+        <div class="toolrow" id="projectButtons" style="margin-top:0"></div>
+        <div class="toolhint" id="moveHint"></div>
+        <div class="modalBtns">
+          <button class="btn" data-close="moveModal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modalOverlay" id="topicModal" role="dialog" aria-modal="true" aria-labelledby="topicTitle">
+    <div class="modal">
+      <div class="modalHd">
+        <div>
+          <strong id="topicTitle">🗂 Topic / drawer</strong>
+          <span>Set or adjust the drawer this belongs to.</span>
+        </div>
+        <button class="xBtn" data-close="topicModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modalBd">
+        <p><b>Drawer name</b></p>
+        <input id="topicInput" type="text" style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.16); color: var(--ink); outline:none;" placeholder="E.g. ‘flyer’, ‘web’, ‘school’…">
+        <div class="toolhint" id="topicHint">Leave empty if you don’t want to have a topic assigned.</div>
+        <div class="modalBtns">
+          <button class="btn" data-close="topicModal">Cancel</button>
+          <button class="btn primary" id="btnSaveTopic">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const KEY = "LM_PROIECTA_STUDIO_EN";
+const PLAN_KEY = "LM_PLAN";
+const KEY_QUEUE = "LM_PROIECTA_QUEUE_DEMO_EN";
+
+  const PRESET_IMAGES = [
+    { src: "cat-cleanup-mission.png", title: "cat-cleanup-mission.png" },
+    { src: "creative-kitchen-chaos.png", title: "creative-kitchen-chaos.png" },
+    { src: "ideas-in-the-air.png", title: "ideas-in-the-air.png" },
+    { src: "lumina-robot-sketch.png", title: "lumina-robot-sketch.png" },
+    { src: "night-protection.png", title: "night-protection.png" }
+  ];
+
+  const GEN_LINES = [
+    "Moment… creating 🎨",
+    "Let’s add some colour so it doesn’t look like a dentist’s office. 🎨😄",
+    "Okay… processing ✨",
+    "One more moment… 👀"
+  ];
+
+  const state = loadState();
+  let plan = loadPlan();
+  let activeTopicFilter = "__all";
+
+  const chatlog = document.getElementById("chatlog");
+  const chatInput = document.getElementById("chatInput");
+  const btnSend = document.getElementById("btnSend");
+
+  const btnTranslate = document.getElementById("btnTranslate");
+  const btnSuggest = document.getElementById("btnSuggest");
+  const btnEmail = document.getElementById("btnEmail");
+  const btnImageFlow = document.getElementById("btnImageFlow");
+  const btnNote = document.getElementById("btnNote");
+  const btnAttach = document.getElementById("btnAttach");
+  const fileInput = document.getElementById("fileInput");
+
+  const btnClear = document.getElementById("btnClear");
+  const btnExport = document.getElementById("btnExport");
+
+  const feed = document.getElementById("feed");
+  const feedEmpty = document.getElementById("feedEmpty");
+  const planHint = document.getElementById("planHint");
+  const shelfFilters = document.getElementById("shelfFilters");
+  const topicChips = document.getElementById("topicChips");
+
+  const planFree = document.getElementById("planFree");
+  const planPlus = document.getElementById("planPlus");
+  const planPremium = document.getElementById("planPremium");
+
+  function loadPlan(){
+    try{
+      const raw = localStorage.getItem("lm_plan") || localStorage.getItem(PLAN_KEY);
+      if(raw === "free" || raw === "plus" || raw === "premium") return raw;
+
+      const up = String(raw || "").toUpperCase();
+      if(up === "FREE" || up === "PLUS" || up === "PREMIUM"){
+        return up.toLowerCase();
+      }
+    }catch(_){
+    }
+    return "free";
+  }
+
+  function savePlan(){
+    try{
+      localStorage.setItem("lm_plan", plan);
+      localStorage.setItem(PLAN_KEY, plan);
+    }catch(_){}
+  }
+
+  function setPlan(p){
+    plan = p;
+    savePlan();
+    updatePlanUI();
+    addChat(
+      "lumina",
+      plan === "free"
+        ? "Set: Free (1 project) ✅"
+        : plan === "plus"
+          ? "Set: Plus (up to 5 projects) ✅"
+          : "Set: Premium (no project limit) ✅",
+      "plan"
+    );
+  }
+  function updatePlanUI(){
+    planFree.classList.toggle("active", plan === "free");
+    planPlus.classList.toggle("active", plan === "plus");
+    planPremium.classList.toggle("active", plan === "premium");
+    planHint.textContent =
+      plan === "free" ? "Free: 1 project"
+      : plan === "plus" ? "Plus: 5 projects"
+      : "Premium: ∞ projects";
+  }
+
+  planFree.addEventListener("click", () => setPlan("free"));
+  planPlus.addEventListener("click", () => setPlan("plus"));
+  planPremium.addEventListener("click", () => setPlan("premium"));
+
+  function openModal(el){
+    el.classList.add("show");
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(el){
+    el.classList.remove("show");
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("click", (e) => {
+    const closeId = e.target.closest("[data-close]")?.getAttribute("data-close");
+    if(closeId){
+      const el = document.getElementById(closeId);
+      if(el) closeModal(el);
+    }
+    const overlay = e.target.classList?.contains("modalOverlay") ? e.target : null;
+    if(overlay && overlay.classList.contains("show")) closeModal(overlay);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape"){
+      const shown = document.querySelector(".modalOverlay.show");
+      if(shown) closeModal(shown);
+    }
+  });
+
+  const imgModal = document.getElementById("imgModal");
+  const imgFrame = document.getElementById("imgFrame");
+  const imgTitle = document.getElementById("imgTitle");
+  const imgSubtitle = document.getElementById("imgSubtitle");
+
+  function openImageModal(src, alt){
+    if(!src) return;
+    imgTitle.textContent = "🖼 " + (alt || "Preview");
+    imgSubtitle.textContent = "Click the image to close.";
+    imgFrame.innerHTML = `<img src="${src}" alt="${escapeHtml(alt||"image")}">`;
+    openModal(imgModal);
+  }
+  imgFrame.addEventListener("click", () => closeModal(imgModal));
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return { chat: [], items: [] };
+      const parsed = JSON.parse(raw);
+      return { chat: parsed.chat || [], items: parsed.items || [] };
+    }catch(e){
+      return { chat: [], items: [] };
+    }
+  }
+  function saveState(){
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+  function cryptoId(){
+    try { return crypto.randomUUID(); } catch(e) { return String(Math.random()).slice(2) + String(Date.now()); }
+  }
+  function escapeHtml(s){
+    return (s||"").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[m]));
+  }
+
+  function addChat(role, text, tag, extra){
+    state.chat.push({ id: cryptoId(), role, text, tag: tag || "", extra: extra || {}, ts: Date.now() });
+    saveState();
+    renderChat();
+  }
+
+  function addItem(type, title, body, extra){
+    const id = cryptoId();
+    state.items.unshift({ id, type, title: title || "", body: body || "", extra: extra || {}, ts: Date.now() });
+    saveState();
+    renderFeed();
+    return id;
+  }
+
+  function typeLabel(type){
+    if(type === "image") return "Image";
+    if(type === "file") return "File";
+    if(type === "idea") return "Idea";
+    if(type === "task") return "Task";
+    if(type === "note") return "Note";
+    return "Entry";
+  }
+
+  function renderChat(){
+    chatlog.innerHTML = "";
+
+    if(state.chat.length === 0){
+      state.chat.push({
+        id: cryptoId(),
+        role: "lumina",
+        text: "Welcome to the workshop. 🛠 I’m here as quiet supervision 🕶️ so things stay out of chaos. We’ll create big things together here. ❤️",
+        tag: "workshop",
+        extra: {},
+        ts: Date.now()
+      });
+      saveState();
+    }
+
+    for(const m of state.chat){
+      const wrap = document.createElement("div");
+      wrap.className = "msg";
+
+      const av = document.createElement("div");
+      av.className = "avatar";
+
+      if(m.role === "lumina"){
+        av.innerHTML = `<img src="lumina-avatar.png" alt="Lumina">`;
+      }else{
+        av.innerHTML = `<span class="letter">👤</span>`;
+      }
+      wrap.appendChild(av);
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble" + (m.role === "user" ? " user" : "");
+
+      const time = new Date(m.ts).toLocaleTimeString("en-GB",{hour:"2-digit", minute:"2-digit"});
+
+      let inner = `
+        <p>${escapeHtml(m.text)}</p>
+        <div class="meta">
+          <span>${time}</span>
+          ${m.tag ? `<span class="tag">🕸 ${escapeHtml(m.tag)}</span>` : ""}
+        </div>
+      `;
+
+      if(m.extra && m.extra.attachments && Array.isArray(m.extra.attachments) && m.extra.attachments.length){
+        const row = document.createElement("div");
+        row.className = "thumbRow";
+
+        for(const a of m.extra.attachments){
+          if(a.kind === "image" && a.src){
+            const box = document.createElement("div");
+            box.className = "thumbMini";
+            box.innerHTML = `<img src="${a.src}" alt="${escapeHtml(a.name||"image")}" loading="lazy">`;
+            box.addEventListener("click", () => openImageModal(a.src, a.name || "Image"));
+            row.appendChild(box);
+          }else if(a.kind === "file"){
+            const chip = document.createElement("a");
+            chip.className = "fileChip";
+            chip.href = a.downloadUrl || "#";
+            chip.download = a.name || "file";
+            chip.target = "_blank";
+            chip.rel = "noopener";
+            chip.innerHTML = `📎 ${escapeHtml(a.name || "file")} <small>${escapeHtml(a.info || "")}</small>`;
+            if(!a.downloadUrl){
+              chip.addEventListener("click", (e) => {
+                e.preventDefault();
+                addChat("lumina", "The file is stored as a record on the shelf (DEMO). ✅", "file");
+              });
+            }
+            row.appendChild(chip);
+          }
+        }
+
+        bubble.innerHTML = inner;
+        bubble.appendChild(row);
+      }else{
+        bubble.innerHTML = inner;
+      }
+
+      wrap.appendChild(bubble);
+      chatlog.appendChild(wrap);
+    }
+
+    chatlog.scrollTop = chatlog.scrollHeight;
+  }
+
+  function renderFeed(){
+    feed.innerHTML = "";
+
+    const items = state.items.filter(it => {
+      const topic = (it.extra && it.extra.topic || "").trim();
+      if(activeTopicFilter === "__all") return true;
+      if(activeTopicFilter === "__none") return !topic;
+      return topic === activeTopicFilter;
+    });
+
+    if(items.length === 0){
+      feed.appendChild(feedEmpty);
+      feedEmpty.style.display = "block";
+    }else{
+      feedEmpty.style.display = "none";
+
+      for(const it of items){
+        const el = document.createElement("div");
+        el.className = "item";
+        const ts = new Date(it.ts).toLocaleString("en-GB", { hour:"2-digit", minute:"2-digit" });
+
+        const subtitle =
+          it.type === "image" ? "Visual item (DEMO)"
+          : it.type === "file" ? "Attachment (DEMO)"
+          : "In progress (DEMO)";
+
+        const topic = (it.extra && it.extra.topic || "").trim();
+        const topicMarkup = topic ? `<span class="itemTopic">🗂 ${escapeHtml(topic)}</span>` : "";
+
+        el.innerHTML = `
+          <div class="top">
+            <div style="display:flex; align-items:flex-start; min-width:0; flex:1;">
+              <span class="badge">${typeLabel(it.type)}</span>
+              <div class="itTitle">
+                <strong>${escapeHtml(it.title || "Untitled")}</strong>
+                <span>${escapeHtml(subtitle)} • ${ts}</span>
+                ${topicMarkup}
+              </div>
+            </div>
+            <div class="itemActions">
+              <button class="linkbtn ghost" data-act="move" data-id="${it.id}">📦 To project</button>
+              <button class="linkbtn" data-act="copy" data-id="${it.id}">📋 Copy</button>
+              <button class="linkbtn" data-act="topic" data-id="${it.id}">🗂 Topic</button>
+              <button class="linkbtn" data-act="done" data-id="${it.id}">✅ Done</button>
+              <button class="linkbtn danger" data-act="del" data-id="${it.id}">🗑 Delete</button>
+            </div>
+          </div>
+          <div class="body">${escapeHtml(it.body || "")}</div>
+        `;
+
+        if(it.type === "image" && it.extra && it.extra.src){
+          const row = document.createElement("div");
+          row.className = "thumbRow";
+
+          const box = document.createElement("div");
+          box.className = "thumbMini";
+          box.style.width = "220px";
+          box.innerHTML = `<img src="${it.extra.src}" alt="${escapeHtml(it.title||"image")}" loading="lazy">`;
+          box.addEventListener("click", () => openImageModal(it.extra.src, it.title || "Image"));
+          row.appendChild(box);
+
+          el.appendChild(row);
+        }
+
+        if(it.extra && it.extra.thumb){
+          const row = document.createElement("div");
+          row.className = "thumbRow";
+          const box = document.createElement("div");
+          box.className = "thumbMini";
+          box.style.width = "220px";
+          box.innerHTML = `<img src="${it.extra.thumb}" alt="${escapeHtml(it.title||"preview")}" loading="lazy">`;
+          box.addEventListener("click", () => openImageModal(it.extra.thumb, it.title || "Preview"));
+          row.appendChild(box);
+          el.appendChild(row);
+        }
+
+        if(it.type === "file" && it.extra && it.extra.downloadUrl){
+          const row = document.createElement("div");
+          row.className = "thumbRow";
+          const a = document.createElement("a");
+          a.className = "fileChip";
+          a.href = it.extra.downloadUrl;
+          a.download = it.title || "file";
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.innerHTML = `⬇️ Download: ${escapeHtml(it.title || "file")} <small>${escapeHtml(it.extra.info || "")}</small>`;
+          row.appendChild(a);
+          el.appendChild(row);
+        }
+
+        feed.appendChild(el);
+      }
+    }
+
+    rebuildTopicChips();
+  }
+
+  function rebuildTopicChips(){
+    if(!shelfFilters || !topicChips) return;
+
+    const topics = new Set();
+    for(const it of state.items){
+      const t = (it.extra && it.extra.topic || "").trim();
+      if(t) topics.add(t);
+    }
+
+    topicChips.innerHTML = "";
+    topics.forEach(topic => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip";
+      btn.dataset.topic = topic;
+      btn.textContent = topic;
+      topicChips.appendChild(btn);
+    });
+
+    const allButtons = shelfFilters.querySelectorAll("[data-topic]");
+    allButtons.forEach(btn => {
+      const val = btn.getAttribute("data-topic") || "";
+      if(val === activeTopicFilter){
+        btn.classList.add("is-active");
+      }else{
+        btn.classList.remove("is-active");
+      }
+    });
+  }
+
+  if(shelfFilters){
+    shelfFilters.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-topic]");
+      if(!btn) return;
+      activeTopicFilter = btn.getAttribute("data-topic") || "__all";
+      rebuildTopicChips();
+      renderFeed();
+    });
+  }
+
+  const moveModal = document.getElementById("moveModal");
+  const projectButtons = document.getElementById("projectButtons");
+  const moveHint = document.getElementById("moveHint");
+  let moveItemId = null;
+
+  const topicModal = document.getElementById("topicModal");
+  const topicInput = document.getElementById("topicInput");
+  const topicHint = document.getElementById("topicHint");
+  const btnSaveTopic = document.getElementById("btnSaveTopic");
+  let topicEditId = null;
+
+  function projectLimit(){
+    if(plan === "free") return 1;
+    if(plan === "plus") return 5;
+    return Infinity;
+  }
+
+  function loadQueue(){
+    try{
+      const raw = localStorage.getItem(KEY_QUEUE);
+      if(!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    }catch(_){
+      return [];
+    }
+  }
+
+  function saveQueue(q){
+    try{
+      localStorage.setItem(KEY_QUEUE, JSON.stringify(q || []));
+    }catch(_){
+    }
+  }
+
+  function pushItemToQueue(item){
+    if(!item) return null;
+
+    const topic = (item.extra && item.extra.topic || "").trim();
+    const label = topic || item.title || typeLabel(item.type);
+    const text = item.body || "";
+
+    const q = loadQueue();
+    q.unshift({
+      id: cryptoId(),
+      title: label,
+      topic,
+      text,
+      source: "proiecta-studio",
+      createdAt: Date.now()
+    });
+    saveQueue(q);
+    return label;
+  }
+
+  function openMoveModal(){
+    if(!moveModal || !projectButtons || !moveHint) return;
+
+    const item = state.items.find(x => x.id === moveItemId) || null;
+
+    projectButtons.innerHTML = "";
+    moveHint.textContent = "";
+
+    const btn = document.createElement("button");
+    btn.className = "btn primary";
+    btn.type = "button";
+    btn.textContent = "📦 Send to the project shelf";
+    btn.addEventListener("click", () => {
+      const label = pushItemToQueue(item);
+      if(label){
+        addChat(
+          "lumina",
+          `Added to the shelf in Proiecta → Projects as “${label}”. ✅`,
+          "projects"
+        );
+        moveHint.textContent = "Done ✅ – you’ll find it in Proiecta → Projects.";
+      }else{
+        moveHint.textContent = "Couldn’t save the item. Please try again.";
+      }
+    });
+    projectButtons.appendChild(btn);
+
+    const lim = projectLimit();
+    const planText =
+      lim === Infinity
+        ? "PREMIUM plan – no hard limit on the number of projects (in the live version)."
+        : `Plan ${plan.toUpperCase()} – in the live version, a limited number of project rooms.`;
+    moveHint.textContent = planText;
+
+    openModal(moveModal);
+  }
+
+  if(btnSaveTopic && topicModal && topicInput){
+    btnSaveTopic.addEventListener("click", () => {
+      const it = state.items.find(x => x.id === topicEditId);
+      if(!it){
+        topicHint.textContent = "The item no longer exists. Try again.";
+        return;
+      }
+      const val = (topicInput.value || "").trim();
+      if(!it.extra) it.extra = {};
+      it.extra.topic = val;
+      saveState();
+      renderFeed();
+      topicHint.textContent = "Topic saved. 😊";
+      setTimeout(() => {
+        topicHint.textContent = "";
+        closeModal(topicModal);
+      }, 600);
+    });
+  }
+
+  feed.addEventListener("click", async (e) => {
+    const btn = e.target.closest("button[data-act]");
+    if(!btn) return;
+
+    const id = btn.getAttribute("data-id");
+    const act = btn.getAttribute("data-act");
+    const idx = state.items.findIndex(x => x.id === id);
+    if(idx < 0) return;
+
+    const it = state.items[idx];
+
+    if(act === "del"){
+      state.items.splice(idx,1);
+      saveState();
+      renderFeed();
+      addChat("lumina", "Deleted 🧹", "shelf");
+      return;
+    }
+
+    if(act === "copy"){
+      try{
+        await navigator.clipboard.writeText(
+          (it.title ? it.title + "\n" : "") + (it.body || "")
+        );
+        addChat("lumina", "Copied 📋", "shelf");
+      }catch(err){
+        addChat(
+          "lumina",
+          "Copying didn’t work (the browser sometimes blocks it). 🙈",
+          "shelf"
+        );
+      }
+      return;
+    }
+
+    if(act === "move"){
+      moveItemId = id;
+      openMoveModal();
+      return;
+    }
+
+    if(act === "done"){
+      const topic = (it.extra && it.extra.topic || "").trim();
+      const label = topic || it.title || typeLabel(it.type);
+      state.items.splice(idx,1);
+      saveState();
+      renderFeed();
+      addChat("lumina", `I’ll take “${label}” as done and removed from the shelf. ✅`, "shelf");
+      return;
+    }
+
+    if(act === "topic"){
+      topicEditId = id;
+      if(topicInput){
+        const current = (it.extra && it.extra.topic || "").trim();
+        topicInput.value = current;
+        topicHint.textContent = current
+          ? "Change the drawer name, or leave empty to remove the topic."
+          : "Optional. Short drawer name – e.g. “flyer”, “web”, “school”…";
+      }
+      openModal(topicModal);
+      return;
+    }
+  });
+
+  function sendUser(){
+    const text = (chatInput.value || "").trim();
+    if(!text) return;
+    chatInput.value = "";
+    addChat("user", text, "");
+
+    setTimeout(() => {
+      addChat("lumina", "Written down ✅ Do you want to turn this into an email, ideas, a translation, or park it on the shelf?", "workshop");
+    }, 360);
+  }
+
+  btnSend.addEventListener("click", sendUser);
+  chatInput.addEventListener("keydown", (e) => {
+    if(e.key === "Enter") sendUser();
+  });
+
+  btnTranslate.addEventListener("click", () => {
+    addChat("lumina", "Send me the text you want to translate and the target language 🌍 – in the demo version don’t expect miracles, I still need to study the dictionaries. 😂", "translation");
+  });
+
+  btnSuggest.addEventListener("click", () => {
+    addChat("lumina", "Write in one sentence what you want to come up with. I’ll prepare a few options 💡", "ideas");
+  });
+
+  btnEmail.addEventListener("click", () => {
+    addChat("lumina", "Tell me what kind of email it is and what tone you want 📧", "email");
+  });
+
+  const noteModalEl = document.getElementById("noteModal");
+  const noteTitleInput = document.getElementById("noteTitleInput");
+  const noteBodyInput = document.getElementById("noteBodyInput");
+  const noteTopicInput = document.getElementById("noteTopicInput");
+  const btnSaveNote = document.getElementById("btnSaveNote");
+  const noteTypeHint = document.getElementById("noteTypeHint");
+  let noteType = "note";
+
+  function setNoteType(t){
+    noteType = t;
+    noteTypeHint.textContent =
+      t === "idea" ? "💡 Idea"
+      : t === "task" ? "✅ Task"
+      : "📝 Note";
+  }
+
+  noteModalEl.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-note-type]");
+    if(!b) return;
+    setNoteType(b.getAttribute("data-note-type"));
+  });
+
+  btnNote.addEventListener("click", () => {
+    setNoteType("note");
+    noteTitleInput.value = "";
+    noteBodyInput.value = "";
+    if(noteTopicInput) noteTopicInput.value = "";
+    openModal(noteModalEl);
+  });
+
+  btnSaveNote.addEventListener("click", () => {
+    const t = (noteTitleInput.value || "").trim();
+    const body = (noteBodyInput.value || "").trim();
+    const topic = (noteTopicInput && noteTopicInput.value || "").trim();
+    if(!t && !body){
+      addChat("lumina", "The note is empty 🙂", "shelf");
+      return;
+    }
+    const title = t || (body.split("\n")[0].slice(0, 52) || "Untitled");
+    const extra = topic ? { topic } : {};
+    addItem(noteType, title, body || "(no content)", extra);
+    addChat(
+      "lumina",
+      topic
+        ? `Parked on the shelf in the drawer “${topic}”. 🗃️`
+        : "Parked on the shelf 🗃️",
+      "shelf"
+    );
+    closeModal(noteModalEl);
+  });
+
+  const imageFlowModal = document.getElementById("imageFlowModal");
+  const imgPromptInput = document.getElementById("imgPromptInput");
+  const btnSendImagePrompt = document.getElementById("btnSendImagePrompt");
+  const imgFlowStatus = document.getElementById("imgFlowStatus");
+
+  btnImageFlow.addEventListener("click", () => {
+    imgFlowStatus.textContent = "";
+    imgPromptInput.value = "";
+    openModal(imageFlowModal);
+  });
+
+  btnSendImagePrompt.addEventListener("click", () => {
+    const prompt = (imgPromptInput.value || "").trim();
+    if(!prompt){
+      imgFlowStatus.textContent = "Please write a prompt 🙂";
+      return;
+    }
+
+    closeModal(imageFlowModal);
+
+    addChat("user", "Image prompt: " + prompt, "");
+    addChat("lumina", GEN_LINES[Math.floor(Math.random() * GEN_LINES.length)], "generation");
+
+    setTimeout(() => {
+      const pick = PRESET_IMAGES[Math.floor(Math.random() * PRESET_IMAGES.length)];
+      addChat("lumina", "Result (DEMO) 🖼️", "generation", {
+        attachments: [{ kind:"image", src: pick.src, name: pick.title }]
+      });
+      addItem("image", "Generated image", "Prompt: " + prompt, { src: pick.src, preset: true });
+    }, 2200 + Math.floor(Math.random()*900));
+  });
+
+  btnAttach.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", async (e) => {
+    const files = Array.from(e.target.files || []);
+    if(!files.length) return;
+
+    const attachments = [];
+
+    addChat("lumina", "Adding attachment… 📎", "file");
+
+    for(const f of files){
+      const info = `${(f.size/1024).toFixed(1)} KB`;
+      const isImg = /^image\//.test(f.type);
+
+      if(isImg){
+        const dataUrl = await readAsDataURL(f);
+        attachments.push({ kind:"image", src: dataUrl, name: f.name, info });
+        addItem("file", f.name, "Attached image (DEMO).", { thumb: dataUrl, mime: f.type, size: f.size, info });
+      }else{
+        const url = URL.createObjectURL(f);
+        attachments.push({ kind:"file", downloadUrl: url, name: f.name, info });
+        addItem("file", f.name, "File received (DEMO).", { downloadUrl: url, mime: f.type, size: f.size, info });
+      }
+    }
+
+    addChat("user", files.length === 1 ? "Adding an attachment." : `Adding ${files.length} attachments.`, "", { attachments });
+    addChat("lumina", "Added ✅", "file");
+
+    fileInput.value = "";
+  });
+
+  function readAsDataURL(file){
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result || ""));
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+  }
+
+  const clearModalEl = document.getElementById("clearModal");
+  const btnConfirmClear = document.getElementById("btnConfirmClear");
+
+  btnClear.addEventListener("click", () => openModal(clearModalEl));
+  btnConfirmClear.addEventListener("click", () => {
+    state.chat = [];
+    state.items = [];
+    saveState();
+    closeModal(clearModalEl);
+    renderChat();
+    renderFeed();
+    addChat("lumina", "Cleared. ✅ Everything disappeared like a sock in the washing machine. 🧦✨", "reset");
+  });
+
+  btnExport.addEventListener("click", () => {
+    const lines = [];
+    lines.push("Proiecta • Holding shelf export (DEMO)");
+    lines.push("Plan: " + plan.toUpperCase());
+    lines.push("Date: " + new Date().toLocaleString("en-GB"));
+    lines.push("");
+
+    if(!state.items.length){
+      lines.push("(The shelf is empty.)");
+    }else{
+      for(const it of state.items){
+        lines.push("—");
+        lines.push(typeLabel(it.type) + ": " + (it.title || "Untitled"));
+        const topic = (it.extra && it.extra.topic || "").trim();
+        if(topic) lines.push("Topic: " + topic);
+        lines.push((it.body || "").trim());
+        if(it.extra && it.extra.src) lines.push("[image] " + it.extra.src);
+      }
+    }
+
+    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "proiecta-shelf.txt";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 800);
+
+    addChat("lumina", "Export ready ⬇️", "export");
+  });
+
+  chatlog.addEventListener("click", (e) => {
+    const img = e.target.closest(".thumbMini img");
+    if(!img) return;
+    openImageModal(img.getAttribute("src") || "", img.getAttribute("alt") || "Image");
+  });
+
+  updatePlanUI();
+  renderChat();
+  renderFeed();
+
+  // 💡 Při přepnutí jazyka vyčistit dílnu,
+  // aby se nepřenášely bubliny z jiného jazyka
+  const langLinks = document.querySelectorAll('.lang-switch a');
+
+  langLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      // vyprázdníme chat i položky dílny
+      state.chat = [];
+      state.items = [];
+
+      // uložíme prázdný stav
+      if (typeof saveState === 'function') {
+        saveState();
+      }
+    });
+  });
+
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+  --bg0:#050015;
+  --bg1:#0d0322;
+  --bg2:#050015;
+
+  --ink:rgba(255,255,255,.92);
+  --ink2:rgba(255,255,255,.72);
+  --muted:rgba(255,255,255,.62);
+  --border:rgba(255,255,255,.14);
+  --card:rgba(6,3,20,.80);
+  --shadow:0 24px 80px rgba(0,0,0,.72);
+  --r:22px;
+}
+    *{box-sizing:border-box} html,body{height:100%}
+    body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    /* jemné světlo nahoře vlevo */
+    radial-gradient(1100px 740px at 14% 0%, rgba(184,146,255,.20), transparent 60%),
+    /* jemný nádech nahoře vpravo */
+    radial-gradient(980px 760px at 86% 4%, rgba(214,170,255,.12), transparent 62%),
+    /* ztmavení u dna – zabije proužek */
+    radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.65), transparent 65%),
+    /* plynulý vertikální přechod */
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 42%, var(--bg2) 100%);
+  background-attachment: fixed;
+}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      background:linear-gradient(180deg, rgba(8,3,26,.86), rgba(8,3,26,.35));border-bottom:1px solid rgba(255,255,255,.08);}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 18px;}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .brand b{font-family:"Cinzel",serif;letter-spacing:.06em}
+    .brand small{display:block;margin-top:2px;color:var(--ink2);font-size:12px}
+    .nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{text-decoration:none;color:var(--ink);font-weight:800;font-size:12.5px;border-radius:999px;padding:10px 12px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.14);}
+    .pill:hover{filter:brightness(1.05)}
+    main{max-width:1100px;margin:0 auto;padding:18px 18px 70px;}
+    .panel{border:1px solid rgba(255,255,255,.12);background:radial-gradient(circle at 0 0, rgba(255,255,255,.10), transparent 55%), var(--card);
+      border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;}
+    .head{padding:18px;border-bottom:1px solid rgba(255,255,255,.07)}
+    h1{margin:0;font-size:22px}
+    .sub{margin-top:6px;color:var(--muted);font-size:13px;line-height:1.55;max-width:75ch}
+    .grid{padding:14px;display:grid;gap:12px;grid-template-columns:1fr 1fr}
+    @media (max-width:780px){.grid{grid-template-columns:1fr}}
+    .card{border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.12);border-radius:18px;padding:14px}
+    .card b{display:block;font-size:14px;margin-bottom:6px}
+    .card p{margin:0;color:var(--ink2);font-size:13px;line-height:1.55}
+    .chip{display:inline-flex;gap:8px;align-items:center;margin-top:10px;font-size:12px;color:var(--ink2);
+      padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06)}
+  
+    /* --- Sigma electric vibe --- */
+    body::before{
+      content:"";
+      position:fixed; inset:-20%;
+      pointer-events:none;
+      background:
+        radial-gradient(closest-side at 20% 30%, rgba(120,220,255,.20), transparent 62%),
+        radial-gradient(closest-side at 70% 40%, rgba(255,240,160,.14), transparent 60%),
+        radial-gradient(closest-side at 45% 70%, rgba(170,120,255,.16), transparent 64%),
+        repeating-linear-gradient(110deg,
+          transparent 0px, transparent 24px,
+          rgba(120,220,255,.06) 25px,
+          transparent 26px, transparent 52px,
+          rgba(255,240,160,.05) 53px,
+          transparent 54px);
+      filter: blur(0px) saturate(1.05);
+      opacity:.55;
+      transform: translate3d(0,0,0);
+      animation: electricDrift 10s ease-in-out infinite alternate;
+      mix-blend-mode: screen;
+    }
+    @keyframes electricDrift{
+      from{ transform: translate(-1.5%, -1%) scale(1.02); }
+      to{ transform: translate(1.5%, 1%) scale(1.05); }
+    }
+
+    /* Image trigger button */
+    .sigma-trigger{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:9px 12px;
+    }
+    .sigma-trigger img{
+      width:20px;
+      height:20px;
+      display:block;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
+    }
+
+    /* Welcome bubble (points to Sigma button) */
+    .sigma-cta{ position:relative; }
+    .welcome-bubble{
+      position:relative;
+      width:min(520px, 92%);
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(8,6,14,.92);
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+      padding:14px 14px 12px;
+      margin: 0 auto 10px;
+      opacity:0;
+      transform: translateY(8px);
+      pointer-events:none;
+      transition: opacity .25s ease, transform .25s ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .welcome-bubble.on{
+      opacity:1;
+      transform: translateY(0);
+      pointer-events:auto;
+    }
+    .welcome-bubble::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:-10px;
+      transform: translateX(-50%) rotate(45deg);
+      width:18px;
+      height:18px;
+      background: rgba(8,6,14,.92);
+      border-right:1px solid rgba(255,255,255,.16);
+      border-bottom:1px solid rgba(255,255,255,.16);
+      border-bottom-right-radius:4px;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+    }
+    .welcome-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .welcome-bubble b{font-family:"Cinzel",serif;letter-spacing:.06em}
+    .welcome-bubble p{margin:6px 0 0;color:var(--ink2);line-height:1.5;font-size:13px}
+    .welcome-bubble .x{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.18);
+      color:var(--ink);
+      border-radius:999px;
+      width:34px;height:34px;
+      display:inline-flex;align-items:center;justify-content:center;
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+    .welcome-bubble .x:hover{filter:brightness(1.06)}
+
+    /* Modal (examples) */
+    .modal-backdrop{
+      position:fixed; inset:0; z-index:1000;
+      background: rgba(0,0,0,.66);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px;
+    }
+    .modal-backdrop.on{display:flex}
+    .modal{
+      width:min(720px, 96vw);
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(8,6,14,.94);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal-h{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .modal-h b{font-family:"Cinzel",serif;letter-spacing:.08em}
+    .modal-h .close{
+      appearance:none; cursor:pointer;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.18);
+      color:var(--ink);
+      width:36px;height:36px;
+      display:inline-flex;align-items:center;justify-content:center;
+      font-size:16px;
+    }
+    .modal-h .close:hover{filter:brightness(1.06)}
+    .modal-body{
+      padding:14px 16px 16px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:780px){ .modal-body{grid-template-columns:1fr;} }
+
+    .ex{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+      border-radius:18px;
+      padding:12px;
+    }
+    .ex h3{margin:0;font-size:14px}
+    .ex p{margin:8px 0 0;color:var(--ink2);line-height:1.55;font-size:13px}
+    .ex ul{margin:10px 0 0;padding-left:18px;color:rgba(255,255,255,.90)}
+    .ex li{margin:6px 0}
+
+
+    /* Big trigger button (CTA inside content) */
+    .sigma-cta{
+      padding: 6px 14px 16px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+    .sigma-trigger-big{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.16);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 14px 18px;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      font-weight:800;
+      letter-spacing:.02em;
+      box-shadow: 0 18px 50px rgba(0,0,0,.42);
+      transition: transform .18s ease, filter .18s ease, background .18s ease;
+    }
+    .sigma-trigger-big:hover{
+      filter: brightness(1.06);
+      transform: translateY(-1px);
+      background: rgba(0,0,0,.22);
+    }
+    .sigma-trigger-big:active{ transform: translateY(0); }
+    .sigma-trigger-big img{
+      width:40px;
+      height:40px;
+      display:block;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,.45));
+    }
+    .sigma-trigger-big span{
+      font-size:13px;
+      text-transform: uppercase;
+    }
+
+    /* Disabled state for the big trigger button (used in FREE plan) */
+    .sigma-trigger-big.disabled{
+      opacity:.45;
+      cursor:default;
+      box-shadow:none;
+    }
+    .sigma-trigger-big.disabled:hover{
+      filter:none;
+      transform:none;
+      background:rgba(0,0,0,.16);
+    }
+    .sigma-cta-sub{
+      color: var(--ink2);
+      font-size: 12.5px;
+      text-align:center;
+      max-width: 60ch;
+      line-height: 1.55;
+    }
+        .sigma-notify{
+      margin:10px auto 4px;
+      max-width:560px;
+      padding:10px 12px;
+      border-radius:14px;
+      background:rgba(255,255,255,.60);
+      border:1px dashed rgba(12,18,32,.35);
+      font-size:13px;
+      color:rgba(12,18,32,.88);
+      opacity:0;
+      transform:translateY(4px);
+      transition:opacity .22s ease, transform .22s ease;
+    }
+    .sigma-notify.on{
+      opacity:1;
+      transform:translateY(0);
+    }
+    .sigma-notify .label{
+      font-weight:600;
+      margin-bottom:3px;
+      display:block;
+    }
+    .sigma-notify .title{
+      font-weight:500;
+    }
+    .sigma-notify .meta{
+      font-size:12px;
+      opacity:.8;
+      margin-top:2px;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand">
+          <b>Sigma</b>
+          <small>morning and evening rhythm • no performance pressure</small>
+        </div>
+        <nav class="nav" aria-label="Navigation">
+          <a class="pill" href="praetorium-en.html">🕸 Back</a>
+          <a class="pill" href="lumina-demo-en.html">🗯 Pokec</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+<main>
+    <section class="panel">
+      <div class="head">
+        <h1>Sigma</h1>
+        <div class="sub">
+          A demo room for daily rituals. In the morning I set direction. In the evening I calm things down.
+        </div>
+        <!-- Plan chip shows the current subscription plan (FREE, PLUS, PREMIUM) -->
+        <div class="chip" id="sigmaPlanChip">DEMO · FREE tarif</div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <b>🌅 Morning message</b>
+          <p>A short line. One direction. No overload.</p>
+          <div class="chip">status: demo • we'll connect it later</div>
+        </div>
+
+        <div class="card">
+          <b>🌙 Evening recap</b>
+          <p>What went well. What to let go. What to carry into tomorrow.</p>
+          <div class="chip">status: demo • we'll connect it later</div>
+        </div>
+      </div>
+
+      <div class="sigma-cta" aria-label="Sigma examples">
+                <div class="welcome-bubble" id="sigmaWelcome" role="status" aria-live="polite" aria-label="Sigma welcome message">
+          <div class="welcome-top">
+            <div>
+              <b>Hi there 👋</b>
+              <p><b>Sigma</b> here. In the morning I set direction, in the evening I calm things down. No performance pressure. (Yes, even today.)</p>
+            </div>
+            <button class="x" id="welcomeClose" type="button" aria-label="Close">✕</button>
+          </div>
+        </div>
+
+<button class="sigma-trigger-big" id="sigmaTrigger" type="button">
+  <img src="sigma-switch.png" alt="" aria-hidden="true">
+  <span>Sigma examples</span>
+</button>
+
+<div class="sigma-cta-sub" id="sigmaCtaSub">
+  Click to peek at morning and evening lines. 👆🏻
+</div>
+
+<div id="sigmaNotify" class="sigma-notify" aria-live="polite">
+  <div class="label">Sigma</div>
+  <div class="title">Right now there are no reminders.</div>
+  <div class="meta">Plan something via Pokec → Chronica and it will show up here.</div>
+</div>
+
+    </section>
+  </main>
+
+  <!-- Examples modal -->
+  <div class="modal-backdrop" id="sigmaModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Sigma message examples">
+      <div class="modal-h">
+        <b>Sigma examples</b>
+        <button class="close" id="modalClose" type="button" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <section class="ex" aria-label="Examples for morning">
+          <h3>🌅 Morning</h3>
+          <p>Short. Clear. With a slight smile.</p>
+          <ul>
+            <li>“Good morning. Just one thing today: calm.”</li>
+            <li>“We turn on the world. Not stress.”</li>
+            <li>“Plan: breathe. Then heroics. (Maybe.)”</li>
+          </ul>
+        </section>
+
+        <section class="ex" aria-label="Examples for evening">
+          <h3>🌙 Evening</h3>
+          <p>Close the day. Not yourself.</p>
+          <ul>
+            <li>“That was enough for today. We'll leave the rest for tomorrow.”</li>
+            <li>“What went well? Even small things count.”</li>
+            <li>“We turn off the chaos. You stay.”</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  
+    <script>
+  (function(){
+    const $ = (id) => document.getElementById(id);
+
+    function escapeHtml(str){
+      return String(str || "").replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    const SIGMA_QUEUE_KEY   = "sigma:queue";
+    const NOTIFY_WINDOW_MIN = 2; // +/- 2 minutes
+
+    let sigmaAudioCtx = null;
+
+    function getAudioCtx(){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      if(!sigmaAudioCtx) sigmaAudioCtx = new AC();
+      if(sigmaAudioCtx.state === "suspended"){
+        sigmaAudioCtx.resume().catch(()=>{});
+      }
+      return sigmaAudioCtx;
+    }
+
+    function gentleBeep(){
+      try{
+        const ctx = getAudioCtx();
+        if(!ctx) return;
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.value = 880;
+
+        const now = ctx.currentTime;
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.04,  now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.18);
+      }catch(_){}
+    }
+
+    function armAudioUnlock(){
+      const handler = () => {
+        const ctx = getAudioCtx();
+        if(ctx && ctx.state === "suspended"){
+          ctx.resume().catch(()=>{});
+        }
+        window.removeEventListener("pointerdown", handler, true);
+        window.removeEventListener("keydown", handler, true);
+      };
+      window.addEventListener("pointerdown", handler, true);
+      window.addEventListener("keydown", handler, true);
+    }
+
+    function loadQueue(){
+      try{
+        const raw = localStorage.getItem(SIGMA_QUEUE_KEY);
+        if(!raw) return [];
+        const arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+      }catch(_){
+        return [];
+      }
+    }
+
+    function saveQueue(q){
+      try{
+        localStorage.setItem(SIGMA_QUEUE_KEY, JSON.stringify(q));
+      }catch(_){}
+    }
+
+    function describeWhen(ts){
+      if(!ts) return "";
+      const d = new Date(ts);
+      if(isNaN(d)) return "";
+      return d.toLocaleString("en-GB", {
+        weekday:"short",
+        day:"2-digit",
+        month:"2-digit",
+        hour:"2-digit",
+        minute:"2-digit"
+      });
+    }
+
+    function initSigma(){
+      const planChip     = $("sigmaPlanChip");
+      const cta          = $("sigmaTrigger");
+      const ctaSub       = $("sigmaCtaSub");
+      const notifyBox    = $("sigmaNotify");
+      const welcome      = $("sigmaWelcome");
+      const welcomeClose = $("welcomeClose");
+      const modal        = $("sigmaModal");
+      const modalClose   = $("modalClose");
+
+      armAudioUnlock();
+
+      // plan from localStorage
+      let plan = "FREE";
+      try{
+        const raw = localStorage.getItem("lm_plan");
+        if(raw){
+          const up = String(raw).toUpperCase();
+          if(["FREE","PLUS","PREMIUM"].includes(up)){
+            plan = up;
+          }
+        }
+      }catch(_){
+        plan = "FREE";
+      }
+      const isFree    = (plan === "FREE");
+      const isPlus    = (plan === "PLUS");
+      const isPremium = (plan === "PREMIUM");
+
+      // chip text
+      if(planChip){
+        if(plan === "FREE"){
+          planChip.textContent = "DEMO · FREE tarif";
+        }else if(plan === "PLUS"){
+          planChip.textContent = "DEMO · PLUS tarif";
+        }else{
+          planChip.textContent = "DEMO · PREMIUM tarif";
+        }
+      }
+
+      // CTA behaviour
+      if(cta){
+        if(!isPremium){
+          cta.classList.add("disabled");
+          cta.setAttribute("aria-disabled","true");
+          if(ctaSub){
+            ctaSub.textContent = isPlus
+              ? "In the PLUS plan, Sigma is preview-only. Full reminders live in the PREMIUM tarif."
+              : "In the FREE plan, Sigma is preview-only. Full reminders live in the PREMIUM tarif.";
+          }
+        }else{
+          cta.classList.remove("disabled");
+          cta.removeAttribute("aria-disabled");
+          if(ctaSub){
+            ctaSub.textContent = "In this plan, Sigma can really help with timing. Keep this page open and watch the hints.";
+          }
+        }
+      }
+
+      // welcome bubble
+      if(welcome){
+        welcome.classList.add(isPremium ? "on" : "demo");
+        setTimeout(() => {
+          welcome.classList.remove("on","demo");
+        }, 6000);
+      }
+      if(welcome && welcomeClose){
+        const hideWelcome = () => welcome.classList.remove("on","demo");
+        welcomeClose.addEventListener("click", hideWelcome);
+      }
+
+      // modal initial state
+      if(modal){
+        modal.hidden = true;
+        modal.setAttribute("aria-hidden","true");
+      }
+
+      // open modal
+      if(cta && modal){
+        cta.addEventListener("click", () => {
+          if(cta.classList.contains("disabled")) return;
+          modal.hidden = false;
+          modal.classList.add("on");
+          modal.setAttribute("aria-hidden","false");
+          gentleBeep();
+          setTimeout(() => { modalClose && modalClose.focus(); }, 0);
+        });
+      }
+
+      function closeModal(){
+        if(!modal) return;
+        modal.classList.remove("on");
+        modal.setAttribute("aria-hidden","true");
+        setTimeout(() => { modal.hidden = true; }, 0);
+        cta && cta.focus();
+      }
+
+      if(modalClose){
+        modalClose.addEventListener("click", closeModal);
+      }
+      if(modal){
+        modal.addEventListener("click", (e) => {
+          if(e.target === modal) closeModal();
+        });
+      }
+      document.addEventListener("keydown", (e) => {
+        if(e.key === "Escape"){
+          if(welcome) welcome.classList.remove("on","demo");
+          if(modal && modal.classList.contains("on")) closeModal();
+        }
+      });
+
+      // notification box: next reminder
+      function renderNext(){
+        if(!notifyBox) return;
+        const queue = loadQueue();
+        if(!queue.length){
+          notifyBox.classList.remove("on");
+          notifyBox.classList.add("on");
+          notifyBox.innerHTML = `
+            <div class="label">Sigma</div>
+            <div class="title">Right now there are no reminders.</div>
+            <div class="meta">Plan something via Pokec → Chronica and it will show up here.</div>
+          `;
+          return;
+        }
+
+        queue.sort((a,b) => (a.fireAt || 0) - (b.fireAt || 0));
+        const next  = queue[0] || {};
+        const title = next.title || "Reminder";
+        const when  = describeWhen(next.targetAt || next.fireAt);
+
+        notifyBox.innerHTML = `
+          <div class="label">Next reminder</div>
+          <div class="title">${escapeHtml(title)}</div>
+          <div class="meta">${escapeHtml(when || "")}</div>
+        `;
+        notifyBox.classList.add("on");
+      }
+
+      // check due reminders
+      function checkDue(){
+        if(!isPremium || !notifyBox) return;
+
+        let queue = loadQueue();
+        if(!queue.length) return;
+
+        const now = Date.now();
+        const windowMs = NOTIFY_WINDOW_MIN * 60 * 1000;
+
+        let changed     = false;
+        const remaining = [];
+        let fired       = null;
+
+        for(const item of queue){
+          if(!item || !item.fireAt) continue;
+          const fireAt = Number(item.fireAt);
+          if(!fireAt){
+            remaining.push(item);
+            continue;
+          }
+
+          if(!fired && Math.abs(fireAt - now) <= windowMs){
+            fired = item;
+            changed = true;
+          }else if(fireAt > now){
+            remaining.push(item);
+          }
+        }
+
+        if(changed){
+          saveQueue(remaining);
+        }
+
+        if(fired){
+          const title = fired.title || "Reminder";
+          const when  = describeWhen(fired.targetAt || fired.fireAt);
+
+          notifyBox.innerHTML = `
+            <div class="label">Sigma reminds</div>
+            <div class="title">${escapeHtml(title)}</div>
+            <div class="meta">${escapeHtml(when || "")}</div>
+          `;
+          notifyBox.classList.add("on");
+          gentleBeep();
+
+          setTimeout(() => {
+            notifyBox.classList.remove("on");
+            renderNext();
+          }, 10000);
+        }else{
+          renderNext();
+        }
+      }
+
+      if(notifyBox){
+        renderNext();
+        if(isPremium){
+          setInterval(checkDue, 15000);
+        }
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", initSigma);
+  })();
+</script>
+
+</body>
+</html>
+

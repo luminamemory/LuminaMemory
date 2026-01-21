@@ -1,0 +1,1077 @@
+<!doctype html>
+<html lang="de">
+<head>
+ 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    :root{
+  --bg0:#020815;
+  --bg1:#03121c;
+  --bg2:#020612;
+
+  --ink:rgba(255,255,255,.96);
+  --ink2:rgba(255,255,255,.8);
+  --muted:rgba(255,255,255,.68);
+
+  --card:rgba(5,12,25,.94);
+  --card-soft:rgba(9,20,40,.98);
+  --border:rgba(148,227,255,.35);
+  --border-soft:rgba(148,227,255,.18);
+  --shadow:0 26px 80px rgba(0,0,0,.86);
+
+  --accent:#22c1af;
+  --accent-soft:rgba(34,193,175,.18);
+  --accent-strong:#0ea5e9;
+  --danger:#f97373;
+  --danger-soft:rgba(248,113,113,.2);
+
+  --radius:22px;
+  --max-width:1040px;
+}
+
+body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 780px at 10% 0%, rgba(96,165,250,.22), transparent 60%),
+    radial-gradient(980px 720px at 85% 6%, rgba(45,212,191,.18), transparent 62%),
+    /* ztmavení dna – zabije proužek */
+    radial-gradient(1200px 820px at 50% 120%, rgba(0,0,0,.7), transparent 65%),
+    linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 42%, var(--bg2) 100%);
+  background-attachment: fixed;
+}
+
+    a{color:#bfdbfe}
+    a:hover{color:#e0f2fe}
+
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:24px 16px 40px;
+    }
+
+    .shell{
+      width:min(100%, var(--max-width));
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:16px;
+      gap:12px;
+      font-size:13px;
+    }
+
+    .backlink{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.45);
+      text-decoration:none;
+      color:#e5e7eb;
+      background:rgba(15,23,42,.7);
+    }
+    .backlink:hover{
+      border-color:#e5e7eb;
+      background:rgba(15,23,42,.9);
+    }
+
+    .bonus-pill{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      border:1px dashed rgba(249,250,251,.5);
+      background:linear-gradient(90deg,rgba(34,197,235,.2),rgba(45,212,191,.08));
+      color:#e0f2fe;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    main.card{
+      background:var(--card);
+      border-radius:24px;
+      border:1px solid var(--border-soft);
+      box-shadow:var(--shadow);
+      padding:22px 20px 24px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    header.hero{
+      margin-bottom:18px;
+    }
+    header.hero h1{
+      font-family:"Cinzel",serif;
+      font-size:1.6rem;
+      letter-spacing:.03em;
+      margin:0 0 6px;
+      display:flex;
+      align-items:baseline;
+      gap:8px;
+    }
+    header.hero h1 span.emoji{
+      font-size:1.4rem;
+    }
+
+    .hero-sub{
+      margin:0 0 10px;
+      font-size:.96rem;
+      color:var(--ink2);
+      max-width:60ch;
+    }
+
+    .plan-strip{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    .plan-chip{
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,227,255,.5);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+    }
+
+    .plan-hint{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .map-locked{
+      margin-top:6px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px dashed var(--danger-soft);
+      background:rgba(15,23,42,.92);
+      font-size:12.5px;
+      color:#fecaca;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0, 320px) minmax(0, 1fr);
+      gap:22px;
+      margin-top:10px;
+      align-items:flex-start;
+    }
+
+    .map-figure{
+      background:var(--card-soft);
+      border-radius:20px;
+      border:1px solid rgba(148,227,255,.26);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .map-figure img{
+      width:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .map-caption{
+      padding:8px 10px 10px;
+      font-size:12px;
+      color:var(--muted);
+      background:linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,1));
+    }
+
+    .map-tag{
+      position:absolute;
+      top:10px;
+      left:10px;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:11px;
+      background:rgba(15,23,42,.8);
+      border:1px solid rgba(148,227,255,.6);
+      color:#e0f2fe;
+    }
+
+    .right{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card-block{
+      background:radial-gradient(900px 600px at 0 0,rgba(56,189,248,.22),transparent 60%),
+                 radial-gradient(820px 560px at 100% 0,rgba(45,212,191,.18),transparent 62%),
+                 rgba(6,14,32,.96);
+      border-radius:18px;
+      padding:12px 12px 14px;
+      border:1px solid rgba(148,227,255,.28);
+    }
+
+    .card-block h2{
+      font-size:1rem;
+      margin:0 0 4px;
+    }
+    .card-block p{
+      margin:0 0 8px;
+      font-size:13px;
+      color:var(--ink2);
+    }
+
+    .trip-types{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin:6px 0 8px;
+    }
+
+    .chip-option{
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:12px;
+      border:1px solid rgba(148,227,255,.35);
+      background:rgba(15,23,42,.85);
+      color:#e5e7eb;
+      cursor:pointer;
+    }
+    .chip-option.active{
+      background:var(--accent-soft);
+      border-color:var(--accent);
+      color:#e0f2fe;
+    }
+
+    .trip-form{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:flex-end;
+      margin-bottom:4px;
+    }
+
+    .field-inline{
+      margin-top: 10px;
+    }
+
+    .save-btn{
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+
+      background: #111827;
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, .25);
+      transition: transform .08s ease, box-shadow .08s ease, background .12s ease;
+    }
+
+    .save-btn:hover{
+      background: #020617;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, .3);
+      transform: translateY(-1px);
+    }
+
+    .save-btn:active{
+      transform: translateY(0);
+      box-shadow: 0 3px 10px rgba(15, 23, 42, .2);
+    }
+
+    .save-hint{
+      font-size: 12px;
+      color: #4b5563;
+      margin-top: 4px;
+    }
+
+    .save-hint.ok{
+      color: #047857;
+    }
+
+    .save-hint.error{
+      color: #b91c1c;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+      font-size:12px;
+      min-width:120px;
+      flex:1 1 140px;
+    }
+    .field label{
+      color:var(--muted);
+    }
+    .field input{
+      border-radius:10px;
+      border:1px solid rgba(148,227,255,.45);
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      padding:5px 8px;
+      font-size:13px;
+    }
+
+    .trip-note{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    .checklist{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      gap:10px;
+      margin-top:4px;
+      font-size:13px;
+    }
+
+    .checklist-group{
+      background:rgba(15,23,42,.96);
+      border-radius:14px;
+      padding:8px 10px 10px;
+      border:1px solid rgba(148,227,255,.16);
+    }
+
+    .checklist-group h3{
+      margin:0 0 4px;
+      font-size:12.5px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:#bae6fd;
+    }
+
+    .item{
+      display:flex;
+      align-items:flex-start;
+      gap:6px;
+      margin:2px 0;
+    }
+
+    .item input[type="checkbox"]{
+      margin-top:2px;
+      accent-color:var(--accent);
+    }
+
+    .item label{
+      font-size:12.5px;
+      color:var(--ink2);
+    }
+
+    .status-strip{
+      margin-top:6px;
+      font-size:12.5px;
+      color:#bbf7d0;
+      padding:6px 8px;
+      border-radius:999px;
+      background:rgba(22,163,74,.12);
+      border:1px solid rgba(22,163,74,.35);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .status-strip span.badge{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      border-radius:999px;
+      padding:3px 8px;
+      background:rgba(21,128,61,.85);
+      color:#ecfdf5;
+    }
+
+    .tiny{
+      margin-top:8px;
+      font-size:11.5px;
+      color:var(--muted);
+    }
+
+    .pseudo-input{
+      width:100%;
+      text-align:left;
+      border-radius:10px;
+      border:1px solid rgba(148,227,255,.45);
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      padding:6px 9px;
+      font-size:13px;
+      cursor:pointer;
+    }
+
+    .mini-calendar,
+    .mini-times{
+      margin-top:6px;
+      border-radius:12px;
+      border:1px solid rgba(148,227,255,.26);
+      background:rgba(15,23,42,.96);
+      padding:6px 8px 8px;
+      font-size:11px;
+      max-width:240px;
+    }
+
+    .mini-calendar-head,
+    .mini-times-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-weight:500;
+      color:#e0f2fe;
+      margin-bottom:4px;
+      gap:4px;
+    }
+
+    .mini-calendar-head span{
+      flex:1;
+      text-align:center;
+      font-size:11.5px;
+    }
+
+    .cal-nav{
+      border:none;
+      background:transparent;
+      color:#9ca3af;
+      font-size:13px;
+      padding:0 4px;
+      cursor:pointer;
+    }
+
+    .mini-calendar-grid{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:2px;
+    }
+
+    .mini-calendar-grid button{
+      border:none;
+      border-radius:7px;
+      padding:3px 0;
+      font-size:10px;
+      background:rgba(15,23,42,.9);
+      color:#9ca3af;
+      cursor:pointer;
+    }
+
+    .mini-cal-dayhead{
+      background:transparent !important;
+      color:#9ca3af !important;
+      font-weight:600;
+      cursor:default;
+    }
+
+    .mini-cal-empty{
+      background:transparent;
+      border:none;
+    }
+
+    .mini-calendar-grid button.is-day{
+      color:#e5e7eb;
+    }
+
+    .mini-calendar-grid button.today{
+      border:1px solid var(--accent);
+    }
+
+    .mini-calendar-grid button.selected{
+      background:var(--accent-soft);
+      color:#e0f2fe;
+      border-color:var(--accent-strong);
+    }
+
+    .time-chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:5px;
+      margin-top:2px;
+    }
+
+    .time-chips button{
+      border-radius:999px;
+      border:1px solid rgba(148,227,255,.35);
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      font-size:11px;
+      padding:3px 8px;
+      cursor:pointer;
+    }
+
+    .time-chips button.active{
+      background:var(--accent-soft);
+      border-color:var(--accent);
+      color:#e0f2fe;
+    }
+
+    .card.locked{
+      position:relative;
+    }
+    .card.locked::after{
+      content:"PREMIUM-Bonus – im Demo nur Vorschau. Echte Vorlagen und Speichern kommen in der Live-Version.";
+      position:absolute;
+      inset:auto 12px 10px 12px;
+      border-radius:14px;
+      padding:6px 9px;
+      font-size:11px;
+      text-align:center;
+      background:linear-gradient(90deg,rgba(15,23,42,.96),rgba(39,39,42,.96));
+      color:#fbbf24;
+      border:1px dashed rgba(251,191,36,.7);
+    }
+
+    .card.locked .card-block,
+    .card.locked .map-figure{
+      opacity:.55;
+      pointer-events:none;
+    }
+
+    @media (max-width:840px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width:640px){
+      main.card{
+        padding:18px 14px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="shell">
+    <div class="topbar">
+      <a class="backlink" href="proiecta-projekty-de.html">
+        <span>⬅︎</span>
+        <span>Zurück</span>
+      </a>
+      <div class="bonus-pill">
+        <span>🎊 Bonusraum</span>
+        <span>Reisekarte</span>
+      </div>
+    </div>
+
+    <main class="card" id="mapCard">
+      <header class="hero">
+        <h1><span class="emoji">🗺️</span><span>Reisekarte • Reiseleitstand</span></h1>
+        <p class="hero-sub">
+          Ein Raum für Momente, in denen du das Haus verlässt – für Urlaub, Ausflug, Arzttermin oder
+          Meeting – und nicht mit einer Socke, leerem Portemonnaie und rasendem Herzen an der Tür stehen möchtest.
+        </p>
+
+        <div class="plan-strip">
+          <span id="mapPlanChip" class="plan-chip">DEMO · FREE Tarif</span>
+          <span id="mapPlanHint" class="plan-hint">
+            Im DEMO-Modus kannst du Checkliste und Stimmung des Raums ausprobieren. Die Vollversion öffnet sich im PREMIUM-Tarif.
+          </span>
+        </div>
+
+        <div id="mapLockedInfo" class="map-locked" hidden>
+          Das ist ein <strong>PREMIUM-Bonus</strong>. Im Demo kannst du alles nur „antesten“,
+          echte Speicherung von Reisen und smarte Vorlagen kommen in der Live-Version.
+        </div>
+      </header>
+
+      <section class="layout" aria-label="Reisekarte und Pack-Checkliste">
+        <figure class="map-figure">
+          <div class="map-tag">Beispiel-Reisekarte</div>
+          <img src="map.png" alt="Illustration einer Stadtkarte mit Fluss, Wald und Wegen – spielerischer Blick auf Reiseplanung." />
+          <figcaption class="map-caption">
+            Jede Reise hat ihre Richtung: Zuhause, Weg, Ziel und sichere Rückkehr.
+            In der Vollversion zeigen wir hier eines Tages deine eigenen „Routen“.
+          </figcaption>
+        </figure>
+
+        <div class="right">
+          <section class="card-block" aria-labelledby="tripTypeHeading">
+            <h2 id="tripTypeHeading">1 • Welche Unternehmung steht an?</h2>
+            <p>
+              Wähle den Typ – Urlaub, Ausflug, Arzt, Arbeitstermin oder etwas ganz Eigenes.
+              Je nach Auswahl bekommst du einen anderen kleinen Satz in den Kopf.
+            </p>
+
+            <div class="trip-types" id="tripTypes">
+              <button type="button" class="chip-option active" data-kind="dovolena">🏖 Urlaub</button>
+              <button type="button" class="chip-option" data-kind="vylet">🌲 Ausflug</button>
+              <button type="button" class="chip-option" data-kind="doktor">🩺 Arzt</button>
+              <button type="button" class="chip-option" data-kind="prace">💼 Arbeitstermin</button>
+              <button type="button" class="chip-option" data-kind="jine">✨ Etwas anderes</button>
+            </div>
+
+            <div class="trip-form">
+              <div class="field">
+                <label for="tripDateDisplay">Datum</label>
+                <button type="button" id="tripDateDisplay" class="pseudo-input">
+                  Tag auf der Karte wählen →
+                </button>
+
+                <div class="mini-calendar" aria-label="Reisetag wählen">
+                  <div class="mini-calendar-head">
+                    <button type="button" class="cal-nav" id="calPrev" aria-label="Voriger Monat">‹</button>
+                    <span id="calMonthLabel">Monat</span>
+                    <button type="button" class="cal-nav" id="calNext" aria-label="Nächster Monat">›</button>
+                  </div>
+                  <div class="mini-calendar-grid" id="calGrid"></div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="tripTimeDisplay">Abfahrtszeit</label>
+                <button type="button" id="tripTimeDisplay" class="pseudo-input">
+                  Noch nicht festgelegt
+                </button>
+
+                <div class="mini-times" aria-label="Ungefähre Zeit wählen">
+                  <div class="mini-times-head">Ungefähre Zeit auswählen</div>
+                  <div class="time-chips" id="timeChips">
+                    <button type="button" data-time="Morgens 7–10">🌅 Morgens</button>
+                    <button type="button" data-time="Vormittags 10–12">☀️ Vormittags</button>
+                    <button type="button" data-time="Nachmittags 13–17">🌤 Nachmittags</button>
+                    <button type="button" data-time="Abends 18–22">🌙 Abends</button>
+                    <button type="button" data-time="Wann immer es passt">✨ Jederzeit</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field field-inline">
+                <button type="button" id="btnSaveTrip" class="save-btn">
+                  💾 Reise speichern (DEMO)
+                </button>
+                <div class="save-hint" id="tripSaveHint">
+                  Wird nur in diesem Browser gespeichert – für etwas Ruhe an der Tür.
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="tripPlace">Wohin gehst du</label>
+                <input id="tripPlace" type="text" placeholder="z.B. Klinik / Flughafen / Innenstadt" />
+              </div>
+            </div>
+
+            <div class="trip-note" id="tripNote">
+              Urlaubsmodus: Deine Aufgabe ist es, heil anzukommen. Alles andere ist Bonus.
+            </div>
+          </section>
+
+          <section class="card-block" aria-labelledby="checklistHeading">
+            <h2 id="checklistHeading">2 • Pack-Checkliste – ernste Dinge in spielerischer Form</h2>
+            <p>
+              Hake ab, was bereitliegt. Es geht nicht um Leistung, sondern darum, an der Tür Ruhe zu finden.
+            </p>
+
+            <div class="checklist" id="checklist">
+              <div class="checklist-group">
+                <h3>Dokumente & Geld</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-id" data-label="Ausweis / Pass">
+                  <label for="item-id">Ausweis / Reisepass</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-ins" data-label="Versicherungskarte / Arztkarte">
+                  <label for="item-ins">Versicherungskarte / Arztkarte</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-money" data-label="Portemonnaie (Karten + Bargeld)">
+                  <label for="item-money">Portemonnaie (Karten + etwas Bargeld)</label>
+                </div>
+              </div>
+
+              <div class="checklist-group">
+                <h3>Körper & Gesundheit</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-meds" data-label="Regelmäßige Medikamente">
+                  <label for="item-meds">Regelmäßige Medikamente (ohne die es nicht geht)</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-water" data-label="Wasser / Getränk">
+                  <label for="item-water">Wasser / Getränk für unterwegs</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-snack" data-label="Leichter Snack">
+                  <label for="item-snack">Leichter Snack, damit du nicht vor Hunger wegkippst</label>
+                </div>
+              </div>
+
+              <div class="checklist-group">
+                <h3>Technik</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-phone" data-label="Handy">
+                  <label for="item-phone">Handy (im Idealfall geladen 😅)</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-charger" data-label="Ladegerät / Powerbank">
+                  <label for="item-charger">Ladegerät / Powerbank</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-docs" data-label="Wichtige Mails / Dokumente im Handy">
+                  <label for="item-docs">Wichtige Mails / Dokumente im Handy griffbereit</label>
+                </div>
+              </div>
+
+              <div class="checklist-group">
+                <h3>Zuhause</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-keys" data-label="Schlüssel für Wohnung / Auto">
+                  <label for="item-keys">Schlüssel für Wohnung / Auto</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-windows" data-label="Fenster zu / Herd aus">
+                  <label for="item-windows">Fenster, Herd, Kerzen – kurz schauen und Ruhe haben</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-pet" data-label="Tier versorgt / Futter">
+                  <label for="item-pet">Tier versorgt / Futter organisiert (wenn du länger weg bist)</label>
+                </div>
+              </div>
+
+              <div class="checklist-group">
+                <h3>Für die Seele</h3>
+                <div class="item">
+                  <input type="checkbox" id="item-paper" data-label="Zettel mit Adresse / Kontakt">
+                  <label for="item-paper">Kleiner Zettel mit Adresse / Kontakt „für alle Fälle“</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-comfort" data-label="Kleiner Talisman / Taschentuch">
+                  <label for="item-comfort">Kleiner Talisman / Taschentuch – etwas, das dich beruhigt</label>
+                </div>
+                <div class="item">
+                  <input type="checkbox" id="item-note" data-label="Kurzer Beruhigungssatz">
+                  <label for="item-note">Kurzer Beruhigungssatz im Kopf („Ich gehe vorbereitet los, den Rest klären wir vor Ort“)</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="status-strip" id="statusStrip">
+              <span class="badge">Reisestatus</span>
+              <span id="statusText">Noch nichts angekreuzt. Das ist okay – wir fangen gerade erst mit dem Rucksack an.</span>
+            </div>
+
+            <p class="tiny">
+              In der DEMO-Version wird die Reise nur in diesem Browser gespeichert – damit du sie in Ruhe vorbereiten kannst.
+              Das große Palastgedächtnis und die Verbindung zu Chronica / Sigma kommen in der Live-Version.
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // --- Reisetyp ---
+    const typeButtons = Array.from(document.querySelectorAll(".chip-option"));
+    const noteEl = document.getElementById("tripNote");
+
+    const notesByKind = {
+      dovolena: "Urlaubsmodus: Deine Aufgabe ist es, heil anzukommen. Alles andere ist Bonus.",
+      vylet: "Ausflugsmodus: Wichtig ist, müde-zufrieden nach Hause zu kommen, nicht völlig erschöpft.",
+      doktor: "Arztmodus: Deine Aufgabe ist es, rechtzeitig und so ruhig wie möglich anzukommen. Der Rest ist Sache der Ärzte.",
+      prace: "Arbeitsmodus: Unterlagen und Argumente hast du. Jetzt achten wir nur darauf, dass dich unterwegs nichts aus der Bahn wirft.",
+      jine: "Spezialunternehmung: Sie muss nicht perfekt sein. Es reicht, wenn sie gut genug und machbar ist."
+    };
+
+    typeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        typeButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const kind = btn.getAttribute("data-kind");
+        if(noteEl && notesByKind[kind]){
+          noteEl.textContent = notesByKind[kind];
+        }
+      });
+    });
+
+    // --- Checkliste Status ---
+    const statusText = document.getElementById("statusText");
+    const checkboxes = Array.from(document.querySelectorAll(".checklist input[type='checkbox']"));
+
+    function updateStatus(){
+      const total = checkboxes.length;
+      let checked = 0;
+      checkboxes.forEach(cb => { if(cb.checked) checked++; });
+
+      if(!statusText) return;
+
+      if(checked === 0){
+        statusText.textContent = "Noch nichts angekreuzt. Das ist okay – wir fangen gerade erst mit dem Rucksack an.";
+      }else if(checked < total / 2){
+        statusText.textContent = `Erste Schritte sind gemacht (${checked} von ${total}). Du kannst in Ruhe weiter ergänzen – ohne Panik.`;
+      }else if(checked < total){
+        statusText.textContent = `Fast fertig (${checked} von ${total}). Es fehlen nur noch ein paar Kleinigkeiten für die Seelenruhe.`;
+      }else{
+        statusText.textContent = "Checkliste ist voll. Jetzt geht es nicht mehr um Dinge – nur noch darum, unterwegs zu atmen.";
+      }
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", updateStatus);
+    });
+    updateStatus();
+
+    // --- Mini-Kalender + Zeitwahl ---
+    const dateDisplay = document.getElementById("tripDateDisplay");
+    const calGrid = document.getElementById("calGrid");
+    const calMonthLabel = document.getElementById("calMonthLabel");
+    const calPrev = document.getElementById("calPrev");
+    const calNext = document.getElementById("calNext");
+    const today = new Date();
+    let calRef = new Date();
+
+    function buildCalendar(){
+      if(!calGrid || !calMonthLabel) return;
+      calGrid.innerHTML = "";
+
+      const year = calRef.getFullYear();
+      const month = calRef.getMonth();
+      const monthNames = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+      const dayNames = ["Mo","Di","Mi","Do","Fr","Sa","So"];
+
+      calMonthLabel.textContent = `${monthNames[month]} ${year}`;
+
+      dayNames.forEach(d => {
+        const h = document.createElement("button");
+        h.type = "button";
+        h.textContent = d;
+        h.className = "mini-cal-dayhead";
+        h.disabled = true;
+        calGrid.appendChild(h);
+      });
+
+      const first = new Date(year, month, 1);
+      const startIdx = (first.getDay() + 6) % 7; // Montag = 0
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const isThisMonth = year === today.getFullYear() && month === today.getMonth();
+      const todayDate = today.getDate();
+
+      for(let i = 0; i < startIdx; i++){
+        const empty = document.createElement("button");
+        empty.type = "button";
+        empty.disabled = true;
+        empty.className = "mini-cal-empty";
+        calGrid.appendChild(empty);
+      }
+
+      for(let d = 1; d <= daysInMonth; d++){
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = String(d);
+        btn.classList.add("is-day");
+        if(isThisMonth && d === todayDate) btn.classList.add("today");
+        btn.dataset.date = `${d}.${month+1}.${year}`;
+        calGrid.appendChild(btn);
+      }
+    }
+
+    function handleCalendarClick(e){
+      const btn = e.target.closest("button.is-day");
+      if(!btn || !calGrid) return;
+      const all = calGrid.querySelectorAll("button.is-day");
+      all.forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      const value = btn.dataset.date;
+      if(dateDisplay && value){
+        dateDisplay.textContent = value;
+      }
+    }
+
+    if(calGrid){
+      calGrid.addEventListener("click", handleCalendarClick);
+      buildCalendar();
+    }
+
+    if(calPrev){
+      calPrev.addEventListener("click", () => {
+        calRef.setMonth(calRef.getMonth() - 1);
+        buildCalendar();
+      });
+    }
+    if(calNext){
+      calNext.addEventListener("click", () => {
+        calRef.setMonth(calRef.getMonth() + 1);
+        buildCalendar();
+      });
+    }
+
+    const timeDisplay = document.getElementById("tripTimeDisplay");
+    const timeChips = Array.from(document.querySelectorAll("#timeChips button"));
+
+    timeChips.forEach(btn => {
+      btn.addEventListener("click", () => {
+        timeChips.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const t = btn.getAttribute("data-time");
+        if(timeDisplay && t){
+          timeDisplay.textContent = t;
+        }
+      });
+    });
+
+    const TRIP_KEY = "LM_MAP_TRIP_DEMO_V1";
+
+    const tripPlaceInput = document.getElementById("tripPlace");
+    const saveBtn = document.getElementById("btnSaveTrip");
+    const saveHint = document.getElementById("tripSaveHint");
+
+    function currentKind(){
+      const active = document.querySelector(".chip-option.active");
+      return active ? (active.getAttribute("data-kind") || "jine") : "jine";
+    }
+
+    function collectChecklistState(){
+      const state = {};
+      checkboxes.forEach(cb => {
+        const id = cb.id || cb.getAttribute("data-label") || "";
+        if(!id) return;
+        state[id] = !!cb.checked;
+      });
+      return state;
+    }
+
+    function applyChecklistState(data){
+      if(!data) return;
+      checkboxes.forEach(cb => {
+        const id = cb.id || cb.getAttribute("data-label") || "";
+        if(!id) return;
+        cb.checked = !!data[id];
+      });
+      updateStatus();
+    }
+
+    function saveTrip(){
+      if(!window.localStorage || !saveHint) return;
+
+      const dateText = dateDisplay ? (dateDisplay.textContent || "").trim() : "";
+      const timeText = timeDisplay ? (timeDisplay.textContent || "").trim() : "";
+      const place = tripPlaceInput ? (tripPlaceInput.value || "").trim() : "";
+
+      const payload = {
+        kind: currentKind(),
+        dateText,
+        timeText,
+        place,
+        checklist: collectChecklistState(),
+        savedAt: Date.now()
+      };
+
+      try{
+        localStorage.setItem(TRIP_KEY, JSON.stringify(payload));
+        saveHint.textContent = "Für diese Reise gespeichert (im Demo nur in diesem Browser).";
+        saveHint.classList.remove("error");
+        saveHint.classList.add("ok");
+      }catch(_){
+        saveHint.textContent = "Speichern hat nicht geklappt. Sieh es als Demo-Laune, nicht als dein Versagen.";
+        saveHint.classList.remove("ok");
+        saveHint.classList.add("error");
+      }
+    }
+
+    function loadTrip(){
+      if(!window.localStorage) return;
+
+      try{
+        const raw = localStorage.getItem(TRIP_KEY);
+        if(!raw) return;
+        const data = JSON.parse(raw);
+        if(!data || typeof data !== "object") return;
+
+        if(data.kind && typeButtons.length){
+          typeButtons.forEach(btn => {
+            const k = btn.getAttribute("data-kind");
+            btn.classList.toggle("active", k === data.kind);
+          });
+          if(noteEl && notesByKind[data.kind]){
+            noteEl.textContent = notesByKind[data.kind];
+          }
+        }
+
+        if(dateDisplay && data.dateText){
+          dateDisplay.textContent = data.dateText;
+        }
+        if(timeDisplay && data.timeText){
+          timeDisplay.textContent = data.timeText;
+          timeChips.forEach(btn => {
+            const t = btn.getAttribute("data-time");
+            btn.classList.toggle("active", t === data.timeText);
+          });
+        }
+        if(tripPlaceInput && typeof data.place === "string"){
+          tripPlaceInput.value = data.place;
+        }
+
+        if(data.checklist){
+          applyChecklistState(data.checklist);
+        }
+      }catch(_){
+        // Demo – Fehler können ignoriert werden
+      }
+    }
+
+    if(saveBtn){
+      saveBtn.addEventListener("click", saveTrip);
+    }
+
+    loadTrip();
+
+    // --- Tarif aus localStorage ---
+    const chip = document.getElementById("mapPlanChip");
+    const hint = document.getElementById("mapPlanHint");
+    const lockedInfo = document.getElementById("mapLockedInfo");
+    const card = document.getElementById("mapCard");
+
+    let plan = "FREE";
+    try{
+      const raw = localStorage.getItem("lm_plan");
+      if(raw){
+        const up = String(raw).toUpperCase();
+        if(["FREE","PLUS","PREMIUM"].includes(up)){
+          plan = up;
+        }
+      }
+    }catch(_){}
+
+    if(chip){
+      if(plan === "PREMIUM"){
+        chip.textContent = "DEMO · PREMIUM Tarif";
+      }else if(plan === "PLUS"){
+        chip.textContent = "DEMO · PLUS Tarif";
+      }else{
+        chip.textContent = "DEMO · FREE Tarif";
+      }
+    }
+
+    if(hint){
+      if(plan === "PREMIUM"){
+        hint.textContent = "PREMIUM: In der Live-Version kann sich dieser Reiseleitstand ins Gedächtnis speichern. Hier üben wir vor allem das Gefühl von Ruhe.";
+      }else if(plan === "PLUS"){
+        hint.textContent = "PLUS: Du hast erweiterte Möglichkeiten in Proiecta. Der volle Reiseleitstand mit gespeicherten Reisen öffnet sich im PREMIUM-Tarif.";
+      }else{
+        hint.textContent = "FREE: Eine Vorschau darauf, wie Checkliste und mentale Vorbereitung aussehen können. Die Vollversion gehört in höhere Tarife.";
+      }
+    }
+
+    if(plan !== "PREMIUM"){
+      if(lockedInfo) lockedInfo.hidden = false;
+      if(card) card.classList.add("locked");
+    }
+  })();
+</script>
+</body>
+</html>
