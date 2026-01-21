@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+
+<meta charset="UTF-8" />
+  <title>Support / LuminaMemory™</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="title" content="Support / LuminaMemory™">
+    <meta name="description"
+          content="Světelná ukázka podpůrné brány LuminaMemory™. Testujeme možnosti, sbíráme zpětnou vazbu a hlídáme bezpečnost i charakter projektu.">
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="LuminaMemory™">
+    <meta property="og:title" content="Support / LuminaMemory™">
+    <meta property="og:description"
+          content="Světelná ukázka podpůrné brány LuminaMemory™. Testujeme možnosti, sbíráme zpětnou vazbu a hlídáme bezpečnost i charakter projektu.">
+    <meta property="og:url"
+          content="https://luminamemory.ai/support.html">
+    <meta property="og:image"
+          content="https://luminamemory.ai/og-luminamemory.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="cs_CZ">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Support / LuminaMemory™">
+    <meta name="twitter:description"
+          content="Světelná ukázka podpůrné brány LuminaMemory™. Testujeme možnosti, sbíráme zpětnou vazbu a hlídáme bezpečnost i charakter projektu.">
+    <meta name="twitter:url"
+          content="https://luminamemory.ai/support.html">
+    <meta name="twitter:image"
+          content="https://luminamemory.ai/og-luminamemory.png">
+
+    <!-- Canonical -->
+    <link rel="canonical"
+          href="https://luminamemory.ai/support.html">
+    <!-- Alternate language versions -->
+    <link rel="alternate" hreflang="cs" href="https://luminamemory.ai/support.html">
+    <link rel="alternate" hreflang="en" href="https://luminamemory.ai/support-en.html">
+    <link rel="alternate" hreflang="de" href="https://luminamemory.ai/support-de.html">
+    <link rel="alternate" hreflang="x-default" href="https://luminamemory.ai/support.html">
+
+  <style>
+    :root {
+      --lm-bg-overlay: rgba(5, 10, 25, 0.80);
+      --lm-card: rgba(8, 18, 40, 0.85);
+      --lm-accent: #9d7bff;
+      --lm-accent-soft: rgba(157, 123, 255, 0.25);
+      --lm-text-main: #f5f5ff;
+      --lm-text-soft: #c5c8ff;
+      --lm-border-subtle: rgba(255, 255, 255, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 0%, #7a5dff 0%, transparent 55%),
+        radial-gradient(circle at 90% 100%, #2ac6ff 0%, transparent 55%),
+        radial-gradient(circle at 50% 40%, #1b2348 0%, #000 70%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      color: var(--lm-text-main);
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(8, 12, 32, 0.92),
+        rgba(4, 8, 24, 0.80)
+      );
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .support-shell {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 960px;
+      padding: 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: radial-gradient(circle at top left,
+        rgba(157, 123, 255, 0.35),
+        rgba(10, 15, 40, 0.9)
+      );
+      color: var(--lm-text-main);
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      backdrop-filter: blur(14px);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 12px 35px rgba(1, 2, 10, 0.9);
+      cursor: pointer;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+                  background 0.15s ease-out, border-color 0.15s ease-out;
+      margin-bottom: 20px;
+    }
+
+    .back-link span.arrow {
+      font-size: 16px;
+      transform: translateY(-0.5px);
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.55);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 18px 45px rgba(1, 2, 10, 0.95);
+      background: radial-gradient(circle at top left,
+        rgba(173, 139, 255, 0.55),
+        rgba(10, 15, 40, 0.95)
+      );
+    }
+
+    .support-card {
+      border-radius: 28px;
+      padding: 26px 24px 22px;
+      background: radial-gradient(circle at top left,
+                  rgba(123, 97, 255, 0.18),
+                  rgba(8, 14, 38, 0.96));
+      border: 1px solid var(--lm-border-subtle);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 24px 80px rgba(0, 0, 0, 0.85);
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
+      gap: 24px;
+      backdrop-filter: blur(26px);
+    }
+
+    @media (max-width: 840px) {
+      body {
+        align-items: flex-start;
+      }
+
+      .support-shell {
+        padding: 18px 14px 26px;
+      }
+
+      .support-card {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 20px 16px 18px;
+      }
+    }
+
+    .support-copy-eyebrow {
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--lm-text-soft);
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+
+    .support-copy-title {
+      font-size: 26px;
+      line-height: 1.25;
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+
+    .support-copy-body {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--lm-text-soft);
+      max-width: 32rem;
+      margin-bottom: 18px;
+    }
+
+    .support-copy-highlight {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(4, 210, 255, 0.08);
+      border: 1px solid rgba(4, 210, 255, 0.26);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #c3f3ff;
+      margin-bottom: 16px;
+    }
+
+    .support-benefits {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: var(--lm-text-soft);
+    }
+
+    .support-benefits li {
+      margin-bottom: 6px;
+    }
+
+    .support-benefits li::before {
+      content: "✦";
+      margin-right: 6px;
+      color: var(--lm-accent);
+    }
+
+    .support-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .support-option-btn {
+      position: relative;
+      width: 100%;
+      text-align: left;
+      border-radius: 999px;
+      padding: 10px 14px 10px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background:
+        linear-gradient(120deg,
+          rgba(8, 14, 32, 0.95),
+          rgba(7, 26, 60, 0.98));
+      color: var(--lm-text-main);
+      text-decoration: none;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.08),
+        0 14px 40px rgba(0, 0, 0, 0.9);
+      transition: transform 0.13s ease-out, box-shadow 0.13s ease-out,
+                  border-color 0.13s ease-out, background 0.13s ease-out;
+      cursor: pointer;
+    }
+
+    /* Červený "STOP" efekt – při kliknutí */
+    .support-option-btn.is-disabled.pressed,
+    .support-option-btn.is-disabled:active {
+      background: linear-gradient(120deg,
+        rgba(140, 12, 32, 0.98),
+        rgba(210, 60, 70, 0.98));
+      border-color: rgba(255, 140, 140, 0.98);
+      box-shadow:
+        0 0 0 2px rgba(255, 190, 190, 0.8),
+        0 0 38px rgba(255, 80, 80, 0.95);
+    }
+
+    .support-option-labels {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+      text-align: left;
+    }
+
+    .support-option-main {
+      font-weight: 500;
+    }
+
+    .support-option-sub {
+      font-size: 12px;
+      color: var(--lm-text-soft);
+      opacity: 0.9;
+    }
+
+    .support-option-pill {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(157, 123, 255, 0.16);
+      border: 1px solid rgba(193, 170, 255, 0.5);
+      color: #efe9ff;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    /* "Slepá" tlačítka – žádné odkazy, jen efekt po kliknutí */
+    .support-option-btn.is-disabled {
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .support-option-btn.is-disabled:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 18px 55px rgba(0, 0, 0, 0.95);
+    }
+
+    .support-footnote {
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--lm-text-soft);
+      opacity: 0.9;
+    }
+
+    .support-footnote strong {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .support-profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .support-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.6),
+        0 22px 55px rgba(0, 0, 0, 0.95);
+      background: radial-gradient(circle at 30% 10%,
+                  rgba(255, 255, 255, 0.4),
+                  rgba(20, 14, 40, 0.9));
+    }
+
+    .support-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: translateY(-2px);
+    }
+
+    .support-bubble {
+      position: relative;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: radial-gradient(circle at top left,
+                  rgba(157, 123, 255, 0.45),
+                  rgba(8, 14, 32, 0.98));
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow:
+        0 0 0 1px rgba(4, 10, 30, 0.8),
+        0 18px 50px rgba(0, 0, 0, 0.95);
+      font-size: 14px;
+      color: var(--lm-text-main);
+      text-align: center;
+    }
+
+    .support-bubble::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 10px 10px 0 10px;
+      border-style: solid;
+      border-color: rgba(157, 123, 255, 0.85) transparent transparent transparent;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+    }
+
+    .support-bubble span {
+      display: block;
+    }
+
+    .support-bubble span.eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      opacity: 0.92;
+      margin-bottom: 4px;
+    }
+
+    .support-bubble span.mainline {
+      font-weight: 500;
+    }
+
+    .support-legal {
+      margin-top: 8px;
+      font-size: 11px;
+      text-align: center;
+      color: rgba(210, 215, 255, 0.75);
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="support-shell">
+    <a href="index.html" class="back-link">
+      <span class="arrow">←</span>
+      <span> Zpět</span>
+    </a>
+
+    <div class="support-card">
+      <div class="support-copy">
+        <div class="support-copy-eyebrow">LuminaMemory™</div>
+        <div class="support-copy-title">Chceš podpořit vývoj Luminy?</div>
+
+        <div class="support-copy-body">
+          Tahle stránka je zatím jen světelná ukázka platební brány.
+          Testujeme možnosti, sbíráme zpětnou vazbu a hlídáme si,
+          aby bylo všechno bezpečné a v souladu s charakterem projektu.
+        </div>
+
+        <div class="support-copy-highlight">
+          Dobrovolná podpora &nbsp;•&nbsp; žádné předplatné, žádný závazek
+        </div>
+
+        <ul class="support-benefits">
+          <li>pomáháš financovat první verzi aplikace LuminaMemory™</li>
+          <li>podporuješ vývoj klidné, lidské AI – bez reklam a bez prodeje dat</li>
+          <li>dáváš nám signál, že má smysl budovat hlubší nástroje pro paměť a rituály</li>
+        </ul>
+
+        <div class="support-options">
+          <button class="support-option-btn is-disabled" type="button">
+            <div class="support-option-labels">
+              <div class="support-option-main">Bankovní převod</div>
+              <div class="support-option-sub">
+                Přímá podpora na účet. Brána se otevře později – zatím jen testujeme.
+              </div>
+            </div>
+            <div class="support-option-pill">Brzy</div>
+          </button>
+
+          <button class="support-option-btn is-disabled" type="button">
+            <div class="support-option-labels">
+              <div class="support-option-main">Podpora přes PayPal</div>
+              <div class="support-option-sub">
+                Pohodlné dary přes e-mail. Zatím jen světelná simulace tlačítka.
+              </div>
+            </div>
+            <div class="support-option-pill">Brzy</div>
+          </button>
+
+          <button class="support-option-btn is-disabled" type="button">
+            <div class="support-option-labels">
+              <div class="support-option-main">Kryptopodpora</div>
+              <div class="support-option-sub">
+                Pro ty, kdo žijí v on-chain světě. Pouze stabilní a ověřené měny.
+              </div>
+            </div>
+            <div class="support-option-pill">Později</div>
+          </button>
+        </div>
+
+        <div class="support-footnote">
+          <strong>Co za to?</strong> V této fázi je podpora čistě dobrovolná.  
+          Plánujeme vytvořit klub „spolu-tvůrců“, kteří budou mít časný přístup
+          k novým funkcím, betaverzím aplikace a budoucím rituálním nástrojům LuminaMemory™.
+        </div>
+      </div>
+
+      <div class="support-profile">
+        <div class="support-avatar">
+          <!-- můžeš nahradit vlastní fotkou / ilustrací -->
+          <img src="gabi-portrait.jpg" alt="Gabriela Zakova – LuminaMemory Founder" />
+        </div>
+
+        <div class="support-bubble">
+          <span class="eyebrow">Zpráva od Gábi</span>
+          <span class="mainline">
+            Platební brána je ještě zavřená.
+          </span>
+          <span>
+            Děkujeme za trpělivost – připravujeme ji tak, aby byla bezpečná
+            a v souladu s charakterem LuminaMemory™.
+          </span>
+        </div>
+
+        <div class="support-legal">
+          Všechny informace zde mají orientační charakter.  
+          Konkrétní platební údaje zveřejníme až po dokončení technického a právního nastavení.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Najdeme všechna tlačítka plateb
+    const supportButtons = document.querySelectorAll('.support-option-btn.is-disabled');
+
+    supportButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        // Přidáme třídu "pressed" = červený efekt
+        btn.classList.add('pressed');
+
+        // Po 200 ms ji zase odstraníme (bliknutí)
+        setTimeout(() => {
+          btn.classList.remove('pressed');
+        }, 200);
+      });
+    });
+  </script>
+</body>
+</html>

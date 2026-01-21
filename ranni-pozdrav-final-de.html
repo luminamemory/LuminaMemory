@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+
+<title> Meditace / LuminaMemory™ </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta charset="utf-8">
+    <meta name="title" content="Meditace / LuminaMemory™">
+    <meta name="description"
+          content="Kurzes Meditationsbeispiel „Morgengruß“ – sanfte Einstimmung des Tages im Raum LuminaMemory™.">
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#050015">
+
+    <!-- Alternate language links -->
+    <link rel="alternate" hreflang="cs" href="https://luminamemory.ai/ranni-pozdrav-final.html">
+    <link rel="alternate" hreflang="en" href="https://luminamemory.ai/ranni-pozdrav-final-en.html">
+    <link rel="alternate" hreflang="de" href="https://luminamemory.ai/ranni-pozdrav-final-de.html">
+    <link rel="alternate" hreflang="x-default" href="https://luminamemory.ai/ranni-pozdrav-final.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="LuminaMemory™">
+    <meta property="og:title" content="Meditace / LuminaMemory™">
+    <meta property="og:description"
+          content="Kurzes Meditationsbeispiel „Morgengruß“ – sanfte Einstimmung des Tages im Raum LuminaMemory™.">
+    <meta property="og:url" content="https://luminamemory.ai/ranni-pozdrav-final-de.html">
+    <meta property="og:image" content="https://luminamemory.ai/og-luminamemory.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="de_DE">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Meditace / LuminaMemory™">
+    <meta name="twitter:description"
+          content="Kurzes Meditationsbeispiel „Morgengruß“ – sanfte Einstimmung des Tages im Raum LuminaMemory™.">
+    <meta name="twitter:url" content="https://luminamemory.ai/ranni-pozdrav-final-de.html">
+    <meta name="twitter:image" content="https://luminamemory.ai/og-luminamemory.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://luminamemory.ai/ranni-pozdrav-final-de.html">
+
+  <style>
+    :root{
+      --bg0:#050015;
+      --ink:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --card:rgba(10, 7, 30, .62);
+      --card2:rgba(10, 7, 30, .42);
+      --stroke:rgba(255,255,255,.16);
+      --stroke2:rgba(255,255,255,.10);
+      --shadow: 0 26px 90px rgba(0,0,0,.65);
+      --glow: 0 0 55px rgba(140,120,255,.25);
+
+      --a:#7a5dff;   /* violet */
+      --b:#43d2ff;   /* cyan  */
+      --c:#18ffb7;   /* mint  */
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; }
+    body{
+      font-family:"Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(122,93,255,.55) 0, transparent 52%),
+        radial-gradient(circle at 82% 105%, rgba(67,210,255,.40) 0, transparent 58%),
+        radial-gradient(circle at 58% 45%, rgba(24,255,183,.18) 0, transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.65)),
+        var(--bg0);
+      min-height:100svh;
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      width:min(1100px, 100%);
+      margin:0 auto;
+      padding:
+        max(18px, env(safe-area-inset-top))
+        max(14px, env(safe-area-inset-right))
+        max(18px, env(safe-area-inset-bottom))
+        max(14px, env(safe-area-inset-left));
+    }
+
+    /* top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .brand{
+      display:flex; flex-direction:column; gap:2px;
+      min-width:0;
+    }
+    .brand .t1{
+      font-family:"Cinzel", serif;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:clamp(14px, 2.3vw, 18px);
+      opacity:.92;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .brand .t2{
+      font-size:clamp(12px, 2vw, 14px);
+      color:var(--muted);
+      line-height:1.25;
+    }
+
+    .nav{
+      display:flex; flex-wrap:wrap; gap:10px;
+      justify-content:flex-end;
+    }
+    .btn{
+      appearance:none;
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      color:var(--ink);
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      text-decoration:none;
+      font-weight:500;
+      font-size:13px;
+      line-height:1;
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.26); }
+    .btn:active{ transform: translateY(0px) scale(.98); }
+
+    .btn.primary{
+      border-color: rgba(122,93,255,.45);
+      background: linear-gradient(180deg, rgba(122,93,255,.26), rgba(67,210,255,.10));
+      box-shadow: var(--shadow), var(--glow);
+    }
+
+    /* main card */
+    .card{
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, var(--card), var(--card2));
+      border-radius:26px;
+      box-shadow: var(--shadow), var(--glow);
+      overflow:hidden;
+      position:relative;
+      isolation:isolate;
+    }
+    .card:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(122,93,255,.22), transparent 48%),
+        radial-gradient(circle at 85% 90%, rgba(67,210,255,.16), transparent 50%),
+        radial-gradient(circle at 55% 45%, rgba(24,255,183,.10), transparent 60%);
+      filter: blur(10px);
+      z-index:-1;
+    }
+
+    .inner{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:18px;
+      padding:18px;
+    }
+
+    @media (max-width: 920px){
+      .inner{ grid-template-columns: 1fr; }
+      .nav{ justify-content:flex-start; }
+    }
+
+    /* left: image */
+    .hero{
+      border:1px solid var(--stroke2);
+      border-radius:20px;
+      overflow:hidden;
+      background:rgba(0,0,0,.25);
+      min-height: 260px;
+      position:relative;
+    }
+    .hero img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+      transform: scale(1.01);
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .hero .badge{
+      position:absolute;
+      left:14px; bottom:14px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow:0 18px 55px rgba(0,0,0,.45);
+    }
+    .badge .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2) 30%, rgba(122,93,255,.95) 70%);
+      box-shadow:0 0 18px rgba(122,93,255,.8);
+    }
+    .badge span{
+      font-size:12.5px;
+      color:rgba(255,255,255,.82);
+      white-space:nowrap;
+    }
+
+    /* right: content */
+    .content{
+      border:1px solid var(--stroke2);
+      border-radius:20px;
+      background:rgba(0,0,0,.18);
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      min-height:260px;
+      position:relative;
+    }
+
+    .avatar{
+      position:absolute;
+      right:14px;
+      top:14px;
+      width:54px;
+      height:54px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 16px 50px rgba(0,0,0,.55), 0 0 40px rgba(67,210,255,.18);
+      overflow:hidden;
+      background:rgba(0,0,0,.25);
+    }
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    h1{
+      font-family:"Cinzel", serif;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin:2px 0 0 0;
+      font-size:clamp(18px, 2.6vw, 22px);
+      padding-right:72px; /* space for avatar */
+    }
+
+    .lead{
+      color:var(--muted);
+      font-size:clamp(13px, 2.2vw, 14.5px);
+      line-height:1.6;
+      margin:0;
+    }
+
+    .pre{
+      white-space: pre-line;
+    }
+
+    .steps{
+      margin:0;
+      padding-left:18px;
+      color:rgba(255,255,255,.80);
+      font-size:13.5px;
+      line-height:1.55;
+    }
+    .steps li{ margin:6px 0; }
+
+    .player{
+      margin-top:auto;
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .player .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.22);
+      font-size:12.5px;
+      color:rgba(255,255,255,.78);
+    }
+    audio{
+      width:100%;
+      height:40px;
+      border-radius:12px;
+      outline:none;
+      filter: drop-shadow(0 14px 30px rgba(0,0,0,.35));
+    }
+
+    .foot{
+      margin-top:14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      color:rgba(255,255,255,.56);
+      font-size:12px;
+      padding:0 4px;
+    }
+    .foot a{ color:rgba(255,255,255,.70); text-decoration:none; }
+    .foot a:hover{ text-decoration:underline; }
+
+    /* ultra small landscape (iphone landscape etc.) */
+    @media (max-height: 430px){
+      .wrap{ padding-top:max(10px, env(safe-area-inset-top)); padding-bottom:max(10px, env(safe-area-inset-bottom)); }
+      .inner{ padding:14px; gap:14px; }
+      .hero{ min-height: 190px; }
+      .content{ min-height: 190px; }
+      audio{ height:36px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="t1">LuminaMemory™</div>
+        <div class="t2">Meditation • ein ruhiger Ort, an dem nichts überstürzt wird</div>
+      </div>
+
+      <div class="nav">
+        <a class="btn" href="index-de.html">← Zurück</a>
+      </div>
+    </div>
+
+    <section class="card">
+      <div class="inner">
+
+        <!-- LEFT: IMAGE -->
+        <div class="hero" aria-label="Meditationsbild">
+          <img id="medImg" src="meditace-obrazek.png" alt="Meditation – Bild" />
+          <div class="badge" aria-hidden="true">
+            <div class="dot"></div>
+            <span>Sicherer Raum</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: TEXT + PLAYER -->
+        <div class="content">
+          <!-- Optional avatar -->
+          <div class="avatar" title="Lumina">
+            <img src="avatar.png" alt="Lumina-Avatar" />
+          </div>
+
+          <h1>Meditation</h1>
+          <p class="lead pre" id="medText">
+            Willkommen.
+            Dies ist eine kurze Meditation
+            – keine Leistung, kein „Ich muss“.
+            Nur Atem, Entspannung und Rückkehr zu dir selbst.
+            Du kannst jederzeit aufhören.
+            Du musst nichts richtig machen,
+            nichts ist falsch.
+          </p>
+
+          <ol class="steps">
+            <li>Stell dich hin, schließe die Augen und spüre nur den Boden unter deinen Füßen und deinen Atem.</li>
+            <li>Einatmen durch die Nase bis 4… kurze Pause… ausatmen bis 6.</li>
+            <li>Entspann dein Gesicht, die Schultern… und denk an nichts.</li>
+            <li>Wenn ein Gedanke kommt: nimm ihn wahr – und lass ihn gleich wieder los.</li>
+          </ol>
+
+          <div class="player">
+            <div class="row">
+              <span class="tag">🎧 Audio‑Meditation</span>
+              <span class="tag">🫧 Ruhe • Sicherheit • Rückkehr</span>
+            </div>
+            <audio id="medAudio" controls preload="metadata">
+              <source src="meditace-audio-de.mp3" type="audio/mpeg" />
+              Dein Browser unterstützt das Abspielen von Audio nicht.
+            </audio>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">
+      <div>© LuminaMemory™ • DEMO</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ✅ Jediné, co typicky upravíš:
+    const MED_IMAGE = "image-meditation.png";   // sem dej název TVÉHO obrázku
+    const AUDIO_SRC = "meditace-ranni-pozdrav-de.mp3";    // sem dej název TVÉHO audia
+
+    // Nastavení zdrojů bez šťourání do HTML
+    (function(){
+      const img = document.getElementById("medImg");
+      const audio = document.getElementById("medAudio");
+
+      if (img && MED_IMAGE) img.src = MED_IMAGE;
+
+      if (audio && AUDIO_SRC){
+        const src = audio.querySelector("source");
+        if (src){
+          src.src = AUDIO_SRC;
+          audio.load();
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
