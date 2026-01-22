@@ -450,26 +450,26 @@
     ];
 
     if (danceImg) {
-      let i = 0;
-      const maxLoops = 2; // kolikrát projít celou sadu
-      let loopsDone = 0;
+  let i = 0;
+  const maxLoops = 4; // kolikrát projít celou sadu (delší tanec)
+  let loopsDone = 0;
 
-      const intervalId = setInterval(() => {
-        i++;
+  const intervalId = setInterval(() => {
+    i++;
 
-        if (i >= frames.length) {
-          loopsDone++;
-          if (loopsDone >= maxLoops) {
-            clearInterval(intervalId);
-            danceImg.src = frames[frames.length - 1]; // necháme poslední pózu
-            return;
-          }
-          i = 0;
-        }
-
-        danceImg.src = frames[i];
-      }, 220);
+    if (i >= frames.length) {
+      loopsDone++;
+      if (loopsDone >= maxLoops) {
+        clearInterval(intervalId);
+        danceImg.src = frames[frames.length - 1]; // necháme poslední pózu
+        return;
+      }
+      i = 0;
     }
+
+    danceImg.src = frames[i];
+  }, 450); // pomalejší přepínání snímků
+}
 
     // --- 2) Nastavení tónu Luminy -------------------------------------------
     const radios = document.querySelectorAll('input[name="lumina-mood"]');
